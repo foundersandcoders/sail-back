@@ -1,0 +1,30 @@
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.m-l-10 {
+	margin-left: 10px;
+}
+
+.m-l-15 {
+	margin-left: 15px;
+}
+
+@media(max-width: 2000px){
+	.small-font {
+		font-size: 10px;
+	}
+}
+
+.container-small {
+	max-width: 320px;
+	margin: auto;
+}
+
+.container-large {
+	margin-top: 50px;
+}
