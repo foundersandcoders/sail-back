@@ -25,7 +25,7 @@ module.exports = function(sails) {
 			sails.log.info("Mocks: ", mocks);
 
 			return sails.after('hook:orm:loaded', function () {
-			
+
 				function createEntries (state) {
 					if((process.env.NODE_ENV === 'development') && state) {
 						async.waterfall([
@@ -118,9 +118,9 @@ module.exports = function(sails) {
 					} else {
 						sails.log.info("...members already in the database");
 					}
-				}	
-			
-				Members
+				}
+
+			/*	Members
 				.find()
 				.exec(function (err, items) {
 
@@ -131,7 +131,7 @@ module.exports = function(sails) {
 					} else {
 						createEntries(true);
 					}
-				});
+				});*/
 			});
 		}
 	};

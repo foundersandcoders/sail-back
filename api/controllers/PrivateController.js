@@ -1,5 +1,5 @@
 var Is = require('torf');
-
+var upload = require("../services/upload.js")();
 
 module.exports = {
 
@@ -20,5 +20,22 @@ module.exports = {
 				return res.view('pages/member', {member: item});
 			}
 		});
+	},
+	upload: function (req, res) {
+
+		var csv = Object.keys(req.body)[0];
+		if (req.query.type === 'members') {
+
+			upload.members(csv, function (r) {
+
+				res.send(r);
+			});
+		} else if (req.query.type === 'payments') {
+
+			upload.payments(csv, function (r) {
+
+				res.send(r);
+			});
+		}
 	}
 };

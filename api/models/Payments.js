@@ -11,12 +11,12 @@ module.exports = {
 		member: {
 			model: 'Members'
 		},
-		type: {
+		category: {
 			type: 'STRING',
 			enum: ['payment', 'subscription', 'donation', 'event'],
 			required: true
 		},
-		paymentType: {
+		type: {
 			model: 'PaymentTypes'
 		},
 		description: {
