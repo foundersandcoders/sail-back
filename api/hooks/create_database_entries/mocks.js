@@ -80,6 +80,15 @@ exports.payments = function () {
 			reference: module.exports.references()[0].code, // join table
 			notes: 'This is a nice donation',
 			date: new Date()
+		},{
+			member: module.exports.admins()[0].id, // bes
+			category: 'payment',
+			type: module.exports.paymentTypes()[0].code, // join table
+			description: 'Some description',
+			amount: 30,
+			reference: module.exports.references()[0].code, // join table
+			notes: 'This is a nice payment',
+			date: new Date()
 		}
 	];
 

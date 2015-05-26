@@ -4,7 +4,7 @@
 	var utils = {
 		is:            require("torf"),
 		clean:         require("d-bap"),
-		_:             require("lazy"),
+		lazy:          require("lazy.js"),
 		diff:          require('virtual-dom/diff'),
 		patch:         require('virtual-dom/patch'),
 		createElement: require('virtual-dom/create-element'),
@@ -17,7 +17,8 @@
 		h:             require("virtual-dom/h"),
 		$$:            require("./helpers").$$,
 		createOpts:    require("./helpers").createOpts,
-		replaceNice:   require("./helpers").replaceNice
+		replaceNice:   require("./helpers").replaceNice,
+		lastSub:       require("./helpers").lastSub
 	};
 
 	try{

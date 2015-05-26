@@ -2,7 +2,7 @@
 
 var h = require("virtual-dom/h");
 
-module.exports = function (data, moment) {
+module.exports = function (data, moment, utils) {
 	console.log("ddd",data);
 	return h("div.search-table-section-member", [
 		h("div.search-table-section-member-header", [
@@ -54,20 +54,11 @@ module.exports = function (data, moment) {
 						h("p", replaceNice.call(null, result.membership_type || ""))
 					]),
 					h("div.col-6", [
-					  lastSub(result.last_subscription)
+						h("p", utils.lastSub(result.payments))
           			])
 				])
 			]);
 		});
-	}
-
-	function lastSub (payment) {
-
-		if (payment) {
-			return h("p", moment(payment.date).format("DD MMM YYYY") + " - £" + payment.total);
-		} else {
-			return h("p", "");
-		}
 	}
 
 	function decide (data) {

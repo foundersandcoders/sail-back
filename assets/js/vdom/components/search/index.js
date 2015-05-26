@@ -10,7 +10,7 @@ module.exports = function (utils, state) {
 	that.render = function () {
 
 		if (cc) {
-			return view(state.members(), utils.moment);
+			return view(state.members(), utils.moment, utils);
 		} else {
 			cc = true;
 		}

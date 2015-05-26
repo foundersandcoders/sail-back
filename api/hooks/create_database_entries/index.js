@@ -120,7 +120,7 @@ module.exports = function(sails) {
 					}
 				}
 
-			/*	Members
+				Members
 				.find()
 				.exec(function (err, items) {
 
@@ -131,7 +131,7 @@ module.exports = function(sails) {
 					} else {
 						createEntries(true);
 					}
-				});*/
+				});
 			});
 		}
 	};

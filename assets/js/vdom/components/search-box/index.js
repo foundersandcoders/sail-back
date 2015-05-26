@@ -10,7 +10,7 @@ module.exports = function (utils, state) {
 
 	that.render = function () {
 
-		return view(that.getData, utils.moment);
+		return view(that.getData, utils.moment, utils);
 	};
 
 	that.getData = function () {
