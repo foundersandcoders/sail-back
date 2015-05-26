@@ -14,13 +14,27 @@ module.exports = function(sails) {
 			**/
 
 			var admins = require('./mocks.js').admins();
+			var types  = require('./mocks.js').membershipTypes();
 
 			return sails.after('hook:orm:loaded', function () {
 			
 				function createEntries (state) {
 					if((process.env.NODE_ENV === 'development') && state) {
-						async.parallel([
+						async.waterfall([
 							function (cb) {
+
+								MembershipTypes
+								.create(types)
+								.exec(function (err, items) {
+
+									if (err) {
+										cb(err, null)
+									} else {
+										cb(null, items);
+									}
+								});
+							},
+							function (types, cb) {
 
 								Members
 								.create(admins)
@@ -32,7 +46,7 @@ module.exports = function(sails) {
 										cb(null, items);
 									}
 								});
-							}
+							},
 						], function (err, results) {
 
 							if (err) {
@@ -41,12 +55,16 @@ module.exports = function(sails) {
 								sails.log.info("Hooks - database entries completed:", results);
 							}
 						});
+					} else {
+						sails.log.info("Members already in the database");
 					}
 				}	
 			
 				Members
 				.find()
 				.exec(function (err, items) {
+
+					sails.log.info("Look for members...");
 
 					if (items.length > 0) {
 						createEntries(false);

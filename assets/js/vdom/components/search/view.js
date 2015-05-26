@@ -42,7 +42,7 @@ module.exports = function (data, moment) {
 						h("p", result.id)
 					]),
 					h("div.col-2", [
-						h("p", result.lastName + " " + result.firstName)
+						h("p", result.last_name + " " + result.first_name)
 					]),
 					h("div.col-3", [
 						h("p", result.title)
@@ -51,10 +51,10 @@ module.exports = function (data, moment) {
 						h("p", result.initials)
 					]),
 					h("div.col-5", [
-						h("p", replaceNice.call(null, result.membershipType || ""))
+						h("p", replaceNice.call(null, result.membership_type || ""))
 					]),
 					h("div.col-6", [
-					  lastSub(result.lastSubscription)
+					  lastSub(result.last_subscription)
           			])
 				])
 			]);
@@ -86,7 +86,10 @@ module.exports = function (data, moment) {
 	}
 };
 
-
+/**
+ *	inpunt: life-single
+ *	output: Life single
+ */
 function replaceNice (string) {
 
 	return string.replace("-", " ").split(" ").map(function (elm){

@@ -8,11 +8,11 @@ module.exports = function (fn) {
 		h("div.search-container", [
 			h("select#member-status", [
 				h("option", {
-					value: "active",
+					value: "activated",
 					selected: true
 				}, "Active"),
 				h("option", {
-					value: "deleted"
+					value: "deactivated"
 				}, "Deleted")
 			]),
 			h("input.input-member#search-field-id",       {placeholder: "Membership number"}),

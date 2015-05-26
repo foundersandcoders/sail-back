@@ -54,17 +54,17 @@ function view (data, toggleFn, utils) {
 				h("h2", "Personal info"),
 				check("Name: ", fullName.call(member)),
 				check("ID: ", member.id),
-				check("Primary email: ", member.primaryEmail),
-				check("Secondary email: ", member.secondaryEmail),
-				check("Bounced email: ", member.emailBounced),
-				check("News: ", (member.newsType === "post" ? "Post" : "Online")),
+				check("Primary email: ", member.primary_email),
+				check("Secondary email: ", member.secondary_email),
+				check("Bounced email: ", member.email_bounced),
+				check("News: ", (member.news_type === "post" ? "Post" : "Online")),
 				check("Status: ", member.status),
 				[(
 					(member.status !== "deleted")
 					? undefined 
 					: h("span", [
 						check("Deletion date:", utils.moment(member.deletionDate).format("DD-MM-YY")),
-						check("Deletion reason: ", member.deletionReason)
+						check("Deletion reason: ", member.deletion_reason)
 					])
 				)]
 			])
@@ -77,13 +77,16 @@ function view (data, toggleFn, utils) {
 			h("div.col-2", [
 				h("h2", "Address info"),
 				check("Address line: ", member.address1),
-				check("Town or City: ", member.address2),
+				check("Address line: ", member.address2),
+				check("Address line: ", member.address3),
+				check("Address line: ", member.address4),
+				check("Address line: ", member.address5),
 				check("County: ", member.county),
 				check("Postcode: ", member.postcode),
 				check("Deliverer: ", member.deliverer),
-				check("Home phone: ", member.homePhone),
-				check("Work phone: ", member.workPhone),
-				check("Mobile phone: ", member.mobilePhone)
+				check("Home phone: ", member.home_phone),
+				check("Work phone: ", member.work_phone),
+				check("Mobile phone: ", member.mobile_phone)
 			])
 		]);
 	}
@@ -93,32 +96,32 @@ function view (data, toggleFn, utils) {
 		return ([
 			h("div.col-3", [
 				h("h2", "Membership info"),
-				check("Date joined: ", utils.moment(member.dateJoined).format("DD-MM-YYYY")),
-				check("Membership type: ", replaceNice.call(null, (member.membershipType || ""))),
+				check("Date joined: ", utils.moment(member.date_joined).format("DD-MM-YYYY")),
+				check("Membership type: ", replaceNice.call(null, (member.membership_type || ""))),
 				[(
-					(member.membershipType === "life-double" || member.membershipType === "life-single")
-					? check("Life payent date: ", member.lifePaymentDate)
+					(member.membership_type === "life-double" || member.membership_type === "life-single")
+					? check("Life payent date: ", member.life_payment_date)
 					: undefined
 				)],
 				[(
-					(member.dateTypeChanged && (member.membershipType === "life-double" || member.membershipType === "life-single"))
-					? (check("Life payment date: ", member.lifePaymentDate), check("Membership date changed: ", member.dateTypeChanged))
+					(member.dateTypeChanged && (member.membership_type === "life-double" || member.membership_type === "life-single"))
+					? (check("Life payment date: ", member.life_payment_date), check("Membership date changed: ", member.date_type_changed))
 					: undefined
 				)],
 				[(
-					(member.giftAid !== undefined)
-					? check("GAD Signed: ", utils.moment(member.dateGiftAidSigned).format("DD-MM-YYYY"))
+					(member.gift_aid_signed !== undefined)
+					? check("GAD Signed: ", utils.moment(member.date_gift_aid_signed).format("DD-MM-YYYY"))
 					: undefined
 				)],
 				[(
-					(member.dateGiftAidCancelled !== undefined)
-					? check("GAD cancelled: ", utils.moment(member.dateGiftAidCancelled).format("DD-MM-YYYY"))
+					(member.date_gift_aid_cancelled !== undefined)
+					? check("GAD cancelled: ", utils.moment(member.date_gift_aid_cancelled).format("DD-MM-YYYY"))
 					: undefined
 				)],
-				check("Standing order: ", (member.standingOrder) ? "Yes" : "No" ),
+				check("Standing order: ", (member.standing_order) ? "Yes" : "No" ),
 				check("Notes: ", member.notes),
 				check("Status online: ", (member.registered ? "Registered" : "Unregistered")),
-				check("Due date: ", utils.moment(member.dueDate).format("DD-MMM"))
+				check("Due date: ", utils.moment(member.due_date).format("DD-MMM"))
 			])
 		]);
 	}
@@ -148,9 +151,9 @@ function view (data, toggleFn, utils) {
 		var store = [];
 
 		if(utils.is.ok(this.title)    ) {store.push(this.title)}
-		if(utils.is.ok(this.firstName)) {store.push(this.firstName)}
+		if(utils.is.ok(this.first_name)) {store.push(this.first_name)}
 		if(utils.is.ok(this.initials) ) {store.push(this.initials)}
-		if(utils.is.ok(this.lastName) ) {store.push(this.lastName)}
+		if(utils.is.ok(this.last_name) ) {store.push(this.last_name)}
 
 		return store.join(" ");
 	}
