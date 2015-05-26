@@ -38,7 +38,7 @@
     "sails-mysql": "^0.10.12",
     "sails-postgresql": "^0.10.15",
     "swig": "^1.4.2",
-    "torf": "^1.0.6",
+    "torf": "^1.0.7",
     "upload-element": "^1.0.1",
     "virtual-dom": "^2.0.1",
     "xhr": "^2.0.1"

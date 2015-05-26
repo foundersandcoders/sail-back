@@ -16,6 +16,7 @@ module.exports = function () {
 
 			parse.parse(csv, {
 				delimiter: ";",
+				newline: "\n",
 				step: function (results) {
 
 					var subscription         = that._stamp(count, results.data[0], that._blue("sub"));
@@ -70,20 +71,33 @@ module.exports = function () {
 
 			parse.parse(csv, {
 				delimiter: ";",
+				newline: "\n",
 				step: function (results) {
 
+					console.log('Results: ', results.data);
+
 					var member       = that._stamp(count, results.data[0], that._blue("member"));
-					member.dueDate   = moment("01-01", "DD-MM");
+					member.dueDate   = new Date("01/01");
 
-					count +=1
+					if (count === 0) {
 
-					Members
-					.create(member)
-					.exec(function (err, item) {
+						count +=1
+					} else {
 
-						if (err) return err;
-						else console.log(item);
-					});
+						count +=1
+
+						Members
+						.create(member)
+						.exec(function (err, item) {
+
+							if (err) {
+								sails.log.error("Error: ", member);
+								throw err;
+							} else {
+								sails.log.info("UPLOADED: ", item);
+							}
+						});
+					}
 				},
 				complete: function () {
 
@@ -94,48 +108,115 @@ module.exports = function () {
 				}
 			});
 		},
+		/**
+		 *	Given a {stamp_object} and a {data_object} with the same
+		 *	number of properties, returns a new object with the
+		 *	values of the {data_object} and the keys of {stamp_object}
+		 *	
+		 *	@param  {Number} - 
+		 *	@param  {Object} -
+		 *	@param  {Object} -
+		 *	@return {Object} - 'stampedObject'
+		 */
 		_stamp: function (count, data, stampPattern){
 
-			var obj       = {};
-			var stampKeys = Object.keys(stampPattern);
+			var stampedObj = {};
+			var stampKeys  = Object.keys(stampPattern);
 
 			if (count === 0 && (data.length !== stampKeys.length)) {
-				console.log(data.length);
-				console.log("d", data);
-				console.log(stampKeys.length);
+				// console.log(data.length);
+				// console.log("Header: ", data);
+				// console.log(stampKeys.length);
+				sails.log.error("Data: ", data);
 				throw new Error({message: "Blueprint does not match with file csv columns"});
 			}
 
-			for(var ii = 0; ii < stampKeys.length; ii += 1){
-				if (!is.ok(stampPattern[stampKeys[ii]].remove)) {
+			stampKeys.forEach(function (keyStamp, index){
 
-					obj[stampKeys[ii]] = that._transform(data[ii], stampPattern[stampKeys[ii]].type);
+				if (!is.ok(stampPattern[stampKeys[index]].remove)) {
+
+					if(keyStamp === "membership_type") {
+
+						data[index] = that._membershipTypeMap(data[index]);
+					}
+
+					stampedObj[keyStamp] = that._transform(data[index], stampPattern[keyStamp].type);
 				}
-			}
+			});
 
-			return obj;
+			return stampedObj;
 		},
+		/**
+		 *	
+		 *
+		 */
 		_transform: function (value, type) {
 
-			if(is.type(value, type)){
-				return value;
-			}else if(type === "number"){
-				return parseInt(value);
-			}else if(type === "date"){
-        return moment(value, "DD-MM-YY").format();
-			}else if(type === "boolean"){
-				return value === "VERO" ? true : false;
-			}else if(type === "custom"){
-				return value === "FALSO" ? "active" : "deleted";
+			if (!is.ok(value)) {
+				return null;
 			}
+
+			if (is.type(value, type)) {
+
+				return value;
+			} else if (type === "number"){
+
+				return parseInt(value);
+			} else if (type === "date"){
+
+				return that._dateConvert(value);
+			} else if (type === "boolean"){
+
+				return value === "VERO" ? true : false;
+			} else if (type === "custom"){
+
+				return value === "FALSO" ? "activated" : "deactivated";
+			} else {
+
+				return null;
+			}
+		},
+		_dateConvert: function (str) {
+			function isValidDate(d) {
+				if ( Object.prototype.toString.call(d) !== "[object Date]" )
+					return false;
+				return !isNaN(d.getTime());
+			}
+
+			var parts = str.split("/");
+			var dt = new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+			if(isValidDate(dt)){
+				return dt;
+			}else{
+				return null;
+			};
+		},
+		_membershipTypeMap: function (membership_type) {
+
+			var type = [
+				{original: 'Single',    imported: 'annual-single'},
+				{original: 'Double',    imported: 'annual-double'},
+				{original: 'Family',    imported: 'annual-family'},
+				{original: 'Group',     imported: 'annual-group'},
+				{original: 'Corporate', imported: 'annual-corporate'},
+				{original: 'Life Sgl',  imported: 'life-single'},
+				{original: 'Life Dble', imported: 'life-double'}
+			];
+
+			type.forEach(function (element, index) {
+
+				if(element.original === membership_type) {
+					return element.imported;
+				}
+			});
 		},
 		_blue: function (type){
 
-			var bluprintPayments;
+			var bluprint;
 
 			if (type === "payment") {
 
-				bluprintPayments = {
+				bluprint = {
 					date:           {remove:false, type: "date"},
 					member:         {remove:false, type: "string"},
 					subscription:   {remove:true,  type: "number"},
@@ -150,7 +231,7 @@ module.exports = function () {
 				};
 			} else if (type === "sub") {
 
-				bluprintPayments = {
+				bluprint = {
 					date:           {remove:false, type: "date"},
 					member:     	{remove:false, type: "string"},
 					subscription:   {remove:false, type: "number"},
@@ -164,7 +245,7 @@ module.exports = function () {
 					deleted:        {remove:false, type: "boolean"}
 				};
 			} else if (type === "donation") {
-				bluprintPayments = {
+				bluprint = {
 					date:           {remove:false, type: "date"},
 					member:      	{remove:false, type: "string"},
 					subscription:   {remove:true,  type: "number"},
@@ -178,7 +259,7 @@ module.exports = function () {
 					deleted:        {remove:false, type: "boolean"}
 				};
 			} else if (type === "event") {
-				bluprintPayments = {
+				bluprint = {
 					date:           {remove:false, type: "date"},
 					member:    		{remove:false, type: "string"},
 					subscription:   {remove:true,  type: "number"},
@@ -193,56 +274,54 @@ module.exports = function () {
 				};
 			} else if (type === "member") {
 
-				bluprintPayments = {
-					id: 				{remove:false, type: "string"},
-					title: 				{remove:false, type: "string"},
-					initials: 			{remove:false, type: "string"},
-					last_name: 			{remove:false, type: "string"},
-					first_name: 		{remove:false, type: "string"},
-					postcode: 			{remove:false, type: "string"},
-					primary_email: 		{remove:false, type: "string"},
-					secondary_email:	{remove:false, type: "string"},
-					gift_aid_signed:    {remove:false, type: "boolean"},
+				// bluprint = {
+				// 	id: 				{remove:false, type: "string"},
+				// 	title: 				{remove:false, type: "string"},
+				// 	initials: 			{remove:false, type: "string"},
+				// 	last_name: 			{remove:false, type: "string"},
+				// 	first_name: 		{remove:false, type: "string"},
+				// 	postcode: 			{remove:false, type: "string"},
+				// 	primary_email: 		{remove:false, type: "string"},
+				// 	secondary_email:	{remove:false, type: "string"},
+				// 	gift_aid_signed:    {remove:false, type: "boolean"},
+				// };
+				
+				bluprint = {
+					id:                           {remove:false, type: "string"},
+					title:                        {remove:false, type: "string"},
+					initials:                     {remove:false, type: "string"},
+					last_name:                    {remove:false, type: "string"},
+					first_name:                   {remove:false, type: "string"},
+					address1:                     {remove:false, type: "string"},
+					address2:                     {remove:false, type: "string"},
+					address3:                     {remove:false, type: "string"},
+					address4:                     {remove:false, type: "string"},
+					county:                       {remove:false, type: "string"},
+					postcode:                     {remove:false, type: "string"},
+					deliverer:                    {remove:false, type: "string"},
+					home_phone:                   {remove:false, type: "string"},
+					mobile_phone:                 {remove:false, type: "string"},
+					work_phone:                   {remove:false, type: "string"},
+					birthday:                     {remove:true,  type: "date"},   // birthday
+					age: 		                  {remove:true,  type: "number"}, // age
+					primary_email:                {remove:false, type: "string"},
+					secondary_email:              {remove:false, type: "string"},
+					email_bounced:                {remove:false, type: "boolean"},
+					date_joined:                  {remove:false, type: "date"},
+					membership_type:              {remove:false, type: "string"},
+					date_membership_type_changed: {remove:false, type: "date"},
+					life_payment_date:            {remove:false, type: "date"},
+					notes:                        {remove:false, type: "string"},
+					gift_aid_signed:              {remove:false, type: "boolean"},
+					date_gift_aid_signed:         {remove:false, type: "date"},
+					date_gift_aid_cancelled:      {remove:false, type: "date"},
+					standing_order:               {remove:false, type: "boolean"},
+					activation_status:            {remove:false, type: "custom"},
+					lapsedMember:                 {remove:true,  type: "custom"},   // lapsedMember
 				};
-
-				/*
-				bluprintPayments = {
-					id:                      {remove:false, type: "string"},
-					title:                   {remove:false, type: "string"},
-					initials:                {remove:false, type: "string"},
-					last_name:               {remove:false, type: "string"},
-					first_name:              {remove:false, type: "string"},
-					address1:                {remove:false, type: "string"},
-					address2:                {remove:false, type: "string"},
-					address3:                {remove:false, type: "string"},
-					address4:                {remove:false, type: "string"},
-					county:                  {remove:false, type: "string"},
-					postcode:                {remove:false, type: "string"},
-					deliverer:               {remove:false, type: "string"},
-					home_phone:              {remove:false, type: "string"},
-					mobile_phone:            {remove:false, type: "string"},
-					work_phone:              {remove:false, type: "string"},
-					birthday:                {remove:false, type: "date"},
-					age:                     {remove:true,  type: "number"},
-					primary_email:           {remove:false, type: "string"},
-          			secondary_email:         {remove:false, type: "string"},
-					email_bounced:           {remove:false, type: "boolean"},
-					date_joined:             {remove:false, type: "date"},
-					membership_type:         {remove:false, type: "string"},
-					date_type_changed:       {remove:false, type: "date"},
-					life_payment_date:       {remove:false, type: "date"},
-					notes:                   {remove:false, type: "string"},
-					gift_aid_signed:         {remove:false, type: "boolean"},
-					date_gift_aid_signed:    {remove:false, type: "date"},
-					date_gift_aid_cancelled: {remove:false, type: "date"},
-					standing_order:          {remove:false, type: "boolean"},
-					status:                  {remove:false, type: "custom"},
-					deletion_date:           {remove:false, type: "date"},
-					deletion_reason:         {remove:false, type: "string"},
-				};*/
 			}
 
-			return bluprintPayments;
+			return bluprint;
 		}
 	};
 

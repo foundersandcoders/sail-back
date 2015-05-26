@@ -23,7 +23,12 @@ module.exports = {
 	},
 	upload: function (req, res) {
 
-		var csv = Object.keys(req.body)[0];
+		/** 
+		 *	The '&' (ampersand) sign splits the
+		 *	request body content.
+		 */
+		var csv = Object.keys(req.body).join('&');
+
 		if (req.query.type === 'members') {
 
 			upload.members(csv, function (r) {

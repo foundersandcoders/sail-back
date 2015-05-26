@@ -22,7 +22,7 @@ module.exports = function(sails) {
 				deletionReasons: require('./mocks.js').deletionReasons()
 			};
 
-			sails.log.info("Mocks: ", mocks);
+			// sails.log.info("Mocks: ", mocks);
 
 			return sails.after('hook:orm:loaded', function () {
 
@@ -112,7 +112,8 @@ module.exports = function(sails) {
 							if (err) {
 								sails.log.error('Hooks - error', err);
 							} else {
-								sails.log.info("Hooks - database entries completed:", results);
+								sails.log.info("Hooks - database entries completed!");
+								// sails.log.info("Hooks - database entries completed:", results);
 							}
 						});
 					} else {

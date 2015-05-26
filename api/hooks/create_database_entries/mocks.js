@@ -145,11 +145,11 @@ exports.membershipTypes = function () {
 			value: 'life-double',
 			description: 'Life Double'
 		},{
-			value: 'group-annual',
-			description: 'Group Annual'
+			value: 'annual-group',
+			description: 'Annual Group'
 		},{
-			value: 'corporate-annual',
-			description: 'Corporate Annual'
+			value: 'annual-corporate',
+			description: 'Annual Corporate'
 		}
 	];
 
