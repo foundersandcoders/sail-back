@@ -13,8 +13,16 @@ module.exports = function(sails) {
 			*   sails-docs/concepts/extending-sails/Hooks/customhooks.md
 			**/
 
-			var admins = require('./mocks.js').admins();
-			var types  = require('./mocks.js').membershipTypes();
+			var mocks = {
+				members:         require('./mocks.js').admins(),
+				membershipTypes: require('./mocks.js').membershipTypes(),
+				payments:        require('./mocks.js').payments(),
+				paymentTypes:    require('./mocks.js').paymentTypes(),
+				references:      require('./mocks.js').references(),
+				deletionReasons: require('./mocks.js').deletionReasons()
+			};
+
+			sails.log.info("Mocks: ", mocks);
 
 			return sails.after('hook:orm:loaded', function () {
 
@@ -24,7 +32,7 @@ module.exports = function(sails) {
 							function (cb) {
 
 								MembershipTypes
-								.create(types)
+								.create(mocks.membershipTypes)
 								.exec(function (err, items) {
 
 									if (err) {
@@ -34,10 +42,62 @@ module.exports = function(sails) {
 									}
 								});
 							},
-							function (types, cb) {
+							function (membershipTypes, cb) {
+
+								PaymentTypes
+								.create(mocks.paymentTypes)
+								.exec(function (err, items) {
+
+									if (err) {
+										cb(err, null)
+									} else {
+										cb(null, items);
+									}
+								});
+							},
+							function (paymentTypes, cb) {
+
+								References
+								.create(mocks.references)
+								.exec(function (err, items) {
+
+									if (err) {
+										cb(err, null)
+									} else {
+										cb(null, items);
+									}
+								});
+							},
+							function (paymentTypes, cb) {
+
+								Payments
+								.create(mocks.payments)
+								.exec(function (err, items) {
+
+									if (err) {
+										cb(err, null)
+									} else {
+										cb(null, items);
+									}
+								});
+							},
+							function (payments, cb) {
+
+								DeletionReasons
+								.create(mocks.deletionReasons)
+								.exec(function (err, items){
+
+									if (err) {
+										cb(err, null)
+									} else {
+										cb(null, items);
+									}
+								});
+							},
+							function (payments, cb) {
 
 								Members
-								.create(admins)
+								.create(mocks.members)
 								.exec(function (err, items) {
 
 									if (err) {
@@ -56,7 +116,7 @@ module.exports = function(sails) {
 							}
 						});
 					} else {
-						sails.log.info("Members already in the database");
+						sails.log.info("...members already in the database");
 					}
 				}
 

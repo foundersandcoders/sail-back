@@ -1,45 +1,49 @@
 exports.admins = function () {
 
-	// var dummyBes = {
-	// 	title: 'Mr',
-	// 	initials: 'S',
-	// 	postcode: 'E1 0SY',
-	// 	first_name: 'Besart',
-	// 	last_name: 'Hoxhaj',
-	// 	primary_email: 'bes@foch.com',
-	// 	secondary_email: 'bes2@foch.com',
-	// 	password: 'cnvo2hh89h',
-	// 	privileges: 'admin',
-	// 	// membership_type: module.exports.membershipTypes()[0]
-	// };
-
-	// var dummyWil = {
-	// 	title: 'Mr',
-	// 	initials: 'S',
-	// 	postcode: 'E1 0SY',
-	// 	first_name: 'Wil',
-	// 	last_name: 'Fisher',
-	// 	primary_email: 'wil@foch.com',
-	// 	secondary_email: 'wil2@foch.com',
-	// 	password: 'afd892hadf',
-	// 	privileges: 'admin',
-	// 	// membership_type: module.exports.membershipTypes()[0]
-	// };
-
-	// var dummyRichard = {
-	// 	title: 'Mr',
-	// 	initials: 'S',
-	// 	postcode: 'E1 0SY',
-	// 	first_name: 'Richard',
-	// 	last_name: 'Evans',
-	// 	primary_email: 'richard@foch.com',
-	// 	secondary_email: 'richard2@foch.com',
-	// 	password: '98fasdh39f',
-	// 	privileges: 'admin',
-	// 	// membership_type: module.exports.membershipTypes()[4]
-	// };
-
-	var dummyAdmin = {
+	var admins = [{
+		id: '471800',
+		title: 'Mr',
+		initials: 'S',
+		postcode: 'E1 0SY',
+		first_name: 'Besart',
+		last_name: 'Hoxhaj',
+		primary_email: 'bes@foch.com',
+		secondary_email: 'bes2@foch.com',
+		password: 'cnvo2hh89h',
+		privileges: 'admin',
+		status: 'activated',
+		gift_aid_signed: false,
+		membership_type: module.exports.membershipTypes()[0].value
+	},{
+		id: '471663',
+		title: 'Mr',
+		initials: 'S',
+		postcode: 'E1 0SY',
+		first_name: 'Wil',
+		last_name: 'Fisher',
+		primary_email: 'wil@foch.com',
+		secondary_email: 'wil2@foch.com',
+		password: 'afd892hadf',
+		privileges: 'admin',
+		gift_aid_signed: false,
+		membership_type: module.exports.membershipTypes()[0].value
+	},{
+		id: '433893',
+		title: 'Mr',
+		initials: 'S',
+		postcode: 'E1 0SY',
+		first_name: 'Richard',
+		last_name: 'Evans',
+		primary_email: 'richard@foch.com',
+		secondary_email: 'richard2@foch.com',
+		password: '98fasdh39f',
+		privileges: 'admin',
+		status: 'deactivated',
+		deletion_reason: module.exports.deletionReasons()[1].value,
+		gift_aid_signed: false,
+		membership_type: module.exports.membershipTypes()[2].value
+	},{
+		id: '471893',
 		title: 'Mr',
 		initials: 'S',
 		postcode: 'E1 0SY',
@@ -49,39 +53,148 @@ exports.admins = function () {
 		secondary_email: 'admin2@foch.com',
 		password: 'ads78fkj39r',
 		privileges: 'admin',
-		membership_type: 1
-	};
+		gift_aid_signed: false,
+		membership_type: module.exports.membershipTypes()[3].value
+	}];
 
-	return [/*dummyBes, dummyWil, dummyRichard, */dummyAdmin];
+	return admins;
+};
+
+exports.payments = function () {
+
+	var payments = [{
+			member: module.exports.admins()[0].id, // bes
+			type: 'subscription',
+			paymentType: module.exports.paymentTypes()[0].code, // join table
+			description: 'Some description',
+			amount: -50.5,
+			reference: module.exports.references()[0].code, // join table
+			notes: 'This is a note',
+			date: new Date()
+		},{
+			member: module.exports.admins()[0].id, // bes
+			type: 'donation',
+			paymentType: module.exports.paymentTypes()[0].code, // join table
+			description: 'Some description',
+			amount: 20,
+			reference: module.exports.references()[0].code, // join table
+			notes: 'This is a nice donation',
+			date: new Date()
+		}
+	];
+
+	return payments;
+};
+
+exports.deletionReasons = function () {
+
+	var reasons = [{
+			value: "deceased",
+			description: "Deceased"
+		},{
+			value: "notResponding",
+			description: "Did not respond to reminders"
+		},{
+			value: "duplicate",
+			description: "Duplicate"
+		}, {
+			value: "dissatisfied",
+			description: "Expressed dissatisfaction"
+		},{
+			value: "mailReturned",
+			description: "Mail returned to us"
+		}, {
+			value: "moved",
+			description: "Moved away"
+		},{
+			value: "notifiedTermination",
+			description: "Notified termination"
+		}, {
+			value: "other",
+			description: "Other"
+		}
+	];
+
+	return reasons;
 };
 
 exports.membershipTypes = function () {
 
 	var types = [{
-			value: "annual-single",
-			description: "Annual Single"
-			// members: [1]
+			value: 'annual-single',
+			description: 'Annual Single'
+		},{
+			value: 'annual-double',
+			description: 'Annual Double'
+		},{
+			value: 'annual-family',
+			description: 'Annual Family'
+		},{
+			value: 'life-single',
+			description: 'Life Single'
+		},{
+			value: 'life-double',
+			description: 'Life Double'
+		},{
+			value: 'group-annual',
+			description: 'Group Annual'
+		},{
+			value: 'corporate-annual',
+			description: 'Corporate Annual'
 		}
-		// ,{
-		// 	value: "annual-double",
-		// 	description: "Annual Double"
-		// },{
-		// 	value: "annual-family",
-		// 	description: "Annual Family"
-		// },{
-		// 	value: "life-single",
-		// 	description: "Life Single"
-		// },{
-		// 	value: "life-double",
-		// 	description: "Life Double"
-		// },{
-		// 	value: "group-annual",
-		// 	description: "Group Annual"
-		// },{
-		// 	value: "corporate-annual",
-		// 	description: "Corporate Annual"
-		// }
 	];
 
 	return types;
+};
+
+exports.paymentTypes = function () {
+
+	var types = [{
+			code: 'CHQ',
+			description: 'cheque'
+		},{
+			code: 'CASH',
+			description: 'cash'
+		},{
+			code: 'SOA',
+			description: 'standing order payment advised (by member)'
+		},{
+			code: 'SOR',
+			description: 'standing order received (and shown on bank statement)'
+		},{
+			code: 'BACSA',
+			description: 'BACS payment advised (by member)'
+		},{
+			code: 'BACSR',
+			description: 'BACS payment received by bank (and shown on bank statement)'
+		},{
+			code: 'CAFA',
+			description: 'charities aid foundation payment advised by member'
+		},{
+			code: 'CAFR',
+			description: 'charities aid foundation payment received by bank (shown on bank statement)'
+		},{
+			code: 'HO',
+			description: 'payment received by Harbour Office along with harbour dues'
+		}
+	];
+
+	return types;
+};
+
+exports.references = function () {
+
+	var references = [{
+			code: 'DH47F',
+			description: 'One'
+		},{
+			code: 'DFH58',
+			description: 'Two'
+		},{
+			code: 'DF43D',
+			description: 'Three'
+		}
+	];
+
+	return references;
 };
