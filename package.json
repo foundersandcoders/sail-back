@@ -6,6 +6,7 @@
   "keywords": [],
   "dependencies": {
     "async": "^1.0.0",
+    "babyparse": "^0.4.3",
     "bcryptjs": "^2.1.0",
     "connect-redis": "^2.3.0",
     "d-bap": "^1.0.0",
@@ -42,7 +43,7 @@
     "xhr": "^2.0.1"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "sails lift",
     "debug": "node debug app.js"
   },
   "main": "app.js",

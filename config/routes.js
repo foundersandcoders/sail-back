@@ -60,7 +60,11 @@ module.exports.routes = {
 		'GET /members/:id': {
 			controller: 'Private',
 			action: 'showMember'
-		}
+		},
+		'POST /upload': {
+			controller: 'Private',
+			action: 'upload'
+    	}
 
 	/***************************************************************************
 	*                                                                          *
