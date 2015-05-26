@@ -13,7 +13,8 @@ module.exports = {
 		id: {
 			type: 'STRING',
 			required: true,
-			unique: true
+			unique: true,
+			primaryKey: true
 		},
 		title: {
 			type: 'STRING',
@@ -92,62 +93,66 @@ module.exports = {
 		membership_type: {
 			model: 'MembershipTypes'
 		},
-		// date_joined: {
-		// 	type: 'DATE'
-		// },
-		// life_payment_date: {
-		// 	type: 'DATE'
-		// },
-		// registered: {
-		// 	type: 'STRING',
-		// 	enum: ['registered', 'unregistered']
-		// },
-		// date_joined: {
-		// 	type: 'DATE'
-		// },
-		// gift_aid_signed: {
-		// 	type: 'BOOLEAN',
-		// 	required: true
-		// },
-		// date_gift_aid_signed: {
-		// 	type: 'DATE'
-		// },
-		// date_gift_aid_cancelled: {
-		// 	type: 'DATE'
-		// },
-		// standing_order: {
-		// 	type: 'BOOLEAN'
-		// },
-		// notes: {
-		// 	type: 'TEXT'
-		// },
-		// status: {
-		// 	type: 'STRING',
-		// 	enum: ['created', 'activated', 'deactivated'],
-		// 	defaultsTo: 'created'
-		// },
-		// deletion_reason: {
-		// 	model: 'DeletionReasons'
-		// },
-		// deletion_date: {
-		// 	type: 'DATE'
-		// },
-		// privileges: {
-		// 	type: 'STRING',
-		// 	enum: ['member', 'admin'],
-		// 	defaultsTo: 'member'
-		// },
-		// activation_codes: {
-		// 	collection: 'ActivationCodes',
-		// 	via: 'member'
-		// },
-		// activation_date: {
-		// 	type: 'DATE'
-		// },
-		// reset_password_codes: {
-		// 	collection: 'ResetPassCodes',
-		// 	via: 'member'
-		// },
+		date_joined: {
+			type: 'DATE'
+		},
+		life_payment_date: {
+			type: 'DATE'
+		},
+		registered: {
+			type: 'STRING',
+			enum: ['registered', 'unregistered']
+		},
+		date_joined: {
+			type: 'DATE'
+		},
+		gift_aid_signed: {
+			type: 'BOOLEAN',
+			required: true
+		},
+		date_gift_aid_signed: {
+			type: 'DATE'
+		},
+		date_gift_aid_cancelled: {
+			type: 'DATE'
+		},
+		standing_order: {
+			type: 'BOOLEAN'
+		},
+		notes: {
+			type: 'TEXT'
+		},
+		status: {
+			type: 'STRING',
+			enum: ['created', 'activated', 'deactivated'],
+			defaultsTo: 'created'
+		},
+		deletion_reason: {
+			model: 'DeletionReasons'
+		},
+		deletion_date: {
+			type: 'DATE'
+		},
+		privileges: {
+			type: 'STRING',
+			enum: ['member', 'admin'],
+			defaultsTo: 'member'
+		},
+		activation_codes: {
+			collection: 'ActivationCodes',
+			via: 'member'
+		},
+		activation_date: {
+			type: 'DATE'
+		},
+		reset_password_codes: {
+			collection: 'ResetPassCodes',
+			via: 'member'
+		},
+		payments: {
+			collection: 'Payments',
+			via: 'member'
+		},
 		toJSON: function() {
 			var obj = this.toObject();
 			// Remove the password object value
