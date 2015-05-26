@@ -4,6 +4,7 @@
 	var utils = {
 		is:            require("torf"),
 		clean:         require("d-bap"),
+		_:             require("lazy"),
 		diff:          require('virtual-dom/diff'),
 		patch:         require('virtual-dom/patch'),
 		createElement: require('virtual-dom/create-element'),

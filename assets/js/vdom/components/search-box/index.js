@@ -28,10 +28,11 @@ module.exports = function (utils, state) {
 			console.log("Error with query serach param: ", e);
 		}
 
-		utils.request({method: "GET", url: "/api/members"}, function (e, h, b) {
+		utils.request({method: "GET", url: "/api/members?populate=[payments]"}, function (e, h, b) {
 
 			var members = JSON.parse(b);
 
+			// if only one member matches the query jump immediatly in view it
 			if(members.length === 1) {
 				window.location = "/members/" + members[0].id
 			} else {

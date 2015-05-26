@@ -61,15 +61,14 @@ module.exports = function (data, moment) {
 		});
 	}
 
-  function lastSub (payment) {
+	function lastSub (payment) {
 
-    console.log("PAYMENT: ", payment);
-    if (payment) {
-      return h("p", moment(payment.date).format("DD MMM YYYY") + " - £" + payment.total);
-    } else {
-      return h("p", "");
-    }
-  }
+		if (payment) {
+			return h("p", moment(payment.date).format("DD MMM YYYY") + " - £" + payment.total);
+		} else {
+			return h("p", "");
+		}
+	}
 
 	function decide (data) {
 
