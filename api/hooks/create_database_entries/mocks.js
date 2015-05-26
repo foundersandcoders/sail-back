@@ -64,8 +64,8 @@ exports.payments = function () {
 
 	var payments = [{
 			member: module.exports.admins()[0].id, // bes
-			type: 'subscription',
-			paymentType: module.exports.paymentTypes()[0].code, // join table
+			category: 'subscription',
+			type: module.exports.paymentTypes()[0].code, // join table
 			description: 'Some description',
 			amount: -50.5,
 			reference: module.exports.references()[0].code, // join table
@@ -73,8 +73,8 @@ exports.payments = function () {
 			date: new Date()
 		},{
 			member: module.exports.admins()[0].id, // bes
-			type: 'donation',
-			paymentType: module.exports.paymentTypes()[0].code, // join table
+			category: 'donation',
+			type: module.exports.paymentTypes()[0].code, // join table
 			description: 'Some description',
 			amount: 20,
 			reference: module.exports.references()[0].code, // join table

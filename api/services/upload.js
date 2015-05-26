@@ -19,32 +19,31 @@ module.exports = function () {
 				step: function (results) {
 
 					var subscription         = that._stamp(count, results.data[0], that._blue("sub"));
-					subscription.type        = "subscription";
-					subscription.total       = subscription.subscription;
+					subscription.category    = "subscription";
+					subscription.amount      = subscription.subscription;
 					subscription.description = "Subscription";
 
 					var donation             = that._stamp(count, results.data[0], that._blue("donation"));
-					donation.type            = "donation";
-					donation.total           = donation.donation;
+					donation.category        = "donation";
+					donation.amount          = donation.donation;
 					donation.description     = "Donation";
 
 					var events               = that._stamp(count, results.data[0], that._blue("event"));
-					events.type              = "event";
-					events.total             = events.events;
+					events.category          = "event";
+					events.amount            = events.events;
 					events.description       = "Event";
 
 					var payment              = that._stamp(count, results.data[0], that._blue("payment"));
-					payment.type             = "payment";
-					payment.description      = "Payment by " + payment.type_code.split(" - ")[1];
+					payment.category         = "payment";
+					payment.description      = "Payment by " + payment.type.split(" - ")[1];
 
 					count += 1;
 
 					var payments = [];
 
 					[subscription, donation, events, payment].forEach(function (record) {
-						if (record.total && record.total !== "0") {
+						if (record.amount && record.amount !== "0") {
 
-							console.log("RECORD", record);
 							Payments
 							.create(record)
 							.exec(function (err, item) {
@@ -138,14 +137,14 @@ module.exports = function () {
 
 				bluprintPayments = {
 					date:           {remove:false, type: "date"},
-					member_id:      {remove:false, type: "string"},
+					member:         {remove:false, type: "string"},
 					subscription:   {remove:true,  type: "number"},
 					donation:       {remove:true,  type: "number"},
 					events:         {remove:true,  type: "number"},
-					total:          {remove:false, type: "number"},
+					amount:         {remove:false, type: "number"},
 					difference:     {remove:true,  type: "number"},
-					type_code:      {remove:false, type: "string"},
-					list_reference: {remove:false, type: "string"},
+					type:           {remove:false, type: "string"},
+					reference: 		{remove:false, type: "string"},
 					notes:          {remove:false, type: "string"},
 					deleted:        {remove:false, type: "boolean"}
 				};
@@ -153,42 +152,42 @@ module.exports = function () {
 
 				bluprintPayments = {
 					date:           {remove:false, type: "date"},
-					member_id:      {remove:false, type: "string"},
+					member:     	{remove:false, type: "string"},
 					subscription:   {remove:false, type: "number"},
 					donation:       {remove:true,  type: "number"},
 					events:         {remove:true,  type: "number"},
-					total:          {remove:true,  type: "number"},
+					amount:         {remove:true,  type: "number"},
 					difference:     {remove:true,  type: "number"},
 					type_code:      {remove:true,  type: "string"},
-					list_reference: {remove:false, type: "string"},
+					reference:  	{remove:false, type: "string"},
 					notes:          {remove:false, type: "string"},
 					deleted:        {remove:false, type: "boolean"}
 				};
 			} else if (type === "donation") {
 				bluprintPayments = {
 					date:           {remove:false, type: "date"},
-					member_id:      {remove:false, type: "string"},
-					subscription:   {remove:true, type: "number"},
+					member:      	{remove:false, type: "string"},
+					subscription:   {remove:true,  type: "number"},
 					donation:       {remove:false, type: "number"},
-					events:         {remove:true, type: "number"},
+					events:         {remove:true,  type: "number"},
 					total:          {remove:true,  type: "number"},
 					difference:     {remove:true,  type: "number"},
-					type_code:      {remove:true, type: "string"},
-					list_reference: {remove:false, type: "string"},
+					type_code:      {remove:true,  type: "string"},
+					reference: 		{remove:false, type: "string"},
 					notes:          {remove:false, type: "string"},
 					deleted:        {remove:false, type: "boolean"}
 				};
 			} else if (type === "event") {
 				bluprintPayments = {
 					date:           {remove:false, type: "date"},
-					member_id:      {remove:false, type: "string"},
-					subscription:   {remove:true, type: "number"},
-					donation:       {remove:true, type: "number"},
+					member:    		{remove:false, type: "string"},
+					subscription:   {remove:true,  type: "number"},
+					donation:       {remove:true,  type: "number"},
 					events:         {remove:false, type: "number"},
 					total:          {remove:true,  type: "number"},
 					difference:     {remove:true,  type: "number"},
-					type_code:      {remove:true, type: "string"},
-					list_reference: {remove:false, type: "string"},
+					type_code:      {remove:true,  type: "string"},
+					reference: 		{remove:false, type: "string"},
 					notes:          {remove:false, type: "string"},
 					deleted:        {remove:false, type: "boolean"}
 				};

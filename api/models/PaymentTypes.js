@@ -10,7 +10,7 @@ module.exports = {
 	attributes: {
 		payments: {
 			collection: 'Payments',
-			via: 'paymentType'
+			via: 'type'
 		},
 		code: {
 			type: 'STRING',
