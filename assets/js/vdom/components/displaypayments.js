@@ -20,19 +20,21 @@ module.exports.index = function (utils, state) {
 
 		deleteMe.forEach(function (record) {
 
-			var opts = {
+			utils.request({
 				method: "DELETE",
 				url: "/api/" + record.collection + "/" + record.id
-			};
+			}, function (err, header, body) {
 
-			utils.request(opts, function (e, h, b) {
+				if(err) {
+					return alert("Error deleting payments.");
+				}
 
 				var payments = state.payments();
 
-				payments.forEach(function (p, i) {
+				payments.forEach(function (element, index) {
 
-					if (p.id === JSON.parse(b).id) {
-						payments.splice(i, 1);
+					if (element.id === JSON.parse(body).id) {
+						payments.splice(index, 1);
 					}
 				});
 				state.payments.set(payments);
@@ -49,7 +51,7 @@ module.exports.index = function (utils, state) {
 			var isSelected = selected.some(function (r, i) {
 
 				if (r.id === ref.id) {
-				index = i;
+					index = i;
 					return true;
 				} else {
 					return false;
@@ -67,76 +69,39 @@ module.exports.index = function (utils, state) {
 
 	that.getData = function () {
 
-		var store = [];
-		var count = 0;
+		utils.request({
+			method: "GET",
+			url: "/api/payments?member=" + document.querySelector("#member-id").textContent + "?populate=[]"
+		}, function (err, header, body) {
 
-		utils.request(_createOptions("payments"), function (e, h, b) {
-
-			store = store.concat(JSON.parse(b));
-			count += 1;
-
-			if(count === 2) {
-				store.sort(function (a, b) {
-
-					return new Date(a.date).getTime() - new Date(b.date).getTime();
-				});
-				calculateBalanceDue(store);
-				store.reverse();
-				state.payments.set(store);
+			if(err) {
+				return alert("Error getting payments.");
 			}
-		});
 
-		utils.request(_createOptions("charges"), function (e, h, b) {
+			var orderedPayments = utils.lazy(JSON.parse(body)).sortBy(function (item) {
+				return item.date;
+			}).toArray();
 
-			store = store.concat(JSON.parse(b));
-			count += 1;
+			orderedPayments.reduce(function (a, b) {
 
-			if(count === 2) {
-				store.sort(function (a, b) {
+				var cost;
+				if (b.collection !== "payment") {
+					cost = Number(b.amount);
+				} else {
+					cost = 0 - Number(b.amount);
+				}
+				var due = a + cost;
+				b.balanceDue = String(due);
+				return due;
+			}, 0);
 
-				  return new Date(a.date).getTime() - new Date(b.date).getTime();
-				});
-				calculateBalanceDue(store);
-				store.reverse();
-				state.payments.set(store);
-			}
+			state.payments.set(orderedPayments);
 		});
 	};
 
 	that.getData();
 	return that;
 };
-
-function calculateBalanceDue (list) {
-
-	list.reduce(function (a, b) {
-
-		var cost;
-		if (b.collection === "charges") {
-			cost = Number(b.total);
-		} else {
-			cost = 0 - Number(b.total);
-		}
-		var due = a + cost;
-		b.balanceDue = String(due);
-		return due;
-	}, 0);
-}
-
-function _createOptions (item) {
-
-	try{
-		var id = document.querySelector("#member-id").textContent;
-	} catch(e) {
-		console.log("Erro: ", e);
-	}
-
-	return {
-		method: "GET",
-		url: "/api/" + item + "?memberId=" + id
-	}
-}
-
 
 module.exports.view = function (data, selected, selectFn, refreshFn, deleteFn, utils) {
 
