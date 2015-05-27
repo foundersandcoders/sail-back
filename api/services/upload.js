@@ -1,9 +1,15 @@
 "use strict";
 
 
-var parse   = require("babyparse");
-var is      = require("torf");
-var moment  = require("moment");
+var parse        = require("babyparse");
+var is           = require("torf");
+var moment       = require("moment");
+var lazy         = require("lazy.js");
+// var streamify    = require('pronto/streams').StringReader;
+
+// 			var stream = new streamify(csv);
+
+// 			stream.pipe
 
 
 module.exports = function () {
@@ -12,11 +18,22 @@ module.exports = function () {
 		payments: function (csv, cb) {
 
 			var complete = false;
-			var count = 0;
+			var count    = 0;
+
+			/**
+			 *	NOTE: For some reason 
+			 *	
+			 *	The same file has different new line
+			 *	sparator.
+			 *	
+			 *
+			 *  */  var newline        = '\n'; /*
+			 *  */  var carriageReturn = '\r'; /*
+			 */
 
 			parse.parse(csv, {
 				delimiter: ";",
-				newline: "\n",
+				newline: carriageReturn,
 				step: function (results) {
 
 					var subscription         = that._stamp(count, results.data[0], that._blue("sub"));
@@ -66,44 +83,75 @@ module.exports = function () {
 		},
 		members: function (csv, cb){
 
+			// entries which have some problems
+			var entries_with_problems = [];
+			// the 'complete method' gets called twice by baby-parser
 			var complete = false;
-			var count = 0;
+			var count    = 0;
+			var countCb  = 0;
+			var members  = [];
+
+			/**
+			 *	NOTE: For some reason 
+			 *	
+			 *	The same file has different new line
+			 *	sparator.
+			 *	
+			 *
+			 *  */  var newline        = '\n'; /*
+			 *  */  var carriageReturn = '\r'; /*
+			 */
 
 			parse.parse(csv, {
-				delimiter: ";",
-				newline: "\n",
+				delimiter: ';',
+				newline: carriageReturn,
 				step: function (results) {
 
-					console.log('Results: ', results.data);
-
-					var member       = that._stamp(count, results.data[0], that._blue("member"));
-					member.dueDate   = new Date("01/01");
-
+					/**
+					 *  Count is 0 on the header row. We do not want to
+					 *  upload the header row so we skip it with this.
+					 */
 					if (count === 0) {
-
 						count +=1
 					} else {
 
-						count +=1
-
-						Members
-						.create(member)
-						.exec(function (err, item) {
-
-							if (err) {
-								sails.log.error("Error: ", member);
-								throw err;
-							} else {
-								sails.log.info("UPLOADED: ", item);
-							}
-						});
+						var member      = that._stamp(count, results.data[0], that._blue("member"));
+						member.due_date = new Date("01/01");
+						member.notes =  "";
+						members.push(member);
+						count += 1;
 					}
 				},
 				complete: function () {
 
+					console.log(members.length);
 					if (!complete) {
+
 						complete = true;
-						return cb("Done members");
+
+						lazy(members).each(function (member) {
+
+							Members
+							.create(member)
+							.exec(function (err, item) {
+
+								if (err) {
+									// sails.log.error("Entries which caused the error: ", member);
+									entries_with_problems.push({member: member, error: err});
+									// throw err;
+								} else {
+									// sails.log.info("UPLOADED: ", item);
+								}
+								countCb += 1;
+								if (countCb === members.length) {
+									return cb(null, {
+										done:true,
+										problems: entries_with_problems, 
+										problems_count: entries_with_problems.length
+									});
+								}
+							});
+						});
 					}
 				}
 			});
@@ -140,6 +188,8 @@ module.exports = function () {
 						data[index] = that._membershipTypeMap(data[index]);
 					}
 
+					// sails.log.info("DEBUG:", keyStamp, data[index]);
+
 					stampedObj[keyStamp] = that._transform(data[index], stampPattern[keyStamp].type);
 				}
 			});
@@ -151,6 +201,12 @@ module.exports = function () {
 		 *
 		 */
 		_transform: function (value, type) {
+
+
+			// some entries should be boolen but they are are empty
+			if(type === "boolean" && !is.ok(value)) {
+				return false;
+			}
 
 			if (!is.ok(value)) {
 				return null;
@@ -276,14 +332,14 @@ module.exports = function () {
 
 				bluprint = {
 					id: 				{remove:false, type: "string"},
-					title: 				{remove:false, type: "string"},
-					initials: 			{remove:false, type: "string"},
-					last_name: 			{remove:false, type: "string"},
-					first_name: 		{remove:false, type: "string"},
-					postcode: 			{remove:false, type: "string"},
-					primary_email: 		{remove:false, type: "string"},
-					secondary_email:	{remove:false, type: "string"},
-					gift_aid_signed:    {remove:false, type: "boolean"},
+					// title: 				{remove:false, type: "string"},
+					// initials: 			{remove:false, type: "string"},
+					// last_name: 			{remove:false, type: "string"},
+					// first_name: 		{remove:false, type: "string"},
+					// postcode: 			{remove:false, type: "string"},
+					// primary_email: 		{remove:false, type: "string"},
+					// secondary_email:	{remove:false, type: "string"},
+					// gift_aid_signed:    {remove:false, type: "boolean"},
 				};
 				
 				// bluprint = {
@@ -326,4 +382,4 @@ module.exports = function () {
 	};
 
 	return that;
-}
+};

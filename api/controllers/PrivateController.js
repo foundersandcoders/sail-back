@@ -26,22 +26,35 @@ module.exports = {
 		/** 
 		 *	The sign '&' (ampersand) splits the
 		 *	request body content in different objects
-		 *	where all the keys are the data
+		 *	where all the keys are the data.
 		 *
+		 *	Examples:
+		 *
+		 *	{
+		 *		'6095;Mr ': '', 
+		 *		' Mrs;J H;Adams;': ''
+		 *	}
+		 *
+		 *	The original line was: '6095;Mr & Mrs;J H;Adams;'
 		 */
+		console.log(req.body);
 		var csv = Object.keys(req.body).join('&');
+		//console.log("CSV", csv);
 
 		if (req.query.type === 'members') {
 
-			upload.members(csv, function (r) {
+			upload.members(csv, function (err, result) {
 
-				res.send(r);
+
+				// sails.log.info("Result upload: ", result);
+				res.send(result);
 			});
 		} else if (req.query.type === 'payments') {
 
-			upload.payments(csv, function (r) {
+			upload.payments(csv, function (err, result) {
 
-				res.send(r);
+				// sails.log.info("Result upload: ", result);
+				res.send(result);
 			});
 		}
 	}
