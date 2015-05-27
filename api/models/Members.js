@@ -78,9 +78,14 @@ module.exports = {
 				unique: true
 			},
 			/* Required */
+			/**
+			 *	Apparently there are some
+			 *	entries with the same
+			 *	secondary email
+			 *
+			 */
 			secondary_email: {
 				type: 'STRING',
-				unique: true
 			},
 			email_bounced: {
 				type: 'BOOLEAN',
@@ -104,7 +109,7 @@ module.exports = {
 			/* Required */
 			gift_aid_signed: {
 				type: 'BOOLEAN',
-				required: true
+				defaultsTo: false
 			},
 			date_gift_aid_signed: {
 				type: 'DATE'
