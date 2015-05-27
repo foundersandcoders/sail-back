@@ -1,5 +1,5 @@
 var Is = require('torf');
-var upload = require("../services/upload.js")();
+var Upload = require("../services/Upload.js")();
 
 module.exports = {
 
@@ -21,7 +21,7 @@ module.exports = {
 			}
 		});
 	},
-	upload: function (req, res) {
+	Upload: function (req, res) {
 
 		/** 
 		 *	The sign '&' (ampersand) splits the
@@ -43,18 +43,18 @@ module.exports = {
 
 		if (req.query.type === 'members') {
 
-			upload.members(csv, function (err, result) {
+			Upload.members(csv, function (err, result) {
 
 
-				// sails.log.info("Result upload: ", result);
+				// sails.log.info("Result Upload: ", result);
 				res.send(result);
 			});
 		} else if (req.query.type === 'payments') {
 
-			upload.payments(csv, function (err, result) {
+			Upload.payments(csv, function (err, result) {
 
-				// sails.log.info("Result upload: ", result);
-				res.send(result);
+				// sails.log.info("Result Upload: ", result);
+				return res.send(result);
 			});
 		}
 	}

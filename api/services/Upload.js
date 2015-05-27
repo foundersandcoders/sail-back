@@ -1,6 +1,5 @@
 "use strict";
 
-
 var parse        = require("babyparse");
 var is           = require("torf");
 var moment       = require("moment");
@@ -19,18 +18,21 @@ module.exports = function () {
 
 			var complete = false;
 			var count    = 0;
+                        var transactions  = [];
+                        var countCb = 0;
+                        var entries_with_problems = [];
 
 			/**
 			 *	NOTE: For some reason 
 			 *	
 			 *	The same file has different new line
-			 *	sparator.
+			
 			 *	
 			 *
 			 *  */  var newline        = '\n'; /*
 			 *  */  var carriageReturn = '\r'; /*
 			 */
-
+                        
 			parse.parse(csv, {
 				delimiter: ";",
 				newline: carriageReturn,
@@ -51,33 +53,43 @@ module.exports = function () {
 					events.amount            = events.events;
 					events.description       = "Event";
 
-					var payment              = that._stamp(count, results.data[0], that._blue("payment"));
-					payment.category         = "payment";
-					payment.description      = "Payment by " + payment.type.split(" - ")[1];
+                                        var payment              = that._stamp(count, results.data[0], that._blue("payment"));
+                                        payment.category         = "payment";
+                                        payment.description      = "Payment by " +  payment.type_code;
 
 					count += 1;
 
-					var payments = [];
-
-					[subscription, donation, events, payment].forEach(function (record) {
-						if (record.amount && record.amount !== "0") {
-
-							Payments
-							.create(record)
-							.exec(function (err, item) {
-
-								if (err) return err;
-								else console.log("ITEM", item);
-							});
-						}
-					});
+					[subscription, donation, events, payment]
+                                        .forEach(function (record) {
+                                            
+                                            if (record.amount && record.amount!== "0") {
+                                                transactions.push(record);
+                                            }
+                                        });
 				},
 				complete: function () {
+                                    console.log(count);
+                                    console.log(transactions);
+                                    if (!complete) {
+                                        complete = true;
+                                        lazy(transactions)
+                                        .each(function (transaction) {
+                                        
+                                            Payments
+                                            .create(transaction)
+                                            .exec(function (err, item) {
 
-					if (!complete) {
-						complete = true;
-						return cb("Done paymnets");
-					}
+                                                countCb += 1;
+
+                                                if (err) entries_with_problems.push({payment: transaction, error: err});
+                                                 
+                                                if (countCb === transactions.length) {
+                                                    return cb(null, {done: true, problems: entries_with_problems, problem_count: entries_with_problems.count});
+                                                }
+                                            });
+
+                                        });
+                                    }
 				}
 			});
 		},
@@ -280,8 +292,8 @@ module.exports = function () {
 					events:         {remove:true,  type: "number"},
 					amount:         {remove:false, type: "number"},
 					difference:     {remove:true,  type: "number"},
-					type:           {remove:false, type: "string"},
-					reference: 		{remove:false, type: "string"},
+					type_code:      {remove:false, type: "string"},
+					reference: 	{remove:false, type: "string"},
 					notes:          {remove:false, type: "string"},
 					deleted:        {remove:false, type: "boolean"}
 				};
