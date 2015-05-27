@@ -18,7 +18,9 @@
 		$$:            require("./helpers").$$,
 		createOpts:    require("./helpers").createOpts,
 		replaceNice:   require("./helpers").replaceNice,
-		lastSub:       require("./helpers").lastSub
+		lastSub:       require("./helpers").lastSub,
+		orderPayments: require("./helpers").orderPayments,
+		balanceDue:    require("./helpers").balanceDue
 	};
 
 	try{

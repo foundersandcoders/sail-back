@@ -117,3 +117,40 @@ var lastSub = module.exports.lastSub = function (payments) {
 		return is.ok(payment) ? moment(payment.date).format("DD MMM YYYY") + " - £" + payment.amount : "";
 	}
 };
+
+/**
+ *  Returns array of payments ordered in ascending date order.
+ *  Empty array returns empty array.
+ *
+ *  @param  {Array} - array of payment objects
+ *  @return {Array} - array of payment objects sorted by date (asc.)
+ */
+
+var orderPayments = module.exports.orderPayments = function (payments) {
+
+	if (!is.ok(payments)) {
+		return [];
+	} else {
+		return lazy(payments).sortBy(function (item) {
+			return item.date;
+		}).toArray();
+	}
+}
+
+var balanceDue = module.exports.balanceDue = function (payments) {
+
+	var ordered = orderPayments(payments);
+	lazy(ordered).reduce(function (a, b) {
+
+		var cost;
+		if (b.category !== "payment") {
+			cost = Number(b.amount);
+		} else {
+			cost = 0 - Number(b.amount);
+		}
+		var due = a + cost;
+		b.balanceDue = String(due);
+		return due;
+	}, 0);
+	return ordered;
+}
