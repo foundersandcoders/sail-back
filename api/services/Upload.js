@@ -38,6 +38,10 @@ module.exports = function () {
 				newline: carriageReturn,
 				step: function (results) {
 
+                    /*  
+                     * From payment uploads, we create a subscription record, a
+                     * donation record, an event record and a payment record.
+                     */
 					var subscription         = that._stamp(count, results.data[0], that._blue("sub"));
 					subscription.category    = "subscription";
 					subscription.amount      = subscription.subscription;
@@ -53,43 +57,51 @@ module.exports = function () {
 					events.amount            = events.events;
 					events.description       = "Event";
 
-                                        var payment              = that._stamp(count, results.data[0], that._blue("payment"));
-                                        payment.category         = "payment";
-                                        payment.description      = "Payment by " +  payment.type_code;
+                    var payment              = that._stamp(count, results.data[0], that._blue("payment"));
+                    payment.category         = "payment";
+                    payment.description      = "Payment by " +  payment.type_code;
 
 					count += 1;
 
+                    /*
+                     * We only want to upload records that have a total greater
+                     * than 0.
+                     */
 					[subscription, donation, events, payment]
-                                        .forEach(function (record) {
-                                            
-                                            if (record.amount && record.amount!== "0") {
-                                                transactions.push(record);
-                                            }
-                                        });
+                    .forEach(function (record) {
+                        
+                        if (record.amount && record.amount!== "0") {
+                            transactions.push(record);
+                        }
+                    });
 				},
 				complete: function () {
-                                    console.log(count);
-                                    console.log(transactions);
-                                    if (!complete) {
-                                        complete = true;
-                                        lazy(transactions)
-                                        .each(function (transaction) {
-                                        
-                                            Payments
-                                            .create(transaction)
-                                            .exec(function (err, item) {
+                
+                    // complete is executed twice by babyparse. 
+                    if (!complete) {
+                        complete = true;
+                        
+                        lazy(transactions) 
+                        .each(function (transaction) {
+                        
+                            Payments
+                            .create(transaction) .exec(function (err, item) {
 
-                                                countCb += 1;
+                                countCb += 1;
 
-                                                if (err) entries_with_problems.push({payment: transaction, error: err});
-                                                 
-                                                if (countCb === transactions.length) {
-                                                    return cb(null, {done: true, problems: entries_with_problems, problem_count: entries_with_problems.count});
-                                                }
-                                            });
-
-                                        });
-                                    }
+                                if (err) entries_with_problems.push({payment: transaction, error: err});
+                       
+                                // only callback on the last transaction
+                                if (countCb === transactions.length) {
+                                    return cb(null, {
+                                        done: true, 
+                                        problems: entries_with_problems,
+                                        problem_count: entries_with_problems.count
+                                    });
+                                }
+                            });
+                        });
+                    }
 				}
 			});
 		},
@@ -341,7 +353,7 @@ module.exports = function () {
 					deleted:        {remove:false, type: "boolean"}
 				};
 			} else if (type === "member") {
-
+/*
 				bluprint = {
 					id: 				{remove:false, type: "string"},
 					// title: 				{remove:false, type: "string"},
@@ -353,40 +365,40 @@ module.exports = function () {
 					// secondary_email:	{remove:false, type: "string"},
 					// gift_aid_signed:    {remove:false, type: "boolean"},
 				};
-				
-				// bluprint = {
-				// 	id:                           {remove:false, type: "string"},
-				// 	title:                        {remove:false, type: "string"},
-				// 	initials:                     {remove:false, type: "string"},
-				// 	last_name:                    {remove:false, type: "string"},
-				// 	first_name:                   {remove:false, type: "string"},
-				// 	address1:                     {remove:false, type: "string"},
-				// 	address2:                     {remove:false, type: "string"},
-				// 	address3:                     {remove:false, type: "string"},
-				// 	address4:                     {remove:false, type: "string"},
-				// 	county:                       {remove:false, type: "string"},
-				// 	postcode:                     {remove:false, type: "string"},
-				// 	deliverer:                    {remove:false, type: "string"},
-				// 	home_phone:                   {remove:false, type: "string"},
-				// 	mobile_phone:                 {remove:false, type: "string"},
-				// 	work_phone:                   {remove:false, type: "string"},
-				// 	birthday:                     {remove:true,  type: "date"},   // birthday
-				// 	age: 		                  {remove:true,  type: "number"}, // age
-				// 	primary_email:                {remove:false, type: "string"},
-				// 	secondary_email:              {remove:false, type: "string"},
-				// 	email_bounced:                {remove:false, type: "boolean"},
-				// 	date_joined:                  {remove:false, type: "date"},
-				// 	membership_type:              {remove:false, type: "string"},
-				// 	date_membership_type_changed: {remove:false, type: "date"},
-				// 	life_payment_date:            {remove:false, type: "date"},
-				// 	notes:                        {remove:false, type: "string"},
-				// 	gift_aid_signed:              {remove:false, type: "boolean"},
-				// 	date_gift_aid_signed:         {remove:false, type: "date"},
-				// 	date_gift_aid_cancelled:      {remove:false, type: "date"},
-				// 	standing_order:               {remove:false, type: "boolean"},
-				// 	activation_status:            {remove:false, type: "custom"},
-				// 	lapsedMember:                 {remove:true,  type: "custom"},   // lapsedMember
-				// };
+*/				
+                     bluprint = {
+                     	id:                           {remove:false, type: "string"},
+                     	title:                        {remove:false, type: "string"},
+                     	initials:                     {remove:false, type: "string"},
+                     	last_name:                    {remove:false, type: "string"},
+                     	first_name:                   {remove:false, type: "string"},
+                     	address1:                     {remove:false, type: "string"},
+                     	address2:                     {remove:false, type: "string"},
+                     	address3:                     {remove:false, type: "string"},
+                     	address4:                     {remove:false, type: "string"},
+                     	county:                       {remove:false, type: "string"},
+                     	postcode:                     {remove:false, type: "string"},
+                     	deliverer:                    {remove:false, type: "string"},
+                     	home_phone:                   {remove:false, type: "string"},
+                     	mobile_phone:                 {remove:false, type: "string"},
+                     	work_phone:                   {remove:false, type: "string"},
+                     	birthday:                     {remove:true,  type: "date"},   // birthday
+                     	age: 		                  {remove:true,  type: "number"}, // age
+                     	primary_email:                {remove:false, type: "string"},
+                     	secondary_email:              {remove:false, type: "string"},
+                     	email_bounced:                {remove:false, type: "boolean"},
+                     	date_joined:                  {remove:false, type: "date"},
+                     	membership_type:              {remove:false, type: "string"},
+                     	date_membership_type_changed: {remove:false, type: "date"},
+                     	life_payment_date:            {remove:false, type: "date"},
+                     	notes:                        {remove:false, type: "string"},
+                     	gift_aid_signed:              {remove:false, type: "boolean"},
+                     	date_gift_aid_signed:         {remove:false, type: "date"},
+                     	date_gift_aid_cancelled:      {remove:false, type: "date"},
+                     	standing_order:               {remove:false, type: "boolean"},
+                     	activation_status:            {remove:false, type: "custom"},
+                     	lapsedMember:                 {remove:true,  type: "custom"},   // lapsedMember
+			    };
 			}
 
 			return bluprint;

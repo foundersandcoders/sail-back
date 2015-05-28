@@ -22,6 +22,7 @@ module.exports = {
 		});
 	},
 	Upload: function (req, res) {
+   
 
 		/** 
 		 *	The sign '&' (ampersand) splits the
@@ -37,23 +38,22 @@ module.exports = {
 		 *
 		 *	The original line was: '6095;Mr & Mrs;J H;Adams;'
 		 */
-		console.log(req.body);
 		var csv = Object.keys(req.body).join('&');
-		//console.log("CSV", csv);
+        console.log("csv", csv);
+        console.log("body", req.body);
 
 		if (req.query.type === 'members') {
 
 			Upload.members(csv, function (err, result) {
 
-
-				// sails.log.info("Result Upload: ", result);
+				sails.log.info("Result Upload: ", result);
 				res.send(result);
 			});
 		} else if (req.query.type === 'payments') {
 
 			Upload.payments(csv, function (err, result) {
 
-				// sails.log.info("Result Upload: ", result);
+				sails.log.info("Result Upload: ", result);
 				return res.send(result);
 			});
 		}
