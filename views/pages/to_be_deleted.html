@@ -1,0 +1,552 @@
+#{% extends './../layouts/_default.swig' %}
+
+{% extends './../layouts/_mobile.swig' %}
+
+{% block content %}
+{% endblock %}
+
+
+#{% extends './../layouts/_default.swig' %}
+
+{% extends './../layouts/_mobile.swig' %}
+
+{% block content %}
+	<div class="main-container">
+
+		<div class="inner-section-divider-small"></div>
+
+		<div class="section-label">
+
+			<h1>Sign up</h1>
+		</div>
+
+		<div class="container-small">
+
+			<input 
+				id="email"
+				type="text" 
+				name="email" 
+				tabindex=1 
+				placeholder="Email address"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<input 
+				id="confirm-email"
+				type="text" 
+				name="cemail" 
+				tabindex=2 
+				placeholder="Confirm email address"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<input 
+				id="password" 
+				type="password" 
+				name="password" 
+				tabindex=3 
+				placeholder="Password"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<input 
+				id="confirm-password" 
+				type="password" 
+				name="cpassword" 
+				tabindex=4 
+				placeholder="Confirm password"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				id="button_sign_up"
+				class="btn-primary"
+			>Next</button>
+		</div>
+
+
+
+		<br><br><br><br><br><br>
+
+
+
+		<div class="section-label">
+
+			<h1>Membership info</h1>
+		</div>
+
+		<div class="container-small">
+
+
+
+			
+			<div class="input-label-container">
+				<h2>Membership number: 4324319</h2>
+			</div>
+
+			<div class="inner-section-divider-small"></div>
+
+			<div class="input-label-container">
+				<h3>Choose a membership type</h3>
+			</div>
+			<select class="select-signup">
+				<option class="meta" value="" disabled="" selected="">Click to select one</option>
+				<option value="Annual Single">Annual Single</option>
+				<option value="Annual Double">Annual Double</option>
+				<option value="Annual Family">Annual Family</option>
+				<option value="Life Single">Life Single</option>
+				<option value="Life Double">Life Double</option>
+				<option value="Group Annual">Group Annual</option>
+				<option value="Corporate Annual">Corporate Annual</option>
+			</select>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				class="align-one"
+				id="button_sign_up"
+				class="btn-primary"
+			>Back</button>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				class="align-two"
+				id="button_sign_up"
+				class="btn-primary"
+			>Next</button>
+		</div>
+
+
+
+		<br><br><br><br><br><br>
+
+
+		<div class="section-label">
+
+			<h1>Personal details</h1>
+		</div>
+
+		<div class="container-small">
+			<div class="block">
+				<input 
+					class="align-one"
+					id="email"
+					type="text" 
+					name="email" 
+					tabindex=1 
+					placeholder="Title"
+				>
+
+				<input 
+					class="align-two"
+					id="email"
+					type="text" 
+					name="email" 
+					tabindex=1 
+					placeholder="Initials"
+				>
+			</div>
+
+			<div class="inner-section-divider-small"></div>
+
+			<div class="input-label-container">
+				<h4>First name or nickname (optional). If you are a couple enter both names eg Dick & Val</h4>
+			</div>
+			<input 
+				id="confirm-email"
+				type="text" 
+				name="cemail" 
+				tabindex=2 
+				placeholder="First name or nickname"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<input 
+				id="password" 
+				type="password" 
+				name="password" 
+				tabindex=3 
+				placeholder="Last name"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				class="align-one"
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Back</button>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				class="align-two"
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Next</button>
+		</div>
+
+
+
+		<br><br><br><br><br><br>
+
+
+		<div class="section-label">
+
+			<h1>Address details</h1>
+		</div>
+
+		<div class="container-small">
+			<input 
+				id="email"
+				type="text" 
+				name="email" 
+				tabindex=1 
+				placeholder="Address 1"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<input 
+				id="email"
+				type="text" 
+				name="email" 
+				tabindex=2 
+				placeholder="Address 2"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<input 
+				id="email"
+				type="text" 
+				name="email" 
+				tabindex=3 
+				placeholder="Address 3"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<input 
+				id="email"
+				type="text" 
+				name="email" 
+				tabindex=4 
+				placeholder="Address 4"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<input 
+				id="email"
+				type="text" 
+				name="email" 
+				tabindex=5 
+				placeholder="County"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<input 
+				id="email"
+				type="text" 
+				name="email" 
+				tabindex=6 
+				placeholder="Postcode"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				class="align-one"
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Back</button>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				class="align-two"
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Next</button>
+		</div>
+
+
+
+		<br><br><br><br><br><br>
+
+
+		<div class="section-label">
+
+			<h1>Contact details</h1>
+		</div>
+
+		<div class="container-small">
+			<input 
+				id="email"
+				type="text" 
+				name="email" 
+				tabindex=1 
+				placeholder="Home phone number"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<input 
+				id="email"
+				type="text" 
+				name="email" 
+				tabindex=2 
+				placeholder="Mobile number"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<input 
+				id="email"
+				type="text" 
+				name="email" 
+				tabindex=3 
+				placeholder="Primary email"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<input 
+				id="email"
+				type="text" 
+				name="email" 
+				tabindex=4 
+				placeholder="Secondary email"
+			>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				class="align-one"
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Back</button>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				class="align-two"
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Next</button>
+		</div>
+
+
+
+		<br><br><br><br><br><br>
+
+
+		<div class="section-label">
+
+			<h1>Gift aid declaration</h1>
+		</div>
+
+		<div class="container-small">
+
+			<div class="input-label-container">
+				<h4>If you sign a Gift Aid Declaration it significantly increases the value of your subscription (and any donations you make). If you would like to sign a Gift Aid Declaration please print the form, sign it and post it to Membership Secretary</h4>
+			</div>
+			<button 
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Print</button>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				class="align-one"
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Back</button>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				class="align-two"
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Next</button>
+		</div>
+
+
+
+		<br><br><br><br><br><br>
+
+
+		<div class="section-label">
+
+			<h1>Notifications</h1>
+		</div>
+
+		<div class="container-small">
+
+			<div class="input-label-container">
+				<h2>Keeping in touch</h2>
+				<h4>Because it’s much easier (and cheaper) for us, we’ll send you information about Events and things by email.  If you’d prefer us to do it by post please tick the box.</h4>
+			</div>
+			<select class="select-signup">
+				<option class="meta" value="" disabled="" selected="">Click to select one</option>
+				<option value="Annual Single">Post</option>
+				<option value="Annual Double">Email</option>
+			</select>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				class="align-one"
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Back</button>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				class="align-two"
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Next</button>
+		</div>
+
+
+
+		<br><br><br><br><br><br>
+
+
+		<div class="section-label">
+
+			<h1>Member information</h1>
+		</div>
+
+		<div class="container-small">
+
+			<div class="details-list">
+				<div class="block">
+					<p class="left">Membership num</p>
+					<p class="right">4324319</p>
+				</div>
+			</div>
+
+			<div class="details-list">
+				<div class="block">
+					<p class="left">First name</p>
+					<p class="right">Besart</p>
+				</div>
+			</div>
+
+			<div class="details-list">
+				<div class="block">
+					<p class="left">Last name</p>
+					<p class="right">Hoxhaj</p>
+				</div>
+			</div>
+
+			<div class="details-list">
+				<div class="block">
+					<p class="left">Post code</p>
+					<p class="right">N17 6YE</p>
+				</div>
+			</div>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				class="align-one"
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Back</button>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				class="align-two"
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Confirm</button>
+		</div>
+
+
+
+		<br><br><br><br><br><br>
+
+
+		<div class="section-label">
+
+			<h1>What would you like to do?</h1>
+		</div>
+
+		<div class="container-small">
+
+			<button 
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>View account</button>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Make payment</button>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Make donation</button>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Browse events</button>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Home</button>
+
+			<div class="inner-section-divider-small"></div>
+
+			<button 
+				id="button_sign_up"
+				type="submit"
+				class="btn-primary"
+			>Log out</button>
+		</div>
+	</div>
+{% endblock %}

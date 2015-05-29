@@ -221,21 +221,28 @@ module.exports = {
 			}
 		// ------------------------------------------------------------
 	},
-	beforeCreate: function(user, cb) {
-		if(user.password){
+	beforeCreate: function(member, cb) {
+		if(member.password){
 			bcrypt.genSalt(10, function (err, salt) {
-				bcrypt.hash(user.password, salt, function (err, hash) {
+				bcrypt.hash(member.password, salt, function (err, hash) {
 					if (err) {
 						sails.log.error(err);
 						cb(err);
 					}else{
-						user.password = hash;
-						cb(null, user);
+
+						member.password = hash;
+						cb(null, member);
 					}
 				});
 			});
 		}else{
-			cb(null, user);
+			cb(null, member);
 		};
+	},
+	createHashId: function () {
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+			var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+			return v.toString(16);
+		});
 	}
 };

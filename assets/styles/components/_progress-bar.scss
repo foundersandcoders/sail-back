@@ -1,0 +1,26 @@
+.progress-bar {
+    margin: auto;
+    width: 100%;
+    margin-bottom: 50px;
+	margin-top: 30px;
+	.progress {
+		background-color: #eee;
+		width: 20px;
+		height: 20px;
+		display: inline-block;
+		border-radius: 100%;
+		margin: 0 15px;
+		cursor: pointer;
+		&.active {
+			background-color: #9b9;
+		}
+
+		&.current {
+			width: 35px;
+			height: 35px;
+			margin: 0px 10px;
+			position: relative;
+			bottom: -7px;
+		}
+	}
+}

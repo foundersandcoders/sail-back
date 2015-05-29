@@ -62,3 +62,17 @@ background: #f4f4f7;
 		border-bottom: none;
 	}
 }
+
+.mobile-nav {
+	display: none;
+}
+
+@media (max-width: $mobile) {
+	.mobile-nav {
+		display: inherit;
+		height: 60px;
+		width: 100%;
+		text-align: center;
+		border-bottom: 1px solid #eee;
+	}
+}

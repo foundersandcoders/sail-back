@@ -1,10 +1,31 @@
+h1 {
+	font-size: 40px;
+	line-height: 100%;
+	padding: 20px 0;
+}
+
+h2 {
+	margin-bottom: 10px;
+}
+
+h3 {
+	font-weight: 300;
+}
+
+h4 {
+	font-weight: 300;
+}
+
 p {
 	font-weight: 200;
 	font-size: 24px;
 }
 
-h2 {
-	margin-bottom: 10px;
+@media (max-width: $mobile) {
+	h1 {
+		font-size: 30px;
+		line-height: 100%;
+	}
 }
 
 @media (max-width: 1700px) {
@@ -19,6 +40,11 @@ h2 {
 		font-weight: 200;
 		font-size: 19px;
 	}
+}
+
+.meta {
+	font-size: 18px;
+	line-height: 115%;
 }
 
 .info {

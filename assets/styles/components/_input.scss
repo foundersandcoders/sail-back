@@ -1,6 +1,6 @@
 %input {
-	font-family: 'Andika', "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 15px;
+	font-family: $font-family;
+	font-size: $p-font-size-desktop;
 	color: #999;
 	display: block;
 	border: 1px solid #ccc;
@@ -9,7 +9,7 @@
 	padding-right: 10px;
 	outline: 0px;
 	width: 320px;
-	height: 50px;
+	height: 60px;
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
 	-moz-box-sizing: border-box;
@@ -19,10 +19,12 @@ input {
 	@extend %input;
 }
 
-@media (max-width: 1700px) {
-	%input {
-		height: 40px;
-	}
+@media (max-width: $mobile) {
+    %input {
+        height: 50px;
+        width: 100%;
+        font-size: $p-font-size-mobile;
+    }
 }
 
 textarea {
