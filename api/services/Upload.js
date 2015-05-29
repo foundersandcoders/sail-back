@@ -13,98 +13,65 @@ var lazy         = require("lazy.js");
 
 module.exports = function () {
 
+    function createCharge (payment, type) {
+   
+        var charge = {
+            date: payment.date,
+            member: payment.member,
+            type_code: payment.type_code,
+            reference: payment.reference,
+            notes: payment.notes
+        };
+        
+        if (type[type.length-1] === "s") type = type.substr(0, type.length - 1);
+        
+        charge.category = type;
+        charge.description = type[0].toUpperCase()
+        charge.description += type.substr(1, type.length - 1);
+        charge.amount = payment[type] || payment.amount;
+       
+        if (type === "payment") charge.description += " by " + charge.type_code;
+       
+        return charge;
+    }
+
 	var that = {
-		payments: function (csv, cb) {
+		payments: function (payments, cb) {
 
-			var complete = false;
-			var count    = 0;
-                        var transactions  = [];
-                        var countCb = 0;
-                        var entries_with_problems = [];
-
-			/**
-			 *	NOTE: For some reason 
-			 *	
-			 *	The same file has different new line
-			
-			 *	
-			 *
-			 *  */  var newline        = '\n'; /*
-			 *  */  var carriageReturn = '\r'; /*
-			 */
-                        
-			parse.parse(csv, {
-				delimiter: ";",
-				newline: carriageReturn,
-				step: function (results) {
-
-                    /*  
-                     * From payment uploads, we create a subscription record, a
-                     * donation record, an event record and a payment record.
-                     */
-					var subscription         = that._stamp(count, results.data[0], that._blue("sub"));
-					subscription.category    = "subscription";
-					subscription.amount      = subscription.subscription;
-					subscription.description = "Subscription";
-
-					var donation             = that._stamp(count, results.data[0], that._blue("donation"));
-					donation.category        = "donation";
-					donation.amount          = donation.donation;
-					donation.description     = "Donation";
-
-					var events               = that._stamp(count, results.data[0], that._blue("event"));
-					events.category          = "event";
-					events.amount            = events.events;
-					events.description       = "Event";
-
-                    var payment              = that._stamp(count, results.data[0], that._blue("payment"));
-                    payment.category         = "payment";
-                    payment.description      = "Payment by " +  payment.type_code;
-
-					count += 1;
-
-                    /*
-                     * We only want to upload records that have a total greater
-                     * than 0.
-                     */
-					[subscription, donation, events, payment]
-                    .forEach(function (record) {
-                        
-                        if (record.amount && record.amount!== "0") {
-                            transactions.push(record);
-                        }
-                    });
-				},
-				complete: function () {
-                
-                    // complete is executed twice by babyparse. 
-                    if (!complete) {
-                        complete = true;
-                        
-                        lazy(transactions) 
-                        .each(function (transaction) {
-                        
-                            Payments
-                            .create(transaction) .exec(function (err, item) {
-
-                                countCb += 1;
-
-                                if (err) entries_with_problems.push({payment: transaction, error: err});
-                       
-                                // only callback on the last transaction
-                                if (countCb === transactions.length) {
-                                    return cb(null, {
-                                        done: true, 
-                                        problems: entries_with_problems,
-                                        problem_count: entries_with_problems.count
-                                    });
-                                }
-                            });
-                        });
+            var count = 0;
+            var problems = [];
+            var transactions = [];
+            payments.forEach(function (payment, i) {
+       
+                var subscription = createCharge(payment, "subscription");
+                var donation     = createCharge(payment, "donation");
+                var events       = createCharge(payment, "events");
+                var payment      = createCharge(payment, "payment");
+               
+                [subscription, donation, events, payment]
+                .forEach(function (record) {
+                    
+                    if (record.amount && record.amount!== "0") {
+                        transactions.push(record);
                     }
-				}
-			});
-		},
+                });
+            });
+           
+            transactions.forEach(function (transaction) {
+                Payments
+                .create(transaction)
+                .exec(function (err, items) {
+             
+                    count +=1;
+                    if (err) problems.push({payment: transaction, error: err});
+                    else if (count === transactions.length) return cb(null, {
+                        problems: problems,
+                        problem_count: problems.length,
+                        done: true
+                    }); 
+                });
+            })
+        },
 		members: function (csv, cb){
 
 			// entries which have some problems
@@ -112,27 +79,27 @@ module.exports = function () {
 			// the 'complete method' gets called twice by baby-parser
 			var complete = false;
 			var count    = 0;
-			var countCb  = 0;
+			var countcb  = 0;
 			var members  = [];
 
 			/**
-			 *	NOTE: For some reason 
+			 *	note: for some reason 
 			 *	
-			 *	The same file has different new line
+			 *	the same file has different new line
 			 *	sparator.
 			 *	
 			 *
 			 *  */  var newline        = '\n'; /*
-			 *  */  var carriageReturn = '\r'; /*
+			 *  */  var carriagereturn = '\r'; /*
 			 */
 
 			parse.parse(csv, {
 				delimiter: ';',
-				newline: carriageReturn,
+				newline: carriagereturn,
 				step: function (results) {
 
 					/**
-					 *  Count is 0 on the header row. We do not want to
+					 *  count is 0 on the header row. we do not want to
 					 *  upload the header row so we skip it with this.
 					 */
 					if (count === 0) {
@@ -140,7 +107,7 @@ module.exports = function () {
 					} else {
 
 						var member      = that._stamp(count, results.data[0], that._blue("member"));
-						member.due_date = new Date("01/01");
+						member.due_date = new date("01/01");
 						member.notes =  "";
 						members.push(member);
 						count += 1;
@@ -155,19 +122,19 @@ module.exports = function () {
 
 						lazy(members).each(function (member) {
 
-							Members
+							members
 							.create(member)
 							.exec(function (err, item) {
 
 								if (err) {
-									// sails.log.error("Entries which caused the error: ", member);
+									// sails.log.error("entries which caused the error: ", member);
 									entries_with_problems.push({member: member, error: err});
 									// throw err;
 								} else {
-									// sails.log.info("UPLOADED: ", item);
+									// sails.log.info("uploaded: ", item);
 								}
-								countCb += 1;
-								if (countCb === members.length) {
+								countcb += 1;
+								if (countcb === members.length) {
 									return cb(null, {
 										done:true,
 										problems: entries_with_problems, 
@@ -181,44 +148,44 @@ module.exports = function () {
 			});
 		},
 		/**
-		 *	Given a {stamp_object} and a {data_object} with the same
+		 *	given a {stamp_object} and a {data_object} with the same
 		 *	number of properties, returns a new object with the
 		 *	values of the {data_object} and the keys of {stamp_object}
 		 *	
-		 *	@param  {Number} - 
-		 *	@param  {Object} -
-		 *	@param  {Object} -
-		 *	@return {Object} - 'stampedObject'
+		 *	@param  {number} - 
+		 *	@param  {object} -
+		 *	@param  {object} -
+		 *	@return {object} - 'stampedobject'
 		 */
-		_stamp: function (count, data, stampPattern){
+		_stamp: function (count, data, stamppattern){
 
-			var stampedObj = {};
-			var stampKeys  = Object.keys(stampPattern);
+			var stampedobj = {};
+			var stampkeys  = object.keys(stamppattern);
 
-			if (count === 0 && (data.length !== stampKeys.length)) {
+			if (count === 0 && (data.length !== stampkeys.length)) {
 				// console.log(data.length);
-				// console.log("Header: ", data);
-				// console.log(stampKeys.length);
-				sails.log.error("Data: ", data);
-				throw new Error({message: "Blueprint does not match with file csv columns"});
+				// console.log("header: ", data);
+				// console.log(stampkeys.length);
+				sails.log.error("data: ", data);
+				throw new error({message: "blueprint does not match with file csv columns"});
 			}
 
-			stampKeys.forEach(function (keyStamp, index){
+			stampkeys.foreach(function (keystamp, index){
 
-				if (!is.ok(stampPattern[stampKeys[index]].remove)) {
+				if (!is.ok(stamppattern[stampkeys[index]].remove)) {
 
-					if(keyStamp === "membership_type") {
+					if(keystamp === "membership_type") {
 
-						data[index] = that._membershipTypeMap(data[index]);
+						data[index] = that._membershiptypemap(data[index]);
 					}
 
-					// sails.log.info("DEBUG:", keyStamp, data[index]);
+					// sails.log.info("debug:", keystamp, data[index]);
 
-					stampedObj[keyStamp] = that._transform(data[index], stampPattern[keyStamp].type);
+					stampedobj[keystamp] = that._transform(data[index], stamppattern[keystamp].type);
 				}
 			});
 
-			return stampedObj;
+			return stampedobj;
 		},
 		/**
 		 *	
@@ -241,24 +208,24 @@ module.exports = function () {
 				return value;
 			} else if (type === "number"){
 
-				return parseInt(value);
+				return parseint(value);
 			} else if (type === "date"){
 
-				return that._dateConvert(value);
+				return that._dateconvert(value);
 			} else if (type === "boolean"){
 
-				return value === "VERO" ? true : false;
+				return value === "vero" ? true : false;
 			} else if (type === "custom"){
 
-				return value === "FALSO" ? "activated" : "deactivated";
+				return value === "falso" ? "activated" : "deactivated";
 			} else {
 
 				return null;
 			}
 		},
-		_dateConvert: function (str) {
-			function isValidDate(d) {
-				if ( Object.prototype.toString.call(d) !== "[object Date]" )
+		_dateconvert: function (str) {
+			function isvaliddate(d) {
+				if ( object.prototype.tostring.call(d) !== "[object date]" )
 					return false;
 				return !isNaN(d.getTime());
 			}

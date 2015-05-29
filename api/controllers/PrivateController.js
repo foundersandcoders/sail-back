@@ -38,9 +38,7 @@ module.exports = {
 		 *
 		 *	The original line was: '6095;Mr & Mrs;J H;Adams;'
 		 */
-		var csv = Object.keys(req.body).join('&');
-        console.log("csv", csv);
-        console.log("body", req.body);
+		var csv = req.body;
 
 		if (req.query.type === 'members') {
 

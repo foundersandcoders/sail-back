@@ -29,7 +29,6 @@ function payments () {
         };
         
         this.push(payment);        
-        console.log(payment);
         return next();
     }
   
