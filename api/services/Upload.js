@@ -72,80 +72,30 @@ module.exports = function () {
                 });
             })
         },
-		members: function (csv, cb){
-
-			// entries which have some problems
-			var entries_with_problems = [];
-			// the 'complete method' gets called twice by baby-parser
-			var complete = false;
-			var count    = 0;
-			var countcb  = 0;
-			var members  = [];
-
-			/**
-			 *	note: for some reason 
-			 *	
-			 *	the same file has different new line
-			 *	sparator.
-			 *	
-			 *
-			 *  */  var newline        = '\n'; /*
-			 *  */  var carriagereturn = '\r'; /*
-			 */
-
-			parse.parse(csv, {
-				delimiter: ';',
-				newline: carriagereturn,
-				step: function (results) {
-
-					/**
-					 *  count is 0 on the header row. we do not want to
-					 *  upload the header row so we skip it with this.
-					 */
-					if (count === 0) {
-						count +=1
-					} else {
-
-						var member      = that._stamp(count, results.data[0], that._blue("member"));
-						member.due_date = new date("01/01");
-						member.notes =  "";
-						members.push(member);
-						count += 1;
-					}
-				},
-				complete: function () {
-
-					console.log(members.length);
-					if (!complete) {
-
-						complete = true;
-
-						lazy(members).each(function (member) {
-
-							members
-							.create(member)
-							.exec(function (err, item) {
-
-								if (err) {
-									// sails.log.error("entries which caused the error: ", member);
-									entries_with_problems.push({member: member, error: err});
-									// throw err;
-								} else {
-									// sails.log.info("uploaded: ", item);
-								}
-								countcb += 1;
-								if (countcb === members.length) {
-									return cb(null, {
-										done:true,
-										problems: entries_with_problems, 
-										problems_count: entries_with_problems.length
-									});
-								}
-							});
-						});
-					}
-				}
-			});
+		members: function (members, cb){
+        
+            console.log(members);        
+            var count = 0;
+            var problems = [];
+            var transactions = [];
+            members.forEach(function (member) {
+            
+                member.due_date = new Date("01/01");
+                member.notes = "";
+                
+                Members
+                .create(member)
+                .exec(function (err, items) {
+              
+                    count += 1;
+                    if (err) problems.push({member: member, error: err});
+                    else if (count === members.length) return cb(null, {
+                        problems: problems,
+                        problem_count: problems.length,
+                        done: true
+                    });
+                });
+            }); 
 		},
 		/**
 		 *	given a {stamp_object} and a {data_object} with the same

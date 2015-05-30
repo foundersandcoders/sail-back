@@ -45,7 +45,7 @@ module.exports = {
 			Upload.members(csv, function (err, result) {
 
 				sails.log.info("Result Upload: ", result);
-				res.send(result);
+				return res.send(result);
 			});
 		} else if (req.query.type === 'payments') {
 
