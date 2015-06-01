@@ -1,8 +1,7 @@
 var Is = require('torf');
-var upload = require("../services/upload.js")();
+var Upload = require("../services/Upload.js")();
 
 module.exports = {
-
 	showAdmin: function (req, res) {
 
 		res.view("pages/admin");
@@ -21,7 +20,12 @@ module.exports = {
 			}
 		});
 	},
-	upload: function (req, res) {
+	showMaintenance: function (req, res) {
+
+		res.view('pages/maintenance');
+	},
+	Upload: function (req, res) {
+   
 
 		/** 
 		 *	The sign '&' (ampersand) splits the
@@ -37,24 +41,21 @@ module.exports = {
 		 *
 		 *	The original line was: '6095;Mr & Mrs;J H;Adams;'
 		 */
-		console.log(req.body);
-		var csv = Object.keys(req.body).join('&');
-		//console.log("CSV", csv);
+		var csv = req.body;
 
 		if (req.query.type === 'members') {
 
-			upload.members(csv, function (err, result) {
+			Upload.members(csv, function (err, result) {
 
-
-				// sails.log.info("Result upload: ", result);
-				res.send(result);
+				sails.log.info("Result Upload: ", result);
+				return res.send(result);
 			});
 		} else if (req.query.type === 'payments') {
 
-			upload.payments(csv, function (err, result) {
+			Upload.payments(csv, function (err, result) {
 
-				// sails.log.info("Result upload: ", result);
-				res.send(result);
+				sails.log.info("Result Upload: ", result);
+				return res.send(result);
 			});
 		}
 	}

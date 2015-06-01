@@ -67,10 +67,10 @@ exports.payments = function () {
 			category: 'subscription',
 			type: module.exports.paymentTypes()[0].code, // join table
 			description: 'Some description',
-			amount: -50.5,
+			amount: 50.5,
 			reference: module.exports.references()[0].code, // join table
 			notes: 'This is a note',
-			date: new Date()
+			date: new Date("2011")
 		},{
 			member: module.exports.admins()[0].id, // bes
 			category: 'donation',
@@ -79,16 +79,16 @@ exports.payments = function () {
 			amount: 20,
 			reference: module.exports.references()[0].code, // join table
 			notes: 'This is a nice donation',
-			date: new Date()
+			date: new Date("2012")
 		},{
 			member: module.exports.admins()[0].id, // bes
 			category: 'payment',
 			type: module.exports.paymentTypes()[0].code, // join table
 			description: 'Some description',
-			amount: 30,
+			amount: 30.5,
 			reference: module.exports.references()[0].code, // join table
 			notes: 'This is a nice payment',
-			date: new Date()
+			date: new Date("2013")
 		}
 	];
 

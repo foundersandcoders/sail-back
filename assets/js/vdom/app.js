@@ -17,17 +17,20 @@
 		h:             require("virtual-dom/h"),
 		$$:            require("./services/jQuery.like.js"),
 		createOpts:    require("./services/request").createOpts,
+		parseCsv:      require("./services/parsecsv.js").parse,
 		replaceNice:   require("./helpers").replaceNice,
 		lastSub:       require("./helpers").lastSub,
 		vDomHelpers:   require("./services/vDom"),
-		mocks:         require("./services/mockData.js")
+		mocks:         require("./services/mockData.js"),
+		orderPayments: require("./helpers").orderPayments,
+		balanceDue:    require("./helpers").balanceDue,
 	};
 
 	try{
 		// require("./pages/adminhome.js")(utils);
 		// require("./pages/member.page.js")(utils);
-		// require("./components/uploadcsv/index.js")(utils);
-		require("./pages/signup.js")(utils);
+		require("./pages/maintenance.js")(utils);
+		// require("./pages/signup.js")(utils);
 	} catch (e){
 		console.log("Index: ", e)
 	}

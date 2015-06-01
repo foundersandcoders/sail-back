@@ -23,6 +23,7 @@ function index (utils, state) {
 
 			var member = JSON.parse(b);
 			state.member.set(member);
+			state.payments.set(utils.balanceDue(member.payments));
 		});
 	};
 
@@ -61,7 +62,7 @@ function view (data, toggleFn, utils) {
 				check("Status: ", member.status),
 				[(
 					(member.status !== "deleted")
-					? undefined 
+					? undefined
 					: h("span", [
 						check("Deletion date:", utils.moment(member.deletionDate).format("DD-MM-YY")),
 						check("Deletion reason: ", member.deletion_reason)
@@ -140,11 +141,14 @@ function view (data, toggleFn, utils) {
 		return this.toLowerCase().replace(" ", "-").replace(":", "");
 	}
 
-	function replaceNice (string) {
+	function replaceNice (membershipType) {
 
-		return string.replace("-", " ").split(" ").map(function (elm){
-			return elm.charAt(0).toUpperCase() + elm.slice(1);
-		}).join(" ");
+		if (!utils.is.ok(membershipType)) {
+			return "";
+		} else {
+			return membershipType.description;
+		}
+
 	}
 
 	function fullName () {

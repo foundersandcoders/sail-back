@@ -158,10 +158,10 @@ module.exports.view = function (data, selected, selectFn, refreshFn, deleteFn, u
 					h("p#member-payment-description", elm.description)
 				]),
 				h("div.col-3", [
-					h("p#member-payment-charges", (elm.collection === "charges") ? elm.total.toString() : "")
+					h("p#member-payment-charges", (elm.category !== "payment") ? elm.amount.toString() : "")
 				]),
 				h("div.col-3", [
-					h("p#member-payment-payments", (elm.collection === "payments") ? elm.total.toString() : "")
+					h("p#member-payment-payments", (elm.category === "payment") ? elm.amount.toString() : "")
 				]),
 				h("div.col-4", [
 					h("p#member-payment-balance-due", elm.balanceDue)

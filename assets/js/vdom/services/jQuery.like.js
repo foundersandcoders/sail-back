@@ -53,5 +53,14 @@ module.exports = function (query) {
 		return a;
 	};
 
+	that.append = function (node) {
+
+		try {
+			that.elm.appendChild(node);
+		} catch (e) {
+			console.log("Error: ", e, query);
+		}
+	}
+
 	return that;
 };
