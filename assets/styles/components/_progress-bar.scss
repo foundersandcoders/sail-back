@@ -1,0 +1,35 @@
+.progress-bar {
+	display: flex;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	-webkit-flex-flow: row wrap;
+	justify-content: space-around;
+	align-items: center;
+
+	width: 100%;
+	margin-bottom: 50px;
+	margin-top: 30px;
+	.progress {
+		background-color: #eee;
+		height: 20px;
+		width: 20px;
+		border-radius: 100%;
+		cursor: pointer;
+		&.active {
+			background-color: #9b9;
+		}
+
+		&.current {
+			height: 40px;
+			width: 40px;
+		}
+	}
+}
+
+@media (max-width: $mobile) {
+	.progress-bar {
+		width: 100%;
+	}
+}

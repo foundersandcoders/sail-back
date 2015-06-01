@@ -1,0 +1,35 @@
+footer {
+	margin-top: 80px;
+	height: 50px;
+	width: 100%;
+	bottom: 0;
+	border-top: 1px solid #eee;
+	overflow: hidden;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+footer {
+	ul {
+		list-style: none;
+	}
+	li {
+		padding-right: 20px;
+		float: left;
+		line-height: 50px;
+		a {
+			text-decoration: none;
+			color: #333;
+		}
+	}
+	.rights {
+		float: right;
+		line-height: 50px;
+	}
+	p {
+		a {
+			text-decoration: none;
+			color: #333;	
+		}
+	}
+}

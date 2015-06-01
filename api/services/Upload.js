@@ -1,11 +1,8 @@
 "use strict";
 
-
-var parse        = require("babyparse");
 var is           = require("torf");
 var moment       = require("moment");
 var lazy         = require("lazy.js");
-
 
 module.exports = function () {
 
@@ -218,7 +215,7 @@ module.exports = function () {
 					amount:         {remove:false, type: "number"},
 					difference:     {remove:true,  type: "number"},
 					type_code:      {remove:false, type: "string"},
-					reference: 	{remove:false, type: "string"},
+					reference: 	    {remove:false, type: "string"},
 					notes:          {remove:false, type: "string"},
 					deleted:        {remove:false, type: "boolean"}
 				};

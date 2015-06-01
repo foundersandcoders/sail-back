@@ -9,6 +9,7 @@
     "babyparse": "^0.4.3",
     "bcryptjs": "^2.1.0",
     "connect-redis": "^2.3.0",
+    "csv-parse": "^0.1.2",
     "csv-parser": "^1.6.0",
     "d-bap": "^1.0.0",
     "ejs": "~0.8.4",
@@ -26,6 +27,7 @@
     "grunt-sync": "~0.0.4",
     "include-all": "~0.1.3",
     "lazy.js": "^0.4.0",
+    "lodash": "^3.9.3",
     "moment": "^2.10.3",
     "observ": "^0.2.0",
     "observ-array": "^3.2.1",
@@ -42,13 +44,17 @@
     "swig": "^1.4.2",
     "torf": "^1.0.7",
     "upload-element": "^1.0.1",
+    "uuid": "^2.0.1",
     "virtual-dom": "^2.0.1",
     "xhr": "^2.0.1"
   },
   "scripts": {
     "start": "sails lift",
     "debug": "node debug app.js",
-    "utest": "tape test/upload/*.spec.js"
+    "utest": "tape test/upload/*.spec.js",
+    "start": "NODE_ENV=development sails lift --verbose",
+    "debug": "NODE_ENV=development node-debug app.js",
+    "end": "protractor test/end2end/config.js"
   },
   "main": "app.js",
   "repository": {
@@ -62,6 +68,7 @@
     "givit": "0.0.2",
     "grunt-browserify": "^3.8.0",
     "grunt-sass": "^0.18.1",
+    "protractor": "^2.1.0",
     "hyperquest": "^1.2.0",
     "tape": "^4.0.0",
     "through2": "^0.6.5"

@@ -7,15 +7,8 @@
     </head>
     <body>
         <div id="wrap">
-            <div id="main">
-                <!-- Navbar here -->
-                {% block navbar %}
-                    {% include "../includes/_navbar.swig" %}
-                {% endblock %}
-                <!-- Page content -->
-                {% block content %}
-                {% endblock %}
-            </div>
+            {% block content %}
+            {% endblock %}
         </div>
 
         {% block footer %}

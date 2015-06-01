@@ -2,20 +2,9 @@ var Is       = require('torf');
 var passport = require('passport');
 
 module.exports = {
-	ServiceSignUp: function (req, res) {
-
-		
-	},
 	ServiceSignIn: function (req, res) {
 
-		console.log("ServiceSignIn");
-
 		passport.authenticate('local', function (err, member, info) {
-
-
-			console.log("after passport");
-
-
 			// var pathContinue = module.exports._getContinue(req.url);
 			if((err) || (!member)) {
 				if(err) {
