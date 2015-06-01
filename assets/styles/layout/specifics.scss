@@ -29,12 +29,23 @@
 	padding-left: 15px;
 }
 
+.inner-section-divider-small {	
+	margin-bottom: 25px;
+}
+
+.inner-section-divider-medium {	
+	margin-bottom: 45px;
+}
+
 @media(max-width: $mobile){
 	.main-container {
 		margin-top: 20px;
 	}
 	.inner-section-divider-small {
-		margin-bottom: 10px;
+		margin-bottom: 15px;
+	}
+	.inner-section-divider-medium {
+		margin-bottom: 35px;
 	}
 }
 

@@ -6,7 +6,7 @@ var utils = require("../../app.js").utils;
 
 
 module.exports.navbar = function (state) {
-	
+
 	return (
 		h("div.mobile-nav", [
 			h("h1", {
@@ -54,6 +54,7 @@ module.exports.home = function (state) {
 				h("h1", "What would you like to do?")
 			]),
 			h("div.container-small", [
+				h("div.inner-section-divider-medium"),
 				h("button.btn-primary", {
 					onclick: function () {
 						return state.panel.set("one")
@@ -147,7 +148,7 @@ module.exports.one = function (state) {
 						return currentInputValues.confirm_password = this.value
 					}
 				}),
-				h("div.inner-section-divider-small"),
+				h("div.inner-section-divider-medium"),
 				h("button#button_sign_up.btn-primary", {
 					onclick: function () {
 
@@ -166,6 +167,28 @@ module.exports.one = function (state) {
 module.exports.two = function (state) {
 
 	var currentInputValues = utils.lazy({}).defaults(state.member()).toObject();
+
+	function renderPrice(member) {
+
+		if(utils.is.ok(member.membership_type)) {
+
+			var index = utils.mocks.memberTypes
+				.map(function (e){return e.value})
+				.indexOf(member.membership_type);
+
+			return (
+				h("div", [
+					h("div.inner-section-divider-small"),
+					h("h3", "Membership details"),
+					h("input", {
+						type: "text",
+						value: utils.mocks.memberTypes[index].description,
+						disabled: true
+					})
+				])
+			);
+		}
+	}
 
 	return (
 		h("div.main-container", [
@@ -188,13 +211,17 @@ module.exports.two = function (state) {
 				h("select.select-signup", {
 					onchange: function () {
 
-						return currentInputValues.membership_type = this.value;
+						currentInputValues.membership_type = this.value;
+						var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject();
+						state.member.set(memberChanges);
 					}
 				},
 					utils.vDomHelpers.renderOptionsSelected(utils.mocks.memberTypes, currentInputValues.membership_type, "Click to select one")
 				),
 
-				h("div.inner-section-divider-small"),
+				renderPrice(currentInputValues),
+
+				h("div.inner-section-divider-medium"),
 				
 				h("button.align-one.btn-primary",{
 					onclick: function () {
@@ -277,7 +304,7 @@ module.exports.three = function (state) {
 					}
 				}),
 
-				h("div.inner-section-divider-small"),
+				h("div.inner-section-divider-medium"),
 
 				h("button.align-one.btn-primary",{
 					onclick: function () {
@@ -381,7 +408,7 @@ module.exports.four = function (state) {
 					}
 				}),
 				
-				h("div.inner-section-divider-small"),
+				h("div.inner-section-divider-medium"),
 
 				h("button.align-one.btn-primary",{
 					onclick: function () {
@@ -460,7 +487,7 @@ module.exports.five = function (state) {
 					}
 				}),
 
-				h("div.inner-section-divider-small"),
+				h("div.inner-section-divider-medium"),
 
 				h("button.align-one.btn-primary",{
 					onclick: function () {
@@ -508,7 +535,7 @@ module.exports.six = function (state) {
 					},
 				}, "Print"),
 
-				h("div.inner-section-divider-small"),
+				h("div.inner-section-divider-medium"),
 
 				h("button.align-one.btn-primary",{
 					onclick: function () {
@@ -561,7 +588,7 @@ module.exports.seven = function (state) {
 					utils.vDomHelpers.renderOptionsSelected(utils.mocks.newsType, currentInputValues.news_type, "Click to select one")
 				),
 
-				h("div.inner-section-divider-small"),
+				h("div.inner-section-divider-medium"),
 
 				h("button.align-one.btn-primary",{
 					onclick: function () {
@@ -602,7 +629,7 @@ module.exports.eight = function (state) {
 			h("div.container-small", [
 				list(currentInputValues),
 
-				h("div.inner-section-divider-small"),
+				h("div.inner-section-divider-medium"),
 
 				h("button.align-one.btn-primary",{
 					onclick: function () {
@@ -618,6 +645,8 @@ module.exports.eight = function (state) {
 				h("button.align-two.btn-primary", {
 					onclick: function () {
 						var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject();
+
+						memberChanges.confirmed = true;
 
 						state.member.set(memberChanges);
 						state.panel.set("home")
@@ -647,7 +676,7 @@ module.exports.eight = function (state) {
 			{ prop: "membership_type", desc: "Membership type" },
 			{ prop: "news_type",       desc: "News type" }
 		];
-		
+
 		return propertiesMapper.map(function (elm) {
 			return (
 				h("div.details-list", [
@@ -658,20 +687,5 @@ module.exports.eight = function (state) {
 				])
 			)
 		});
-
-		// return (
-		// 	Object
-		// 	.keys(member)
-		// 	.map(function (key) {
-		// 		return (
-		// 			h("div.details-list", [
-		// 				h("div.block", [
-		// 					h("p.left", key),
-		// 					h("p.right", member[key])
-		// 				])
-		// 			])
-		// 		)
-		// 	});
-		// )
 	}
 };

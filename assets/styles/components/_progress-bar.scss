@@ -1,26 +1,35 @@
 .progress-bar {
-    margin: auto;
-    width: 100%;
-    margin-bottom: 50px;
+	display: flex;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	-webkit-flex-flow: row wrap;
+	justify-content: space-around;
+	align-items: center;
+
+	width: 100%;
+	margin-bottom: 50px;
 	margin-top: 30px;
 	.progress {
 		background-color: #eee;
-		width: 20px;
 		height: 20px;
-		display: inline-block;
+		width: 20px;
 		border-radius: 100%;
-		margin: 0 15px;
 		cursor: pointer;
 		&.active {
 			background-color: #9b9;
 		}
 
 		&.current {
-			width: 35px;
-			height: 35px;
-			margin: 0px 10px;
-			position: relative;
-			bottom: -7px;
+			height: 40px;
+			width: 40px;
 		}
+	}
+}
+
+@media (max-width: $mobile) {
+	.progress-bar {
+		width: 100%;
 	}
 }

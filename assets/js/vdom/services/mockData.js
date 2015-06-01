@@ -1,24 +1,24 @@
 var memberTypes = module.exports.memberTypes = [{
 		value: "annual-single",
-		description: "Annual Single"
+		description: "Annual single £10 pa"
 	}, {
 		value: "annual-double",
-		description: "Annual Double"
+		description: "Annual double £15 pa"
 	},{
 		value: "annual-family",
-		description: "Annual Family"
+		description: "Annual family £20 pa"
 	},{
 		value: "life-single",
-		description: "Life Single"
+		description: "Life single £175"
 	},{
 		value: "life-double",
-		description: "Life Double"
+		description: "Life double"
 	},{
 		value: "group-annual",
-		description: "Group Annual"
+		description: "Group"
 	},{
 		value: "corporate-annual",
-		description: "Corporate Annual"
+		description: "Corporate"
 	}
 ];
 
