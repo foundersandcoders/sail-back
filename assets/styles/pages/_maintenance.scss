@@ -1,0 +1,52 @@
+div.results-container {
+    
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding: 2em 2em 0em;
+  
+    .table-title {
+        margin: auto; 
+    }  
+
+    .container {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        .row {
+            display: flex;
+            flex: 1;
+            flex-direction: row;
+            div {
+                flex: 1;
+                &:nth-child(1) {
+                    flex: 1; 
+                }
+                &:nth-child(2) {
+                    flex: 2; 
+                }
+                
+            }    
+        } 
+    }
+   
+    .headers {
+        flex: 2;
+        p {
+           font-size: 19px;  
+           font-weight: 200;
+        }
+    }
+    
+    .duplicate-content {
+        flex: 1;
+        max-height: 25%;
+        overflow-y: scroll;
+        .row {
+            p {
+               font-size: 15px;
+            }
+        }
+    }
+    
+}
