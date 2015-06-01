@@ -1,0 +1,46 @@
+.section-label {
+	margin: auto;
+	text-align: left;
+	border-bottom: 1px solid #eee;
+}
+
+.input-label-container {
+	margin-bottom: 8px;
+	margin-left: 2px;
+}
+
+.details-list {
+	margin-bottom: 12px;
+	padding-bottom: 12px;
+	margin-left: 2px;
+	border-bottom: 1px solid #eee;
+}
+
+.select-signup {
+	width: 100%;
+	height: 60px;
+	font-size: $p-font-size-desktop;
+}
+
+.align-one {
+	float: left;
+	width: 45%;
+}
+
+.align-two {
+	float: left;
+	width: 45%;
+	margin-left: 10%;
+}
+
+.block {
+	overflow: auto;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}

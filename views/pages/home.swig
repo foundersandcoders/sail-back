@@ -7,6 +7,7 @@
 
 		<div style="maring:auto;text-align:center;"
 			class="section-label"
+			onclick="function () {console.log('hello')}"
 		>
 			<h1>Friends of Chichester Harbour</h1>
 		</div>

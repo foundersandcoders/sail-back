@@ -2,7 +2,6 @@ var Is = require('torf');
 var Upload = require("../services/Upload.js")();
 
 module.exports = {
-
 	showAdmin: function (req, res) {
 
 		res.view("pages/admin");
@@ -20,6 +19,10 @@ module.exports = {
 				return res.view('pages/member', {member: item});
 			}
 		});
+	},
+	showMaintenance: function (req, res) {
+
+		res.view('pages/maintenance');
 	},
 	Upload: function (req, res) {
    

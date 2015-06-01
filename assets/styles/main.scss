@@ -1,49 +1,46 @@
+@import "variables";
 @import "base/fonts";
 @import "components/button";
 @import "components/input";
+@import "components/helpers";
+@import "components/progress-bar";
 @import "features/navbar";
 @import "layout/specifics";
+@import "layout/footer";
 @import "pages/create-member";
 @import "pages/index";
 @import "pages/search-member";
 @import "pages/upload";
+@import "pages/sign-up";
+
 
 * {
-  margin: 0px;
-  padding: 0px;
-  box-sizing: border-box;
-  font-family: 'Sorts Mill Goudy', serif
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: $font-family;
 }
 
-body{
-  font-family: "Helvetica";
-  background: #f4f4f7;
-  color: #444;
-  margin: 0;
-}
-
-h1{
-  font-size: 40px;
-  line-height: 1.2em;
-  padding: 20px 0;
-}
-
-h3{
-  font-weight: 300;
+html, body{
+	font-family: $font-family;
+	// background: #f4f4f7;
+	color: #444;
+	margin: 0;
+	height: 100%;
 }
 
 input::-webkit-input-placeholder {
-    font-family: 'Sorts Mill Goudy', serif;
+		font-family: 'Sorts Mill Goudy', serif;
 }
 
 input:-ms-input-placeholder {
-    font-family: 'Sorts Mill Goudy', serif;
+		font-family: 'Sorts Mill Goudy', serif;
 }
 
 input:-moz-placeholder {
-    font-family: 'Sorts Mill Goudy', serif;
+		font-family: 'Sorts Mill Goudy', serif;
 }
 
 input::-moz-placeholder {
-    font-family: 'Sorts Mill Goudy', serif;
+		font-family: 'Sorts Mill Goudy', serif;
 }

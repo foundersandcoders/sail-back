@@ -31,28 +31,37 @@ module.exports.routes = {
 	* `assets` directory)                                                      *
 	*                                                                          *
 	***************************************************************************/
-
-	'GET /': {
-		view: 'pages/home'
-	},
-	'GET /signup': {
-		view: 'pages/signup'
-	},
-	'GET /signin': {
-		view: 'pages/signin'
-	},
-	// 'POST /signup': {
-	// 	controller: "Public",
-	// 	action: "ServiceSignUp"
-	// },
-	'POST /signin': {
-		controller: 'Public',
-		action: 'ServiceSignIn'
-	},
-
-	// ---------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
+	// SignIn process
+	// -------------------------------------------------------------------------
+		'GET /': {
+			view: 'pages/home'
+		},
+		'GET /signin': {
+			view: 'pages/signin'
+		},
+		'POST /signin': {
+			controller: 'Public',
+			action: 'ServiceSignIn'
+		},
+	// -------------------------------------------------------------------------
+	// SignUp process
+	// -------------------------------------------------------------------------
+		'GET /signup': {
+			controller: 'SignUpProcess',
+			action: 'showForm'
+		},
+		'POST /signup': {
+			controller: 'SignUpProcess',
+			action: 'create'
+		},
+		'GET /activate' : {
+			controller: 'SignUpProcess',
+			action: 'activate'
+		},
+	// -------------------------------------------------------------------------
 	// Private
-	// ---------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 		'GET /admin': {
 			controller: 'Private',
 			action: 'showAdmin'
@@ -61,11 +70,14 @@ module.exports.routes = {
 			controller: 'Private',
 			action: 'showMember'
 		},
+		'GET /maintenance': {
+			controller: 'Private',
+			action: 'showMaintenance'
+		},
 		'POST /upload': {
 			controller: 'Private',
 			action: 'upload'
     	}
-
 	/***************************************************************************
 	*                                                                          *
 	* Custom routes here...                                                    *
