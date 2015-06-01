@@ -47,7 +47,8 @@
   },
   "scripts": {
     "start": "sails lift",
-    "debug": "node debug app.js"
+    "debug": "node debug app.js",
+    "utest": "tape test/upload/*.spec.js"
   },
   "main": "app.js",
   "repository": {

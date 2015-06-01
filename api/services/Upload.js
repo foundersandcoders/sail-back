@@ -1,14 +1,10 @@
 "use strict";
 
+
 var parse        = require("babyparse");
 var is           = require("torf");
 var moment       = require("moment");
 var lazy         = require("lazy.js");
-// var streamify    = require('pronto/streams').StringReader;
-
-// 			var stream = new streamify(csv);
-
-// 			stream.pipe
 
 
 module.exports = function () {
