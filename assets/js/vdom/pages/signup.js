@@ -31,13 +31,36 @@ module.exports = function (utils) {
 		render();
 	});
 
+	function createMember (member, callback) {
+
+		// clean up member
+
+		utils.request({
+			method: "POST",
+			uri: "/signup",
+			json: member
+		}, function (error, header, body) {
+
+			// checking the id is the best way
+			// to know if the body contains a
+			// member
+			if(body.id !== undefined) {
+
+				callback(error, body);
+			} else {
+				
+				callback(body, undefined);
+			}
+		});
+	}
+
 	// returns current virtual dom object
 	function view () {
 
 		return (
 			utils.h("div#main", [
 				panelViews.navbar(state),
-				panelViews[state.panel()](state)
+				panelViews[state.panel()](state, createMember)
 			])
 		);
 	}

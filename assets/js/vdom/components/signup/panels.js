@@ -49,18 +49,19 @@ module.exports.home = function (state) {
 
 	return (
 		h("div.main-container", [
-			h("div.inner-section-divider-small"),
-			h("div.section-label", [
-				h("h1", "What would you like to do?")
-			]),
 			h("div.container-small", [
 				h("div.inner-section-divider-medium"),
 				h("button.btn-primary", {
 					onclick: function () {
-						return state.panel.set("one")
-						// return state.panel.set("account")<
+						if (state.member().registered === 'registered') {
+
+							return state.panel.set("account");
+						} else {
+
+							return state.panel.set("one");
+						}
 					}
-				}, /* View account */"Sign up"),
+				}, (state.member().registered === 'registered' ? "View account" : "Sign up")),
 				h("div.inner-section-divider-small"),
 				h("button.btn-primary", {
 					onclick: function () {
@@ -94,6 +95,75 @@ module.exports.home = function (state) {
 			])
 		])
 	);
+};
+
+module.exports.account = function (state) {
+
+	var currentInputValues = utils.lazy({}).defaults(state.member()).toObject();
+
+	return (
+		h("div.main-container", [
+			h("div.inner-section-divider-small"),
+			h("div.section-label", [
+				h("h1", "Account info")
+			]),
+			h("div.container-small", [
+
+				h("div.inner-section-divider-medium"),
+
+				list(currentInputValues),
+
+				h("div.inner-section-divider-medium"),
+
+				h("button.align-one.btn-primary",{
+					onclick: function () {
+						state.panel.set("editAccount")
+					}
+				}, "Modify"),
+
+				h("div.inner-section-divider-small"),
+				
+				h("button.align-two.btn-primary", {
+					onclick: function () {
+						state.panel.set("home");
+					}
+				}, "Home")
+			])
+		])
+	);
+
+	function list (member) {
+
+		var propertiesMapper = [
+			{ prop: "title",           desc: "Title" },
+			{ prop: "initials",        desc: "Initials" },
+			{ prop: "first_name",      desc: "First name" },
+			{ prop: "last_name",       desc: "Last name" },
+			{ prop: "address1",        desc: "Address 1" },
+			{ prop: "address2",        desc: "Address 2" },
+			{ prop: "address3",        desc: "Address 3" },
+			{ prop: "address4",        desc: "Address 4" },
+			{ prop: "county",          desc: "County" },
+			{ prop: "postcode",        desc: "Postcode" },
+			{ prop: "home_phone",      desc: "Home phone" },
+			{ prop: "mobile_phone",    desc: "Mobile phone" },
+			{ prop: "primary_email",   desc: "Primary email" },
+			{ prop: "secondary_email", desc: "Secondary email" },
+			{ prop: "membership_type", desc: "Membership type" },
+			{ prop: "news_type",       desc: "News type" }
+		];
+
+		return propertiesMapper.map(function (elm) {
+			return (
+				h("div.details-list", [
+					h("div.block", [
+						h("p.left", elm.desc),
+						h("p.right", member[elm.prop])
+					])
+				])
+			)
+		});
+	}
 };
 
 
@@ -273,9 +343,9 @@ module.exports.three = function (state) {
 					h("input.align-two", {
 							type: "text",
 							placeholder: "Initials",
-							value: currentInputValues.intials,
+							value: currentInputValues.initials,
 							onkeyup: function () {
-							return currentInputValues.intials = this.value
+							return currentInputValues.initials = this.value
 						}
 					})
 				]),
@@ -348,7 +418,7 @@ module.exports.four = function (state) {
 					type: "text",
 					placeholder: "Address 1",
 					value: currentInputValues.address1,
-					onkeyup: function () {
+					onchange: function () {
 						return currentInputValues.address1 = this.value
 					}
 				}),
@@ -359,7 +429,7 @@ module.exports.four = function (state) {
 					type: "text",
 					placeholder: "Address 2",
 					value: currentInputValues.address2,
-					onkeyup: function () {
+					onchange: function () {
 						return currentInputValues.address2 = this.value
 					}
 				}),
@@ -370,7 +440,7 @@ module.exports.four = function (state) {
 					type: "text",
 					placeholder: "Address 3",
 					value: currentInputValues.address3,
-					onkeyup: function () {
+					onchange: function () {
 						return currentInputValues.address3 = this.value
 					}
 				}),
@@ -381,7 +451,7 @@ module.exports.four = function (state) {
 					type: "text",
 					placeholder: "Address 4",
 					value: currentInputValues.address4,
-					onkeyup: function () {
+					onchange: function () {
 						return currentInputValues.address4 = this.value
 					}
 				}),
@@ -392,7 +462,7 @@ module.exports.four = function (state) {
 					type: "text",
 					placeholder: "County",
 					value: currentInputValues.county,
-					onkeyup: function () {
+					onchange: function () {
 						return currentInputValues.county = this.value
 					}
 				}),
@@ -403,7 +473,7 @@ module.exports.four = function (state) {
 					type: "text",
 					placeholder: "Postcode",
 					value: currentInputValues.postcode,
-					onkeyup: function () {
+					onchange: function () {
 						return currentInputValues.postcode = this.value
 					}
 				}),
@@ -451,8 +521,8 @@ module.exports.five = function (state) {
 					type: "text",
 					placeholder: "Home phone number",
 					value: currentInputValues.home_phone,
-					onkeyup: function () {
-						return currentInputValues.home_phone = this.value
+					onchange: function () {
+						return currentInputValues.home_phone = this.value;
 					}
 				}),
 
@@ -462,8 +532,8 @@ module.exports.five = function (state) {
 					type: "text",
 					placeholder: "Mobile number",
 					value: currentInputValues.mobile_phone,
-					onkeyup: function () {
-						return currentInputValues.mobile_phone = this.value
+					onchange: function () {
+						return currentInputValues.mobile_phone = this.value;
 					}
 				}),
 
@@ -482,7 +552,7 @@ module.exports.five = function (state) {
 					type: "text",
 					placeholder: "Secondary email",
 					value: currentInputValues.secondary_email,
-					onkeyup: function () {
+					onchange: function () {
 						return currentInputValues.secondary_email = this.value
 					}
 				}),
@@ -615,7 +685,7 @@ module.exports.seven = function (state) {
 };
 
 
-module.exports.eight = function (state) {
+module.exports.eight = function (state, createMember) {
 
 	var currentInputValues = utils.lazy({}).defaults(state.member()).toObject();
 
@@ -646,10 +716,16 @@ module.exports.eight = function (state) {
 					onclick: function () {
 						var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject();
 
-						memberChanges.confirmed = true;
+						createMember(memberChanges, function (err, member) {
 
-						state.member.set(memberChanges);
-						state.panel.set("home")
+							if(err) {
+
+								return state.panel.set("sorryError");
+							}
+
+							state.member.set(member);
+							state.panel.set("checkEmail");
+						});
 					}
 				},"Confirm")
 			])
@@ -688,4 +764,54 @@ module.exports.eight = function (state) {
 			)
 		});
 	}
+};
+
+module.exports.checkEmail = function (state) {
+
+	return (
+		h("div.main-container", [
+			h("div.inner-section-divider-small"),
+			h("div.section-label", [
+				h("h1", "Welcome!")
+			]),
+			h("div.container-small", [
+				h("div.inner-section-divider-medium"),
+				h("div.input-label-container", [
+					h("h3", "We have just send you and email to validate your information.")
+				]),
+				h("div.inner-section-divider-medium"),
+				h("button#button_sign_up.btn-primary", {
+					onclick: function () {
+
+						state.panel.set("home");
+					}
+				}, "Continue")
+			])
+		])
+	);
+};
+
+module.exports.sorryError = function (state) {
+
+	return (
+		h("div.main-container", [
+			h("div.inner-section-divider-small"),
+			h("div.section-label", [
+				h("h1", "Sorry!")
+			]),
+			h("div.container-small", [
+				h("div.inner-section-divider-medium"),
+				h("div.input-label-container", [
+					h("h3", "Apparently there was a problem! Wil is working on that!")
+				]),
+				h("div.inner-section-divider-medium"),
+				h("button#button_sign_up.btn-primary", {
+					onclick: function () {
+
+						state.panel.set("home");
+					}
+				}, "Continue")
+			])
+		])
+	);
 };

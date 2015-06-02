@@ -22,21 +22,11 @@ module.exports = {
 	 */
 	create: function (req, res) {
 
-		if(!is.ok(req.param('email')) || !is.ok(req.param('password'))) {
-			req.flash('status', 'Please enter a valid email and password.');
-			return res.redirect('/signup');
-		}
+		var newMember        = req.body;
+		newMember.registered = 'registered';
+		newMember.id            = uuid.v4();
 
-		var newMember = {
-			primary_email: req.param('email'),
-			password: req.param('password'),
-			id: uuid.v4()
-		};
-
-		var query     = [
-			{primary_email:   req.param('email')}, 
-			{secondary_email: req.param('email')}
-		];
+		var query = {primary_email: req.body['primary_email']};
 
 		Members
 		.findOne(query)
@@ -52,36 +42,23 @@ module.exports = {
 		})
 		.then(function (activationCodeCreated) {
 
-			var data = {code: activationCodeCreated.code, email: req.param('email')};
+			var data = {code: activationCodeCreated.code, email: req.body['primary_email']};
 			utils.email.sendSubscribe(data, function (error, result) {
 
 				if(is.ok(error)) {
-					// do something
-				} else {
-					if(process.env.NODE_ENV === 'testing' || process.env.NODE_ENV === 'development') {
-
-						res.view(
-							'pages/check_email', 
-							{ data: data, show: true }
-						);
-					} else {
-
-						res.view(
-							'pages/check_email',
-							{ data: data, show: false }
-						);
-					}
+					// handle error
+					throw new Error('Was not able to send email!');
+					return;
 				}
+
+				Members.findOne(query).exec(function (err, member) {
+					res.send(member);
+				});
 			});
 		})
 		.catch(function (error) {
 
-			if (error.message === 'Email has already an account. Sign in.') {
-				req.flash('status', error.message);
-				res.redirect('/signup');
-			} else {
-				res.badRequest('An error occured during checking if email already existed.', 'errors/_400');
-			}
+			res.send(error.message);
 		});
 	},
 	activate: function (req, res) {

@@ -29,8 +29,8 @@
 	try{
 		// require("./pages/adminhome.js")(utils);
 		// require("./pages/member.page.js")(utils);
-		require("./pages/maintenance.js")(utils);
-		// require("./pages/signup.js")(utils);
+		// require("./pages/maintenance.js")(utils);
+		require("./pages/signup.js")(utils);
 	} catch (e){
 		console.log("Index: ", e)
 	}
