@@ -69,3 +69,22 @@ var paymentTypes = module.exports.paymentTypes = [
 	{value:"CAFR",  description: "CAFR"},
 	{value:"HO",    description: "HO"}
 ];
+
+var memberPropsMapper = module.exports.memberPropsMapper = [
+	{ prop: "title",           desc: "Title" },
+	{ prop: "initials",        desc: "Initials" },
+	{ prop: "first_name",      desc: "First name" },
+	{ prop: "last_name",       desc: "Last name" },
+	{ prop: "address1",        desc: "Address 1" },
+	{ prop: "address2",        desc: "Address 2" },
+	{ prop: "address3",        desc: "Address 3" },
+	{ prop: "address4",        desc: "Address 4" },
+	{ prop: "county",          desc: "County" },
+	{ prop: "postcode",        desc: "Postcode" },
+	{ prop: "home_phone",      desc: "Home phone" },
+	{ prop: "mobile_phone",    desc: "Mobile phone" },
+	{ prop: "primary_email",   desc: "Primary email" },
+	{ prop: "secondary_email", desc: "Secondary email" },
+	{ prop: "membership_type", desc: "Membership type", select: true, options: module.exports.memberTypes },
+	{ prop: "news_type",       desc: "News type",       select: true, options: module.exports.newsType    }
+];

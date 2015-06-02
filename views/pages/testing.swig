@@ -247,14 +247,36 @@
 
 			<div class="inner-section-divider-medium"></div>
 
-			<div class="block">
+			<div class="input-label-container">
+				<h3>Subscription</h3>
+			</div>
 
+				<div class="input-label-container">
+				<h4>Your annual subscription is due on 12-12-2012 pay it now ? </h4>
+			</div>
+			<div class="block">
+				<button 
+					id="button_sign_up"
+					class="btn-primary align-one"
+				>Yes please</button>
+
+				<button 
+					id="button_sign_up"
+					class="btn-primary align-two"
+				>No thanks</button>
+			</div>
+
+			<div class="inner-section-divider-medium"></div>
+
+			<div class="input-label-container">
+				<h3>Donation</h3>
+			</div>
+			<div class="block">
 				<input 
 					class="align-one"
 					type="text"
 					placeholder="Amount"
 				>
-
 				<button 
 					id="button_sign_up"
 					class="btn-primary align-two"
@@ -305,6 +327,130 @@
 				id="button_sign_up"
 				class="btn-primary"
 			>Cheque</button>
+		</div>
+
+
+<br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br>
+
+
+	<div class="main-container">
+
+		<div class="inner-section-divider-small"></div>
+
+		<div class="section-label">
+
+			<h1>Login</h1>
+		</div>
+
+		<div class="container-small">
+
+
+			<div class="inner-section-divider-medium"></div>
+
+
+			<div class="input-label-container">
+				<h3>Membership number</h3>
+			</div>
+			<input type="text", placeholder="Membership number">
+
+
+			<div class="inner-section-divider-small"></div>
+
+
+			<div class="input-label-container">
+				<h3>... or email</h3>
+			</div>
+			<input type="text", placeholder="Email">
+
+
+			<div class="inner-section-divider-small"></div>
+
+
+			<div class="input-label-container">
+				<h3>Password</h3>
+			</div>
+			<input type="password", placeholder="Password">
+
+
+			<div class="inner-section-divider-medium"></div>
+
+
+			<div class="input-label-container">
+				<a href="#">Forgot password</a>
+				<h4>If you are an existing member who is logging in for the first time please click "Forgot Password" and we’ll email you a temporary one.</h4>
+			</div>
+
+
+			<div class="inner-section-divider-medium"></div>
+
+
+			<button 
+				id="button_sign_up"
+				class="btn-primary"
+			>Login</button>
+		</div>
+
+
+<br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br>
+
+	
+	<div class="main-container">
+
+		<div class="inner-section-divider-small"></div>
+
+		<div class="section-label">
+
+			<h1>Login</h1>
+		</div>
+
+		<div class="container-small">
+
+
+			<div class="inner-section-divider-medium"></div>
+
+
+			<div class="input-label-container">
+				<h3>Membership number</h3>
+			</div>
+			<input type="text", placeholder="Membership number">
+
+
+			<div class="inner-section-divider-small"></div>
+
+
+			<div class="input-label-container">
+				<h3>... or email</h3>
+			</div>
+			<input type="text", placeholder="Email">
+
+
+			<div class="inner-section-divider-small"></div>
+
+
+			<div class="input-label-container">
+				<h3>Password</h3>
+			</div>
+			<input type="password", placeholder="Password">
+
+
+			<div class="inner-section-divider-medium"></div>
+
+
+			<div class="input-label-container">
+				<a href="#">Forgot password</a>
+				<h4>If you are an existing member who is logging in for the first time please click "Forgot Password" and we’ll email you a temporary one.</h4>
+			</div>
+
+
+			<div class="inner-section-divider-medium"></div>
+
+
+			<button 
+				id="button_sign_up"
+				class="btn-primary"
+			>Login</button>
 		</div>
 {% endblock %}
 

@@ -134,24 +134,7 @@ module.exports.account = function (state) {
 
 	function list (member) {
 
-		var propertiesMapper = [
-			{ prop: "title",           desc: "Title" },
-			{ prop: "initials",        desc: "Initials" },
-			{ prop: "first_name",      desc: "First name" },
-			{ prop: "last_name",       desc: "Last name" },
-			{ prop: "address1",        desc: "Address 1" },
-			{ prop: "address2",        desc: "Address 2" },
-			{ prop: "address3",        desc: "Address 3" },
-			{ prop: "address4",        desc: "Address 4" },
-			{ prop: "county",          desc: "County" },
-			{ prop: "postcode",        desc: "Postcode" },
-			{ prop: "home_phone",      desc: "Home phone" },
-			{ prop: "mobile_phone",    desc: "Mobile phone" },
-			{ prop: "primary_email",   desc: "Primary email" },
-			{ prop: "secondary_email", desc: "Secondary email" },
-			{ prop: "membership_type", desc: "Membership type" },
-			{ prop: "news_type",       desc: "News type" }
-		];
+		var propertiesMapper = utils.mocks.memberPropsMapper;
 
 		return propertiesMapper.map(function (elm) {
 			return (
@@ -734,35 +717,106 @@ module.exports.eight = function (state, createMember) {
 
 	function list (member) {
 
-		var propertiesMapper = [
-			{ prop: "title",           desc: "Title" },
-			{ prop: "initials",        desc: "Initials" },
-			{ prop: "first_name",      desc: "First name" },
-			{ prop: "last_name",       desc: "Last name" },
-			{ prop: "address1",        desc: "Address 1" },
-			{ prop: "address2",        desc: "Address 2" },
-			{ prop: "address3",        desc: "Address 3" },
-			{ prop: "address4",        desc: "Address 4" },
-			{ prop: "county",          desc: "County" },
-			{ prop: "postcode",        desc: "Postcode" },
-			{ prop: "home_phone",      desc: "Home phone" },
-			{ prop: "mobile_phone",    desc: "Mobile phone" },
-			{ prop: "primary_email",   desc: "Primary email" },
-			{ prop: "secondary_email", desc: "Secondary email" },
-			{ prop: "membership_type", desc: "Membership type" },
-			{ prop: "news_type",       desc: "News type" }
-		];
+		var propertiesMapper = utils.mocks.memberPropsMapper;
 
 		return propertiesMapper.map(function (elm) {
 			return (
 				h("div.details-list", [
 					h("div.block", [
-						h("p.left", elm.desc),
+						h("p.left.meta", elm.desc),
 						h("p.right", member[elm.prop])
 					])
 				])
 			)
 		});
+	}
+};
+
+module.exports.editAccount = function (state) {
+
+	var currentInputValues = utils.lazy({}).defaults(state.member()).toObject();
+
+	return (
+		h("div.main-container", [
+			h("div.inner-section-divider-small"),
+			h("div.section-label", [
+				h("h1", "Member information")
+			]),
+			h("div.container-small", [
+
+				h("div.inner-section-divider-medium"),
+
+				listInputs(currentInputValues),
+
+				h("div.inner-section-divider-medium"),
+				
+				h("button.align-one.btn-primary",{
+					onclick: function () {
+						
+						state.panel.set("account")
+					}
+				},"Back"),
+
+				h("div.inner-section-divider-small"),
+				
+				h("button.align-two.btn-primary", {
+					onclick: function () {
+						var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject();
+
+						state.member.set(memberChanges);
+						state.panel.set("account");
+					}
+				},"Save")
+			])
+		])
+	);
+
+	function listInputs (member) {
+
+		var propertiesMapper = utils.mocks.memberPropsMapper;
+
+		return propertiesMapper.map(function (elm) {
+			return (
+				h("div.details-list.no-border", [
+					h("div.block", [
+						h("p.left.meta", elm.desc),
+						(
+							elm.select === true 
+							? renderSelect(elm.options, member[elm.prop], "Click to select one", elm, member) 
+							: renderInput(elm, member)
+						)
+					])
+				])
+			)
+		});
+	}
+
+	function renderInput (elmType, memberObj) {
+
+		return (
+			h("input", {
+				type: "text",
+				placeholder: elmType.desc,
+				value: memberObj[elmType.prop],
+				onchange: function () {
+					return memberObj[elmType.prop] = this.value;
+				}
+			})
+		);
+	}
+
+	function renderSelect (options, selectedOption, placeholder, elmType, memberObj) {
+
+		return (
+			h("select.select-signup", {
+				onchange: function () {
+
+					memberObj[elmType.prop] = this.value;
+				}
+			},
+				utils.vDomHelpers.renderOptionsSelected(options, selectedOption, placeholder)
+			)
+		);
 	}
 };
 
