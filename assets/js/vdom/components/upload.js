@@ -34,19 +34,25 @@ module.exports.index = function (utils, state) {
 		.pluck("primary_email")
 		.sort()
 		.filter(function (elm) {
-			if(elm) {
+		
+            if(elm) {
 				return elm;
 			}
 		})
 		.toArray();
 
-		return utils.lazy(emailsArray)
+		var dups = utils.lazy(emailsArray)
 		.reduce(function (aggregator, currentValue, index, array) {
-			if(currentValue === emailsArray[index-1]) {
+		
+            if(currentValue === emailsArray[index-1]) {
 				aggregator.push(currentValue);
 			}
 			return aggregator;
 		}, []);
+       
+        return utils.lazy(entries).filter(function (entry) {
+            return dups.indexOf(entry.primary_email) > -1;
+        }).toArray();
 	}
 
 	function receiveUploader (file) {
@@ -57,31 +63,8 @@ module.exports.index = function (utils, state) {
 
 			state.upload.duplicates.set(duplicates);
 
-
-
-
-
-			// var duplicates = emailsArray.reduce(function (aggregator, currentValue, index, array) {
-
-			// 	if(currentValue === emailsArray[index-1]) {
-			// 		aggregator.push(currentValue);
-			// 	}
-			// 	return aggregator;
-			// });
-
-			console.log(duplicates);
 		});
-
-
-		// parse
-		// upadate view
-		// wait for user to confirm
-		// send over
 	}
-
-
-
-
 
 	var uploadDone = {done: false, status: ""};
 

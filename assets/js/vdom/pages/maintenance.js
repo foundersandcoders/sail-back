@@ -13,33 +13,33 @@ module.exports = function (utils) {
 			duplicates: utils.observ([])
 		})
 	});
+	
+    var renderTools = renderObj();
 
-	var renderTools = renderObj();
+	state(function onchange () {
 
-	state(function onchange (updatedState) {
-
-		renderTools.render(updatedState);
+		renderTools.render(state);
 	});
 
 	var uploadComponent = require("../components/upload.js").index(utils, state);
+    var uploadResultsComponent = require("../components/uploadproblems.js").index(utils, state);
 
 	utils.$$("upload-component").append(renderTools.render(state));
 
 
-
-	function renderObj (state) {
+	function renderObj () {
 
 		var tree, resultsNode, initial = true;
 
 		var renderFun = function (stateObj) {
 
 			if(initial){
-				tree        = viewFun(state);
+				tree        = viewFun(stateObj);
 				resultsNode = utils.createElement(tree);
 				initial     = false;
 				return resultsNode;
 			} else {
-				var newResults = viewFun(state);
+				var newResults = viewFun(stateObj);
 				var patches    = utils.diff(tree, newResults);
 				resultsNode    = utils.patch(resultsNode, patches);
 				tree           = resultsNode;
@@ -47,9 +47,13 @@ module.exports = function (utils) {
 		}
 
 		var viewFun = function (state) {
+            console.log(state);
 			return (
 				h("div", [
-					uploadComponent.render(state)
+					uploadComponent.render(state),
+                    (state().upload.duplicates.length > 1) 
+                    ? uploadResultsComponent.render(state)
+                    : ""
 				])
 			);
 		};
