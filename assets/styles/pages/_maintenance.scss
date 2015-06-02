@@ -38,7 +38,7 @@ div.results-container {
     
     margin: auto;
     padding: 2em;
-    width: 80%;
+    width: 90%;
     background-color: #fff;
     border-bottom: 1px solid #dbdbdb;
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
@@ -51,6 +51,7 @@ div.results-container {
     .container {
         flex-direction: column;
         .row {
+            margin-bottom: 0.5em;
             display: flex;
             flex: 1;
             flex-direction: row;
@@ -62,9 +63,15 @@ div.results-container {
                 &:nth-child(2) {
                     flex: 2; 
                 }
-                &:nth-child(6) {
+                &:nth-child(5) {
                     flex: 2;
-                }  
+                }
+                &:nth-child(6) {
+                    flex: 1;
+                }
+                &:nth-child(7) {
+                    flex: 2; 
+                }
             }    
         } 
     }
@@ -80,7 +87,7 @@ div.results-container {
     
     .duplicate-content {
         flex: 1;
-        max-height: 13em;
+        max-height: 10em;
         overflow-y: scroll;
         .row {
             p {
@@ -89,4 +96,20 @@ div.results-container {
         }
     }
     
+    div.button-container {
+        display: flex;
+        flex-direction: row;
+        width: 80%;
+        margin: auto;
+        button {
+            flex: 1;
+            margin-top: 1em;
+            &:nth-child(2) {
+                margin-left: 1em;
+            }
+        }
+        .confirm {
+            border: 1px solid #ccc; 
+        }
+    }    
 }
