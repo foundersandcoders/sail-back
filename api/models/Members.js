@@ -13,6 +13,8 @@
  */
 
 var bcrypt = require('bcryptjs');
+var uuid   = require('uuid');
+var is     = require('torf');
 
 module.exports = {
 	migrate: 'alter',
@@ -210,11 +212,9 @@ module.exports = {
 				var obj = this.toObject();
 				// Remove the password object value
 				delete obj.password;
-				delete obj.service_registered;
-				delete obj.last_active;
-				delete obj.events;
 				delete obj.reset_password_codes;
-				delete obj.activationCode;
+				delete obj.activation_codes;
+				delete obj.payments;
 				// return the new object without password
 				obj.full_name = obj.first_name + ' ' + obj.last_name;
 				return obj;
@@ -222,7 +222,8 @@ module.exports = {
 		// ------------------------------------------------------------
 	},
 	beforeCreate: function(member, cb) {
-		if(member.password){
+
+		if (is.ok(member.password)) {
 			bcrypt.genSalt(10, function (err, salt) {
 				bcrypt.hash(member.password, salt, function (err, hash) {
 					if (err) {
@@ -238,11 +239,5 @@ module.exports = {
 		}else{
 			cb(null, member);
 		};
-	},
-	createHashId: function () {
-		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-			var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-			return v.toString(16);
-		});
 	}
 };

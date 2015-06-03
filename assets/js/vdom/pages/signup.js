@@ -6,6 +6,11 @@ var panelViews = require("../components/signup/panels.js");
 
 module.exports = function (utils) {
 
+	/**
+	 *	Define 
+	 *
+	 */
+
 	var state = utils.observS({
 		member: utils.observS({}),
 		panel:  utils.observ("one")
@@ -31,13 +36,62 @@ module.exports = function (utils) {
 		render();
 	});
 
+	function createMember (member, callback) {
+
+		// validate member and clean up
+		utils.request({
+			method: "POST",
+			uri: "/signup",
+			json: member
+		}, function (error, header, body) {
+
+			// checking the id is the best way
+			// to know if the body contains a
+			// member
+			if(!body || body.id !== undefined) {
+
+				return callback(error, body);
+			} else {
+				
+				return callback(body, undefined);
+			}
+		});
+	}
+
+	function updateMember (member, callback) {
+
+		// validate member and clean up
+		utils.request({
+			method: "PUT",
+			uri: "/member/" + member.id,
+			json: member
+		}, function (error, header, body) {
+
+			// checking the id is the best way
+			// to know if the body contains a
+			// member
+			if(!body || body.id !== undefined) {
+
+				return callback(error, body);
+			} else {
+				
+				return callback(body, undefined);
+			}
+		});
+	}
+
+	var fun = {
+		createMember: createMember,
+		updateMember: updateMember
+	};
+
 	// returns current virtual dom object
 	function view () {
 
 		return (
 			utils.h("div#main", [
 				panelViews.navbar(state),
-				panelViews[state.panel()](state)
+				panelViews[state.panel()](state, createMember)
 			])
 		);
 	}
