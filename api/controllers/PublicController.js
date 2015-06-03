@@ -1,6 +1,6 @@
 var is         = require('torf');
 var passport   = require('passport');
-var forgotPass = require('../service/forgotPass');
+var forgotPass = require('../services/ForgotPass');
 
 module.exports = {
 	ServiceSignIn: function (req, res) {

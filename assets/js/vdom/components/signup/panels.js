@@ -29,9 +29,9 @@ module.exports.homePage = function (state) {
 				h("div.inner-section-divider-small"),
 
 				h("div.block", [
-					h("button.align-one.btn-primary",{
+					h("button.align-one.btn-primary#ourtest",{
 						onclick: function () {
-
+							state.panel.set("home")
 						}
 					},"Edit"),
 					
@@ -111,7 +111,7 @@ module.exports.home = function (state) {
 		h("div.main-container", [
 			h("div.container-small", [
 				h("div.inner-section-divider-medium"),
-				h("button.btn-primary", {
+				h("button.btn-primary#vieworsignup", {
 					onclick: function () {
 						if (state.member().registered === 'registered') {
 
@@ -129,7 +129,7 @@ module.exports.home = function (state) {
 					}
 				}, "Make payment"),
 				h("div.inner-section-divider-small"),
-				h("button.btn-primary", {
+				h("button.btn-primary#testytestytest", {
 					onclick: function () {
 						return state.panel.set("gimmeMoney")
 					}
@@ -337,7 +337,7 @@ module.exports.account = function (state) {
 			h("div.main-container", [
 				h("div.inner-section-divider-small"),
 				h("div.section-label", [
-					h("h1", "Sign up")
+					h("h1#sign-up", "Sign up")
 				]),
 				progressBar(state, currentInputValues),
 				h("div.container-small", [

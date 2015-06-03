@@ -27,7 +27,7 @@ module.exports = {
 		module.exports._sendEmail(email, function (err, result) {
 			callback(err, result);
 		});
-	}
+	},
 	_sendEmail: function (data, callback) {
 
 		if (process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'production') {

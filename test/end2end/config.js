@@ -9,13 +9,14 @@ exports.config = {
 		browserName: 'chrome'
 	}],
 	specs: [
-		'./signup.spec.js',
+		// './signup.spec.js',
 		// './signin.spec.js',
 		// "./admin.home.spec.js",
 		// './member.create.spec.js',
 		// './member.edit.check.spec.js',
 		// './member.edit.edit.spec.js',
 		// './payments.spec.js'
+		'./test.spec.js'
 	],
 	params: {
 		admin: {
