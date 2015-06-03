@@ -51,7 +51,7 @@ module.exports.index = function (utils, state) {
 		}, []);
        
         return utils.lazy(entries).filter(function (entry) {
-            return dups.indexOf(entry.primary_email) > -1;
+            return (dups.indexOf(entry.primary_email) > -1);
         }).toArray();
 	}
 
@@ -60,9 +60,13 @@ module.exports.index = function (utils, state) {
 		utils.parseCsv(file, function (err, fileAsJson) {
 			
 			var duplicates = checkDuplicates(fileAsJson);
-
-			state.upload.duplicates.set(duplicates);
-
+            
+            var uniqueMembers = utils.lazy(fileAsJson).filter(function (member) {
+                return (duplicates.indexOf(member) === -1);
+            }).toArray(); 
+            
+            state.upload.members.set(uniqueMembers);
+			state.upload.memberDuplicates.set(duplicates);
 		});
 	}
 
@@ -91,11 +95,11 @@ module.exports.view = function (state, fnUpload, fnPost) {
 			]),
 		]),
 		renderResult(state)
-	])
+	]);
 
 	function renderResult (state) {
 
-		if(state.status().done){
+		if(state.status().done) {
 			if(status.status.split(" ")[0] === "Done"){
 				return h("div.result-upload", [
 					h("p", "Upload succesful")

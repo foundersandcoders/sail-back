@@ -10,16 +10,60 @@ module.exports.index = function (utils, state) {
 
 	that.render = function (state) {
 
-		return module.exports.view(state);
+		return module.exports.view(state, uploadMembers);
 	};
 
+    function uploadMembers () {
+       
+        var members = state().upload.members;
+        var memberLength = members.length;
+        var chunkSize = Math.ceil(memberLength/ 4);
+        var index = 0, membersArray = [];
+      
+        while (index < memberLength) {
+            membersArray.push(members.slice(index, index+chunkSize));
+            index += chunkSize;
+        }
+     
+        var problems = [];
+        membersArray.forEach(function (memberSet, index) {
+       
+            utils.request({
+                method: "POST",
+                url: "/upload?type=members",
+                json: memberSet
+            }, function (err, head, response) {
+          
+                if (!err) { 
+                    problems = problems.concat(response.problems);
+                }
+                if (index === membersArray.length-1) {
+                    state.upload.done.set("true");
+                    state.upload.problems.set(problems);
+                    state.panel.set("pending");
+                }
+            });
+        });
+       /*  
+        var members = state().upload.members.slice(0, 10);
+        console.log("sendin ", members);
+        utils.request({
+            method: "POST",
+            url: "/upload?type=members",
+            json: members
+        }, function (e, h, r) {
+       
+            console.log(arguments);
+            // redirect and show nice face 
+        });  
+        */
+    } 
 
 	return that;
 };
 
-module.exports.view = function (state) {
 
-    console.log("WIL");
+module.exports.view = function (state, confirmUpload) {
 
     return h("div.results-container", [
     
@@ -41,19 +85,19 @@ module.exports.view = function (state) {
                     h("p", "Primary email") 
                 ]),
                 h("div", [
-                    h("p", "Secondary email") 
-                ]),
-                h("div", [
                     h("p", "Date joined") 
                 ]),
                 h("div", [
                     h("p", "Type") 
+                ]),
+                h("div", [
+                    h("p", "Status") 
                 ]) 
             ])
         ]),
         h("div.container.duplicate-content",
            
-            state().upload.duplicates.map(function (duplicate) {
+            state().upload.memberDuplicates.map(function (duplicate) {
             
                 return  h("div.row", [
                     h("div", [
@@ -70,16 +114,22 @@ module.exports.view = function (state) {
                         h("p", duplicate.primary_email) 
                     ]),
                     h("div", [
-                        h("p", duplicate.secondary_email) 
-                    ]),
-                    h("div", [
-                        h("p", String(duplicate.date_joined)) 
+                        h("p", String(duplicate.date_joined).split(" 00:00")[0]) 
                     ]),
                     h("div", [
                         h("p", String(duplicate.membership_type))
+                    ]),
+                    h("div", [
+                        h("p", duplicate.activation_status) 
                     ]) 
                 ])
             })
-        )
+        ),
+        h("div.button-container", [
+            h("button.btn-primary.confirm", "Cancel"),
+            h("button.btn-primary.confirm", {
+                onclick: confirmUpload  
+            }, "Upload without duplicates")
+        ])
     ]);
 }

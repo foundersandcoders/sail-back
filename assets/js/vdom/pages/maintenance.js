@@ -3,6 +3,11 @@
 
 var utils = require("./../app").utils;
 var h     = utils.h;
+var uploadPanels = {
+    confirm: function () {},// this is to show problems with file before upload
+    pending: function () {}, // this is while the upload is pending 
+    done: function () {} // this is to show status AFTER upload
+};
 
 module.exports = function (utils) {
 
@@ -10,8 +15,12 @@ module.exports = function (utils) {
 	var state = utils.observS({
 		status: utils.observ(""),
 		upload: utils.observS({
-			duplicates: utils.observ([])
-		})
+			memberDuplicates: utils.observ([]),
+            members: utils.observ([]),
+            done: utils.observ("false"),
+            problems: utils.observ("false")
+		}),
+        panel: utils.observ("")
 	});
 	
     var renderTools = renderObj();
@@ -47,11 +56,15 @@ module.exports = function (utils) {
 		}
 
 		var viewFun = function (state) {
-            console.log(state);
-			return (
+		
+ //           var renderPanel = uploadPanels[state().panel];
+ //           renderPanel = renderPanel ? renderPanel : uploadPanels.generic;
+        
+            return (
 				h("div", [
 					uploadComponent.render(state),
-                    (state().upload.duplicates.length > 1) 
+//                    renderPanel()
+                    (state().upload.memberDuplicates.length > 1) 
                     ? uploadResultsComponent.render(state)
                     : ""
 				])
