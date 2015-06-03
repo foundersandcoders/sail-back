@@ -167,6 +167,19 @@ module.exports.signIn = function (state) {
 
 	var data = {};
 
+
+	function forgotPassword (member, callback) {
+
+		utils.request({
+			method: "POST",
+			uri: "/forgotPassword",
+			json: member
+		}, function (err, header, body) {
+
+			callback(null, body);
+		});
+	}
+
 	return (
 		h("div.main-container", [
 			h("div.inner-section-divider-small"),
@@ -219,8 +232,9 @@ module.exports.signIn = function (state) {
 				h("div.input-label-container", [
 					h("a", {
 						href: "#",
-						onclick: function () {
-							
+						onclick: function (event) {
+							event.preventDefault();
+							state.panel.set("temporaryPassword");
 						}
 					}, "Forgot password"),
 					h("h4", "If you are an existing member who is logging in for the first time please click 'Forgot Password' and we’ll email you a temporary one.")
@@ -234,6 +248,26 @@ module.exports.signIn = function (state) {
 						state.panel.set("home");
 					}
 				}, "Sign in")
+			])
+		])
+	);
+};
+
+module.exports.temporaryPassword = function (state) {
+
+	return (
+		h("div.main-container", [
+			h("div.inner-section-divider-small"),
+			h("div.section-label", [
+				h("h1", "Sign in")
+			]),
+			h("div.container-small", [
+
+				h("div.inner-section-divider-medium"),
+
+				h("div.input-label-container", [
+					h("h3", "We just emailed you a provisional password")
+				]),
 			])
 		])
 	);

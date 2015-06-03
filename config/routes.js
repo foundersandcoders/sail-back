@@ -51,6 +51,10 @@ module.exports.routes = {
 			controller: 'Public',
 			action: 'ServiceSignIn'
 		},
+		'POST /forgotPassword': {
+			controller: 'Public',
+			action: 'forgotPassword'
+		},
 	// -------------------------------------------------------------------------
 	// SignUp process
 	// -------------------------------------------------------------------------

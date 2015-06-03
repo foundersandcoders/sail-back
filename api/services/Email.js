@@ -14,50 +14,50 @@ module.exports = {
 	 */
 	sendSubscribe: function (data, callback) {
 
-		var email = module.exports._createEmail(data);
+		var email = module.exports._createEmail(data, 'subscribe');
 
-		switch(process.env.NODE_ENV){
-			case 'testing':
-				callback(null, email);
-				break;
-			case 'development':
-				callback(null, email);
-				break;
-			case 'staging':
-				module.exports._sendEmail(email, function (err, result) {
-					callback(err, result);
-				});
-				break;
-			case 'production':
-				module.exports._sendEmail(email, function (err, result) {
-					callback(err, result);
-				});
-				break;
-			default:
-				sails.log.error("No NODE_ENV was supplied, no email send.");
-				// module.exports._sendEmail(email);
-		};
-	},
-	_sendEmail: function (data, callback) {
-		mandrill_client.messages.send({'message': data}, function (result) {
-			/*
-				[{
-					"email": "recipient.email@example.com",
-					"status": "sent",
-					"reject_reason": "hard-bounce",
-					"_id": "abc123abc123abc123abc123abc123"
-				}]
-			*/
-			callback(null, result);
-		}, function (err) {
-
-			sails.log.error('A mandrill error occurred: ' + err.name + ' - ' + err.message);
-			callback(err, null);
+		module.exports._sendEmail(email, function (err, result) {
+			callback(err, result);
 		});
 	},
-	_createEmail: function (data) {
+	sendPassword: function (data, callback) {
+
+		var email = module.exports._createEmail(data, 'forgotPass');
+
+		module.exports._sendEmail(email, function (err, result) {
+			callback(err, result);
+		});
+	}
+	_sendEmail: function (data, callback) {
+
+		if (process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'production') {
+			
+			mandrill_client.messages.send({'message': data}, function (result) {
+				/*
+					[{
+						"email": "recipient.email@example.com",
+						"status": "sent",
+						"reject_reason": "hard-bounce",
+						"_id": "abc123abc123abc123abc123abc123"
+					}]
+				*/
+				callback(undefined, result);
+			}, function (err) {
+
+				sails.log.error('A mandrill error occurred: ' + err.name + ' - ' + err.message);
+				callback(err, undefined);
+			});
+		} else if (process.env.NODE_ENV === 'testing' || process.env.NODE_ENV === 'development') {
+
+			callback(undefined, result);
+		} else {
+
+			callback("No NODE_ENV was supplied, no email send.", undefined);			
+		}
+	},
+	_createEmail: function (data, type) {
 		var message = {
-			"html": module.exports._templateEngine(data),
+			"html": module.exports._templateEngine(data, type),
 			"subject": "Welcome to Friends of Chichester Harbour",
 			"from_email": "messenger@friendsch.org",
 			"from_name": "Friends of Chichester Harbour",
@@ -79,8 +79,12 @@ module.exports = {
 
 		return message;
 	},
-	_templateEngine: function (data) {
-		var html = [
+	_templateEngine: function (data, type) {
+
+		var html
+
+		if(type === 'subscribe') {
+			html = [
 				'<p>We have received a request to create a new account for Africanity on your email.</p>',
 				'<p>Please follow the link below to activate your account securely:</p>',
 				module.exports._createLink(data),
@@ -88,6 +92,12 @@ module.exports = {
 				'entered your email. If this persists, please let us know.</p>',
 				'<p>Thank you - and welcome!</p>'
 			].join('');
+		} else if (type === 'forgotPass') {
+			html = [
+				'<p>We have received a forgot password request.</p>',
+				'<p>This is the new password: ' + data.password + '</p>'
+			].join('');
+		}
 
 		return html;
 	},
