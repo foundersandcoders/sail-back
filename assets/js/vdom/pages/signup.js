@@ -91,7 +91,7 @@ module.exports = function (utils) {
 		return (
 			utils.h("div#main", [
 				panelViews.navbar(state),
-				panelViews[state.panel()](state, fun)
+				panelViews[state.panel()](state, createMember)
 			])
 		);
 	}

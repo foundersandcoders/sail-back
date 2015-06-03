@@ -65,13 +65,13 @@ module.exports.home = function (state) {
 				h("div.inner-section-divider-small"),
 				h("button.btn-primary", {
 					onclick: function () {
-						return state.panel.set("makePayment")
+						return state.panel.set("gimmeMoney")
 					}
 				}, "Make payment"),
 				h("div.inner-section-divider-small"),
 				h("button.btn-primary", {
 					onclick: function () {
-						return state.panel.set("makeDonation")
+						return state.panel.set("gimmeMoney")
 					}
 				}, "Make donation"),
 				h("div.inner-section-divider-small"),
@@ -869,3 +869,169 @@ module.exports.sorryError = function (state) {
 		])
 	);
 };
+
+
+
+
+
+
+//-------------------------------------------------------------------------------------------
+// Make payments/donations
+//-------------------------------------------------------------------------------------------
+
+	module.exports.gimmeMoney = function (state) {
+
+		return (
+			h("div.main-container", [
+				h("div.inner-section-divider-small"),
+				h("div.section-label", [
+					h("h1", "My account")
+				]),
+				h("div.container-small", [
+
+					h("div.inner-section-divider-small"),
+
+					h("div.table-payments", [
+						h("div.header", [
+							h("div.item", [
+								h("p.meta", "Date")
+							]),
+							h("div.item", [
+								h("p.meta", "Description")
+							]),
+							h("div.item", [
+								h("p.meta", "Charge")
+							])
+						]),
+						h("div.body", [
+							h("div.row", [
+								h("div.item", [
+									h("p", "12 Mar 16")
+								]),
+								h("div.item", [
+									h("p", "Nice foo bar")
+								]),
+								h("div.item", [
+									h("p", "£ 20")
+								])
+							])
+						])
+					]),
+
+					h("div.inner-section-divider-medium"),
+
+					h("div.input-label-container", [
+						h("h3", "Subscription")
+					]),
+
+					h("div.input-label-container", [
+						h("h4", "Your annual subscription is due on 12-12-2012 pay it now?")
+					]),
+
+					h("div.block", [
+						h("button.btn-primary.align-one", {
+
+						}, "Yes please"),
+						h("button.btn-primary.align-two", "No thanks"),
+					]),
+
+					h("div.inner-section-divider-medium"),
+
+					h("div.input-label-container", [
+						h("h3", "Donation")
+					]),
+
+					h("div.block", [
+						h("input.align-one", {
+							type: "text",
+							placeholder: "Amount"
+						}, "Yes please"),
+						h("button.btn-primary.align-two", {
+							onclick: function () {
+
+								state.panel.set("paymentMethod");
+							}
+						}, "Add"),
+					])
+				])
+			])
+		);
+
+			
+		function renderPayments () {
+
+
+		}
+	};
+
+	module.exports.paymentMethod = function (state) {
+
+		return (
+			h("div.main-container", [
+				h("div.inner-section-divider-small"),
+				h("div.section-label", [
+					h("h1", "Payment method")
+				]),
+				h("div.container-small", [
+
+					h("div.inner-section-divider-medium"),
+
+					h("button.btn-primary", {
+						onclick: function () {
+							return state.panel.set("gimmeMoney")
+						}
+					}, "Credit Card"),
+
+					h("div.inner-section-divider-small"),
+
+					h("button.btn-primary", {
+						onclick: function () {
+							return state.panel.set("gimmeMoney")
+						}
+					}, "PayPal"),
+
+					h("div.inner-section-divider-small"),
+
+					h("button.btn-primary", {
+						onclick: function () {
+							return state.panel.set("gimmeMoney")
+						}
+					}, "Bank transfer"),
+
+					h("div.inner-section-divider-small"),
+
+					h("button.btn-primary", {
+						onclick: function () {
+							return state.panel.set("gimmeMoney")
+						}
+					}, "Cheque")
+				])
+			])
+		);
+	};
+//-------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

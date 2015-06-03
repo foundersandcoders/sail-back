@@ -251,7 +251,7 @@
 				<h3>Subscription</h3>
 			</div>
 
-				<div class="input-label-container">
+			<div class="input-label-container">
 				<h4>Your annual subscription is due on 12-12-2012 pay it now ? </h4>
 			</div>
 			<div class="block">
