@@ -3,22 +3,19 @@
 
 var utils = require("./../app").utils;
 var h     = utils.h;
-var uploadPanels = {
-    confirm: function () {},// this is to show problems with file before upload
-    pending: function () {}, // this is while the upload is pending 
-    done: function () {} // this is to show status AFTER upload
-};
+var createRouter = require("../services/route.js");
 
 module.exports = function (utils) {
-
 
 	var state = utils.observS({
 		status: utils.observ(""),
 		upload: utils.observS({
 			memberDuplicates: utils.observ([]),
+			paymentCount: utils.observ([]),
             members: utils.observ([]),
+            payments: utils.observ([]),
             done: utils.observ("false"),
-            problems: utils.observ("false")
+            problems: utils.observ(""),
 		}),
         panel: utils.observ("")
 	});
@@ -30,7 +27,10 @@ module.exports = function (utils) {
 		renderTools.render(state);
 	});
 
-	var uploadComponent = require("../components/upload.js").index(utils, state);
+    var uploadPanels = require("../components/upload/panels.js")(utils.h, state, utils.request);
+    var router = createRouter(uploadPanels);
+	
+    var uploadComponent = require("../components/upload.js").index(utils, state);
     var uploadResultsComponent = require("../components/uploadproblems.js").index(utils, state);
 
 	utils.$$("upload-component").append(renderTools.render(state));
@@ -57,16 +57,16 @@ module.exports = function (utils) {
 
 		var viewFun = function (state) {
 		
- //           var renderPanel = uploadPanels[state().panel];
- //           renderPanel = renderPanel ? renderPanel : uploadPanels.generic;
-        
             return (
 				h("div", [
 					uploadComponent.render(state),
-//                    renderPanel()
+                    router(state().panel)()
+
+/*                    
                     (state().upload.memberDuplicates.length > 1) 
                     ? uploadResultsComponent.render(state)
                     : ""
+*/
 				])
 			);
 		};

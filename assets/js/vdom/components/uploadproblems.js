@@ -44,19 +44,6 @@ module.exports.index = function (utils, state) {
                 }
             });
         });
-       /*  
-        var members = state().upload.members.slice(0, 10);
-        console.log("sendin ", members);
-        utils.request({
-            method: "POST",
-            url: "/upload?type=members",
-            json: members
-        }, function (e, h, r) {
-       
-            console.log(arguments);
-            // redirect and show nice face 
-        });  
-        */
     } 
 
 	return that;
