@@ -1305,7 +1305,7 @@ module.exports.sorryError = function (state) {
 
 					h("button.btn-primary", {
 						onclick: function () {
-							return state.panel.set("gimmeMoney")
+							return state.panel.set("creditCardPayment")
 						}
 					}, "Credit Card"),
 
@@ -1336,8 +1336,99 @@ module.exports.sorryError = function (state) {
 			])
 		);
 	};
-//-------------------------------------------------------------------------------------------
 
+	module.exports.creditCardPayment = function (state)  {
+
+		Stripe.setPublishableKey("pk_test_P7t0dO8UzkBCMkHanTxBCIi1");
+
+		var payment = {
+			number: "4242424242424242"
+		};
+
+		return (
+			h("div.main-container", [
+				h("div.inner-section-divider-small"),
+				h("div.section-label", [
+					h("h1", "Credit card details")
+				]),
+				h("div.container-small", [
+
+					h("div.inner-section-divider-medium"),
+
+					h("h3", "Card number"),
+					h("input", {
+						type: "text",
+						placeholder: "eg. 4242424242424242",
+						value: "4242424242424242",
+						onchange: function () {
+							// return payment.number = this.value.replace(/\s/g, "");
+						}
+					}),
+
+					h("div.inner-section-divider-small"),
+
+					h("h3", "CVC"),
+					h("input", {
+						type: "text",
+						placeholder: "eg. 123",
+						onchange: function () {
+							return payment.cvc = this.value.replace(/\s/g, "");
+						}
+					}),
+
+					h("div.inner-section-divider-small"),
+
+					h("h3", "Expiration month"),
+					h("input", {
+						type: "text",
+						placeholder: "eg. 01",
+						onchange: function () {
+							return payment.exp_month = Number(this.value.replace(/\s/g, ""));
+						}
+					}),
+
+					h("div.inner-section-divider-small"),
+
+					h("h3", "Expiration year"),
+					h("input", {
+						type: "text",
+						placeholder: "eg. 2017",
+						onchange: function () {
+							return payment.exp_year = Number(this.value.replace(/\s/g, ""));
+						}
+					}),
+					h("div.inner-section-divider-medium"),
+
+					h("button.btn-primary", {
+						onclick: function () {
+
+							Stripe.card.createToken(payment, function (status, response) {
+
+								if (response.error) {
+									console.log("fuck the police");
+								} else {
+
+									var token = response.id;
+									utils.request({
+										method: "POST",
+										uri: "/payment",
+										json: {token: token}
+									}, function (err, head, body) {
+
+										console.log(arguments);
+									});
+								}
+							});
+						}
+					}, "Pay")
+				])
+			])
+		);
+	};
+
+
+
+//-------------------------------------------------------------------------------------------
 
 
 

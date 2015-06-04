@@ -88,6 +88,10 @@ module.exports.routes = {
 		'POST /upload': {
 			controller: 'Private',
 			action: 'upload'
+    	},
+    	'POST /payment': {
+    		controller: 'Payments',
+    		action: 'makePayment'
     	}
 	/***************************************************************************
 	*                                                                          *
