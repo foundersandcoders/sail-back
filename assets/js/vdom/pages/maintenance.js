@@ -61,12 +61,6 @@ module.exports = function (utils) {
 				h("div", [
 					uploadComponent.render(state),
                     router(state().panel)()
-
-/*                    
-                    (state().upload.memberDuplicates.length > 1) 
-                    ? uploadResultsComponent.render(state)
-                    : ""
-*/
 				])
 			);
 		};

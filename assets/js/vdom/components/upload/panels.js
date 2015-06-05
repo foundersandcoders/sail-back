@@ -40,78 +40,88 @@ module.exports = function (h, state, request) {
         ]); 
     }
 
-
     function confirmMembers () {
-    
-        return h("div.results-container", [
-            h("div.table-title", [
-                h("h2", "Duplicate Members")
-            ]),
-            h("div.container.headers", [
-                h("div.row", [
-                    h("div", [
-                        h("p", "id") 
-                    ]),
-                    h("div", [
-                        h("p", "last name") 
-                    ]),
-                    h("div", [
-                        h("p", "name") 
-                    ]),
-                    h("div", [
-                        h("p", "primary email") 
-                    ]),
-                    h("div", [
-                        h("p", "date joined") 
-                    ]),
-                    h("div", [
-                        h("p", "type") 
-                    ]),
-                    h("div", [
-                        h("p", "status") 
-                    ]) 
-                ])
-            ]),
-            h("div.container.duplicate-content",
-               
-                state().upload.memberDuplicates.map(function (duplicate) {
-                
-                    return  h("div.row", [
+
+        if (state().upload.memberDuplicates) {
+        
+            return h("div.results-container", [
+                h("div.table-title", [
+                    h("h2#file-length", "File length: " + state().upload.members.length)
+                ]),
+                renderButtons(uploadData("members", 4))
+            ]);
+       
+        } else {
+            return h("div.results-container", [
+                h("div.table-title", [
+                    h("h2", "Duplicate Members")
+                ]),
+                h("div.container.headers", [
+                    h("div.row", [
                         h("div", [
-                            h("p", duplicate.id) 
+                            h("p", "id") 
                         ]),
                         h("div", [
-                            h("p", duplicate.last_name) 
+                            h("p", "last name") 
                         ]),
                         h("div", [
-                            h("p", [duplicate.initials, duplicate.first_name,
-                            duplicate.initials].join(" ")) 
+                            h("p", "name") 
                         ]),
                         h("div", [
-                            h("p", duplicate.primary_email) 
+                            h("p", "primary email") 
                         ]),
                         h("div", [
-                            h("p", String(duplicate.date_joined).split(" 00:00")[0]) 
+                            h("p", "date joined") 
                         ]),
                         h("div", [
-                            h("p", String(duplicate.membership_type))
+                            h("p", "type") 
                         ]),
                         h("div", [
-                            h("p", duplicate.activation_status) 
+                            h("p", "status") 
                         ]) 
                     ])
-                })
-            ),
-            renderButtons(uploadData("members", 4))
-        ]);
+                ]),
+                h("div.container.duplicate-content",
+                   
+                    state().upload.memberDuplicates.map(function (duplicate) {
+                    
+                        return  h("div.row", [
+                            h("div", [
+                                h("p", duplicate.id) 
+                            ]),
+                            h("div", [
+                                h("p", duplicate.last_name) 
+                            ]),
+                            h("div", [
+                                h("p", [duplicate.initials, duplicate.first_name,
+                                duplicate.initials].join(" ")) 
+                            ]),
+                            h("div", [
+                                h("p", duplicate.primary_email) 
+                            ]),
+                            h("div", [
+                                h("p", String(duplicate.date_joined).split(" 00:00")[0]) 
+                            ]),
+                            h("div", [
+                                h("p", String(duplicate.membership_type))
+                            ]),
+                            h("div", [
+                                h("p", duplicate.activation_status) 
+                            ]) 
+                        ])
+                    })
+                ),
+                renderButtons(uploadData("members", 4))
+            ]);
+        }
     }
 
     function renderButtons (fn)  {
         return h("div.button-container", [
-            h("button.btn-primary.confirm", {
+            h("button.btn-primary#cancel", {
                 onclick: cancel 
-            },"cancel"),
-            h("button.btn-primary.confirm", {
+            },"Cancel"),
+            h("button.btn-primary#confirm-upload", {
                 onclick: fn  
             }, "Upload")
         ])

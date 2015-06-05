@@ -89,7 +89,7 @@ module.exports.index = function (utils, state) {
 module.exports.view = function (state, fnUpload, fnPost) {
 
 	return h("div.upload-component", [
-		h("div.upload", [
+		h("div.upload#upload-container", [
 			h("div.file-upload", [
 				h("span", "Upload members"),
 				h("input#upload-members.upload", {
