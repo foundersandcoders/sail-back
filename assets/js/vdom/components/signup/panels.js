@@ -904,7 +904,7 @@ module.exports.account = function (state) {
 					h("div.details-list", [
 						h("div.block", [
 							h(("p#" + elm.prop + ".left.meta"), elm.desc),
-							h(("p#value-" + elm.prop + ".right"), member[elm.prop])
+							h(("p#value-" + elm.prop + ".right.meta"), member[elm.prop])
 						])
 					])
 				)
