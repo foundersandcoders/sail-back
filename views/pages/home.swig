@@ -1,7 +1,9 @@
-{% extends './../layouts/_default.swig' %}
+#{% extends './../layouts/_default.swig' %}
+
+{% extends './../layouts/_mobile.swig' %}
 
 {% block content %}
-	<div class="container-large">
+	<!-- <div class="container-large">
 
 		<div class="inner-section-divider-small"></div>
 
@@ -11,5 +13,5 @@
 		>
 			<h1>Friends of Chichester Harbour</h1>
 		</div>
-	</div>
+	</div> -->
 {% endblock %}

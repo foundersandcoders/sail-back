@@ -4,6 +4,13 @@ var SignUpPages = browser.params.helpers.pages.SignUp;
 var SignInPages = browser.params.helpers.pages.SignIn;
 var params      = browser.params;
 
+
+function $ (val) {
+	
+	return element(by.id(val));
+}
+
+
 // ------------------------------------------------------------------------------------
 // Old signup
 // ------------------------------------------------------------------------------------
@@ -66,38 +73,34 @@ var params      = browser.params;
 			browser.ignoreSynchronization = true;
 			browser.driver.get(params.service.clerk+'/signup');
 			expect(browser.getCurrentUrl()).toContain(params.service.clerk+'/signup');
-			signUp.email.sendKeys(params.admin.email);
-			signUp.cemail.sendKeys(params.admin.email);
-			signUp.password.sendKeys(mock.password);
-			signUp.cpassword.sendKeys(mock.password);
-			signUp.submit.click();
+
+			element(by.id("ourtest")).click();
 			// expect(signUp.errorMess.getText()).toBe('Email has an active account. Sign in.');
 		});
 		it('if no email is provided, show red border', function (){
 			browser.ignoreSynchronization = true;
-			browser.driver.get(params.service.clerk+'/signup');
-			signUp.submit.click();
+
+			expect($("testytestytest").getText()).toContain("Make donation");
 			// expect(signUp.email.getCssValue('border')).toBe(params.error.color);
 		});
-		it('should be able to ENTER and EMAIL and signUp', function (){
+		it('if no email is provided, show red border', function (){
 			browser.ignoreSynchronization = true;
-			browser.driver.get(params.service.clerk+'/signup');
-			expect(browser.getCurrentUrl()).toContain(params.service.clerk+'/signup');
-			signUp.email.sendKeys(mock.primaryEmail);
-			signUp.cemail.sendKeys(mock.primaryEmail);
-			signUp.password.sendKeys(mock.password);
-			signUp.cpassword.sendKeys(mock.password);
-			signUp.submit.click();
-			expect(signUp.checkEmailMess.isPresent()).toBe(true);
+
+			expect($("vieworsignup").getText()).toContain("Sign up");
+			$("vieworsignup").click();
+			// expect(signUp.email.getCssValue('border')).toBe(params.error.color);
 		});
+		it('if no email is provided, show red border', function (){
+			browser.ignoreSynchronization = true;
+
+			expect($("sign-up").getText()).toContain("Sign up");
+			// expect(signUp.email.getCssValue('border')).toBe(params.error.color);
+		});
+
 	});
 // ------------------------------------------------------------------------------------
 // Activation
 // ------------------------------------------------------------------------------------
-
-
-
-
 
 
 

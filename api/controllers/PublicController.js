@@ -1,5 +1,6 @@
-var Is       = require('torf');
-var passport = require('passport');
+var is         = require('torf');
+var passport   = require('passport');
+var forgotPass = require('../services/ForgotPass');
 
 module.exports = {
 	ServiceSignIn: function (req, res) {
@@ -39,6 +40,51 @@ module.exports = {
 	_getContinue: function(reqUrl){
 		var myRegexp = /continue=(.*)/;
 		var match = myRegexp.exec(reqUrl);
-		return Is.ok(match) ? match[1] : '';
+		return is.ok(match) ? match[1] : '';
+	},
+	forgotPassword: function (req, res) {
+
+		// random string that will be
+		// used to generate a password
+		var randomString = "";
+
+		var query = [
+			{primary_email:   req.body['email']},
+			{secondary_email: req.body['email']}
+		];
+
+		Members
+		.findOne(query)
+		.then(function (member) {
+
+			if (!is.ok(member)) {
+				throw new Error('Email not recognised.');
+			} else {
+				var randomString = forgotPass.randomString();
+				var hashPassword = forgotPass.hash(randomString);
+				return Members.update({id: member.id}, {password: hashPassword});
+			}
+
+		})
+		.then(function (memberUpdated) {
+
+			var data = {password: arandomString, email: req.body['primary_email']};
+			utils.email.sendPassword(data, function (error, result) {
+
+				if(is.ok(error)) {
+
+					throw new Error('Was not able to send email');
+					return;
+				}
+
+				res.send();
+			})
+		})
+		.catch(function (err) {
+
+			sails.log.error(err);
+
+			res.send(err);
+		})
 	}
 };

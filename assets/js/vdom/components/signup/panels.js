@@ -29,9 +29,9 @@ module.exports.homePage = function (state) {
 				h("div.inner-section-divider-small"),
 
 				h("div.block", [
-					h("button.align-one.btn-primary",{
+					h("button.align-one.btn-primary#ourtest",{
 						onclick: function () {
-
+							state.panel.set("home")
 						}
 					},"Edit"),
 					
@@ -111,7 +111,7 @@ module.exports.home = function (state) {
 		h("div.main-container", [
 			h("div.container-small", [
 				h("div.inner-section-divider-medium"),
-				h("button.btn-primary", {
+				h("button.btn-primary#vieworsignup", {
 					onclick: function () {
 						if (state.member().registered === 'registered') {
 
@@ -129,7 +129,7 @@ module.exports.home = function (state) {
 					}
 				}, "Make payment"),
 				h("div.inner-section-divider-small"),
-				h("button.btn-primary", {
+				h("button.btn-primary#testytestytest", {
 					onclick: function () {
 						return state.panel.set("gimmeMoney")
 					}
@@ -166,6 +166,19 @@ module.exports.home = function (state) {
 module.exports.signIn = function (state) {
 
 	var data = {};
+
+
+	function forgotPassword (member, callback) {
+
+		utils.request({
+			method: "POST",
+			uri: "/forgotPassword",
+			json: member
+		}, function (err, header, body) {
+
+			callback(null, body);
+		});
+	}
 
 	return (
 		h("div.main-container", [
@@ -219,8 +232,9 @@ module.exports.signIn = function (state) {
 				h("div.input-label-container", [
 					h("a", {
 						href: "#",
-						onclick: function () {
-							
+						onclick: function (event) {
+							event.preventDefault();
+							state.panel.set("temporaryPassword");
 						}
 					}, "Forgot password"),
 					h("h4", "If you are an existing member who is logging in for the first time please click 'Forgot Password' and we’ll email you a temporary one.")
@@ -234,6 +248,26 @@ module.exports.signIn = function (state) {
 						state.panel.set("home");
 					}
 				}, "Sign in")
+			])
+		])
+	);
+};
+
+module.exports.temporaryPassword = function (state) {
+
+	return (
+		h("div.main-container", [
+			h("div.inner-section-divider-small"),
+			h("div.section-label", [
+				h("h1", "Sign in")
+			]),
+			h("div.container-small", [
+
+				h("div.inner-section-divider-medium"),
+
+				h("div.input-label-container", [
+					h("h3", "We just emailed you a provisional password")
+				]),
 			])
 		])
 	);
@@ -293,7 +327,7 @@ module.exports.account = function (state) {
 
 
 //-------------------------------------------------------------------------------------------
-// Make payments/donations
+// Sign up
 //-------------------------------------------------------------------------------------------
 	module.exports.one = function (state) {
 
@@ -303,7 +337,7 @@ module.exports.account = function (state) {
 			h("div.main-container", [
 				h("div.inner-section-divider-small"),
 				h("div.section-label", [
-					h("h1", "Sign up")
+					h("h1#sign-up-panel-1", "Sign up")
 				]),
 				progressBar(state, currentInputValues),
 				h("div.container-small", [
@@ -337,7 +371,7 @@ module.exports.account = function (state) {
 						}
 					}),
 					h("div.inner-section-divider-small"),
-					h("input#password", {
+					h("input#confirm-password", {
 						type:"password",
 						name:"password",
 						placeholder: "Confirm password",
@@ -347,7 +381,7 @@ module.exports.account = function (state) {
 						}
 					}),
 					h("div.inner-section-divider-medium"),
-					h("button#button_sign_up.btn-primary", {
+					h("button#next-btn.btn-primary", {
 						onclick: function () {
 
 							var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject();
@@ -371,7 +405,7 @@ module.exports.account = function (state) {
 			h("div.main-container", [
 				h("div.inner-section-divider-small"),
 				h("div.section-label", [
-					h("h1", "Membership info")
+					h("h1#sign-up-panel-2", "Membership info")
 				]),
 				progressBar(state, currentInputValues),
 				h("div.container-small", [
@@ -411,7 +445,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 					
-					h("button.align-two.btn-primary", {
+					h("button#next-btn.align-two.btn-primary", {
 						onclick: function () {
 
 							var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject();
@@ -435,7 +469,7 @@ module.exports.account = function (state) {
 				return (
 					h("div", [
 						h("div.inner-section-divider-small"),
-						h("h3", "Membership details"),
+						h("h3#membership-details", "Membership details"),
 						h("input", {
 							type: "text",
 							value: utils.mocks.memberTypes[index].description,
@@ -456,12 +490,12 @@ module.exports.account = function (state) {
 			h("div.main-container", [
 				h("div.inner-section-divider-small"),
 				h("div.section-label", [
-					h("h1", "Personal details")
+					h("h1#sign-up-panel-3", "Personal details")
 				]),
 				progressBar(state, currentInputValues),
 				h("div.container-small", [
 					h("div.block", [
-						h("input.align-one", {
+						h("input#title.align-one", {
 								type: "text",
 								placeholder: "Title",
 								value: currentInputValues.title,
@@ -469,7 +503,7 @@ module.exports.account = function (state) {
 								return currentInputValues.title = this.value
 							}
 						}),
-						h("input.align-two", {
+						h("input#initials.align-two", {
 								type: "text",
 								placeholder: "Initials",
 								value: currentInputValues.initials,
@@ -483,7 +517,7 @@ module.exports.account = function (state) {
 					h("div.input-label-container", [
 						h("h4", "First name or nickname (optional). If you are a couple enter both names eg Dick & Val")
 					]),
-					h("input", {
+					h("input#first_name", {
 						type: "text",
 						placeholder: "First name or nickname",
 						value: currentInputValues.first_name,
@@ -494,7 +528,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 
-					h("input", {
+					h("input#last_name", {
 						type: "text",
 						placeholder: "Last name",
 						value: currentInputValues.last_name,
@@ -517,7 +551,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 					
-					h("button.align-two.btn-primary", {
+					h("button#next-btn.align-two.btn-primary", {
 						onclick: function () {
 							var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject();
 
@@ -539,11 +573,11 @@ module.exports.account = function (state) {
 			h("div.main-container", [
 				h("div.inner-section-divider-small"),
 				h("div.section-label", [
-					h("h1", "Address details")
+					h("h1#sign-up-panel-4", "Address details")
 				]),
 				progressBar(state, currentInputValues),
 				h("div.container-small", [
-					h("input", {
+					h("input#address1", {
 						type: "text",
 						placeholder: "Address 1",
 						value: currentInputValues.address1,
@@ -554,7 +588,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 
-					h("input", {
+					h("input#address2", {
 						type: "text",
 						placeholder: "Address 2",
 						value: currentInputValues.address2,
@@ -565,7 +599,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 
-					h("input", {
+					h("input#address3", {
 						type: "text",
 						placeholder: "Address 3",
 						value: currentInputValues.address3,
@@ -576,7 +610,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 
-					h("input", {
+					h("input#address4", {
 						type: "text",
 						placeholder: "Address 4",
 						value: currentInputValues.address4,
@@ -587,7 +621,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 
-					h("input", {
+					h("input#county", {
 						type: "text",
 						placeholder: "County",
 						value: currentInputValues.county,
@@ -598,7 +632,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 
-					h("input", {
+					h("input#postcode", {
 						type: "text",
 						placeholder: "Postcode",
 						value: currentInputValues.postcode,
@@ -620,7 +654,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 					
-					h("button.align-two.btn-primary", {
+					h("button#next-btn.align-two.btn-primary", {
 						onclick: function () {
 							var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject();
 
@@ -642,11 +676,11 @@ module.exports.account = function (state) {
 			h("div.main-container", [
 				h("div.inner-section-divider-small"),
 				h("div.section-label", [
-					h("h1", "Contact details")
+					h("h1#sign-up-panel-5", "Contact details")
 				]),
 				progressBar(state, currentInputValues),
 				h("div.container-small", [
-					h("input", {
+					h("input#home", {
 						type: "text",
 						placeholder: "Home phone number",
 						value: currentInputValues.home_phone,
@@ -657,7 +691,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 
-					h("input", {
+					h("input#mobile", {
 						type: "text",
 						placeholder: "Mobile number",
 						value: currentInputValues.mobile_phone,
@@ -668,7 +702,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 
-					h("input", {
+					h("input#primary", {
 						type: "text",
 						placeholder: "Primary email",
 						value: currentInputValues.primary_email,
@@ -677,7 +711,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 
-					h("input", {
+					h("input#secondary", {
 						type: "text",
 						placeholder: "Secondary email",
 						value: currentInputValues.secondary_email,
@@ -699,7 +733,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 					
-					h("button.align-two.btn-primary", {
+					h("button#next-btn.align-two.btn-primary", {
 						onclick: function () {
 							var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject();
 
@@ -721,14 +755,14 @@ module.exports.account = function (state) {
 			h("div.main-container", [
 				h("div.inner-section-divider-small"),
 				h("div.section-label", [
-					h("h1", "Gift aid declaration")
+					h("h1#sign-up-panel-6", "Gift aid declaration")
 				]),
 				progressBar(state, currentInputValues),
 				h("div.container-small", [
 					h("div.input-label-container", [
 						h("h4", "If you sign a Gift Aid Declaration it significantly increases the value of your subscription (and any donations you make). If you would like to sign a Gift Aid Declaration please print the form, sign it and post it to Membership Secretary")
 					]),
-					h("button.btn-primary",{
+					h("button#print.btn-primary",{
 						onclick: function () {
 							return state.print();
 						},
@@ -747,7 +781,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 					
-					h("button.align-two.btn-primary", {
+					h("button#next-btn.align-two.btn-primary", {
 						onclick: function () {
 							var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject();
 
@@ -769,7 +803,7 @@ module.exports.account = function (state) {
 			h("div.main-container", [
 				h("div.inner-section-divider-small"),
 				h("div.section-label", [
-					h("h1", "Notifications")
+					h("h1#sign-up-panel-7", "Notifications")
 				]),
 				progressBar(state, currentInputValues),
 				h("div.container-small", [
@@ -800,7 +834,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 					
-					h("button.align-two.btn-primary", {
+					h("button#next-btn.align-two.btn-primary", {
 						onclick: function () {
 							var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject();
 
@@ -822,7 +856,7 @@ module.exports.account = function (state) {
 			h("div.main-container", [
 				h("div.inner-section-divider-small"),
 				h("div.section-label", [
-					h("h1", "Member information")
+					h("h1#sign-up-panel-8", "Member information")
 				]),
 				progressBar(state, currentInputValues),
 				h("div.container-small", [
@@ -841,7 +875,7 @@ module.exports.account = function (state) {
 
 					h("div.inner-section-divider-small"),
 					
-					h("button.align-two.btn-primary", {
+					h("button#confirm.align-two.btn-primary", {
 						onclick: function () {
 							var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject();
 
@@ -869,8 +903,8 @@ module.exports.account = function (state) {
 				return (
 					h("div.details-list", [
 						h("div.block", [
-							h("p.left.meta", elm.desc),
-							h("p.right", member[elm.prop])
+							h(("p#" + elm.prop + ".left.meta"), elm.desc),
+							h(("p#value-" + elm.prop + ".right"), member[elm.prop])
 						])
 					])
 				)
@@ -973,7 +1007,7 @@ module.exports.checkEmail = function (state) {
 		h("div.main-container", [
 			h("div.inner-section-divider-small"),
 			h("div.section-label", [
-				h("h1", "Welcome!")
+				h("h1#emailSent", "Welcome!")
 			]),
 			h("div.container-small", [
 				h("div.inner-section-divider-medium"),
@@ -981,7 +1015,7 @@ module.exports.checkEmail = function (state) {
 					h("h3", "We have just send you and email to validate your information.")
 				]),
 				h("div.inner-section-divider-medium"),
-				h("button#button_sign_up.btn-primary", {
+				h("button#continue.btn-primary", {
 					onclick: function () {
 
 						state.panel.set("home");
@@ -1271,7 +1305,7 @@ module.exports.sorryError = function (state) {
 
 					h("button.btn-primary", {
 						onclick: function () {
-							return state.panel.set("gimmeMoney")
+							return state.panel.set("creditCardPayment")
 						}
 					}, "Credit Card"),
 
@@ -1302,8 +1336,99 @@ module.exports.sorryError = function (state) {
 			])
 		);
 	};
-//-------------------------------------------------------------------------------------------
 
+	module.exports.creditCardPayment = function (state)  {
+
+		Stripe.setPublishableKey("pk_test_P7t0dO8UzkBCMkHanTxBCIi1");
+
+		var payment = {
+			number: "4242424242424242"
+		};
+
+		return (
+			h("div.main-container", [
+				h("div.inner-section-divider-small"),
+				h("div.section-label", [
+					h("h1", "Credit card details")
+				]),
+				h("div.container-small", [
+
+					h("div.inner-section-divider-medium"),
+
+					h("h3", "Card number"),
+					h("input", {
+						type: "text",
+						placeholder: "eg. 4242424242424242",
+						value: "4242424242424242",
+						onchange: function () {
+							// return payment.number = this.value.replace(/\s/g, "");
+						}
+					}),
+
+					h("div.inner-section-divider-small"),
+
+					h("h3", "CVC"),
+					h("input", {
+						type: "text",
+						placeholder: "eg. 123",
+						onchange: function () {
+							return payment.cvc = this.value.replace(/\s/g, "");
+						}
+					}),
+
+					h("div.inner-section-divider-small"),
+
+					h("h3", "Expiration month"),
+					h("input", {
+						type: "text",
+						placeholder: "eg. 01",
+						onchange: function () {
+							return payment.exp_month = Number(this.value.replace(/\s/g, ""));
+						}
+					}),
+
+					h("div.inner-section-divider-small"),
+
+					h("h3", "Expiration year"),
+					h("input", {
+						type: "text",
+						placeholder: "eg. 2017",
+						onchange: function () {
+							return payment.exp_year = Number(this.value.replace(/\s/g, ""));
+						}
+					}),
+					h("div.inner-section-divider-medium"),
+
+					h("button.btn-primary", {
+						onclick: function () {
+
+							Stripe.card.createToken(payment, function (status, response) {
+
+								if (response.error) {
+									console.log("fuck the police");
+								} else {
+
+									var token = response.id;
+									utils.request({
+										method: "POST",
+										uri: "/payment",
+										json: {token: token}
+									}, function (err, head, body) {
+
+										console.log(arguments);
+									});
+								}
+							});
+						}
+					}, "Pay")
+				])
+			])
+		);
+	};
+
+
+
+//-------------------------------------------------------------------------------------------
 
 
 
