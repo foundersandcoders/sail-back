@@ -15,8 +15,8 @@ exports.config = {
 		// './member.create.spec.js',
 		// './member.edit.check.spec.js',
 		// './member.edit.edit.spec.js',
-		// './payments.spec.js'
-		'./test.spec.js'
+		// './payments.spec.js',
+		'./auth/signup.spec.js'
 	],
 	params: {
 		admin: {

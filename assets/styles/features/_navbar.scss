@@ -37,7 +37,7 @@ nav {
 }
 
 .navigation a:hover {
-background: #f4f4f7;
+	background: #f4f4f7;
 }
 
 @media all and (max-width: 800px) {
@@ -67,7 +67,11 @@ background: #f4f4f7;
 }
 
 .mobile-nav {
-	display: none;
+	display: inherit;
+	height: 60px;
+	width: 100%;
+	text-align: center;
+	border-bottom: 1px solid #eee;
 }
 
 @media (max-width: $mobile) {

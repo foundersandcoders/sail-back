@@ -13,7 +13,7 @@ module.exports = function (utils) {
 
 	var state = utils.observS({
 		member: utils.observS({}),
-		panel:  utils.observ("homePage")
+		panel:  utils.observ("one")
 	});
 
 	// check if "state" is in storage
