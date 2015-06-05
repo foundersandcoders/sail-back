@@ -49,12 +49,16 @@ module.exports = {
 			});
 		} else if (process.env.NODE_ENV === 'testing' || process.env.NODE_ENV === 'development') {
 
-			callback(undefined, result);
+			callback(undefined, data);
 		} else {
 
 			callback("No NODE_ENV was supplied, no email send.", undefined);			
 		}
 	},
+	/**
+	 *	Creates an email given data and type of email
+	 *
+	 */
 	_createEmail: function (data, type) {
 		var message = {
 			"html": module.exports._templateEngine(data, type),

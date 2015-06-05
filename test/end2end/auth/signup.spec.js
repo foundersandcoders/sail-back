@@ -159,13 +159,14 @@ function $ (val) { return element(by.id(val));}
 		it('Confirm data', function (){
 
 			expect($("sign-up-panel-8").isPresent()).toBe(true);
-
 			$("confirm").click();
+			browser.sleep(1500);
+		});
 
-			stop();
+		it("Should see welcome message", function () {
 
+			browser.ignoreSynchronization = true;
 			expect($("emailSent").isPresent()).toBe(true);
-
 			$("continue").click();
 		});
 
