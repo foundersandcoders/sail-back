@@ -5,325 +5,325 @@ var h     = require("virtual-dom/h");
 var utils = require("../../app.js").utils;
 
 
-module.exports.navbar = function (state) {
+	module.exports.navbar = function (state) {
 
-	return (
-		h("div.mobile-nav", [
-			h("h1", {
-				onclick: function () {
-					return state.panel.set("home")
-				}
-			}, "Menu")
-		])
-	);
-}
-
-module.exports.homePage = function (state) {
-
-	var currentInputValues = utils.lazy({}).defaults(state.member()).toObject();
-
-	return (
-		h("div.main-container", [
-			h("div", [
-
-				h("div.inner-section-divider-small"),
-
-				h("div.block", [
-					h("button.align-one.btn-primary#ourtest",{
-						onclick: function () {
-							state.panel.set("home")
-						}
-					},"Edit"),
-					
-					h("button.align-two.btn-primary", {
-						onclick: function () {
-
-						}
-					},"Logout")
-				]),
-
-				h("div.inner-section-divider-small"),
-
-				h("div.block", [
-					h("button.align-one.btn-primary",{
-						onclick: function () {
-
-						}
-					},"Pay"),
-					
-					h("button.align-two.btn-primary", {
-						onclick: function () {
-
-						}
-					},"Events")
-				]),
-
-				h("div.inner-section-divider-small"),
-
-				h("div.block", [
-					h("button.align-one.btn-primary",{
-						onclick: function () {
-
-						}
-					},"Donation"),
-					
-					h("button.align-two.btn-primary", {
-						onclick: function () {
-
-						}
-					},"Cancel")
-				]),
+		return (
+			h("div.mobile-nav", [
+				h("h1#menu-nav", {
+					onclick: function () {
+						return state.panel.set("home")
+					}
+				}, "Menu")
 			])
-		])
-	);
-};
-
-function progressBar (state, currentMemberInputs) {
-
-	var panels = ["one", "two", "three", "four", "five", "six", "seven", "eight"];
-	var currentPanel = state.panel();
-	return (
-		h("div.progress-bar",
-			panels.map(function (panel, i) {
-
-				var switchIndex = panels.indexOf(currentPanel);
-				var cl = "div.progress.";
-				cl += (i <= switchIndex)  ? "active"   : "inactive";
-				cl += (i === switchIndex) ? ".current" : "";
-
-				return h(cl, {
-					onclick: function () {
-						var memberChanges = utils.lazy(state.member()).extend(currentMemberInputs).toObject();
-
-						state.member.set(memberChanges);
-						return state.panel.set(panel);
-					}
-				});
-			})
-		)
-	);
-}
-
-
-module.exports.home = function (state) {
-
-	return (
-		h("div.main-container", [
-			h("div.container-small", [
-				h("div.inner-section-divider-medium"),
-				h("button.btn-primary#vieworsignup", {
-					onclick: function () {
-						if (state.member().registered === 'registered') {
-
-							return state.panel.set("account");
-						} else {
-
-							return state.panel.set("one");
-						}
-					}
-				}, (state.member().registered === 'registered' ? "View account" : "Sign up")),
-				h("div.inner-section-divider-small"),
-				h("button.btn-primary", {
-					onclick: function () {
-						return state.panel.set("gimmeMoney")
-					}
-				}, "Make payment"),
-				h("div.inner-section-divider-small"),
-				h("button.btn-primary#testytestytest", {
-					onclick: function () {
-						return state.panel.set("gimmeMoney")
-					}
-				}, "Make donation"),
-				h("div.inner-section-divider-small"),
-				h("button.btn-primary", {
-					onclick: function () {
-						return state.panel.set("browseEvents")
-					}
-				}, "Browse events"),
-				h("div.inner-section-divider-small"),
-				h("button.btn-primary", {
-					onclick: function () {
-						return state.panel.set("homePage")
-					}
-				}, "Home"),
-				h("div.inner-section-divider-small"),
-				h("button.btn-primary", {
-					onclick: function () {
-						return state.panel.set("signIn")
-					}
-				}, "Sign in"),
-				h("div.inner-section-divider-small"),
-				h("button.btn-primary", {
-					onclick: function () {
-						return state.panel.set("logOut")
-					}
-				}, "Log out"),
-			])
-		])
-	);
-};
-
-module.exports.signIn = function (state) {
-
-	var data = {};
-
-
-	function forgotPassword (member, callback) {
-
-		utils.request({
-			method: "POST",
-			uri: "/forgotPassword",
-			json: member
-		}, function (err, header, body) {
-
-			callback(null, body);
-		});
+		);
 	}
 
-	return (
-		h("div.main-container", [
-			h("div.inner-section-divider-small"),
-			h("div.section-label", [
-				h("h1", "Sign in")
-			]),
-			h("div.container-small", [
+	module.exports.homePage = function (state) {
 
-				h("div.inner-section-divider-medium"),
+		var currentInputValues = utils.lazy({}).defaults(state.member()).toObject();
 
-				h("div.input-label-container", [
-					h("h3", "Membership number")
-				]),
+		return (
+			h("div.main-container", [
+				h("div", [
 
-				h("input#email", {
-					type:"text",
-					placeholder: "Membership number",
-					onchange: function () {
-						return data.membership_number = this.value;
-					}
-				}),
+					h("div.inner-section-divider-small"),
 
-				h("div.inner-section-divider-small"),
-
-				h("div.input-label-container", [
-					h("h3", "...or email")
-				]),
-
-				h("input#confirm-email", {
-					type:"text",
-					placeholder: "Email address",
-					onchange: function () {
-						return data.email = this.value
-					}
-				}),
-
-				h("div.inner-section-divider-small"),
-
-				h("input#password", {
-					type:"password",
-					placeholder: "Password",
-					onkeyup: function () {
-						return data.password = this.value;
-					}
-				}),
-
-
-				h("div.inner-section-divider-medium"),
-				
-				h("div.input-label-container", [
-					h("a", {
-						href: "#",
-						onclick: function (event) {
-							event.preventDefault();
-							state.panel.set("temporaryPassword");
-						}
-					}, "Forgot password"),
-					h("h4", "If you are an existing member who is logging in for the first time please click 'Forgot Password' and we’ll email you a temporary one.")
-				]),
-
-				h("div.inner-section-divider-medium"),
-
-				h("button#button_sign_up.btn-primary", {
-					onclick: function () {
-
-						state.panel.set("home");
-					}
-				}, "Sign in")
-			])
-		])
-	);
-};
-
-module.exports.temporaryPassword = function (state) {
-
-	return (
-		h("div.main-container", [
-			h("div.inner-section-divider-small"),
-			h("div.section-label", [
-				h("h1", "Sign in")
-			]),
-			h("div.container-small", [
-
-				h("div.inner-section-divider-medium"),
-
-				h("div.input-label-container", [
-					h("h3", "We just emailed you a provisional password")
-				]),
-			])
-		])
-	);
-};
-
-module.exports.account = function (state) {
-
-	var currentInputValues = utils.lazy({}).defaults(state.member()).toObject();
-
-	return (
-		h("div.main-container", [
-			h("div.inner-section-divider-small"),
-			h("div.section-label", [
-				h("h1", "Account info")
-			]),
-			h("div.container-small", [
-
-				h("div.inner-section-divider-medium"),
-
-				list(currentInputValues),
-
-				h("div.inner-section-divider-medium"),
-
-				h("button.align-one.btn-primary",{
-					onclick: function () {
-						state.panel.set("editAccount")
-					}
-				}, "Modify"),
-
-				h("div.inner-section-divider-small"),
-				
-				h("button.align-two.btn-primary", {
-					onclick: function () {
-						state.panel.set("home");
-					}
-				}, "Home")
-			])
-		])
-	);
-
-	function list (member) {
-
-		var propertiesMapper = utils.mocks.memberPropsMapper;
-
-		return propertiesMapper.map(function (elm) {
-			return (
-				h("div.details-list", [
 					h("div.block", [
-						h("p.left", elm.desc),
-						h("p.right", member[elm.prop])
-					])
+						h("button.align-one.btn-primary#ourtest",{
+							onclick: function () {
+								state.panel.set("home")
+							}
+						},"Edit"),
+						
+						h("button.align-two.btn-primary", {
+							onclick: function () {
+
+							}
+						},"Logout")
+					]),
+
+					h("div.inner-section-divider-small"),
+
+					h("div.block", [
+						h("button.align-one.btn-primary",{
+							onclick: function () {
+
+							}
+						},"Pay"),
+						
+						h("button.align-two.btn-primary", {
+							onclick: function () {
+
+							}
+						},"Events")
+					]),
+
+					h("div.inner-section-divider-small"),
+
+					h("div.block", [
+						h("button.align-one.btn-primary",{
+							onclick: function () {
+
+							}
+						},"Donation"),
+						
+						h("button.align-two.btn-primary", {
+							onclick: function () {
+
+							}
+						},"Cancel")
+					]),
 				])
+			])
+		);
+	};
+
+	function progressBar (state, currentMemberInputs) {
+
+		var panels = ["one", "two", "three", "four", "five", "six", "seven", "eight"];
+		var currentPanel = state.panel();
+		return (
+			h("div.progress-bar",
+				panels.map(function (panel, i) {
+
+					var switchIndex = panels.indexOf(currentPanel);
+					var cl = "div.progress.";
+					cl += (i <= switchIndex)  ? "active"   : "inactive";
+					cl += (i === switchIndex) ? ".current" : "";
+
+					return h(cl, {
+						onclick: function () {
+							var memberChanges = utils.lazy(state.member()).extend(currentMemberInputs).toObject();
+
+							state.member.set(memberChanges);
+							return state.panel.set(panel);
+						}
+					});
+				})
 			)
-		});
+		);
 	}
-};
+
+
+	module.exports.home = function (state) {
+
+		return (
+			h("div.main-container", [
+				h("div.container-small", [
+					h("div.inner-section-divider-medium"),
+					h("button.btn-primary#vieworsignup", {
+						onclick: function () {
+							if (state.member().registered === 'registered') {
+
+								return state.panel.set("account");
+							} else {
+
+								return state.panel.set("one");
+							}
+						}
+					}, (state.member().registered === 'registered' ? "View account" : "Sign up")),
+					h("div.inner-section-divider-small"),
+					h("button#make-payment.btn-primary", {
+						onclick: function () {
+							return state.panel.set("gimmeMoney")
+						}
+					}, "Make payment"),
+					h("div.inner-section-divider-small"),
+					h("button#make-payment.btn-primary#testytestytest", {
+						onclick: function () {
+							return state.panel.set("gimmeMoney")
+						}
+					}, "Make donation"),
+					h("div.inner-section-divider-small"),
+					h("button.btn-primary", {
+						onclick: function () {
+							return state.panel.set("browseEvents")
+						}
+					}, "Browse events"),
+					h("div.inner-section-divider-small"),
+					h("button.btn-primary", {
+						onclick: function () {
+							return state.panel.set("homePage")
+						}
+					}, "Home"),
+					h("div.inner-section-divider-small"),
+					h("button.btn-primary", {
+						onclick: function () {
+							return state.panel.set("signIn")
+						}
+					}, "Sign in"),
+					h("div.inner-section-divider-small"),
+					h("button.btn-primary", {
+						onclick: function () {
+							return state.panel.set("logOut")
+						}
+					}, "Log out"),
+				])
+			])
+		);
+	};
+
+	module.exports.signIn = function (state) {
+
+		var data = {};
+
+
+		function forgotPassword (member, callback) {
+
+			utils.request({
+				method: "POST",
+				uri: "/forgotPassword",
+				json: member
+			}, function (err, header, body) {
+
+				callback(null, body);
+			});
+		}
+
+		return (
+			h("div.main-container", [
+				h("div.inner-section-divider-small"),
+				h("div.section-label", [
+					h("h1", "Sign in")
+				]),
+				h("div.container-small", [
+
+					h("div.inner-section-divider-medium"),
+
+					h("div.input-label-container", [
+						h("h3", "Membership number")
+					]),
+
+					h("input#email", {
+						type:"text",
+						placeholder: "Membership number",
+						onchange: function () {
+							return data.membership_number = this.value;
+						}
+					}),
+
+					h("div.inner-section-divider-small"),
+
+					h("div.input-label-container", [
+						h("h3", "...or email")
+					]),
+
+					h("input#confirm-email", {
+						type:"text",
+						placeholder: "Email address",
+						onchange: function () {
+							return data.email = this.value
+						}
+					}),
+
+					h("div.inner-section-divider-small"),
+
+					h("input#password", {
+						type:"password",
+						placeholder: "Password",
+						onkeyup: function () {
+							return data.password = this.value;
+						}
+					}),
+
+
+					h("div.inner-section-divider-medium"),
+					
+					h("div.input-label-container", [
+						h("a", {
+							href: "#",
+							onclick: function (event) {
+								event.preventDefault();
+								state.panel.set("temporaryPassword");
+							}
+						}, "Forgot password"),
+						h("h4", "If you are an existing member who is logging in for the first time please click 'Forgot Password' and we’ll email you a temporary one.")
+					]),
+
+					h("div.inner-section-divider-medium"),
+
+					h("button#button_sign_up.btn-primary", {
+						onclick: function () {
+
+							state.panel.set("home");
+						}
+					}, "Sign in")
+				])
+			])
+		);
+	};
+
+	module.exports.temporaryPassword = function (state) {
+
+		return (
+			h("div.main-container", [
+				h("div.inner-section-divider-small"),
+				h("div.section-label", [
+					h("h1", "Sign in")
+				]),
+				h("div.container-small", [
+
+					h("div.inner-section-divider-medium"),
+
+					h("div.input-label-container", [
+						h("h3", "We just emailed you a provisional password")
+					]),
+				])
+			])
+		);
+	};
+
+	module.exports.account = function (state) {
+
+		var currentInputValues = utils.lazy({}).defaults(state.member()).toObject();
+
+		return (
+			h("div.main-container", [
+				h("div.inner-section-divider-small"),
+				h("div.section-label", [
+					h("h1#account", "Account info")
+				]),
+				h("div.container-small", [
+
+					h("div.inner-section-divider-medium"),
+
+					list(currentInputValues),
+
+					h("div.inner-section-divider-medium"),
+
+					h("button#edit-account.align-one.btn-primary",{
+						onclick: function () {
+							state.panel.set("editAccount")
+						}
+					}, "Modify"),
+
+					h("div.inner-section-divider-small"),
+					
+					h("button.align-two.btn-primary", {
+						onclick: function () {
+							state.panel.set("home");
+						}
+					}, "Home")
+				])
+			])
+		);
+
+		function list (member) {
+
+			var propertiesMapper = utils.mocks.memberPropsMapper;
+
+			return propertiesMapper.map(function (elm) {
+				return (
+					h("div.details-list", [
+						h("div.block", [
+							h(("p#" + elm.prop + ".left.meta"), elm.desc),
+							h(("p#value-" + elm.prop + ".right.meta"), member[elm.prop])
+						])
+					])
+				)
+			});
+		}
+	};
 
 
 //-------------------------------------------------------------------------------------------
@@ -921,7 +921,7 @@ module.exports.editAccount = function (state) {
 		h("div.main-container", [
 			h("div.inner-section-divider-small"),
 			h("div.section-label", [
-				h("h1", "Member information")
+				h("h1#edit-title", "Member information")
 			]),
 			h("div.container-small", [
 
@@ -940,7 +940,7 @@ module.exports.editAccount = function (state) {
 
 				h("div.inner-section-divider-small"),
 				
-				h("button.align-two.btn-primary", {
+				h("button#save-cahnges.align-two.btn-primary", {
 					onclick: function () {
 						var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject();
 
@@ -975,7 +975,7 @@ module.exports.editAccount = function (state) {
 	function renderInput (elmType, memberObj) {
 
 		return (
-			h("input", {
+			h(("input#" + elmType.prop), {
 				type: "text",
 				placeholder: elmType.desc,
 				value: memberObj[elmType.prop],
@@ -989,7 +989,7 @@ module.exports.editAccount = function (state) {
 	function renderSelect (options, selectedOption, placeholder, elmType, memberObj) {
 
 		return (
-			h("select.select-signup", {
+			h(("select.select-signup#" + elmType.prop), {
 				onchange: function () {
 
 					memberObj[elmType.prop] = this.value;
@@ -1025,54 +1025,43 @@ module.exports.checkEmail = function (state) {
 		])
 	);
 };
-
-
-
-
 //-------------------------------------------------------------------------------------------
 // Erros
 //-------------------------------------------------------------------------------------------
-module.exports.sorryError = function (state) {
+	module.exports.sorryError = function (state) {
 
-	return (
-		h("div.main-container", [
-			h("div.inner-section-divider-small"),
-			h("div.section-label", [
-				h("h1", "Sorry!")
-			]),
-			h("div.container-small", [
-				h("div.inner-section-divider-medium"),
-				h("div.input-label-container", [
-					h("h3", "Apparently there was a problem! Wil is working on that!")
+		return (
+			h("div.main-container", [
+				h("div.inner-section-divider-small"),
+				h("div.section-label", [
+					h("h1", "Sorry!")
 				]),
-				h("div.inner-section-divider-medium"),
-				h("button#button_sign_up.btn-primary", {
-					onclick: function () {
+				h("div.container-small", [
+					h("div.inner-section-divider-medium"),
+					h("div.input-label-container", [
+						h("h3", "Apparently there was a problem! Wil is working on that!")
+					]),
+					h("div.inner-section-divider-medium"),
+					h("button#button_sign_up.btn-primary", {
+						onclick: function () {
 
-						state.panel.set("home");
-					}
-				}, "Continue")
+							state.panel.set("home");
+						}
+					}, "Continue")
+				])
 			])
-		])
-	);
-};
-
-
-
-
-
-
+		);
+	};
 //-------------------------------------------------------------------------------------------
 // Make payments/donations
 //-------------------------------------------------------------------------------------------
-
 	module.exports.gimmeMoney = function (state) {
 
 		return (
 			h("div.main-container", [
 				h("div.inner-section-divider-small"),
 				h("div.section-label", [
-					h("h1", "My account")
+					h("h1#my-account", "My account")
 				]),
 				h("div.container-small", [
 
@@ -1093,13 +1082,13 @@ module.exports.sorryError = function (state) {
 						h("div.body", [
 							h("div.row", [
 								h("div.item", [
-									h("p", "12 Mar 16")
+									h("p.micro", "12 Mar 16")
 								]),
 								h("div.item", [
-									h("p", "Nice foo bar")
+									h("p.micro", "Subscription")
 								]),
 								h("div.item", [
-									h("p", "£ 20")
+									h("p.micro", "£ 20")
 								])
 							])
 						])
@@ -1181,7 +1170,7 @@ module.exports.sorryError = function (state) {
 
 							state.panel.set("weDoOweMoney");
 						}
-					},"We owe you money")
+					},"Refund options")
 				])
 			);
 		}
@@ -1425,9 +1414,6 @@ module.exports.sorryError = function (state) {
 			])
 		);
 	};
-
-
-
 //-------------------------------------------------------------------------------------------
 
 

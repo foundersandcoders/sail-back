@@ -26,6 +26,11 @@
 	font-size: $p-font-size-desktop;
 }
 
+.block {
+	overflow: auto;
+	height: auto;
+}
+
 .align-one {
 	float: left;
 	width: 45%;
@@ -35,10 +40,6 @@
 	float: left;
 	width: 45%;
 	margin-left: 10%;
-}
-
-.block {
-	overflow: auto;
 }
 
 .left {
