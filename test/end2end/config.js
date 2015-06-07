@@ -18,6 +18,9 @@ exports.config = {
 		'./auth/signup.spec.js',
 		'./member/edit.spec.js',
 		'./member/payments.spec.js'
+		// './payments.spec.js',
+		//'./auth/signup.spec.js',
+        './admin/upload.spec.js'
 	],
 	params: {
 		admin: {

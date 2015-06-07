@@ -13,6 +13,7 @@ module.exports.index = function (utils, state) {
 		return module.exports.view(state, createUploader, receiveUploader);
 	};
 
+
 	function createUploader (type, callback) {
 
 		return function upload () {
@@ -28,45 +29,54 @@ module.exports.index = function (utils, state) {
 		}
 	}
 
+
 	function checkDuplicates (entries) {
-
-		var emailsArray = utils.lazy(entries)
-		.pluck("primary_email")
-		.sort()
-		.filter(function (elm) {
-		
+    
+        var emailsArray = utils.lazy(entries)
+        .pluck("primary_email")
+        .sort()
+        .filter(function (elm) {
+        
             if(elm) {
-				return elm;
-			}
-		})
-		.toArray();
+                return elm;
+            }
+        })
+        .toArray();
 
-		var dups = utils.lazy(emailsArray)
-		.reduce(function (aggregator, currentValue, index, array) {
-		
+        var dups = utils.lazy(emailsArray)
+        .reduce(function (aggregator, currentValue, index, array) {
+        
             if(currentValue === emailsArray[index-1]) {
-				aggregator.push(currentValue);
-			}
-			return aggregator;
-		}, []);
+                aggregator.push(currentValue);
+            }
+            return aggregator;
+        }, []);
        
         return utils.lazy(entries).filter(function (entry) {
             return (dups.indexOf(entry.primary_email) > -1);
         }).toArray();
 	}
 
+
 	function receiveUploader (file) {
 
 		utils.parseCsv(file, function (err, fileAsJson) {
 			
-			var duplicates = checkDuplicates(fileAsJson);
-            
-            var uniqueMembers = utils.lazy(fileAsJson).filter(function (member) {
-                return (duplicates.indexOf(member) === -1);
-            }).toArray(); 
-            
-            state.upload.members.set(uniqueMembers);
-			state.upload.memberDuplicates.set(duplicates);
+            if (file.type === "members") {
+                var duplicates = checkDuplicates(fileAsJson);
+                var uniqueMembers = utils.lazy(fileAsJson).filter(function (member) {
+                    return (duplicates.indexOf(member) === -1);
+                }).toArray(); 
+                
+                state.upload.members.set(uniqueMembers);
+                state.upload.memberDuplicates.set(duplicates);
+                state.panel.set("members");
+            } else {
+                
+                state.upload.payments.set(fileAsJson);
+                state.upload.paymentCount.set(fileAsJson.length);
+                state.panel.set("payments");
+            }
 		});
 	}
 
@@ -75,22 +85,23 @@ module.exports.index = function (utils, state) {
 	return that;
 };
 
+
 module.exports.view = function (state, fnUpload, fnPost) {
 
 	return h("div.upload-component", [
-		h("div.upload", [
+		h("div.upload#upload-container", [
 			h("div.file-upload", [
 				h("span", "Upload members"),
 				h("input#upload-members.upload", {
 					type: "file",
-					onchange: fnUpload("member", fnPost)
+					onchange: fnUpload("members", fnPost)
 				})
 			]),
 			h("div.file-upload", [
 				h("span", "Upload payments"),
 				h("input#upload-payments.upload", {
 					type: "file",
-					onchange: fnUpload("payment", fnPost)
+					onchange: fnUpload("payments", fnPost)
 				})
 			]),
 		]),

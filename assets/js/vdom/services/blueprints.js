@@ -2,7 +2,7 @@
 
 
 module.exports = {
-	member: {
+	members: {
 		id:                           {remove:false, type: "string"},
 		title:                        {remove:false, type: "string"},
 		initials:                     {remove:false, type: "string"},
@@ -35,7 +35,7 @@ module.exports = {
 		activation_status:            {remove:false, type: "custom"},
 		lapsedMember:                 {remove:true,  type: "custom"},   // lapsedMember
 	},
-	payment: {
+	payments: {
 		date:           {remove:false, type: "date"},
 		member:         {remove:false, type: "string"},
 		subscription:   {remove:true,  type: "number"},
