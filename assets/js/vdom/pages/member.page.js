@@ -1,21 +1,17 @@
 "use strict";
 
 
-var displayPaymentsComponent    = require("../components/displaypayments.js").index;
-var chargeSubscriptionComponent = require("../components/chargesubscription.js").index;
-var chargeDonationComponent     = require("../components/chargedonation.js").index;
-var addPaymentComponent         = require("../components/addpayment.js").index;
-var memberViewComponent         = require("../components/member.view.js").index;
-var memberEditComponent         = require("../components/member.edit.js").index;
+var page = require("../components/admin/member-panel.js");
 
 
 module.exports = function (utils) {
 
 	var state = utils.observS({
-		member:   utils.observ({}),
-		payments: utils.observ([]),
-		mode:     utils.observ("view"),
-		selected: utils.observ([])
+		member:      utils.observ({}),
+		payments:    utils.observ([]),
+		modeMember:  utils.observ("viewMember"),
+		modePayment: utils.observ("viewPayment"),
+		selected:    utils.observ([])
 	});
 
 	state(function onchange () {
@@ -24,54 +20,66 @@ module.exports = function (utils) {
 		render();
 	});
 
-	state.toggleMode = function (){
-		var mode = (state.mode() === "edit") ? "view" : "edit";
-		state.mode.set(mode);
-	};
-
-	var addPayment         = addPaymentComponent(utils, state);
-	var chargeDonation     = chargeDonationComponent(utils, state);
-	var chargeSubscription = chargeSubscriptionComponent(utils, state);
-	var displayPayments    = displayPaymentsComponent(utils, state);
-	var memberView         = memberViewComponent(utils, state);
-	var memberEdit         = memberEditComponent(utils, state);
-
 	function view (h) {
 
-		return h("div#member-component", [
-			h("div.overall-container", [
-				renderViewMode(),
-				h("div.actions-container", [
-					h("div.refund-section", [
-						chargeSubscription.render()
-					]),
-					h("div.add-donation-section", [
-						chargeDonation.render()
-					]),
-					h("div.enter-payment-section", [
-						addPayment.render()
-					])
-				])
+		return (
+			h("div.main-container#member-component", [
+				
+				h("div.inner-section-divider-medium"),
+
+				h("div.section-label", [
+					h("h1", "Member info")
+				]),
+
+				h("div.inner-section-divider-medium"),
+
+				page[state.modeMember()](state),
+
+				h("div.inner-section-divider-medium"),
+
+				renderPayment()
+
 			])
-		]);
+		);
 
-		function renderViewMode() {
-
-			if(state.mode() === "edit") {
-				return h("div.content-container", [
-					h("div#member-info-edit",[
-						memberEdit.render(state.member())
-					])
-				])
+		function renderPayment () {
+			if (state.modeMember() === "editMember") {
+				return;
 			} else {
-				return h("div.content-container", [
-					h("div#member-info", [
-						memberView.render(state.member())
-					]),
-					h("div#table-payments",[
-						displayPayments.render(state.payments())
+
+				return (
+					h("div", [
+						h("div.section-label", [
+							h("h1", "Payment info")
+						]),
+
+						h("div.inner-section-divider-medium"),
+
+						h("div.flex", [
+							h("button.btn-primary.w-3",{
+								onclick: function () {
+									return state.modePayment.set("subscription")
+								}
+							},"+ Subscription"),
+							
+							h("button.btn-primary.w-3", {
+								onclick: function () {
+									return state.modePayment.set("donation")
+								}
+							},"+ Donation"),
+
+							h("button.btn-primary.w-3", {
+								onclick: function () {
+									return state.modePayment.set("payment")
+								}
+							},"+ Payment")
+						]),
+
+						h("div.inner-section-divider-medium"),
+
+						page[state.modePayment()](state)
 					])
-				])
+				);
 			}
 		}
 	}
@@ -98,4 +106,20 @@ module.exports = function (utils) {
 	} catch (e) {
 		console.log("View member page err: ", e);
 	}
+
+	utils.request({
+		method: "GET",
+		uri: "/api/members/" + location.pathname.split("/")[2] + "?populate=[payments]"
+	}, function (error, header, body) {
+
+		body = JSON.parse(body);
+		if(error) {
+			alert("Something went wrong");
+		} else {
+			var payments = body.payments;
+			delete body.payments;
+			state.member.set(body);
+			state.payments.set(payments);
+		}
+	});
 };

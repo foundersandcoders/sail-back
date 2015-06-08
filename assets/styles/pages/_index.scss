@@ -43,23 +43,24 @@ $color: #ededed;
 	text-align: left;
 	padding: 20px;
 	overflow: scroll;
-	p {
-		font-size: 15px;
-		margin-bottom: 5px;
-		margin-top: 5px;
-	}
-	.col-1 {
-		width: 40%;
-		min-height: 100px;
-	}
-	.col-2 {
-		width: 40%;
-		min-height: 100px;
-	}
-	.col-3 {
-		width: 40%;
-		min-height: 100px;
-	}
+}
+
+p {
+	font-size: 15px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+.col-1 {
+	width: 40%;
+	min-height: 100px;
+}
+.col-2 {
+	width: 40%;
+	min-height: 100px;
+}
+.col-3 {
+	width: 40%;
+	min-height: 100px;
 }
 
 #member-info-edit {
@@ -145,10 +146,10 @@ $color: #ededed;
 	}
 	.table-section-individual-rows {
 		// height: 25em;
-		overflow: scroll;
-    .selected {
-      background-color: #FFE5E5;
-    }
+		// overflow: scroll;
+		.selected {
+			background-color: #FFE5E5;
+		}
 		.row {
 			display: flex;
 			width: 100%;
@@ -219,8 +220,8 @@ $color: #ededed;
 			}
 		}
 		.search-table-section-member-rows {
-			max-height: 300px;
-			overflow-y: scroll;
+			// max-height: 300px;
+			// overflow-y: scroll;
 			a {
 				text-decoration: none;
 				color: inherit;

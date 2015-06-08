@@ -52,18 +52,68 @@ module.exports.view = function (fn, utils) {
 	var paymentTypes          = require("./helpers").paymentTypes;
 
 	var inputs = [{
-		placeholder: "Payment date",
-		id: "payment-date"
-	}, {
-		placeholder: "Reference",
-		id: "payment-reference"
-	}, {
-		placeholder: "Amount £",
-		id: "payment-amount"
-	}, {
-		placeholder: "Notes",
-		id: "payment-notes"
-	}];
+			placeholder: "Payment date",
+			id: "payment-date"
+		}, {
+			placeholder: "Reference",
+			id: "payment-reference"
+		}, {
+			placeholder: "Amount £",
+			id: "payment-amount"
+		}, {
+			placeholder: "Notes",
+			id: "payment-notes"
+		}
+	];
+
+
+	return (
+		h("div.container-small", [
+			h("div.inner-section-divider-small"),
+
+			h("input", {
+				placeholder: "Payment date"
+			}),
+
+			h("div.inner-section-divider-small"),
+
+			h("input", {
+				placeholder: "Reference"
+			}),
+
+			h("div.inner-section-divider-small"),
+
+			h("input", {
+				placeholder: "Amount"
+			}),
+
+			h("div.inner-section-divider-small"),
+
+			h("input", {
+				placeholder: "Notes"
+			}),
+
+			h("div.inner-section-divider-medium"),
+
+			h("button.align-one.btn-primary",{
+				onclick: function () {
+
+					state.panel.set("view")
+				}
+			},"Back"),
+
+			h("div.inner-section-divider-small"),
+			
+			h("button#next-btn.align-two.btn-primary", {
+				onclick: function () {
+
+					state.panel.set("view")
+				}
+			},"Charge")
+		])
+	);
+
+
 
 	return h("div.container-1", [
 		h("p", "Enter payments"),

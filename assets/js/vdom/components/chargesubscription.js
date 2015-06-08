@@ -47,24 +47,31 @@ module.exports.index = function (utils, state) {
 
 module.exports.view = function (fn) {
 
-	return h("div.container-1", [
-		h("div.title-ctrl", [
-			h("p", "Pay subscription"),
-		]),
-		h("div.body-ctrl", [
-			h("div.gbp", [
-				h("input.input-three#member-controls-subscription-amount", {
-					placeholder: "Amount"
-				})
-			]),
-		]),
-		h("div.container-2", [
-			h("button.button-two.left#member-controls-subscription-pay", {
-				onclick: fn("charge")
-			}, "Pay"),
-			h("button.button-two.right#member-controls-subscription-refund", {
-				onclick: fn("refund")
-			}, "Refund")
+	return (
+		h("div.container-small", [
+			h("div.inner-section-divider-small"),
+
+			h("input", {
+				placeholder: "Amount"
+			}),
+
+			h("div.inner-section-divider-medium"),
+
+			h("button.align-one.btn-primary",{
+				onclick: function () {
+
+					state.panel.set("view")
+				}
+			},"Back"),
+
+			h("div.inner-section-divider-small"),
+			
+			h("button#next-btn.align-two.btn-primary", {
+				onclick: function () {
+
+					state.panel.set("view")
+				}
+			},"Charge")
 		])
-	])
+	);
 };

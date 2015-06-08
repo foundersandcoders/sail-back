@@ -214,7 +214,6 @@ module.exports = {
 				delete obj.password;
 				delete obj.reset_password_codes;
 				delete obj.activation_codes;
-				delete obj.payments;
 				// return the new object without password
 				obj.full_name = obj.first_name + ' ' + obj.last_name;
 				return obj;

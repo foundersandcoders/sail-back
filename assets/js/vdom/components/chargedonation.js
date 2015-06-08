@@ -45,18 +45,37 @@ module.exports.index = function (utils, state) {
 
 module.exports.view = function (fn) {
 
-	return h("div.container-1", [
-		h("p", "Add donation"),
-		h("div.gbp", [
-			h("input.input-three#member-controls-donation-amount", {
+	return (
+		h("div.container-small", [
+			h("div.inner-section-divider-small"),
+
+			h("input", {
 				placeholder: "Amount"
-			})
-		]),
-		h("input.input-four#member-controls-donation-notes", {
-			placeholder: "Optional note"
-		}),
-		h("button.button-two.right.full-width.margin-top-10#member-controls-donation-pay", {
-			onclick: fn
-		}, "Add")
-	]);
+			}),
+
+			h("div.inner-section-divider-small"),
+
+			h("input", {
+				placeholder: "Optional note"
+			}),
+
+			h("div.inner-section-divider-medium"),
+
+			h("button.align-one.btn-primary",{
+				onclick: function () {
+
+					state.panel.set("view")
+				}
+			},"Back"),
+
+			h("div.inner-section-divider-small"),
+			
+			h("button#next-btn.align-two.btn-primary", {
+				onclick: function () {
+
+					state.panel.set("view")
+				}
+			},"Charge")
+		])
+	);
 };
