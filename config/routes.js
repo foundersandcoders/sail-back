@@ -91,8 +91,16 @@ module.exports.routes = {
     	},
     	'POST /payment': {
     		controller: 'Payments',
-    		action: 'makePayment'
-    	}
+    		action: 'makeStripePayment'
+    	},
+        'GET /client_token': {
+            controller: 'Payments',
+            action: 'clientToken'
+        },
+        'POST /paypal_payment': {
+            controller: 'Payments',
+            action: 'makePaypalPayment'
+        }
 	/***************************************************************************
 	*                                                                          *
 	* Custom routes here...                                                    *
@@ -101,6 +109,4 @@ module.exports.routes = {
 	* is matched against Sails route blueprints. See `config/blueprints.js`    *
 	* for configuration options and examples.                                  *
 	*                                                                          *
-	***************************************************************************/
-
-};
+	***************************************************************************/}

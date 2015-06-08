@@ -6,16 +6,21 @@
  */
 
 
-var is     = require("torf");
-var Stripe = require("stripe")("sk_test_rJI1JQQM57MTQYKldOf0qXZv");
+var is        = require("torf");
+var Stripe    = require("stripe")("sk_test_rJI1JQQM57MTQYKldOf0qXZv");
+var braintree = require("braintree");
 
-
+// sandbox credentials
+var BraintreeGateway = braintree.connect({
+    environment: braintree.Environment.Sandbox,
+    merchantId: "rk34hgxrsz8z28y9", 
+    publicKey: "nhxtvjg55pd84txj",
+    privateKey: "f96014be14f9b260c692e46a4d8ea1ca"
+});
 
 module.exports = {
 
-	makePayment: function (req, res) {
-
-
+	makeStripePayment: function (req, res) {
 
 		var stripeToken = req.body.token;
 
@@ -59,5 +64,30 @@ module.exports = {
 
 			res.badRequest(err);
 		});
-	}
+	},
+    clientToken: function (req, res) {
+    
+        BraintreeGateway.clientToken.generate({
+            merchantAccountId: "rk34hgxrsz8z28y9"
+        }, function (err, response) {
+            
+            if (err) {
+                res.send(err); 
+            } else {
+                res.send(response.clientToken);
+            }
+        });
+    },
+    makePaypalPayment: function (req, res) {
+        
+        var nonce = req.body.payment_method_nonce;
+        BraintreeGateway.transaction.sale({
+            amount: '51.00',
+            paymentMethodNonce: nonce
+        }, function (err, result) {
+           
+            if (err) res.send(err);
+            else res.send(result);
+        });
+    }
 };
