@@ -17,13 +17,13 @@ module.exports = function (utils) {
 	});
 
 	// check if "state" is in storage
-	if(localStorage.getItem("state")) {
+	// if(localStorage.getItem("state")) {
 
-		populateFromStorage(state);
-	} else {
+	// 	populateFromStorage(state);
+	// } else {
 
-		saveToStorage(state);
-	}
+	// 	saveToStorage(state);
+	// }
 
 	state.print = function () {
 
@@ -32,7 +32,7 @@ module.exports = function (utils) {
 
 	state(function onchange (currentState) {
 
-		saveToStorage(currentState);
+		// saveToStorage(currentState);
 		render();
 	});
 
@@ -89,8 +89,8 @@ module.exports = function (utils) {
 	function view () {
 
 		return (
-			utils.h("div#main", [
-				panelViews.navbar(state),
+			utils.h("div", [
+				// panelViews.navbar(state),
 				panelViews[state.panel()](state, createMember)
 			])
 		);
@@ -115,7 +115,7 @@ module.exports = function (utils) {
 	}
 
 	try {
-		document.querySelector("#wrap").appendChild(render());
+		document.querySelector("#signup-component").appendChild(render());
 	} catch (e) {
 		console.log("Sign up page err: ", e);
 	}

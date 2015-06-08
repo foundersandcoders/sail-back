@@ -19,20 +19,13 @@ input {
 	@extend %input;
 }
 
-@media (max-width: $mobile) {
-    %input {
-        height: 50px;
-        width: 100%;
-        font-size: $p-font-size-mobile;
-    }
-}
 
 textarea {
-	@extend %input;
-	height: 100px;
-	width: 500px;
-	resize: none;
-	padding-top: 10px;
+    @extend %input;
+    height: 100px;
+    width: 500px;
+    resize: none;
+    padding-top: 10px;
 }
 
 *::-webkit-input-placeholder {
@@ -52,29 +45,34 @@ textarea {
 }
 
 select {
-	display: block;
-	font-size: 15px;
-	color: #999;
-	font-weight: 100;
-	display: block;
-	border: 1px solid #ccc;
-	padding-left: 10px;
-	padding-top: 2px;
-	padding-right: 10px;
-	outline: 0px;
-	-webkit-appearance: none;
-	height: 50px;
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	background-color: white;
-	border-radius: 0px;
+    display: block;
+    font-size: 15px;
+    color: #999;
+    font-weight: 100;
+    display: block;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    padding-top: 2px;
+    padding-right: 10px;
+    outline: 0px;
+    -webkit-appearance: none;
+    height: 60px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-color: white;
+    border-radius: 0px;
 }
 
-@media (max-width: 1700px) {
-	select {
-		height: 40px;
-	}
+@media (max-width: $mobile) {
+    %input {
+        height: 50px;
+        width: 100%;
+        font-size: $p-font-size-mobile;
+    }
+    select {
+        height: 50px;
+    }
 }
 
 label {

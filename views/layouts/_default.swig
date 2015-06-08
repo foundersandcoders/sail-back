@@ -18,10 +18,10 @@
             </div>
         </div>
 
-<!--        {% block footer %}
+        {% block footer %}
             {% include "../includes/_footer.swig" %}
         {% endblock %}
--->
+
         {% block scripts %}
             {% include "../includes/_scripts.swig" %}
         {% endblock %}

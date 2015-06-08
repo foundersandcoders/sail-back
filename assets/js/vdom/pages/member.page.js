@@ -42,8 +42,6 @@ module.exports = function (utils) {
 			h("div.overall-container", [
 				renderViewMode(),
 				h("div.actions-container", [
-					// modeControl.render(),
-					// memberStatus.render(),
 					h("div.refund-section", [
 						chargeSubscription.render()
 					]),

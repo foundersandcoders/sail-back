@@ -45,7 +45,7 @@ module.exports = function (utils) {
 	}
 
 	try {
-		document.querySelector(".overall-container-member").appendChild(render());
+		document.querySelector("#search-component").appendChild(render());
 	} catch (e) {
 		console.log("Search page err: ", e);
 	}

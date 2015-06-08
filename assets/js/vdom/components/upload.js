@@ -88,25 +88,27 @@ module.exports.index = function (utils, state) {
 
 module.exports.view = function (state, fnUpload, fnPost) {
 
-	return h("div.upload-component", [
-		h("div.upload#upload-container", [
-			h("div.file-upload", [
-				h("span", "Upload members"),
-				h("input#upload-members.upload", {
-					type: "file",
-					onchange: fnUpload("members", fnPost)
-				})
+	return (
+		h("div.upload-component", [
+			h("div.upload#upload-container", [
+				h("div.file-upload", [
+					h("span", "Upload members"),
+					h("input#upload-members.upload", {
+						type: "file",
+						onchange: fnUpload("members", fnPost)
+					})
+				]),
+				h("div.file-upload", [
+					h("span", "Upload payments"),
+					h("input#upload-payments.upload", {
+						type: "file",
+						onchange: fnUpload("payments", fnPost)
+					})
+				]),
 			]),
-			h("div.file-upload", [
-				h("span", "Upload payments"),
-				h("input#upload-payments.upload", {
-					type: "file",
-					onchange: fnUpload("payments", fnPost)
-				})
-			]),
-		]),
-		renderResult(state)
-	]);
+			renderResult(state)
+		])
+	);
 
 	function renderResult (state) {
 

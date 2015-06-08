@@ -1,6 +1,11 @@
-#{% extends './../layouts/_default.swig' %}
-
-{% extends './../layouts/_mobile.swig' %}
+{% extends './../layouts/_default.swig' %}
 
 {% block content %}
+
+	<div class="container-large">
+
+		<div class="inner-section-divider-medium"></div>
+
+		<div id="signup-component"></div>
+	</div>
 {% endblock %}

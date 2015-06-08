@@ -28,9 +28,9 @@ module.exports = function (utils) {
 	});
 
     var uploadPanels = require("../components/upload/panels.js")(utils.h, state, utils.request);
-    var router = createRouter(uploadPanels);
+    var router       = createRouter(uploadPanels);
 	
-    var uploadComponent = require("../components/upload.js").index(utils, state);
+    var uploadComponent        = require("../components/upload.js").index(utils, state);
     var uploadResultsComponent = require("../components/uploadproblems.js").index(utils, state);
 
 	utils.$$("upload-component").append(renderTools.render(state));

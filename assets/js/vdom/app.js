@@ -27,11 +27,32 @@
 	};
 
 	try{
-//		require("./pages/adminhome.js")(utils);
-//       require("./pages/member.page.js")(utils);
-       require("./pages/maintenance.js")(utils);
-       require("./pages/signup.js")(utils);
-  	} catch (e){
-		console.log("Index: ", e)
+		require("./pages/adminhome.js")(utils);
+	} catch (e){
+		console.log("Search component: ", e);
+	}
+
+	try {
+		require("./pages/member.page.js")(utils);
+	} catch (e) {
+		console.log("Member component: ", e);
+	}
+
+	try {
+		require("./pages/maintenance.js")(utils);
+	} catch (e) {
+		console.log("Maintenance component: ", e);
+	}
+
+	try{
+		require("./pages/signup.js")(utils);
+	} catch (e){
+		console.log("Signup component: ", e);
+	}
+
+	try{
+		require("./pages/signin.js")(utils);
+	} catch (e){
+		console.log("Signin component: ", e);
 	}
 }());
