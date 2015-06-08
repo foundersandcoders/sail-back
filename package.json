@@ -8,6 +8,7 @@
     "async": "^1.0.0",
     "babyparse": "^0.4.3",
     "bcryptjs": "^2.1.0",
+    "braintree": "^1.26.0",
     "connect-redis": "^2.3.0",
     "csv-parse": "^0.1.2",
     "csv-parser": "^1.6.0",
@@ -54,7 +55,8 @@
     "start": "NODE_ENV=development sails lift --verbose",
     "debug": "NODE_ENV=development node-debug app.js",
     "utest": "tape test/upload/*.spec.js",
-    "end": "protractor test/end2end/config.js"
+    "end": "protractor test/end2end/config.js",
+    "wd": "webdriver-manager update && webdriver-manager start"
   },
   "main": "app.js",
   "repository": {
