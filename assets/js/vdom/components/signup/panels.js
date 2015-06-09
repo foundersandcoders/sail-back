@@ -1033,23 +1033,18 @@ module.exports.checkEmail = function (state) {
 		return (
 			h("div.main-container", [
 				h("div.inner-section-divider-small"),
-				h("div.section-label", [
-					h("h1", "Sorry!")
-				]),
-				h("div.container-small", [
-					h("div.inner-section-divider-medium"),
-					h("div.input-label-container", [
-						h("h3", "Apparently there was a problem! Wil is working on that!")
-					]),
-					h("div.inner-section-divider-medium"),
-					h("button#button_sign_up.btn-primary", {
-						onclick: function () {
+                h("div.inner-section-divider-medium"),
+                h("div.input-label-container", [
+                    h("h3", "Apparently there was a problem! Wil is working on that!")
+                ]),
+                h("div.inner-section-divider-medium"),
+                h("button#button_sign_up.btn-primary", {
+                    onclick: function () {
 
-							state.panel.set("home");
-						}
-					}, "Continue")
-				])
-			])
+                        state.panel.set("home");
+                    }
+                }, "Continue")
+            ])
 		);
 	};
 //-------------------------------------------------------------------------------------------
@@ -1132,8 +1127,6 @@ module.exports.checkEmail = function (state) {
 		function renderPayments () {}
 
 		function expireAnnualSubscription (state) {
-
-			// if due_date is coming render stuff
 
 			return (
 				h("div", [
@@ -1302,7 +1295,7 @@ module.exports.checkEmail = function (state) {
 
 					h("button.btn-primary", {
 						onclick: function () {
-							return state.panel.set("gimmeMoney")
+							return state.panel.set("paypalPayment")
 						}
 					}, "PayPal"),
 
@@ -1325,6 +1318,31 @@ module.exports.checkEmail = function (state) {
 			])
 		);
 	};
+
+    module.exports.paypalPayment = function (state) {
+        
+        utils.request({
+            method: "GET",
+            uri: "/client_token"
+        }, function (err, header, token) {
+        
+            braintree.setup(token, "dropin", {
+                container: "payment-form"                  
+            });
+             
+        });
+       
+        return h("form#checkout", {
+            method: "POST",
+            action: "/paypal_payment"
+        }, [
+            h("div#payment-form"),
+            h("input", {
+                type: "submit",
+                value: "Pay"
+            })
+        ]);
+    };
 
 	module.exports.creditCardPayment = function (state)  {
 

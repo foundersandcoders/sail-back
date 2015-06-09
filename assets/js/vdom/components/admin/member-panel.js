@@ -574,10 +574,12 @@ module.exports.viewPayment = function (state) {
 					h("p#member-payment-description", elm.description)
 				]),
 				h("div.col-3", [
-					h("p#member-payment-charges", (elm.category !== "payment") ? elm.amount.toString() : "")
+					h("p#member-payment-charges", 
+                    (elm.category !== "payment" && elm.amount) ? elm.amount.toString() : "")
 				]),
 				h("div.col-3", [
-					h("p#member-payment-payments", (elm.category === "payment") ? elm.amount.toString() : "")
+					h("p#member-payment-payments",
+                    (elm.category === "payment" && elm.amount) ? elm.amount.toString() : "")
 				]),
 				h("div.col-4", [
 					h("p#member-payment-balance-due", elm.balanceDue)
