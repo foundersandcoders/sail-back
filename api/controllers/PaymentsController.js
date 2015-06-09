@@ -81,19 +81,22 @@ module.exports = {
        
         var nonce = req.body.payment_method_nonce;
         var paymentPaypal = {
-            amount: req.body.amount || "51",
+            amount: req.body.amount || "0",
             paymentMethodNonce: nonce 
         }; 
        
         BraintreeGateway.transaction.sale(paymentPaypal,
         function (err, result) {
            
-            if (err) res.send(err);
-            else {
+            if (err) {
+                res.send(err);
+            } else {
                 
                 Members.findOne(req.session.user || "471663")
                 .then(function (err, member) {
                   
+                    if (err) throw err;
+                    
                     member = member || {id: "471663"};
                    
                     var paymentRecord = {
@@ -110,8 +113,10 @@ module.exports = {
                     return Payments.create(paymentRecord);
                    
                 }).then(function (err, payment) {
-               
-                    res.send(payment);
+              
+                    if (err) throw err;
+                    
+                    res.redirect("/");
                 }).catch(function (err) {
                     
                     res.badRequest(err);

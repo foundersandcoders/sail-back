@@ -1339,7 +1339,7 @@ module.exports.checkEmail = function (state) {
             h("div#payment-form"),
             h("input", {
                 type: "submit",
-                value: "Pay de monies"
+                value: "Pay"
             })
         ]);
     };
