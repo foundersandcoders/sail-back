@@ -5,7 +5,6 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-
 var is        = require("torf");
 var Stripe    = require("stripe")("sk_test_rJI1JQQM57MTQYKldOf0qXZv");
 var braintree = require("braintree");
@@ -79,15 +78,45 @@ module.exports = {
         });
     },
     makePaypalPayment: function (req, res) {
-        
+       
         var nonce = req.body.payment_method_nonce;
-        BraintreeGateway.transaction.sale({
-            amount: '51.00',
-            paymentMethodNonce: nonce
-        }, function (err, result) {
+        var paymentPaypal = {
+            amount: req.body.amount || "51",
+            paymentMethodNonce: nonce 
+        }; 
+       
+        BraintreeGateway.transaction.sale(paymentPaypal,
+        function (err, result) {
            
             if (err) res.send(err);
-            else res.send(result);
+            else {
+                
+                Members.findOne(req.session.user || "471663")
+                .then(function (err, member) {
+                  
+                    member = member || {id: "471663"};
+                   
+                    var paymentRecord = {
+                        category: "payment",
+                        description: "Payment by Paypal",
+                        type: "PAYPAL",
+                        amount: paymentPaypal.amount,
+                        member: member.id,
+                        date: new Date(),
+                        reference: req.body.reference || "",
+                        notes: req.body.notes || ""
+                    };
+                    
+                    return Payments.create(paymentRecord);
+                   
+                }).then(function (err, payment) {
+               
+                    res.send(payment);
+                }).catch(function (err) {
+                    
+                    res.badRequest(err);
+                });
+            }
         });
     }
 };
