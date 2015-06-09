@@ -1,15 +1,15 @@
 var memberTypes = module.exports.memberTypes = [{
 		value: "annual-single",
-		description: "Annual single £10 pa"
+		description: "Annual single"
 	}, {
 		value: "annual-double",
-		description: "Annual double £15 pa"
+		description: "Annual double"
 	},{
 		value: "annual-family",
-		description: "Annual family £20 pa"
+		description: "Annual family"
 	},{
 		value: "life-single",
-		description: "Life single £175"
+		description: "Life single"
 	},{
 		value: "life-double",
 		description: "Life double"

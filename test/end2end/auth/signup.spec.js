@@ -29,7 +29,7 @@ describe('Sign up process: ', function(){
 
 	it('should see the signup form', function (){
 		browser.ignoreSynchronization = true;
-		browser.driver.get(params.service.clerk);
+		browser.driver.get(params.service.clerk + "/signup");
 		expect(browser.getCurrentUrl()).toContain(params.service.clerk);
 
 		expect($("sign-up-panel-1").isPresent()).toBe(true);

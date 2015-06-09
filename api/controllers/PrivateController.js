@@ -6,6 +6,31 @@ module.exports = {
 
 		res.view("pages/admin");
 	},
+	showMemberForm: function (req, res) {
+
+		res.view('pages/new-member');
+	},
+	addmember: function (req, res) {
+
+		var member                     = req.allParams();
+		member.date_joined             = (Is.ok(member.date_joined)             ? member.date_joined             : null);
+		member.life_payment_date       = (Is.ok(member.life_payment_date)       ? member.life_payment_date       : null);
+		member.due_date                = (Is.ok(member.due_date)                ? member.due_date                : null);
+		member.date_gift_aid_signed    = (Is.ok(member.date_gift_aid_signed)    ? member.date_gift_aid_signed    : null);
+		member.date_gift_aid_cancelled = (Is.ok(member.date_gift_aid_cancelled) ? member.date_gift_aid_cancelled : null);
+
+		Members
+		.create(req.allParams())
+		.exec(function (err, item) {
+
+
+			if(err){
+
+			} else {
+				res.redirect("/members/" + item.id);
+			}
+		});
+	},
 	showMember: function (req, res) {
 
 		Members

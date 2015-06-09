@@ -77,6 +77,14 @@ module.exports.routes = {
 			controller: 'Private',
 			action: 'showAdmin'
 		},
+		'GET /addmember': {
+			controller: 'Private',
+			action: 'showMemberForm'
+		},
+		'POST /addmember': {
+			controller: 'Private',
+			action: 'addmember'
+		},
 		'GET /members/:id': {
 			controller: 'Private',
 			action: 'showMember'

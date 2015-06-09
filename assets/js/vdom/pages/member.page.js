@@ -24,7 +24,7 @@ module.exports = function (utils) {
 
 		return (
 			h("div.main-container#member-component", [
-				
+
 				h("div.inner-section-divider-medium"),
 
 				h("div.section-label", [
@@ -38,7 +38,6 @@ module.exports = function (utils) {
 				h("div.inner-section-divider-medium"),
 
 				renderPayment()
-
 			])
 		);
 
@@ -109,7 +108,7 @@ module.exports = function (utils) {
 
 	utils.request({
 		method: "GET",
-		uri: "/api/members/" + location.pathname.split("/")[2] + "?populate=[payments]"
+		uri: "/api/members/" + location.pathname.split("/")[2] + "?populate=[payments,membership_type, deletion_reason]"
 	}, function (error, header, body) {
 
 		body = JSON.parse(body);

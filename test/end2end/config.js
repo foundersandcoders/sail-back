@@ -11,16 +11,15 @@ exports.config = {
 	specs: [
 		// './signup.spec.js',
 		// './signin.spec.js',
-		// './admin.home.spec.js',
-		// './member.create.spec.js',
-		// './member.edit.check.spec.js',
-		// './member.edit.edit.spec.js',
 		'./auth/signup.spec.js',
-		'./member/edit.spec.js',
-		'./member/payments.spec.js'
+		'./admin/member.create.spec.js',
+		'./admin/member.edit.spec.js',
+		// './admin/member.payments.spec.js',
+		// './member/edit.spec.js',
+		// './member/payments.spec.js'
 		// './payments.spec.js',
 		//'./auth/signup.spec.js',
-        './admin/upload.spec.js'
+        // './admin/upload.spec.js'
 	],
 	params: {
 		admin: {

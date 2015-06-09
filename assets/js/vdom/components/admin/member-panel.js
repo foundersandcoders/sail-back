@@ -28,20 +28,20 @@ module.exports.viewMember = function (state) {
 		return ([
 			h("div.col-1", [
 				h("h2", "Personal info"),
-				check("Name: ", fullName.call(member)),
-				check("ID: ", member.id),
-				check("Primary email: ", member.primary_email),
-				check("Secondary email: ", member.secondary_email),
-				check("Bounced email: ", member.email_bounced),
-				check("News: ", (member.news_type === "post" ? "Post" : "Online")),
-				check("Status: ", member.status),
+				check("Name: ", fullName.call(member), "full_name"),
+				check("ID: ", member.id, "id"),
+				check("Primary email: ", member.primary_email, "primary_email"),
+				check("Secondary email: ", member.secondary_email, "secondary_email"),
+				check("Bounced email: ", member.email_bounced, "bounced_email"),
+				check("News: ", (member.news_type === "post" ? "Post" : "Online"), "news_type"),
+				check("Status: ", (member.activation_status === "deactivated" ? "deleted" : "active"), "activation_status"),
 				[(
-					(member.status !== "deleted")
-					? undefined
-					: h("span", [
-						check("Deletion date:", utils.moment(member.deletionDate).format("DD-MM-YY")),
-						check("Deletion reason: ", member.deletion_reason)
+					(member.activation_status === "deactivated")
+					? h("span", [
+						check("Deletion date:", utils.moment(member.deletion_date).format("DD-MM-YY"), "deletion_date"),
+						check("Deletion reason: ", member.deletion_reason, "deletion_reason")
 					])
+					: undefined
 				)]
 			])
 		]);
@@ -52,17 +52,16 @@ module.exports.viewMember = function (state) {
 		return ([
 			h("div.col-2", [
 				h("h2", "Address info"),
-				check("Address line: ", member.address1),
-				check("Address line: ", member.address2),
-				check("Address line: ", member.address3),
-				check("Address line: ", member.address4),
-				check("Address line: ", member.address5),
-				check("County: ", member.county),
-				check("Postcode: ", member.postcode),
-				check("Deliverer: ", member.deliverer),
-				check("Home phone: ", member.home_phone),
-				check("Work phone: ", member.work_phone),
-				check("Mobile phone: ", member.mobile_phone)
+				check("Address line: ", member.address1, "address1"),
+				check("Address line: ", member.address2, "address2"),
+				check("Address line: ", member.address3, "address3"),
+				check("Address line: ", member.address4, "address4"),
+				check("County: ", member.county, "county"),
+				check("Postcode: ", member.postcode, "postcode"),
+				check("Deliverer: ", member.deliverer, "deliverer"),
+				check("Home phone: ", member.home_phone, "home_phone"),
+				check("Work phone: ", member.work_phone, "work_phone"),
+				check("Mobile phone: ", member.mobile_phone, "mobile_phone")
 			])
 		]);
 	}
@@ -72,41 +71,41 @@ module.exports.viewMember = function (state) {
 		return ([
 			h("div.col-3", [
 				h("h2", "Membership info"),
-				check("Date joined: ", utils.moment(member.date_joined).format("DD-MM-YYYY")),
-				check("Membership type: ", replaceNice.call(null, (member.membership_type || ""))),
+				check("Date joined: ", utils.moment(member.date_joined).format("DD-MM-YYYY"), "date_joined"),
+				check("Membership type: ", replaceNice.call(null, (member.membership_type || "")), "membership_type"),
 				[(
 					(member.membership_type === "life-double" || member.membership_type === "life-single")
-					? check("Life payent date: ", member.life_payment_date)
+					? check("Life payent date: ", member.life_payment_date, "life_payment_date")
 					: undefined
 				)],
 				[(
 					(member.dateTypeChanged && (member.membership_type === "life-double" || member.membership_type === "life-single"))
-					? (check("Life payment date: ", member.life_payment_date), check("Membership date changed: ", member.date_type_changed))
+					? (check("Life payment date: ", member.life_payment_date, "life_payment_date"), check("Membership date changed: ", member.date_type_changed, "date_type_changed"))
 					: undefined
 				)],
 				[(
 					(member.gift_aid_signed !== undefined)
-					? check("GAD Signed: ", utils.moment(member.date_gift_aid_signed).format("DD-MM-YYYY"))
+					? check("GAD Signed: ", utils.moment(member.date_gift_aid_signed).format("DD-MM-YYYY"), "gad_signed")
 					: undefined
 				)],
 				[(
 					(member.date_gift_aid_cancelled !== undefined)
-					? check("GAD cancelled: ", utils.moment(member.date_gift_aid_cancelled).format("DD-MM-YYYY"))
+					? check("GAD cancelled: ", utils.moment(member.date_gift_aid_cancelled).format("DD-MM-YYYY"), "date_gift_aid_cancelled")
 					: undefined
 				)],
-				check("Standing order: ", (member.standing_order) ? "Yes" : "No" ),
+				check("Standing order: ", ((member.standing_order) ? "Yes" : "No"), "standing_order"),
 				check("Notes: ", member.notes),
-				check("Status online: ", (member.registered ? "Registered" : "Unregistered")),
-				check("Due date: ", utils.moment(member.due_date).format("DD-MMM"))
+				check("Status online: ", (member.registered === "registered" ? "Registered" : "Unregistered"), "registered"),
+				check("Due date: ", utils.moment(member.due_date).format("DD-MMM"), "due_date")
 			])
 		]);
 	}
 
-	function check (name, elm) {
+	function check (name, elm, id) {
 		if(elm) {
 			return h("p", [
 				h("span.info", name),
-				h("span#view-member-" + replaceSpaceColon.call(name), elm)
+				h("span#view-member-" + id, elm)
 			]);
 		}
 	}
@@ -116,12 +115,12 @@ module.exports.viewMember = function (state) {
 		return this.toLowerCase().replace(" ", "-").replace(":", "");
 	}
 
-	function replaceNice (membershipType) {
+	function replaceNice (membership_type) {
 
-		if (!utils.is.ok(membershipType)) {
+		if (!utils.is.ok(membership_type)) {
 			return "";
 		} else {
-			return membershipType.description;
+			return membership_type.description;
 		}
 
 	}
@@ -170,10 +169,10 @@ module.exports.editMember = function (state) {
 					membership_type:      $$("edit-member-membership-type").valSelect(),
 					// date_joined:          $$("edit-member-date-joined").value(),
 					// life_payment_date:    $$("edit-member-life-payment-date").value(),
-					// registered:           $$("edit-member-status-online").checkedValue(),
-					// gift_aid_signed:      $$("edit-member-gift-aid-signed").checkedValue(),
+					registered:           ($$("edit-member-status-online").checkedValue() === true ? "registered" : "unregistered"), 
+					gift_aid_signed:      $$("edit-member-gift-aid-signed").checkedValue(),
 					// date_gift_aid_signed: $$("edit-member-date-gift-aid-signed").value(),
-					// standing_order:       $$("edit-member-standing-order").checkedValue(),
+					standing_order:       $$("edit-member-standing-order").checkedValue(),
 					notes:                $$("edit-member-notes").value()
 				};
 			} catch (e) {
@@ -188,9 +187,20 @@ module.exports.editMember = function (state) {
 
 				if(error) {
 					alert("Could not update member");
-				} else {				
-					state.member.set(body);
-					state.modeMember.set("viewMember");
+				} else {
+					// get the populated member
+					utils.request({
+						method: "GET",
+						uri: "/api/members/" + body.id + "?populate=[payments,membership_type, deletion_reason]"
+					}, function (errorPop, headerPop, bodyPop) {
+
+						if(errorPop) {
+							alert("Could not get member");
+						} else {
+							state.member.set(JSON.parse(bodyPop));
+							state.modeMember.set("viewMember");
+						}
+					});
 				}
 			});
 		},
@@ -363,23 +373,14 @@ module.exports.editMember = function (state) {
 		return h("div.col-2", [
 			h("h2", "Address info"),
 			h("p", [
-				h("span.info", "Address line: "),
+				h("span.info", "Address 1: "),
 				h("input#edit-member-address-line", {
 					type: "text",
 					value: member.address1 || "",
-					placeholder: "House name/number and street, P.O. box, company name, c/o"
 				})
 			]),
-			// h("p", [
-			// 	h("span.info", "Address line 1: "),
-			// 	h("input#edit-member-address1", {
-			// 		type: "text",
-			// 		value: member.address1 || "",
-			// 		placeholder: "House name/number and street, P.O. box, company name, c/o"
-			// 	})
-			// ]),
 			h("p", [
-				h("span.info", "Town/City: "),
+				h("span.info", "Address 2: "),
 				h("input#edit-member-town-or-city", {
 					type: "text",
 					value: member.address2 || ""
@@ -450,7 +451,7 @@ module.exports.editMember = function (state) {
 			h("h2", "Membership info"),
 			h("p", [
 				h("span.info", "Membership type: "),
-				h("select#edit-member-membership-type.input-width", utils.vDomHelpers.renderOptionsSelected(utils.mocks.memberTypes, (member.membership_type || ""), "Membership type"))
+				h("select#edit-member-membership-type.input-width", utils.vDomHelpers.renderOptionsSelected(utils.mocks.memberTypes, (member.membership_type.value || ""), "Membership type"))
 			]),
 			h("p", [
 				h("span.info", "Date joined: "),
@@ -470,7 +471,7 @@ module.exports.editMember = function (state) {
 				h("span.info", "Registered: "),
 				h("input#edit-member-status-online", {
 					type: "checkbox",
-					checked: member.registered
+					checked: (member.registered === "registered")
 				})
 			]),
 			h("p", [

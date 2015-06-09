@@ -36,7 +36,7 @@ function member (proto) {
 	that.standingOrder     = proto.standingOrder     || "No";
 	that.notes             = proto.notes             || "Nice dude.";
 	that.registered        = proto.registered        || "Unregistered";
-	that.giftAidSigned     = proto.giftAidSigned     || false;
+	that.giftAidSigned     = proto.giftAidSigned     || true;
 	that.membershipDueDate = proto.membershipDueDate || "01-Jan";
 
 	that.fullName  = that.title + " " + that.firstName + " " + that.initials + " " + that.lastName;
