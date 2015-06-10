@@ -24,6 +24,8 @@
     "grunt-contrib-less": "0.11.1",
     "grunt-contrib-uglify": "~0.4.0",
     "grunt-contrib-watch": "~0.5.3",
+    "grunt-browserify": "^3.8.0",
+    "grunt-sass": "^0.18.1",
     "grunt-sails-linker": "~0.9.5",
     "grunt-sync": "~0.0.4",
     "include-all": "~0.1.3",
@@ -69,8 +71,6 @@
   "devDependencies": {
     "csv2": "^0.1.1",
     "givit": "0.0.2",
-    "grunt-browserify": "^3.8.0",
-    "grunt-sass": "^0.18.1",
     "protractor": "^2.1.0",
     "hyperquest": "^1.2.0",
     "tape": "^4.0.0",
