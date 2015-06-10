@@ -4,7 +4,6 @@
 var h     = require("virtual-dom/h");
 var utils = require("../../app.js").utils;
 
-
 	module.exports.navbar = function (state) {
 
 		return (
@@ -106,7 +105,18 @@ var utils = require("../../app.js").utils;
 
 
 	module.exports.home = function (state) {
-
+/* 
+        utils.request({
+            method: "GET",
+            uri: "/api/members/" + state().member.id + "?populate=[payments]"
+        }, function (err, head, member) {
+            
+            member = JSON.parse(body);
+            state.payments.set(member.payments);
+            delete member.payments;
+            state.member.set(member);
+        });
+*/
 		return (
 			h("div.main-container", [
 				h("div.container-small", [
@@ -114,7 +124,6 @@ var utils = require("../../app.js").utils;
 					h("button.btn-primary#vieworsignup", {
 						onclick: function () {
 							if (state.member().registered === 'registered') {
-
 								return state.panel.set("account");
 							} else {
 
@@ -125,6 +134,7 @@ var utils = require("../../app.js").utils;
 					h("div.inner-section-divider-small"),
 					h("button#make-payment.btn-primary", {
 						onclick: function () {
+                        
 							return state.panel.set("gimmeMoney")
 						}
 					}, "Make payment"),
@@ -166,7 +176,6 @@ var utils = require("../../app.js").utils;
 	module.exports.signIn = function (state) {
 
 		var data = {};
-
 
 		function forgotPassword (member, callback) {
 
@@ -1345,7 +1354,7 @@ module.exports.checkEmail = function (state) {
             h("div#payment-form"),
             h("input", {
                 disabled: true,
-                value: "10",
+                value: state().balanceDue,
                 name: "amount"
             }),
             h("input#braintree-pay.disabled", {

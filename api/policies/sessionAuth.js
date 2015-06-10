@@ -9,8 +9,6 @@
  */
 module.exports = function(req, res, next) {
 
-	console.log("kflsdja", res.session);
-
 	if (req.session.user) {
 		return next();
 	} else {
