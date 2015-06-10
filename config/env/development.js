@@ -13,7 +13,6 @@ module.exports = {
 		connection: 'localMySql',
 		migrate: 'alter'
 	},
-
 	session: {
 		secret: '496a95f915e063812b4c39d698db2462',
 		cookie: {

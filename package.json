@@ -59,7 +59,8 @@
     "debug": "NODE_ENV=development node-debug app.js",
     "utest": "tape test/upload/*.spec.js",
     "end": "protractor test/end2end/config.js",
-    "wd": "webdriver-manager update && webdriver-manager start"
+    "wd": "webdriver-manager update && webdriver-manager start",
+    "dev": "NODE_ENV=development sails lift --verbose"
   },
   "main": "app.js",
   "repository": {

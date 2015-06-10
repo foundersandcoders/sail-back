@@ -9,8 +9,8 @@ exports.config = {
 		browserName: 'chrome'
 	}],
 	specs: [
-		'./auth/signin.spec.js',
 		'./auth/signup.spec.js',
+		'./auth/signin.spec.js',
 		'./admin/member.create.spec.js',
 		'./admin/member.edit.spec.js',
 		'./admin/member.payments.spec.js',

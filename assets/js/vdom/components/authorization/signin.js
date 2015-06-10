@@ -35,7 +35,7 @@ module.exports.signIn = function (state) {
 					action: "/signin",
 					method: "POST"
 				}, [
-					h("input#email", {
+					h("input#number", {
 						type:"text",
 						// name: "username",
 						placeholder: "Membership number",
@@ -50,7 +50,7 @@ module.exports.signIn = function (state) {
 						h("h3", "...or email")
 					]),
 
-					h("input#confirm-email", {
+					h("input#email", {
 						type:"text",
 						name: "username",
 						placeholder: "Email address",
@@ -86,7 +86,7 @@ module.exports.signIn = function (state) {
 
 					h("div.inner-section-divider-medium"),
 
-					h("button#button_sign_up.btn-primary", {
+					h("button#signin-btn.btn-primary", {
 						type: "submit"
 					}, "Sign in")
 				])

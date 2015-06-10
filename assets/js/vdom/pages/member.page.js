@@ -108,7 +108,7 @@ module.exports = function (utils) {
 
 	utils.request({
 		method: "GET",
-		uri: "/api/members/" + location.pathname.split("/")[2] + "?populate=[payments,membership_type, deletion_reason]"
+		uri: "/api/members/" + location.pathname.split("/")[2] + "?populate=[payments,membership_type,deletion_reason]"
 	}, function (error, header, body) {
 
 		body = JSON.parse(body);
