@@ -49,7 +49,7 @@ describe("Upload", function () {
     });
     
     it("click confirm", function () {
-        stop(); 
+
         browser.ignoreSynchronization = true;
     });
 });

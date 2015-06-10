@@ -85,17 +85,18 @@ module.exports = {
             paymentMethodNonce: nonce 
         }; 
        
-        BraintreeGateway.transaction.sale(paymentPaypal,
+        BraintreeGateway
+        .transaction
+        .sale(paymentPaypal,
         function (err, result) {
            
             if (err) {
                 res.send(err);
             } else {
                 
-                Members.findOne(req.session.user || "471663")
-                .then(function (err, member) {
-                  
-                    if (err) throw err;
+                Members
+                .findOne(req.session.user || "471663")
+                .then(function (member) {
                     
                     member = member || {id: "471663"};
                    
@@ -112,9 +113,7 @@ module.exports = {
                     
                     return Payments.create(paymentRecord);
                    
-                }).then(function (err, payment) {
-              
-                    if (err) throw err;
+                }).then(function (payment) {
                     
                     res.redirect("/");
                 }).catch(function (err) {

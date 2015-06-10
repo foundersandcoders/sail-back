@@ -55,19 +55,19 @@ module.exports = function (utils) {
 						h("div.inner-section-divider-medium"),
 
 						h("div.flex", [
-							h("button.btn-primary.w-3",{
+							h("button#subscription_btn.btn-primary.w-3",{
 								onclick: function () {
 									return state.modePayment.set("subscription")
 								}
 							},"+ Subscription"),
 							
-							h("button.btn-primary.w-3", {
+							h("button#donation_btn.btn-primary.w-3", {
 								onclick: function () {
 									return state.modePayment.set("donation")
 								}
 							},"+ Donation"),
 
-							h("button.btn-primary.w-3", {
+							h("button#payment_btn.btn-primary.w-3", {
 								onclick: function () {
 									return state.modePayment.set("payment")
 								}

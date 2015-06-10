@@ -522,28 +522,28 @@ module.exports.viewPayment = function (state) {
 			h("div.table-section-individual", [
 				h("div.table-section-individual-header", [
 					h("div.col-1", [
-						h("p", "Date")
+						h("h3", "Date")
 					]),
 					h("div.col-2", [
-						h("p", "Description")
+						h("h3", "Description")
 					]),
 					h("div.col-3", [
-						h("p", "Charges")
+						h("h3", "Charges")
 					]),
 					h("div.col-3", [
-						h("p", "Payments")
+						h("h3", "Payments")
 					]),
 					h("div.col-4", [
-						h("p", "Balance Due")
+						h("h3", "Balance Due")
 					]),
 					h("div.col-5", [
-						h("p", "Reference")
+						h("h3", "Reference")
 					]),
 					h("div.col-6", [
-						h("p", "Notes")
+						h("h3", "Notes")
 					]),
 					h("div.col-7", [
-						h("button#member-delete-payment.button-two.m-l-15.right.w-full.red",{
+						h("button#member-delete-payment.button-two.m-l-15.right.w-full.red", {
 						//	onclick: deleteFn
 						}, "Del.")
 					])
@@ -571,7 +571,7 @@ module.exports.viewPayment = function (state) {
 					h("p#member-payment-date", utils.moment(elm.date).format("DD-MM-YYYY"))
 				]),
 				h("div.col-2", [
-					h("p#member-payment-description", elm.description)
+					h("p#member-payment-description", (elm.description + (elm.type ? (" by " + elm.type) : "") ))
 				]),
 				h("div.col-3", [
 					h("p#member-payment-charges", 
@@ -610,7 +610,7 @@ module.exports.subscription = function (state) {
 		h("div.container-small", [
 			h("div.inner-section-divider-small"),
 
-			h("input", {
+			h("input#amount", {
 				placeholder: "Amount",
 				onchange: function () {
 					data.amount = this.value;
@@ -628,7 +628,7 @@ module.exports.subscription = function (state) {
 
 			h("div.inner-section-divider-small"),
 			
-			h("button#next-btn.align-two.btn-primary", {
+			h("button#charge.align-two.btn-primary", {
 				onclick: function () {
 
 					data.date        = new Date();
@@ -665,7 +665,7 @@ module.exports.donation = function (state) {
 		h("div.container-small", [
 			h("div.inner-section-divider-small"),
 
-			h("input", {
+			h("input#amount", {
 				placeholder: "Amount",
 				onchange: function () {
 
@@ -675,7 +675,7 @@ module.exports.donation = function (state) {
 
 			h("div.inner-section-divider-small"),
 
-			h("input", {
+			h("input#notes", {
 				placeholder: "Optional note",
 				onchange: function () {
 
@@ -694,7 +694,7 @@ module.exports.donation = function (state) {
 
 			h("div.inner-section-divider-small"),
 			
-			h("button#next-btn.align-two.btn-primary", {
+			h("button#charge.align-two.btn-primary", {
 				onclick: function () {
 
 					data.date        = new Date();
@@ -731,7 +731,18 @@ module.exports.payment = function (state) {
 		h("div.container-small", [
 			h("div.inner-section-divider-small"),
 
-			h("input", {
+			h("select#member-controls-payment-type.mb10", {
+				style: {
+					width: "100%"
+				},
+				onchange: function () {
+					data.type = this.value;
+				}
+			}, utils.vDomHelpers.renderOptionsSelected(utils.mocks.paymentTypes, "", "Select type")),
+
+			h("div.inner-section-divider-small"),
+
+			h("input#date", {
 				placeholder: "Payment date",
 				onchange: function () {
 
@@ -741,7 +752,7 @@ module.exports.payment = function (state) {
 
 			h("div.inner-section-divider-small"),
 
-			h("input", {
+			h("input#reference", {
 				placeholder: "Reference",
 				onchange: function () {
 
@@ -751,7 +762,7 @@ module.exports.payment = function (state) {
 
 			h("div.inner-section-divider-small"),
 
-			h("input", {
+			h("input#amount", {
 				placeholder: "Amount",
 				onchange: function () {
 
@@ -761,7 +772,7 @@ module.exports.payment = function (state) {
 
 			h("div.inner-section-divider-small"),
 
-			h("input", {
+			h("input#notes", {
 				placeholder: "Notes",
 				onchange: function () {
 
@@ -771,7 +782,7 @@ module.exports.payment = function (state) {
 
 			h("div.inner-section-divider-medium"),
 
-			h("button.align-one.btn-primary",{
+			h("button#back.align-one.btn-primary",{
 				onclick: function () {
 
 					state.modePayment.set("viewPayment");
@@ -780,7 +791,7 @@ module.exports.payment = function (state) {
 
 			h("div.inner-section-divider-small"),
 			
-			h("button#next-btn.align-two.btn-primary", {
+			h("button#charge.align-two.btn-primary", {
 				onclick: function () {
 
 					data.description = "Payment";
