@@ -9,9 +9,7 @@
  */
 module.exports = function(req, res, next) {
 
-	sails.log.info("Req: ", req);
-
-	if (req.session.user || req.session.authenticated) {
+	if (req.session.user) {
 		return next();
 	} else {
 		return res.redirect("/signin");

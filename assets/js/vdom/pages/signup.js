@@ -6,14 +6,10 @@ var panelViews = require("../components/signup/panels.js");
 
 module.exports = function (utils) {
 
-	/**
-	 *	Define 
-	 *
-	 */
-
 	var state = utils.observS({
 		member: utils.observS({}),
-		panel:  utils.observ("one")
+		panel:  utils.observ("one"),
+        balanceDue: utils.observ("0")
 	});
 
 	// check if "state" is in storage
@@ -24,11 +20,6 @@ module.exports = function (utils) {
 
 	// 	saveToStorage(state);
 	// }
-
-	state.print = function () {
-
-		console.log("Print!");
-	};
 
 	state(function onchange (currentState) {
 
@@ -121,7 +112,6 @@ module.exports = function (utils) {
 	}
 };
 
-
 /**
  * Updates the current state observable  with the state
  * stored in local storage.
@@ -143,7 +133,6 @@ function populateFromStorage (state) {
  * @param {Object} - current observable state
  */
 function saveToStorage (stateObj) {
-	
 
 	var stateStringify = JSON.stringify(stateObj);
 	localStorage.setItem("state", stateStringify);
