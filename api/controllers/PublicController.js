@@ -5,32 +5,17 @@ var forgotPass = require('../services/ForgotPass');
 module.exports = {
 	ServiceSignIn: function (req, res) {
 
-		console.log("eueueu", req.body);
-
 		passport.authenticate('local', function (err, member, info) {
-			// var pathContinue = module.exports._getContinue(req.url);
+
 			if((err) || (!member)) {
-				if(err) {
-					// req.flash('status', 'Login not recognised! Please try again.');
-					// res.redirect('/ServiceSignIn?service='+req.param('service')+'&continue='+(pathContinue));
-					res.redirect('/signin');
-				}else{
-					// if(info && info.message === 'Invalid Password'){
-					// 	req.flash('status', 'Check or reset password.');
-					// }else if(info && info.message === 'Missing credentials'){
-					// 	req.flash('status', 'Please, enter both email and password.');
-					// }else if(!member && !info){
-					// 	req.flash('status', 'Email not recognised.');
-					// }else{
-					// 	req.flash('Login not recognised! Please try again.');
-					// };
-					// res.redirect('/ServiceSignIn?service=' + req.param('service') + "&continue=" + pathContinue);
-					res.redirect('/signin');
-				};
+				res.redirect('/signin');
 			}else{
 				req.session.user = member;
-				// res.redirect(unescape(pathContinue));
-				sails.log.info("Hey", req.session.user);
+				req.session.authenticated = true;
+				req.member = member;
+
+				sails.log.info("Store in session: ", req.member)
+
 				res.redirect('/admin');
 			};
 		})(req, res);
@@ -39,11 +24,6 @@ module.exports = {
 		req.session.destroy(function (err){
 			res.redirect('/');
 		});
-	},
-	_getContinue: function(reqUrl){
-		var myRegexp = /continue=(.*)/;
-		var match = myRegexp.exec(reqUrl);
-		return is.ok(match) ? match[1] : '';
 	},
 	forgotPassword: function (req, res) {
 
@@ -67,7 +47,6 @@ module.exports = {
 				var hashPassword = forgotPass.hash(randomString);
 				return Members.update({id: member.id}, {password: hashPassword});
 			}
-
 		})
 		.then(function (memberUpdated) {
 
@@ -79,14 +58,12 @@ module.exports = {
 					throw new Error('Was not able to send email');
 					return;
 				}
-
 				res.send();
 			})
 		})
 		.catch(function (err) {
 
 			sails.log.error(err);
-
 			res.send(err);
 		})
 	}

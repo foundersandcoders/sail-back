@@ -101,7 +101,7 @@ module.exports = function (utils) {
 	}
 
 	try {
-		document.querySelector(".full-screen-fixed-members").appendChild(render());
+		document.querySelector("#member-component").appendChild(render());
 	} catch (e) {
 		console.log("View member page err: ", e);
 	}

@@ -6,7 +6,6 @@
 
 		<div class="inner-section-divider-medium"></div>
 
-
 		<div class="main-container">
 			<div class="inner-section-divider-small"></div>
 			<div class="section-label">

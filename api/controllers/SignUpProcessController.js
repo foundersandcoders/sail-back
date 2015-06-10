@@ -24,7 +24,7 @@ module.exports = {
 
 		var newMember        = req.body;
 		newMember.registered = 'registered';
-		newMember.id            = uuid.v4();
+		newMember.id         = uuid.v4();
 
 		var query = {primary_email: req.body['primary_email']};
 

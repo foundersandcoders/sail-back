@@ -9,9 +9,9 @@
  */
 module.exports = function(req, res, next) {
 
-	console.log("kflsdja", res.session);
+	sails.log.info("Req: ", req);
 
-	if (req.session.user) {
+	if (req.session.user || req.session.authenticated) {
 		return next();
 	} else {
 		return res.redirect("/signin");
