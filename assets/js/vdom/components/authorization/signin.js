@@ -1,5 +1,5 @@
-	
-var h = require("virtual-dom/h");
+var h     = require("virtual-dom/h");
+var utils = require("../../app.js").utils;
 
 module.exports.signIn = function (state) {
 
@@ -31,60 +31,65 @@ module.exports.signIn = function (state) {
 					h("h3", "Membership number")
 				]),
 
-				h("input#email", {
-					type:"text",
-					placeholder: "Membership number",
-					onchange: function () {
-						return data.membership_number = this.value;
-					}
-				}),
-
-				h("div.inner-section-divider-small"),
-
-				h("div.input-label-container", [
-					h("h3", "...or email")
-				]),
-
-				h("input#confirm-email", {
-					type:"text",
-					placeholder: "Email address",
-					onchange: function () {
-						return data.email = this.value
-					}
-				}),
-
-				h("div.inner-section-divider-small"),
-
-				h("input#password", {
-					type:"password",
-					placeholder: "Password",
-					onkeyup: function () {
-						return data.password = this.value;
-					}
-				}),
-
-
-				h("div.inner-section-divider-medium"),
-				
-				h("div.input-label-container", [
-					h("a", {
-						href: "#",
-						onclick: function (event) {
-							event.preventDefault();
-							state.panel.set("temporaryPassword");
+				h("form", {
+					action: "/signin",
+					method: "POST"
+				}, [
+					h("input#email", {
+						type:"text",
+						// name: "username",
+						placeholder: "Membership number",
+						onchange: function () {
+							return data.membership_number = this.value;
 						}
-					}, "Forgot password"),
-					h("h4", "If you are an existing member who is logging in for the first time please click 'Forgot Password' and we’ll email you a temporary one.")
-				]),
+					}),
 
-				h("div.inner-section-divider-medium"),
+					h("div.inner-section-divider-small"),
 
-				h("button#button_sign_up.btn-primary", {
-					onclick: function () {
+					h("div.input-label-container", [
+						h("h3", "...or email")
+					]),
 
-						state.panel.set("home");
-					}
-				}, "Sign in")
+					h("input#confirm-email", {
+						type:"text",
+						name: "username",
+						placeholder: "Email address",
+						onchange: function () {
+							return data.email = this.value
+						}
+					}),
+
+					h("div.inner-section-divider-small"),
+
+					h("input#password", {
+						type:"password",
+						name: "password",
+						placeholder: "Password",
+						onkeyup: function () {
+							return data.password = this.value;
+						}
+					}),
+
+
+					h("div.inner-section-divider-medium"),
+					
+					h("div.input-label-container", [
+						h("a", {
+							href: "#",
+							onclick: function (event) {
+								event.preventDefault();
+								state.panel.set("temporaryPassword");
+							}
+						}, "Forgot password"),
+						h("h4", "If you are an existing member who is logging in for the first time please click 'Forgot Password' and we’ll email you a temporary one.")
+					]),
+
+					h("div.inner-section-divider-medium"),
+
+					h("button#button_sign_up.btn-primary", {
+						type: "submit"
+					}, "Sign in")
+				])
 			])
 		])
 	);

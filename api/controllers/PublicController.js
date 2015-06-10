@@ -5,29 +5,32 @@ var forgotPass = require('../services/ForgotPass');
 module.exports = {
 	ServiceSignIn: function (req, res) {
 
+		console.log("eueueu", req.body);
+
 		passport.authenticate('local', function (err, member, info) {
 			// var pathContinue = module.exports._getContinue(req.url);
 			if((err) || (!member)) {
 				if(err) {
-					req.flash('status', 'Login not recognised! Please try again.');
+					// req.flash('status', 'Login not recognised! Please try again.');
 					// res.redirect('/ServiceSignIn?service='+req.param('service')+'&continue='+(pathContinue));
 					res.redirect('/signin');
 				}else{
-					if(info && info.message === 'Invalid Password'){
-						req.flash('status', 'Check or reset password.');
-					}else if(info && info.message === 'Missing credentials'){
-						req.flash('status', 'Please, enter both email and password.');
-					}else if(!member && !info){
-						req.flash('status', 'Email not recognised.');
-					}else{
-						req.flash('Login not recognised! Please try again.');
-					};
+					// if(info && info.message === 'Invalid Password'){
+					// 	req.flash('status', 'Check or reset password.');
+					// }else if(info && info.message === 'Missing credentials'){
+					// 	req.flash('status', 'Please, enter both email and password.');
+					// }else if(!member && !info){
+					// 	req.flash('status', 'Email not recognised.');
+					// }else{
+					// 	req.flash('Login not recognised! Please try again.');
+					// };
 					// res.redirect('/ServiceSignIn?service=' + req.param('service') + "&continue=" + pathContinue);
 					res.redirect('/signin');
 				};
 			}else{
-				req.session.member = member;
+				req.session.user = member;
 				// res.redirect(unescape(pathContinue));
+				sails.log.info("Hey", req.session.user);
 				res.redirect('/admin');
 			};
 		})(req, res);

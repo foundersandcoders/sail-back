@@ -1,6 +1,7 @@
 var passport      = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var bcrypt        = require('bcryptjs');
+var is            = require('torf');
 
 
 passport.serializeUser(function (user, done) {
@@ -22,8 +23,16 @@ passport.use(new LocalStrategy(function (username, password, done){
 
     console.log("use", arguments);
 
+    var query = {};
+
+    if(is.email(username)) {
+        query.primary_email = username;
+    } else {
+        query.id = username;
+    }
+
     Members
-    .findOne({primary_email: username})
+    .findOne(query)
     .exec(function (err, user){
         if(err || !user) {
             return done(null, err); 

@@ -25,8 +25,8 @@ exports.config = {
 			clerk: 'http://localhost:1337'
 		},
 		helpers: {
-			pages: require(__dirname  + '/pages.js'),
-			mocks: require(__dirname  + '/mocks.js'),
+			pages:  require(__dirname  + '/pages.js'),
+			mocks:  require(__dirname  + '/mocks.js'),
 			object: require(__dirname + '/_helpers/form-input-object.js')
 		}
 	},

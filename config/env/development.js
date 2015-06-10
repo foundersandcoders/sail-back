@@ -44,10 +44,10 @@ module.exports = {
 		// that can be shared across multiple Sails.js servers
 		// adapter: process.env.NODE_ENV == "testing" ? "memory" : 'redis',
 		// adapter: process.env.NODE_ENV == "development" ? "memory" : 'redis',
-		// adapter: 'redis',
-		// host: 'localhost',
-		// port: 6379,
-		// db: 'redistogo',
+		adapter: 'redis',
+		host: 'localhost',
+		port: 6379,
+		db: 'redistogo',
 		// pass: '13ec14563ee8c74b410535d17b7b2b4f'
 	},
 	port: process.env.PORT || 1337
