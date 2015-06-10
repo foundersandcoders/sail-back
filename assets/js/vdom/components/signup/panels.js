@@ -1287,7 +1287,7 @@ module.exports.checkEmail = function (state) {
 
 					h("button.btn-primary", {
 						onclick: function () {
-							return state.panel.set("creditCardPayment")
+							return state.panel.set("braintreePayment")
 						}
 					}, "Credit Card"),
 
@@ -1295,7 +1295,7 @@ module.exports.checkEmail = function (state) {
 
 					h("button.btn-primary", {
 						onclick: function () {
-							return state.panel.set("paypalPayment")
+							return state.panel.set("braintreePayment")
 						}
 					}, "PayPal"),
 
@@ -1319,7 +1319,7 @@ module.exports.checkEmail = function (state) {
 		);
 	};
 
-    module.exports.paypalPayment = function (state) {
+    module.exports.braintreePayment = function (state) {
         
         utils.request({
             method: "GET",
@@ -1327,7 +1327,13 @@ module.exports.checkEmail = function (state) {
         }, function (err, header, token) {
         
             braintree.setup(token, "dropin", {
-                container: "payment-form"                  
+                container: "payment-form",
+                onReady: function () {
+               
+                    var submit = utils.$$("braintree-pay").elm
+                    submit.removeAttribute("disabled");
+                    submit.className = "";
+                }
             });
              
         });
@@ -1338,100 +1344,17 @@ module.exports.checkEmail = function (state) {
         }, [
             h("div#payment-form"),
             h("input", {
+                disabled: true,
+                value: "10",
+                name: "amount"
+            }),
+            h("input#braintree-pay.disabled", {
                 type: "submit",
-                value: "Pay"
+                value: "Pay",
+                disabled: true
             })
         ]);
     };
-
-	module.exports.creditCardPayment = function (state)  {
-
-		Stripe.setPublishableKey("pk_test_P7t0dO8UzkBCMkHanTxBCIi1");
-
-		var payment = {
-			number: "4242424242424242"
-		};
-
-		return (
-			h("div.main-container", [
-				h("div.inner-section-divider-small"),
-				h("div.section-label", [
-					h("h1", "Credit card details")
-				]),
-				h("div.container-small", [
-
-					h("div.inner-section-divider-medium"),
-
-					h("h3", "Card number"),
-					h("input", {
-						type: "text",
-						placeholder: "eg. 4242424242424242",
-						value: "4242424242424242",
-						onchange: function () {
-							// return payment.number = this.value.replace(/\s/g, "");
-						}
-					}),
-
-					h("div.inner-section-divider-small"),
-
-					h("h3", "CVC"),
-					h("input", {
-						type: "text",
-						placeholder: "eg. 123",
-						onchange: function () {
-							return payment.cvc = this.value.replace(/\s/g, "");
-						}
-					}),
-
-					h("div.inner-section-divider-small"),
-
-					h("h3", "Expiration month"),
-					h("input", {
-						type: "text",
-						placeholder: "eg. 01",
-						onchange: function () {
-							return payment.exp_month = Number(this.value.replace(/\s/g, ""));
-						}
-					}),
-
-					h("div.inner-section-divider-small"),
-
-					h("h3", "Expiration year"),
-					h("input", {
-						type: "text",
-						placeholder: "eg. 2017",
-						onchange: function () {
-							return payment.exp_year = Number(this.value.replace(/\s/g, ""));
-						}
-					}),
-					h("div.inner-section-divider-medium"),
-
-					h("button.btn-primary", {
-						onclick: function () {
-
-							Stripe.card.createToken(payment, function (status, response) {
-
-								if (response.error) {
-									console.log("fuck the police");
-								} else {
-
-									var token = response.id;
-									utils.request({
-										method: "POST",
-										uri: "/payment",
-										json: {token: token}
-									}, function (err, head, body) {
-
-										console.log(arguments);
-									});
-								}
-							});
-						}
-					}, "Pay")
-				])
-			])
-		);
-	};
 //-------------------------------------------------------------------------------------------
 
 
