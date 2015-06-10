@@ -68,7 +68,6 @@ node_modules
 ################################################
 
 config/local.js
-config/env/staging.js
 config/env/production.js
 
 
