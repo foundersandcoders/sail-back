@@ -1,7 +1,9 @@
 module.exports.policies = {
 
+	'*': ['isAuthenticated', 'isAdmin'],
+
     PrivateController: {
-        '*': 'sessionAuth'
+        '*': ['isAuthenticated', 'isAdmin']
     },
 
     PublicController: {

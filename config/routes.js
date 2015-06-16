@@ -9,10 +9,12 @@ module.exports.routes = {
 	// SignIn process
 	// -------------------------------------------------------------------------
 		'GET /': {
-			view: 'pages/home'
+			controller: 'Public',
+			action: 'showHome'
 		},
 		'GET /signin': {
-			view: 'pages/signin'
+			controller: 'Public',
+			action: 'showSignIn'
 		},
 		'POST /signin': {
 			controller: 'Public',
@@ -76,4 +78,5 @@ module.exports.routes = {
             controller: 'Payments',
             action: 'makePaypalPayment'
         }
+    // -------------------------------------------------------------------------
 }

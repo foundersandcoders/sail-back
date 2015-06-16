@@ -3,6 +3,18 @@ var passport   = require('passport');
 var forgotPass = require('../services/ForgotPass');
 
 module.exports = {
+	showHome: function (req, res) {
+
+		res.view("pages/home", {user: req.session.user});
+	},
+	showSignIn: function (req, res) {
+
+		if(req.session.user) {
+			res.redirect("/");
+		} else {
+			res.view("pages/signin", {user: req.session.user});
+		};
+	},
 	ServiceSignIn: function (req, res) {
 
 		passport.authenticate('local', function (err, member, info) {

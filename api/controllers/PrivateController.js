@@ -4,11 +4,11 @@ var Upload = require("../services/Upload.js")();
 module.exports = {
 	showAdmin: function (req, res) {
 
-		res.view("pages/admin");
+		res.view("pages/admin-search", {user: req.session.user});
 	},
 	showMemberForm: function (req, res) {
 
-		res.view('pages/new-member');
+		res.view('pages/new-member', {user: req.session.user});
 	},
 	addmember: function (req, res) {
 
@@ -47,7 +47,7 @@ module.exports = {
 	},
 	showMaintenance: function (req, res) {
 
-		res.view('pages/maintenance');
+		res.view('pages/maintenance', {user: req.session.user});
 	},
 	Upload: function (req, res) {
    

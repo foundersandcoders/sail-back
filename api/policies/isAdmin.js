@@ -1,5 +1,5 @@
 /**
- * sessionAuth
+ * isAdmin
  *
  * @module      :: Policy
  * @description :: Simple policy to allow any authenticated user
@@ -9,9 +9,9 @@
  */
 module.exports = function(req, res, next) {
 
-	if (req.session.user) {
+	if(req.session.user && req.session.user.privileges === "admin") {
 		return next();
 	} else {
-		return res.redirect("/signin");
+		return res.notFound({user: req.session.user});
 	}
 };
