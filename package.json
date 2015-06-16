@@ -36,6 +36,7 @@
     "observ": "^0.2.0",
     "observ-array": "^3.2.1",
     "observ-struct": "^6.0.0",
+    "observ-varhash": "^1.0.6",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
     "pronto": "^0.3.14",
