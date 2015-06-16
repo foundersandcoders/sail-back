@@ -125,7 +125,7 @@ module.exports = {
 			activation_status: {
 				type: 'STRING',
 				enum: ['created', 'activated', 'deactivated'],
-				defaultsTo: 'created'
+				defaultsTo: 'activated'
 			},
 		// ------------------------------------------------------------
 		// Additional data

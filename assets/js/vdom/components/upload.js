@@ -13,7 +13,16 @@ module.exports.index = function (utils, state) {
 		return module.exports.view(state, createUploader, receiveUploader);
 	};
 
-
+	/**
+	 *	Takes a type of entries ("members" or "payments")
+	 *	and returns a callback with an object which has:
+	 *
+	 *	{
+	 *		type: "member" or "payments"
+	 *		result: {In a string format}
+	 *	}
+	 *
+	 */
 	function createUploader (type, callback) {
 
 		return function upload () {
@@ -66,13 +75,13 @@ module.exports.index = function (utils, state) {
                 var duplicates = checkDuplicates(fileAsJson);
                 var uniqueMembers = utils.lazy(fileAsJson).filter(function (member) {
                     return (duplicates.indexOf(member) === -1);
-                }).toArray(); 
+                }).toArray();
                 
                 state.upload.members.set(uniqueMembers);
                 state.upload.memberDuplicates.set(duplicates);
                 state.panel.set("members");
             } else {
-                
+
                 state.upload.payments.set(fileAsJson);
                 state.upload.paymentCount.set(fileAsJson.length);
                 state.panel.set("payments");
@@ -114,13 +123,17 @@ module.exports.view = function (state, fnUpload, fnPost) {
 
 		if(state.status().done) {
 			if(status.status.split(" ")[0] === "Done"){
-				return h("div.result-upload", [
-					h("p", "Upload succesful")
-				]);
+				return (
+					h("div.result-upload", [
+						h("p", "Upload succesful")
+					])
+				);
 			} else {
-				return h("div.result-upload", [
-					h("p", state)
-				]);
+				return (
+					h("div.result-upload", [
+						h("p", state)
+					])
+				);
 			}
 		}
 	}

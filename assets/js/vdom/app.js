@@ -1,6 +1,8 @@
 ;(function () {
 	"use strict";
 
+	var nuclear = require("./nuclear.js");
+
 	var utils = module.exports.utils = {
 		is:            require("torf"),
 		clean:         require("d-bap"),
@@ -27,7 +29,9 @@
 	};
 
 	try{
-		require("./pages/adminhome.js")(utils);
+		var searchAdmin = require("./pages/adminhome.js");
+		var appendNode  = document.getElementById("search-component");
+		nuclear.app(appendNode, searchAdmin(), searchAdmin.render);
 	} catch (e){
 		console.log("Search component: ", e);
 	}

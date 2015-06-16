@@ -15,10 +15,10 @@ module.exports.index = function (utils, state) {
 
     function uploadMembers () {
        
-        var members = state().upload.members;
+        var members      = state().upload.members;
         var memberLength = members.length;
-        var chunkSize = Math.ceil(memberLength/ 4);
-        var index = 0, membersArray = [];
+        var chunkSize    = Math.ceil(memberLength/ 4);
+        var index        = 0, membersArray = [];
       
         while (index < memberLength) {
             membersArray.push(members.slice(index, index+chunkSize));

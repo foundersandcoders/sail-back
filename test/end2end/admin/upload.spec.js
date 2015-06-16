@@ -11,45 +11,76 @@ function $ (val) { return element(by.id(val));}
 
 describe("Upload", function () {
 
-    it('load page', function () {
+    it('Load page', function () {
     
         browser.ignoreSynchronization = true;
        
         browser.driver.get(params.service.clerk + "/maintenance");
         expect(browser.getCurrentUrl()).toContain("/maintenance");
-        
-        browser.manage().deleteAllCookies();
     });
     
-    it("should load members", function () {
+    it("Should load members", function () {
    
         browser.ignoreSynchronization = true;
         
-        var pathToCsv = "./mockmembers.csv";
+        var pathToCsv = "./mock.members.csv";
         var absPath = path.resolve(__dirname, pathToCsv);
         
         $("upload-members").sendKeys(absPath);
     });
     
-    it("should display length if no duplicates", function () {
+    it("Should display length if no duplicates", function () {
    
         browser.ignoreSynchronization = true;
 
-        expect($("file-length").getText()).toContain("14");
+        expect($("file-length").getText()).toContain("1");
     });
     
-    it("click confirm", function () {
+    it("Click confirm members upload", function () {
    
         browser.ignoreSynchronization = true;
 
         var confirmButton = $("confirm-upload");
         expect(confirmButton.getText()).toContain("Upload");
         browser.driver.manage().window().maximize();
-        confirmButton.click(); 
+        confirmButton.click();
+        browser.sleep(1000);
     });
-    
-    it("click confirm", function () {
+
+    it("Check if member are uploaded", function () {
 
         browser.ignoreSynchronization = true;
+        browser.driver.get(params.service.clerk + "/admin");
+        $("search-field-id").sendKeys("6085");
+        $("search-button").click();
+        browser.sleep(1500);
+
+        expect(browser.getCurrentUrl()).toContain(params.service.clerk + "/members/6085");
+    });
+
+    it("Upload payments", function () {
+
+        browser.ignoreSynchronization = true;
+        browser.driver.get(params.service.clerk + "/maintenance");
+        var pathToCsv = "./mock.payments.csv";
+        var absPath = path.resolve(__dirname, pathToCsv);
+
+        $("upload-payments").sendKeys(absPath);
+    });
+
+    it("Click confirm payments upload", function () {
+   
+        browser.ignoreSynchronization = true;
+        var confirmButton = $("confirm-upload");
+        expect(confirmButton.getText()).toContain("Upload");
+        browser.driver.manage().window().maximize();
+        confirmButton.click();
+    });
+
+    it("Check if member are uploaded", function () {
+
+        browser.ignoreSynchronization = true;
+        browser.driver.get(params.service.clerk + "/members/6085");
+        expect(browser.getCurrentUrl()).toContain(params.service.clerk + "/members/6085");
     });
 });

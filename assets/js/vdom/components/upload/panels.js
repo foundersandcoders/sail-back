@@ -20,7 +20,11 @@ module.exports = function (h, state, request) {
             ]),
             
             h("div.container", [
-                h("p", "There were " + state().upload.problems.length + " problems"),
+                h("h2", {
+                    style: {
+                        "text-align": "center"
+                    }
+                }, "Upload completed. There were " + state().upload.problems.length + " problems"),
                 h("p", state().upload.problems) 
             ])
         ]); 

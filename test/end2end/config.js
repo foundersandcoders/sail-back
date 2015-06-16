@@ -11,10 +11,11 @@ exports.config = {
 	specs: [
 		'./auth/signup.spec.js',
 		'./auth/signin.spec.js',
+		'./admin/member.search.spec.js',
 		'./admin/member.create.spec.js',
 		'./admin/member.edit.spec.js',
 		'./admin/member.payments.spec.js',
-        './admin/upload.spec.js'
+		'./admin/upload.spec.js'
 	],
 	params: {
 		admin: {
@@ -40,13 +41,13 @@ exports.config = {
 		isVerbose: true,
 		includeStackTrace: true
 	},
-	beforeLaunch: function(){
+	beforeLaunch: function () {
 		// start a new database
 		// request({method: 'DELETE', uri: 'http://localhost:9200/clerk/_all'}, function () {
 		// 	console.log('Clear database.');
 		// });
 	},
-	onCleanUp: function(exitCode) {
+	onCleanUp: function (exitCode) {
 		// if tests passed
 		if(exitCode === 0) {
 			// clean database and other stuff

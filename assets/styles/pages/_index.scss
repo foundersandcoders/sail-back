@@ -51,16 +51,13 @@ p {
 	margin-top: 5px;
 }
 .col-1 {
-	width: 40%;
-	min-height: 100px;
+	flex: 1;
 }
 .col-2 {
-	width: 40%;
-	min-height: 100px;
+	flex: 1;
 }
 .col-3 {
-	width: 40%;
-	min-height: 100px;
+	flex: 1;
 }
 
 #member-info-edit {
@@ -79,16 +76,13 @@ p {
 		margin-top: 5px;
 	}
 	.col-1 {
-		width: 40%;
-		min-height: 100px;
+		flex: 1;
 	}
 	.col-2 {
-		width: 40%;
-		min-height: 100px;
+		flex: 1;
 	}
 	.col-3 {
-		width: 40%;
-		min-height: 100px;
+		flex: 1;
 	}
 }
 

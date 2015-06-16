@@ -11,7 +11,7 @@ exports.admins = function () {
 		secondary_email: 'bes2@foch.org',
 		password: 'cnvo2hh89h',
 		privileges: 'admin',
-		status: 'activated',
+		activation_status: 'activated',
 		gift_aid_signed: false,
 		membership_type: module.exports.membershipTypes()[0].value
 	},{
@@ -38,7 +38,7 @@ exports.admins = function () {
 		secondary_email: 'richard2@foch.org',
 		password: '98fasdh39f',
 		privileges: 'admin',
-		status: 'deactivated',
+		activation_status: 'deactivated',
 		deletion_reason: module.exports.deletionReasons()[1].value,
 		gift_aid_signed: false,
 		membership_type: module.exports.membershipTypes()[2].value
