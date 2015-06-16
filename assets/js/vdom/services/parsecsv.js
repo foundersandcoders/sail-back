@@ -1,26 +1,32 @@
 "use strict";
 
-var parse      = require("csv-parse");
-var lazy       = require("lazy.js");
-var blueprints = require("./blueprints");
-var is         = require("torf");
+var parseLibrary = require("csv-parse");
+var lazy         = require("lazy.js");
+var blueprints   = require("./blueprints");
+var is           = require("torf");
 
 module.exports = {
 	parse: parseFun
 };
 
+/**
+ *	Parse csv function.
+ *
+ *	@param {Object}   - object in the form of {type: type, result: result} where type
+ * 						is a string and result a string
+ *	@param {Function} - callback function with the data transformed in an array
+ *
+ */
 function parseFun (file, callback) {
 
-	parse(file.result, {delimiter: ";"}, stamp);
-	
-	function stamp (err, outputFromCsvParser) {
+	parseLibrary(file.result, {delimiter: ";"}, function (err, outputFromCsvParser) {
 				
 		if (err) return callback(err);
 
 		var json = jsonify(outputFromCsvParser, file.type);
 
 		return callback(undefined, json);
-	}
+	});
 };
 
 function jsonify (file, fileType) {
@@ -43,16 +49,16 @@ function jsonify (file, fileType) {
  *	@param  {object} -
  *	@return {object} - 'stampedobject'
  */
-function _stamp (count, data, stamppattern){
+function _stamp (index, data, stamppattern){
 
 	var stampedobj = {};
 	var stampkeys  = Object.keys(stamppattern);
 
-	if (count === 0 && (data.length !== stampkeys.length)) {
+	if (index === 0 && (data.length !== stampkeys.length)) {
 		// console.log(data.length);
 		// console.log("header: ", data);
 		// console.log(stampkeys.length);
-		throw new Error({message: "blueprint does not match with file csv columns"});
+		throw new Error({message: "Blueprint does not match with file csv columns"});
 	}
 
 	stampkeys.forEach(function (keystamp, index){
@@ -63,8 +69,6 @@ function _stamp (count, data, stamppattern){
 
 				data[index] = _membershipTypeMap(data[index]);
 			}
-
-			// sails.log.info("debug:", keystamp, data[index]);
 
 			stampedobj[keystamp] = _transform(data[index], stamppattern[keystamp].type);
 		}
@@ -118,7 +122,8 @@ function _dateconvert (str) {
 	}
 
 	var parts = str.split("/");
-	var dt = new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+	var dt    = new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+
 	if(isValidDate(dt)){
 		return dt;
 	}else{

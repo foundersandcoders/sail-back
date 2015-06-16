@@ -14,6 +14,9 @@
         <li id="nav-logout">
             <a href="/signout">Signout</a>
         </li>
+            <li id="nav-add-member">
+            <a href="/admin">Search member</a>
+        </li>
         <li id="nav-add-member">
             <a href="/addmember">Add member</a>
         </li>

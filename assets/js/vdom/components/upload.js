@@ -22,6 +22,9 @@ module.exports.index = function (utils, state) {
 	 *		result: {In a string format}
 	 *	}
 	 *
+	 *	@param {String}   - type of upload {"member" || "payments"}
+	 *	@param {Function} - callback with the result object
+	 *	
 	 */
 	function createUploader (type, callback) {
 
@@ -38,7 +41,12 @@ module.exports.index = function (utils, state) {
 		}
 	}
 
-
+	/**
+	 *	Check duplicates by "primary_email" in members.
+	 *	
+	 *	@param  {Array} - array of members object
+	 *	@return {Array} - array of duplicate members if any
+	 */
 	function checkDuplicates (entries) {
     
         var emailsArray = utils.lazy(entries)
@@ -66,7 +74,11 @@ module.exports.index = function (utils, state) {
         }).toArray();
 	}
 
-
+	/**
+	 *	Parser function which uses "parseCsv".
+	 *	Updates the state with members or payments
+	 *	array.
+	 */
 	function receiveUploader (file) {
 
 		utils.parseCsv(file, function (err, fileAsJson) {
@@ -95,7 +107,7 @@ module.exports.index = function (utils, state) {
 };
 
 
-module.exports.view = function (state, fnUpload, fnPost) {
+module.exports.view = function (state, createUploader, receiveUploader) {
 
 	return (
 		h("div.upload-component", [
@@ -104,14 +116,14 @@ module.exports.view = function (state, fnUpload, fnPost) {
 					h("span", "Upload members"),
 					h("input#upload-members.upload", {
 						type: "file",
-						onchange: fnUpload("members", fnPost)
+						onchange: createUploader("members", receiveUploader)
 					})
 				]),
 				h("div.file-upload", [
 					h("span", "Upload payments"),
 					h("input#upload-payments.upload", {
 						type: "file",
-						onchange: fnUpload("payments", fnPost)
+						onchange: createUploader("payments", receiveUploader)
 					})
 				]),
 			]),

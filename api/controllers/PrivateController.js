@@ -1,4 +1,10 @@
-var Is = require('torf');
+/**
+ *
+ *
+ */
+
+
+var Is     = require('torf');
 var Upload = require("../services/Upload.js")();
 
 module.exports = {
@@ -41,7 +47,7 @@ module.exports = {
 			if (Is.ok(err) || !Is.ok(item)) {
 				return res.notFound();
 			} else {
-				return res.view('pages/member', {member: item});
+				return res.view('pages/member', {member: item, user: req.session.user});
 			}
 		});
 	},
@@ -52,7 +58,7 @@ module.exports = {
 	Upload: function (req, res) {
    
 
-		/** 
+		/**
 		 *	The sign '&' (ampersand) splits the
 		 *	request body content in different objects
 		 *	where all the keys are the data.
@@ -72,14 +78,14 @@ module.exports = {
 
 			Upload.members(csv, function (err, result) {
 
-				sails.log.info("Result Upload: ", result);
 				return res.send(result);
 			});
 		} else if (req.query.type === 'payments') {
 
 			Upload.payments(csv, function (err, result) {
 
-				sails.log.info("Result Upload: ", result);
+				sails.log.info("Payment upload: ", result);
+
 				return res.send(result);
 			});
 		}

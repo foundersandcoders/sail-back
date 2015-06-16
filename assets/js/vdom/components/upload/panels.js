@@ -141,16 +141,36 @@ module.exports = function (h, state, request) {
             renderButtons(uploadData("payments", 5))
         ]);
     }
-  
+    
+    /**
+     *  Upload to backend. Since the array of objects (payments or member)
+     *  can potentially be big, the function splits the array in sub-arrays
+     *  and uploads them in "chuncks".
+     *
+     *  Payments mock data:
+        {
+            amount: 5
+            date: Wed Jan 03 1912 00:00:00 GMT+0000 (GMT)
+            deleted: false
+            member: "6085"
+            notes: null
+            reference: "61201"
+            type_code: "8 - Standing Order"
+        }
+     *
+     *
+     */
     function uploadData (type, splitNum) {
     
         return function () {
+
             state.panel.set("pending");
             
-            var data = state().upload[type];
-            var len = data.length;
+            var data      = state().upload[type];
+            var len       = data.length;
             var chunkSize = Math.ceil(len/splitNum);
-            var ii = 0, arr = [];
+            var ii        = 0;
+            var arr       = [];
             
             while (ii < len) {
                 arr.push(data.slice(ii, ii+chunkSize));
@@ -158,6 +178,7 @@ module.exports = function (h, state, request) {
             }
             
             var problems = [];
+
             arr.forEach(function (set, jj) {
             
                 request({
@@ -167,7 +188,7 @@ module.exports = function (h, state, request) {
                 }, function (err, head, response) {
                 
                     if (!err) {
-                        problems = problems.concat(response.problems); 
+                        problems = problems.concat(response.problems);
                     }
                     if (jj === arr.length-1) {
                         state.upload.problems.set(problems);
