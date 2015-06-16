@@ -38,8 +38,8 @@ module.exports.viewMember = function (state) {
 				[(
 					(member.activation_status === "deactivated")
 					? h("span", [
-						check("Deletion date: ",    utils.moment(member.deletion_date).format("DD-MM-YY"), "deletion_date"),
-						check("Deletion reason: ", member.deletion_reason.description, "deletion_reason")
+						check("Deletion date: ",   utils.moment(member.deletion_date).format("DD-MM-YY"), "deletion_date"),
+						check("Deletion reason: ", (member.deletion_reason ? member.deletion_reason.description : ""), "deletion_reason")
 					])
 					: undefined
 				)]
