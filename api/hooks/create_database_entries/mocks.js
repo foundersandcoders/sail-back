@@ -40,6 +40,8 @@ exports.admins = function () {
 		privileges: 'admin',
 		activation_status: 'deactivated',
 		deletion_reason: module.exports.deletionReasons()[1].value,
+		deletion_date: new Date(),
+		date_joined: new Date(),
 		gift_aid_signed: false,
 		membership_type: module.exports.membershipTypes()[2].value
 	},{

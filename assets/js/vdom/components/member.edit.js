@@ -239,54 +239,51 @@ function view (that, data, toggleFn, utils) {
 		return h("div.col-2", [
 			h("h2", "Address info"),
 			h("p", [
-				h("span.info", "Address line: "),
+				h("span.info", "Address line 1: "),
 				h("input#edit-member-address-line", {
 					type: "text",
 					value: member.address1 || "",
 					placeholder: "House name/number and street, P.O. box, company name, c/o"
 				})
 			]),
-			// h("p", [
-			// 	h("span.info", "Address line 1: "),
-			// 	h("input#edit-member-address1", {
-			// 		type: "text",
-			// 		value: member.address1 || "",
-			// 		placeholder: "House name/number and street, P.O. box, company name, c/o"
-			// 	})
-			// ]),
 			h("p", [
-				h("span.info", "Town/City: "),
-				h("input#edit-member-town-or-city", {
+				h("span.info", "Address line 2: "),
+				h("input#edit-member-address2", {
 					type: "text",
-					value: member.address2 || ""
+					value: member.address2 || "",
+					placeholder: "House name/number and street, P.O. box, company name, c/o"
 				})
 			]),
-			// h("p", [
-			// 	h("span.info", "Address 3: "),
-			// 	h("input#edit-member-address3", {
-			// 		type: "text",
-			// 		value: member.address3 || ""
-			// 	})
-			// ]),
-			// h("p", [
-			// 	h("span.info", "Address 4: "),
-			// 	h("input#edit-member-address3", {
-			// 		type: "text",
-			// 		value: member.address3 || ""
-			// 	})
-			// ]),
+			h("p", [
+				h("span.info", "Address line 3: "),
+				h("input#eedit-member-address3", {
+					type: "text",
+					value: member.address3 || "",
+					placeholder: "House name/number and street, P.O. box, company name, c/o"
+				})
+			]),
+			h("p", [
+				h("span.info", "Address 4: "),
+				h("input#edit-member-address4", {
+					type: "text",
+					value: member.address4 || "",
+					placeholder: "House name/number and street, P.O. box, company name, c/o"
+				})
+			]),
 			h("p", [
 				h("span.info", "County: "),
 				h("input#edit-member-county", {
 					type: "text",
-					value: member.county || ""
+					value: member.county || "",
+					placeholder: "County"
 				})
 			]),
 			h("p", [
 				h("span.info", "Postcode: "),
 				h("input#edit-member-postcode", {
 					type: "text",
-					value: member.postcode || ""
+					value: member.postcode || "",
+					placeholder: "Postcode"
 				})
 			]),
 			// h("p", [

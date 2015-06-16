@@ -116,6 +116,10 @@ module.exports = {
 			date_gift_aid_signed: {
 				type: 'DATE'
 			},
+			gift_aid_cancelled: {
+				type: 'BOOLEAN',
+				defaultsTo: false
+			},
 			date_gift_aid_cancelled: {
 				type: 'DATE'
 			},

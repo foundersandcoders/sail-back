@@ -28,18 +28,18 @@ module.exports.viewMember = function (state) {
 		return ([
 			h("div.col-1", [
 				h("h2", "Personal info"),
-				check("Name: ", fullName.call(member), "full_name"),
-				check("ID: ", member.id, "id"),
-				check("Primary email: ", member.primary_email, "primary_email"),
+				check("Name: ",            fullName.call(member), "full_name"),
+				check("ID: ",              member.id, "id"),
+				check("Primary email: ",   member.primary_email, "primary_email"),
 				check("Secondary email: ", member.secondary_email, "secondary_email"),
-				check("Bounced email: ", member.email_bounced, "bounced_email"),
-				check("News: ", (member.news_type === "post" ? "Post" : "Online"), "news_type"),
-				check("Status: ", (member.activation_status === "deactivated" ? "deleted" : "active"), "activation_status"),
+				check("Bounced email: ",   member.email_bounced, "bounced_email"),
+				check("News: ",            (member.news_type === "post" ? "Post" : "Online"), "news_type"),
+				check("Status: ",          (member.activation_status === "deactivated" ? "deleted" : "active"), "activation_status"),
 				[(
 					(member.activation_status === "deactivated")
 					? h("span", [
-						check("Deletion date:", utils.moment(member.deletion_date).format("DD-MM-YY"), "deletion_date"),
-						check("Deletion reason: ", member.deletion_reason, "deletion_reason")
+						check("Deletion date: ",    utils.moment(member.deletion_date).format("DD-MM-YY"), "deletion_date"),
+						check("Deletion reason: ", member.deletion_reason.description, "deletion_reason")
 					])
 					: undefined
 				)]
@@ -56,11 +56,11 @@ module.exports.viewMember = function (state) {
 				check("Address line: ", member.address2, "address2"),
 				check("Address line: ", member.address3, "address3"),
 				check("Address line: ", member.address4, "address4"),
-				check("County: ", member.county, "county"),
-				check("Postcode: ", member.postcode, "postcode"),
-				check("Deliverer: ", member.deliverer, "deliverer"),
-				check("Home phone: ", member.home_phone, "home_phone"),
-				check("Work phone: ", member.work_phone, "work_phone"),
+				check("County: ",       member.county, "county"),
+				check("Postcode: ",     member.postcode, "postcode"),
+				check("Deliverer: ",    member.deliverer, "deliverer"),
+				check("Home phone: ",   member.home_phone, "home_phone"),
+				check("Work phone: ",   member.work_phone, "work_phone"),
 				check("Mobile phone: ", member.mobile_phone, "mobile_phone")
 			])
 		]);
@@ -84,12 +84,12 @@ module.exports.viewMember = function (state) {
 					: undefined
 				)],
 				[(
-					(member.gift_aid_signed !== undefined)
+					(member.gift_aid_signed !== undefined && member.gift_aid_signed === true)
 					? check("GAD Signed: ", utils.moment(member.date_gift_aid_signed).format("DD-MM-YYYY"), "gad_signed")
 					: undefined
 				)],
 				[(
-					(member.date_gift_aid_cancelled !== undefined)
+					(member.date_gift_aid_cancelled !== undefined && member.date_gift_aid_cancelled === true)
 					? check("GAD cancelled: ", utils.moment(member.date_gift_aid_cancelled).format("DD-MM-YYYY"), "date_gift_aid_cancelled")
 					: undefined
 				)],
