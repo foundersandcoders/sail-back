@@ -29,20 +29,10 @@ function App () {
  */
 function query (state, params) {
 
-	var activation_status;
-
-	Object.keys(params).forEach(function (elm) {
-		if(!params[elm].contains) {
-			delete params[elm];
-		}
-
-		if(elm === "activation_status") {
-			activation_status = params[elm].contains;
-			delete params[elm];
-		}
-	});
-
-	params["activation_status"] = activation_status;
+	if(!params.id)                       delete params.id;
+	if(!params.activation_status)        delete params.activation_status;
+	if(!params.last_name.startsWith)     delete params.last_name;
+	if(!params.primary_email.startsWith) delete params.primary_email;
 
 	nuclear.request({
 		method: "GET",
@@ -82,18 +72,14 @@ App.render = function (state) {
 	function searchBox (state) {
 
 		var data = {
-			id: {
-				contains: ""
-			},
+			id: "",
 			last_name: {
-				contains: ""
+				startsWith: ""
 			},
 			primary_email: {
-				contains: ""
+				startsWith: ""
 			},
-			activation_status: {
-				contains: "activated"
-			}
+			activation_status: "activated"
 		};
 
 		return (
@@ -101,7 +87,7 @@ App.render = function (state) {
 				h("div.search-container", [
 					h("select#member-status", {
 						onchange: function () {
-							data.activation_status.contains = this.value;
+							data.activation_status = this.value;
 						}
 					},[
 						h("option", {
@@ -116,21 +102,21 @@ App.render = function (state) {
 						placeholder: "Number",
 						onchange: function () {
 
-							data.id.contains = this.value;
+							data.id = this.value;
 						}
 					}),
 					h("input.input-member#search-field-email", {
 						placeholder: "Email address",
 						onchange: function () {
 
-							data.primary_email.contains = this.value;
+							data.primary_email.startsWith = this.value;
 						}
 					}),
 					h("input.input-member#search-field-lastName", {
 						placeholder: "Surname",
 						onchange: function () {
 
-							data.last_name.contains = this.value;
+							data.last_name.startsWith = this.value;
 						}
 					}),
 					h("button.button-two.member#search-button", {
