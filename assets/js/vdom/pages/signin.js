@@ -1,8 +1,8 @@
 "use strict";
 
-var nuclear = require("../nuclear.js");
-var utils   = require("../utils.js");
-
+var nuclear   = require("../nuclear.js");
+var utils     = require("../utils.js");
+var Messenger = require("../components/Messenger.js");
 
 module.exports = SignInApp;
 
@@ -11,7 +11,7 @@ var route;
 function SignInApp () {
 
 	var state = nuclear.observS({
-		error:    nuclear.observ(""),
+		error:    nuclear.observS({}),
 		route:    nuclear.observ(""),
 		number:   nuclear.observ(""),
 		email:    nuclear.observ(""),
@@ -43,7 +43,7 @@ function forgotPassword (state, member) {
 			// state.route.set("/forgot");
 		} else {
 
-			state.error.set(body.error);
+			state.error.set({message: body.error});
 		}
 	});
 }
@@ -55,6 +55,7 @@ SignInApp.render = function (state) {
 
 	return (
 		h("div", [
+			(!!state.error().message ? Messenger.render(state) : ""),
 			route("/", signin),
 			route("/forgot", forgotPass)
 		])
