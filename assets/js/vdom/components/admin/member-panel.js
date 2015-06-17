@@ -744,6 +744,7 @@ module.exports.payment = function (state) {
 
 			h("input#date", {
 				placeholder: "Payment date",
+				type: "date",
 				onchange: function () {
 
 					data.date = this.value;

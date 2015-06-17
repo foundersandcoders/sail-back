@@ -85,7 +85,7 @@ module.exports.index = function (utils, state) {
 			orderedPayments.reduce(function (a, b) {
 
 				var cost;
-				if (b.collection !== "payment") {
+				if (b.category !== "payment") {
 					cost = Number(b.amount);
 				} else {
 					cost = 0 - Number(b.amount);

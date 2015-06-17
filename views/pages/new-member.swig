@@ -12,7 +12,7 @@
             <div class="innerSectionContainer">
                 <div class="inner-section-divider-medium">
                     <h3>Member id</h3>
-                    <input id="add-member-id" class="short" name="id" placeholder="Membership number">
+                    <input id="add-member-id" class="short" name="id" placeholder="Membership number" required>
                 </div>
             </div>
 
@@ -151,7 +151,7 @@
                     <div class="couterContainer">
                         <h3>Membership type</h3>
                     </div>
-                    <select name="membership_type" id="add-member-membership-type" class="short" style="color:#ccc;width:320px;">
+                    <select name="membership_type" id="add-member-membership-type" class="short" style="color:#ccc;width:320px;" required>
                         <option class="meta" value="" disabled="" selected="">Click to select one</option>
                         <option value="annual-single">Annual Single</option>
                         <option value="annual-double">Annual Double</option>
@@ -169,7 +169,7 @@
                     <div class="couterContainer">
                         <h3>Date joined</h3>
                     </div>
-                    <input id="add-member-date-joined" class="short" type="date" name="date_joined">
+                    <input id="add-member-date-joined" class="short" type="date" name="date_joined" required>
                 </div>
             </div>
 

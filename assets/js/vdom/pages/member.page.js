@@ -1,7 +1,8 @@
 "use strict";
 
 
-var page = require("../components/admin/member-panel.js");
+var page       = require("../components/admin/member-panel.js");
+var balanceDue = require("../services/balanceDue");
 
 
 module.exports = function (utils) {
@@ -115,7 +116,7 @@ module.exports = function (utils) {
 		if(error) {
 			alert("Something went wrong");
 		} else {
-			var payments = body.payments;
+			var payments = balanceDue(body.payments);
 			delete body.payments;
 			state.member.set(body);
 			state.payments.set(payments);

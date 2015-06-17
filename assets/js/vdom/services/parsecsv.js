@@ -55,9 +55,7 @@ function _stamp (index, data, stamppattern){
 	var stampkeys  = Object.keys(stamppattern);
 
 	if (index === 0 && (data.length !== stampkeys.length)) {
-		// console.log(data.length);
-		// console.log("header: ", data);
-		// console.log(stampkeys.length);
+
 		throw new Error({message: "Blueprint does not match with file csv columns"});
 	}
 
@@ -67,10 +65,11 @@ function _stamp (index, data, stamppattern){
 
 			if(keystamp === "membership_type") {
 
-				data[index] = _membershipTypeMap(data[index]);
-			}
+				stampedobj.membership_type = _membershipTypeMap(data[index]);
+			} else {
 
-			stampedobj[keystamp] = _transform(data[index], stamppattern[keystamp].type);
+				stampedobj[keystamp] = _transform(data[index], stamppattern[keystamp].type);
+			}
 		}
 	});
 
@@ -107,7 +106,7 @@ function _transform (value, type) {
 		return value === "VERO" ? true : false;
 	} else if (type === "custom"){
 
-		return value === "FALSE" ? "activated" : "deactivated";
+		return value === "FALSO" ? "activated" : "deactivated";
 	} else {
 
 		return null;
@@ -115,6 +114,7 @@ function _transform (value, type) {
 }
 
 function _dateconvert (str) {
+
 	function isValidDate(d) {
 		if ( {}.toString.call(d) !== "[object Date]" )
 			return false;
@@ -133,20 +133,15 @@ function _dateconvert (str) {
 
 function _membershipTypeMap (membership_type) {
 
-	var type = [
-		{original: 'Single',    imported: 'annual-single'},
-		{original: 'Double',    imported: 'annual-double'},
-		{original: 'Family',    imported: 'annual-family'},
-		{original: 'Group',     imported: 'annual-group'},
-		{original: 'Corporate', imported: 'annual-corporate'},
-		{original: 'Life Sgl',  imported: 'life-single'},
-		{original: 'Life Dble', imported: 'life-double'}
-	];
+	var type = {
+		'Single':    'annual-single',
+		'Double':    'annual-double',
+		'Family':    'annual-family',
+		'Group':     'annual-group',
+		'Corporate': 'annual-corporate',
+		'Life Sgl':  'life-single',
+		'Life Dble': 'life-double'
+	};
 
-	type.forEach(function (element, index) {
-
-		if(element.original === membership_type) {
-			return element.imported;
-		}
-	});
+	return type[membership_type];
 }

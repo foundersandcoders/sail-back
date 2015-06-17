@@ -38,14 +38,14 @@ module.exports = {
 	payments: {
 		date:           {remove:false, type: "date"},
 		member:         {remove:false, type: "string"},
-		subscription:   {remove:false,  type: "number"},
-		donation:       {remove:false,  type: "number"},
-		events:         {remove:false,  type: "number"},
+		subscription:   {remove:false, type: "number"},
+		donation:       {remove:false, type: "number"},
+		events:         {remove:false, type: "number"},
 		amount:         {remove:false, type: "number"},
 		difference:     {remove:true,  type: "number"},
 		type_code:      {remove:false, type: "string"},
 		reference: 	    {remove:false, type: "string"},
 		notes:          {remove:false, type: "string"},
-		deleted:        {remove:false, type: "boolean"}
+		// deleted:        {remove:false, type: "boolean"}
 	}
 }
