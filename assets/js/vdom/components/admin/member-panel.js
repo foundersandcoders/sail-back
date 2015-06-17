@@ -515,8 +515,6 @@ module.exports.editMember = function (state) {
 
 module.exports.viewPayment = function (state) {
 
-	var data = state.payments();
-
 	return (
 		h("div#table-payments", [
 			h("div.table-section-individual", [
@@ -548,56 +546,49 @@ module.exports.viewPayment = function (state) {
 						}, "Del.")
 					])
 				]),
-				h("div.table-section-individual-rows", renderRows(data))
+				h("div.table-section-individual-rows", renderRows(state))
 			])
 		])
 	);
 
-	function renderRows (data){
+	function renderRows (state){
 
-		return data.map(function (elm){
+		var payments = utils.balanceDue(state.payments() || []);
 
-		// var sel = selected.some(function (s) {
-		// 	return s.id === elm.id;
-		// }) ? "selected" : "unselected";
+		return payments.map(function (elm){
 
-		var ref = {
-			id: elm.id,
-			collection: elm.collection
-		};
-
-		return h("div.row", [
-				h("div.col-1", [
-					h("p#member-payment-date", utils.moment(elm.date).format("DD-MM-YYYY"))
-				]),
-				h("div.col-2", [
-					h("p#member-payment-description", (elm.description + (elm.type ? (" by " + elm.type) : "") ))
-				]),
-				h("div.col-3", [
-					h("p#member-payment-charges", 
-                    (elm.category !== "payment" && elm.amount) ? elm.amount.toString() : "")
-				]),
-				h("div.col-3", [
-					h("p#member-payment-payments",
-                    (elm.category === "payment" && elm.amount) ? elm.amount.toString() : "")
-				]),
-				h("div.col-4", [
-					h("p#member-payment-balance-due", elm.balanceDue)
-				]),
-				h("div.col-5", [
-					h("p#member-payment-reference", elm.reference)
-				]),
-				h("div.col-6", [
-					h("p#member-payment-notes", elm.notes)
-				]),
-				h("div.col-7", [
-					h("p#member-payment-delete", {
-            			onclick: function () {
-
-            			}
-					}, "x")
+			return (
+				h("div.row", [
+					h("div.col-1", [
+						h("p#member-payment-date", utils.moment(elm.date).format("DD-MM-YYYY"))
+					]),
+					h("div.col-2", [
+						h("p#member-payment-description", (elm.description + (elm.type ? (" by " + elm.type) : "") ))
+					]),
+					h("div.col-3", [
+						h("p#member-payment-charges", 
+	                    (elm.category !== "payment" && elm.amount) ? elm.amount.toString() : "")
+					]),
+					h("div.col-3", [
+						h("p#member-payment-payments",
+	                    (elm.category === "payment" && elm.amount) ? elm.amount.toString() : "")
+					]),
+					h("div.col-4", [
+						h("p#member-payment-balance-due", elm.balanceDue)
+					]),
+					h("div.col-5", [
+						h("p#member-payment-reference", elm.reference)
+					]),
+					h("div.col-6", [
+						h("p#member-payment-notes", elm.notes)
+					]),
+					h("div.col-7", [
+						h("p#member-payment-delete", {
+	            			onclick: state.channels.deletePayment.bind(this, state, elm.id)
+						}, "x")
+					])
 				])
-			])
+			);
 		});
 	}
 };

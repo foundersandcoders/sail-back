@@ -1,6 +1,7 @@
 "use strict";
 
 
+var nuclear    = require("../nuclear");
 var page       = require("../components/admin/member-panel.js");
 var balanceDue = require("../services/balanceDue");
 
@@ -12,8 +13,29 @@ module.exports = function (utils) {
 		payments:    utils.observ([]),
 		modeMember:  utils.observ("viewMember"),
 		modePayment: utils.observ("viewPayment"),
-		selected:    utils.observ([])
+		selected:    utils.observ([]),
+		channels: {
+			deletePayment: deletePayment
+		}
 	});
+
+	function deletePayment (state, paymentId) {
+
+		nuclear.request({
+			method: "DELETE",
+			url: "/api/payments/" + paymentId
+		}, function (error, header, body) {
+
+			if(error) {
+				alert("Error deleting payments");
+			} else {
+				var paymentsArray = state.payments();
+				var index = paymentsArray.map(function (elm) {return elm.id}).indexOf(JSON.parse(body).id);
+				paymentsArray.splice(index, 1);
+				state.payments.set(paymentsArray);
+			}
+		})
+	}
 
 	state(function onchange () {
 		// console.log("RENDERING", arguments);
