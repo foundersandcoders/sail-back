@@ -1,6 +1,7 @@
 var is         = require('torf');
 var passport   = require('passport');
-var forgotPass = require('../services/ForgotPass');
+var ForgotPass = require('../services/ForgotPass.js');
+var Email      = require('../services/Email.js');
 
 module.exports = {
 	showHome: function (req, res) {
@@ -37,6 +38,10 @@ module.exports = {
 			res.redirect('/');
 		});
 	},
+	/**
+	 *	
+	 *
+	**/
 	forgotPassword: function (req, res) {
 
 		// random string that will be
@@ -55,28 +60,33 @@ module.exports = {
 			if (!is.ok(member)) {
 				throw new Error('Email not recognised.');
 			} else {
-				var randomString = forgotPass.randomString();
-				var hashPassword = forgotPass.hash(randomString);
+				randomString     = ForgotPass.randomString();
+				var hashPassword = ForgotPass.hash(randomString);
 				return Members.update({id: member.id}, {password: hashPassword});
 			}
 		})
 		.then(function (memberUpdated) {
 
-			var data = {password: arandomString, email: req.body['primary_email']};
-			utils.email.sendPassword(data, function (error, result) {
+			Email.sendPassword({
+				password: randomString, 
+				email: req.body['primary_email']
+			}, function (error, result) {
 
 				if(is.ok(error)) {
-
-					throw new Error('Was not able to send email');
-					return;
+					res.send({emailSent: false, error: error})
 				}
-				res.send();
+
+				if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'testing') {
+					res.send({emailSent: true, error: undefined, password: randomString});
+				} else {
+					res.send({emailSent: true, error: undefined});
+				}
 			})
 		})
-		.catch(function (err) {
+		.catch(function (error) {
 
-			sails.log.error(err);
-			res.send(err);
+			sails.log.error(error);
+			res.send({emailSent: false, error: error});
 		})
 	}
 };
