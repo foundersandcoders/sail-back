@@ -24,14 +24,14 @@ module.exports = {
 		member.due_date                = (Is.ok(member.due_date)                ? member.due_date                : null);
 		member.date_gift_aid_signed    = (Is.ok(member.date_gift_aid_signed)    ? member.date_gift_aid_signed    : null);
 		member.date_gift_aid_cancelled = (Is.ok(member.date_gift_aid_cancelled) ? member.date_gift_aid_cancelled : null);
+		member.primary_email           = (Is.ok(member.primary_email)           ? member.primary_email           : null);
 
 		Members
 		.create(req.allParams())
 		.exec(function (err, item) {
 
-
 			if(err){
-
+				res.json(err);
 			} else {
 				res.redirect("/members/" + item.id);
 			}

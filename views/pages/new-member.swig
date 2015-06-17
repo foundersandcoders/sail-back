@@ -3,7 +3,7 @@
 {% block content %}
     <div class="new-member-container">
         <h1>New Member Form</h1>
-        <form action="/addmember" method="post">
+        <form id="create-member-form" action="/addmember" method="post">
 
             <div class="topSectionDividor">
                 <h2>1. Profile</h2>
@@ -169,7 +169,7 @@
                     <div class="couterContainer">
                         <h3>Date joined</h3>
                     </div>
-                    <input id="add-member-date-joined" class="short" type="text" name="date_joined">
+                    <input id="add-member-date-joined" class="short" type="date" name="date_joined">
                 </div>
             </div>
 
@@ -178,7 +178,7 @@
                     <div class="couterContainer">
                         <h3>Date life membership paid</h3>
                     </div>
-                    <input id="add-member-life-payment-date" class="short" type="text" name="life_payment_date">
+                    <input id="add-member-life-payment-date" class="short" type="date" name="life_payment_date">
                 </div>
             </div>
 
@@ -187,7 +187,7 @@
                     <div class="couterContainer">
                         <h3>Due membership date</h3>
                     </div>
-                    <input id="membership-due-date" class="short" type="text" name="due_date" value="2015-01-01">
+                    <input id="membership-due-date" class="short" type="date" name="due_date" value="2015-01-01">
                 </div>
             </div>
 
@@ -212,7 +212,7 @@
                     <input 
                         id="add-member-date-gift-aid-signed" 
                         class="short" 
-                        type="text" 
+                        type="date" 
                         name="date_gift_aid_signed"
                     >
                 </div>
@@ -226,7 +226,7 @@
                     <input 
                         id="add-member-date-gift-cancelled"
                         class="short" 
-                        type="text" 
+                        type="date" 
                         name="date_gift_aid_cancelled"
                     >
                 </div>
@@ -270,5 +270,6 @@
                 </div>
             </div>
         </form>
+        <script type="text/javascript" src="./js/form-validation.js"></script>
     </div>
 {% endblock %}
