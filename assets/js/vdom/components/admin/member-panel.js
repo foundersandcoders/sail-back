@@ -543,7 +543,7 @@ module.exports.viewPayment = function (state) {
 						h("h3", "Notes")
 					]),
 					h("div.col-7", [
-						h("button#member-delete-payment.button-two.m-l-15.right.w-full.red", {
+						h("h3#member-delete-payment", {
 						//	onclick: deleteFn
 						}, "Del.")
 					])
