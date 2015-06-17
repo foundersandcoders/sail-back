@@ -194,7 +194,7 @@ App.render = function (state) {
 								h("p#member-id", result.id)
 							]),
 							h("div.col-2", [
-								h("p", result.last_name + " " + result.first_name)
+								h("p", result.last_name + " " + (result.first_name || ""))
 							]),
 							h("div.col-3", [
 								h("p", result.title)
