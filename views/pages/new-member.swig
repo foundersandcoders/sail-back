@@ -169,7 +169,7 @@
                     <div class="couterContainer">
                         <h3>Date joined</h3>
                     </div>
-                    <input id="add-member-date-joined" class="short" type="date" name="date_joined" required>
+                    <input id="add-member-date-joined" class="short" type="date" name="date_joined">
                 </div>
             </div>
 

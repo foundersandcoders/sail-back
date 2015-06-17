@@ -15,7 +15,7 @@ exports.config = {
 		'./admin/member.create.spec.js',
 		'./admin/member.edit.spec.js',
 		'./admin/member.payments.spec.js',
-		'./admin/upload.spec.js'
+		// './admin/upload.spec.js'
 	],
 	params: {
 		admin: {
@@ -31,26 +31,9 @@ exports.config = {
 			object: require(__dirname + '/_helpers/form-input-object.js')
 		}
 	},
-	// onPrepare: function(){
-	// 	global.isAngularSite = function(flag){
-	// 		browser.ignoreSynchronization = !flag;
-	// 	};
-	// },
 	jasmineNodeOpts: {
 		showColors: true,
 		isVerbose: true,
 		includeStackTrace: true
-	},
-	beforeLaunch: function () {
-		// start a new database
-		// request({method: 'DELETE', uri: 'http://localhost:9200/clerk/_all'}, function () {
-		// 	console.log('Clear database.');
-		// });
-	},
-	onCleanUp: function (exitCode) {
-		// if tests passed
-		if(exitCode === 0) {
-			// clean database and other stuff
-		}
 	}
 }

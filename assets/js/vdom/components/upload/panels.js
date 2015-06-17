@@ -25,7 +25,7 @@ module.exports = function (h, state, request) {
                         "text-align": "center"
                     }
                 }, "Upload completed. There were " + state().upload.problems.length + " problems"),
-                h("p", state().upload.problems) 
+                h("p", String(state().upload.problems)) 
             ])
         ]); 
     }
@@ -35,9 +35,9 @@ module.exports = function (h, state, request) {
     }
 
     function pending () {
-        
+
         return h("div.results-container", [
-       
+
             h("div.table-title", [
                 h("h2", "Uploading...") 
             ])
@@ -54,7 +54,6 @@ module.exports = function (h, state, request) {
                 ]),
                 renderButtons(uploadData("members", 4))
             ]);
-       
         } else {
             return h("div.results-container", [
                 h("div.table-title", [

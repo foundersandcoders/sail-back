@@ -29,6 +29,15 @@ describe("Create payment: ", function(){
         memberAdd.lastName.sendKeys(memberMock.lastName);
         memberAdd.title.sendKeys(memberMock.title);
         memberAdd.primaryEmail.sendKeys(memberMock.primaryEmail);
+
+        // membership
+        element(by.cssContainingText("option", memberMock.membershipType)).click();
+        memberAdd.dateJoined.sendKeys(memberMock.dateJoined);
+        memberAdd.giftAidSigned.click();
+        memberAdd.giftAidSignedDate.sendKeys(memberMock.giftAidSignedDate);
+        element(by.cssContainingText("option", memberMock.newsType)).click();
+        memberAdd.notes.sendKeys(memberMock.notes);
+
         memberAdd.createButton.click();
 
         expect(browser.getCurrentUrl()).toContain(params.service.clerk + '/members/' + memberMock.id);
@@ -43,7 +52,7 @@ describe("Create payment: ", function(){
         $("payment_btn").click();
         browser.sleep(500);
         element(by.cssContainingText("option", "CASH")).click();
-        $("date").sendKeys(paymentMock.date);
+        $("date").sendKeys("11-11-2013");
         $("reference").sendKeys(paymentMock.listReference);
         $("amount").sendKeys(paymentMock.total);
         $("notes").sendKeys(paymentMock.notes);
@@ -56,7 +65,7 @@ describe("Create payment: ", function(){
         browser.ignoreSynchronization = true;
         expect(browser.getCurrentUrl()).toContain(params.service.clerk + '/members/' + memberMock.id);
 
-        expect(viewPayment.dateS.first().getText()).toBe("08-11-2013");
+        expect(viewPayment.dateS.first().getText()).toBe("11-11-2013");
         expect(viewPayment.paymentS.first().getText()).toBe(paymentMock.total.toString());
         // expect(viewPayment.balanceDueS.first().getText()).toBe(String(0-Number(paymentMock.total)));
         expect(viewPayment.referenceS.first().getText()).toBe(paymentMock.listReference);

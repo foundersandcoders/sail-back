@@ -24,18 +24,17 @@ describe("Search functionality", function () {
 	it("The results should contain 2", function () {
 
 		browser.ignoreSynchronization = true;
-		// form hooks created we now that there are two "acitve" members
-		expect(element.all(by.css("#member-id")).get(0).getText()).toContain("433893");
-		expect(element.all(by.css("#member-id")).get(1).getText()).toContain("471663");
+		// form hooks created we now that there are three "acitve" members
+		expect(element.all(by.css("#member-id")).count()).toBe(4);
 	});
 
 	it("Search for 'Hox' last name", function () {
 
 		browser.ignoreSynchronization = true;
-		$("#search-field-lastName").sendKeys("Evans");
+		$("#search-field-lastName").sendKeys("Fis");
 		$("#search-button").click();
 		browser.sleep(1500);
 
-		expect(browser.getCurrentUrl()).toContain(params.service.clerk + "/members/433893");
+		expect(browser.getCurrentUrl()).toContain(params.service.clerk + "/members/471663");
 	});
 });

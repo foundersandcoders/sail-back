@@ -10,16 +10,20 @@
 var test           = require("tape");
 var frontEndParser = require("./../../assets/js/vdom/services/parsecsv.js");
 var backEndParser  = require("./../../api/services/Upload.js")();
+var helpers        = require("./helpers.js");
 
 test("Payments: ", function (t) {
 
 	t.test("Upload parser:", function (st) {
 
-		var mockPayments = "DatePaid;MembershipID;MembershipPaid;Donation;Event;Payment;Difference;PaymentMethod;Bank Slip Ref;PaymentNotes\n03/01/12;6085;5;0;0;5;0;8 - Standing Order;61201;";
-
-		var fileObj = {type: "payments", result: mockPayments};
-
+		var mockPayments = helpers.payments;
+		var fileObj      = {type: "payments", result: mockPayments};
 		frontEndParser.parse(fileObj, function (err, array) {
+
+			if(err) {
+				console.log(err);
+				st.end();
+			}
 
 			var first = array[1];
 
@@ -33,44 +37,48 @@ test("Payments: ", function (t) {
 		});
 	});
 
-	// t.test("Database entries:", function (st) {
+	t.test("Database entries:", function (st) {
 
-	// 	var mockPayments = "DatePaid;MembershipID;MembershipPaid;Donation;Event;Payment;Difference;PaymentMethod;Bank Slip Ref;PaymentNotes\n03/01/12;6085;5;0;0;5;0;8 - Standing Order;61201;;";
+		var mockPayments = "DatePaid;MembershipID;MembershipPaid;Donation;Event;Payment;Difference;PaymentMethod;Bank Slip Ref;PaymentNotes\n03/01/12;6085;5;0;0;5;0;8 - Standing Order;61201;;";
+		var fileObj      = {type: "payments", result: mockPayments};
 
-	// 	var fileObj = {type: "payments", result: mockPayments};
+		frontEndParser.parse(fileObj, function (err, array) {
 
-	// 	frontEndParser.parse(fileObj, function (err, array) {
+			var databaseEntries = backEndParser._generatePayments(array);
 
-	// 		var databaseEntries = backEndParser._generatePayments(array);
+			st.equals(databaseEntries.length, 2, "right number of charges and payments created");
+			st.end();
+		});
+	});
 
-	// 		st.equals(databaseEntries.length, 2, "right number of charges and payments created");
-	// 		st.end();
-	// 	});
-	// });
+	t.test("Database entries with multiple charges:", function (st) {
 
-	// t.test("Database entries with multiple charges:", function (st) {
+		var mockPayments = "DatePaid;MembershipID;MembershipPaid;Donation;Event;Payment;Difference;PaymentMethod;Bank Slip Ref;PaymentNotes\n03/01/12;6085;5;5;5;15;0;8 - Standing Order;61201;;\n03/01/12;6085;5;5;5;15;0;8 - Standing Order;61201;;"
 
-	// 	var mockPayments = "DatePaid;MembershipID;MembershipPaid;Donation;Event;Payment;Difference;PaymentMethod;Bank Slip Ref;PaymentNotes\n03/01/12;6085;5;5;5;15;0;8 - Standing Order;61201;;\n03/01/12;6085;5;5;5;15;0;8 - Standing Order;61201;;"
+		var fileObj = {type: "payments", result: mockPayments};
 
-	// 	var fileObj = {type: "payments", result: mockPayments};
+		frontEndParser.parse(fileObj, function (err, array) {
 
-	// 	frontEndParser.parse(fileObj, function (err, array) {
+			var databaseEntries = backEndParser._generatePayments(array);
 
-	// 		var databaseEntries = backEndParser._generatePayments(array);
-
-	// 		st.equals(databaseEntries.length, 8, "right number of charges and payments created");
-	// 		st.end();
-	// 	});
-	// });
+			st.equals(databaseEntries.length, 8, "right number of charges and payments created");
+			st.end();
+		});
+	});
 });
 
 test("Members: ", function (t) {
 
 	t.test("Upload parser: ", function (st) {
 
-		var mockMember = "MembershipID;Title;Initial;Surname;FirstName;Add1;Add2;Add3;Add4;County;PostCode;Deliverer;HomePhone;MobilePhone;WorkPhone;DOB;Age;Email;Email2;EmailReturned;DateJoined;Membership Type;DateStatusChange;LifePaymentDate;Membership Notes;Gift Aid;Date Signed;GADCancelled;StandingOrder;DeleteRecord;LapsedMember\n8419;Ms;C L;Younger;Christina Lucy;3 New Buildings;Shore Road;;Bosham;West Sussex;PO18 8JD;BW;;;;;0;luyounger@talktalk.net;;FALSO;;Single;;;;VERO;06/02/2009;;VERO;FALSO;FALSO";
+		var mockMember = helpers.members;
 		var fileObj = {type: "members", result: mockMember};
 		frontEndParser.parse(fileObj, function (err, array) {
+
+			if(err) {
+				console.log(err);
+				st.end();
+			}
 
 			var first = array[1];
 
@@ -105,7 +113,7 @@ test("Members: ", function (t) {
 			// 	activation_status: 'deactivated' 
 			// }
 
-			console.log(first);
+			// console.log(first);
 			st.end();
 		});
 	});

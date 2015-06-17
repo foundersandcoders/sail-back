@@ -56,6 +56,8 @@ function _stamp (index, data, stamppattern){
 
 	if (index === 0 && (data.length !== stampkeys.length)) {
 
+		console.log(data.length, stampkeys.length);
+
 		throw new Error({message: "Blueprint does not match with file csv columns"});
 	}
 
@@ -94,7 +96,7 @@ function _transform (value, type) {
 
 	if (is.type(value, type)) {
 
-		return value;
+		return encode(value);
 	} else if (type === "number"){
 
 		return parseInt(value);
@@ -111,6 +113,14 @@ function _transform (value, type) {
 
 		return null;
 	}
+}
+
+function encode(s) {
+	return unescape(encodeURIComponent(s));
+}
+
+function decode(s) {
+	return decodeURIComponent(escape(s));
 }
 
 function _dateconvert (str) {

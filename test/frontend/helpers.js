@@ -1,8 +1,12 @@
 "use strict";
 
-var mockPayments = "03/01/12;6085;5;0;0;5;0;8 - Standing Order;61201;;";
+var mockPayments =  "DatePaid;MembershipID;MembershipPaid;Donation;Event;Payment;Difference;PaymentMethod;Bank Slip Ref;PaymentNotes\n" + 
+                    "03/01/12;6085;5;0;0;5;0;8 - Standing Order;61201;;";
 
-var mockMembers  = "6085;Mr;J V;Abel;;59 Southbrook Road;Langstone;;Havant;Hampshire;PO9 1RL;PH;02392 482218;;;;0;;;FALSO;;Single;;;;VERO;01/01/07;;FALSO;FALSO;FALSO\n6086;Mrs;D S;Abel-Smith;;Partridge Cottage;Pook Lane;;East Lavant;West Sussex;PO18 0AU;Post;;;;;0;;;FALSO;;Single;;;;FALSO;;;VERO;FALSO;FALSO";
+var mockMembers  =  "MembershipID;Title;Initial;Surname;FirstName;Add1;Add2;Add3;Add4;County;PostCode;Deliverer;HomePhone;MobilePhone;WorkPhone;DOB;Age;Email;Email2;EmailReturned;DateJoined;Membership Type;DateStatusChange;LifePaymentDate;Membership Notes;Gift Aid;Date Signed;GADCancelled;StandingOrder;DeleteRecord;DateofDeletion;Reason For Deletion;LapsedMember\n" + 
+                    "11111;Mr;D S;SofeŽ;John Bes;lfkdsja;kjladfsdfsa;;;London;klfhadjs;Post;;;;;0;djkfhsa@bhfd.com;;VERO;12/3/2012;Single;;;;VERO;22/3/2006;;FALSO;FALSO;;;FALSO\n" + 
+                    "5344;Mr;J V;asdf;;fasdfasdfasdf;Langstone;;cz<zxc;cvxzvcx;cv cvx;PH;789435 484532218;;;;0;;;FALSO;;Single;;;;VERO;01/01/07;;FALSO;FALSO;FALSO\n" + 
+                    "78954;Mrs;D S;fasdfa;;lkfasjdha;afsdf;;fjdksa;kjsdfha;PO18 0AU;Post;;;;;0;;;FALSO;;Single;;;;FALSO;;;VERO;FALSO;FALSO";
 
 var arrPayments = [{
     "member": "471800",

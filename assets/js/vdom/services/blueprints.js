@@ -33,7 +33,9 @@ module.exports = {
 		date_gift_aid_cancelled:      {remove:false, type: "date"},
 		standing_order:               {remove:false, type: "boolean"},
 		activation_status:            {remove:false, type: "custom"},
-		lapsedMember:                 {remove:true,  type: "custom"},   // lapsedMember
+		deletion_date:                {remove:false, type: "date"},
+		deletion_reason:              {remove:false, type: "string"},
+		lapsedMember:                 {remove:true,  type: "custom"}   // lapsedMember
 	},
 	payments: {
 		date:           {remove:false, type: "date"},
