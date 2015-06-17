@@ -26,99 +26,96 @@ module.exports = function(sails) {
 
 			return sails.after('hook:orm:loaded', function () {
 
-				function createEntries (state) {
-					if((process.env.NODE_ENV === 'development') && state) {
-						async.waterfall([
-							function (cb) {
+				function createEntries () {
 
-								MembershipTypes
-								.create(mocks.membershipTypes)
-								.exec(function (err, items) {
+					async.waterfall([
+						function (cb) {
 
-									if (err) {
-										cb(err, null)
-									} else {
-										cb(null, items);
-									}
-								});
-							},
-							function (membershipTypes, cb) {
+							MembershipTypes
+							.create(mocks.membershipTypes)
+							.exec(function (err, items) {
 
-								PaymentTypes
-								.create(mocks.paymentTypes)
-								.exec(function (err, items) {
+								if (err) {
+									cb(err, null)
+								} else {
+									cb(null, items);
+								}
+							});
+						},
+						function (membershipTypes, cb) {
 
-									if (err) {
-										cb(err, null)
-									} else {
-										cb(null, items);
-									}
-								});
-							},
-							function (paymentTypes, cb) {
+							PaymentTypes
+							.create(mocks.paymentTypes)
+							.exec(function (err, items) {
 
-								References
-								.create(mocks.references)
-								.exec(function (err, items) {
+								if (err) {
+									cb(err, null)
+								} else {
+									cb(null, items);
+								}
+							});
+						},
+						function (paymentTypes, cb) {
 
-									if (err) {
-										cb(err, null)
-									} else {
-										cb(null, items);
-									}
-								});
-							},
-							function (paymentTypes, cb) {
+							References
+							.create(mocks.references)
+							.exec(function (err, items) {
 
-								Payments
-								.create(mocks.payments)
-								.exec(function (err, items) {
+								if (err) {
+									cb(err, null)
+								} else {
+									cb(null, items);
+								}
+							});
+						},
+						function (paymentTypes, cb) {
 
-									if (err) {
-										cb(err, null)
-									} else {
-										cb(null, items);
-									}
-								});
-							},
-							function (payments, cb) {
+							Payments
+							.create(mocks.payments)
+							.exec(function (err, items) {
 
-								DeletionReasons
-								.create(mocks.deletionReasons)
-								.exec(function (err, items){
+								if (err) {
+									cb(err, null)
+								} else {
+									cb(null, items);
+								}
+							});
+						},
+						function (payments, cb) {
 
-									if (err) {
-										cb(err, null)
-									} else {
-										cb(null, items);
-									}
-								});
-							},
-							function (payments, cb) {
+							DeletionReasons
+							.create(mocks.deletionReasons)
+							.exec(function (err, items){
 
-								Members
-								.create(mocks.members)
-								.exec(function (err, items) {
+								if (err) {
+									cb(err, null)
+								} else {
+									cb(null, items);
+								}
+							});
+						},
+						function (payments, cb) {
 
-									if (err) {
-										cb(err, null)
-									} else {
-										cb(null, items);
-									}
-								});
-							},
-						], function (err, results) {
+							Members
+							.create(mocks.members)
+							.exec(function (err, items) {
 
-							if (err) {
-								sails.log.error('Hooks - error', err);
-							} else {
-								sails.log.info("Hooks - database entries completed!");
-								// sails.log.info("Hooks - database entries completed:", results);
-							}
-						});
-					} else {
-						sails.log.info("...members already in the database");
-					}
+								if (err) {
+									cb(err, null)
+								} else {
+									cb(null, items);
+								}
+							});
+						},
+					], function (err, results) {
+
+						if (err) {
+							sails.log.error('Hooks - error', err);
+						} else {
+							sails.log.info("Hooks - database entries completed!");
+							// sails.log.info("Hooks - database entries completed:", results);
+						}
+					});
 				}
 
 				Members
@@ -128,7 +125,7 @@ module.exports = function(sails) {
 					sails.log.info("Look for members...");
 
 					if (items.length > 0) {
-						createEntries(false);
+						sails.log.info("...members already there!");
 					} else {
 						createEntries(true);
 					}
