@@ -25,19 +25,24 @@ nav {
 	-webkit-flex-flow: row wrap;
 	justify-content: flex-end;
 
-	border-bottom: 1px solid #dbdbdb;
+	border-bottom: 1px solid #eee;
 	// box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
 }
 
 .navigation a {
 	text-decoration: none;
 	display: block;
-	padding: 1em;
+	padding: 15px;
 	color: black;
 }
 
 .navigation a:hover {
 	background: #f4f4f7;
+	outline: 0;
+}
+
+.navigation a:focus {
+	outline: 0;
 }
 
 @media all and (max-width: 800px) {
@@ -56,8 +61,8 @@ nav {
 	.navigation a {
 		text-align: center;
 		padding: 10px;
-		border-top: 1px solid rgba(255,255,255,0.3);
-		border-bottom: 1px solid rgba(0,0,0,0.1);
+		// border-top: 1px solid rgba(255,255,255,0.3);
+		// border-bottom: 1px solid rgba(0,0,0,0.1);
 	}
 
 

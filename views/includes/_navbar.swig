@@ -10,11 +10,13 @@
             <a href="/signin">Signin</a>
         </li>
     {% endif %}
-    {% if user.privileges === "admin" %}
+    {% if user %}
         <li id="nav-logout">
             <a href="/signout">Signout</a>
         </li>
-            <li id="nav-add-member">
+    {% endif %}
+    {% if user.privileges === "admin" %}
+        <li id="nav-add-member">
             <a href="/admin">Search member</a>
         </li>
         <li id="nav-add-member">

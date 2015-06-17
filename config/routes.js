@@ -16,6 +16,10 @@ module.exports.routes = {
 			controller: 'Public',
 			action: 'showSignIn'
 		},
+		'GET /signout': {
+			controller: 'Public',
+			action: 'ServiceSignOut'
+		},
 		'POST /signin': {
 			controller: 'Public',
 			action: 'ServiceSignIn'

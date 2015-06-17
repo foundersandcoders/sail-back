@@ -19,11 +19,30 @@ function App () {
 	return state;
 }
 
+
+/**
+ *	Query function. Takes the state and an object params.
+ *	As a result updates the state with the member result search.
+ *	
+ *	@param {Object} - observable state
+ *	@param {Object} - query object
+ */
 function query (state, params) {
 
+	var activation_status;
+
 	Object.keys(params).forEach(function (elm) {
-		if(!params[elm].contains) delete params[elm];
+		if(!params[elm].contains) {
+			delete params[elm];
+		}
+
+		if(elm === "activation_status") {
+			activation_status = params[elm].contains;
+			delete params[elm];
+		}
 	});
+
+	params["activation_status"] = activation_status;
 
 	nuclear.request({
 		method: "GET",
@@ -94,7 +113,7 @@ App.render = function (state) {
 						}, "Deleted")
 					]),
 					h("input.input-member#search-field-id", {
-						placeholder: "Membership number",
+						placeholder: "Number",
 						onchange: function () {
 
 							data.id.contains = this.value;
