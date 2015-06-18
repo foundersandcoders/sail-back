@@ -418,9 +418,9 @@ var utils = require("../../app.js").utils;
 				]),
 				progressBar(state, currentInputValues),
 				h("div.container-small", [
-					h("div.input-label-container", [
-						h("h2", "Membership number: 4324319")
-					]),
+					// h("div.input-label-container", [
+					// 	h("h2", "Membership number: 4324319")
+					// ]),
 
 					h("div.inner-section-divider-small"),
 
