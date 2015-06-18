@@ -4,7 +4,7 @@
  */
 
 var mandrill    = require('mandrill-api');
-mandrill_client = new mandrill.Mandrill('secret');
+mandrill_client = new mandrill.Mandrill(process.env.MANDRILL);
 
 module.exports = {
 	/**
@@ -41,6 +41,9 @@ module.exports = {
 						"_id": "abc123abc123abc123abc123abc123"
 					}]
 				*/
+
+				sails.log.info("Email: ", result);
+
 				callback(undefined, result);
 			}, function (err) {
 
@@ -89,7 +92,7 @@ module.exports = {
 
 		if(type === 'subscribe') {
 			html = [
-				'<p>We have received a request to create a new account for Africanity on your email.</p>',
+				'<p>We have received a request to create a new account to become a member on your email.</p>',
 				'<p>Please follow the link below to activate your account securely:</p>',
 				module.exports._createLink(data),
 				'<p>If you have received this message in error, please ignore it as someone has incorrectly<br/>',

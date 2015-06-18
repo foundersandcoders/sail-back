@@ -15,6 +15,17 @@ exports.admins = function () {
 		gift_aid_signed: false,
 		membership_type: module.exports.membershipTypes()[0].value
 	},{
+		id: '78403',
+		title: 'Mr',
+		initials: 'E S',
+		postcode: 'E1 0SY',
+		first_name: 'Ettore',
+		last_name: 'Scabron',
+		primary_email: 'besartshyti@gmail.com',
+		privileges: 'activated',
+		gift_aid_signed: false,
+		membership_type: module.exports.membershipTypes()[0].value
+	},{
 		id: '471663',
 		title: 'Mr',
 		initials: 'S',
