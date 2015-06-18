@@ -22,7 +22,6 @@ exports.admins = function () {
 		first_name: 'Ettore',
 		last_name: 'Scabron',
 		primary_email: 'besartshyti@gmail.com',
-		privileges: 'activated',
 		gift_aid_signed: false,
 		membership_type: module.exports.membershipTypes()[0].value
 	},{
