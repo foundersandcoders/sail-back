@@ -55,7 +55,7 @@ SignInApp.render = function (state) {
 
 	return (
 		h("div", [
-			(!!state.error().message ? Messenger.render(state) : ""),
+			// (!!state.error().message ? Messenger.render(state) : ""),
 			route("/", signin),
 			route("/forgot", forgotPass)
 		])

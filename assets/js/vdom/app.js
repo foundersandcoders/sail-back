@@ -49,7 +49,8 @@
 	}
 
 	try{
-		require("./pages/signup.js")(utils);
+		var Signup = require("./pages/signup.js");
+		nuclear.app(document.querySelector("#signup-component"), Signup(), Signup.render);
 	} catch (e){
 		console.log("Signup component: ", e);
 	}

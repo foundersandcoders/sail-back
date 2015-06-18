@@ -29,6 +29,7 @@
     "grunt-sass": "^1.0.0",
     "grunt-sync": "~0.0.4",
     "include-all": "~0.1.3",
+    "joi": "^6.4.3",
     "lazy.js": "^0.4.0",
     "lodash": "^3.9.3",
     "mandrill-api": "^1.0.45",
@@ -58,8 +59,9 @@
   "scripts": {
     "start": "NODE_ENV=staging sails lift --verbose",
     "debug": "NODE_ENV=development node-debug app.js",
-    "utest": "tape test/upload/*.spec.js",
+    "unit": "tape test/upload/*.spec.js",
     "end": "protractor test/end2end/config.js",
+    "accept": "NODE_ENV=testing tape test/backend/*.test.js",
     "wd": "webdriver-manager update && webdriver-manager start",
     "dev": "NODE_ENV=development sails lift --verbose"
   },
@@ -73,8 +75,9 @@
   "devDependencies": {
     "csv2": "^0.1.1",
     "givit": "0.0.2",
-    "protractor": "^2.1.0",
     "hyperquest": "^1.2.0",
+    "protractor": "^2.1.0",
+    "supertest": "^1.0.1",
     "tape": "^4.0.0",
     "through2": "^0.6.5"
   }

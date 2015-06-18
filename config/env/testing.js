@@ -4,5 +4,5 @@ module.exports = {
 			adapter: 'sails-memory'
 		},
 	},
-	port: process.env.PORT || Math.floor(Math.random()*10000)
+	port: 2000
 };

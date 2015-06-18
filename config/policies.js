@@ -1,6 +1,6 @@
 module.exports.policies = {
 
-	'*': ['isAuthenticated', 'isAdmin'],
+    '*': ['isAuthenticated', 'isAdmin'],
 
     PrivateController: {
         '*': ['isAuthenticated', 'isAdmin']

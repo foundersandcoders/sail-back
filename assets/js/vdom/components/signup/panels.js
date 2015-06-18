@@ -885,20 +885,21 @@ var utils = require("../../app.js").utils;
 					h("div.inner-section-divider-small"),
 					
 					h("button#confirm.align-two.btn-primary", {
-						onclick: function () {
-							var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject();
+						onclick: state.channels.createMember.bind(this, state, currentInputValues)
+						// function () {
+						// 	var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject();
 
-							createMember(memberChanges, function (err, member) {
+						// 	createMember(memberChanges, function (err, member) {
 
-								if(err) {
+						// 		if(err) {
 
-									return state.panel.set("sorryError");
-								}
+						// 			return state.panel.set("sorryError");
+						// 		}
 
-								state.member.set(member);
-								state.panel.set("checkEmail");
-							});
-						}
+						// 		state.member.set(member);
+						// 		state.panel.set("checkEmail");
+						// 	});
+						// }
 					},"Confirm")
 				])
 			])
@@ -1042,18 +1043,23 @@ module.exports.checkEmail = function (state) {
 		return (
 			h("div.main-container", [
 				h("div.inner-section-divider-small"),
-                h("div.inner-section-divider-medium"),
-                h("div.input-label-container", [
-                    h("h3", "Apparently there was a problem! Wil is working on that!")
-                ]),
-                h("div.inner-section-divider-medium"),
-                h("button#button_sign_up.btn-primary", {
-                    onclick: function () {
+				h("div.section-label", [
+					h("h1#emailSent", "Welcome!")
+				]),
+				h("div.container-small", [
+					h("div.inner-section-divider-medium"),
+					h("div.input-label-container", [
+						h("h3", "Apparently there was a problem! We are working on that!")
+					]),
+					h("div.inner-section-divider-medium"),
+					h("button#continue.btn-primary", {
+						onclick: function () {
 
-                        state.panel.set("home");
-                    }
-                }, "Continue")
-            ])
+							state.panel.set("home");
+						}
+					}, "Continue")
+				])
+			])
 		);
 	};
 //-------------------------------------------------------------------------------------------

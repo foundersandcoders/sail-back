@@ -17,8 +17,18 @@ module.exports = {
 		};
 	},
 	/**
-	 *
-	 *
+	 *	Create member on signup. In order to create a member:
+	 *	
+	 *	title, 
+	 *	initials,
+	 *	last_name,
+	 *	address (5 lines)
+	 *	postcode
+	 *	membership_type
+	 *	gift_aid_signed
+	 *	newsPost/newsOnline
+	 *	due_date
+	 *	registered/unregistered
 	 */
 	create: function (req, res) {
 
@@ -27,6 +37,11 @@ module.exports = {
 		newMember.id         = uuid.v4();
 
 		var query = {primary_email: req.body['primary_email']};
+
+
+		if(!is.email(query.primary_email)) {
+			return res.send({message: "No email"});
+		}
 
 		Members
 		.findOne(query)
@@ -49,15 +64,17 @@ module.exports = {
 					// handle error
 					throw new Error('Was not able to send email!');
 					return;
-				}
+				} else {
 
-				Members.findOne(query).exec(function (err, member) {
-					res.send(member);
-				});
+					Members.findOne(query).exec(function (err, member) {
+
+						req.session.user = member;
+						res.send(member);
+					});
+				}
 			});
 		})
 		.catch(function (error) {
-
 			res.send(error.message);
 		});
 	},

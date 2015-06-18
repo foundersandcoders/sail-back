@@ -17,4 +17,5 @@ var utils = module.exports = {
 	mocks:         require("./services/mockData.js"),
 	orderPayments: require("./helpers").orderPayments,
 	balanceDue:    require("./helpers").balanceDue,
+	validate:      require("./services/validate.js")
 };
