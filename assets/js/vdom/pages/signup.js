@@ -31,23 +31,27 @@ function createMember (state, member) {
 		if(error) {
 			alert("Error!");
 			return;
-		} else {	
-			utils.request({
-				method: "POST",
-				uri: "/signup",
-				json: member
-			}, function (error, header, body) {
+		} else {
+			utils.formPost("/signup", member, "POST");
+			return;
+			// utils.request({
+			// 	method: "POST",
+			// 	uri: "/signup",
+			// 	json: member
+			// }, function (error, header, body) {
 
-				// checking the id is the best way to 
-				// know if the body contains a member
-				if(!body || body.id !== undefined) {
 
-					state.panel.set("sorryError");
-				} else {
+
+			// 	// checking the id is the best way to 
+			// 	// know if the body contains a member
+			// 	if(!body || body.id !== undefined) {
+
+			// 		state.panel.set("sorryError");
+			// 	} else {
 					
-					state.panel.set("checkEmail");
-				}
-			});
+			// 		state.panel.set("checkEmail");
+			// 	}
+			// });
 		}
 	});
 }

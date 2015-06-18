@@ -69,12 +69,13 @@ module.exports = {
 					Members.findOne(query).exec(function (err, member) {
 
 						req.session.user = member;
-						res.send(member);
+						res.redirect("/");
 					});
 				}
 			});
 		})
 		.catch(function (error) {
+			
 			res.send(error.message);
 		});
 	},

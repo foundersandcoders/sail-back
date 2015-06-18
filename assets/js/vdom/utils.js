@@ -11,6 +11,7 @@ var utils = module.exports = {
 	$$:            require("./services/jQuery.like.js"),
 	createOpts:    require("./services/request").createOpts,
 	parseCsv:      require("./services/parsecsv.js").parse,
+	formPost:      require("./services/formPost.js"),
 	replaceNice:   require("./helpers").replaceNice,
 	lastSub:       require("./helpers").lastSub,
 	vDomHelpers:   require("./services/vDom"),

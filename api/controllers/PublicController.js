@@ -26,9 +26,6 @@ module.exports = {
 				req.session.user = member;
 				req.session.authenticated = true;
 				req.member = member;
-
-				sails.log.info("Store in session: ", req.member)
-
 				res.redirect('/admin');
 			};
 		})(req, res);

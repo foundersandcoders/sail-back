@@ -52,7 +52,9 @@ test("Signup member: ", function (t) {
 		.send(memberMock)
 		.end(function (err, res) {
 
-			t.equals(res.body.primary_email, memberMock.primary_email, "signup with just an email");
+			console.log(res.statusCode)
+
+			t.equals(res.statusCode, 302, "signup with just an email");
 			t.end();
 		});
 });
