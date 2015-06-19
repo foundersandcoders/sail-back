@@ -1,7 +1,8 @@
 var is         = require('torf');
 var passport   = require('passport');
 var ForgotPass = require('../services/ForgotPass.js');
-var Email      = require('../services/Email.js');
+var Mandrill   = require('../services/Email.js');
+var Mailgun    = require('../services/Email_mailgun');
 
 module.exports = {
 	showHome: function (req, res) {
@@ -64,13 +65,13 @@ module.exports = {
 		})
 		.then(function (memberUpdated) {
 
-			Email.sendPassword({
+			Mailgun.sendPassword({
 				password: randomString, 
-				email: req.body['primary_email']
+				email: req.body['email']
 			}, function (error, result) {
 
 				if(is.ok(error)) {
-					res.send({emailSent: false, error: error})
+					res.serverError({emailSent: false, error: error})
 				}
 
 				if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'testing') {
@@ -82,8 +83,7 @@ module.exports = {
 		})
 		.catch(function (error) {
 
-			sails.log.error(error);
-			res.send({emailSent: false, error: error});
+			res.badRequest({emailSent: false, error: "Email not recognised"});
 		})
 	}
 };

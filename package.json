@@ -32,6 +32,7 @@
     "joi": "^6.4.3",
     "lazy.js": "^0.4.0",
     "lodash": "^3.9.3",
+    "mailgun": "^0.5.0",
     "mandrill-api": "^1.0.45",
     "moment": "^2.10.3",
     "observ": "^0.2.0",

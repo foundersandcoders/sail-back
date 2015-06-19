@@ -57,16 +57,21 @@ Account.render = function (state) {
 	function homePageAccount (state) {
 
 		return ([
-			h("div.inner-section-divider-small"),
-			h("div.container-small", [
+			h("div.main-container", [
 				h("div.inner-section-divider-small"),
-				renderPayments(state),
-				h("div.inner-section-divider-medium"),
-				refundRender(state),
-				h("div.inner-section-divider-medium"),
-				expireAnnualSubscription(state),
-				h("div.inner-section-divider-medium"),
-				renderDonation(state)
+				h("div.section-label", [
+					h("h1", "Account")
+				]),
+				h("div.container-small", [
+					h("div.inner-section-divider-small"),
+					renderPayments(state),
+					h("div.inner-section-divider-medium"),
+					refundRender(state),
+					h("div.inner-section-divider-medium"),
+					expireAnnualSubscription(state),
+					h("div.inner-section-divider-medium"),
+					renderDonation(state)
+				])
 			])
 		])
 	}

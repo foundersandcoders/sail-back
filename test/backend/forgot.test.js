@@ -7,7 +7,6 @@ var helpers = require("./helpers.js");
 
 var sails;
 
-
 test("Start server: ", function (t) {
 
 	Sails.lift({
@@ -31,56 +30,47 @@ test("Start server: ", function (t) {
 	});
 });
 
-test("Create hooks", function (t) {
+test("Create member from upload", function (t) {
 
-	helpers(function (error, items) {
+	var memberMock = {
+		id: "123",
+		primary_email: "hello@world.com"
+	};
 
-		t.ok(items, "mock entries created");
+	Members
+	.create(memberMock)
+	.exec(function (error, item) {
+		if(error) {
+			console.log(error);
+			t.end();
+		} else {
+			t.ok(item, "member created");
+			t.end();
+		}
+	});
+});
+
+test("Forgot password with ok member", function (t) {
+
+	request(sails.hooks.http.app)
+	.post("/forgotPassword")
+	.send({email: "hello@world.com"})
+	.end(function (err, res) {
+
+		t.ok(res.body.emailSent, "email sent");
 		t.end();
 	});
 });
 
-test("Signup member: ", function (t) {
-
-	var memberMock = {
-		primary_email: "some@email.com"
-	};
+test("Forgot password with non existing member", function (t) {
 
 	request(sails.hooks.http.app)
-	.post("/signup")
-	.send(memberMock)
+	.post("/forgotPassword")
+	.send({email: "non@existing.com"})
 	.end(function (err, res) {
 
-		t.equals(res.statusCode, 302, "signup with just an email");
+		t.equals(res.statusCode, 400, "bad request response");
 		t.end();
-	});
-});
-
-test("Signup member should create a subscription charge", function (t) {
-
-	var memberMock = {
-		primary_email: "someone@email.com",
-		membership_type: "annual-corporate"
-	};
-
-	request(sails.hooks.http.app)
-	.post("/signup")
-	.send(memberMock)
-	.end(function (err, res) {
-
-		Members
-		.findOne(memberMock)
-		.populateAll()
-		.exec(function (error, item) {
-
-			if(error) {
-				console.log(error)
-				t.end();
-			} else {
-				t.ok(item, "member created");
-				t.end();
-			}
-		});
 	});
 });
 

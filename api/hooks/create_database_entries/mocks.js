@@ -13,18 +13,22 @@ exports.admins = function () {
 		privileges: 'admin',
 		activation_status: 'activated',
 		gift_aid_signed: false,
+		date_joined: new Date(),
 		membership_type: module.exports.membershipTypes()[0].value
-	},{
-		id: '78403',
-		title: 'Mr',
-		initials: 'E S',
-		postcode: 'E1 0SY',
-		first_name: 'Ettore',
-		last_name: 'Scabron',
-		primary_email: 'besartshyti@gmail.com',
-		gift_aid_signed: false,
-		membership_type: module.exports.membershipTypes()[0].value
-	},{
+	},
+	// {
+	// 	id: '78403',
+	// 	title: 'Mr',
+	// 	initials: 'E S',
+	// 	postcode: 'E1 0SY',
+	// 	first_name: 'Ettore',
+	// 	last_name: 'Scabron',
+	// 	primary_email: 'besartshyti@gmail.com',
+	// 	gift_aid_signed: false,
+	// 	date_joined: new Date(),
+	// 	membership_type: module.exports.membershipTypes()[0].value
+	// },
+	{
 		id: '471663',
 		title: 'Mr',
 		initials: 'S',
@@ -35,6 +39,7 @@ exports.admins = function () {
 		secondary_email: 'wil2@foch.org',
 		password: 'afd892hadf',
 		privileges: 'admin',
+		date_joined: new Date(),
 		gift_aid_signed: false,
 		membership_type: module.exports.membershipTypes()[0].value
 	},{
@@ -65,6 +70,7 @@ exports.admins = function () {
 		secondary_email: 'admin2@foch.org',
 		password: 'ads78fkj39r',
 		privileges: 'admin',
+		date_joined: new Date(),
 		gift_aid_signed: false,
 		membership_type: module.exports.membershipTypes()[3].value
 	}];
@@ -152,25 +158,32 @@ exports.membershipTypes = function () {
 
 	var types = [{
 			value: 'annual-single',
-			description: 'Annual Single'
+			description: 'Annual Single',
+			amount: 10
 		},{
 			value: 'annual-double',
-			description: 'Annual Double'
+			description: 'Annual Double',
+			amount: 15
 		},{
 			value: 'annual-family',
-			description: 'Annual Family'
+			description: 'Annual Family',
+			amount: 20
 		},{
 			value: 'life-single',
-			description: 'Life Single'
+			description: 'Life Single',
+			amount: 175
 		},{
 			value: 'life-double',
-			description: 'Life Double'
+			description: 'Life Double',
+			amount: 250
 		},{
 			value: 'annual-group',
-			description: 'Annual Group'
+			description: 'Annual Group',
+			amount: 25
 		},{
 			value: 'annual-corporate',
-			description: 'Annual Corporate'
+			description: 'Annual Corporate',
+			amount: 150
 		}
 	];
 

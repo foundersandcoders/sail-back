@@ -3,9 +3,11 @@
  *
  */
 
-var is    = require("torf");
-var utils = require('../services/Utils');
-var uuid  = require('uuid');
+var is         = require("torf");
+var utils      = require('../services/Utils');
+var uuid       = require('uuid');
+var Mandrill   = require('../services/Email.js');
+var Mailgun    = require('../services/Email_mailgun');
 
 module.exports = {
 	showForm: function (req, res) {
@@ -32,9 +34,20 @@ module.exports = {
 	 */
 	create: function (req, res) {
 
-		var newMember        = req.body;
-		newMember.registered = 'registered';
-		newMember.id         = uuid.v4();
+		var NOW = new Date();
+
+		var newMember         = req.body;
+		newMember.registered  = 'registered';
+		newMember.id          = uuid.v4();
+		newMember.date_joined = NOW;
+		newMember.due_date    = new Date(NOW.setFullYear(NOW.getFullYear() + 1));
+		newMember.payments    = {
+			category: 'subscription',
+			description: 'Subscription',
+			amount: 15, //subscriptionAmount(newMember),
+			notes: 'Sign up subscription',
+			date: new Date()
+		};
 
 		var query = {primary_email: req.body['primary_email']};
 
@@ -46,6 +59,7 @@ module.exports = {
 		Members
 		.findOne(query)
 		.then(function (memberFind) {
+
 			if (is.ok(memberFind)) {
 				throw new Error('Email has already an account. Sign in.');
 			} else {
@@ -53,12 +67,14 @@ module.exports = {
 			}
 		})
 		.then(function (memberCreated) {
+
+			req.session.user = memberCreated;
 			return ActivationCodes.create(utils.factoryActivationCodes(memberCreated.id));
 		})
 		.then(function (activationCodeCreated) {
 
 			var data = {code: activationCodeCreated.code, email: req.body['primary_email']};
-			utils.email.sendSubscribe(data, function (error, result) {
+			Mailgun.sendSubscribe(data, function (error, result) {
 
 				if(is.ok(error)) {
 					// handle error
@@ -66,17 +82,15 @@ module.exports = {
 					return;
 				} else {
 
-					Members.findOne(query).exec(function (err, member) {
-
-						req.session.user = member;
-						res.redirect("/");
-					});
+					res.redirect("/");
 				}
 			});
 		})
 		.catch(function (error) {
-			
-			res.send(error.message);
+
+			console.log(error);
+
+			res.badRequest({error: error.message});
 		});
 	},
 	activate: function (req, res) {
