@@ -12,6 +12,9 @@
     {% endif %}
     {% if user %}
         <li id="nav-logout">
+            <a href="/account/{{ user.id }}">Account</a>
+        </li>
+        <li id="nav-logout">
             <a href="/signout">Signout</a>
         </li>
     {% endif %}

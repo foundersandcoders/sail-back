@@ -6,6 +6,12 @@ module.exports.policies = {
         '*': ['isAuthenticated', 'isAdmin']
     },
 
+    MembersController: {
+        '*': ['isAuthenticated', 'isAdmin'],
+        'accountPage': 'isAuthenticated',
+        'accountInfo': 'isAuthenticated',
+    },
+
     PublicController: {
         '*': true
     },

@@ -48,16 +48,42 @@
 		console.log("Maintenance component: ", e);
 	}
 
-	try{
+	try {
 		var Signup = require("./pages/signup.js");
 		nuclear.app(document.querySelector("#signup-component"), Signup(), Signup.render);
 	} catch (e){
 		console.log("Signup component: ", e);
 	}
 
-	try{
+	try {
+		var Account = require("./pages/Account.js");
+	} catch (e) {
+		console.log("Account component: ", e);
+	}
+
+	try {
 		require("./pages/signin.js")(utils);
 	} catch (e){
 		console.log("Signin component: ", e);
+	}
+
+	function getMemberInfo (callback) {
+
+		nuclear.request({
+			method: "GET",
+			url: "/api/account"
+		}, callback);
+	}
+
+
+	try {
+		if(window.location.pathname.split("/")[1] === "account") {
+			getMemberInfo(function (error, header, body) {
+				var member = JSON.parse(body);
+				nuclear.app(document.querySelector('#account-component'), Account(member), Account.render);
+			});
+		}
+	} catch (e) {
+		console.log("Account component: ", e);
 	}
 }());
