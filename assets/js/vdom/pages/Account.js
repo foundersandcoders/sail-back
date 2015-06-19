@@ -9,15 +9,22 @@ var utils   = require("../utils.js");
 module.exports = Account;
 
 
+var route;
+
+
 function Account (member) {
 
 	member          = member || {payments: []};
 	member.payments = member.payments || [];
 
 	var state = nuclear.observS({
+		route:    nuclear.observ(""),
 		member:   nuclear.observS(member),
-		payments: nuclear.observ(member.payments)
+		payments: nuclear.observ(member.payments),
+		donation: nuclear.observ("")
 	});
+
+	route = nuclear.router(state);
 
 	return state;
 }
@@ -26,34 +33,126 @@ Account.render = function (state) {
 
 	return (
 		h("div.main-container", [
+
+			route("/",        homePageAccount),
+			route("/payment", paymentPage),
+			route("/online",  onlinePayment)
+
+		])
+	);
+
+	function homePageAccount (state) {
+
+		return ([
 			h("div.inner-section-divider-small"),
 			h("div.container-small", [
 				h("div.inner-section-divider-small"),
 				renderPayments(state),
 				h("div.inner-section-divider-medium"),
-				doWeOweMoney(state),
+				refundRender(state),
 				h("div.inner-section-divider-medium"),
 				expireAnnualSubscription(state),
 				h("div.inner-section-divider-medium"),
-				h("div.input-label-container", [
-					h("h3", "Donation")
-				]),
-				h("div.block", [
-					h("input.align-one", {
-						type: "text",
-						placeholder: "Amount"
-					}, "Yes please"),
-					h("button.btn-primary.align-two", {
-						onclick: function () {
-
-							state.panel.set("paymentMethod");
-						}
-					}, "Add")
-				])
+				renderDonation(state)
 			])
 		])
-	);
+	}
+
+	function paymentPage (state) {
+
+		return (
+			h("div.main-container", [
+				h("div.inner-section-divider-small"),
+				h("div.section-label", [
+					h("h1", "Payment method")
+				]),
+				h("div.container-small", [
+
+					h("div.inner-section-divider-medium"),
+
+					h("button.btn-primary", {
+						onclick: function () {
+							window.location.hash = "online";
+						}
+					}, "Credit Card"),
+
+					h("div.inner-section-divider-small"),
+
+					h("button.btn-primary", {
+						onclick: function () {
+							window.location.hash = "online";
+						}
+					}, "PayPal"),
+
+					h("div.inner-section-divider-small"),
+
+					h("button.btn-primary", {
+						onclick: function () {
+							// return state.panel.set("gimmeMoney")
+						}
+					}, "Bank transfer"),
+
+					h("div.inner-section-divider-small"),
+
+					h("button.btn-primary", {
+						onclick: function () {
+							// return state.panel.set("gimmeMoney")
+						}
+					}, "Cheque")
+				])
+			])
+		);
+	}
+
+	function onlinePayment (state) {
+
+		return (
+			h("form#checkout", {
+				method: "POST",
+				action: "/paypal_payment"
+			}, [
+				h("div#payment-form"),
+				h("input", {
+					disabled: true,
+					value: state().balanceDue,
+					name: "amount"
+				}),
+				h("input#braintree-pay.disabled", {
+					type: "submit",
+					value: "Pay",
+					disabled: true
+				})
+			])
+		);
+	}
 };
+
+function renderDonation (state) {
+
+	var donationAmount;
+
+	return ([
+		h("div.input-label-container", [
+			h("h3", "Donation")
+		]),
+		h("div.block", [
+			h("input.align-one", {
+				type: "text",
+				placeholder: "Amount",
+				onchange: function () {
+					donationAmount = this.value;
+				}
+			}, "Yes please"),
+			h("button.btn-primary.align-two", {
+				onclick: function () {
+
+					state.donation.set(donationAmount);
+					window.location.hash = "payment";
+				}
+			}, "Add")
+		])
+	]);
+}
 
 function renderPayments (state) {
 
@@ -141,7 +240,7 @@ function expireAnnualSubscription (state) {
 	}
 }
 
-function doWeOweMoney (state) {
+function refundRender (state) {
 
 
 	if (getLastMovement(state)) {
