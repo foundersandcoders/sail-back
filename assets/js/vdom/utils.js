@@ -12,11 +12,12 @@ var utils = module.exports = {
 	createOpts:    require("./services/request").createOpts,
 	parseCsv:      require("./services/parsecsv.js").parse,
 	formPost:      require("./services/formPost.js"),
+	dateConverter: require("./services/dateConverter.js"),
 	replaceNice:   require("./helpers").replaceNice,
 	lastSub:       require("./helpers").lastSub,
 	vDomHelpers:   require("./services/vDom"),
 	mocks:         require("./services/mockData.js"),
 	orderPayments: require("./helpers").orderPayments,
 	balanceDue:    require("./helpers").balanceDue,
-	validate:      require("./services/validate.js")
+	validate:      require("./services/validate.js"),
 };

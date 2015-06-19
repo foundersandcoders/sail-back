@@ -1,9 +1,3 @@
-/**
- *	UPLOAD
- *
-**/
-
-
 "use strict";
 
 

@@ -19,3 +19,15 @@ function member () {
 		gift_aid_signed: false
 	};
 }
+
+function payment () {
+
+	return {
+		member: parseInt(Math.random() * 100000),
+		category: "payment",
+		type: "CASH",
+		description: "Hello world!",
+		amount: "20",
+		date: new Date()
+	};
+}
