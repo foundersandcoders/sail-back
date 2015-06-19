@@ -21,12 +21,24 @@ function Account (member) {
 		route:    nuclear.observ(""),
 		member:   nuclear.observS(member),
 		payments: nuclear.observ(member.payments),
-		donation: nuclear.observ("")
+		donation: nuclear.observ(""),
+		channels: {
+			charge: charge
+		}
 	});
 
 	route = nuclear.router(state);
 
 	return state;
+}
+
+function charge (state) {
+
+	var payments = 
+
+	nuclear.request({
+
+	})
 }
 
 Account.render = function (state) {
@@ -80,17 +92,21 @@ Account.render = function (state) {
 							window.location.hash = "paypal";
 						}
 					}, "PayPal"),
-					h("div.inner-section-divider-small"),
+					h("div.inner-section-divider-medium"),
+					h("div.input-label-container", [
+						h("h4", "Paying by bank transfer to Friends of Chichester Harbour."),
+						h("h4", "A/c No: 87037440 Sort Code 52-41-20")
+					]),
 					h("button.btn-primary", {
-						onclick: function () {
-							// return state.panel.set("gimmeMoney")
-						}
+						onclick: state.channels.charge.bind(this, state)
 					}, "Bank transfer"),
-					h("div.inner-section-divider-small"),
+					h("div.inner-section-divider-medium"),
+					// h("div.input-label-container", [
+					// 	h("h4", "Paying by bank transfer to Friends of Chichester Harbour."),
+					// 	h("h4", "A/c No: 87037440 Sort Code 52-41-20")
+					// ]),
 					h("button.btn-primary", {
-						onclick: function () {
-							// return state.panel.set("gimmeMoney")
-						}
+						onclick: state.channels.charge.bind(this, state)
 					}, "Cheque")
 				])
 			])
@@ -109,9 +125,12 @@ Account.render = function (state) {
                 onReady: function () {
                
                     var submit = utils.$$("braintree-pay").elm;
-                    submit.removeAttribute("disabled");
+                    var amount = utils.$$("amount").elm;
+                    var cancel = utils.$$("cancel").elm;
+
                     submit.className = "";
                     amount.className = "";
+                    cancel.className = "";
                 }
             }); 
         });
@@ -139,7 +158,13 @@ Account.render = function (state) {
 						h("button.btn-primary.disabled#braintree-pay", {
 							type: "submit",
 							value: "Pay",
-						}, "Pay")
+						}, "Pay"),
+						h("div.inner-section-divider-small"),
+						h("button.btn-primary.disabled#cancel", {
+							onclick: function () {
+								window.location.hash = "";
+							}
+						}, "Cancel")
 					])
 				])
 			])
@@ -148,7 +173,7 @@ Account.render = function (state) {
 
 	function credit (state) {
 
-		return "";
+		return paypal(state);
 	}
 };
 

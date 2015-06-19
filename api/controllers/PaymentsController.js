@@ -1,9 +1,12 @@
 /**
  * PaymentsController
  *
- * @description :: Server-side logic for managing payments
- * @help        :: See http://links.sailsjs.org/docs/controllers
- */
+ *
+ *  Braintree:
+ *      - client side (https://developers.braintreepayments.com/javascript+ruby/start/hello-client)
+ *      - server side (https://developers.braintreepayments.com/ios+node/start/hello-server)
+ *
+**/
 
 var is        = require("torf");
 var Stripe    = require("stripe")("sk_test_rJI1JQQM57MTQYKldOf0qXZv");
@@ -65,7 +68,7 @@ module.exports = {
 		});
 	},
     clientToken: function (req, res) {
-    
+
         BraintreeGateway.clientToken.generate({
             merchantAccountId: "rk34hgxrsz8z28y9"
         }, function (err, response) {
@@ -78,12 +81,12 @@ module.exports = {
         });
     },
     makePaypalPayment: function (req, res) {
-       
+
         var nonce = req.body.payment_method_nonce;
         var paymentPaypal = {
             amount: req.body.amount || "0",
             paymentMethodNonce: nonce 
-        }; 
+        };
        
         BraintreeGateway
         .transaction
