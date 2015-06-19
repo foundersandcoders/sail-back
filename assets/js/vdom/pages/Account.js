@@ -36,7 +36,8 @@ Account.render = function (state) {
 
 			route("/",        homePageAccount),
 			route("/payment", paymentPage),
-			route("/online",  onlinePayment)
+			route("/paypal",  paypal),
+			route("/credit",  credit)
 
 		])
 	);
@@ -67,33 +68,25 @@ Account.render = function (state) {
 					h("h1", "Payment method")
 				]),
 				h("div.container-small", [
-
 					h("div.inner-section-divider-medium"),
-
 					h("button.btn-primary", {
 						onclick: function () {
-							window.location.hash = "online";
+							window.location.hash = "credit";
 						}
 					}, "Credit Card"),
-
 					h("div.inner-section-divider-small"),
-
 					h("button.btn-primary", {
 						onclick: function () {
-							window.location.hash = "online";
+							window.location.hash = "paypal";
 						}
 					}, "PayPal"),
-
 					h("div.inner-section-divider-small"),
-
 					h("button.btn-primary", {
 						onclick: function () {
 							// return state.panel.set("gimmeMoney")
 						}
 					}, "Bank transfer"),
-
 					h("div.inner-section-divider-small"),
-
 					h("button.btn-primary", {
 						onclick: function () {
 							// return state.panel.set("gimmeMoney")
@@ -104,26 +97,58 @@ Account.render = function (state) {
 		);
 	}
 
-	function onlinePayment (state) {
+	function paypal (state) {
+
+        nuclear.request({
+            method: "GET",
+            uri: "/client_token"
+        }, function (err, header, token) {
+        
+            braintree.setup(token, "dropin", {
+                container: "payment-form",
+                onReady: function () {
+               
+                    var submit = utils.$$("braintree-pay").elm;
+                    submit.removeAttribute("disabled");
+                    submit.className = "";
+                    amount.className = "";
+                }
+            }); 
+        });
 
 		return (
-			h("form#checkout", {
-				method: "POST",
-				action: "/paypal_payment"
-			}, [
-				h("div#payment-form"),
-				h("input", {
-					disabled: true,
-					value: state().balanceDue,
-					name: "amount"
-				}),
-				h("input#braintree-pay.disabled", {
-					type: "submit",
-					value: "Pay",
-					disabled: true
-				})
+			h("div.main-container", [
+				h("div.inner-section-divider-small"),
+				h("div.section-label", [
+					h("h1", "Payment method")
+				]),
+				h("div.container-small", [
+					h("form#checkout", {
+						method: "POST",
+						action: "/paypal_payment"
+					}, [
+						h("div.inner-section-divider-medium"),
+						h("div#payment-form"),
+						h("div.inner-section-divider-small"),
+						h("input.disabled#amount", {
+							disabled: true,
+							value: "10",
+							name: "amount"
+						}),
+						h("div.inner-section-divider-medium"),
+						h("button.btn-primary.disabled#braintree-pay", {
+							type: "submit",
+							value: "Pay",
+						}, "Pay")
+					])
+				])
 			])
 		);
+	}
+
+	function credit (state) {
+
+		return "";
 	}
 };
 
