@@ -43,7 +43,9 @@ test("Create hooks", function (t) {
 test("Signup member: ", function (t) {
 
 	var memberMock = {
-		primary_email: "some@email.com"
+		primary_email: "some@email.com",
+		membership_type: "annual-corporate",
+		password: "secret"
 	};
 
 	request(sails.hooks.http.app)
@@ -56,31 +58,73 @@ test("Signup member: ", function (t) {
 	});
 });
 
+
 test("Signup member should create a subscription charge", function (t) {
 
-	var memberMock = {
+	var memberMock2 = {
 		primary_email: "someone@email.com",
-		membership_type: "annual-corporate"
+		membership_type: "annual-corporate",
+		password: "secret"
 	};
 
 	request(sails.hooks.http.app)
 	.post("/signup")
-	.send(memberMock)
+	.send(memberMock2)
 	.end(function (err, res) {
 
+		t.equals(res.statusCode, 302, "redirect");
+
 		Members
-		.findOne(memberMock)
+		.findOne({primary_email: memberMock2.primary_email})
 		.populateAll()
 		.exec(function (error, item) {
 
 			if(error) {
-				console.log(error)
+				console.log("ERROR", error);
 				t.end();
 			} else {
+				t.ok(item.payments[0], "charge created");
+				t.equals(item.payments[0].amount, 150, "right amount");
+				t.equals(item.payments[0].category, "subscription", "right category");
 				t.ok(item, "member created");
 				t.end();
 			}
 		});
+	});
+});
+
+test("If no email is send", function (t) {
+
+	var noEmail = {
+		membership_type: "annual-corporate",
+		password: "secret"
+	};
+
+	request(sails.hooks.http.app)
+	.post("/signup")
+	.send(noEmail)
+	.end(function (err, res) {
+
+		t.equals(res.statusCode, 400, "status code 400");
+		t.end();
+	});
+});
+
+test("If email is already taken", function (t) {
+
+	var emailTaken = {
+		primary_email: "someone@email.com",
+		membership_type: "annual-corporate",
+		password: "secret"
+	};
+
+	request(sails.hooks.http.app)
+	.post("/signup")
+	.send(emailTaken)
+	.end(function (err, res) {
+
+		t.equals(res.statusCode, 400, "status code 400");
+		t.end();
 	});
 });
 

@@ -24,16 +24,18 @@ function validate (type, obj, callback) {
 function member (object, callback) {
 
 	var schema = Joi.object().keys({
+		password:        Joi.string().required(),
+		primary_email:   Joi.string().email().required(),
+		membership_type: Joi.string().required(),
 		// title:           Joi.string().required(),
 		// initials:        Joi.string().required(),
 		// last_name:       Joi.string().required(),
-		primary_email:   Joi.string().email().required(),
 		// address1:        Joi.string().required(),
 		// address2:        Joi.string().required(),
 		// address3:        Joi.string().required(),
 		// address4:        Joi.string().required(),
 		// postcode:        Joi.string().required(),
-		// gift_aid_signed: Joi.boolean().required()
+		// gift_aid_signed: Joi.boolean().required(),
 	});
 
 	Joi.validate(object, schema, {

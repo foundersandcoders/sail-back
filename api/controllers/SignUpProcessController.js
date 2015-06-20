@@ -3,11 +3,12 @@
  *
  */
 
-var is         = require("torf");
-var utils      = require('../services/Utils');
-var uuid       = require('uuid');
-var Mandrill   = require('../services/Email.js');
-var Mailgun    = require('../services/Email_mailgun');
+var is               = require("torf");
+var utils            = require('../services/Utils');
+var uuid             = require('uuid');
+var Mandrill         = require('../services/Email.js');
+var Mailgun          = require('../services/Email_mailgun');
+var MemberValidation = require('../../assets/js/vdom/services/validate.js');
 
 module.exports = {
 	showForm: function (req, res) {
@@ -34,64 +35,59 @@ module.exports = {
 	 */
 	create: function (req, res) {
 
-		var NOW = new Date();
-
 		var newMember         = req.body;
 		newMember.registered  = 'registered';
 		newMember.id          = uuid.v4();
-		newMember.date_joined = NOW;
-		newMember.due_date    = new Date(NOW.setFullYear(NOW.getFullYear() + 1));
-		newMember.payments    = {
-			category: 'subscription',
-			description: 'Subscription',
-			amount: 15, //subscriptionAmount(newMember),
-			notes: 'Sign up subscription',
-			date: new Date()
-		};
+		newMember.date_joined = new Date();
 
-		var query = {primary_email: req.body['primary_email']};
+		MemberValidation('member', newMember, function (error, value) {
 
-
-		if(!is.email(query.primary_email)) {
-			return res.send({message: "No email"});
-		}
-
-		Members
-		.findOne(query)
-		.then(function (memberFind) {
-
-			if (is.ok(memberFind)) {
-				throw new Error('Email has already an account. Sign in.');
-			} else {
-				return Members.create(newMember);
+			if (error) {
+				return res.badRequest({error: error});
 			}
-		})
-		.then(function (memberCreated) {
 
-			req.session.user = memberCreated;
-			return ActivationCodes.create(utils.factoryActivationCodes(memberCreated.id));
-		})
-		.then(function (activationCodeCreated) {
+			Members
+			.findOne({primary_email: newMember.primary_email})
+			.then(function (memberFind) {
 
-			var data = {code: activationCodeCreated.code, email: req.body['primary_email']};
-			Mailgun.sendSubscribe(data, function (error, result) {
-
-				if(is.ok(error)) {
-					// handle error
-					throw new Error('Was not able to send email!');
-					return;
+				if (is.ok(memberFind)) {
+					throw new Error('Email has already an account. Sign in.');
 				} else {
-
-					res.redirect("/");
+					return MembershipTypes.findOne(newMember.membership_type)
 				}
+			})
+			.then(function (membership) {
+
+				var chargeSubscription = {
+					category: 'subscription', 
+					description: membership.description, 
+					amount: membership.amount, 
+					notes: 'Sign up subscription'
+				};
+
+				newMember.payments = chargeSubscription;
+
+				return Members.create(newMember);
+			})
+			.then(function (member) {
+
+				Mailgun.sendSubscribe({email: member['primary_email']}, function (error, result) {
+
+					if(is.ok(error)) {
+						// handle error
+						res.serverError({error: 'Was not able to send email!'});
+						return;
+					} else {
+
+						res.redirect("/");
+					}
+				});
+			})
+			.catch(function (error) {
+
+				res.badRequest({error: error.message});
 			});
 		})
-		.catch(function (error) {
-
-			console.log(error);
-
-			res.badRequest({error: error.message});
-		});
 	},
 	activate: function (req, res) {
 		
