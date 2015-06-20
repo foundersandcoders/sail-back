@@ -219,7 +219,7 @@ module.exports = {
 				delete obj.reset_password_codes;
 				delete obj.activation_codes;
 				// return the new object without password
-				obj.full_name = obj.first_name + ' ' + obj.last_name;
+				obj.full_name = (obj.first_name || '') + ' ' + (obj.last_name || '');
 				return obj;
 			}
 		// ------------------------------------------------------------
