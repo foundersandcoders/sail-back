@@ -35,6 +35,10 @@ module.exports = {
 	 */
 	create: function (req, res) {
 
+		if(req.session.user) {
+			return res.redirect("/");
+		}
+
 		var newMember         = req.body;
 		newMember.registered  = 'registered';
 		newMember.id          = uuid.v4();
@@ -62,7 +66,8 @@ module.exports = {
 					category: 'subscription', 
 					description: membership.description, 
 					amount: membership.amount, 
-					notes: 'Sign up subscription'
+					notes: 'Sign up subscription',
+					date: new Date()
 				};
 
 				newMember.payments = chargeSubscription;
@@ -70,6 +75,9 @@ module.exports = {
 				return Members.create(newMember);
 			})
 			.then(function (member) {
+
+				// set up session 
+				req.session.user = member;
 
 				Mailgun.sendSubscribe({email: member['primary_email']}, function (error, result) {
 
