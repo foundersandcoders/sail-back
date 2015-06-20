@@ -20,10 +20,10 @@ function Account (member) {
 	var state = nuclear.observS({
 		route:    nuclear.observ(""),
 		member:   nuclear.observS(member),
-		payments: nuclear.observ(member.payments),
+		payments: nuclear.observA(member.payments),
 		donation: nuclear.observ(""),
 		channels: {
-			charge: charge
+			chargeDonation: chargeDonation
 		}
 	});
 
@@ -32,13 +32,32 @@ function Account (member) {
 	return state;
 }
 
-function charge (state) {
+function chargeDonation (state, chargeAmount) {
 
-	var payments = 
+	var charge = {
+		amount: chargeAmount,
+		category: "donation",
+		description: "Donation",
+		member: state.member().id
+	};
 
 	nuclear.request({
+		method: "POST",
+		url: "/charge",
+		json: charge
+	}, function (error, header, body) {
 
-	})
+		if(error) {
+
+			return alert("Problem creating a charge");
+		} else {
+			var payments = state.payments();
+			payments.push(body);
+			state.payments.set(payments);
+			state.donation.set(chargeAmount);
+			window.location.hash = "payment";
+		}
+	});
 }
 
 Account.render = function (state) {
@@ -49,7 +68,8 @@ Account.render = function (state) {
 			route("/",        homePageAccount),
 			route("/payment", paymentPage),
 			route("/paypal",  paypal),
-			route("/credit",  credit)
+			route("/credit",  credit),
+			route("/refund",  refundOptions)
 
 		])
 	);
@@ -103,7 +123,7 @@ Account.render = function (state) {
 						h("h4", "A/c No: 87037440 Sort Code 52-41-20")
 					]),
 					h("button.btn-primary", {
-						onclick: state.channels.charge.bind(this, state)
+						// onclick: state.channels.charge.bind(this, state)
 					}, "Bank transfer"),
 					h("div.inner-section-divider-medium"),
 					// h("div.input-label-container", [
@@ -111,7 +131,7 @@ Account.render = function (state) {
 					// 	h("h4", "A/c No: 87037440 Sort Code 52-41-20")
 					// ]),
 					h("button.btn-primary", {
-						onclick: state.channels.charge.bind(this, state)
+						// onclick: state.channels.charge.bind(this, state)
 					}, "Cheque")
 				])
 			])
@@ -123,9 +143,11 @@ Account.render = function (state) {
         nuclear.request({
             method: "GET",
             uri: "/client_token"
-        }, function (err, header, token) {
-        
-            braintree.setup(token, "dropin", {
+        }, function (err, header, body) {
+
+        	body = JSON.parse(body);
+
+            braintree.setup(body.token, "dropin", {
                 container: "payment-form",
                 onReady: function () {
                
@@ -136,6 +158,20 @@ Account.render = function (state) {
                     submit.className = "";
                     amount.className = "";
                     cancel.className = "";
+                },
+                paypal: function () {
+
+                },
+                onPaymentMethodRecieved: function (payment) {
+                	// payment.nonce
+                	// payment.type
+                	// payment.details
+                	console.log(error);
+                },
+                onError: function (error) {
+                	// error.type
+                	// error.message
+                	console.log(error);
                 }
             }); 
         });
@@ -155,14 +191,23 @@ Account.render = function (state) {
 						h("div#payment-form"),
 						h("div.inner-section-divider-small"),
 						h("input.disabled#amount", {
-							disabled: true,
-							value: "10",
-							name: "amount"
+							type: "text",
+							name: "amount",
+							placeholder: "Insert amount"
+						}),
+						h("input.disabled#amount", {
+							type: "hidden",
+							name: "category",
+							value: "payment"
+						}),
+						h("input.disabled#amount", {
+							type: "hidden",
+							name: "member",
+							value: state.member().id
 						}),
 						h("div.inner-section-divider-medium"),
 						h("button.btn-primary.disabled#braintree-pay", {
-							type: "submit",
-							value: "Pay",
+							type: "submit"
 						}, "Pay"),
 						h("div.inner-section-divider-small"),
 						h("button.btn-primary.disabled#cancel", {
@@ -191,18 +236,18 @@ function renderDonation (state) {
 			h("h3", "Donation")
 		]),
 		h("div.block", [
-			h("input.align-one", {
+			h("input", {
 				type: "text",
 				placeholder: "Amount",
 				onchange: function () {
 					donationAmount = this.value;
 				}
 			}, "Yes please"),
-			h("button.btn-primary.align-two", {
+			h("div.inner-section-divider-small"),
+			h("button.btn-primary", {
 				onclick: function () {
 
-					state.donation.set(donationAmount);
-					window.location.hash = "payment";
+					state.channels.chargeDonation(state, donationAmount);
 				}
 			}, "Add")
 		])
@@ -259,9 +304,45 @@ function renderRows (state) {
 	});
 }
 
+function refundOptions (state) {
+
+	return (
+		h("div.main-container", [
+			h("div.inner-section-divider-small"),
+			h("div.section-label", [
+				h("h1", "Refund options")
+			]),
+			h("div.container-small", [
+				h("div.inner-section-divider-medium"),
+				h("div.input-label-container", [
+					h("h4", "I would like the Friends to hold onto the balance and use it against my next annual subscription.")
+				]),
+				h("div.inner-section-divider-small"),
+				h("button.btn-primary", {
+					onclick: function () {
+
+						state.panel.set("weDoOweMoney");
+					}
+				},"Keep in balance"),
+				h("div.inner-section-divider-medium"),
+				h("div.input-label-container", [
+					h("h4", "Please make a bank transfer of the balance owing to me.")
+				]),
+				h("div.inner-section-divider-small"),
+				h("button.btn-primary", {
+					onclick: function () {
+
+						state.panel.set("refundByBankTransfer");
+					}
+				},"Refund bank transfer")
+			])
+		])
+	);
+}
+
 function expireAnnualSubscription (state) {
 
-	if(isSubscriptionDue(state())) {
+	if (isSubscriptionDue(state())) {
 
 		return (
 			h("div", [
@@ -297,7 +378,6 @@ function expireAnnualSubscription (state) {
 
 function refundRender (state) {
 
-
 	if (getLastMovement(state)) {
 
 		return (
@@ -305,13 +385,12 @@ function refundRender (state) {
 				h("button.btn-primary", {
 					onclick: function () {
 
-						state.panel.set("weDoOweMoney");
+						window.location.hash = "refund";
 					}
 				},"Refund options")
 			])
 		);
 	}
-
 
 	function getLastMovement (state) {
 

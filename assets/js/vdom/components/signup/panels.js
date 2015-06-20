@@ -134,7 +134,7 @@ var utils = require("../../app.js").utils;
 					h("div.inner-section-divider-small"),
 					h("button#make-payment.btn-primary", {
 						onclick: function () {
-                        
+
 							return state.panel.set("gimmeMoney")
 						}
 					}, "Make payment"),
@@ -1197,7 +1197,7 @@ module.exports.checkEmail = function (state) {
 					h("div.inner-section-divider-medium"),
 
 					h("div.input-label-container", [
-						h("h4", "I would like the Friends to hold  onto the balance and use it against my next annual subscription.")
+						h("h4", "I would like the Friends to hold onto the balance and use it against my next annual subscription.")
 					]),
 					h("div.inner-section-divider-small"),
 

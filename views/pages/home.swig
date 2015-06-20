@@ -11,5 +11,6 @@
 				<h1>Friends of Chichester Harbour</h1>
 			</div>
 		</div>
+		<div id="home-component"></div>
 	</div>
 {% endblock %}

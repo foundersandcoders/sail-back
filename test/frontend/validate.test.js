@@ -7,7 +7,7 @@ var helpers        = require("../helpers/createMocks.js");
 
 test("Validator member: ", function (t) {
 
-	t.test("incomplete member", function (st) {
+	t.test("invalid member", function (st) {
 
 		var obj = {title: "Mr"};
 		validator("member", obj, function (error, value) {
@@ -17,10 +17,32 @@ test("Validator member: ", function (t) {
 			st.end();
 		});
 	});
-	t.test("complete member", function (st) {
+	t.test("valid member", function (st) {
 
 		var obj = helpers.member();
 		validator("member", obj, function (error, value) {
+
+			st.notOk(error, "no error");
+			st.end();
+		});
+	});
+});
+
+test("Validator payment: ", function (t) {
+
+	t.test("invalid payment", function (st) {
+
+		var obj = {amount: 10};
+		validator("payment", obj, function (error, value) {
+
+			st.ok(error, "pass error");
+			st.end();
+		});
+	});
+	t.test("valid payment", function (st) {
+
+		var obj = helpers.payment();
+		validator("payment", obj, function (error, value) {
 
 			st.notOk(error, "no error");
 			st.end();

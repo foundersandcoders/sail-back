@@ -9,7 +9,14 @@ module.exports.policies = {
     MembersController: {
         '*': ['isAuthenticated', 'isAdmin'],
         'accountPage': 'isAuthenticated',
-        'accountInfo': 'isAuthenticated',
+        'accountInfo': 'isAuthenticated'
+    },
+
+    PaymentsController: {
+        '*': ['isAuthenticated', 'isAdmin'],
+        'clientToken': 'isAuthenticated',
+        'makePaypalPayment': 'isAuthenticated',
+        'charge': 'isAuthenticated'
     },
 
     PublicController: {

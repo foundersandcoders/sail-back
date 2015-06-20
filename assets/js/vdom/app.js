@@ -86,4 +86,20 @@
 	} catch (e) {
 		console.log("Account component: ", e);
 	}
+
+
+
+
+
+	try {
+		var Home = require("./pages/Home.js");
+		if(window.location.pathname.split("/")[1] === "") {
+			getMemberInfo(function (error, header, body) {
+				var member = JSON.parse(body);
+				nuclear.app(document.querySelector('#home-component'), Home(member), Home.render);
+			});
+		}
+	} catch (e) {
+		console.log("Home component: ", e);
+	}
 }());

@@ -1,7 +1,8 @@
 "use strict";
 
 module.exports = {
-	member: member
+	member: member,
+	payment: payment
 };
 
 function member () {
@@ -11,6 +12,8 @@ function member () {
 		initials:        "B H",
 		last_name:       "Hoxhaj",
 		primary_email:   "besart@hoxhaj.com",
+		password:        "secret",
+		membership_type: "annual-double",
 		address1:        "Moon",
 		address2:        "Street",
 		address3:        "24",

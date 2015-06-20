@@ -52,6 +52,11 @@ module.exports = function notFound (data, options) {
   // If a view was provided in options, serve it.
   // Otherwise try to guess an appropriate view, or if that doesn't
   // work, just send JSON.
+
+
+  data = {user: req.session.user};
+
+
   if (options.view) {
     return res.view(options.view, data);
   }

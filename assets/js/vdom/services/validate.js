@@ -14,9 +14,12 @@ function validate (type, obj, callback) {
 
 	if(type === "member") {
 
-		member(obj, callback);
-	} else {
+		return member(obj, callback);
+	} else if (type === "payment") {
 
+		return payment(obj, callback);
+	} else {
+	
 		return callback("No schema found", undefined);
 	}
 }
@@ -38,7 +41,24 @@ function member (object, callback) {
 		// gift_aid_signed: Joi.boolean().required(),
 	});
 
-	Joi.validate(object, schema, {
+	return validateCall(object, schema, callback);
+}
+
+function payment (object, callback) {
+
+	var schema = Joi.object().keys({
+		category: Joi.any().valid(["donation", "event", "subscription", "payment"]).required(),
+		member:   Joi.any().required(),
+		amount:   Joi.number().required(),
+		// date:     Joi.date().required()
+	});
+
+	return validateCall(object, schema, callback);
+}
+
+function validateCall (object, schema, callback) {
+
+	return Joi.validate(object, schema, {
 		abortEarly: true,
 		allowUnknown: true,
 		skipFunctions: true

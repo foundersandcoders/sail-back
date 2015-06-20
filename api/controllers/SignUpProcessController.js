@@ -8,7 +8,7 @@ var utils            = require('../services/Utils');
 var uuid             = require('uuid');
 var Mandrill         = require('../services/Email.js');
 var Mailgun          = require('../services/Email_mailgun');
-var MemberValidation = require('../../assets/js/vdom/services/validate.js');
+var Validation       = require('../../assets/js/vdom/services/validate.js');
 
 module.exports = {
 	showForm: function (req, res) {
@@ -44,7 +44,7 @@ module.exports = {
 		newMember.id          = uuid.v4();
 		newMember.date_joined = new Date();
 
-		MemberValidation('member', newMember, function (error, value) {
+		Validation('member', newMember, function (error, value) {
 
 			if (error) {
 				return res.badRequest({error: error});

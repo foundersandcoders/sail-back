@@ -4,6 +4,11 @@ Membership management system for Friends of Chichester Harbour.
 
 ![Logo](http://www.friendsch.org/images/headings/heading01.jpg)
 
+## Table of Contents
+
+- [Run](#run)
+- [Payments](#payments)
+- [Upload](#upload)
 
 ## Run
 
@@ -15,7 +20,22 @@ npm install
 npm run dev
 ```
 
-## Upload of existing data
+## Payments
+
+In dev mode is possible to test the payment system, in order to do so use these credentials:
+
+```
+PayPal
+	Email: us-customer@commercefactory.org
+	Password: test1234
+
+Credit Card
+	Number: 4111 1111 1111 1111
+	CVV: 123
+	Expiration date: 11/20
+```
+
+## Upload
 
 On the `/upload` endpoint is possible to upload existing data, mainly **members** and **payments**.
 

@@ -54,6 +54,22 @@ module.exports.routes = {
 			controller: 'Members',
 			action: 'accountInfo'
 		},
+		'POST /charge': {
+    		controller: 'Payments',
+    		action: 'charge'
+		},
+    	'POST /payment': {
+    		controller: 'Payments',
+    		action: 'makeStripePayment'
+    	},
+        'GET /client_token': {
+            controller: 'Payments',
+            action: 'clientToken'
+        },
+        'POST /paypal_payment': {
+            controller: 'Payments',
+            action: 'makePaypalPayment'
+        },
 	// -------------------------------------------------------------------------
 	// Private
 	// -------------------------------------------------------------------------
@@ -80,18 +96,6 @@ module.exports.routes = {
 		'POST /upload': {
 			controller: 'Private',
 			action: 'upload'
-    	},
-    	'POST /payment': {
-    		controller: 'Payments',
-    		action: 'makeStripePayment'
-    	},
-        'GET /client_token': {
-            controller: 'Payments',
-            action: 'clientToken'
-        },
-        'POST /paypal_payment': {
-            controller: 'Payments',
-            action: 'makePaypalPayment'
-        }
+    	}
     // -------------------------------------------------------------------------
 }
