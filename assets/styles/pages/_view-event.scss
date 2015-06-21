@@ -1,0 +1,52 @@
+.event-img {
+	width: 100%;
+}
+
+.event-info {
+	height: 30px;
+	.date {
+		float: left;
+	}
+	.ref {
+		float: right;
+	}
+	.open {
+		float: left;
+	}
+	.available {
+		float: right;
+	}
+}
+
+.event-img {
+	width: 100%;
+	height: 400px;
+	background-position: center;
+  	background-size: cover;
+}
+
+@media (max-width: $tablet) {
+	.event-img {
+		height: 300px;
+	}
+}
+
+@media (max-width: $mobile) {
+	.event-img {
+		height: 200px;
+	}
+}
+
+@media (max-width: $mobile) {
+	.event-info {
+		.open, .available {
+			float: initial;
+		}
+	}
+}
+
+.single-event-info {
+	.line {
+		margin: 20px 0;
+	}
+}
