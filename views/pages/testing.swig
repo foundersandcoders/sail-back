@@ -146,32 +146,54 @@
 
 	<div class="container-large">
 		<div class="inner-section-divider-medium"></div>
-			<div id="account-component">
-				<div class="main-container">
-					<div class="main-container">
-						<div class="inner-section-divider-small"></div>
-						<div class="section-label">
-							<h1>Account</h1>
-						</div>
-						<div class="container-small">
-							<div class="inner-section-divider-small"></div>
+		<div id="account-component">
+			<div class="main-container">
+				<div class="inner-section-divider-small"></div>
+				<div class="section-label">
+					<h1>Account</h1>
+				</div>
+				<div class="inner-section-divider-small"></div>
+						<!-- Single event -->
+				<div class="input-label-container">
+					<h3>Event 1</h3>
+				</div>
+				<div class="event-info">
+					<p class="date">23/02/90</p>
+					<p class="ref">Ref:S3</p>
+				</div>
+				<!-- <img src="/images/orca.jpg" class="event-img"> -->
 
-								<!-- Single event -->
-									<div class="input-label-container">
-										<h3>Lunch all together</h3>
-									</div>
-									<div class="block">
-										<input type="text" placeholder="Amount"></input>
-										<div class="inner-section-divider-small"></div>
-										<button class="btn-primary">Add</button>
-									</div>
-							</div>
-						</div>
-					</div>
+
+				<div style="background-image: url(/images/orca.jpg)" class="event-img"></div>
+
+				<div class="event-info">
+					<p class="open">Open for booking: Yes</p>
+					<p class="available">Places available: Yes</p>
+				</div>
+				
+
+					<br><br><br><br><br><br><br><br>
+
+
+				<div class="inner-section-divider-small"></div>
+					<!-- Single event -->
+				<div class="input-label-container">
+					<h3>Event 1</h3>
+				</div>
+				<div style="background-image: url(/images/orca.jpg)" class="event-img"></div>
+				<div class="single-event-info">
+					<p>23/02/90</p>
+					<p>Ref:S3</p>
+					<p>Open for booking: Yes</p>
+					<p>Places available: Yes</p>
+					<p>Other information...</p>
+					<div class="line"></div>
+					<p>Event description</p>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 {% endblock %}
 
 

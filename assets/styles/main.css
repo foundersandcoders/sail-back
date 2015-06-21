@@ -17,7 +17,7 @@ h2 {
   font-weight: bold; }
 
 body, html, p, h1, h2, h3, h4, h5, h6, h7, h8, input, button, div, a {
-  font-family: 'Sorts Mill Goudy', serif; }
+  font-family: sans-serif, 'Sorts Mill Goudy', serif; }
 
 button, .button-one, .button-two {
   font-size: 20px;
