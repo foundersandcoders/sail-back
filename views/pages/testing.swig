@@ -141,23 +141,37 @@
 			</div>
 		</div>
 	</div>
+
+	<br><br><br><br><br><br><br><br>
+
+	<div class="container-large">
+		<div class="inner-section-divider-medium"></div>
+			<div id="account-component">
+				<div class="main-container">
+					<div class="main-container">
+						<div class="inner-section-divider-small"></div>
+						<div class="section-label">
+							<h1>Account</h1>
+						</div>
+						<div class="container-small">
+							<div class="inner-section-divider-small"></div>
+
+								<!-- Single event -->
+									<div class="input-label-container">
+										<h3>Lunch all together</h3>
+									</div>
+									<div class="block">
+										<input type="text" placeholder="Amount"></input>
+										<div class="inner-section-divider-small"></div>
+										<button class="btn-primary">Add</button>
+									</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
