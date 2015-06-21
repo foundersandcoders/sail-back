@@ -258,6 +258,7 @@ exports.events = function () {
 	var events = [
 		{
 			title: 'Past at Dan',
+			reference: 'OOC6K',
 			short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 			long_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit. Vivamus porttitor neque nec nibh aliquam, vehicula accumsan justo pellentesque. Curabitur eu nisi purus. Vestibulum id orci dictum, auctor enim ut, ullamcorper risus. Maecenas vulputate euismod nibh, aliquam lacinia elit pharetra ac. Maecenas eu venenatis sapien.',
 			photo_url: 'http://stanford.edu/~siejeny/Dinner.jpg',
@@ -271,6 +272,7 @@ exports.events = function () {
 			total_places_available: 20
 		},{
 			title: 'Today at Wil',
+			reference: 'CH11D',
 			short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 			long_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit. Vivamus porttitor neque nec nibh aliquam, vehicula accumsan justo pellentesque. Curabitur eu nisi purus. Vestibulum id orci dictum, auctor enim ut, ullamcorper risus. Maecenas vulputate euismod nibh, aliquam lacinia elit pharetra ac. Maecenas eu venenatis sapien.',
 			photo_url: 'http://stanford.edu/~siejeny/Dinner.jpg',
@@ -284,6 +286,7 @@ exports.events = function () {
 			total_places_available: 20
 		},{
 			title: 'Dinner at Bes',
+			reference: 'YH77D',
 			short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 			long_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit. Vivamus porttitor neque nec nibh aliquam, vehicula accumsan justo pellentesque. Curabitur eu nisi purus. Vestibulum id orci dictum, auctor enim ut, ullamcorper risus. Maecenas vulputate euismod nibh, aliquam lacinia elit pharetra ac. Maecenas eu venenatis sapien.',
 			photo_url: 'http://stanford.edu/~siejeny/Dinner.jpg',
@@ -297,6 +300,7 @@ exports.events = function () {
 			total_places_available: 20
 		},{
 			title: 'Party at Izaak',
+			reference: 'YH56D',
 			short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 			long_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit. Vivamus porttitor neque nec nibh aliquam, vehicula accumsan justo pellentesque. Curabitur eu nisi purus. Vestibulum id orci dictum, auctor enim ut, ullamcorper risus. Maecenas vulputate euismod nibh, aliquam lacinia elit pharetra ac. Maecenas eu venenatis sapien.',
 			photo_url: 'http://www.splashmood.com/wp-content/uploads/2014/06/Yeh-Jawaani-Hai-Deewani-Night-Party-HD-Wallpaper.jpg',

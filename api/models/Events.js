@@ -14,6 +14,9 @@ module.exports = {
 		title: {
 			type: 'STRING'
 		},
+		reference: {
+			type: 'STRING'
+		},
 		short_description: {
 			type: 'STRING',
 		},
