@@ -12,7 +12,9 @@ Membership management system for Friends of Chichester Harbour.
 
 ## Run
 
-In order to start the app:
+In order to start the app you need a MySql database running on localhost for more details see [config](https://github.com/foundersandcoders/sail-back/blob/master/config/env/development.js#L15).
+
+Once the database server is running you can run the app with:
 
 ```
 git clone https://github.com/foundersandcoders/sail-back
