@@ -1,20 +1,27 @@
-"use strict";
+/**
+ *
+ *
+ *
+ *
+**/
+
 
 var async = require('async');
-var mocks = require('./../../api/hooks/create_database_entries/mocks.js');
 
-
-var mocks = {
-	members:         mocks.admins(),
-	membershipTypes: mocks.membershipTypes(),
-	payments:        mocks.payments(),
-	paymentTypes:    mocks.paymentTypes(),
-	references:      mocks.references(),
-	deletionReasons: mocks.deletionReasons()
-};
 
 module.exports = createEntries;
 
+
+var mocks = {
+	members:         require('./mocks.js').admins(),
+	membershipTypes: require('./mocks.js').membershipTypes(),
+	payments:        require('./mocks.js').payments(),
+	paymentTypes:    require('./mocks.js').paymentTypes(),
+	references:      require('./mocks.js').references(),
+	deletionReasons: require('./mocks.js').deletionReasons(),
+	events:          require('./mocks.js').events(),
+	bookings:        require('./mocks.js').bookings()
+};
 
 function createEntries (callback) {
 
@@ -97,12 +104,31 @@ function createEntries (callback) {
 				}
 			});
 		},
-	], function (err, results) {
+		function (members, cb) {
 
-		if (err) {
-			callback(err, undefined);
-		} else {
-			callback(undefined, results);
+			Events
+			.create(mocks.events)
+			.exec(function (err, items) {
+
+				if (err) {
+					cb(err, null)
+				} else {
+					cb(null, items);
+				}
+			});
+		},
+		function (members, cb) {
+
+			BookingRecords
+			.create(mocks.bookings)
+			.exec(function (err, items) {
+
+				if (err) {
+					cb(err, null)
+				} else {
+					cb(null, items);
+				}
+			});
 		}
-	});
+	], callback);
 }

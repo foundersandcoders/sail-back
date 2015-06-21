@@ -28,6 +28,14 @@ module.exports.routes = {
 			controller: 'Public',
 			action: 'forgotPassword'
 		},
+		'GET /api/current_events': {
+			controller: 'Events',
+			action: 'getCurrentEvents'
+		},
+		'GET /events': {
+			controller: 'Events',
+			action: 'showView'
+		},
 	// -------------------------------------------------------------------------
 	// SignUp process
 	// -------------------------------------------------------------------------

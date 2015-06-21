@@ -9,6 +9,19 @@
 	margin-left: 2px;
 }
 
+.parent-float {
+	display: block;
+	overflow: auto;
+	.left {
+		display: inline;
+		float: left;
+	}
+	.right {
+		display: inline;
+		float: right;
+	}
+}
+
 .details-list {
 	margin-bottom: 12px;
 	padding-bottom: 12px;

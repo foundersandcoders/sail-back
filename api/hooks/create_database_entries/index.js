@@ -1,4 +1,5 @@
-var async = require('async');
+var async         = require('async');
+var createEntries = require('./createEntries.js');
 
 module.exports = function(sails) {
 
@@ -13,138 +14,9 @@ module.exports = function(sails) {
 			*   sails-docs/concepts/extending-sails/Hooks/customhooks.md
 			**/
 
-			var mocks = {
-				members:         require('./mocks.js').admins(),
-				membershipTypes: require('./mocks.js').membershipTypes(),
-				payments:        require('./mocks.js').payments(),
-				paymentTypes:    require('./mocks.js').paymentTypes(),
-				references:      require('./mocks.js').references(),
-				deletionReasons: require('./mocks.js').deletionReasons(),
-				events:          require('./mocks.js').events(),
-				bookings:        require('./mocks.js').bookings()
-			};
-
 			// sails.log.info("Mocks: ", mocks);
 
 			return sails.after('hook:orm:loaded', function () {
-
-				function createEntries () {
-
-					async.waterfall([
-						function (cb) {
-
-							MembershipTypes
-							.create(mocks.membershipTypes)
-							.exec(function (err, items) {
-
-								if (err) {
-									cb(err, null)
-								} else {
-									cb(null, items);
-								}
-							});
-						},
-						function (membershipTypes, cb) {
-
-							PaymentTypes
-							.create(mocks.paymentTypes)
-							.exec(function (err, items) {
-
-								if (err) {
-									cb(err, null)
-								} else {
-									cb(null, items);
-								}
-							});
-						},
-						function (paymentTypes, cb) {
-
-							References
-							.create(mocks.references)
-							.exec(function (err, items) {
-
-								if (err) {
-									cb(err, null)
-								} else {
-									cb(null, items);
-								}
-							});
-						},
-						function (paymentTypes, cb) {
-
-							Payments
-							.create(mocks.payments)
-							.exec(function (err, items) {
-
-								if (err) {
-									cb(err, null)
-								} else {
-									cb(null, items);
-								}
-							});
-						},
-						function (payments, cb) {
-
-							DeletionReasons
-							.create(mocks.deletionReasons)
-							.exec(function (err, items){
-
-								if (err) {
-									cb(err, null)
-								} else {
-									cb(null, items);
-								}
-							});
-						},
-						function (payments, cb) {
-
-							Members
-							.create(mocks.members)
-							.exec(function (err, items) {
-
-								if (err) {
-									cb(err, null)
-								} else {
-									cb(null, items);
-								}
-							});
-						},
-						function (members, cb) {
-
-							Events
-							.create(mocks.events)
-							.exec(function (err, items) {
-
-								if (err) {
-									cb(err, null)
-								} else {
-									cb(null, items);
-								}
-							});
-						},
-						function (members, cb) {
-
-							BookingRecords
-							.create(mocks.bookings)
-							.exec(function (err, items) {
-
-								if (err) {
-									cb(err, null)
-								} else {
-									cb(null, items);
-								}
-							});
-						}
-					], function (err, results) {
-
-						if (err) {
-							sails.log.error('Hooks - error', err);
-						} else {
-							sails.log.info("Hooks - database entries completed!");
-							// sails.log.info("Hooks - database entries completed:", results);
-						}
-					});
-				}
 
 				Members
 				.find()
@@ -155,7 +27,15 @@ module.exports = function(sails) {
 					if (items.length > 0) {
 						sails.log.info("...members already there!");
 					} else {
-						createEntries(true);
+						createEntries(function (err, results) {
+
+							if (err) {
+								sails.log.error('Hooks - error', err);
+							} else {
+								sails.log.info("Hooks - database entries completed!");
+								// sails.log.info("Hooks - database entries completed:", results);
+							}
+						});
 					}
 				});
 			});

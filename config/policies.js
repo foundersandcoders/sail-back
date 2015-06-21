@@ -19,6 +19,12 @@ module.exports.policies = {
         'charge': 'isAuthenticated'
     },
 
+    EventsController: {
+        '*': ['isAuthenticated', 'isAdmin'],
+        'showView': true,
+        'getCurrentEvents': true
+    },
+
     BookingRecordsController: {
         '*': ['isAuthenticated', 'isAdmin'],
         'book': 'isAuthenticated'

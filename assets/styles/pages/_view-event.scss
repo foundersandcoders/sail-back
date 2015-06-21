@@ -1,3 +1,26 @@
+.event {
+	border: 1px solid #eee;
+	padding: 10px;
+	.image {
+		height:100px;
+		background-position:center center; 
+		background-size:cover; 
+		opacity: 0.9;
+	}
+}
+
+.positive {
+	background-color: rgba(82, 148, 70, 0.76);
+	color: #fff;
+	border: 0px;
+}
+
+.negative {
+	background-color: #eee;
+	color: #000;
+	border: 0px;
+}
+
 .event-img {
 	width: 100%;
 }
@@ -46,7 +69,17 @@
 }
 
 .single-event-info {
-	.line {
-		margin: 20px 0;
+	border-top: 1px solid #eee;
+	overflow: auto;
+	display: block;
+	.item {
+		display: inline;
+		overflow: auto;
+		float: left;
+	}
+	.status {
+		display: inline;
+		overflow: auto;
+		float: right;
 	}
 }

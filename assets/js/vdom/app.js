@@ -2,6 +2,7 @@
 	"use strict";
 
 	var nuclear = require("./nuclear.js");
+	var utils2  = require("./utils.js");
 
 	var utils = module.exports.utils = {
 		is:            require("torf"),
@@ -97,6 +98,26 @@
 			getMemberInfo(function (error, header, body) {
 				var member = JSON.parse(body);
 				nuclear.app(document.querySelector('#home-component'), Home(member), Home.render);
+			});
+		}
+	} catch (e) {
+		console.log("Home component: ", e);
+	}
+
+	function getEventsInfo (callback) {
+
+		nuclear.request({
+			method: "GET",
+			url: "/api/current_events"
+		}, callback);
+	}
+
+	try {
+		var Events = require("./pages/Events.js");
+		if(window.location.pathname.split("/")[1] === "events") {
+			getEventsInfo(function (error, header, body) {
+				var events = JSON.parse(body);
+				nuclear.app(document.querySelector('#events-component'), Events(events), Events.render);
 			});
 		}
 	} catch (e) {

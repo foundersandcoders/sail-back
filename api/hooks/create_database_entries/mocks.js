@@ -244,6 +244,11 @@ exports.references = function () {
 
 exports.events = function () {
 
+	var yesterday = new Date();
+	yesterday.setDate(yesterday.getDate() - 1);	
+
+	var today = new Date();
+
 	var tomorrow = new Date();
 	tomorrow.setDate(tomorrow.getDate() + 1);
 
@@ -252,8 +257,34 @@ exports.events = function () {
 
 	var events = [
 		{
+			title: 'Past at Dan',
+			short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+			long_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit. Vivamus porttitor neque nec nibh aliquam, vehicula accumsan justo pellentesque. Curabitur eu nisi purus. Vestibulum id orci dictum, auctor enim ut, ullamcorper risus. Maecenas vulputate euismod nibh, aliquam lacinia elit pharetra ac. Maecenas eu venenatis sapien.',
+			photo_url: 'http://stanford.edu/~siejeny/Dinner.jpg',
+			date: yesterday,
+			time: '19:00',
+			location: 'London',
+			host: 'Dan',
+			price_per_member: 15,
+			price_per_guest: 20,
+			max_number_of_guests: 5,
+			total_places_available: 20
+		},{
+			title: 'Today at Wil',
+			short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+			long_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit. Vivamus porttitor neque nec nibh aliquam, vehicula accumsan justo pellentesque. Curabitur eu nisi purus. Vestibulum id orci dictum, auctor enim ut, ullamcorper risus. Maecenas vulputate euismod nibh, aliquam lacinia elit pharetra ac. Maecenas eu venenatis sapien.',
+			photo_url: 'http://stanford.edu/~siejeny/Dinner.jpg',
+			date: today,
+			time: '19:00',
+			location: 'London',
+			host: 'Wil',
+			price_per_member: 15,
+			price_per_guest: 20,
+			max_number_of_guests: 5,
+			total_places_available: 20
+		},{
 			title: 'Dinner at Bes',
-			short_description: 'A nice dinner all together',
+			short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 			long_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit. Vivamus porttitor neque nec nibh aliquam, vehicula accumsan justo pellentesque. Curabitur eu nisi purus. Vestibulum id orci dictum, auctor enim ut, ullamcorper risus. Maecenas vulputate euismod nibh, aliquam lacinia elit pharetra ac. Maecenas eu venenatis sapien.',
 			photo_url: 'http://stanford.edu/~siejeny/Dinner.jpg',
 			date: tomorrow,
@@ -266,7 +297,7 @@ exports.events = function () {
 			total_places_available: 20
 		},{
 			title: 'Party at Izaak',
-			short_description: 'A nice party all together',
+			short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 			long_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit. Vivamus porttitor neque nec nibh aliquam, vehicula accumsan justo pellentesque. Curabitur eu nisi purus. Vestibulum id orci dictum, auctor enim ut, ullamcorper risus. Maecenas vulputate euismod nibh, aliquam lacinia elit pharetra ac. Maecenas eu venenatis sapien.',
 			photo_url: 'http://www.splashmood.com/wp-content/uploads/2014/06/Yeh-Jawaani-Hai-Deewani-Night-Party-HD-Wallpaper.jpg',
 			date: afterTomorrow,

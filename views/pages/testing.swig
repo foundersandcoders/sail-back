@@ -142,7 +142,7 @@
 		</div>
 	</div>
 
-	<br><br><br><br><br><br><br><br>
+<!-- 	<br><br><br><br><br><br><br><br>
 
 	<div class="container-large">
 		<div class="inner-section-divider-medium"></div>
@@ -152,35 +152,35 @@
 				<div class="section-label">
 					<h1>Account</h1>
 				</div>
-				<div class="inner-section-divider-small"></div>
+				<div class="inner-section-divider-small"></div> -->
 						<!-- Single event -->
-				<div class="input-label-container">
+<!-- 				<div class="input-label-container">
 					<h3>Event 1</h3>
 				</div>
 				<div class="event-info">
 					<p class="date">23/02/90</p>
 					<p class="ref">Ref:S3</p>
-				</div>
+				</div> -->
 				<!-- <img src="/images/orca.jpg" class="event-img"> -->
 
-
+<!-- 
 				<div style="background-image: url(/images/orca.jpg)" class="event-img"></div>
 
 				<div class="event-info">
 					<p class="open">Open for booking: Yes</p>
 					<p class="available">Places available: Yes</p>
-				</div>
+				</div> -->
 				
-
+<!-- 
 					<br><br><br><br><br><br><br><br>
 
 
-				<div class="inner-section-divider-small"></div>
+				<div class="inner-section-divider-small"></div> -->
 					<!-- Single event -->
-				<div class="input-label-container">
+<!-- 				<div class="input-label-container">
 					<h3>Event 1</h3>
-				</div>
-				<div style="background-image: url(/images/orca.jpg)" class="event-img"></div>
+				</div> -->
+<!-- 				<div style="background-image: url(/images/orca.jpg)" class="event-img"></div>
 				<div class="single-event-info">
 					<p>23/02/90</p>
 					<p>Ref:S3</p>
@@ -192,8 +192,74 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </div>
+	<br><br><br><br><br><br><br><br>
+	<div class="container-large">
+		<div class="inner-section-divider-medium"></div>
+			<div id="account-component">
+				<div class="main-container">
+					<div class="main-container">
+						<div class="inner-section-divider-small"></div>
+						<div class="section-label">
+							<h1>Events</h1>
+						</div>
+						<div class="container-small">
+							<div class="inner-section-divider-medium"></div>
+
+
+
+							<!-- First event -->
+							<div class="event">
+								<div class="input-label-container parent-float">
+									<h3 class="left">Event title</h3>
+								</div>
+								<div class="image" style="height:100px; background-image:url(http://stanford.edu/~siejeny/Dinner.jpg); background-position:center center; background-size:cover; opacity: 0.9; max"></div>
+								<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit.</p>
+
+
+								<!-- Event info -->
+								<div class="single-event-info">
+									<div class="item">
+										<p>Date: 23/02/90</p>
+									</div>
+									<div class="status">
+										<p>Reference: S37F</p>
+									</div>
+								</div>
+							</div>
+							<button id="member-controls-donation-pay" class="button-two full-width positive">Book a place</button>
+
+
+							<div class="inner-section-divider-medium"></div>
+
+
+							<!-- Second event -->
+							<div class="event">
+								<div class="input-label-container parent-float">
+									<h3 class="left">Event title</h3>
+								</div>
+								<div style="height:100px; background-image:url(http://www.splashmood.com/wp-content/uploads/2014/06/Yeh-Jawaani-Hai-Deewani-Night-Party-HD-Wallpaper.jpg); background-position:center center; background-size:cover; opacity: 0.9; max"></div>
+								<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit.</p>
+
+
+								<!-- Event info -->
+								<div class="single-event-info">
+									<div class="item">
+										<p>Date: 23/02/90</p>
+									</div>
+									<div class="status">
+										<p>Reference: S37F</p>
+									</div>
+								</div>
+							</div>
+							<button id="member-controls-donation-pay" class="button-two full-width negative">Sold out</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
 
 

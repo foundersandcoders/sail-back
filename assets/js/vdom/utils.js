@@ -13,6 +13,7 @@ var utils = module.exports = {
 	parseCsv:      require("./services/parsecsv.js").parse,
 	formPost:      require("./services/formPost.js"),
 	dateConverter: require("./services/dateConverter.js"),
+	processEvents: require("./services/processEvents.js"),
 	replaceNice:   require("./helpers").replaceNice,
 	lastSub:       require("./helpers").lastSub,
 	vDomHelpers:   require("./services/vDom"),
