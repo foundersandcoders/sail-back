@@ -241,3 +241,58 @@ exports.references = function () {
 
 	return references;
 };
+
+exports.events = function () {
+
+	var tomorrow = new Date();
+	tomorrow.setDate(tomorrow.getDate() + 1);
+
+	var afterTomorrow = new Date();
+	afterTomorrow.setDate(afterTomorrow.getDate() + 2);
+
+	var events = [
+		{
+			title: 'Dinner at Bes',
+			short_description: 'A nice dinner all together',
+			long_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit. Vivamus porttitor neque nec nibh aliquam, vehicula accumsan justo pellentesque. Curabitur eu nisi purus. Vestibulum id orci dictum, auctor enim ut, ullamcorper risus. Maecenas vulputate euismod nibh, aliquam lacinia elit pharetra ac. Maecenas eu venenatis sapien.',
+			photo_url: 'http://stanford.edu/~siejeny/Dinner.jpg',
+			date: tomorrow,
+			time: '19:00',
+			location: 'London',
+			host: 'Bes',
+			price_per_member: 15,
+			price_per_guest: 20,
+			max_number_of_guests: 5,
+			total_places_available: 20
+		},{
+			title: 'Party at Izaak',
+			short_description: 'A nice party all together',
+			long_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit. Vivamus porttitor neque nec nibh aliquam, vehicula accumsan justo pellentesque. Curabitur eu nisi purus. Vestibulum id orci dictum, auctor enim ut, ullamcorper risus. Maecenas vulputate euismod nibh, aliquam lacinia elit pharetra ac. Maecenas eu venenatis sapien.',
+			photo_url: 'http://www.splashmood.com/wp-content/uploads/2014/06/Yeh-Jawaani-Hai-Deewani-Night-Party-HD-Wallpaper.jpg',
+			date: afterTomorrow,
+			time: '21:00',
+			location: 'London',
+			host: 'Izaak',
+			price_per_member: 15,
+			price_per_guest: 20,
+			max_number_of_guests: 5,
+			total_places_available: 20
+		}
+	];
+
+	return events;
+};
+
+exports.bookings = function () {
+
+	var bookings = [
+		{
+			event_id: '1', // bes party
+			head_member: '471800', // bes account
+			number_of_members: 5,
+			number_of_guests: 1
+		}
+	];
+
+	return bookings;
+};

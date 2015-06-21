@@ -70,6 +70,10 @@ module.exports.routes = {
             controller: 'Payments',
             action: 'makePaypalPayment'
         },
+        'POST /book_event': {
+        	controller: 'BookingRecords',
+        	action: 'book'
+        },
 	// -------------------------------------------------------------------------
 	// Private
 	// -------------------------------------------------------------------------

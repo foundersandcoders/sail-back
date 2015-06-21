@@ -209,6 +209,10 @@ module.exports = {
 				collection: 'Payments',
 				via: 'member'
 			},
+			events_booked: {
+				collection: 'BookingRecords',
+				via: 'head_member'
+			},
 		// ------------------------------------------------------------
 		// Methods
 		// ------------------------------------------------------------

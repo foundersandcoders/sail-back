@@ -19,6 +19,11 @@ module.exports.policies = {
         'charge': 'isAuthenticated'
     },
 
+    BookingRecordsController: {
+        '*': ['isAuthenticated', 'isAdmin'],
+        'book': 'isAuthenticated'
+    },
+
     PublicController: {
         '*': true
     },

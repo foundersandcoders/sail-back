@@ -19,7 +19,9 @@ module.exports = function(sails) {
 				payments:        require('./mocks.js').payments(),
 				paymentTypes:    require('./mocks.js').paymentTypes(),
 				references:      require('./mocks.js').references(),
-				deletionReasons: require('./mocks.js').deletionReasons()
+				deletionReasons: require('./mocks.js').deletionReasons(),
+				events:          require('./mocks.js').events(),
+				bookings:        require('./mocks.js').bookings()
 			};
 
 			// sails.log.info("Mocks: ", mocks);
@@ -107,6 +109,32 @@ module.exports = function(sails) {
 								}
 							});
 						},
+						function (members, cb) {
+
+							Events
+							.create(mocks.events)
+							.exec(function (err, items) {
+
+								if (err) {
+									cb(err, null)
+								} else {
+									cb(null, items);
+								}
+							});
+						},
+						function (members, cb) {
+
+							BookingRecords
+							.create(mocks.bookings)
+							.exec(function (err, items) {
+
+								if (err) {
+									cb(err, null)
+								} else {
+									cb(null, items);
+								}
+							});
+						}
 					], function (err, results) {
 
 						if (err) {
