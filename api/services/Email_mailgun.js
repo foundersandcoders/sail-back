@@ -1,7 +1,8 @@
 "use strict";
 
+
 var Mailgun = require('mailgun').Mailgun;
-var mg = new Mailgun("key-9303960b1845e55723736e1ede1c42c9");
+var mg = new Mailgun(process.env.MAILGUN);
 
 
 module.exports = {
@@ -37,11 +38,11 @@ module.exports = {
 
 		mg.sendText("messenger@friendsch.org", [data.email], "Forgot password", text, function (error) {
 
-			console.log("HELLO", error)
-
 			if(error) {
+				sails.log.error("MAILGUN ERROR: ", error);
 				callback(error, undefined);
 			} else {
+				sails.log.info("EMAIL SENT TO: ", data.email);
 				callback(undefined, "Email sent");
 			}
 		});
