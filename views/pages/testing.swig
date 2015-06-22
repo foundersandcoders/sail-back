@@ -319,6 +319,7 @@
 									</div>
 								</div>
 							</div>
+
 							<button id="member-controls-donation-pay" class="button-two full-width positive">Book a place</button>
 
 
@@ -329,6 +330,84 @@
 			</div>
 		</div>
 	</div>
+
+
+
+
+	<br><br><br><br><br><br><br><br>
+
+
+
+
+	<div class="container-large">
+		<div class="inner-section-divider-medium"></div>
+			<div id="account-component">
+				<div class="main-container">
+					<div class="main-container">
+						<div class="inner-section-divider-small"></div>
+						<div class="section-label">
+							<h1>Event title</h1>
+						</div>
+						<div class="container-small">
+							<div class="select">
+								<div class="inner-section-divider-small"></div>
+								<div class="input-label-container parent-float">
+									<h3 class="left special">Member numbers</h3>
+									<select class="select-signup float-right">
+										<option value="" disabled="">Click to select one</option>
+										<option value="annual-single">0</option>
+										<option value="annual-double">1</option>
+										<option value="annual-family">2</option>
+										<option value="life-single">3</option>
+									</select>
+								</div>
+								<div class="inner-section-divider-small"></div>
+								<div class="input-label-container parent-float">
+									<h3 class="left special">Guest numbers</h3>
+									<select class="select-signup float-right">
+										<option value="" disabled="">Click to select one</option>
+										<option value="annual-single">0</option>
+										<option value="annual-double">1</option>
+										<option value="annual-family">2</option>
+										<option value="life-single">3</option>
+									</select>
+								</div>
+							</div>
+							<div class="inner-section-divider-small"></div>
+							<textarea placeholder="Please insert member and guest names" class="name-events"></textarea>
+							<div class="inner-section-divider-small"></div>
+							<div class="input-label-container parent-float">
+								<h3 class="left special">Total:</h3>
+								<h3 class="right special">£ 200</h3>
+							</div>
+							<div class="line"></div>
+							<div class="inner-section-divider-medium"></div>
+							<button id="member-controls-donation-pay" class="button-two full-width positive">Book</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 {% endblock %}
 

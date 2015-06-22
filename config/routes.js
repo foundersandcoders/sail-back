@@ -28,6 +28,13 @@ module.exports.routes = {
 			action: 'singleEventInfo'
 		},
 	// -------------------------------------------------------------------------
+	// Events endpoints
+	// -------------------------------------------------------------------------
+        'POST /book_event': {
+        	controller: 'BookingRecords',
+        	action: 'book'
+        },
+	// -------------------------------------------------------------------------
 	// SignIn process
 	// -------------------------------------------------------------------------
 		'GET /': {
@@ -91,10 +98,6 @@ module.exports.routes = {
         'POST /paypal_payment': {
             controller: 'Payments',
             action: 'makePaypalPayment'
-        },
-        'POST /book_event': {
-        	controller: 'BookingRecords',
-        	action: 'book'
         },
 	// -------------------------------------------------------------------------
 	// Private

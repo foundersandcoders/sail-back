@@ -53,10 +53,7 @@ Home.render = function (state) {
 						}
 					}
 				}, (state.member().id !== undefined ? "View account" : "Sign up")),
-				h("div.inner-section-divider-small"),
-				h("button#make-payment.btn-primary#testytestytest", {
-					onclick: state.channels.redirectTo.bind(this, state, "/donation")
-				}, "Make donation"),
+				renderMember(state),
 				h("div.inner-section-divider-small"),
 				h("button.btn-primary", {
 					onclick: state.channels.redirectTo.bind(this, state, "/events")
@@ -65,3 +62,21 @@ Home.render = function (state) {
 		])
 	);
 };
+
+function renderMember (state) {
+
+	if(state.member().id === undefined) {
+		return "";
+	}
+
+	return ([
+		h("div.inner-section-divider-small"),
+		h("button#make-payment.btn-primary#testytestytest", {
+			onclick: state.channels.redirectTo.bind(this, state, "account")
+		}, "Make donation"),
+		h("div.inner-section-divider-small"),
+		h("button#make-payment.btn-primary#testytestytest", {
+			onclick: state.channels.redirectTo.bind(this, state, "account")
+		}, "Make a payment")
+	]);
+}

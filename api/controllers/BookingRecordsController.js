@@ -8,13 +8,24 @@
 module.exports = {
 	book: function (req, res) {
 
-		// check the req.body object got all the info
+		var eventItem = req.body.eventItem;
+		var memberNum = req.body.member;
+		var guestNum  = req.body.guest;
 
-		// create 'BookingRecords'
+
+
+		// create charge
+		var	charge = {
+			member: req.session.user.id,
+			amount: ""
+		};
+
 
 		// create 'Payments' charge
 
 		// create 'Payments' payment
+
+		// create 'BookingRecords'
 
 		// update 'Events' event record with - 1
 
@@ -23,3 +34,8 @@ module.exports = {
 		res.send();
 	}
 };
+
+
+function validateBooking () {
+
+}
