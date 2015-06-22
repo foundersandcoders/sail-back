@@ -121,6 +121,6 @@
 			});
 		}
 	} catch (e) {
-		console.log("Home component: ", e);
+		console.log("Events component: ", e);
 	}
 }());

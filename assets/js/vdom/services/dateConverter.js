@@ -11,7 +11,7 @@ function converter (payments) {
 
 	return lazy(payments).map(function (elm) {
 
-		elm.date = moment(elm.date).format("DD MMM YY");
+		elm.date = moment(new Date(elm.date)).format("DD MMM YY");
 		return elm;
 	}).toArray();
 }

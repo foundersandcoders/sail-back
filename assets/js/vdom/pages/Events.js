@@ -31,10 +31,20 @@ Events.render = function (state) {
 
 	return (
 		h("div", [
-			route("/", homeEvents),
+			route("/",         homeEvents),
+			route("/info", eventInfo)
 		])
 	);
 };
+
+function eventInfo (state, params) {
+
+	alert("PARAMS: " + params);
+
+	return (
+		h("div")
+	);
+}
 
 function homeEvents (state) {
 
@@ -78,7 +88,7 @@ function renderEventList (state) {
 				]),
 				h("button.button-two.full-width.positive", {
 					onclick: function () {
-						alert("Hello");
+						window.location.hash = "info/" + elm.id;
 					}
 				}, "Book a place")
 			])
