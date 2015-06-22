@@ -80,7 +80,7 @@
 	}
 
 	try {
-		var Home = require("./pages/Home.js");
+		var Home = require("./pages/home.js");
 		if(window.location.pathname.split("/")[1] === "") {
 			getMemberInfo(function (error, header, body) {
 				var member = JSON.parse(body);
