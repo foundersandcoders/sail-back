@@ -7,7 +7,7 @@
 module.exports = {
 	showView: function (req, res) {
 
-		return res.view("pages/events");
+		return res.view("pages/events", {user: req.session.user});
 	},
 	getCurrentEvents: function (req, res) {
 
@@ -25,6 +25,23 @@ module.exports = {
 			}
 
 			return res.send(items);
+		});
+	},
+	showViewEvent: function (req, res) {
+
+		return res.view("pages/single_event", {user: req.session.user});
+	},
+	singleEventInfo: function (req, res) {
+
+		Events
+		.findOne(req.param('id'))
+		.exec(function (error, item) {
+
+			if (error) {
+				return res.badRequest({error: error});
+			}
+
+			return res.send(item);
 		});
 	}
 };

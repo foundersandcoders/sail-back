@@ -41,15 +41,27 @@ test("Create hooks", function (t) {
 	});
 });
 
-test("Book and event", function (t) {
+test("Get current available events", function (t) {
 
 	request(sails.hooks.http.app)
 	.get("/api/current_events")
 	.end(function (err, res) {
 
-		console.log(res.body);
+		// console.log(res.body);
 
-		t.equals(res.statusCode, 200, "got access");
+		t.equals(res.statusCode, 200, "got events");
+		t.end();
+	});
+});
+
+test("Get single event info", function (t) {
+
+	request(sails.hooks.http.app)
+	.get("/api/event_info/2")
+	.end(function (err, res) {
+
+		// console.log(res.body);
+		t.equals(res.statusCode, 200, "got event");
 		t.end();
 	});
 });

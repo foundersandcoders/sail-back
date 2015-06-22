@@ -16,18 +16,32 @@ exports.admins = function () {
 		date_joined: new Date(),
 		membership_type: module.exports.membershipTypes()[0].value
 	},
-	// {
-	// 	id: '78403',
-	// 	title: 'Mr',
-	// 	initials: 'E S',
-	// 	postcode: 'E1 0SY',
-	// 	first_name: 'Ettore',
-	// 	last_name: 'Scabron',
-	// 	primary_email: 'besartshyti@gmail.com',
-	// 	gift_aid_signed: false,
-	// 	date_joined: new Date(),
-	// 	membership_type: module.exports.membershipTypes()[0].value
-	// },
+	{
+		privileges: 'admin',
+		id: '1111',
+		title: 'Mr',
+		initials: 'E S',
+		postcode: 'E1 0SY',
+		first_name: 'Richard',
+		last_name: 'Evans',
+		primary_email: 'riche80@outlook.com',
+		gift_aid_signed: false,
+		date_joined: new Date(),
+		membership_type: module.exports.membershipTypes()[0].value
+	},
+	{
+		privileges: 'admin',
+		id: '78403',
+		title: 'Mr',
+		initials: 'E S',
+		postcode: 'E1 0SY',
+		first_name: 'Ettore',
+		last_name: 'Scabron',
+		primary_email: 'besartshyti@gmail.com',
+		gift_aid_signed: false,
+		date_joined: new Date(),
+		membership_type: module.exports.membershipTypes()[0].value
+	},
 	{
 		id: '471663',
 		title: 'Mr',
@@ -89,7 +103,8 @@ exports.payments = function () {
 			reference: module.exports.references()[0].code, // join table
 			notes: 'This is a note',
 			date: new Date("2011")
-		},{
+		},
+		{
 			member: module.exports.admins()[0].id, // bes
 			category: 'donation',
 			type: module.exports.paymentTypes()[0].code, // join table
@@ -98,7 +113,8 @@ exports.payments = function () {
 			reference: module.exports.references()[0].code, // join table
 			notes: 'This is a nice donation',
 			date: new Date("2012")
-		},{
+		},
+		{
 			member: module.exports.admins()[0].id, // bes
 			category: 'payment',
 			type: module.exports.paymentTypes()[0].code, // join table
@@ -107,7 +123,8 @@ exports.payments = function () {
 			reference: module.exports.references()[0].code, // join table
 			notes: 'This is a nice payment',
 			date: new Date("2013")
-		},{
+		},
+		{
 			member: module.exports.admins()[0].id, // bes
 			category: 'payment',
 			type: module.exports.paymentTypes()[0].code, // join table
@@ -116,7 +133,17 @@ exports.payments = function () {
 			reference: module.exports.references()[0].code, // join table
 			notes: 'This is a nice payment',
 			date: new Date("2013")
-		}
+		},
+		{
+			member: module.exports.admins()[1].id, // richard
+			category: 'subscription',
+			type: module.exports.paymentTypes()[0].code, // join table
+			description: 'Some description',
+			amount: 15.5,
+			reference: module.exports.references()[0].code, // join table
+			notes: 'This is a note',
+			date: new Date("2011")
+		},
 	];
 
 	return payments;

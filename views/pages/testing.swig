@@ -194,7 +194,14 @@
 		</div>
 	</div> -->
 </div>
+
+
+
 	<br><br><br><br><br><br><br><br>
+
+
+
+
 	<div class="container-large">
 		<div class="inner-section-divider-medium"></div>
 			<div id="account-component">
@@ -260,6 +267,69 @@
 			</div>
 		</div>
 	</div>
+
+
+
+	<br><br><br><br><br><br><br><br>
+
+
+
+	<div class="container-large">
+		<div class="inner-section-divider-medium"></div>
+			<div id="account-component">
+				<div class="main-container">
+					<div class="main-container">
+						<div class="inner-section-divider-small"></div>
+						<div class="section-label">
+							<h1>Event title</h1>
+						</div>
+						<div class="container-small">
+							<div class="inner-section-divider-medium"></div>
+
+
+
+							<div class="image" style="height:100px; background-image:url(http://stanford.edu/~siejeny/Dinner.jpg); background-position:center center; background-size:cover; opacity: 0.9; max"></div>
+							<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit.</p>
+
+
+							<!-- First event -->
+							<div class="event">
+								<!-- Event info -->
+								<div class="single-event-info">
+									<div>
+										<p>Date: 23/02/90</p>
+									</div>
+									<div>
+										<p>Time: 7:00 pm - 11:00 pm</p>
+									</div>
+									<div>
+										<p>Price per member: £20</p>
+									</div>
+									<div>
+										<p>Price per guest: £20</p>
+									</div>
+									<div>
+										<p>Up to 2 guest per member</p>
+									</div>
+									<div>
+										<p>Available</p>
+									</div>
+									<div>
+										<p>Reference: HF43D</p>
+									</div>
+								</div>
+							</div>
+							<button id="member-controls-donation-pay" class="button-two full-width positive">Book a place</button>
+
+
+							<div class="inner-section-divider-medium"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 {% endblock %}
 
 

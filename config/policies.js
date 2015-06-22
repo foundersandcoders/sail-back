@@ -22,7 +22,9 @@ module.exports.policies = {
     EventsController: {
         '*': ['isAuthenticated', 'isAdmin'],
         'showView': true,
-        'getCurrentEvents': true
+        'getCurrentEvents': true,
+        'singleEventInfo': true,
+        'showViewEvent': true
     },
 
     BookingRecordsController: {

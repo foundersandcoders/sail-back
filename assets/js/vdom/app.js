@@ -123,4 +123,24 @@
 	} catch (e) {
 		console.log("Events component: ", e);
 	}
+
+	function getSingleEventInfo (callback) {
+
+		nuclear.request({
+			method: "GET",
+			url: "/api/event_info/" + window.location.pathname.split("/")[2]
+		}, callback);
+	}
+
+	try {
+		var EventInfo = require("./pages/EventInfo.js");
+		if(window.location.pathname.split("/")[1] === "event_info") {
+			getSingleEventInfo(function (error, header, body) {
+				var eventInfo = JSON.parse(body);
+				nuclear.app(document.querySelector('#event-info-component'), EventInfo(eventInfo), EventInfo.render);
+			});
+		}
+	} catch (e) {
+		console.log("Event info component: ", e);
+	}
 }());

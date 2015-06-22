@@ -46,13 +46,13 @@ Home.render = function (state) {
 				h("div.inner-section-divider-medium"),
 				h("button.btn-primary#vieworsignup", {
 					onclick: function () {
-						if (state.member().registered === 'registered') {
+						if (state.member().id) {
 							return state.channels.redirectTo.call(this, state, "account");
 						} else {
 							return state.channels.redirectTo.call(this, state, "signup");
 						}
 					}
-				}, (state.member().registered === 'registered' ? "View account" : "Sign up")),
+				}, (state.member().id !== undefined ? "View account" : "Sign up")),
 				h("div.inner-section-divider-small"),
 				h("button#make-payment.btn-primary#testytestytest", {
 					onclick: state.channels.redirectTo.bind(this, state, "/donation")

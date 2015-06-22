@@ -1,10 +1,32 @@
 module.exports.routes = {
 
+
+
+
+
+
 		'GET /testing': {
 			view: 'pages/testing'
 		},
-
-
+	// -------------------------------------------------------------------------
+	// Public
+	// -------------------------------------------------------------------------
+		'GET /api/current_events': {
+			controller: 'Events',
+			action: 'getCurrentEvents'
+		},
+		'GET /events': {
+			controller: 'Events',
+			action: 'showView'
+		},
+		'GET /event_info/:id': {
+			controller: 'Events',
+			action: 'showViewEvent'
+		},
+		'GET /api/event_info/:id': {			
+			controller: 'Events',
+			action: 'singleEventInfo'
+		},
 	// -------------------------------------------------------------------------
 	// SignIn process
 	// -------------------------------------------------------------------------
@@ -27,14 +49,6 @@ module.exports.routes = {
 		'POST /forgotPassword': {
 			controller: 'Public',
 			action: 'forgotPassword'
-		},
-		'GET /api/current_events': {
-			controller: 'Events',
-			action: 'getCurrentEvents'
-		},
-		'GET /events': {
-			controller: 'Events',
-			action: 'showView'
 		},
 	// -------------------------------------------------------------------------
 	// SignUp process
