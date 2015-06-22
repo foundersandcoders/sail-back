@@ -68,15 +68,6 @@
 		console.log("Signin component: ", e);
 	}
 
-	function getMemberInfo (callback) {
-
-		nuclear.request({
-			method: "GET",
-			url: "/api/account"
-		}, callback);
-	}
-
-
 	try {
 		if(window.location.pathname.split("/")[1] === "account") {
 			getMemberInfo(function (error, header, body) {
@@ -87,10 +78,6 @@
 	} catch (e) {
 		console.log("Account component: ", e);
 	}
-
-
-
-
 
 	try {
 		var Home = require("./pages/Home.js");
@@ -104,13 +91,6 @@
 		console.log("Home component: ", e);
 	}
 
-	function getEventsInfo (callback) {
-
-		nuclear.request({
-			method: "GET",
-			url: "/api/current_events"
-		}, callback);
-	}
 
 	try {
 		var Events = require("./pages/Events.js");
@@ -124,13 +104,6 @@
 		console.log("Events component: ", e);
 	}
 
-	function getSingleEventInfo (callback) {
-
-		nuclear.request({
-			method: "GET",
-			url: "/api/event_info/" + window.location.pathname.split("/")[2]
-		}, callback);
-	}
 
 	try {
 		var EventInfo = require("./pages/EventInfo.js");
@@ -142,5 +115,28 @@
 		}
 	} catch (e) {
 		console.log("Event info component: ", e);
+	}
+
+	// 
+	function getMemberInfo (callback) {
+
+		nuclear.request({
+			method: "GET",
+			url: "/api/account"
+		}, callback);
+	}
+	function getEventsInfo (callback) {
+
+		nuclear.request({
+			method: "GET",
+			url: "/api/current_events"
+		}, callback);
+	}
+	function getSingleEventInfo (callback) {
+
+		nuclear.request({
+			method: "GET",
+			url: "/api/event_info/" + window.location.pathname.split("/")[2]
+		}, callback);
 	}
 }());
