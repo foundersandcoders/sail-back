@@ -108,9 +108,20 @@
 	try {
 		var EventInfo = require("./pages/EventInfo.js");
 		if(window.location.pathname.split("/")[1] === "event_info") {
-			getSingleEventInfo(function (error, header, body) {
-				var eventInfo = JSON.parse(body);
-				nuclear.app(document.querySelector('#event-info-component'), EventInfo(eventInfo), EventInfo.render);
+			getSingleEventInfo(function (errorEvent, headerEvent, bodyEvent) {
+
+				getMemberInfo(function (errorMember, headerMember, bodyMember) {
+
+					var eventInfo  = JSON.parse(bodyEvent);
+					var memberInfo = JSON.parse(bodyMember);
+
+					var object = {
+						eventInfo: eventInfo,
+						memberInfo: memberInfo
+					};
+
+					nuclear.app(document.querySelector('#event-info-component'), EventInfo(object), EventInfo.render);
+				});
 			});
 		}
 	} catch (e) {

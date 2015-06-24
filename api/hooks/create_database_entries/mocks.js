@@ -29,19 +29,19 @@ exports.admins = function () {
 		date_joined: new Date(),
 		membership_type: module.exports.membershipTypes()[0].value
 	},
-	{
-		privileges: 'admin',
-		id: '78403',
-		title: 'Mr',
-		initials: 'E S',
-		postcode: 'E1 0SY',
-		first_name: 'Ettore',
-		last_name: 'Scabron',
-		primary_email: 'besartshyti@gmail.com',
-		gift_aid_signed: false,
-		date_joined: new Date(),
-		membership_type: module.exports.membershipTypes()[0].value
-	},
+	// {
+	// 	privileges: 'admin',
+	// 	id: '78403',
+	// 	title: 'Mr',
+	// 	initials: 'E S',
+	// 	postcode: 'E1 0SY',
+	// 	first_name: 'Ettore',
+	// 	last_name: 'Scabron',
+	// 	primary_email: 'besartshyti@gmail.com',
+	// 	gift_aid_signed: false,
+	// 	date_joined: new Date(),
+	// 	membership_type: module.exports.membershipTypes()[0].value
+	// },
 	{
 		id: '471663',
 		title: 'Mr',

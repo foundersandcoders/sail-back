@@ -16,9 +16,13 @@ function EventInfo (initialState) {
 
 	initialState = initialState || {};
 
+	var member    = initialState.memberInfo || {};
+	var eventInfo = initialState.eventInfo  || {};
+
 	var state = nuclear.observS({
 		route:      nuclear.observ(""),
-		eventInfo:  nuclear.observS(initialState),
+		memberInfo: nuclear.observS(member),
+		eventInfo:  nuclear.observS(eventInfo),
 		guest:      nuclear.observ(""),
 		member:     nuclear.observ(""),
 		total:      nuclear.observ(""),
@@ -123,14 +127,31 @@ function renderEventDetails (state) {
 						h("p", "Reference: " + eventInfo.reference)
 					])
 				]),
-				h("button.button-two.full-width.positive", {
-					onclick: function () {
-						window.location.hash = "booking";
-					}
-				}, "Book a place")
+				bookOrSignUp(state)
 			])
 		])
 	);
+}
+
+function bookOrSignUp (state) {
+
+	if(state.memberInfo().id) {
+		return (
+			h("button.button-two.full-width.positive", {
+				onclick: function () {
+					window.location.hash = "booking";
+				}
+			}, "Book a place")
+		);
+	} else {
+		return (
+			h("button.button-two.full-width.positive", {
+				onclick: function () {
+					window.location = "/signup";
+				}
+			}, "Signup to book")
+		);
+	}
 }
 
 function renderBooking (state) {
