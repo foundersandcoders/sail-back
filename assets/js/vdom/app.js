@@ -128,6 +128,29 @@
 		console.log("Event info component: ", e);
 	}
 
+	try {
+		var MyEvents = require("./pages/AccountEvent.js");
+		if(window.location.pathname === "/events/booked") {
+			getMemberInfo(function (errMember, headerMember, bodyMember) {
+
+				getEventMember(function (errEvents, headerEvents, bodyEvents) {
+
+					var eventsInfo = JSON.parse(bodyEvents);
+					var memberInfo = JSON.parse(bodyMember);
+
+					var object = {
+						events: eventsInfo,
+						member: memberInfo
+					};
+
+					nuclear.app(document.querySelector('#my-events-component'), MyEvents(object), MyEvents.render);
+				});
+			});
+		}
+	} catch (e) {
+		console.log("Error myEvents: ", e);
+	}
+
 	// 
 	function getMemberInfo (callback) {
 
@@ -148,6 +171,13 @@
 		nuclear.request({
 			method: "GET",
 			url: "/api/event_info/" + window.location.pathname.split("/")[2]
+		}, callback);
+	}
+	function getEventMember (callback) {
+
+		nuclear.request({
+			method: "GET",
+			url: "/api/my_events"
 		}, callback);
 	}
 }());

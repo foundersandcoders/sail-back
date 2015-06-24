@@ -77,6 +77,10 @@ function renderMember (state) {
 		h("div.inner-section-divider-small"),
 		h("button#make-payment.btn-primary#testytestytest", {
 			onclick: state.channels.redirectTo.bind(this, state, "account")
-		}, "Make a payment")
+		}, "Make a payment"),
+		h("div.inner-section-divider-small"),
+		h("button#make-payment.btn-primary#testytestytest", {
+			onclick: state.channels.redirectTo.bind(this, state, "/events/booked")
+		}, "My events")
 	]);
 }

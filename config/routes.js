@@ -27,6 +27,14 @@ module.exports.routes = {
 			controller: 'Events',
 			action: 'singleEventInfo'
 		},
+		'GET /events/booked': {
+			controller: 'Members',
+			action: 'showMyEvents'
+		},
+		'GET /api/my_events': {
+			controller: 'Members',
+			action: 'getMyEvents'
+		},
 	// -------------------------------------------------------------------------
 	// Events endpoints
 	// -------------------------------------------------------------------------

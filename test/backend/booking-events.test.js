@@ -15,6 +15,7 @@ var mockMember = {
 	primary_email: 'tester@super.bes',
 	activation_status: 'activated',
 	privileges: 'admin',
+	password: "cnvo2hh89h",
 	id: 9999
 };
 
@@ -83,7 +84,26 @@ test("Create hooks", function (t) {
 	});
 });
 
-test("Book and event", function (t) {
+
+test("Sign in and get cookies", function (t) {
+
+	request(sails.hooks.http.app)
+	.post("/signin")
+	.send({username: "tester@super.bes", password: "cnvo2hh89h"})
+	.end(function (err, res) {
+
+		// if (err) {
+		// 	console.log("ERROR: ", err);
+		// 	return t.end();
+		// }
+
+		Cookies = res.headers['set-cookie'].pop().split(';')[0];
+		t.equals(res.statusCode, 302, "redirected");
+		t.end();
+	});
+});
+
+test("Book an event", function (t) {
 
 	var bookObj = {
 		eventItem: mockEvent,
@@ -120,7 +140,7 @@ test("Book and event", function (t) {
 				return t.end();
 			}
 
-			console.log("MEMBER: ", itemMember);
+			// console.log("MEMBER: ", itemMember);
 
 			t.ok(itemMember.events_booked[0].id, "event booked");
 			t.ok(itemMember.payments[0].id, "charge made");
@@ -135,11 +155,29 @@ test("Book and event", function (t) {
 					return t.end();
 				}
 
-				console.log("EVENT: ", itemEvent);
+				// console.log("EVENT: ", itemEvent);
 
 				t.end();
 			});
 		});
+	});
+});
+
+
+test("Check in 'myEvents'", function (t) {
+
+	var req = request(sails.hooks.http.app).get("/api/my_events");
+	req.cookies = Cookies;
+
+	req.end(function (err, res) {
+
+		if (err) {
+			console.log("ERROR: ", err);
+			return t.end();
+		}
+
+		t.ok(res.body[0], "event attached");
+		t.end();
 	});
 });
 

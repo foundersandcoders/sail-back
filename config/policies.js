@@ -9,7 +9,9 @@ module.exports.policies = {
     MembersController: {
         '*': ['isAuthenticated', 'isAdmin'],
         'accountPage': 'isAuthenticated',
-        'accountInfo': 'isAuthenticated'
+        'accountInfo': 'isAuthenticated',
+        'showMyEvents': 'isAuthenticated',
+        'getMyEvents': 'isAuthenticated'
     },
 
     PaymentsController: {

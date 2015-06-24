@@ -49,7 +49,7 @@ module.exports = {
 				.populate("booking_records")
 				.exec(function (errorEvent, eventRecord) {
 
-					console.log("FIND: ", eventId, eventRecord);
+					// console.log("FIND: ", eventId, eventRecord);
 
 					if(errorEvent) {
 						return res.serverError({error: errorEvent});
