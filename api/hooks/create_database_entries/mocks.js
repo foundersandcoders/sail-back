@@ -272,15 +272,15 @@ exports.references = function () {
 exports.events = function () {
 
 	var yesterday = new Date();
-	yesterday.setDate(yesterday.getDate() - 1);	
+	yesterday.setMonth(yesterday.getMonth() - 1);
 
 	var today = new Date();
 
 	var tomorrow = new Date();
-	tomorrow.setDate(tomorrow.getDate() + 1);
+	tomorrow.setMonth(tomorrow.getMonth() + 1);
 
 	var afterTomorrow = new Date();
-	afterTomorrow.setDate(afterTomorrow.getDate() + 2);
+	afterTomorrow.setMonth(afterTomorrow.getMonth() + 2);
 
 	var events = [
 		{
@@ -312,11 +312,11 @@ exports.events = function () {
 			max_number_of_guests: 5,
 			total_places_available: 20
 		},{
-			title: 'Dinner at Bes',
+			title: 'Visit at Chichester',
 			reference: 'YH77D',
 			short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 			long_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit. Vivamus porttitor neque nec nibh aliquam, vehicula accumsan justo pellentesque. Curabitur eu nisi purus. Vestibulum id orci dictum, auctor enim ut, ullamcorper risus. Maecenas vulputate euismod nibh, aliquam lacinia elit pharetra ac. Maecenas eu venenatis sapien.',
-			photo_url: 'http://stanford.edu/~siejeny/Dinner.jpg',
+			photo_url: 'http://mtbl1.vm.bytemark.co.uk/familydaysout/wp-content/uploads/Chichester-Solar-Boat-Harbour-8.jpg',
 			date: tomorrow,
 			time: '19:00',
 			location: 'London',

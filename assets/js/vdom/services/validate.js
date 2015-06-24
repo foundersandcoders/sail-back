@@ -18,8 +18,10 @@ function validate (type, obj, callback) {
 	} else if (type === "payment") {
 
 		return payment(obj, callback);
+	} else if (type === "booking") {
+		return booking(obj, callback);
 	} else {
-	
+
 		return callback("No schema found", undefined);
 	}
 }
@@ -51,6 +53,16 @@ function payment (object, callback) {
 		member:   Joi.any().required(),
 		amount:   Joi.number().required(),
 		// date:     Joi.date().required()
+	});
+
+	return validateCall(object, schema, callback);
+}
+
+function booking (object, callback) {
+
+	var schema = Joi.object().keys({
+		event_id:    Joi.any().required(),
+		head_member: Joi.any().required()
 	});
 
 	return validateCall(object, schema, callback);

@@ -57,7 +57,7 @@ Home.render = function (state) {
 				h("div.inner-section-divider-small"),
 				h("button.btn-primary", {
 					onclick: state.channels.redirectTo.bind(this, state, "/events")
-				}, "Browse events"),
+				}, "Browse events")
 			])
 		])
 	);

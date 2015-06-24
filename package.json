@@ -8,6 +8,7 @@
     "async": "^1.0.0",
     "babyparse": "^0.4.3",
     "bcryptjs": "^2.1.0",
+    "bluebird": "^2.9.30",
     "braintree": "^1.26.0",
     "connect-redis": "1.4.5",
     "csv-parse": "^0.1.2",

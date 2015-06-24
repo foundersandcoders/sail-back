@@ -3,11 +3,36 @@
 var test    = require("tape");
 var request = require("supertest");
 var Sails   = require("sails");
-var helpers = require("./helpers.js");
+var helpers = require("./../../api/hooks/create_database_entries/createEntries.js");
 
 var sails;
 var Cookies;
 var MEMBER;
+
+var mockMember = {
+	first_name: 'Tester',
+	last_name: 'Super',
+	primary_email: 'tester@super.bes',
+	activation_status: 'activated',
+	privileges: 'admin',
+	id: 9999
+};
+
+var mockEvent = {
+	title: 'Dinner at Bes',
+	reference: 'YH77D',
+	short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+	long_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit. Vivamus porttitor neque nec nibh aliquam, vehicula accumsan justo pellentesque. Curabitur eu nisi purus. Vestibulum id orci dictum, auctor enim ut, ullamcorper risus. Maecenas vulputate euismod nibh, aliquam lacinia elit pharetra ac. Maecenas eu venenatis sapien.',
+	photo_url: 'http://stanford.edu/~siejeny/Dinner.jpg',
+	date: new Date(),
+	time: '19:00',
+	location: 'London',
+	host: 'Bes',
+	price_per_member: 15,
+	price_per_guest: 20,
+	max_number_of_guests: 5,
+	total_places_available: 20
+};
 
 test("Start server: ", function (t) {
 
@@ -34,72 +59,87 @@ test("Start server: ", function (t) {
 
 test("Create hooks", function (t) {
 
-	helpers(function (error, items) {
+	Members
+	.create(mockMember)
+	.exec(function (error, item){
 
-		t.ok(items, "mock entries created");
-		t.end();
-	});
-});
+		if(error) {
+			console.log("ERROR: ", error);
+			return t.end();
+		}
 
-test("Sign up and get cookies", function (t) {
+		Events
+		.create(mockEvent)
+		.exec(function (errorEvent, itemEvent) {
 
-	var memberMock = {
-		primary_email: "someone@email.com",
-		membership_type: "annual-corporate",
-		password: "secret"
-	};
+			if(errorEvent) {
+				console.log("ERROR: ", errorEvent);
+				return t.end();
+			}
 
-	request(sails.hooks.http.app)
-	.post("/signup")
-	.send(memberMock)
-	.end(function (err, res) {
-
-		Cookies = res.headers['set-cookie'].pop().split(';')[0];
-		Members
-		.findOne({primary_email: memberMock.primary_email})
-		.exec(function (error, item) {
-
-			MEMBER = item;
+			t.ok(item, "mocks created");
 			t.end();
 		});
 	});
 });
 
-test("Get account info with cookies", function (t) {
-
-	var req = request(sails.hooks.http.app).get("/api/account");
-
-	req.cookies = Cookies;
-
-	req.end(function (err, res) {
-
-		t.equals(res.statusCode, 200, "got access");
-		t.equals(res.body.primary_email, "someone@email.com", "got account info");
-		t.end();
-	});
-});
-
-test("Close to request without a valid session", function (t) {
-
-	var req = request(sails.hooks.http.app).get("/api/account");
-
-	req.end(function (err, res) {
-
-		t.equals(res.statusCode, 404, "got 404");
-		t.end();
-	});
-});
-
 test("Book and event", function (t) {
+
+	var bookObj = {
+		eventItem: mockEvent,
+		member: "4",
+		guest: "1",
+		total: "100"
+	};
+
+	bookObj.eventItem.id = 1;
 
 	var req = request(sails.hooks.http.app).post("/book_event");
 	req.cookies = Cookies;
 
-	req.end(function (err, res) {
+	req
+	.set('test-mode', 'testing')
+	.send(bookObj)
+	.end(function (err, res) {
 
-		t.equals(res.statusCode, 200, "got access");
-		// t.equals(res.body.primary_email, "someone@email.com", "got account info");
-		t.end();
+		if(err) {
+			console.log("ERROR: ", err);
+			return t.end();
+		}
+
+		t.equals(res.statusCode, 200, "status code 200");
+
+		Members
+		.findOne(9999)
+		.populate("events_booked")
+		.populate("payments")
+		.exec(function (errMember, itemMember) {
+
+			if(errMember) {
+				console.log("ERROR: ", errMember);
+				return t.end();
+			}
+
+			console.log("MEMBER: ", itemMember);
+
+			t.ok(itemMember.events_booked[0].id, "event booked");
+			t.ok(itemMember.payments[0].id, "charge made");
+
+			Events
+			.findOne(1)
+			.populate("booking_records")
+			.exec(function (errEvent, itemEvent) {
+
+				if(errEvent) {
+					console.log("ERROR: ", errEvent);
+					return t.end();
+				}
+
+				console.log("EVENT: ", itemEvent);
+
+				t.end();
+			});
+		});
 	});
 });
 

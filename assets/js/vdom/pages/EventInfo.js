@@ -40,7 +40,7 @@ function totalPrice (state) {
 	var totalGuest     = pricePerGuest  * state.guest();
 	var total          = totalMember    + totalGuest;
 
-	return ("£ " + total.toString());
+	return total;
 }
 
 function createCharge (state, amount) {
@@ -54,7 +54,8 @@ function createCharge (state, amount) {
 	var bookRecord = {
 		eventItem: state.eventInfo(),
 		member:    state.member(),
-		guest:     state.guest()
+		guest:     state.guest(),
+		total:     amount
 	};
 
 	nuclear.request({
@@ -66,7 +67,7 @@ function createCharge (state, amount) {
 		if (error) {
 			alert("Could not book")
 		} else {
-			console.log(body);
+			window.location = "/account";
 		}
 	});
 }
@@ -162,12 +163,15 @@ function renderBooking (state) {
 				]),
 				h("div.inner-section-divider-small"),
 				h("textarea.name-events", {
-					placeholder: "Please insert member and guest names"
+					placeholder: "Please insert member and guest names",
+					onchange: function () {
+
+					}
 				}),
 				h("div.inner-section-divider-small"),
 				h("div.input-label-container.parent-float", [
 					h("h3.left.special", "Total"),
-					h("h3.right.special", totalPrice(state))
+					h("h3.right.special", ("£ " + String(totalPrice(state))))
 				]),
 				h("div.line"),
 				h("div.inner-section-divider-medium"),

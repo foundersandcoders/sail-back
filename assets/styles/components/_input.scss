@@ -23,7 +23,7 @@ input {
 textarea {
     @extend %input;
     height: 100px;
-    width: 500px;
+    // width: 500px;
     resize: none;
     padding-top: 10px;
 }

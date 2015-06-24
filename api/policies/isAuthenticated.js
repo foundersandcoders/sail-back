@@ -24,6 +24,7 @@ module.exports = function(req, res, next) {
 	if (req.session.user) {
 		return next();
 	} else {
+		console.log("NOT ALLOWED")
 		return res.notFound({user: req.session.user});
 	}
 };

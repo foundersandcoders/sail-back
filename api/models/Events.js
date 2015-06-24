@@ -4,6 +4,12 @@
  *
  */
 
+
+var Promise = require('bluebird');
+var Lazy    = require('lazy.js');
+var async   = require('async');
+
+
 module.exports = {
 	migrate: 'alter',
 	attributes: {
@@ -62,6 +68,29 @@ module.exports = {
 		},
 		disability_note: {
 			type: 'STRING'
+		}
+	},
+	getPlacesAvailable: function (eventId, callback) {
+
+		Events
+		.findOne(eventId)
+		.populate("booking_records")
+		.exec(function (err, item) {
+
+			if(err) {
+				return callback(err, undefined);
+			} else {
+				// get total number of booking (+guests and other member)
+				item.remaining_places = item.total_places_available - getTotalBooked(item.booking_records);
+				return callback(undefined, item);
+			}
+		});
+
+		function getTotalBooked (records) {
+
+			return records.reduce(function (aggregator, elm) {
+				return aggregator + elm.number_of_members + elm.number_of_guests;
+			}, 0)
 		}
 	}
 };
