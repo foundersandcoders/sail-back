@@ -1,7 +1,7 @@
 "use strict";
 
 
-var nuclear = require("../nuclear.js");
+var nuclear = require("nuclear.js");
 var utils   = require("../utils.js");
 
 module.exports = App;

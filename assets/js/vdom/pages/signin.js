@@ -1,6 +1,6 @@
 "use strict";
 
-var nuclear   = require("../nuclear.js");
+var nuclear   = require("nuclear.js");
 var utils     = require("../utils.js");
 var Messenger = require("../components/Messenger.js");
 

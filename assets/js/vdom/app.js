@@ -1,7 +1,7 @@
 ;(function () {
 	"use strict";
 
-	var nuclear = require("./nuclear.js");
+	var nuclear = require("nuclear.js");
 	var utils2  = require("./utils.js");
 
 	var utils = module.exports.utils = {

@@ -1,4 +1,4 @@
 "use strict";
 
 
-var nuclear = require("../../nuclear.js");
+var nuclear = require("nuclear.js");

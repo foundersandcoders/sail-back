@@ -36,6 +36,7 @@
     "mailgun": "^0.5.0",
     "mandrill-api": "^1.0.45",
     "moment": "^2.10.3",
+    "nuclear.js": "0.0.2",
     "observ": "^0.2.0",
     "observ-array": "^3.2.1",
     "observ-struct": "^6.0.0",

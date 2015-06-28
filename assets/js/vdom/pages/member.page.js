@@ -1,7 +1,7 @@
 "use strict";
 
 
-var nuclear    = require("../nuclear");
+var nuclear    = require("nuclear.js");
 var page       = require("../components/admin/member-panel.js");
 var balanceDue = require("../services/balanceDue");
 

@@ -1,7 +1,7 @@
 "use strict";
 
 
-var nuclear = require("../nuclear.js");
+var nuclear = require("nuclear.js");
 var h       = nuclear.h;
 var utils   = require("../utils.js");
 
@@ -44,16 +44,8 @@ Home.render = function (state) {
 		h("div.main-container", [
 			h("div.container-small", [
 				h("div.inner-section-divider-medium"),
-				h("button.btn-primary#vieworsignup", {
-					onclick: function () {
-						if (state.member().id) {
-							return state.channels.redirectTo.call(this, state, "account");
-						} else {
-							return state.channels.redirectTo.call(this, state, "signup");
-						}
-					}
-				}, (state.member().id !== undefined ? "View account" : "Sign up")),
-				renderMember(state),
+				renderSignUpOpts(state),
+				renderMemberOpts(state),
 				h("div.inner-section-divider-small"),
 				h("button.btn-primary", {
 					onclick: state.channels.redirectTo.bind(this, state, "/events")
@@ -63,7 +55,29 @@ Home.render = function (state) {
 	);
 };
 
-function renderMember (state) {
+function renderSignUpOpts (state) {
+
+	if(state.member().id !== undefined) {
+
+		return (
+			h("button.btn-primary", {
+				onclick: state.channels.redirectTo.bind(this, state, "/account")
+			}, "View account")
+		);
+	} else {
+		return ([
+			h("button.btn-primary", {
+				onclick: state.channels.redirectTo.bind(this, state, "/signin")
+			}, "Sign in"),
+			h("div.inner-section-divider-small"),
+			h("button.btn-primary", {
+				onclick: state.channels.redirectTo.bind(this, state, "/signup")
+			}, "Sign up")
+		]);
+	}
+}
+
+function renderMemberOpts (state) {
 
 	if(state.member().id === undefined) {
 		return "";

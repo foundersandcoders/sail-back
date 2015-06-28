@@ -6,7 +6,7 @@ var panelViews = require("../components/signup/panels.js");
 
 
 
-var nuclear = require("../nuclear.js");
+var nuclear = require("nuclear.js");
 var utils   = require("../utils.js");
 
 
