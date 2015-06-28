@@ -31,12 +31,12 @@ Events.render = function (state) {
 
 	return (
 		h("div", [
-			route("/",         homeEvents)
+			route("/", homeEvents)
 		])
 	);
 };
 
-function homeEvents (state) {
+function homeEvents (state, params) {
 
 	return (
 		h("div.main-container", [

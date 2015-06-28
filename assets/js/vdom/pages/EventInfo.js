@@ -154,7 +154,9 @@ function bookOrSignUp (state) {
 	}
 }
 
-function renderBooking (state) {
+function renderBooking (state, params) {
+
+	console.log("PARAMS: ", params);
 
 	var eventInfo = utils.processEvents([state.eventInfo()])[0];
 

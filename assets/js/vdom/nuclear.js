@@ -3,7 +3,7 @@
 
 var nuclear = module.exports = {
 	app:           app,
-	router:        router,
+	router:        require('./services/router.js'),
 	diff:          require('virtual-dom/diff'),
 	patch:         require('virtual-dom/patch'),
 	createElement: require('virtual-dom/create-element'),
@@ -14,44 +14,6 @@ var nuclear = module.exports = {
 	observV:       require('observ-varhash'),
 	request:       require('xhr')
 };
-
-
-function router (state) {
-
-	// browsers only
-	if (!window) return;
-
-	var loc     = window.location;
-	var win     = window;
-	var started = false;
-
-	function hash () {
-		return loc.href.split('#')[1] || '';
-	}
-
-	function parser (path) {
-		return path.split('/');
-	}
-
-
-	window.addEventListener("hashchange", function () {
-
-		state.route.set(hash());
-	});
-
-	function route (path, handler) {
-	
-		if (parser(path)[1] === "*") {
-			return handler(state);
-		}
-
-		if(hash() === parser(path)[1]) {
-			return handler(state);
-		}
-	}
-	
-	return route;
-}
 
 
 function app (elem, observ, render) {
