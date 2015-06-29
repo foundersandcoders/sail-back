@@ -145,7 +145,7 @@ function showDetails (state, params) {
 						"background-image": "url('" + eventInfo.photo_url  + "')"
 					}
 				}),
-				h("p.description", eventInfo.short_description),
+				h("p.description", eventInfo.title),
 				h("div.single-event-info", [
 					h("div", [
 						h("p", "Date: " + eventInfo.date)

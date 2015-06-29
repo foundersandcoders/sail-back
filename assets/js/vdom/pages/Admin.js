@@ -119,13 +119,13 @@ function renderEvents (state) {
 			h("div#table-payments", [
 				h("div.table-section-individual", [
 					h("div.table-section-individual-header", [
-						h("div.col-1", [
+						h("div.col-3", [
 							h("h3", "Date")
 						]),
 						h("div.col-2", [
 							h("h3", "Ref")
 						]),
-						h("div.col-3", [
+						h("div.col-1", [
 							h("h3", "Description")
 						]),
 						h("div.col-3", [
@@ -140,7 +140,7 @@ function renderEvents (state) {
 						h("div.col-6", [
 							h("h3", "Price member")
 						]),
-						h("div.col-7", [
+						h("div.col-6", [
 							h("h3", "Price guest")
 						])
 					]),
@@ -159,14 +159,14 @@ function renderRowsEvents (state) {
 
 		return (
 			h("div.row", [
-				h("div.col-1", [
+				h("div.col-3", [
 					h("p", elm.date)
 				]),
 				h("div.col-2", [
 					h("p", elm.reference)
 				]),
-				h("div.col-3", [
-					h("p", elm.short_description)
+				h("div.col-1", [
+					h("p", elm.title)
 				]),
 				h("div.col-3", [
 					h("p", elm.time)
@@ -180,7 +180,7 @@ function renderRowsEvents (state) {
 				h("div.col-6", [
 					h("p", String(elm.price_per_member))
 				]),
-				h("div.col-7", [
+				h("div.col-6", [
 					h("p", String(elm.price_per_guest))
 				])
 			])
