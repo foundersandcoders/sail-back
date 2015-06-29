@@ -1,16 +1,12 @@
 "use strict";
 
-
 var nuclear = require("nuclear.js");
 var h       = nuclear.h;
 var utils   = require("../utils.js");
 
-
 module.exports = Events;
 
-
 var route;
-
 
 function Events (initialState) {
 

@@ -38,7 +38,29 @@
 	}
 
 	try {
-		require("./pages/member.page.js")(utils);
+		if (window.location.pathname.split("/")[1] === "members") {
+			var Admin = require("./pages/Admin.js");
+
+			getMemberById(function (error, header, body) {
+
+				getEventsInfo(function (errorEvents, headerEvents, bodyEvents) {
+
+					var member   = JSON.parse(body);
+					var payments = utils.balanceDue(member.payments);
+					var bookings = member.events_booked;
+					var events   = JSON.parse(bodyEvents);
+
+					var object   = {
+						member:   member,
+						payments: payments,
+						bookings: bookings,
+						events:   events
+					};
+
+					nuclear.app(document.querySelector("#member-component"), Admin(object), Admin.render);
+				});
+			});
+		}
 	} catch (e) {
 		console.log("Member component: ", e);
 	}
@@ -139,7 +161,13 @@
 		console.log("Error myEvents: ", e);
 	}
 
-	// 
+	function getMemberById (callback) {
+
+		utils.request({
+			method: "GET",
+			uri: "/api/members/" + location.pathname.split("/")[2] + "?populate=[payments,membership_type,deletion_reason,events_booked]"
+		}, callback)
+	}
 	function getMemberInfo (callback) {
 
 		nuclear.request({

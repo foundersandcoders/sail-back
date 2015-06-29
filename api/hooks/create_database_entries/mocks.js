@@ -326,7 +326,7 @@ exports.events = function () {
 			max_number_of_guests: 5,
 			total_places_available: 20
 		},{
-			title: 'Party at Izaak',
+			title: 'Party in London',
 			reference: 'YH56D',
 			short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
 			long_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vel gravida velit. Vivamus porttitor neque nec nibh aliquam, vehicula accumsan justo pellentesque. Curabitur eu nisi purus. Vestibulum id orci dictum, auctor enim ut, ullamcorper risus. Maecenas vulputate euismod nibh, aliquam lacinia elit pharetra ac. Maecenas eu venenatis sapien.',
@@ -334,7 +334,7 @@ exports.events = function () {
 			date: afterTomorrow,
 			time: '21:00',
 			location: 'London',
-			host: 'Izaak',
+			host: 'Wil',
 			price_per_member: 15,
 			price_per_guest: 20,
 			max_number_of_guests: 5,

@@ -68,24 +68,23 @@ module.exports = {
 
 							if (errorCharge) {
 								return module.exports._rollBack(errorCharge, mySqlConnection, res);
-							} else {
-
-								mySqlConnection.query("INSERT INTO bookingrecords SET ?", booking, function (errorBooking, itemBooking) {
-
-									if (errorBooking) {
-										return module.exports._rollBack(errorBooking, mySqlConnection, res);
-									} else {
-										mySqlConnection.commit(function (errCommit) {
-											if (errCommit) { 
-												return module.exports._rollBack(errCommit, mySqlConnection, res);
-											} else {
-												sails.log.info('SUCCESS!');
-												return res.send(itemCharge);
-											}
-										});
-									}
-								});
 							}
+
+							mySqlConnection.query("INSERT INTO bookingrecords SET ?", booking, function (errorBooking, itemBooking) {
+
+								if (errorBooking) {
+									return module.exports._rollBack(errorBooking, mySqlConnection, res);
+								}
+
+								mySqlConnection.commit(function (errCommit) {
+									
+									if (errCommit) { 
+										return module.exports._rollBack(errCommit, mySqlConnection, res);
+									}
+									sails.log.info('SUCCESS!');
+									return res.send(itemCharge);
+								});
+							});
 						});
 					});
 				});
@@ -113,13 +112,13 @@ module.exports = {
 	_createCharge: function (user, eventItem, total) {
 
 		return {
-			member: user.id,
-			category: 'event',
-			amount: total,
+			member:       user.id,
+			category:     'event',
+			amount:       total,
 			description: 'Event "' + eventItem.title + '"',
-			date: new Date(),
-			createdAt: new Date(),
-			updatedAt: new Date()
+			date:         new Date(),
+			createdAt:    new Date(),
+			updatedAt:    new Date()
 		};
 	},
 	_createBooking: function (user, eventItem, memberNum, guestNum) {
@@ -129,8 +128,8 @@ module.exports = {
 			head_member:       user.id,
 			number_of_members: memberNum,
 			number_of_guests:  guestNum,
-			createdAt: new Date(),
-			updatedAt: new Date()
+			createdAt:         new Date(),
+			updatedAt:         new Date()
 		};
 	},
 	_getConfigConnection: function (NODE_ENV) {
