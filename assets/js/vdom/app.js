@@ -95,37 +95,25 @@
 	try {
 		var Events = require("./pages/Events.js");
 		if(window.location.pathname.split("/")[1] === "events") {
+
 			getEventsInfo(function (error, header, body) {
-				var events = JSON.parse(body);
-				nuclear.app(document.querySelector('#events-component'), Events(events), Events.render);
-			});
-		}
-	} catch (e) {
-		console.log("Events component: ", e);
-	}
-
-
-	try {
-		var EventInfo = require("./pages/EventInfo.js");
-		if(window.location.pathname.split("/")[1] === "event_info") {
-			getSingleEventInfo(function (errorEvent, headerEvent, bodyEvent) {
 
 				getMemberInfo(function (errorMember, headerMember, bodyMember) {
 
-					var eventInfo  = JSON.parse(bodyEvent);
+					var events     = JSON.parse(body);
 					var memberInfo = JSON.parse(bodyMember);
 
 					var object = {
-						eventInfo: eventInfo,
+						events: events,
 						memberInfo: memberInfo
 					};
 
-					nuclear.app(document.querySelector('#event-info-component'), EventInfo(object), EventInfo.render);
+					nuclear.app(document.querySelector('#events-component'), Events(object), Events.render);
 				});
 			});
 		}
 	} catch (e) {
-		console.log("Event info component: ", e);
+		console.log("Events component: ", e);
 	}
 
 	try {

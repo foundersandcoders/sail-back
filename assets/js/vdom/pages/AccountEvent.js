@@ -11,8 +11,7 @@ module.exports = AccountEvent;
 
 function AccountEvent (initialEvents) {
 
-	initialEvents = initialEvents || {};
-
+	initialEvents = initialEvents        || {};
 	var member    = initialEvents.member || {};
 	var events    = initialEvents.events || {};
 
