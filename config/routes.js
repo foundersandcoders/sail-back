@@ -2,9 +2,6 @@ module.exports.routes = {
 
 
 
-
-
-
 		'GET /testing': {
 			view: 'pages/testing'
 		},
