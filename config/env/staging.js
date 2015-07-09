@@ -5,7 +5,13 @@ module.exports = {
 			pool: false,
 			ssl: true,
 			url: process.env.PG_URL
-		}
+		},
+		// mySqlStaging: {
+		// 	adapter: 'sails-mysql',
+		// 	pool: false,
+		// 	ssl: true,
+		// 	url: process.env.CLEARDB_DATABASE_URL
+		// }
 	},
 	models: {
 		connection: 'postgresql',

@@ -1,16 +1,4 @@
 module.exports = {
-	// connections : {
-	// 	postgresql: {
-	// 		adapter: 'sails-postgresql',
-	// 		pool: false,
-	// 		ssl: true,
-	// 		url: "postgres://yaotanyvicavvo:43Qp3gsYz6ooyUB58CQjzT8QZ7@ec2-54-247-79-142.eu-west-1.compute.amazonaws.com:5432/dch5gjaatr84hq"
-	// 	}
-	// },
-	// models: {
-	// 	connection: 'postgresql',
-	// 	migrate: 'safe'
-	// },
 	connections: {
 		localMySql: {
 			adapter: 'sails-mysql',
@@ -18,11 +6,23 @@ module.exports = {
 			user: 'root',
 			password: 'correct',
 			database: 'foch_testing'
+		},
+		postgresql: {
+			adapter: 'sails-postgresql',
+			pool: false,
+			ssl: true,
+			url: process.env.PG_URL
+		},
+		mySqlStaging: {
+			adapter: 'sails-mysql',
+			pool: false,
+			ssl: false,
+			url: "mysql://b7e4e99bf17688:c5368c87@eu-cdbr-west-01.cleardb.com/heroku_404333445f3da33?reconnect=true"
 		}
 	},
 	models: {
 		connection: 'localMySql',
-		migrate: 'save'
+		migrate: 'drop'
 	},
 	session: {
 		secret: '496a95f915e063812b4c39d698db2462',

@@ -64,8 +64,8 @@
     "xhr": "^2.0.1"
   },
   "scripts": {
-    "start": "NODE_ENV=staging sails lift --verbose",
-    "debug": "NODE_ENV=development node-debug app.js",
+    "start": "sails lift --verbose",
+    "debug": "node-debug app.js",
     "unit": "tape test/upload/*.spec.js",
     "end": "protractor test/end2end/config.js",
     "accept": "NODE_ENV=testing tape test/backend/*.test.js",
