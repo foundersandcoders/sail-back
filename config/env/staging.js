@@ -1,5 +1,3 @@
-// var dbconfig = require('../../opsworks.js');
-
 module.exports = {
 	connections : {
 		postgresql: {
@@ -9,24 +7,21 @@ module.exports = {
 			url: process.env.PG_URL
 		},
 		mySqlStagingAWS: {
-			// adapter: 'sails-mysql',
-			// pool: false,
-			// ssl: false,
-			// url: process.env.STAGING_DATABASE_URL
-			// host: dbconfig.db['host'],
-			// user: dbconfig.db['username'],
-			// password: dbconfig.db['password'],
-			// database: dbconfig.db['database']
-		},
-		mySqlStagingHeroku: {
 			adapter: 'sails-mysql',
-			pool: false,
-			ssl: true,
-			url: process.env.CLEARDB_DATABASE_URL
-		}
+			user: process.env.DB_USER,
+			password: process.env.DB_PASSWORD,
+			port: 3306,
+			database: 'users',
+			host: process.env.DB_HOST
+		},
+		// mySqlStagingHeroku: {
+		// 	adapter: 'sails-mysql',
+		// 	pool: false,
+		// 	ssl: false,
+		// }
 	},
 	models: {
-		connection: 'mySqlStagingHeroku',
+		connection: 'mySqlStagingAWS',
 		migrate: 'safe'
 	},
 	session: {
