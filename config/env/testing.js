@@ -5,11 +5,11 @@ module.exports = {
 			migrate: 'alter'
 		},
 		// localMySql: {
-		// 	adapter: 'sails-mysql',
-		// 	host: 'localhost',
-		// 	user: 'root',
-		// 	password: 'correct',
-		// 	database: 'foch_testing'
+			adapter: 'sails-mysql',
+			host: 'localhost',
+			user: 'root',
+			password: 'correct',
+			database: 'foch_testing'
 		// },
 		// mySqlStaging: {
 		// 	adapter: 'sails-mysql',

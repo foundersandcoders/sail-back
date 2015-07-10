@@ -8,7 +8,7 @@ module.exports = {
 			ssl: true,
 			url: process.env.PG_URL
 		},
-		mySqlStaging: {
+		mySqlStagingAWS: {
 			adapter: 'sails-mysql',
 			// pool: false,
 			// ssl: false,
@@ -17,10 +17,16 @@ module.exports = {
 			user: dbconfig.db['username'],
 			password: dbconfig.db['password'],
 			database: dbconfig.db['database']
+		},
+		mySqlStagingHeroku: {
+			adapter: 'sails-mysql',
+			pool: false,
+			ssl: true,
+			url: process.env.CLEARDB_DATABASE_URL
 		}
 	},
 	models: {
-		connection: 'postgresql',
+		connection: 'mySqlStagingHeroku',
 		migrate: 'safe'
 	},
 	session: {
