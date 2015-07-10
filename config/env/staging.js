@@ -1,3 +1,5 @@
+var dbconfig = require('../../opsworks.js');
+
 module.exports = {
 	connections : {
 		postgresql: {
@@ -8,9 +10,13 @@ module.exports = {
 		},
 		mySqlStaging: {
 			adapter: 'sails-mysql',
-			pool: false,
-			ssl: false,
-			url: process.env.STAGING_DATABASE_URL
+			// pool: false,
+			// ssl: false,
+			// url: process.env.STAGING_DATABASE_URL
+			host: dbconfig.db['host'],
+			user: dbconfig.db['username'],
+			password: dbconfig.db['password'],
+			database: dbconfig.db['database']
 		}
 	},
 	models: {
