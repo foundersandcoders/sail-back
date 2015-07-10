@@ -28,5 +28,5 @@ module.exports = {
 		// adapter: process.env.NODE_ENV == "development" ? "memory" : 'redis',
 		// adapter: 'redis'
 	},
-	port: 443
+	port: process.env.PORT || 80
 };
