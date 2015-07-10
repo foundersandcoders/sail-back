@@ -9,7 +9,7 @@ module.exports = {
 		mySqlStaging: {
 			adapter: 'sails-mysql',
 			pool: false,
-			ssl: true,
+			ssl: false,
 			url: process.env.STAGING_DATABASE_URL
 		}
 	},
