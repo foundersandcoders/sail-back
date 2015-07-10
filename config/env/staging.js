@@ -1,4 +1,4 @@
-var dbconfig = require('../../opsworks.js');
+// var dbconfig = require('../../opsworks.js');
 
 module.exports = {
 	connections : {
@@ -9,14 +9,14 @@ module.exports = {
 			url: process.env.PG_URL
 		},
 		mySqlStagingAWS: {
-			adapter: 'sails-mysql',
+			// adapter: 'sails-mysql',
 			// pool: false,
 			// ssl: false,
 			// url: process.env.STAGING_DATABASE_URL
-			host: dbconfig.db['host'],
-			user: dbconfig.db['username'],
-			password: dbconfig.db['password'],
-			database: dbconfig.db['database']
+			// host: dbconfig.db['host'],
+			// user: dbconfig.db['username'],
+			// password: dbconfig.db['password'],
+			// database: dbconfig.db['database']
 		},
 		mySqlStagingHeroku: {
 			adapter: 'sails-mysql',
