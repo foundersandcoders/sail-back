@@ -23,7 +23,7 @@ module.exports = {
 		}
 	},
 	models: {
-		connection: 'mySqlStaging',
+		connection: 'localMySql',
 		migrate: 'alter'
 	},
 	session: {

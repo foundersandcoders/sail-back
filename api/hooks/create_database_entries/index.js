@@ -19,7 +19,7 @@ module.exports = function(sails) {
 			return sails.after('hook:orm:loaded', function () {
 
 				Members
-				.find()
+				.find({limit: 10})
 				.exec(function (err, items) {
 
 					sails.log.info("Look for members...");
