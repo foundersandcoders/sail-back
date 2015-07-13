@@ -12,12 +12,6 @@ module.exports = {
 			pool: false,
 			ssl: true,
 			url: process.env.PG_URL
-		},
-		mySqlStaging: {
-			adapter: 'sails-mysql',
-			pool: false,
-			ssl: false,
-			url: "mysql://b7e4e99bf17688:c5368c87@eu-cdbr-west-01.cleardb.com/heroku_404333445f3da33?reconnect=true"
 		}
 	},
 	models: {
