@@ -48,6 +48,7 @@
     "pronto": "^0.3.14",
     "query-string": "^2.3.0",
     "rc": "~0.5.0",
+    "request": "^2.58.0",
     "sails": "~0.11.0",
     "sails-disk": "~0.10.0",
     "sails-memory": "^0.10.4",
@@ -66,11 +67,14 @@
   "scripts": {
     "start": "sails lift --verbose",
     "debug": "node-debug app.js",
-    "unit": "tape test/upload/*.spec.js",
+    "test:upload": "tape test/upload/*.test.js",
+    "test:server": "NODE_ENV=testing tape test/backend/*.test.js",
+    "test:front": "tape test/frontend/*.test.js",
     "end": "protractor test/end2end/config.js",
     "accept": "NODE_ENV=testing tape test/backend/*.test.js",
     "wd": "webdriver-manager update && webdriver-manager start",
-    "dev": "NODE_ENV=development sails lift --verbose"
+    "dev": "NODE_ENV=development sails lift --verbose",
+    "cover": "NODE_ENV=testing istanbul cover tape ./test/backend/*.test.js"
   },
   "main": "app.js",
   "repository": {
@@ -83,6 +87,8 @@
     "csv2": "^0.1.1",
     "givit": "0.0.2",
     "hyperquest": "^1.2.0",
+    "istanbul": "^0.3.17",
+    "mocha": "^2.2.5",
     "protractor": "^2.1.0",
     "shot": "^1.5.3",
     "superagent": "^1.2.0",

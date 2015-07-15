@@ -2,41 +2,22 @@
 
 var test    = require("tape");
 var request = require("supertest");
-var Sails   = require("sails");
-var helpers = require("./helpers.js");
+var server  = require("./startServer.js");
 
 var sails;
 
+test('"Sign up" connection: ', function (t) {
 
-test("Start server: ", function (t) {
-
-	Sails.lift({
-		log: {
-			level: 'error'
-		},
-		models: {
-			connection: 'test',
-			migrate: 'drop'
-		}
-	}, function (err, serverStarted) {
+	server(function (err, serverStarted) {
 
 		if(err) {
 			throw err;
 			t.end();
 		} else {
 			sails = serverStarted;
-			t.ok(serverStarted, "..server started");
+			t.ok(serverStarted, "..connection ok");
 			t.end();
 		}
-	});
-});
-
-test("Create hooks", function (t) {
-
-	helpers(function (error, items) {
-
-		t.ok(items, "mock entries created");
-		t.end();
 	});
 });
 
@@ -57,7 +38,6 @@ test("Signup member: ", function (t) {
 		t.end();
 	});
 });
-
 
 test("Signup member should create a subscription charge", function (t) {
 
@@ -126,11 +106,4 @@ test("If email is already taken", function (t) {
 		t.equals(res.statusCode, 400, "status code 400");
 		t.end();
 	});
-});
-
-test("Low server: ", function (t) {
-
-	t.ok("ok", "exit!")
-	t.end();
-	process.exit(0);
 });

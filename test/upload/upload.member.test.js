@@ -1,10 +1,10 @@
 "use strict";
 
-var test = require("tape");
+var test    = require("tape");
 var request = require("request");
-var fs = require("fs");
+var fs      = require("fs");
 var through = require("through2");
-var req = require("hyperquest");
+var req     = require("hyperquest");
 
 var mockMembers = require("./mocks.js").members;
 var members = [];
@@ -18,12 +18,12 @@ test("create members array", function (t) {
        members.push(buf);
        return next();
     }, function (cb) {
-   
+
         t.equals(members.length, 14, "14 members in array");
         t.end();
         return cb();
     }));
-    
+
 });
 
 test("POST to /upload?type=members", function (t) {
@@ -33,7 +33,7 @@ test("POST to /upload?type=members", function (t) {
         uri: "http://0.0.0.0:1337/upload?type=members",
         body: members,
         json: true
-    }; 
+    };
 
     request(opts, function (e, h, r) {
 
@@ -47,13 +47,13 @@ test("POST to /upload?type=members", function (t) {
 test("records should exists", function (t) {
 
     var opts = {
-   
+
         method: "GET",
         uri: "http://0.0.0.0:1337/api/members"
     };
-    
+
     request(opts, function (e, h, r) {
-   
+
         var payments = JSON.parse(r);
         t.ok(payments.length > 4, "records created");
         t.end();

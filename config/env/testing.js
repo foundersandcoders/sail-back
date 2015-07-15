@@ -11,7 +11,7 @@ module.exports = {
 			host: 'localhost',
 			user: 'root',
 			password: 'correct',
-			database: 'foch_testing'
+			database: 'test'
 		},
 		mySqlStaging: {
 			adapter: 'sails-mysql',

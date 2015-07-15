@@ -151,12 +151,12 @@ module.exports = {
 
                         // console.log("PAYMENT", payment);
 
-                        res.redirect("/");
+                        return res.redirect("/");
                     }).catch(function (err) {
 
                         // console.log("ERROR", err);
 
-                        res.badRequest({error: err});
+                        return res.badRequest({error: err});
                     });
                 }
             });

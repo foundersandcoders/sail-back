@@ -17,6 +17,7 @@
  * automatically.
  */
 
+/* istanbul ignore next */
 module.exports = function notFound (data, options) {
 
   // Get access to `req`, `res`, & `sails`

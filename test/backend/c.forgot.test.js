@@ -2,29 +2,20 @@
 
 var test    = require("tape");
 var request = require("supertest");
-var Sails   = require("sails");
-var helpers = require("./helpers.js");
+var server  = require("./startServer.js");
 
 var sails;
 
-test("Start server: ", function (t) {
+test('"Forgot password" connection: ', function (t) {
 
-	Sails.lift({
-		log: {
-			level: 'error'
-		},
-		models: {
-			connection: 'test',
-			migrate: 'drop'
-		}
-	}, function (err, serverStarted) {
+	server(function (err, serverStarted) {
 
 		if(err) {
 			throw err;
 			t.end();
 		} else {
 			sails = serverStarted;
-			t.ok(serverStarted, "..server started");
+			t.ok(serverStarted, "..connection ok");
 			t.end();
 		}
 	});
@@ -72,11 +63,4 @@ test("Forgot password with non existing member", function (t) {
 		t.equals(res.statusCode, 400, "bad request response");
 		t.end();
 	});
-});
-
-test("Low server: ", function (t) {
-
-	t.ok("ok", "exit!")
-	t.end();
-	process.exit(0);
 });

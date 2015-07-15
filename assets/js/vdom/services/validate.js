@@ -40,7 +40,7 @@ function member (object, callback) {
 		// address3:        Joi.string().required(),
 		// address4:        Joi.string().required(),
 		// postcode:        Joi.string().required(),
-		// gift_aid_signed: Joi.boolean().required(),
+		// gift_aid_signed: Joi.boolean().required()
 	});
 
 	return validateCall(object, schema, callback);

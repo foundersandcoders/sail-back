@@ -2,51 +2,33 @@
 
 var test    = require("tape");
 var request = require("supertest");
-var Sails   = require("sails");
-var helpers = require("./helpers.js");
+var server  = require("./startServer.js");
 
 var sails;
 var Cookies;
 var MEMBER;
 
-test("Start server: ", function (t) {
+test('"Payments" connection: ', function (t) {
 
-	Sails.lift({
-		log: {
-			level: 'error'
-		},
-		models: {
-			connection: 'test',
-			migrate: 'drop'
-		}
-	}, function (err, serverStarted) {
+	server(function (err, serverStarted) {
 
 		if(err) {
 			throw err;
 			t.end();
 		} else {
 			sails = serverStarted;
-			t.ok(serverStarted, "..server started");
+			t.ok(serverStarted, "..connection ok");
 			t.end();
 		}
 	});
 });
 
-// test("Create hooks", function (t) {
-
-// 	helpers(function (error, items) {
-
-// 		t.ok(items, "mock entries created");
-// 		t.end();
-// 	});
-// });
-
 test("Sign up and get cookies", function (t) {
 
 	var memberMock = {
-		primary_email: "someone@email.com",
+		primary_email:   "payment@email.com",
 		membership_type: "annual-corporate",
-		password: "secret"
+		password:        "secret"
 	};
 
 	request(sails.hooks.http.app)
@@ -55,11 +37,16 @@ test("Sign up and get cookies", function (t) {
 	.end(function (err, res) {
 
 		Cookies = res.headers['set-cookie'].pop().split(';')[0];
+
 		Members
 		.findOne({primary_email: memberMock.primary_email})
 		.exec(function (error, item) {
 
 			MEMBER = item;
+
+
+			t.notOk(error, 'no error');
+			t.ok(item, 'got member');
 			t.end();
 		});
 	});
@@ -69,12 +56,14 @@ test("Get account info with cookies", function (t) {
 
 	var req = request(sails.hooks.http.app).get("/api/account");
 
+	console.log('NEW MEMBER', Cookies);
+
 	req.cookies = Cookies;
 
 	req.end(function (err, res) {
 
 		t.equals(res.statusCode, 200, "got access");
-		t.equals(res.body.primary_email, "someone@email.com", "got account info");
+		t.equals(res.body.primary_email, "payment@email.com", "got account info");
 		t.end();
 	});
 });
@@ -125,18 +114,14 @@ test("Make a payment", function (t) {
 		.send(fakePayment)
 		.end(function (error, res) {
 
-			// if(error) {
-			// 	console.log("ERROR: ", error);
-			// 	st.end();
-			// 	return;
-			// }
-
 			st.equals(res.statusCode, 302, "status code 302");
 
 			Members
-			.findOne({primary_email: "someone@email.com"})
+			.findOne({primary_email: "payment@email.com"})
 			.populateAll()
 			.exec(function (err, item) {
+
+				console.log('User populated: ', item);
 
 				var lastPayment = item.payments[item.payments.length - 1];
 				t.equals(lastPayment.category, 'payment', "right category");
@@ -145,11 +130,4 @@ test("Make a payment", function (t) {
 			});
 		});
 	});
-});
-
-test("Low server: ", function (t) {
-
-	t.ok("ok", "exit!")
-	t.end();
-	process.exit(0);
 });

@@ -1,11 +1,15 @@
 module.exports = {
 	connections: {
+		test: {
+			adapter: 'sails-memory',
+			migrate: 'alter'
+		},
 		localMySql: {
 			adapter: 'sails-mysql',
 			host: 'localhost',
 			user: 'root',
 			password: 'correct',
-			database: 'foch_testing'
+			database: 'test'
 		},
 		postgresql: {
 			adapter: 'sails-postgresql',
