@@ -92,8 +92,8 @@ test('Home channels', function (t) {
 				global.window   = window;
 				global.document = window.document;
 
-				// decache('nuclear.js');
-				// decache('../../../assets/js/vdom/pages/Home.js');
+				decache('nuclear.js');
+				decache('../../../assets/js/vdom/pages/Home.js');
 				var nuclear = require('nuclear.js');
 				var Home = require('../../../assets/js/vdom/pages/Home.js');
 
