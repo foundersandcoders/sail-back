@@ -8,8 +8,8 @@
 
 
 var test           = require("tape");
-var frontEndParser = require("./../../assets/js/vdom/services/parsecsv.js");
-var backEndParser  = require("./../../api/services/Upload.js")();
+var frontEndParser = require("./../../../assets/js/vdom/services/parsecsv.js");
+var backEndParser  = require("./../../../api/services/Upload.js")();
 var helpers        = require("./helpers.js");
 
 test("Payments: ", function (t) {

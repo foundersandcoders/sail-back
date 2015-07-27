@@ -4,79 +4,63 @@ var nuclear = require("nuclear.js");
 var h       = nuclear.h;
 var utils   = require("../utils.js");
 
-module.exports = Events;
+module.exports = {
+	// Events:    Events,
+	home:      homeEvents,
+	eventInfo: showDetails,
+	booking:   renderBooking
+};
 
-var route;
+// var route;
 
-function Events (initialState) {
+// function Events (initialState) {
 
-	initialState   = initialState            || {};
-	var memberInfo = initialState.memberInfo || {};
-	var events     = initialState.events     || {};
+// 	initialState   = initialState            || {};
+// 	var memberInfo = initialState.memberInfo || {};
+// 	var events     = initialState.events     || {};
 
-	var state = nuclear.observS({
-		route:      nuclear.observ(""),
-		events:     nuclear.observA(events),
-		memberInfo: nuclear.observS(memberInfo),
-		guest:      nuclear.observ(""),
-		member:     nuclear.observ(""),
-		total:      nuclear.observ(""),
-		channels: {
-			createCharge: createCharge
-		}
-	});
+// 	var state = nuclear.observS({
+// 		route:      nuclear.observ(""),
+// 		events:     nuclear.observA(events),
+// 		memberInfo: nuclear.observS(memberInfo),
+// 		guest:      nuclear.observ(""),
+// 		member:     nuclear.observ(""),
+// 		total:      nuclear.observ(""),
+// 		channels: {
+// 			createCharge: createCharge
+// 		}
+// 	});
 
-	route = nuclear.router(state);
+// 	route = nuclear.router(state);
 
-	return state;
-}
+// 	return state;
+// }
 
 function totalPrice (state, eventInfo) {
 
 	var pricePerMember = eventInfo.price_per_member;
 	var pricePerGuest  = eventInfo.price_per_guest;
-	var totalMember    = pricePerMember * state.member();
-	var totalGuest     = pricePerGuest  * state.guest();
+	var totalMember    = pricePerMember * state.booking.memberNum();
+	var totalGuest     = pricePerGuest  * state.booking.guestNum();
 	var total          = totalMember    + totalGuest;
 
 	return total;
 }
 
-function createCharge (state, amount, eventInfo) {
+// Events.render = function (state) {
 
-	var bookRecord = {
-		eventItem: eventInfo,
-		member:    state.member(),
-		guest:     state.guest(),
-		total:     amount
-	};
+// 	return (
+// 		h("div", [
+// 			route("/",                  homeEvents),
+// 			route("/event/:id",         showDetails),
+// 			route("/event/:id/booking", renderBooking)
+// 		])
+// 	);
+// };
 
-	nuclear.request({
-		method: "POST",
-		url: "/book_event",
-		json: bookRecord
-	}, function (error, header, body) {
+function homeEvents (state) {
 
-		if (error) {
-			alert("Could not book")
-		} else {
-			window.location = "/account";
-		}
-	});
-}
-
-Events.render = function (state) {
-
-	return (
-		h("div", [
-			route("/",                  homeEvents),
-			route("/event/:id",         showDetails),
-			route("/event/:id/booking", renderBooking)
-		])
-	);
-};
-
-function homeEvents (state, params) {
+	console.log('EVENTS');
 
 	return (
 		h("div.main-container", [
@@ -104,7 +88,7 @@ function renderEventList (state) {
 				]),
 				h("div.image", {
 					style: {
-						"background-image": "url('" + elm.photo_url  + "')"
+						"background-image": "url(" + elm.photo_url  + ")"
 					}
 				}),
 				h("p.description", elm.short_description),
@@ -117,9 +101,7 @@ function renderEventList (state) {
 					])
 				]),
 				h("button.button-two.full-width.positive", {
-					onclick: function () {
-						window.location.hash = "event/" + elm.id;
-					}
+					onclick: state.channels.redirectTo.bind(this, state, "/event/" + elm.id)
 				}, "View details")
 			])
 		]);
@@ -127,7 +109,6 @@ function renderEventList (state) {
 }
 
 function showDetails (state, params) {
-
 
 	var eventInfo = state.events()[state.events().map(function (elm) { return elm.id.toString()}).indexOf(params.params)];
 
@@ -177,26 +158,24 @@ function showDetails (state, params) {
 
 function bookOrSignUp (state, eventInfo) {
 
-	if(state.memberInfo().id) {
+	if(state.member().id) {
 		return (
 			h("button.button-two.full-width.positive", {
-				onclick: function () {
-					window.location.hash = "event/" + eventInfo.id + "/booking";
-				}
+				onclick: state.channels.redirectTo.bind(this, state, "/event/" + eventInfo.id + "/booking")
 			}, "Book a place")
 		);
 	} else {
 		return (
 			h("button.button-two.full-width.positive", {
-				onclick: function () {
-					window.location = "/signup";
-				}
+				onclick: state.channels.redirectTo.bind(this, state, "/signup")
 			}, "Signup to book")
 		);
 	}
 }
 
 function renderBooking (state, params) {
+
+	console.log('Render');
 
 	var eventInfo = state.events()[state.events().map(function (elm) { return elm.id.toString()}).indexOf(params.params)];
 
@@ -213,18 +192,18 @@ function renderBooking (state, params) {
 					h("h3.left.special", "Member numbers"),
 					h("select.select-signup.float-right", {
 						onchange: function () {
-							state.member.set(this.value);
+							state.booking.memberNum.set(this.value);
 						}
-					}, renderOptionNumber(10, state.member()))
+					}, renderOptionNumber(10, state.booking.memberNum()))
 				]),
 				h("div.inner-section-divider-small"),
 				h("div.input-label-container.parent-float", [
 					h("h3.left.special", "Guest numbers"),
 					h("select.select-signup.float-right", {
 						onchange: function () {
-							state.guest.set(this.value);
+							state.booking.guestNum.set(this.value);
 						}
-					}, renderOptionNumber(eventInfo.max_number_of_guests, state.guest()))
+					}, renderOptionNumber(eventInfo.max_number_of_guests, state.booking.guestNum()))
 				]),
 				h("div.inner-section-divider-small"),
 				h("textarea.name-events", {

@@ -1,11 +1,9 @@
 "use strict";
 
-
 var lazy   = require("lazy.js");
 var moment = require("moment");
 
 module.exports = converter;
-
 
 function converter (payments) {
 

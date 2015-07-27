@@ -23,6 +23,7 @@ var mocks = {
 	bookings:        require('./mocks.js').bookings()
 };
 
+/* istanbul ignore next */
 function createEntries (callback) {
 
 	async.waterfall([

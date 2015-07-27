@@ -148,12 +148,12 @@ module.exports = function (h, state, request) {
      *
      *  Payments mock data:
         {
-            amount: 5
-            date: Wed Jan 03 1912 00:00:00 GMT+0000 (GMT)
-            deleted: false
-            member: "6085"
-            notes: null
-            reference: "61201"
+            amount: 5,
+            date: Wed Jan 03 1912 00:00:00 GMT+0000 (GMT),
+            deleted: false,
+            member: "6085",
+            notes: null,
+            reference: "61201",
             type_code: "8 - Standing Order"
         }
      *

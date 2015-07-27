@@ -23,11 +23,6 @@ module.exports.http = {
 	*                                                                           *
 	****************************************************************************/
 
-	disablePoweredBy: function(request, response, next) {
-		response.set('X-Powered-By', 'Founders and Coders');
-		next();
-	},
-
 	customMiddleware: function(app){
 		app.use(passport.initialize());
 		app.use(passport.session());

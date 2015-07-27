@@ -3,7 +3,8 @@ module.exports.routes = {
 
 
 		'GET /testing': {
-			view: 'pages/testing'
+			controller: 'Test',
+			action: 'test'
 		},
 	// -------------------------------------------------------------------------
 	// Public
@@ -88,14 +89,14 @@ module.exports.routes = {
 			controller: 'Members',
 			action: 'accountInfo'
 		},
+		'PUT /api/account': {
+			controller: 'Members',
+			action: 'updateAccountInfo'
+		},
 		'POST /charge': {
     		controller: 'Payments',
     		action: 'charge'
 		},
-    	'POST /payment': {
-    		controller: 'Payments',
-    		action: 'makeStripePayment'
-    	},
         'GET /client_token': {
             controller: 'Payments',
             action: 'clientToken'

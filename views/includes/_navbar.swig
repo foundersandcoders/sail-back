@@ -4,10 +4,10 @@
     </li>
     {% if not user %}
         <li id="nav-signup">
-            <a href="/signup">Signup</a>
+            <a href="#/signup">Signup</a>
         </li>
         <li id="nav-login">
-            <a href="/signin">Signin</a>
+            <a href="#/signin">Signin</a>
         </li>
     {% endif %}
     {% if user %}

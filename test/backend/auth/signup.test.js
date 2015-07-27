@@ -2,7 +2,7 @@
 
 var test    = require("tape");
 var request = require("supertest");
-var server  = require("./startServer.js");
+var server  = require("../_bootstrap/startServer.js");
 
 var sails;
 
@@ -39,7 +39,7 @@ test("Signup member: ", function (t) {
 	});
 });
 
-test("Signup member should create a subscription charge", function (t) {
+test("Signup should create a subscription", function (t) {
 
 	var memberMock2 = {
 		primary_email: "someone@email.com",

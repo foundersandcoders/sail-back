@@ -2,8 +2,8 @@
 
 
 var test           = require("tape");
-var converter      = require("./../../assets/js/vdom/services/dateConverter.js");
-var helpers        = require("../helpers/createMocks.js");
+var converter      = require("./../../../assets/js/vdom/services/dateConverter.js");
+var helpers        = require("../../helpers/createMocks.js");
 
 test("Date converter: ", function (t) {
 

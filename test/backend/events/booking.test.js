@@ -2,8 +2,8 @@
 
 var test    = require("tape");
 var request = require("supertest");
-var server  = require("./startServer.js");
-var mocks   = require("../../api/hooks/create_database_entries/mocks.js");
+var server  = require("../_bootstrap/startServer.js");
+var mocks   = require("../../../api/hooks/create_database_entries/mocks.js");
 
 var sails;
 var Cookies;
@@ -119,9 +119,10 @@ test("Check in 'myEvents'", function (t) {
 			return t.end();
 		}
 
-		console.log('My events: ', res.body);
+		// console.log('My events: ', res.body);
 
 		t.ok(res.body[0], "event attached");
 		t.end();
 	});
 });
+

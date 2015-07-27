@@ -11,7 +11,8 @@ module.exports.policies = {
         'accountPage': 'isAuthenticated',
         'accountInfo': 'isAuthenticated',
         'showMyEvents': 'isAuthenticated',
-        'getMyEvents': 'isAuthenticated'
+        'getMyEvents': 'isAuthenticated',
+        'updateAccountInfo': 'isAuthenticated'
     },
 
     PaymentsController: {

@@ -24,7 +24,7 @@ module.exports = {
 	},
 	models: {
 		connection: 'localMySql',
-		migrate: 'alter'
+		migrate: 'drop'
 	},
 	session: {
 		secret: '496a95f915e063812b4c39d698db2462',

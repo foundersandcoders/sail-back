@@ -2,7 +2,7 @@
 
 var test    = require("tape");
 var request = require("supertest");
-var server  = require("./startServer.js");
+var server  = require("../_bootstrap/startServer.js");
 
 var sails;
 

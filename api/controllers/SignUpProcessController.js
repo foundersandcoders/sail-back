@@ -76,7 +76,7 @@ module.exports = {
 			})
 			.then(function (member) {
 
-				sails.log.info('Member created: ', member);
+				// sails.log.info('Member created: ', member);
 
 				// set up session 
 				req.session.user = member;

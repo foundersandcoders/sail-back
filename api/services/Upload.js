@@ -122,11 +122,11 @@ module.exports = function () {
          *
         **/
 		members: function (members, cb){
-        
-            console.log(members);        
-            var count = 0;
-            var problems = [];
+                
+            var count        = 0;
+            var problems     = [];
             var transactions = [];
+            
             members.forEach(function (member) {
             
                 member.due_date = new Date("01/01");

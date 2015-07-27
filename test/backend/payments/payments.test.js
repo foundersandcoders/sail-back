@@ -1,8 +1,8 @@
 "use strict";
 
-var test    = require("tape");
-var request = require("supertest");
-var server  = require("./startServer.js");
+var test    = require('tape');
+var request = require('supertest');
+var server  = require('../_bootstrap/startServer.js');
 
 var sails;
 var Cookies;
@@ -56,7 +56,7 @@ test("Get account info with cookies", function (t) {
 
 	var req = request(sails.hooks.http.app).get("/api/account");
 
-	console.log('NEW MEMBER', Cookies);
+	// console.log('NEW MEMBER', Cookies);
 
 	req.cookies = Cookies;
 
@@ -121,7 +121,7 @@ test("Make a payment", function (t) {
 			.populateAll()
 			.exec(function (err, item) {
 
-				console.log('User populated: ', item);
+				// console.log('User populated: ', item);
 
 				var lastPayment = item.payments[item.payments.length - 1];
 				t.equals(lastPayment.category, 'payment', "right category");

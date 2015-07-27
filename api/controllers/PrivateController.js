@@ -57,7 +57,6 @@ module.exports = {
 	},
 	Upload: function (req, res) {
    
-
 		/**
 		 *	The sign '&' (ampersand) splits the
 		 *	request body content in different objects
@@ -88,6 +87,9 @@ module.exports = {
 
 				return res.send(result);
 			});
+		} else {
+
+			return res.badRequest();
 		}
 	}
 };

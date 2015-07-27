@@ -1,6 +1,9 @@
+'use strict';
+
 var async         = require('async');
 var createEntries = require('./createEntries.js');
 
+/* istanbul ignore next */
 module.exports = function(sails) {
 
 	return {

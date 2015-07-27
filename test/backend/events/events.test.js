@@ -2,7 +2,7 @@
 
 var test    = require("tape");
 var request = require("supertest");
-var server  = require("./startServer.js");
+var server  = require("../_bootstrap/startServer.js");
 
 var sails;
 
@@ -41,6 +41,7 @@ test("Get single event info", function (t) {
 	.end(function (err, res) {
 
 		// console.log(res.body);
+		
 		t.equals(res.statusCode, 200, "got event");
 		t.end();
 	});

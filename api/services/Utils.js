@@ -7,6 +7,7 @@ module.exports = {
 	 * @return {Object} - record with a code and an expire_date
 	 */
 	factoryActivationCodes: function (memberId) {
+		
 		var now = new Date();
 		var expire = now.setDate(now.getDate()+7);
 
@@ -18,12 +19,13 @@ module.exports = {
 		return activation_code;
 	},
 	/**
-	 * Check if the argument is a regular-defined-full array or object.
-	 * @param {Array || Object}
+	 * Check if the date argument is older/newer than now.
+	 * @param  {Date}
+	 * @return {Boolean}
 	 */
 	checkExpiration: function (expire_date) {
-		var ok = (new Date() - expire_date > 0) ? true : false;
-		return ok;
+
+		return (new Date() - expire_date < 0);
 	},
 	email: require('./Email.js')
 };

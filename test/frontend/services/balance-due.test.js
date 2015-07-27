@@ -8,7 +8,7 @@
 
 
 var test       = require("tape");
-var balanceDue = require("./../../assets/js/vdom/services/balanceDue.js");
+var balanceDue = require("./../../../assets/js/vdom/services/balanceDue.js");
 var mocks      = require("./helpers");
 
 test("Create balance due field", function (t) {

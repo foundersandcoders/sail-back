@@ -15,7 +15,8 @@ function start (callback) {
 		Sails.lift({
 			log: {
 				level: 'error'
-			}
+			},
+			port: 3333
 		}, function (err, instance) {
 
 			sailsInstance = instance;

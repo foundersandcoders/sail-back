@@ -6,7 +6,10 @@ var h       = nuclear.h;
 var utils   = require("../utils.js");
 
 
-module.exports = AccountEvent;
+module.exports = {
+	AccountEvent: AccountEvent,
+	home:         home
+}
 
 
 function AccountEvent (initialEvents) {
@@ -37,10 +40,21 @@ AccountEvent.render = function (state) {
 	);
 }
 
+function home (state) {
+
+	return ([
+		h("div.section-label", [
+			h("h1", "My Events")
+		]),
+		h("div.container-small", [
+			renderEventList(state)
+		])
+	]);
+}
 
 function renderEventList (state) {
 
-	var events = utils.processEvents(state.events());
+	var events = utils.processEvents(state.myEvents());
 
 	return events.map(function (elm) {
 
