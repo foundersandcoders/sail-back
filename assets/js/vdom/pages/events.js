@@ -40,9 +40,11 @@ function totalPrice (state, eventInfo) {
 
 	var pricePerMember = eventInfo.price_per_member;
 	var pricePerGuest  = eventInfo.price_per_guest;
-	var totalMember    = pricePerMember * state.booking.memberNum();
-	var totalGuest     = pricePerGuest  * state.booking.guestNum();
-	var total          = totalMember    + totalGuest;
+	var totalMember    = pricePerMember * +state.booking.memberNum;
+	var totalGuest     = pricePerGuest  * +state.booking.guestNum;
+	var total          = totalMember    + +totalGuest;
+
+	console.log('TOTAL: ', total, eventInfo.price_per_member, state.booking.memberNum);
 
 	return total;
 }
@@ -60,7 +62,7 @@ function totalPrice (state, eventInfo) {
 
 function homeEvents (state) {
 
-	console.log('EVENTS');
+	// console.log('EVENTS');
 
 	return (
 		h("div.main-container", [
@@ -175,9 +177,7 @@ function bookOrSignUp (state, eventInfo) {
 
 function renderBooking (state, params) {
 
-	console.log('Render');
-
-	var eventInfo = state.events()[state.events().map(function (elm) { return elm.id.toString()}).indexOf(params.params)];
+	var eventInfo = state.events()[state.events().map(function (elm) { return elm.id.toString() }).indexOf(params.params)];
 
 	eventInfo = utils.processEvents([eventInfo])[0];
 
@@ -190,23 +190,26 @@ function renderBooking (state, params) {
 				h("div.inner-section-divider-small"),
 				h("div.input-label-container.parent-float", [
 					h("h3.left.special", "Member numbers"),
-					h("select.select-signup.float-right", {
+					h("select#member-number.select-signup.float-right", {
 						onchange: function () {
-							state.booking.memberNum.set(this.value);
+							var ciao = this.value;
+							console.log('TRIGGER 1', '5', ciao);
+							return state.booking.memberNum.set(this.value);
 						}
 					}, renderOptionNumber(10, state.booking.memberNum()))
 				]),
 				h("div.inner-section-divider-small"),
 				h("div.input-label-container.parent-float", [
 					h("h3.left.special", "Guest numbers"),
-					h("select.select-signup.float-right", {
+					h("select#guest-number.select-signup.float-right", {
 						onchange: function () {
-							state.booking.guestNum.set(this.value);
+							console.log('TRIGGER 2', '5');
+							return state.booking.guestNum.set(this.value);
 						}
 					}, renderOptionNumber(eventInfo.max_number_of_guests, state.booking.guestNum()))
 				]),
 				h("div.inner-section-divider-small"),
-				h("textarea.name-events", {
+				h("textarea#members-names.name-events", {
 					placeholder: "Please insert member and guest names",
 					onchange: function () {
 
@@ -215,12 +218,12 @@ function renderBooking (state, params) {
 				h("div.inner-section-divider-small"),
 				h("div.input-label-container.parent-float", [
 					h("h3.left.special", "Total"),
-					h("h3.right.special", ("£ " + String(totalPrice(state, eventInfo))))
+					h("h3.right.special", ("£ " + String(totalPrice(state(), eventInfo))))
 				]),
 				h("div.line"),
 				h("div.inner-section-divider-medium"),
 				h("button.button-two.full-width.positive", {
-					onclick: state.channels.createCharge.bind(this, state, totalPrice(state, eventInfo), eventInfo)
+					onclick: state.channels.createCharge.bind(null, state, totalPrice(state(), eventInfo), eventInfo)
 				}, "Book")
 			])
 		])

@@ -132,7 +132,7 @@ function renderSelect (options, selectedOption, placeholder, elmType, memberObj)
         h(("select.select-signup#" + elmType.prop), {
             onchange: function () {
 
-                memberObj[elmType.prop] = this.value;
+                return memberObj[elmType.prop] = this.value;
             }
         },
             utils.vDomHelpers.renderOptionsSelected(options, selectedOption, placeholder)
