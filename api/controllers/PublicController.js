@@ -11,7 +11,7 @@ module.exports = {
 	},
 	showSignIn: function (req, res) {
 
-		if(req.session.user) {
+		if (req.session.user) {
 			res.redirect("/");
 		} else {
 			res.view("pages/signin", {user: req.session.user});

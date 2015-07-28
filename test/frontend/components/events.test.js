@@ -28,8 +28,8 @@ test('Events component', function (t) {
 				// decache('../../../assets/js/vdom/pages/Home.js');
 				// decache('../../../assets/js/vdom/pages/Account.js');
 				var nuclear = require('nuclear.js');
-				var Home    = require('../../../assets/js/vdom/pages/Home.js');
-				var Events  = require('../../../assets/js/vdom/pages/Events.js');
+				var Home    = require('../../../assets/js/vdom/pages/home.js');
+				var Events  = require('../../../assets/js/vdom/pages/events.js');
 
 				var initialState = {
 					member: createMocks.member(),
@@ -67,11 +67,11 @@ test('Events component', function (t) {
 				global.document = window.document;
 
 				decache('nuclear.js');
-				decache('../../../assets/js/vdom/pages/Home.js');
-				decache('../../../assets/js/vdom/pages/Account.js');
+				decache('../../../assets/js/vdom/pages/home.js');
+				decache('../../../assets/js/vdom/pages/account.js');
 				var nuclear = require('nuclear.js');
-				var Home    = require('../../../assets/js/vdom/pages/Home.js');
-				var Events  = require('../../../assets/js/vdom/pages/Events.js');
+				var Home    = require('../../../assets/js/vdom/pages/home.js');
+				var Events  = require('../../../assets/js/vdom/pages/events.js');
 
 				var initialState = {
 					member: createMocks.member(),

@@ -1,7 +1,7 @@
 "use strict";
 
 
-var dateConverter = require("./dateConverter.js");
+var dateConverter = require("./dateconverter.js");
 
 
 module.exports = processEvents;

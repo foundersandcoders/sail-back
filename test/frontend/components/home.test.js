@@ -3,7 +3,7 @@
 var createMocks  = require('../../helpers/createMocks.js');
 var outputHTML   = require('../../helpers/outputHTML.js');
 global.window    = require('../../helpers/fakeWindow.js');
-var Home         = require('../../../assets/js/vdom/pages/Home.js');
+var Home         = require('../../../assets/js/vdom/pages/home.js');
 var test         = require('tape');
 
 var renderHTML = outputHTML(Home, Home.render);

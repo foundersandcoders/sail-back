@@ -2,19 +2,21 @@
 
 
 // services
+/*
 require('./services/validate.test.js');
 require('./services/upload.test.js');
-require('./services/dateConverter.test.js');
+require('./services/dateconverter.test.js');
 require('./services/balance-due.test.js');
-require('./services/isSubscriptionDue.test.js');
+require('./services/issubscriptiondue.test.js');
 
 // components initial state
-require('./components/Home.test.js');
-require('./components/Profile.test.js');
-require('./components/HomeChannels.test.js');
-require('./components/Account.test.js');
-require('./components/Events.test.js');
-
+require('./components/home.test.js');
+require('./components/profile.test.js');
+require('./components/homechannels.test.js');
+require('./components/account.test.js');
+require('./components/events.test.js');
+*/
+require('./components/admin.test.js');
 // components
 
 

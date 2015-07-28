@@ -1,7 +1,7 @@
 "use strict";
 
 var request = require("xhr");
-var $$      = require("./jQuery.like.js");
+var $$      = require("./jquery.like.js");
 
 module.exports.request = request;
 

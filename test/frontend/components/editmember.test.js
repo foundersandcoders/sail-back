@@ -1,5 +1,6 @@
 'use strict';
 
+
 var nuclear      = require('nuclear.js');
 var jsdom        = require('jsdom');
 var test         = require('tape');
@@ -8,8 +9,40 @@ var mockMember   = createMocks.member();
 var decache      = require('decache');
 decache('nuclear.js');
 
-test('Profile component', function (t) {
 
+test('Edit member component', function (t) {
+
+    t.test('Check render component: ', function (st) {
+
+//	st.plan(4);
+
+	jsdom.env('', {
+	    scripts: ['http://code.jquery.com/jquery-2.1.1.js'],
+	    done: function (errors, window) {
+
+		var $ = window.$;
+		global.window = window;
+		global.document = window.document;
+
+		var nuclear = require('nuclear.js');
+		var Edit = require('../../../assets/js/vdom/components/member.edit.js');
+
+		var state = nuclear.observS({
+		    member: nuclear.observS(mockMember)
+		});
+
+		nuclear.app(window.document.body, state, Edit);
+		
+		st.end();
+	    }
+	});
+    });
+    t.end();
+});
+
+
+/*
+test('Profile component', function (t) {
 
 	t.test('Check render component: ', function (st) {
 
@@ -24,7 +57,7 @@ test('Profile component', function (t) {
 				global.document = window.document;
 
 				var nuclear = require('nuclear.js');
-				var Profile = require('../../../assets/js/vdom/components/Profile.js');
+				var Profile = require('../../../assets/js/vdom/components/profile.js');
 
 				var state = nuclear.observS({
 					member: nuclear.observS(mockMember),
@@ -60,7 +93,7 @@ test('Profile component', function (t) {
 				global.document = window.document;
 
 				var nuclear = require('nuclear.js');
-				var Profile = require('../../../assets/js/vdom/components/Profile.js');
+				var Profile = require('../../../assets/js/vdom/components/profile.js');
 
 				var state = nuclear.observS({
 					member: nuclear.observS(mockMember),
@@ -95,7 +128,7 @@ test('Profile component', function (t) {
 				global.document = window.document;
 
 				var nuclear = require('nuclear.js');
-				var Profile = require('../../../assets/js/vdom/components/Profile.js');
+				var Profile = require('../../../assets/js/vdom/components/profile.js');
 
 				var state = nuclear.observS({
 					member: nuclear.observS(mockMember),
@@ -131,7 +164,7 @@ test('Profile component', function (t) {
 				global.document = window.document;
 
 				var nuclear = require('nuclear.js');
-				var Profile = require('../../../assets/js/vdom/components/Profile.js');
+				var Profile = require('../../../assets/js/vdom/components/profile.js');
 
 				var state = nuclear.observS({
 					member: nuclear.observS(mockMember),
@@ -165,4 +198,4 @@ test('Profile component', function (t) {
 			}
 		});
 	});
-});
+});*/

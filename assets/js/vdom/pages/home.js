@@ -5,12 +5,12 @@ var is      = require("torf");
 var nuclear = require("nuclear.js");
 var h       = nuclear.h;
 
-var Signin  = require("./Signin.js");
-var Signup  = require("./Signup.js");
-var Profile = require("../components/Profile.js");
-var Account = require("./Account.js");
-var Event   = require("./Events.js");
-var MyEvent = require("./AccountEvent.js");
+var Signin  = require("./signin.js");
+var Signup  = require("./signup.js");
+var Profile = require("../components/profile.js");
+var Account = require("./account.js");
+var Event   = require("./events.js");
+var MyEvent = require("./accountevent.js");
 
 var utils   = require("../utils.js");
 

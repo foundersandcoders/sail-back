@@ -24,7 +24,7 @@ test('Home channels', function (t) {
 				// decache('nuclear.js');
 				// decache('../../../assets/js/vdom/pages/Home.js');
 				var nuclear = require('nuclear.js');
-				var Home = require('../../../assets/js/vdom/pages/Home.js');
+				var Home = require('../../../assets/js/vdom/pages/home.js');
 
 				var state = Home({});
 
@@ -51,7 +51,7 @@ test('Home channels', function (t) {
 				// decache('nuclear.js');
 				// decache('../../../assets/js/vdom/pages/Home.js');
 				var nuclear = require('nuclear.js');
-				var Home = require('../../../assets/js/vdom/pages/Home.js');
+				var Home = require('../../../assets/js/vdom/pages/home.js');
 
 				var initialState = {
 					member:     createMocks.member(),
@@ -95,7 +95,7 @@ test('Home channels', function (t) {
 				// decache('nuclear.js');
 				// decache('../../../assets/js/vdom/pages/Home.js');
 				var nuclear = require('nuclear.js');
-				var Home = require('../../../assets/js/vdom/pages/Home.js');
+				var Home = require('../../../assets/js/vdom/pages/home.js');
 
 				var initialState = {
 					member:     createMocks.member(),
@@ -138,7 +138,7 @@ test('Home channels', function (t) {
 				// decache('nuclear.js');
 				// decache('../../../assets/js/vdom/pages/Home.js');
 				var nuclear = require('nuclear.js');
-				var Home = require('../../../assets/js/vdom/pages/Home.js');
+				var Home = require('../../../assets/js/vdom/pages/home.js');
 
 				var initialState = {
 					member:     createMocks.member()
@@ -182,7 +182,7 @@ test('Home channels', function (t) {
 				// decache('nuclear.js');
 				// decache('../../../assets/js/vdom/pages/Home.js');
 				var nuclear = require('nuclear.js');
-				var Home = require('../../../assets/js/vdom/pages/Home.js');
+				var Home = require('../../../assets/js/vdom/pages/home.js');
 
 				var initialState = {
 					member: createMocks.member(),
