@@ -24,56 +24,37 @@ test('Admin component', function (t) {
         var nuclear = require('nuclear.js');
         var Admin = require('../../../assets/js/vdom/pages/admin.js');
 
-        var donation = {
-          date: '01/03/2011',
-          category: 'donation',
-          description: 'hidethedrugmoney',
-          amount: 102,
-          reference: 'illbeback',
-          note: 'thurp'
-        };
-
-        var subscription = {
-          date: '11/08/1992',
-          category: 'payment',
-          description: 'I just wanted to talk to my friends',
-          amount: 100,
-          reference: '1234',
-          notes: 'Why cant I talk to my friends?'
-        };
-
-        var payment = {
-          date: '01/01/2013',
-          category: 'subscription',
-          description: 'this is sparta',
-          amount: 101,
-          reference: 'whateveriwant',
-          notes: 'blurp'
-        };
-        
         var state = Admin({
           member: mockMember,
-//          payments: [ donation, payment, subscription ],
-	  payments: [],
-          modeMember: 'viewMember',
-          modePayment: 'viewPayment'
+	  payments: mockMember.payments,
+          modeMember: 'view',
+          modePayment: 'view'
         });
 
         nuclear.app(window.document.body, state, Admin.render, {
           document: global.document
         });
 
-	
-	/*
-        st.equals($('#member-title').text(), 'Member info', 'title matches expected');
+	// member is displaying
+	st.equals($('#view-member-id').text(), '9999', 'member id displaying');
+	st.equals($('#view-member-full_name').text(), 'Mr B H Hoxhaj', 'member name displaying');
 
-        st.equals($('member-payment-description').text(), 'hello', 'wooitworked');
-        */
+	// payments are displaying
+	st.equals($('.payment-row').length, mockMember.payments.length, 'correct number of payments');
+	st.equals($('#member-payment-charges', $('.payment-row').last()).text(), mockMember.payments[0].amount.toString(), 'correct amount');
+
         st.end();
       }
     });
   });
 /*
+  test('subscription section', function (st) {
+
+    jsdom
+    
+  });
+*/
+  /*
   test('Click sections', function (st) {
 
     jsdom.env('', {

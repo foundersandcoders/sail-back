@@ -66,8 +66,9 @@ Admin.render = function (state) {
 	h('h1#member-title', 'Member info')
       ]),
       h('div.inner-section-divider-medium'),
-      //      page[state.modeMember()](state)
-      components.member[state.modeMember()](state)
+      components.member[state.modeMember()](state),
+      h('div.inner-section-divider-medium'),
+      renderPayment(state)
     ])
   ]);
   /*
@@ -118,7 +119,7 @@ function renderPayment (state) {
           },"+ Payment")
         ]),
         h("div.inner-section-divider-medium"),
-        page[state.modePayment()](state)
+        components.payment[state.modePayment()](state)
       ])
     );
   }

@@ -7,7 +7,7 @@ module.exports.view = function (state) {
 
   var data = state.member();
 
-  return ([
+  return [
     h("div.member-info-controls", [
       h("button#edit-member-mode.button-two.m-l-15.right.w-100",{
 	onclick: function () {
@@ -18,10 +18,10 @@ module.exports.view = function (state) {
     ]),
     h("div.member-info-content", [
       renderPersonalInfo(data),
-      renderAddressInfo(data),
-      renderMembership(data)
+//      renderAddressInfo(data),
+//      renderMembership(data)
     ])
-  ]);
+  ];
 
   function renderPersonalInfo (member) {
 
@@ -29,7 +29,7 @@ module.exports.view = function (state) {
       h("div.col-1", [
 	h("h2", "Personal info"),
 	check("Name: ",            fullName.call(member), "full_name"),
-	check("ID: ",              member.id, "id"),
+	check("ID: ",              member.id.toString(), "id"),
 	check("Primary email: ",   member.primary_email, "primary_email"),
 	check("Secondary email: ", member.secondary_email, "secondary_email"),
 	check("Bounced email: ",   member.email_bounced, "bounced_email"),
