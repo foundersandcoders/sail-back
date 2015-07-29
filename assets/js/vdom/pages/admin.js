@@ -68,27 +68,11 @@ Admin.render = function (state) {
       h('div.inner-section-divider-medium'),
       components.member[state.modeMember()](state),
       h('div.inner-section-divider-medium'),
-      renderPayment(state)
+      renderPayment(state),
+      h('div.inner-section-divider-medium'),
+      renderEvents(state)
     ])
   ]);
-  /*
-    return (
-    h("div", [
-    h("div.main-container#member-component", [
-    h("div.inner-section-divider-medium"),
-    h("div.section-label", [
-    h("h1#member-title", "Member info")
-    ]),
-    h("div.inner-section-divider-medium"),
-    page[state.modeMember()](state),
-    h("div.inner-section-divider-medium"),
-    renderPayment(state),
-    h("div.inner-section-divider-medium"),
-    renderEvents(state)
-    ])
-    ])
-    );
-  */
 };
 
 function renderPayment (state) {
@@ -128,7 +112,7 @@ function renderPayment (state) {
 function renderEvents (state) {
 
   return (
-    h("div", [
+    h("div#events-section", [
       h("div.section-label", [
         h("h1", "Events")
       ]),
@@ -175,7 +159,7 @@ function renderRowsEvents (state) {
   return events.map(function (elm) {
 
     return (
-      h("div.row", [
+      h("div.row.event-row", [
         h("div.col-3", [
           h("p", elm.date)
         ]),

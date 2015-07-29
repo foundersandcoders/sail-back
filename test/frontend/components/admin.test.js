@@ -6,6 +6,7 @@ var test = require('tape');
 var createMocks = require('../../helpers/createMocks.js');
 var mockMember = createMocks.member();
 var decache = require('decache');
+var Admin = require('../../../assets/js/vdom/pages/admin.js');
 decache('nuclear.js');
 
 test('Admin component', function (t) {
@@ -20,9 +21,6 @@ test('Admin component', function (t) {
         var $ = window.$;
         global.window = window;
         global.document = window.document;
-
-        var nuclear = require('nuclear.js');
-        var Admin = require('../../../assets/js/vdom/pages/admin.js');
 
         var state = Admin({
           member: mockMember,
@@ -47,32 +45,21 @@ test('Admin component', function (t) {
       }
     });
   });
-/*
-  test('subscription section', function (st) {
 
-    jsdom
-    
-  });
-*/
-  /*
-  test('Click sections', function (st) {
+  test('click sections', function (st) {
 
     jsdom.env('', {
       scripts: ['http://code.jquery.com/jquery-2.1.1.js'],
-
       done: function (errors, window) {
 
-        var $ = window.$;
+	var $ = window.$;
         global.window = window;
         global.document = window.document;
 
-        var nuclear = require('nuclear.js');
-        var Admin = require('../../../assets/js/vdom/pages/admin.js');
-
         var state = nuclear.observS({
           member: nuclear.observS(mockMember),
-          modeMember: nuclear.observ('subscription'),
-          modePayment: nuclear.observ('donation'),
+          modeMember: nuclear.observ('view'),
+          modePayment: nuclear.observ('view'),
           events: nuclear.observA([]),
           payments: nuclear.observA([]),
           bookings: nuclear.observA([])
@@ -82,44 +69,63 @@ test('Admin component', function (t) {
           document: global.document
         });
 
-
-        st.test('subscription section', function (assert) {
-
+	st.test('subscription section', function (assert) {
+	
           // select button and click ...
           $('#subscription_btn').click();
-          assert.equals($('#amount').length, 1, 'input amount exists');
+	  var section = $('.subscription-section');
+          assert.equals(section.length, 1, 'subscription section rendered');
 
-          $('#amount').text('100');
-          // TODO -- NOTE TO SELF: Don't try to send real request
-          $('#view-payment-btn').click();
+          $('#amount', section).text('100');
+	  assert.equals($('#amount').text(), '100', 'text input filled');
 
-          assert.equals($('.payment-row').length, 1, "one payment exists");
-          assert.equals($('#member-payment-charges'), '100', 'payment amount is correct');
-          
+	  $('#view-payment-btn').click();
+	  section = $('.subscription-section');
+	  assert.equals(section.length, 0, 'subscription section no longer rendered');
+	  
           assert.end();
-        });
+	});
 
-        st.test('donation section', function (assert) {
-
-          // select button and click
+	st.test('donation section', function (assert) {
+	
+          // select button and click ...
           $('#donation_btn').click();
-          assert.equals($('#charge').length, 1, 'input charge exists');
-          assert.end();
-        });
+	  var section = $('#donation-section');
+          assert.equals(section.length, 1, 'donation section rendered');
 
-        st.test('payment section', function (assert) {
+          $('#amount', section).text('100');
+	  assert.equals($('#amount').text(), '100', 'text input filled');
 
-          $('#payment_btn').click()
-          assert.equals($('#date').length, 1, 'input date exists');
+	  $('#view-payment-btn').click();
+	  section = $('#donation-section');
+	  assert.equals(section.length, 0, 'donation section no longer rendered');
+	  
           assert.end();
-        });
-        
-        st.end();
+	});
+
+	st.test('payment section', function (assert) {
+	
+          // select button and click ...
+          $('#payment_btn').click();
+	  var section = $('#payment-section');
+          assert.equals(section.length, 1, 'payment section rendered');
+
+          $('#amount', section).text('100');
+	  assert.equals($('#amount').text(), '100', 'text input filled');
+
+	  $('#back').click();
+	  section = $('#payment-section');
+	  assert.equals(section.length, 0, 'payment section no longer rendered');
+	  
+          assert.end();
+	});
+
+	st.end();
       }
     });
   });
 
-  test('test edit member', function (st) {
+  t.test('edit member fields', function (st) {
 
     jsdom.env('', {
       scripts: ['http://code.jquery.com/jquery-2.1.1.js'],
@@ -129,28 +135,61 @@ test('Admin component', function (t) {
         global.window = window;
         global.document = window.document;
 
-        var nuclear = require('nuclear.js');
-        var Admin = require('../../../assets/js/vdom/pages/admin.js');
-
-        var state = nuclear.observS({
-          member: nuclear.observS(mockMember),
-          modeMember: nuclear.observ('editMember'),
-          modePayment: nuclear.observ('donation'),
-          events: nuclear.observA([]),
-          payments: nuclear.observA([]),
-          bookings: nuclear.observA([])
+        var state = Admin({
+          member: mockMember,
+	  payments: mockMember.payments,
+          modeMember: 'view',
+          modePayment: 'view'
         });
 
         nuclear.app(window.document.body, state, Admin.render, {
           document: global.document
         });
 
+	// go to edit member mode
+	$('#edit-member-mode').click();
+	st.equals($('#edit-member-section').length, 1, 'edit section loaded');
+
+	$('#edit-member-cancel').click();
+	st.equals($('#edit-member-section').length, 0, 'edit section removed');
+	
         st.end();
       }
     });
   });
-*/  
+
+  t.test('events section', function (st) {
+
+    jsdom.env('', {
+      scripts: ['http://code.jquery.com/jquery-2.1.1.js'],
+      done: function (errors, window) {
+
+        var $ = window.$;
+        global.window = window;
+        global.document = window.document;
+
+	var evs = createMocks.getEvents();
+	
+        var state = Admin({
+          member: mockMember,
+	  payments: mockMember.payments,
+	  events: evs,
+          modeMember: 'view',
+          modePayment: 'view'
+        });
+
+        nuclear.app(window.document.body, state, Admin.render, {
+          document: global.document
+        });
+
+	var section = $('#events-section');
+	st.equals(section.length, 1, 'events section rendered');
+	st.equals($('.event-row', section).length, evs.length, 'all events showing');
+	
+	st.end();
+      }
+    });
+  });
+  
   t.end();
-
-
 });

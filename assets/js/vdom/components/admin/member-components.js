@@ -18,8 +18,8 @@ module.exports.view = function (state) {
     ]),
     h("div.member-info-content", [
       renderPersonalInfo(data),
-//      renderAddressInfo(data),
-//      renderMembership(data)
+      renderAddressInfo(data),
+      renderMembership(data)
     ])
   ];
 
@@ -250,7 +250,7 @@ module.exports.edit = function (state) {
   };
 
   return ([		
-    h("div.member-info-controls", [
+    h("div.member-info-controls#edit-member-section", [
       h("button#edit-member-save.button-two.m-l-15.w-100",{
 	onclick: that.putData
       }, "Save"),

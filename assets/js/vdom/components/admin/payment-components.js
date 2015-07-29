@@ -88,7 +88,7 @@ module.exports.subscription = function (state) {
   var data = {};
 
   return (
-    h("div.container-small", [
+    h("div.container-small.subscription-section", [
       h("div.inner-section-divider-small"),
 
       h("input#amount", {
@@ -143,7 +143,7 @@ module.exports.donation = function (state) {
   var data = {};
 
   return (
-    h("div.container-small", [
+    h("div.container-small#donation-section", [
       h("div.inner-section-divider-small"),
 
       h("input#amount", {
@@ -166,7 +166,7 @@ module.exports.donation = function (state) {
 
       h("div.inner-section-divider-medium"),
 
-      h("button.align-one.btn-primary",{
+      h("button#view-payment-btn.align-one.btn-primary",{
 	onclick: function () {
 
 	  state.modePayment.set("view");
@@ -209,7 +209,7 @@ module.exports.payment = function (state) {
   var data = {};
   
   return (
-    h("div.container-small", [
+    h("div.container-small#payment-section", [
       h("div.inner-section-divider-small"),
 
       h("select#member-controls-payment-type.mb10", {
