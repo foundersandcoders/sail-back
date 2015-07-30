@@ -1,13 +1,13 @@
-"use strict";
+'use strict'
 
-var parseLibrary = require("csv-parse");
-var lazy         = require("lazy.js");
-var blueprints   = require("./blueprints");
-var is           = require("torf");
+var parseLibrary = require('csv-parse')
+var lazy         = require('lazy.js')
+var blueprints   = require('./blueprints')
+var is           = require('torf')
 
 module.exports = {
-	parse: parseFun
-};
+  parse: parseFun
+}
 
 /**
  *	Parse csv function.
@@ -19,24 +19,24 @@ module.exports = {
  */
 function parseFun (file, callback) {
 
-	parseLibrary(file.result, {delimiter: ";"}, function (err, outputFromCsvParser) {
-				
-		if (err) return callback(err);
+  parseLibrary(file.result, {delimiter: ''}, function (err, outputFromCsvParser) {
+    
+    if (err) return callback(err)
 
-		var json = jsonify(outputFromCsvParser, file.type);
+    var json = jsonify(outputFromCsvParser, file.type)
 
-		return callback(undefined, json);
-	});
-};
+    return callback(undefined, json)
+  })
+}
 
 function jsonify (file, fileType) {
 
-	var stamp = blueprints[fileType];
-	
-	return lazy(file).map(function (row, index) {
+  var stamp = blueprints[fileType]
+  
+  return lazy(file).map(function (row, index) {
 
-		return _stamp(index, row, stamp);
-	}).toArray();
+    return _stamp(index, row, stamp)
+  }).toArray()
 }
 
 /**
@@ -51,31 +51,31 @@ function jsonify (file, fileType) {
  */
 function _stamp (index, data, stamppattern){
 
-	var stampedobj = {};
-	var stampkeys  = Object.keys(stamppattern);
+  var stampedobj = {}
+  var stampkeys  = Object.keys(stamppattern)
 
-	if (index === 0 && (data.length !== stampkeys.length)) {
+  if (index === 0 && (data.length !== stampkeys.length)) {
 
-		console.log(data.length, stampkeys.length);
+    console.log(data.length, stampkeys.length)
 
-		throw new Error({message: "Blueprint does not match with file csv columns"});
-	}
+    throw new Error({message: 'Blueprint does not match with file csv columns'})
+  }
 
-	stampkeys.forEach(function (keystamp, index){
+  stampkeys.forEach(function (keystamp, index){
 
-		if (!is.ok(stamppattern[stampkeys[index]].remove)) {
+    if (!is.ok(stamppattern[stampkeys[index]].remove)) {
 
-			if(keystamp === "membership_type") {
+      if(keystamp === 'membership_type') {
 
-				stampedobj.membership_type = _membershipTypeMap(data[index]);
-			} else {
+	stampedobj.membership_type = _membershipTypeMap(data[index])
+      } else {
 
-				stampedobj[keystamp] = _transform(data[index], stamppattern[keystamp].type);
-			}
-		}
-	});
+	stampedobj[keystamp] = _transform(data[index], stamppattern[keystamp].type)
+      }
+    }
+  })
 
-	return stampedobj;
+  return stampedobj
 }
 
 /**
@@ -85,73 +85,73 @@ function _stamp (index, data, stamppattern){
 function _transform (value, type) {
 
 
-	// some entries should be boolen but they are are empty
-	if(type === "boolean" && !is.ok(value)) {
-		return false;
-	}
+  // some entries should be boolen but they are are empty
+  if(type === 'boolean' && !is.ok(value)) {
+    return false
+  }
 
-	if (!is.ok(value)) {
-		return null;
-	}
+  if (!is.ok(value)) {
+    return null
+  }
 
-	if (is.type(value, type)) {
+  if (is.type(value, type)) {
 
-		return encode(value);
-	} else if (type === "number"){
+    return encode(value)
+  } else if (type === 'number'){
 
-		return parseInt(value);
-	} else if (type === "date"){
+    return parseInt(value)
+  } else if (type === 'date'){
 
-		return _dateconvert(value);
-	} else if (type === "boolean"){
+    return _dateconvert(value)
+  } else if (type === 'boolean'){
 
-		return value === "VERO" ? true : false;
-	} else if (type === "custom"){
+    return value === 'VERO' ? true : false
+  } else if (type === 'custom'){
 
-		return value === "FALSO" ? "activated" : "deactivated";
-	} else {
+    return value === 'FALSO' ? 'activated' : 'deactivated'
+  } else {
 
-		return null;
-	}
+    return null
+  }
 }
 
 function encode(s) {
-	return unescape(encodeURIComponent(s));
+  return unescape(encodeURIComponent(s))
 }
 
 function decode(s) {
-	return decodeURIComponent(escape(s));
+  return decodeURIComponent(escape(s))
 }
 
 function _dateconvert (str) {
 
-	function isValidDate(d) {
-		if ( {}.toString.call(d) !== "[object Date]" )
-			return false;
-		return !isNaN(d.getTime());
-	}
+  function isValidDate(d) {
+    if ( {}.toString.call(d) !== '[object Date]' )
+      return false
+    return !isNaN(d.getTime())
+  }
 
-	var parts = str.split("/");
-	var dt    = new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+  var parts = str.split('/')
+  var dt    = new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10))
 
-	if(isValidDate(dt)){
-		return dt;
-	}else{
-		return null;
-	};
+  if(isValidDate(dt)){
+    return dt
+  }else{
+    return null
+  }
 }
 
 function _membershipTypeMap (membership_type) {
 
-	var type = {
-		'Single':    'annual-single',
-		'Double':    'annual-double',
-		'Family':    'annual-family',
-		'Group':     'annual-group',
-		'Corporate': 'annual-corporate',
-		'Life Sgl':  'life-single',
-		'Life Dble': 'life-double'
-	};
+  var type = {
+    'Single':    'annual-single',
+    'Double':    'annual-double',
+    'Family':    'annual-family',
+    'Group':     'annual-group',
+    'Corporate': 'annual-corporate',
+    'Life Sgl':  'life-single',
+    'Life Dble': 'life-double'
+  }
 
-	return type[membership_type];
+  return type[membership_type]
 }

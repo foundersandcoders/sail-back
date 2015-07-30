@@ -1,27 +1,27 @@
-'use strict';
+'use strict'
 
 
-var nuclear = require("nuclear.js");
-var h       = nuclear.h;
-var utils   = require("../utils.js");
+var nuclear = require("nuclear.js")
+var h       = nuclear.h
+var utils   = require("../utils.js")
 
-module.exports = Admin;
+module.exports = Admin
 
 
 var components = {
   member: require('../components/admin/member-components.js'),
   payment: require('../components/admin/payment-components.js')
-};
+}
 
-var route;
+var route
 
 function Admin (initialState) {
 
-  initialState = initialState          || {};
-  var member   = initialState.member   || {};
-  var payments = initialState.payments || [];
-  var bookings = initialState.bookings || [];
-  var events   = initialState.events   || [];
+  initialState = initialState          || {}
+  var member   = initialState.member   || {}
+  var payments = initialState.payments || []
+  var bookings = initialState.bookings || []
+  var events   = initialState.events   || []
 
   var state = nuclear.observS({
     route:       nuclear.observ(""),
@@ -34,11 +34,11 @@ function Admin (initialState) {
     channels: {
       deletePayment: deletePayment
     }
-  });
+  })
 
-  route = nuclear.router(state);
+  route = nuclear.router(state)
 
-  return state;
+  return state
 }
 
 function deletePayment (state, paymentId) {
@@ -49,12 +49,12 @@ function deletePayment (state, paymentId) {
   }, function (error, header, body) {
 
     if(error) {
-      alert("Error deleting payments");
+      alert("Error deleting payments")
     } else {
-      var paymentsArray = state.payments();
-      var index = paymentsArray.map(function (elm) {return elm.id}).indexOf(JSON.parse(body).id);
-      paymentsArray.splice(index, 1);
-      state.payments.set(paymentsArray);
+      var paymentsArray = state.payments()
+      var index = paymentsArray.map(function (elm) {return elm.id}).indexOf(JSON.parse(body).id)
+      paymentsArray.splice(index, 1)
+      state.payments.set(paymentsArray)
     }
   })
 }
@@ -74,12 +74,12 @@ Admin.render = function (state) {
       h('div.inner-section-divider-medium'),
       renderEvents(state)
     ])
-  ]);
-};
+  ])
+}
 
 function renderPayment (state) {
   if (state.modeMember() === "edit") {
-    return "";
+    return ""
   } else {
     return (
       h("div", [
@@ -107,7 +107,7 @@ function renderPayment (state) {
         h("div.inner-section-divider-medium"),
         components.payment[state.modePayment()](state)
       ])
-    );
+    )
   }
 }
 
@@ -151,12 +151,12 @@ function renderEvents (state) {
         ])
       ])
     ])
-  );
+  )
 }
 
 function renderRowsEvents (state) {
 
-  var events = utils.processEvents(state.events());
+  var events = utils.processEvents(state.events())
 
   return events.map(function (elm) {
 
@@ -187,6 +187,6 @@ function renderRowsEvents (state) {
           h("p", String(elm.price_per_guest))
         ])
       ])
-    );
-  });
+    )
+  })
 }

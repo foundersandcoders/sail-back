@@ -1,13 +1,13 @@
-"use strict";
+'use strict'
 
 
-var dateConverter = require("./dateconverter.js");
+var dateConverter = require('./dateconverter.js')
 
 
-module.exports = processEvents;
+module.exports = processEvents
 
 
 function processEvents (events) {
 
-	return dateConverter(events);
+  return dateConverter(events)
 }

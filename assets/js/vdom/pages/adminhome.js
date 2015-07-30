@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
 
-var nuclear = require('nuclear.js');
-var utils   = require('../utils.js');
+var nuclear = require('nuclear.js')
+var utils   = require('../utils.js')
 
-module.exports = AdminHome;
+module.exports = AdminHome
 
 
 function AdminHome (initialState) {

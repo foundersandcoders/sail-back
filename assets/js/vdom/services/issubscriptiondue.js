@@ -1,8 +1,8 @@
-"use strict";
+'use strict'
 
-module.exports = isSubscriptionDue;
+module.exports = isSubscriptionDue
 
 function isSubscriptionDue (stateObject) {
 
-	
+  
 }

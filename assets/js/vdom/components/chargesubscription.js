@@ -1,77 +1,77 @@
-"use strict";
+'use strict'
 
 
-var h = require("virtual-dom/h");
+var h = require('virtual-dom/h')
 
 
 module.exports.index = function (utils, state) {
 
-	var that = {};
+  var that = {}
 
-	that.render = function () {
+  that.render = function () {
 
-		return module.exports.view(that.postData);
-	};
+    return module.exports.view(that.postData)
+  }
 
-	that.postData = function (type) {
+  that.postData = function (type) {
 
-		return function () {
+    return function () {
 
-			var payload = {
-				date: 		 utils.moment(),
-				memberId:    document.querySelector("#member-id").textContent,
-       			collection:  "charges"
-			};
+      var payload = {
+	date: 		 utils.moment(),
+	memberId:    document.querySelector('#member-id').textContent,
+       	collection:  'charges'
+      }
 
-			var value = document.querySelector("#member-controls-subscription-amount").value;
+      var value = document.querySelector('#member-controls-subscription-amount').value
 
-			payload.total       = (type === "charge") ? value          : String(0 - Number(value));
-			payload.description = (type === "charge") ? "Subscription" : "Subscription refund";
+      payload.total       = (type === 'charge') ? value          : String(0 - Number(value))
+      payload.description = (type === 'charge') ? 'Subscription' : 'Subscription refund'
 
-			utils.request({
-				method: "POST",
-				url: "/api/charges",
-				json: payload
-			}, function (e, h, b) {
+      utils.request({
+	method: 'POST',
+	url: '/api/charges',
+	json: payload
+      }, function (e, h, b) {
 
-				var payments = state.payments();
-				payments.unshift(b);
-				state.payments.set(payments);
-			});
-		}
-	};
+	var payments = state.payments()
+	payments.unshift(b)
+	state.payments.set(payments)
+      })
+    }
+  }
 
-	return that;
-};
+  return that
+}
 
 
 module.exports.view = function (fn) {
 
-	return (
-		h("div.container-small", [
-			h("div.inner-section-divider-small"),
+  return (
+    h('div.container-small', [
+      h('div.inner-section-divider-small'),
 
-			h("input", {
-				placeholder: "Amount"
-			}),
+      h('input', {
+	placeholder: 'Amount'
+      }),
 
-			h("div.inner-section-divider-medium"),
+      h('div.inner-section-divider-medium'),
 
-			h("button.align-one.btn-primary",{
-				onclick: function () {
+      h('button.align-one.btn-primary',{
+	onclick: function () {
 
-					state.panel.set("view")
-				}
-			},"Back"),
+	  state.panel.set('view')
+	}
+      },'Back'),
 
-			h("div.inner-section-divider-small"),
-			
-			h("button#next-btn.align-two.btn-primary", {
-				onclick: function () {
+      h('div.inner-section-divider-small'),
+      
+      h('button#next-btn.align-two.btn-primary', {
+	onclick: function () {
 
-					state.panel.set("view")
-				}
-			},"Charge")
-		])
-	);
-};
+	  state.panel.set('view')
+	}
+      },'Charge')
+    ])
+  )
+}

@@ -1,144 +1,144 @@
-"use strict";
+'use strict'
 
 
-var h = require("virtual-dom/h");
+var h = require('virtual-dom/h')
 
 
 module.exports.index = function (utils, state) {
 
-	var $$ = utils.$$;
-	var that = {};
+  var $$ = utils.$$
+  var that = {}
 
-	that.render = function () {
+  that.render = function () {
 
-		return module.exports.view(that.postData, utils);
-	};
+    return module.exports.view(that.postData, utils)
+  }
 
-	that.postData = function (query) {
+  that.postData = function (query) {
 
-		try {
-			var payload = {
-				memberId:      $$("member-id").text(),
-				type:          $$("member-controls-membership-type").valSelect(),
-				date:          $$("member-controls-payment-date").value(),
-				listReference: $$("member-controls-payment-reference").value(),
-				total:         $$("member-controls-payment-amount").value(),
-				notes:         $$("member-controls-payment-notes").value(),
-        		description:   "Payment by " + $$("member-controls-membership-type").valSelect(),
-        		collection:    "payments"
-			};
-		} catch (e) {
-			console.log("addpayment post: ", e);
-		}
+    try {
+      var payload = {
+	memberId:      $$('member-id').text(),
+	type:          $$('member-controls-membership-type').valSelect(),
+	date:          $$('member-controls-payment-date').value(),
+	listReference: $$('member-controls-payment-reference').value(),
+	total:         $$('member-controls-payment-amount').value(),
+	notes:         $$('member-controls-payment-notes').value(),
+        description:   'Payment by ' + $$('member-controls-membership-type').valSelect(),
+        collection:    'payments'
+      }
+    } catch (e) {
+      console.log('addpayment post: ', e)
+    }
 
-		utils.request({
-			method: "POST",
-			url: "/api/payments",
-			json: payload
-		}, function (e, h, b) {
+    utils.request({
+      method: 'POST',
+      url: '/api/payments',
+      json: payload
+    }, function (e, h, b) {
 
-			var payments = state.payments();
-			payments.unshift(b);
-			state.payments.set(payments);
-		});
-	};
+      var payments = state.payments()
+      payments.unshift(b)
+      state.payments.set(payments)
+    })
+  }
 
-	return that;
-};
+  return that
+}
 
 module.exports.view = function (fn, utils) {
 
-	var renderOptionsSelected = require("./helpers").renderOptionsSelected;
-	var paymentTypes          = require("./helpers").paymentTypes;
+  var renderOptionsSelected = require('./helpers').renderOptionsSelected
+  var paymentTypes          = require('./helpers').paymentTypes
 
-	var inputs = [{
-			placeholder: "Payment date",
-			id: "payment-date"
-		}, {
-			placeholder: "Reference",
-			id: "payment-reference"
-		}, {
-			placeholder: "Amount £",
-			id: "payment-amount"
-		}, {
-			placeholder: "Notes",
-			id: "payment-notes"
-		}
-	];
-
-
-	return (
-		h("div.container-small", [
-			h("div.inner-section-divider-small"),
-
-			h("input", {
-				placeholder: "Payment date"
-			}),
-
-			h("div.inner-section-divider-small"),
-
-			h("input", {
-				placeholder: "Reference"
-			}),
-
-			h("div.inner-section-divider-small"),
-
-			h("input", {
-				placeholder: "Amount"
-			}),
-
-			h("div.inner-section-divider-small"),
-
-			h("input", {
-				placeholder: "Notes"
-			}),
-
-			h("div.inner-section-divider-medium"),
-
-			h("button.align-one.btn-primary",{
-				onclick: function () {
-
-					state.panel.set("view")
-				}
-			},"Back"),
-
-			h("div.inner-section-divider-small"),
-			
-			h("button#next-btn.align-two.btn-primary", {
-				onclick: function () {
-
-					state.panel.set("view")
-				}
-			},"Charge")
-		])
-	);
+  var inputs = [{
+    placeholder: 'Payment date',
+    id: 'payment-date'
+  }, {
+    placeholder: 'Reference',
+    id: 'payment-reference'
+  }, {
+    placeholder: 'Amount £',
+    id: 'payment-amount'
+  }, {
+    placeholder: 'Notes',
+    id: 'payment-notes'
+  }
+	       ]
 
 
+  return (
+    h('div.container-small', [
+      h('div.inner-section-divider-small'),
 
-	return h("div.container-1", [
-		h("p", "Enter payments"),
-		h("select#member-controls-membership-type.mb10", renderOptionsSelected(paymentTypes, "", "Select type")),
-		renderInputs(inputs)
-	]);
+      h('input', {
+	placeholder: 'Payment date'
+      }),
 
-	function renderInputs (content) {
+      h('div.inner-section-divider-small'),
 
-		var inputs = content.map(function (elm) {
+      h('input', {
+	placeholder: 'Reference'
+      }),
 
-			var cl = (elm.placeholder === "Notes") ? "input-two" : "input-one";
+      h('div.inner-section-divider-small'),
 
-			return h("input." + cl + "#member-controls-" + elm.id, {
-				placeholder: elm.placeholder
-			});
-		});
+      h('input', {
+	placeholder: 'Amount'
+      }),
 
-		return inputs.concat([
-			h("div", [
-				h("button.button-two", "Close"),
-				h("button.button-one#member-controls-payment-enter.right", {
-					onclick: fn
-				}, "Enter")
-			])
-		]);
+      h('div.inner-section-divider-small'),
+
+      h('input', {
+	placeholder: 'Notes'
+      }),
+
+      h('div.inner-section-divider-medium'),
+
+      h('button.align-one.btn-primary',{
+	onclick: function () {
+
+	  state.panel.set('view')
 	}
+      },'Back'),
+
+      h('div.inner-section-divider-small'),
+      
+      h('button#next-btn.align-two.btn-primary', {
+	onclick: function () {
+
+	  state.panel.set('view')
+	}
+      },'Charge')
+    ])
+  )
+
+
+
+  return h('div.container-1', [
+    h('p', 'Enter payments'),
+    h('select#member-controls-membership-type.mb10', renderOptionsSelected(paymentTypes, '', 'Select type')),
+    renderInputs(inputs)
+  ])
+
+  function renderInputs (content) {
+
+    var inputs = content.map(function (elm) {
+
+      var cl = (elm.placeholder === 'Notes') ? 'input-two' : 'input-one'
+
+      return h('input.' + cl + '#member-controls-' + elm.id, {
+	placeholder: elm.placeholder
+      })
+    })
+
+    return inputs.concat([
+      h('div', [
+	h('button.button-two', 'Close'),
+	h('button.button-one#member-controls-payment-enter.right', {
+	  onclick: fn
+	}, 'Enter')
+      ])
+    ])
+  }
 }

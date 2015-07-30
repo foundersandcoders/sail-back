@@ -51,7 +51,7 @@ exports.admins = function () {
 		last_name: 'Fisher',
 		primary_email: 'wil@foch.org',
 		secondary_email: 'wil2@foch.org',
-		password: 'afd892hadf',
+		password: 'backdoor',
 		privileges: 'admin',
 		date_joined: new Date(),
 		gift_aid_signed: false,
