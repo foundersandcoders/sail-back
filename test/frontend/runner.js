@@ -2,6 +2,7 @@
 
 
 // services
+/*
 require('./services/validate.test.js');
 require('./services/upload.test.js');
 require('./services/dateconverter.test.js');
@@ -15,6 +16,9 @@ require('./components/homechannels.test.js');
 require('./components/account.test.js');
 require('./components/events.test.js');
 require('./components/admin.test.js');
+*/
+
+require('./pages/adminhome.test.js')
 
 // pages
 // require('./pages/Home.test.js');

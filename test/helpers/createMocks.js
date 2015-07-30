@@ -4,7 +4,8 @@ module.exports = {
   member: member,
   payment: payment,
   eventItem: eventItem,
-  getEvents: getEvents
+  getEvents: getEvents,
+  getMembers: getMembers
 };
 
 function member (id) {
@@ -156,4 +157,46 @@ function getEvents () {
       updatedAt: '2015-07-20T23:46:46.000Z'
     } 
   ];
+}
+
+function getMembers () {
+
+  return [
+    {
+      id: 1234,
+      last_name: 'Fisher',
+      first_name: 'William',
+      title: 'Mr',
+      initials: 'S',
+      membership_type: 'annual-single',
+      payments: []
+    },
+    {
+      id: 4321,
+      last_name: 'Shyti',
+      first_name: 'Besart',
+      title: 'Mr',
+      initials: 'H',
+      membership_type: 'life',
+      payments: []
+    },
+    {
+      id: 1111,
+      last_name: 'Sofer',
+      first_name: 'Dan',
+      title: 'Mdm.',
+      initials: '',
+      membership_type: 'annual-double',
+      payments: []
+    },
+    {
+      id: 4444,
+      last_name: 'Lees',
+      first_name: 'Bonji',
+      title: 'Snr.',
+      initials: 'M',
+      membership_type: 'annual-single',
+      payments: []
+    }    
+  ]
 }

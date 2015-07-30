@@ -1,15 +1,17 @@
 'use strict';
 
+
 var nuclear = require("nuclear.js");
 var h       = nuclear.h;
 var utils   = require("../utils.js");
+
+module.exports = Admin;
+
 
 var components = {
   member: require('../components/admin/member-components.js'),
   payment: require('../components/admin/payment-components.js')
 };
-
-module.exports = Admin;
 
 var route;
 

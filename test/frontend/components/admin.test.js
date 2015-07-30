@@ -5,9 +5,7 @@ var jsdom = require('jsdom');
 var test = require('tape');
 var createMocks = require('../../helpers/createMocks.js');
 var mockMember = createMocks.member();
-var decache = require('decache');
 var Admin = require('../../../assets/js/vdom/pages/admin.js');
-decache('nuclear.js');
 
 test('Admin component', function (t) {
 
