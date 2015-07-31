@@ -6,33 +6,33 @@
 */
 
 module.exports = {
-	migrate: 'alter',
-	attributes: {
-		member: {
-			model: 'Members'
-		},
-		category: {
-			type: 'STRING',
-			enum: ['payment', 'subscription', 'donation', 'event'],
-			required: true
-		},
-		type: {
-			model: 'PaymentTypes'
-		},
-		description: {
-			type: 'STRING'
-		},
-		amount: {
-			type: 'FLOAT'
-		},
-		reference: {
-			model: 'References'
-		},
-		notes: {
-			type: 'STRING'
-		},
-		date: {
-			type: 'DATE'
-		}
-	}
-};
+  migrate: 'alter',
+  attributes: {
+    member: {
+      model: 'Members'
+    },
+    category: {
+      type: 'STRING',
+      enum: ['payment', 'subscription', 'donation', 'event'],
+      required: true
+    },
+    type: {
+      model: 'PaymentTypes'
+    },
+    description: {
+      type: 'STRING'
+    },
+    amount: {
+      type: 'FLOAT'
+    },
+    reference: {
+      model: 'References'
+    },
+    notes: {
+      type: 'STRING'
+    },
+    date: {
+      type: 'DATE'
+    }
+  }
+}

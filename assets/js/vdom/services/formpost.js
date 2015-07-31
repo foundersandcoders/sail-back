@@ -1,11 +1,8 @@
 'use strict'
 
-
 module.exports = post
 
-
 function post (path, params, method) {
-  
   method = method || 'POST'
 
   // The rest of this code assumes you are not using a library.
@@ -14,8 +11,8 @@ function post (path, params, method) {
   form.setAttribute('method', method)
   form.setAttribute('action', path)
 
-  for(var key in params) {
-    if(params.hasOwnProperty(key)) {
+  for (var key in params) {
+    if (params.hasOwnProperty(key)) {
       var hiddenField = document.createElement('input')
       hiddenField.setAttribute('type', 'hidden')
       hiddenField.setAttribute('name', key)

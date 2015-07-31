@@ -1,29 +1,27 @@
-'use strict';
+'use strict'
 
-var test  = require('tape');
-var Utils = require('../../../api/services/Utils.js');
+var test = require('tape')
+var Utils = require('../../../api/services/Utils.js')
 
 test('#factoryActivationCodes', function (t) {
+  t.plan(1)
 
-	t.plan(1);
+  var activationObj = Utils.factoryActivationCodes('123456')
 
-	var activationObj = Utils.factoryActivationCodes('123456');
-
-	t.equal(activationObj.member, '123456', 'member attributes');
-});
+  t.equal(activationObj.member, '123456', 'member attributes')
+})
 
 test('#checkExpiration', function (t) {
+  t.plan(2)
 
-	t.plan(2);
+  var tomorrow = new Date()
+  tomorrow.setMonth(tomorrow.getMonth() + 1)
+  var yesterday = new Date()
+  yesterday.setMonth(yesterday.getMonth() - 1)
 
-	var tomorrow = new Date();
-	tomorrow.setMonth(tomorrow.getMonth() + 1);
-	var yesterday = new Date();
-	yesterday.setMonth(yesterday.getMonth() - 1);
+  var stillTime = Utils.checkExpiration(tomorrow)
+  var tooLate = Utils.checkExpiration(yesterday)
 
-	var stillTime = Utils.checkExpiration(tomorrow);
-	var tooLate   = Utils.checkExpiration(yesterday);
-
-	t.ok(stillTime, 'still time');
-	t.notOk(tooLate, 'too late');
-});
+  t.ok(stillTime, 'still time')
+  t.notOk(tooLate, 'too late')
+})

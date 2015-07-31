@@ -19,6 +19,12 @@
     "accept": "NODE_ENV=testing tape test/backend/*.test.js",
     "dev": "NODE_ENV=development sails lift --verbose"
   },
+  "standard": {
+    "ignore": [
+      "/config/",
+      "/test/"
+    ]
+  },
   "dependencies": {
     "async": "^1.0.0",
     "babyparse": "^0.4.3",

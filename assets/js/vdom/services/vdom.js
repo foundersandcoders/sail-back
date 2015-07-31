@@ -5,7 +5,6 @@ var h = require('virtual-dom/h')
 module.exports.renderOptionsSelected = renderOptionsSelected.bind(undefined, h)
 
 function renderOptionsSelected (h, options, selectedOption, placeholder) {
-
   selectedOption = selectedOption || ''
 
   var firstPlaceholderOption = [
@@ -16,13 +15,13 @@ function renderOptionsSelected (h, options, selectedOption, placeholder) {
     }, placeholder)
   ]
 
-  var element =  firstPlaceholderOption.concat(
-    options.map(function (elm){
+  var element = firstPlaceholderOption.concat(
+    options.map(function (elm) {
       var selected = (elm.value === selectedOption || elm.description === selectedOption)
 
       return h('option', {
-	value:    elm.value,
-	selected: selected
+        value: elm.value,
+        selected: selected
       }, elm.description)
     })
   )

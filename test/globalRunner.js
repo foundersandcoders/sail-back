@@ -1,5 +1,4 @@
-'use strict';
+'use strict'
 
-
-require('./frontend/runner.js');
-require('./backend/runner.js');
+require('./frontend/runner.js')
+require('./backend/runner.js')

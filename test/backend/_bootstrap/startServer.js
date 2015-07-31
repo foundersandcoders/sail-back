@@ -1,28 +1,25 @@
 // Just starts the server and passes the object to the callback
 
-'use strict';
+'use strict'
 
-var Sails = require('sails');
+var Sails = require('sails')
 
-var sailsInstance;
+var sailsInstance
 
-module.exports = start;
+module.exports = start
 
 function start (callback) {
-
-
-	if (!sailsInstance) {
-		Sails.lift({
-			log: {
-				level: 'error'
-			},
-			port: 3333
-		}, function (err, instance) {
-
-			sailsInstance = instance;
-			return callback.apply(null, arguments);
-		});
-	} else {
-		return callback.apply(null, [null, sailsInstance]);
-	}
+  if (!sailsInstance) {
+    Sails.lift({
+      log: {
+        level: 'error'
+      },
+      port: 3333
+    }, function (err, instance) {
+      sailsInstance = instance
+      return callback.apply(null, arguments)
+    })
+  } else {
+    return callback.apply(null, [null, sailsInstance])
+  }
 }

@@ -6,21 +6,21 @@
 */
 
 module.exports = {
-	migrate: 'alter',
-	attributes: {
-		description: {
-			type: 'STRING'
-		},
-		value: {
-			type: 'STRING',
-			primaryKey: true
-		},
-		amount: {
-			type: 'FLOAT'
-		},
-		members: {
-			collection: 'Members',
-			via: 'membership_type'
-		}
-	}
-};
+  migrate: 'alter',
+  attributes: {
+    description: {
+      type: 'STRING'
+    },
+    value: {
+      type: 'STRING',
+      primaryKey: true
+    },
+    amount: {
+      type: 'FLOAT'
+    },
+    members: {
+      collection: 'Members',
+      via: 'membership_type'
+    }
+  }
+}

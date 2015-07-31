@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   member: member,
@@ -6,25 +6,24 @@ module.exports = {
   eventItem: eventItem,
   getEvents: getEvents,
   getMembers: getMembers
-};
+}
 
 function member (id) {
-
   var member = {
-    id:              id || 9999,
-    title:           'Mr',
-    initials:        'B H',
-    last_name:       'Hoxhaj',
-    primary_email:   'besart@hoxhaj.com',
-    password:        'secret',
+    id: id || 9999,
+    title: 'Mr',
+    initials: 'B H',
+    last_name: 'Hoxhaj',
+    primary_email: 'besart@hoxhaj.com',
+    password: 'secret',
     membership_type: 'annual-double',
-    address1:        'Moon',
-    address2:        'Street',
-    address3:        '24',
-    address4:        'Second floor',
-    postcode:        'J89 001',
+    address1: 'Moon',
+    address2: 'Street',
+    address3: '24',
+    address4: 'Second floor',
+    postcode: 'J89 001',
     gift_aid_signed: false
-  };
+  }
 
   member.payments = [
     payment({
@@ -54,28 +53,26 @@ function member (id) {
       date: '12-11-11',
       category: 'donation'
     })
-  ];
+  ]
 
-  return member;
+  return member
 }
 
 function payment (opts) {
-
-  var dateString = opts ? (opts.date || '') : '';
-  var randomNum  = parseInt(Math.random() * 100000);
+  var dateString = opts ? (opts.date || '') : ''
+  var randomNum = parseInt(Math.random() * 100000)
 
   return {
-    member:      opts ? (opts.memberId || randomNum) : randomNum,
-    category:    opts ? (opts.category || 'payment') : 'payment',
-    type:        opts ? (opts.type     || 'CASH')    : 'CASH',
+    member: opts ? (opts.memberId || randomNum) : randomNum,
+    category: opts ? (opts.category || 'payment') : 'payment',
+    type: opts ? (opts.type || 'CASH')    : 'CASH',
     description: 'Hello world!',
-    amount:      parseInt(Math.random() * 100),
-    date:        new Date(dateString)
-  };
+    amount: parseInt(Math.random() * 100),
+    date: new Date(dateString)
+  }
 }
 
 function eventItem (places) {
-
   return {
     title: 'Dinner at Bes',
     reference: 'YH77D',
@@ -90,13 +87,12 @@ function eventItem (places) {
     price_per_guest: 20,
     max_number_of_guests: 5,
     total_places_available: places || 20
-  };
+  }
 }
 
 function getEvents () {
-
-  return [ 
-    { 
+  return [
+    {
       title: 'Party in London',
       reference: 'YH56D',
       short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -116,7 +112,7 @@ function getEvents () {
       createdAt: '2015-07-20T23:46:46.000Z',
       updatedAt: '2015-07-20T23:46:46.000Z'
     },
-    { 
+    {
       title: 'Today at Wil',
       reference: 'CH11D',
       short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -136,7 +132,7 @@ function getEvents () {
       createdAt: '2015-07-20T23:46:46.000Z',
       updatedAt: '2015-07-20T23:46:46.000Z'
     },
-    { 
+    {
       title: 'Visit at Chichester',
       reference: 'YH77D',
       short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -155,12 +151,11 @@ function getEvents () {
       id: 4,
       createdAt: '2015-07-20T23:46:46.000Z',
       updatedAt: '2015-07-20T23:46:46.000Z'
-    } 
-  ];
+    }
+  ]
 }
 
 function getMembers () {
-
   return [
     {
       id: 1234,
@@ -197,6 +192,6 @@ function getMembers () {
       initials: 'M',
       membership_type: 'annual-single',
       payments: []
-    }    
+    }
   ]
 }

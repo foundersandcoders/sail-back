@@ -10,19 +10,18 @@
  * For usage docs see:
  * 		https://github.com/gruntjs/grunt-contrib-less
  */
-module.exports = function(grunt) {
+module.exports = function (grunt) {
+  grunt.config.set('sass', {
+    dev: {
+      files: [{
+        expand: true,
+        cwd: 'assets/styles/',
+        src: ['main.scss'],
+        dest: '.tmp/public/styles/',
+        ext: '.css'
+      }]
+    },
+  })
 
-	grunt.config.set('sass', {
-		dev: {
-			files: [{
-				expand: true,
-				cwd: 'assets/styles/',
-				src: ['main.scss'],
-				dest: '.tmp/public/styles/',
-				ext: '.css'
-			}]
-		},
-	});
-
-	grunt.loadNpmTasks('grunt-sass');
-};
+  grunt.loadNpmTasks('grunt-sass')
+}

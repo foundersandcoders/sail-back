@@ -1,107 +1,91 @@
-'use strict';
+'use strict'
 
-var jsdom         = require('jsdom');
-var test          = require('tape');
-var browserify    = require('../../helpers/browserifyFile.js');
-
+var jsdom = require('jsdom')
+var test = require('tape')
+var browserify = require('../../helpers/browserifyFile.js')
 
 test('#Home', function (t) {
+  var $, window, document
 
-	var $, window, document;
+  t.test('Initialize component', function (st) {
+    st.plan(3)
 
-	t.test('Initialize component', function (st) {
+    var virtualConsole = jsdom.createVirtualConsole()
 
-		st.plan(3);
+    virtualConsole.on('log', function (message) {
+      console.log(arguments)
+    })
 
-		var virtualConsole = jsdom.createVirtualConsole();
+    window = jsdom.jsdom('<html><body></body></html>', {
+      virtualConsole: virtualConsole
+    }).defaultView
 
-		virtualConsole.on("log", function (message) {
+    browserify('./assets/js/vdom/pages/Home.js', function (error, script) {
+      if (error) {
+        console.log('Error loading script: ', error)
+        st.fail('error loading script')
+      }
 
-			console.log(arguments);
-		});
+      jsdom.jQueryify(window, 'http://code.jquery.com/jquery-2.1.1.js', function () {
+        var scriptComponent = window.document.createElement('script')
+        scriptComponent.textContent = script
+        window.document.head.appendChild(scriptComponent)
 
-		window = jsdom.jsdom('<html><body></body></html>', {
-			virtualConsole: virtualConsole
-		}).defaultView;
+        document = window.document
+        $ = window.$
 
-		browserify('./assets/js/vdom/pages/Home.js', function (error, script) {
+        st.ok(window, 'window loaded')
+        st.ok(document, 'document loaded')
+        st.ok($, '$ loaded')
+      })
+    })
+  })
 
-			if (error) {
+  t.test('Component should render in home page', function (st) {
+    st.plan(5)
 
-				console.log('Error loading script: ', error);
-				st.fail('error loading script');
-			}
+    st.equals($('h1').text(), 'Friends of Chichester Harbour', 'right title on load')
+    st.equals($('button:contains("Browse events")').text(), 'Browse events', 'see events button')
+    st.equals($('button:contains("Sign in")').text(), 'Sign in', 'see Sign in button')
+    st.equals($('button:contains("Sign up")').text(), 'Sign up', 'see Sign up button')
+    st.equals($('button').text(), 'Sign inSign upBrowse events', 'see just three buttons')
+  })
 
-			jsdom.jQueryify(window, "http://code.jquery.com/jquery-2.1.1.js", function () {
+  t.test('On sign in click should render sign in page', function (st) {
+    st.plan(1)
 
-				var scriptComponent         = window.document.createElement('script');
-				scriptComponent.textContent = script;
-				window.document.head.appendChild(scriptComponent);
+    $('button:contains("Sign in")').click()
 
-				document = window.document;
-				$        = window.$;
+    process.nextTick(function () {
+      st.equals($('h1').text(), 'Sign in', 'moved to signin page')
+    })
+  })
 
-				st.ok(window, 'window loaded');
-				st.ok(document, 'document loaded');
-				st.ok($, '$ loaded');
-			});
-		});
-	});
+  t.test('On sign up click should render sign up page', function (st) {
+    st.plan(1)
 
-	t.test('Component should render in home page', function (st) {
+    window.location.hash = ''
 
-		st.plan(5);
+    process.nextTick(function () {
+      $('button:contains("Sign up")').click()
 
-		st.equals($('h1').text(), 'Friends of Chichester Harbour', 'right title on load');
-		st.equals($('button:contains("Browse events")').text(), 'Browse events', 'see events button');
-		st.equals($('button:contains("Sign in")').text(), 'Sign in', 'see Sign in button');
-		st.equals($('button:contains("Sign up")').text(), 'Sign up', 'see Sign up button');
-		st.equals($('button').text(), 'Sign inSign upBrowse events', 'see just three buttons');
-	});
+      process.nextTick(function () {
+        st.equals($('h1').text(), 'Sign up', 'moved to signup page')
+      })
+    })
+  })
 
-	t.test('On sign in click should render sign in page', function (st) {
+  t.test('On sign up click should render sign up page', function (st) {
+    st.plan(1)
 
-		st.plan(1);
+    window.location.hash = ''
 
-		$('button:contains("Sign in")').click();
+    process.nextTick(function () {
+      $('button:contains("Browse events")').click()
 
-		process.nextTick(function () {
-
-			st.equals($('h1').text(), 'Sign in', 'moved to signin page');
-		});
-	});
-
-	t.test('On sign up click should render sign up page', function (st) {
-
-		st.plan(1);
-
-		window.location.hash = '';
-
-		process.nextTick(function () {
-
-			$('button:contains("Sign up")').click();
-
-			process.nextTick(function () {
-
-				st.equals($('h1').text(), 'Sign up', 'moved to signup page');
-			});
-		});
-	});
-
-	t.test('On sign up click should render sign up page', function (st) {
-
-		st.plan(1);
-
-		window.location.hash = '';
-
-		process.nextTick(function () {
-
-			$('button:contains("Browse events")').click();
-
-			process.nextTick(function () {
-
-				st.equals($('h1').text(), 'Events', 'moved to signup page');
-			});
-		});
-	});
-});
+      process.nextTick(function () {
+        st.equals($('h1').text(), 'Events', 'moved to signup page')
+      })
+    })
+  })
+})

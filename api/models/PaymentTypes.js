@@ -6,18 +6,18 @@
 */
 
 module.exports = {
-	migrate: 'alter',
-	attributes: {
-		payments: {
-			collection: 'Payments',
-			via: 'type'
-		},
-		code: {
-			type: 'STRING',
-			primaryKey: true
-		},
-		description: {
-			type: 'STRING'
-		}
-	}
-};
+  migrate: 'alter',
+  attributes: {
+    payments: {
+      collection: 'Payments',
+      via: 'type'
+    },
+    code: {
+      type: 'STRING',
+      primaryKey: true
+    },
+    description: {
+      type: 'STRING'
+    }
+  }
+}

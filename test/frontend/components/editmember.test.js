@@ -1,45 +1,39 @@
 'use strict'
 
-
-var nuclear      = require('nuclear.js')
-var jsdom        = require('jsdom')
-var test         = require('tape')
-var createMocks  = require('../../helpers/createMocks.js')
-var mockMember   = createMocks.member()
-var decache      = require('decache')
+var nuclear = require('nuclear.js')
+var jsdom = require('jsdom')
+var test = require('tape')
+var createMocks = require('../../helpers/createMocks.js')
+var mockMember = createMocks.member()
+var decache = require('decache')
 decache('nuclear.js')
 
-
 test('Edit member component', function (t) {
-
   t.test('Check render component: ', function (st) {
-
     //	st.plan(4)
 
     jsdom.env('', {
       scripts: ['http://code.jquery.com/jquery-2.1.1.js'],
       done: function (errors, window) {
+        var $ = window.$
+        global.window = window
+        global.document = window.document
 
-	var $ = window.$
-	global.window = window
-	global.document = window.document
+        var nuclear = require('nuclear.js')
+        var Edit = require('../../../assets/js/vdom/components/member.edit.js')
 
-	var nuclear = require('nuclear.js')
-	var Edit = require('../../../assets/js/vdom/components/member.edit.js')
+        var state = nuclear.observS({
+          member: nuclear.observS(mockMember)
+        })
 
-	var state = nuclear.observS({
-	  member: nuclear.observS(mockMember)
-	})
+        nuclear.app(window.document.body, state, Edit)
 
-	nuclear.app(window.document.body, state, Edit)
-	
-	st.end()
+        st.end()
       }
     })
   })
   t.end()
 })
-
 
 /*
   test('Profile component', function (t) {
@@ -70,7 +64,6 @@ test('Edit member component', function (t) {
   nuclear.app(window.document.body, state, Profile.show, {
   document: window.document
   })
-
 
   st.equals($('h1').text(), 'Account info', 'right title')
   st.equals($('p#value-last_name').text(), mockMember.last_name, 'right last name')

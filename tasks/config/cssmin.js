@@ -8,14 +8,13 @@
  * For usage docs see:
  * 		https://github.com/gruntjs/grunt-contrib-cssmin
  */
-module.exports = function(grunt) {
+module.exports = function (grunt) {
+  grunt.config.set('cssmin', {
+    dist: {
+      src: ['.tmp/public/concat/production.css'],
+      dest: '.tmp/public/min/production.min.css'
+    }
+  })
 
-	grunt.config.set('cssmin', {
-		dist: {
-			src: ['.tmp/public/concat/production.css'],
-			dest: '.tmp/public/min/production.min.css'
-		}
-	});
-
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
-};
+  grunt.loadNpmTasks('grunt-contrib-cssmin')
+}

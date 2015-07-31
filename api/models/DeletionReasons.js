@@ -6,18 +6,18 @@
 */
 
 module.exports = {
-	migrate: 'alter',
-	attributes: {
-		description: {
-			type: 'STRING'
-		},
-		value: {
-			type: 'STRING',
-			primaryKey: true
-		},
-		members: {
-			collection: 'Members',
-			via: 'deletion_reason'
-		}
-	}
-};
+  migrate: 'alter',
+  attributes: {
+    description: {
+      type: 'STRING'
+    },
+    value: {
+      type: 'STRING',
+      primaryKey: true
+    },
+    members: {
+      collection: 'Members',
+      via: 'deletion_reason'
+    }
+  }
+}

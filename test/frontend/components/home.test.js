@@ -1,15 +1,14 @@
 'use strict'
 
-var createMocks  = require('../../helpers/createMocks.js')
-var outputHTML   = require('../../helpers/outputHTML.js')
-global.window    = require('../../helpers/fakeWindow.js')
-var Home         = require('../../../assets/js/vdom/pages/home.js')
-var test         = require('tape')
+var createMocks = require('../../helpers/createMocks.js')
+var outputHTML = require('../../helpers/outputHTML.js')
+global.window = require('../../helpers/fakeWindow.js')
+var Home = require('../../../assets/js/vdom/pages/home.js')
+var test = require('tape')
 
 var renderHTML = outputHTML(Home, Home.render)
 
 test('Events initial view', function (t) {
-
   global.window.location.hash = '/events'
 
   var events = createMocks.getEvents()
@@ -20,7 +19,6 @@ test('Events initial view', function (t) {
 })
 
 test('Event info initial view without session', function (t) {
-
   global.window.location.hash = '/event/1'
 
   var events = createMocks.getEvents()
@@ -32,7 +30,6 @@ test('Event info initial view without session', function (t) {
 })
 
 test('Event info initial view with session', function (t) {
-
   global.window.location.hash = '/event/1'
 
   var events = createMocks.getEvents()
@@ -45,7 +42,6 @@ test('Event info initial view with session', function (t) {
 })
 
 test('Home initial view', function (t) {
-
   t.plan(5)
 
   global.window.location.hash = '/'
@@ -60,7 +56,6 @@ test('Home initial view', function (t) {
 })
 
 test('Signin initial view', function (t) {
-
   global.window.location.hash = '/signin'
 
   var $ = renderHTML({})
@@ -71,7 +66,6 @@ test('Signin initial view', function (t) {
 })
 
 test('Signup initial view', function (t) {
-
   global.window.location.hash = '/signup'
 
   var $ = renderHTML({})
@@ -82,7 +76,6 @@ test('Signup initial view', function (t) {
 })
 
 test('Events initial state', function (t) {
-
   t.plan(4)
 
   global.window.location.hash = '/events'
@@ -98,7 +91,6 @@ test('Events initial state', function (t) {
 })
 
 test('Events inject an object instead of array', function (t) {
-
   t.plan(1)
 
   global.window.location.hash = '/events'

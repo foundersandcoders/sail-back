@@ -1,22 +1,19 @@
-'use strict';
+'use strict'
 
-var browserify = require('browserify');
+var browserify = require('browserify')
 
-module.exports = browserifyFile;
+module.exports = browserifyFile
 
 function browserifyFile (file, callback) {
+  var bundleFile = browserify(file).bundle()
 
-    var bundleFile = browserify(file).bundle();
+  var store = ''
 
-    var store = '';
+  bundleFile.on('data', function (data) {
+    store += data
+  })
 
-    bundleFile.on('data', function (data) {
-
-        store += data;
-    });
-
-    bundleFile.on('end', function () {
-
-        callback(null, store);
-    });
+  bundleFile.on('end', function () {
+    callback(null, store)
+  })
 }

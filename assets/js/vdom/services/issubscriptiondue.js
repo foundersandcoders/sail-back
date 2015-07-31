@@ -3,6 +3,4 @@
 module.exports = isSubscriptionDue
 
 function isSubscriptionDue (stateObject) {
-
-  
 }

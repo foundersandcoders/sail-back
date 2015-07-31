@@ -1,24 +1,20 @@
 'use strict'
 
-
 var nuclear = require('nuclear.js')
-var h       = nuclear.h
-var utils   = require('../utils.js')
-
+var h = nuclear.h
+var utils = require('../utils.js')
 
 module.exports = {
   // Account:       Account,
-  home:          homePageAccount,
-  // payment:       paymentPage,
-  // paypal:        paypal,
-  // credit:        credit,
-  // refundOptions: refundOptions,
-  // viewProfile:   viewProfile
+  home: homePageAccount,
+// payment:       paymentPage,
+// paypal:        paypal,
+// credit:        credit,
+// refundOptions: refundOptions,
+// viewProfile:   viewProfile
 }
 
-
 // var route
-
 
 // function Account (member) {
 
@@ -83,24 +79,23 @@ module.exports = {
 // }
 
 function homePageAccount (state) {
-
   return (
-    h('div.main-container', [
+  h('div.main-container', [
+    h('div.inner-section-divider-small'),
+    h('div.section-label', [
+      h('h1', 'Account')
+    ]),
+    h('div.container-small', [
       h('div.inner-section-divider-small'),
-      h('div.section-label', [
-        h('h1', 'Account')
-      ]),
-      h('div.container-small', [
-        h('div.inner-section-divider-small'),
-        renderPayments(state),
-        h('div.inner-section-divider-medium'),
-        refundRender(state),
-        h('div.inner-section-divider-medium'),
-        expireAnnualSubscription(state),
-        h('div.inner-section-divider-medium')
-        // renderDonation(state)
-      ])
+      renderPayments(state),
+      h('div.inner-section-divider-medium'),
+      refundRender(state),
+      h('div.inner-section-divider-medium'),
+      expireAnnualSubscription(state),
+      h('div.inner-section-divider-medium')
+    // renderDonation(state)
     ])
+  ])
   )
 }
 
@@ -349,51 +344,48 @@ function homePageAccount (state) {
 // }
 
 function renderPayments (state) {
-
   return (
-    h('div.table-payments', [
-      h('div.header', [
-        h('div.item-one', [
-          h('p.meta', 'Date')
-        ]),
-        h('div.item', [
-          h('p.meta', 'Description')
-        ]),
-        h('div.item-one', [
-          h('p.meta', 'Charge')
-        ]),
-        h('div.item-two', [
-          h('p.meta', 'Due')
-        ])
+  h('div.table-payments', [
+    h('div.header', [
+      h('div.item-one', [
+        h('p.meta', 'Date')
       ]),
-      h('div.body', [
-        renderRows(state)
+      h('div.item', [
+        h('p.meta', 'Description')
+      ]),
+      h('div.item-one', [
+        h('p.meta', 'Charge')
+      ]),
+      h('div.item-two', [
+        h('p.meta', 'Due')
       ])
+    ]),
+    h('div.body', [
+      renderRows(state)
     ])
+  ])
   )
 }
 
 function renderRows (state) {
-
   var payments = utils.dateConverter(utils.balanceDue(state.payments()))
 
   return payments.map(function (elm, index) {
-
     return (
-      h('div.row', [
-        h('div.item-one', [
-          h('p.micro', elm.date)
-        ]),
-        h('div.item', [
-          h('p.micro', elm.description)
-        ]),
-        h('div.item-one', [
-          h('p.micro', String(elm.amount))
-        ]),
-        h('div.item-two', [
-          h('p.micro', String(elm.balanceDue))
-        ])
+    h('div.row', [
+      h('div.item-one', [
+        h('p.micro', elm.date)
+      ]),
+      h('div.item', [
+        h('p.micro', elm.description)
+      ]),
+      h('div.item-one', [
+        h('p.micro', String(elm.amount))
+      ]),
+      h('div.item-two', [
+        h('p.micro', String(elm.balanceDue))
       ])
+    ])
     )
   })
 }
@@ -435,56 +427,50 @@ function renderRows (state) {
 // }
 
 function expireAnnualSubscription (state) {
-
   if (isSubscriptionDue(state)) {
-
     return (
-      h('div', [
-        h('div.input-label-container', [
-          h('h3', 'Subscription')
-        ]),
-        h('div.input-label-container', [
-          h('h4', 'Your annual subscription is due on 12-12-2012 pay it now?')
-        ]),
-        h('div.block', [
-          h('button.btn-primary.align-one', {
-            onclick: state.channels.redirectTo.bind(null, state, '/account/refund', nuclear)
-          }, 'Yes please'),
-          h('button.btn-primary.align-two', {
-            onclick: state.channels.redirectTo.bind(null, state, '/account/refund', nuclear)
-          },'No thanks')
-        ])
+    h('div', [
+      h('div.input-label-container', [
+        h('h3', 'Subscription')
+      ]),
+      h('div.input-label-container', [
+        h('h4', 'Your annual subscription is due on 12-12-2012 pay it now?')
+      ]),
+      h('div.block', [
+        h('button.btn-primary.align-one', {
+          onclick: state.channels.redirectTo.bind(null, state, '/account/refund', nuclear)
+        }, 'Yes please'),
+        h('button.btn-primary.align-two', {
+          onclick: state.channels.redirectTo.bind(null, state, '/account/refund', nuclear)
+        }, 'No thanks')
       ])
+    ])
     )
   }
 }
 
 function isSubscriptionDue (state) {
-
   return true
 }
 
 function refundRender (state) {
-
   if (getLastMovement(state)) {
-
     return (
-      h('div', [
-        h('button.btn-primary', {
-          onclick: state.channels.redirectTo.bind(null, state, '/account/refund', nuclear)
-        }, 'Refund options')
-      ])
+    h('div', [
+      h('button.btn-primary', {
+        onclick: state.channels.redirectTo.bind(null, state, '/account/refund', nuclear)
+      }, 'Refund options')
+    ])
     )
   }
 }
 
 function getLastMovement (state) {
-
-  if(
+  if (
     state.payments() &&
-      state.payments().length > 0 &&
-      state.payments()[state.payments().length - 1] &&
-      Number(state.payments()[state.payments().length - 1].balanceDue) < 0
+    state.payments().length > 0 &&
+    state.payments()[state.payments().length - 1] &&
+    Number(state.payments()[state.payments().length - 1].balanceDue) < 0
   ) {
     return true
   } else {
