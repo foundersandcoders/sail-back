@@ -1298,7 +1298,7 @@ module.exports.paymentMethod = function (state) {
       h('div.inner-section-divider-small'),
 
       h('button.btn-primary', {
-p        onclick: function () {
+        onclick: function () {
           return state.panel.set('gimmeMoney')
         }
       }, 'Cheque')
