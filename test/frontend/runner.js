@@ -1,6 +1,6 @@
 'use strict'
 
-/*
+
 // services
 require('./services/validate.test.js')
 require('./services/upload.test.js')
@@ -19,5 +19,4 @@ require('./components/events.test.js')
 require('./pages/adminhome.test.js')
 require('./components/admin.test.js')
 // require('./pages/home.test.js')
-*/
 require('./pages/signup.test.js')

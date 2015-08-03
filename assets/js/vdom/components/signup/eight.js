@@ -3,8 +3,9 @@
 var h = require('virtual-dom/h')
 var clone = require('clone')
 var progressBar = require('./progressbar')
+var utils = require('../../app.js').utils
 
-function (state, createMember) {
+module.exports = function eight (state, createMember) {
 
   var currentInputValues = clone(state.member())
 

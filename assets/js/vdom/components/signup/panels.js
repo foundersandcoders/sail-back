@@ -277,82 +277,13 @@ module.exports.account = function (state) {
 // Sign up
 // -------------------------------------------------------------------------------------------
 module.exports.one = require('./one')
-
 module.exports.two = require('./two')
-
 module.exports.three = require('./three')
-
 module.exports.four = require('./four')
-
 module.exports.five = require('./five')
-
 module.exports.six = require('./six')
-
 module.exports.seven = require('./seven')
-
-module.exports.eight = function (state, createMember) {
-
-  var currentInputValues = utils.lazy({}).defaults(state.member()).toObject()
-
-  function list (member) {
-    var propertiesMapper = utils.mocks.memberPropsMapper
-
-    return propertiesMapper.map(function (elm) {
-      return (
-      h('div.details-list', [
-        h('div.block', [
-          h(('p#' + elm.prop + '.left.meta'), elm.desc),
-          h(('p#value-' + elm.prop + '.right.meta'), member[elm.prop])
-        ])
-      ])
-      )
-    })
-  }
-
-  var vtree = h('div.main-container', [
-    h('div.inner-section-divider-small'),
-    h('div.section-label', [
-      h('h1#sign-up-panel-8', 'Member information')
-    ]),
-    progressBar(state, currentInputValues),
-    h('div.container-small', [
-      list(currentInputValues),
-
-      h('div.inner-section-divider-medium'),
-
-      h('button.align-one.btn-primary', {
-        onclick: function () {
-          var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject()
-
-          state.member.set(memberChanges)
-          state.panel.set('seven')
-        }
-      }, 'Back'),
-
-      h('div.inner-section-divider-small'),
-
-      h('button#confirm.align-two.btn-primary', {
-        onclick: state.channels.createMember.bind(this, state, currentInputValues)
-        // function () {
-        // 	var memberChanges = utils.lazy(state.member()).extend(currentInputValues).toObject()
-
-        // 	createMember(memberChanges, function (err, member) {
-
-        // 		if(err) {
-
-        // 			return state.panel.set("sorryError")
-        // 		}
-
-      // 		state.member.set(member)
-      // 		state.panel.set("checkEmail")
-      // 	})
-      // }
-      }, 'Confirm')
-    ])
-  ])
-
-  return vtree
-}
+module.exports.eight = require('./eight')
 // -------------------------------------------------------------------------------------------
 
 module.exports.editAccount = function (state) {
