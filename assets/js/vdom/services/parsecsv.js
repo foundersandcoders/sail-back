@@ -18,7 +18,7 @@ module.exports = {
  *
  */
 function parseFun (file, callback) {
-  parseLibrary(file.result, {delimiter: ''}, function (err, outputFromCsvParser) {
+  parseLibrary(file.result, {delimiter: ';'}, function (err, outputFromCsvParser) {
     if (err) return callback(err)
 
     var json = jsonify(outputFromCsvParser, file.type)

@@ -5,6 +5,7 @@ var h = require('virtual-dom/h')
 module.exports.renderOptionsSelected = renderOptionsSelected.bind(undefined, h)
 
 function renderOptionsSelected (h, options, selectedOption, placeholder) {
+
   selectedOption = selectedOption || ''
 
   var firstPlaceholderOption = [

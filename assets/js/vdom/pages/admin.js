@@ -1,4 +1,4 @@
-/*global aler*/
+/*global alert*/
 
 'use strict'
 
@@ -32,8 +32,6 @@ function Admin (initialState) {
       deletePayment: deletePayment
     }
   })
-
-  route = nuclear.router(state)
 
   return state
 }

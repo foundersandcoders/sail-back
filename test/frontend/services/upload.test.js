@@ -11,10 +11,14 @@ var backEndParser = require('./../../../api/services/Upload.js')()
 var helpers = require('./helpers.js')
 
 test('Payments: ', function (t) {
+
   t.test('Upload parser:', function (st) {
+
     var mockPayments = helpers.payments
     var fileObj = {type: 'payments', result: mockPayments}
+    st.comment('that\'s what\'s up!')
     frontEndParser.parse(fileObj, function (err, array) {
+
       if (err) {
         console.log(err)
         st.end()
@@ -33,6 +37,7 @@ test('Payments: ', function (t) {
   })
 
   t.test('Database entries:', function (st) {
+
     var mockPayments = 'DatePaid;MembershipID;MembershipPaid;Donation;Event;Payment;Difference;PaymentMethod;Bank Slip Ref;PaymentNotes\n03/01/12;6085;5;0;0;5;0;8 - Standing Order;61201;;'
     var fileObj = {type: 'payments', result: mockPayments}
 
@@ -70,7 +75,7 @@ test('Members: ', function (t) {
 
       var first = array[1]
 
-      // { 
+      // {
       // 	id: '8419',
       // 	title: 'Ms',
       // 	initials: 'C L',
@@ -98,7 +103,7 @@ test('Members: ', function (t) {
       // 	date_gift_aid_signed: Sat Feb 06 1909 00:00:00 GMT+0000 (GMT),
       // 	date_gift_aid_cancelled: null,
       // 	standing_order: true,
-      // 	activation_status: 'deactivated' 
+      // 	activation_status: 'deactivated'
       // }
 
       // console.log(first)

@@ -32,8 +32,6 @@ test('adminhome component', function (t) {
         st.end()
       })
 
-      t.test('check search controls')
-
       t.end()
     }
   })
