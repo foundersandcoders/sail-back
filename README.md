@@ -99,3 +99,25 @@ The upload function expects to receive a well **predefined** set of columns, in 
 The **type** must be ***strictly*** respected. In particular special care must be given to `date`, `boolean`, `number` and `custom`.
 In fact if something is expected to be a **number**, it can not be a currency value. For what concerns **dates** instead this must be
 in the `dd/mm/yyyy` format.
+
+## file structure
+
+```
+/
+	assets/ <--- public static files
+		js/
+			app.js <--- main component and routing logic (built from pages)
+			pages/ <--- main pages of aff (built from services and components)
+			services/ <--- reusable generic utilities
+			components/ <--- reusable *vdom* components
+
+		styles/
+	api/
+	config/
+	tasks/
+	test/
+	views/
+	server.js
+	package.json
+	...
+```
