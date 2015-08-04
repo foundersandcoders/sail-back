@@ -28,7 +28,7 @@ module.exports = function two (state) {
         }
       },
         utils.vDomHelpers.renderOptionsSelected(utils.mocks.memberTypes, currentInputValues.membership_type, 'Click to select one')
-      ),
+       ),
 
       renderPrice(currentInputValues),
 

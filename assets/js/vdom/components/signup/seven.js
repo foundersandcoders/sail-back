@@ -26,11 +26,11 @@ module.exports = function seven (state) {
         onchange: function () {
 
           currentInputValues.news_type = this.value
-	  state.member.set(currentInputValues)
+          state.member.set(currentInputValues)
         }
       },
         utils.vDomHelpers.renderOptionsSelected(utils.mocks.newsType, currentInputValues.news_type, 'Click to select one')
-      ),
+       ),
 
       h('div.inner-section-divider-medium'),
 

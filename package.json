@@ -17,12 +17,16 @@
     "cover:frontend": "istanbul cover tape ./test/frontend/runner.js",
     "open:cov": "open coverage/lcov-report/index.html",
     "accept": "NODE_ENV=testing tape test/backend/*.test.js",
-    "dev": "NODE_ENV=development sails lift --verbose"
+    "dev": "NODE_ENV=development sails lift --verbose",
+    "lint": "standard"
   },
   "standard": {
     "ignore": [
       "/config/",
-      "/test/"
+      "/test/",
+      "Gruntfile.js",
+      "server.js",
+      "/tasks/"
     ]
   },
   "dependencies": {

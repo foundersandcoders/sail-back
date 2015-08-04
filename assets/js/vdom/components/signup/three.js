@@ -4,6 +4,10 @@ var h = require('virtual-dom/h')
 var clone = require('clone')
 var progressBar = require('./progressbar')
 
+function toNameCase (str) {
+  return str.substr(0, 1).toUpperCase() + str.substr(1)
+}
+
 module.exports = function three (state) {
 
   var currentInputValues = clone(state.member())
@@ -22,8 +26,8 @@ module.exports = function three (state) {
           value: currentInputValues.title,
           onchange: function () {
 
-            currentInputValues.title = this.value
-	    state.member.set(currentInputValues)
+            currentInputValues.title = toNameCase(this.value)
+            state.member.set(currentInputValues)
           }
         }),
         h('input#initials.align-two', {
@@ -32,8 +36,8 @@ module.exports = function three (state) {
           value: currentInputValues.initials,
           onchange: function () {
 
-            currentInputValues.initials = this.value
-	    state.member.set(currentInputValues)
+            currentInputValues.initials = this.value.toUpperCase()
+            state.member.set(currentInputValues)
           }
         })
       ]),
@@ -47,8 +51,8 @@ module.exports = function three (state) {
         value: currentInputValues.first_name,
         onchange: function () {
 
-          currentInputValues.first_name = this.value
-	  state.member.set(currentInputValues)
+          currentInputValues.first_name = toNameCase(this.value)
+          state.member.set(currentInputValues)
         }
       }),
       h('div.inner-section-divider-small'),
@@ -58,8 +62,8 @@ module.exports = function three (state) {
         value: currentInputValues.last_name,
         onchange: function () {
 
-          currentInputValues.last_name = this.value
-	  state.member.set(currentInputValues)
+          currentInputValues.last_name = toNameCase(this.value)
+          state.member.set(currentInputValues)
         }
       }),
       h('div.inner-section-divider-medium'),

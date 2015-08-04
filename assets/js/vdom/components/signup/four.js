@@ -22,7 +22,7 @@ module.exports = function four (state) {
         onchange: function () {
 
           currentInputValues.address1 = this.value
-	  state.member.set(currentInputValues)
+          state.member.set(currentInputValues)
         }
       }),
 
@@ -34,8 +34,8 @@ module.exports = function four (state) {
         value: currentInputValues.address2,
         onchange: function () {
 
-	  currentInputValues.address2 = this.value
-	  state.member.set(currentInputValues)
+          currentInputValues.address2 = this.value
+          state.member.set(currentInputValues)
         }
       }),
 
@@ -48,7 +48,7 @@ module.exports = function four (state) {
         onchange: function () {
 
           currentInputValues.address3 = this.value
-	  state.member.set(currentInputValues)
+          state.member.set(currentInputValues)
         }
       }),
 
@@ -61,7 +61,7 @@ module.exports = function four (state) {
         onchange: function () {
 
           currentInputValues.address4 = this.value
-	  state.member.set(currentInputValues)
+          state.member.set(currentInputValues)
         }
       }),
 
@@ -74,7 +74,7 @@ module.exports = function four (state) {
         onchange: function () {
 
           currentInputValues.county = this.value
-	  state.member.set(currentInputValues)
+          state.member.set(currentInputValues)
         }
       }),
 
@@ -87,7 +87,7 @@ module.exports = function four (state) {
         onchange: function () {
 
           currentInputValues.postcode = this.value
-	  state.member.set(currentInputValues)
+          state.member.set(currentInputValues)
         }
       }),
 

@@ -1,19 +1,19 @@
+/*global braintree */
+
 'use strict'
 
 var h = require('virtual-dom/h')
 var utils = require('../../app.js').utils
-var clone = require('clone')
-var progressBar = require('./progressbar')
 
 module.exports.navbar = function (state) {
   return (
-  h('div.mobile-nav', [
-    h('h1#menu-nav', {
-      onclick: function () {
-        return state.panel.set('home')
-      }
-    }, 'Menu')
-  ])
+    h('div.mobile-nav', [
+      h('h1#menu-nav', {
+        onclick: function () {
+          return state.panel.set('home')
+        }
+      }, 'Menu')
+    ])
   )
 }
 
@@ -144,7 +144,7 @@ module.exports.signIn = function (state) {
         onchange: function () {
 
           data.membership_number = this.value
-	  return this.value
+          return this.value
         }
       }),
 
@@ -160,7 +160,7 @@ module.exports.signIn = function (state) {
         onchange: function () {
 
           data.email = this.value
-	  return this.value
+          return this.value
         }
       }),
 
@@ -171,8 +171,8 @@ module.exports.signIn = function (state) {
         placeholder: 'Password',
         onkeyup: function () {
 
-	  data.password = this.value
-	  return this.value
+          data.password = this.value
+          return this.value
         }
       }),
 
@@ -215,7 +215,7 @@ module.exports.temporaryPassword = function (state) {
 
       h('div.input-label-container', [
         h('h3', 'We just emailed you a provisional password')
-      ]),
+      ])
     ])
   ])
 
@@ -231,12 +231,12 @@ module.exports.account = function (state) {
 
     return propertiesMapper.map(function (elm) {
       return (
-      h('div.details-list', [
-        h('div.block', [
-          h(('p#' + elm.prop + '.left.meta'), elm.desc),
-          h(('p#value-' + elm.prop + '.right.meta'), member[elm.prop])
+        h('div.details-list', [
+          h('div.block', [
+            h(('p#' + elm.prop + '.left.meta'), elm.desc),
+            h(('p#value-' + elm.prop + '.right.meta'), member[elm.prop])
+          ])
         ])
-      ])
       )
     })
   }
@@ -295,44 +295,44 @@ module.exports.editAccount = function (state) {
 
     return propertiesMapper.map(function (elm) {
       return (
-      h('div.details-list.no-border', [
-        h('div.block', [
-          h('p.left.meta', elm.desc),
-          (
-          elm.select === true
-            ? renderSelect(elm.options, member[elm.prop], 'Click to select one', elm, member)
-            : renderInput(elm, member)
-          )
+        h('div.details-list.no-border', [
+          h('div.block', [
+            h('p.left.meta', elm.desc),
+            (
+              elm.select === true
+                ? renderSelect(elm.options, member[elm.prop], 'Click to select one', elm, member)
+                : renderInput(elm, member)
+            )
+          ])
         ])
-      ])
       )
     })
   }
 
   function renderInput (elmType, memberObj) {
     return (
-    h(('input#' + elmType.prop), {
-      type: 'text',
-      placeholder: elmType.desc,
-      value: memberObj[elmType.prop],
-      onchange: function () {
+      h(('input#' + elmType.prop), {
+        type: 'text',
+        placeholder: elmType.desc,
+        value: memberObj[elmType.prop],
+        onchange: function () {
 
-        memberObj[elmType.prop] = this.value
-	return this.value
-      }
-    })
+          memberObj[elmType.prop] = this.value
+          return this.value
+        }
+      })
     )
   }
 
   function renderSelect (options, selectedOption, placeholder, elmType, memberObj) {
     return (
-    h(('select.select-signup#' + elmType.prop), {
-      onchange: function () {
-        memberObj[elmType.prop] = this.value
-      }
-    },
-      utils.vDomHelpers.renderOptionsSelected(options, selectedOption, placeholder)
-    )
+      h(('select.select-signup#' + elmType.prop), {
+        onchange: function () {
+          memberObj[elmType.prop] = this.value
+        }
+      },
+        utils.vDomHelpers.renderOptionsSelected(options, selectedOption, placeholder)
+       )
     )
   }
 
@@ -423,28 +423,26 @@ module.exports.sorryError = function (state) {
 // Make payments/donations
 module.exports.gimmeMoney = function (state) {
 
-  function renderPayments () {}
-
   function expireAnnualSubscription (state) {
     return (
-    h('div', [
-      h('div.input-label-container', [
-        h('h4', 'Your annual subscription is due on 12-12-2012 pay it now?')
-      ]),
+      h('div', [
+        h('div.input-label-container', [
+          h('h4', 'Your annual subscription is due on 12-12-2012 pay it now?')
+        ]),
 
-      h('div.block', [
-        h('button.btn-primary.align-one', {
-          onclick: function () {
-            state.panel.set('paymentMethod')
-          }
-        }, 'Yes please'),
-        h('button.btn-primary.align-two', {
-          onclick: function () {
-            state.panel.set('paymentMethod')
-          }
-        }, 'No thanks'),
+        h('div.block', [
+          h('button.btn-primary.align-one', {
+            onclick: function () {
+              state.panel.set('paymentMethod')
+            }
+          }, 'Yes please'),
+          h('button.btn-primary.align-two', {
+            onclick: function () {
+              state.panel.set('paymentMethod')
+            }
+          }, 'No thanks')
+        ])
       ])
-    ])
     )
   }
 
@@ -452,13 +450,13 @@ module.exports.gimmeMoney = function (state) {
     // if the balance_due is negative render stuff
 
     return (
-    h('div', [
-      h('button.btn-primary', {
-        onclick: function () {
-          state.panel.set('weDoOweMoney')
-        }
-      }, 'Refund options')
-    ])
+      h('div', [
+        h('button.btn-primary', {
+          onclick: function () {
+            state.panel.set('weDoOweMoney')
+          }
+        }, 'Refund options')
+      ])
     )
   }
 
@@ -525,7 +523,7 @@ module.exports.gimmeMoney = function (state) {
           onclick: function () {
             state.panel.set('paymentMethod')
           }
-        }, 'Add'),
+        }, 'Add')
       ])
     ])
   ])
@@ -592,8 +590,7 @@ module.exports.refundByBankTransfer = function (state) {
         placeholder: 'Bank account name',
         onchange: function () {
 
-          bankDate.name = this.value
-	  return this.value
+          bankData.name = this.value
         }
       }),
 
@@ -605,8 +602,7 @@ module.exports.refundByBankTransfer = function (state) {
         placeholder: 'Account number',
         onchange: function () {
 
-          bankDate.number = this.value
-	  return this.value
+          bankData.number = this.value
         }
       }),
 
@@ -618,8 +614,7 @@ module.exports.refundByBankTransfer = function (state) {
         placeholder: 'Sort code',
         onchange: function () {
 
-          bankDate.sort_code = this.value
-	  return this.value
+          bankData.sort_code = this.value
         }
       }),
 
@@ -630,6 +625,7 @@ module.exports.refundByBankTransfer = function (state) {
       ]),
       h('button.btn-primary', {
         onclick: function () {
+
           state.panel.set('gimmeMoney')
         }
       }, 'Send')
@@ -647,33 +643,25 @@ module.exports.paymentMethod = function (state) {
       h('h1', 'Payment method')
     ]),
     h('div.container-small', [
-
       h('div.inner-section-divider-medium'),
-
       h('button.btn-primary', {
         onclick: function () {
           return state.panel.set('braintreePayment')
         }
       }, 'Credit Card'),
-
       h('div.inner-section-divider-small'),
-
       h('button.btn-primary', {
         onclick: function () {
           return state.panel.set('braintreePayment')
         }
       }, 'PayPal'),
-
       h('div.inner-section-divider-small'),
-
       h('button.btn-primary', {
         onclick: function () {
           return state.panel.set('gimmeMoney')
         }
       }, 'Bank transfer'),
-
       h('div.inner-section-divider-small'),
-
       h('button.btn-primary', {
         onclick: function () {
           return state.panel.set('gimmeMoney')
@@ -681,15 +669,16 @@ module.exports.paymentMethod = function (state) {
       }, 'Cheque')
     ])
   ])
-
   return vtree
 }
 
 module.exports.braintreePayment = function (state) {
+
   utils.request({
     method: 'GET',
     uri: '/client_token'
   }, function (err, header, token) {
+
     braintree.setup(token, 'dropin', {
       container: 'payment-form',
       onReady: function () {
@@ -698,7 +687,6 @@ module.exports.braintreePayment = function (state) {
         submit.className = ''
       }
     })
-
   })
 
   return h('form#checkout', {

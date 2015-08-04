@@ -22,7 +22,7 @@ module.exports = function five (state) {
         onchange: function () {
 
           currentInputValues.home_phone = this.value
-	  state.member.set(currentInputValues)
+          state.member.set(currentInputValues)
         }
       }),
       h('div.inner-section-divider-small'),
@@ -34,7 +34,7 @@ module.exports = function five (state) {
         onchange: function () {
 
           currentInputValues.mobile_phone = this.value
-	  state.member.set(currentInputValues)
+          state.member.set(currentInputValues)
         }
       }),
 
@@ -45,11 +45,11 @@ module.exports = function five (state) {
         placeholder: 'Primary email',
         value: currentInputValues.primary_email,
         disabled: true,
-	onchange: function () {
+        onchange: function () {
 
-	  currentInputValues.primary_email = this.value
-	  state.member.set(currentInputValues)
-	}
+          currentInputValues.primary_email = this.value
+          state.member.set(currentInputValues)
+        }
       }),
 
       h('div.inner-section-divider-small'),
@@ -61,7 +61,7 @@ module.exports = function five (state) {
         onchange: function () {
 
           currentInputValues.secondary_email = this.value
-	  state.member.set(currentInputValues)
+          state.member.set(currentInputValues)
         }
       }),
 
@@ -70,7 +70,7 @@ module.exports = function five (state) {
       h('button.align-one.btn-primary', {
         onclick: function () {
 
-	  state.member.set(currentInputValues)
+          state.member.set(currentInputValues)
           state.panel.set('four')
         }
       }, 'Back'),
@@ -80,7 +80,7 @@ module.exports = function five (state) {
       h('button#next-btn.align-two.btn-primary', {
         onclick: function () {
 
-	  state.member.set(currentInputValues)
+          state.member.set(currentInputValues)
           state.panel.set('six')
         }
       }, 'Next')
