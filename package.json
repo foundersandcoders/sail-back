@@ -16,7 +16,6 @@
     "cover:backend": "istanbul cover tape ./test/backend/runner.js",
     "cover:frontend": "istanbul cover tape ./test/frontend/runner.js",
     "open:cov": "open coverage/lcov-report/index.html",
-    "accept": "NODE_ENV=testing tape test/backend/*.test.js",
     "dev": "NODE_ENV=development sails lift --verbose"
   },
   "standard": {
