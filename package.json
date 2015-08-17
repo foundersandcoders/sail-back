@@ -8,25 +8,21 @@
     "start": "sails lift --verbose",
     "debug": "node-debug app.js",
     "test:upload": "standard && tape test/upload/*.test.js",
-    "test:server": "standard && tape test/backend/runner.js",
-    "test:wserver": "standard && nodemon --delay 15 test/backend/runner.js",
+    "test:server": "tape test/backend/runner.js",
+    "test:wserver": "nodemon --delay 15 test/backend/runner.js",
     "test:front": "tape test/frontend/runner.js",
     "test:wfront": "nodemon --watch test/frontend --ext js --exec 'npm run test:front'",
-    "test:cover": "standard && istanbul cover tape ./test/globalRunner.js",
+    "test:cover": "istanbul cover tape ./test/globalRunner.js",
     "cover:backend": "istanbul cover tape ./test/backend/runner.js",
     "cover:frontend": "istanbul cover tape ./test/frontend/runner.js",
     "open:cov": "open coverage/lcov-report/index.html",
     "accept": "NODE_ENV=testing tape test/backend/*.test.js",
-    "dev": "NODE_ENV=development sails lift --verbose",
-    "lint": "standard"
+    "dev": "NODE_ENV=development sails lift --verbose"
   },
   "standard": {
     "ignore": [
       "/config/",
-      "/test/",
-      "Gruntfile.js",
-      "server.js",
-      "/tasks/"
+      "/test/"
     ]
   },
   "dependencies": {
