@@ -1,68 +1,41 @@
-"use strict";
+'use strict'
 
+var panelViews = require('../components/signup/panels.js')
+var nuclear = require('nuclear.js')
+var h = nuclear.h
+var utils = require('../utils.js')
 
-var panelViews = require("../components/signup/panels.js");
-
-
-
-
-var nuclear = require("nuclear.js");
-var utils   = require("../utils.js");
-
-
-module.exports = SignUp;
-
-
-function SignUp () {
-
-	return nuclear.observS({
-		member: nuclear.observS({}),
-		panel:  nuclear.observ("one"),
-		channels: {
-			createMember: createMember
-		}
-	});
-}
+module.exports = SignUp
 
 function createMember (state, member) {
 
-	utils.validate("member", member, function (error, value) {
+  utils.validate('member', member, function (error, value) {
 
-		if(error) {
-			alert("Error!");
-			return;
-		} else {
-			utils.formPost("/signup", member, "POST");
-			return;
-			// utils.request({
-			// 	method: "POST",
-			// 	uri: "/signup",
-			// 	json: member
-			// }, function (error, header, body) {
+    if (error) {
+      return undefined
+    } else {
+      utils.formPost('/signup', member, 'POST')
+      return undefined
+    }
+  })
+}
 
+function SignUp (initialState) {
 
+  initialState = initialState || {}
 
-			// 	// checking the id is the best way to 
-			// 	// know if the body contains a member
-			// 	if(!body || body.id !== undefined) {
-
-			// 		state.panel.set("sorryError");
-			// 	} else {
-					
-			// 		state.panel.set("checkEmail");
-			// 	}
-			// });
-		}
-	});
+  return nuclear.observS({
+    member: nuclear.observS(initialState.member || {}),
+    panel: nuclear.observ(initialState.panel || 'one'),
+    channels: {
+      createMember: createMember
+    }
+  })
 }
 
 SignUp.render = function (state) {
 
-	var h = nuclear.h;
-
-	return (
-		h("div", [
-			panelViews[state.panel()](state)
-		])
-	);	
-};
+  return h('div#signup-section', [
+    panelViews[state.panel()](state)
+  ])
+}

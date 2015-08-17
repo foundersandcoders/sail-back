@@ -1,45 +1,45 @@
 module.exports.policies = {
+  '*': ['isAuthenticated', 'isAdmin'],
 
+  PrivateController: {
+    '*': ['isAuthenticated', 'isAdmin']
+  },
+
+  MembersController: {
     '*': ['isAuthenticated', 'isAdmin'],
+    'accountPage': 'isAuthenticated',
+    'accountInfo': 'isAuthenticated',
+    'showMyEvents': 'isAuthenticated',
+    'getMyEvents': 'isAuthenticated',
+    'updateAccountInfo': 'isAuthenticated'
+  },
 
-    PrivateController: {
-        '*': ['isAuthenticated', 'isAdmin']
-    },
+  PaymentsController: {
+    '*': ['isAuthenticated', 'isAdmin'],
+    'clientToken': 'isAuthenticated',
+    'makePaypalPayment': 'isAuthenticated',
+    'charge': 'isAuthenticated'
+  },
 
-    MembersController: {
-        '*': ['isAuthenticated', 'isAdmin'],
-        'accountPage': 'isAuthenticated',
-        'accountInfo': 'isAuthenticated',
-        'showMyEvents': 'isAuthenticated',
-        'getMyEvents': 'isAuthenticated'
-    },
+  EventsController: {
+    '*': ['isAuthenticated', 'isAdmin'],
+    'showView': true,
+    'getCurrentEvents': true,
+    'singleEventInfo': true,
+    'showViewEvent': true
+  },
 
-    PaymentsController: {
-        '*': ['isAuthenticated', 'isAdmin'],
-        'clientToken': 'isAuthenticated',
-        'makePaypalPayment': 'isAuthenticated',
-        'charge': 'isAuthenticated'
-    },
+  BookingRecordsController: {
+    '*': ['isAuthenticated', 'isAdmin'],
+    'book': 'isAuthenticated',
+    'testTransaction': true
+  },
 
-    EventsController: {
-        '*': ['isAuthenticated', 'isAdmin'],
-        'showView': true,
-        'getCurrentEvents': true,
-        'singleEventInfo': true,
-        'showViewEvent': true
-    },
+  PublicController: {
+    '*': true
+  },
 
-    BookingRecordsController: {
-        '*': ['isAuthenticated', 'isAdmin'],
-        'book': 'isAuthenticated',
-        'testTransaction': true
-    },
-
-    PublicController: {
-        '*': true
-    },
-
-    SignUpProcessController: {
-        '*': true
-    }
-};
+  SignUpProcessController: {
+    '*': true
+  }
+}

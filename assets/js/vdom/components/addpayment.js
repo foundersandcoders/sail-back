@@ -1,144 +1,132 @@
-"use strict";
+'use strict'
 
-
-var h = require("virtual-dom/h");
-
+var h = require('virtual-dom/h')
 
 module.exports.index = function (utils, state) {
+  var $$ = utils.$$
+  var that = {}
 
-	var $$ = utils.$$;
-	var that = {};
+  that.render = function () {
+    return module.exports.view(that.postData, utils)
+  }
 
-	that.render = function () {
+  that.postData = function (query) {
+    try {
+      var payload = {
+        memberId: $$('member-id').text(),
+        type: $$('member-controls-membership-type').valSelect(),
+        date: $$('member-controls-payment-date').value(),
+        listReference: $$('member-controls-payment-reference').value(),
+        total: $$('member-controls-payment-amount').value(),
+        notes: $$('member-controls-payment-notes').value(),
+        description: 'Payment by ' + $$('member-controls-membership-type').valSelect(),
+        collection: 'payments'
+      }
+    } catch (e) {
+      console.log('addpayment post: ', e)
+    }
 
-		return module.exports.view(that.postData, utils);
-	};
+    utils.request({
+      method: 'POST',
+      url: '/api/payments',
+      json: payload
+    }, function (e, h, b) {
+      var payments = state.payments()
+      payments.unshift(b)
+      state.payments.set(payments)
+    })
+  }
 
-	that.postData = function (query) {
+  return that
+}
 
-		try {
-			var payload = {
-				memberId:      $$("member-id").text(),
-				type:          $$("member-controls-membership-type").valSelect(),
-				date:          $$("member-controls-payment-date").value(),
-				listReference: $$("member-controls-payment-reference").value(),
-				total:         $$("member-controls-payment-amount").value(),
-				notes:         $$("member-controls-payment-notes").value(),
-        		description:   "Payment by " + $$("member-controls-membership-type").valSelect(),
-        		collection:    "payments"
-			};
-		} catch (e) {
-			console.log("addpayment post: ", e);
-		}
+module.exports.view = function (fn, utils, state) {
+  var renderOptionsSelected = require('./helpers').renderOptionsSelected
+  var paymentTypes = require('./helpers').paymentTypes
 
-		utils.request({
-			method: "POST",
-			url: "/api/payments",
-			json: payload
-		}, function (e, h, b) {
+  var inputs = [{
+    placeholder: 'Payment date',
+    id: 'payment-date'
+  }, {
+    placeholder: 'Reference',
+    id: 'payment-reference'
+  }, {
+    placeholder: 'Amount £',
+    id: 'payment-amount'
+  }, {
+    placeholder: 'Notes',
+    id: 'payment-notes'
+  }
+  ]
 
-			var payments = state.payments();
-			payments.unshift(b);
-			state.payments.set(payments);
-		});
-	};
+  return (
+  h('div.container-small', [
+    h('div.inner-section-divider-small'),
 
-	return that;
-};
+    h('input', {
+      placeholder: 'Payment date'
+    }),
 
-module.exports.view = function (fn, utils) {
+    h('div.inner-section-divider-small'),
 
-	var renderOptionsSelected = require("./helpers").renderOptionsSelected;
-	var paymentTypes          = require("./helpers").paymentTypes;
+    h('input', {
+      placeholder: 'Reference'
+    }),
 
-	var inputs = [{
-			placeholder: "Payment date",
-			id: "payment-date"
-		}, {
-			placeholder: "Reference",
-			id: "payment-reference"
-		}, {
-			placeholder: "Amount £",
-			id: "payment-amount"
-		}, {
-			placeholder: "Notes",
-			id: "payment-notes"
-		}
-	];
+    h('div.inner-section-divider-small'),
 
+    h('input', {
+      placeholder: 'Amount'
+    }),
 
-	return (
-		h("div.container-small", [
-			h("div.inner-section-divider-small"),
+    h('div.inner-section-divider-small'),
 
-			h("input", {
-				placeholder: "Payment date"
-			}),
+    h('input', {
+      placeholder: 'Notes'
+    }),
 
-			h("div.inner-section-divider-small"),
+    h('div.inner-section-divider-medium'),
 
-			h("input", {
-				placeholder: "Reference"
-			}),
+    h('button.align-one.btn-primary', {
+      onclick: function () {
+        state.panel.set('view')
+      }
+    }, 'Back'),
 
-			h("div.inner-section-divider-small"),
+    h('div.inner-section-divider-small'),
 
-			h("input", {
-				placeholder: "Amount"
-			}),
+    h('button#next-btn.align-two.btn-primary', {
+      onclick: function () {
+        state.panel.set('view')
+      }
+    }, 'Charge')
+  ])
+  )
 
-			h("div.inner-section-divider-small"),
+  function renderInputs (content) {
+    var inputs = content.map(function (elm) {
+      var cl = (elm.placeholder === 'Notes') ? 'input-two' : 'input-one'
 
-			h("input", {
-				placeholder: "Notes"
-			}),
+      return h('input.' + cl + '#member-controls-' + elm.id, {
+        placeholder: elm.placeholder
+      })
+    })
 
-			h("div.inner-section-divider-medium"),
+    return inputs.concat([
+      h('div', [
+        h('button.button-two', 'Close'),
+        h('button.button-one#member-controls-payment-enter.right', {
+          onclick: fn
+        }, 'Enter')
+      ])
+    ])
+  }
 
-			h("button.align-one.btn-primary",{
-				onclick: function () {
+  var vtree = h('div.container-1', [
+    h('p', 'Enter payments'),
+    h('select#member-controls-membership-type.mb10', renderOptionsSelected(paymentTypes, '', 'Select type')),
+    renderInputs(inputs)
+  ])
 
-					state.panel.set("view")
-				}
-			},"Back"),
-
-			h("div.inner-section-divider-small"),
-			
-			h("button#next-btn.align-two.btn-primary", {
-				onclick: function () {
-
-					state.panel.set("view")
-				}
-			},"Charge")
-		])
-	);
-
-
-
-	return h("div.container-1", [
-		h("p", "Enter payments"),
-		h("select#member-controls-membership-type.mb10", renderOptionsSelected(paymentTypes, "", "Select type")),
-		renderInputs(inputs)
-	]);
-
-	function renderInputs (content) {
-
-		var inputs = content.map(function (elm) {
-
-			var cl = (elm.placeholder === "Notes") ? "input-two" : "input-one";
-
-			return h("input." + cl + "#member-controls-" + elm.id, {
-				placeholder: elm.placeholder
-			});
-		});
-
-		return inputs.concat([
-			h("div", [
-				h("button.button-two", "Close"),
-				h("button.button-one#member-controls-payment-enter.right", {
-					onclick: fn
-				}, "Enter")
-			])
-		]);
-	}
+  return vtree
 }

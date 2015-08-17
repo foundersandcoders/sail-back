@@ -24,7 +24,6 @@
  */
 
 module.exports.blueprints = {
-
   /***************************************************************************
   *                                                                          *
   * Action routes speed up the backend development workflow by               *
@@ -148,4 +147,4 @@ module.exports.blueprints = {
 
   defaultLimit: 50
 
-};
+}

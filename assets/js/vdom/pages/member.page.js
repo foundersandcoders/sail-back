@@ -1,10 +1,8 @@
-// "use strict";
+// "use strict"
 
-
-// var nuclear    = require("nuclear.js");
-// var page       = require("../components/admin/member-panel.js");
-// var balanceDue = require("../services/balanceDue");
-
+// var nuclear    = require("nuclear.js")
+// var page       = require("../components/admin/member-panel.js")
+// var balanceDue = require("../services/balanceDue")
 
 // module.exports = function (utils) {
 
@@ -17,7 +15,7 @@
 // 		channels: {
 // 			deletePayment: deletePayment
 // 		}
-// 	});
+// 	})
 
 // 	function deletePayment (state, paymentId) {
 
@@ -27,20 +25,20 @@
 // 		}, function (error, header, body) {
 
 // 			if(error) {
-// 				alert("Error deleting payments");
+// 				alert("Error deleting payments")
 // 			} else {
-// 				var paymentsArray = state.payments();
-// 				var index = paymentsArray.map(function (elm) {return elm.id}).indexOf(JSON.parse(body).id);
-// 				paymentsArray.splice(index, 1);
-// 				state.payments.set(paymentsArray);
+// 				var paymentsArray = state.payments()
+// 				var index = paymentsArray.map(function (elm) {return elm.id}).indexOf(JSON.parse(body).id)
+// 				paymentsArray.splice(index, 1)
+// 				state.payments.set(paymentsArray)
 // 			}
 // 		})
 // 	}
 
 // 	state(function onchange () {
 
-// 		render();
-// 	});
+// 		render()
+// 	})
 
 // 	function view (h) {
 
@@ -65,11 +63,11 @@
 
 // 				renderEvents()
 // 			])
-// 		);
+// 		)
 
 // 		function renderPayment () {
 // 			if (state.modeMember() === "editMember") {
-// 				return;
+// 				return
 // 			} else {
 
 // 				return (
@@ -86,7 +84,7 @@
 // 									return state.modePayment.set("subscription")
 // 								}
 // 							},"+ Subscription"),
-							
+
 // 							h("button#donation_btn.btn-primary.w-3", {
 // 								onclick: function () {
 // 									return state.modePayment.set("donation")
@@ -104,32 +102,32 @@
 
 // 						page[state.modePayment()](state)
 // 					])
-// 				);
+// 				)
 // 			}
 // 		}
 // 	}
 
-// 	var tree, resultsNode, initial = true;
-	
+// 	var tree, resultsNode, initial = true
+
 // 	function render () {
 
 // 		if(initial){
-// 			tree        = view(utils.h);
-// 			resultsNode = utils.createElement(tree);
-// 			initial     = false;
-// 			return resultsNode;
+// 			tree        = view(utils.h)
+// 			resultsNode = utils.createElement(tree)
+// 			initial     = false
+// 			return resultsNode
 // 		} else {
-// 			var newResults = view(utils.h);
-// 			var patches    = utils.diff(tree, newResults);
-// 			resultsNode    = utils.patch(resultsNode, patches);
-// 			tree           = resultsNode;
+// 			var newResults = view(utils.h)
+// 			var patches    = utils.diff(tree, newResults)
+// 			resultsNode    = utils.patch(resultsNode, patches)
+// 			tree           = resultsNode
 // 		}
 // 	}
 
 // 	try {
-// 		document.querySelector("#member-component").appendChild(render());
+// 		document.querySelector("#member-component").appendChild(render())
 // 	} catch (e) {
-// 		console.log("View member page err: ", e);
+// 		console.log("View member page err: ", e)
 // 	}
 
 // 	utils.request({
@@ -137,14 +135,14 @@
 // 		uri: "/api/members/" + location.pathname.split("/")[2] + "?populate=[payments,membership_type,deletion_reason,bookingrecords]"
 // 	}, function (error, header, body) {
 
-// 		body = JSON.parse(body);
+// 		body = JSON.parse(body)
 // 		if(error) {
-// 			alert("Something went wrong");
+// 			alert("Something went wrong")
 // 		} else {
-// 			var payments = balanceDue(body.payments);
-// 			delete body.payments;
-// 			state.member.set(body);
-// 			state.payments.set(payments);
+// 			var payments = balanceDue(body.payments)
+// 			delete body.payments
+// 			state.member.set(body)
+// 			state.payments.set(payments)
 // 		}
-// 	});
-// };
+// 	})
+// }

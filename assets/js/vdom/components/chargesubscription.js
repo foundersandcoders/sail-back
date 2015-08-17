@@ -1,77 +1,66 @@
-"use strict";
+'use strict'
 
-
-var h = require("virtual-dom/h");
-
+var h = require('virtual-dom/h')
 
 module.exports.index = function (utils, state) {
+  var that = {}
 
-	var that = {};
+  that.render = function () {
+    return module.exports.view(that.postData)
+  }
 
-	that.render = function () {
+  that.postData = function (type) {
+    return function () {
+      var payload = {
+        date: utils.moment(),
+        memberId: document.querySelector('#member-id').textContent,
+        collection: 'charges'
+      }
 
-		return module.exports.view(that.postData);
-	};
+      var value = document.querySelector('#member-controls-subscription-amount').value
 
-	that.postData = function (type) {
+      payload.total = (type === 'charge') ? value : String(0 - Number(value))
+      payload.description = (type === 'charge') ? 'Subscription' : 'Subscription refund'
 
-		return function () {
+      utils.request({
+        method: 'POST',
+        url: '/api/charges',
+        json: payload
+      }, function (e, h, b) {
+        var payments = state.payments()
+        payments.unshift(b)
+        state.payments.set(payments)
+      })
+    }
+  }
 
-			var payload = {
-				date: 		 utils.moment(),
-				memberId:    document.querySelector("#member-id").textContent,
-       			collection:  "charges"
-			};
+  return that
+}
 
-			var value = document.querySelector("#member-controls-subscription-amount").value;
+module.exports.view = function (fn, state) {
+  return (
+  h('div.container-small', [
+    h('div.inner-section-divider-small'),
 
-			payload.total       = (type === "charge") ? value          : String(0 - Number(value));
-			payload.description = (type === "charge") ? "Subscription" : "Subscription refund";
+    h('input', {
+      placeholder: 'Amount'
+    }),
 
-			utils.request({
-				method: "POST",
-				url: "/api/charges",
-				json: payload
-			}, function (e, h, b) {
+    h('div.inner-section-divider-medium'),
 
-				var payments = state.payments();
-				payments.unshift(b);
-				state.payments.set(payments);
-			});
-		}
-	};
+    h('button.align-one.btn-primary', {
+      onclick: function () {
+        state.panel.set('view')
+      }
+    }, 'Back'),
 
-	return that;
-};
+    h('div.inner-section-divider-small'),
 
-
-module.exports.view = function (fn) {
-
-	return (
-		h("div.container-small", [
-			h("div.inner-section-divider-small"),
-
-			h("input", {
-				placeholder: "Amount"
-			}),
-
-			h("div.inner-section-divider-medium"),
-
-			h("button.align-one.btn-primary",{
-				onclick: function () {
-
-					state.panel.set("view")
-				}
-			},"Back"),
-
-			h("div.inner-section-divider-small"),
-			
-			h("button#next-btn.align-two.btn-primary", {
-				onclick: function () {
-
-					state.panel.set("view")
-				}
-			},"Charge")
-		])
-	);
-};
+    h('button#next-btn.align-two.btn-primary', {
+      onclick: function () {
+        state.panel.set('view')
+      }
+    }, 'Charge')
+  ])
+  )
+}

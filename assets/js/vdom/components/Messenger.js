@@ -1,34 +1,30 @@
-"use strict";
+'use strict'
 
-var nuclear = require("nuclear.js");
-var utils   = require("../utils.js");
+var nuclear = require('nuclear.js')
 
-module.exports = Messenger;
+module.exports = Messenger
 
 function Messenger (opts) {
+  opts = opts || {}
 
-	opts = opts || {};
-
-	return nuclear.observS(opts);
+  return nuclear.observS(opts)
 }
 
 Messenger.render = function (state) {
+  var h = nuclear.h
 
-	var h = nuclear.h;
+  console.log('Start!')
 
-	console.log("Start!");
+  setTimeout(function () {
+    console.log('Close!')
 
-	setTimeout(function () {
+    state.error.set({})
+  }, 1500)
 
-		console.log("Close!");
+  return (
+  h('div#messenger', [
+    h('h2', 'Hello world!')
+  ])
+  )
 
-		state.error.set({});
-	}, 1500);
-
-
-	return (
-		h("div#messenger", [
-			h("h2", "Hello world!")
-		])
-	);
 }

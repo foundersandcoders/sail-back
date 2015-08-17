@@ -9,19 +9,19 @@
 */
 
 module.exports = {
-	migrate: 'alter',
-	attributes: {
-		payments: {
-			collection: 'Payments',
-			via: 'reference'
-		},
-		code: {
-			type: 'STRING',
-			unique: true,
-			primaryKey: true
-		},
-		description: {
-			type: 'STRING'
-		}
-	}
-};
+  migrate: 'alter',
+  attributes: {
+    payments: {
+      collection: 'Payments',
+      via: 'reference'
+    },
+    code: {
+      type: 'STRING',
+      unique: true,
+      primaryKey: true
+    },
+    description: {
+      type: 'STRING'
+    }
+  }
+}
