@@ -5,6 +5,7 @@
   "description": "a Sails application",
   "keywords": [],
   "scripts": {
+    "test": "npm run test:front",
     "start": "npm run build && sails lift --verbose",
     "debug": "node-debug app.js",
     "test:upload": "standard && tape test/upload/*.test.js",
