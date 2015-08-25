@@ -5,7 +5,7 @@
   "description": "a Sails application",
   "keywords": [],
   "scripts": {
-    "start": "NODE_ENV=heroku sails lift --verbose",
+    "start": "sails lift --verbose",
     "debug": "node-debug app.js",
     "test:upload": "standard && tape test/upload/*.test.js",
     "test:server": "tape test/backend/runner.js",
@@ -16,8 +16,7 @@
     "cover:backend": "istanbul cover tape ./test/backend/runner.js",
     "cover:frontend": "istanbul cover tape ./test/frontend/runner.js",
     "open:cov": "open coverage/lcov-report/index.html",
-    "dev": "NODE_ENV=development sails lift --verbose",
-    "heroku": "NODE_ENV=heroku sails lift --verbose"
+    "dev": "NODE_ENV=development sails lift --verbose"
   },
   "standard": {
     "ignore": [
