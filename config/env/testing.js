@@ -10,7 +10,7 @@ module.exports = {
       adapter: 'sails-mysql',
       host: 'localhost',
       user: 'root',
-      password: 'correct',
+      password: process.env.TEST_DB_PASSWORD || 'correct',
       database: 'test'
     },
     mySqlStaging: {
