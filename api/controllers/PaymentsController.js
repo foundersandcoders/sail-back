@@ -13,7 +13,7 @@
 **/
 
 var braintree = require('braintree')
-var Validation = require('../../assets/js/vdom/services/validate.js')
+var Validation = require('../../src/js/services/validate.js')
 
 // ATTENTION: sandbox credentials: need real credentials and must be kept PRIVATE
 var BraintreeGateway = braintree.connect({

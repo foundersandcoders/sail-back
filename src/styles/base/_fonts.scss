@@ -1,0 +1,65 @@
+h1 {
+	font-size: 40px;
+	line-height: 100%;
+	padding: 20px 0;
+}
+
+h2 {
+	margin-bottom: 10px;
+}
+
+h3 {
+	font-weight: 300;
+}
+
+h4 {
+	font-weight: 300;
+}
+
+p {
+	font-weight: 200;
+	font-size: 24px;
+}
+
+@media (max-width: $mobile) {
+	h1 {
+		font-size: 30px;
+		line-height: 100%;
+	}
+	.meta {
+		font-weight: 200;
+		font-size: 18px;
+	}
+
+	.micro {
+		font-weight: 200;
+		font-size: 14px;
+	}
+}
+
+@media (max-width: 1700px) {
+	p {
+		font-weight: 200;
+		font-size: 22px;
+	}
+}
+
+@media (max-width: 1500px) {
+	p {
+		font-weight: 200;
+		font-size: 19px;
+	}
+}
+
+.meta {
+	font-size: 18px;
+	line-height: 115%;
+}
+
+.info {
+	font-weight: bold;
+}
+
+body, html, p, h1, h2, h3, h4, h5, h6, h7, h8, input, button, div, a {
+  font-family: 'Sorts Mill Goudy', serif;
+}

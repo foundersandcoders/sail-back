@@ -5,7 +5,7 @@
 var is = require('torf')
 var uuid = require('uuid')
 var Mailgun = require('../services/Email_mailgun')
-var Validation = require('../../assets/js/vdom/services/validate.js')
+var Validation = require('../../src/js/services/validate.js')
 
 module.exports = {
   showForm: function (req, res) {
@@ -69,7 +69,7 @@ module.exports = {
         .then(function (member) {
           // sails.log.info('Member created: ', member)
 
-          // set up session 
+          // set up session
           req.session.user = member
 
           Mailgun.sendSubscribe({email: member['primary_email']}, function (error, result) {

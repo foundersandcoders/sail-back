@@ -4,6 +4,8 @@
 
 'use strict'
 
+require('../styles/main.scss');
+
 var nuclear = require('nuclear.js')
 
 var utils = module.exports.utils = {
