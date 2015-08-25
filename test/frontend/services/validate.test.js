@@ -1,7 +1,7 @@
 'use strict'
 
 var test = require('tape')
-var validator = require('./../../../assets/js/vdom/services/validate.js')
+var validator = require('./../../../src/js/services/validate.js')
 var helpers = require('../../helpers/createMocks.js')
 
 test('Validator member: ', function (t) {

@@ -2,7 +2,7 @@
 
 var test = require('tape')
 var moment = require('moment')
-var isSubscriptionDue = require('./../../../assets/js/vdom/services/issubscriptiondue.js')
+var isSubscriptionDue = require('./../../../src/js/services/issubscriptiondue.js')
 var helpers = require('../../helpers/createMocks.js')
 
 test('Is subscription due: ', function (t) {

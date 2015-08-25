@@ -1,7 +1,7 @@
 'use strict'
 
 var test = require('tape')
-var converter = require('./../../../assets/js/vdom/services/dateconverter.js')
+var converter = require('./../../../src/js/services/dateconverter.js')
 var helpers = require('../../helpers/createMocks.js')
 
 test('Date converter: ', function (t) {

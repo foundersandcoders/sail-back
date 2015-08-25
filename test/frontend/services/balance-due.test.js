@@ -6,7 +6,7 @@
 'use strict'
 
 var test = require('tape')
-var balanceDue = require('./../../../assets/js/vdom/services/balancedue.js')
+var balanceDue = require('./../../../src/js/services/balancedue.js')
 var mocks = require('./helpers')
 
 test('Create balance due field', function (t) {
