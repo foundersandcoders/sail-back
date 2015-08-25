@@ -3,5 +3,3 @@ node_js:
   - "0.12"
 before_script:
   - mysql -e 'create database test;'
-before_install:
-  - mysql -e 'create database IF NOT EXISTS test;' -uroot
