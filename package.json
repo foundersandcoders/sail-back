@@ -6,7 +6,7 @@
   "keywords": [],
   "scripts": {
     "test": "npm run test:front && npm run test:server",
-    "start": "npm run build && sails lift --verbose",
+    "start": "webpack --config webpack.production.config.js && sails lift --verbose",
     "debug": "node-debug app.js",
     "test:upload": "standard && tape test/upload/*.test.js",
     "test:server": "tape test/backend/runner.js",
@@ -20,7 +20,7 @@
     "dev:react": "node webpack/server.js",
     "open:cov": "open coverage/lcov-report/index.html",
     "dev": "NODE_ENV=development sails lift --verbose",
-    "build": "webpack --config webpack.production.config.js"
+    "build": "webpack --config webpack.production.config.js --watch"
   },
   "standard": {
     "ignore": [

@@ -6,34 +6,6 @@ var MemberEvents = require('../components/member_events.js')
 var MemberPayments = require('../components/member_payments.js')
 var MemberInformation = require('../components/member_information.js')
 
-var member = {
-  id: 1234,
-  first_name: 'Wil',
-  last_name: 'Eritrea',
-  news_type: 'Post',
-  activation_status: 'deactivated',
-  primary_email: 'wil@foch.org',
-  secondary_email: 'wil2@foch.org',
-  deletion_date: new Date(),
-  deletion_reason: {
-    description: 'I turned purple'
-  },
-  email_bounced: true,
-  address1: '123 Fake Street',
-  address2: 'Psychophysical Substrate',
-  address3: 'Endoscopic Rectomy',
-  county: 'Whisk Yortshore',
-  postcode: '123 80e',
-  home_phone: '12384',
-  work_phone: '184391',
-  mobile_phone: 'a9134',
-  date_gift_aid_signed: new Date(),
-  notes: 'I am green',
-  standing_order: true,
-  membership_type: 'life_double',
-  date_joined: new Date()
-}
-
 var ViewMember = React.createClass({
   getInitialState: function () {
     return {
@@ -46,7 +18,7 @@ var ViewMember = React.createClass({
   },
   render: function () {
     var member_id = this.props.params.id
-    var m = JSON.stringify(member)
+    var member = this.props.member || require('../__MOCK_MEMBER__.js')
     return (
 	<div>
 	<div className='main-container' id='member-component'>
@@ -55,9 +27,9 @@ var ViewMember = React.createClass({
 	<h1 id='member-title'>{'Member info: ' + member_id}</h1>
 	</div>
 	<div className='inner-section-divider-medium'></div>
-	<MemberInformation mode={this.state.mode} changeMode={this.changeMode} member={m}/>
+	<MemberInformation mode={this.state.mode} changeMode={this.changeMode} member={member}/>
 	<div className='inner-section-divider-medium'></div>
-	<MemberPayments mode={this.state.mode} />
+	<MemberPayments mode={this.state.mode} member={member} />
 	<div className='inner-section-divider-medium'></div>
 	<MemberEvents mode={this.state.mode} />
 	</div>

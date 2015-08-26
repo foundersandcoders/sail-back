@@ -18,11 +18,11 @@ module.exports = function (h, onUpdate) {
   onUpdate = onUpdate || function noop () {}
 
   return (
-      <Router history={h} onUpdate={onUpdate}>
-      <Route component={App}>
-	  <Route path='/' component={AdminHome} />
-	  <Route path='/members/:id' component={ViewMember} />
-      </Route>
-      </Router>
+    <Router history={h} onUpdate={onUpdate}>
+    <Route component={App}>
+    <Route path='/' component={AdminHome} />
+    <Route path='/members/:id' component={ViewMember} />
+    </Route>
+    </Router>
   )
 }
