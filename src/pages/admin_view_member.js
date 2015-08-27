@@ -19,6 +19,7 @@ var ViewMember = React.createClass({
   render: function () {
     var member_id = this.props.params.id
     var member = this.props.member || require('../__MOCK_MEMBER__.js')
+    var events = JSON.stringify(JSON.parse(member).events)
     return (
 	<div>
 	<div className='main-container' id='member-component'>
@@ -31,7 +32,7 @@ var ViewMember = React.createClass({
 	<div className='inner-section-divider-medium'></div>
 	<MemberPayments mode={this.state.mode} member={member} />
 	<div className='inner-section-divider-medium'></div>
-	<MemberEvents mode={this.state.mode} />
+	<MemberEvents mode={this.state.mode} events={events}/>
 	</div>
 	</div>
     )
