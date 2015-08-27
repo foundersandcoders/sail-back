@@ -2,6 +2,7 @@
 
 var React = require('react')
 
+var Navigation = require('../../shared/navigation.js')
 var MemberEvents = require('../components/member_events.js')
 var MemberPayments = require('../components/member_payments.js')
 var MemberInformation = require('../components/member_information.js')
@@ -23,6 +24,7 @@ var ViewMember = React.createClass({
     var payments = JSON.stringify(JSON.parse(member).payments)
     return (
 	<div>
+	<Navigation />
 	<div className='main-container' id='member-component'>
 	<div className='inner-section-divider-medium'></div>
 	<div className='section-label'>

@@ -2,14 +2,16 @@
 
 var React = require('react')
 
+var Navigation = require('../../shared/navigation.js')
 var SearchBox = require('../components/search_box.js')
-
 var SearchResults = require('../components/search_results.js')
 
 var AdminHome = React.createClass({
 
   render: function () {
     return (
+	<div>
+	<Navigation />
 	<div className='container-large'>
 	<div className='inner-section-divider-medium'></div>
 	<div className='main-container'>
@@ -20,6 +22,7 @@ var AdminHome = React.createClass({
 	<div id='search-component'>
 	<SearchBox />
 	<SearchResults />
+	</div>
 	</div>
 	</div>
 	</div>
