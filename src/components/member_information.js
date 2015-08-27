@@ -90,7 +90,7 @@ var MemberInformation = React.createClass({
   render: function () {
     return (
 	<div className='member-info-controls'>
-	<button id='edit-member-mode button-two m-l-15 right w-100' onClick={this.changeMode}>Edit</button>
+	<button id='edit-member-mode' className='button-two m-l-15 right w-100' onClick={this.changeMode}>Edit</button>
 	<div className='member-info-content'>
 	<PersonalInformation member={this.props.member} />
 	<AddressInformation member={this.props.member} />
