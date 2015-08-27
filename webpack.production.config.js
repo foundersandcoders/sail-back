@@ -2,7 +2,7 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: [
-    "./src/admin.js",
+    "./src/admin/main.js",
     'webpack/hot/dev-server'
   ],
   output: {

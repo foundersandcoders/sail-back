@@ -4,8 +4,8 @@ var React = require('react')
 var routerModule  = require('react-router')
 
 var App = require('./components/app.js')
-var AdminHome = require('./pages/admin_home.js')
-var ViewMember = require('./pages/admin_view_member.js')
+var AdminHome = require('./pages/home.js')
+var ViewMember = require('./pages/view_member.js')
 
 var Router = routerModule.Router
 var Route = routerModule.Route

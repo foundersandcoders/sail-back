@@ -6,7 +6,7 @@ var MemoryHistory = require('react-router/lib/MemoryHistory')
 
 describe('The route component', function () {
 
-  var compileRoutes = require('../../../src/admin_routes.js')
+  var compileRoutes = require('../../../src/admin/routes.js')
   var node
 
   beforeEach(function () {

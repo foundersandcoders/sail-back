@@ -103,8 +103,6 @@ var PaymentsTable = React.createClass({
   }
 })
 
-var payments = require('../__MOCK_PAYMENTS__.js')
-
 var MemberPayments = React.createClass({
   render: function () {
     var buttons = ['subscription', 'donation', 'payment'].map(function (type) {

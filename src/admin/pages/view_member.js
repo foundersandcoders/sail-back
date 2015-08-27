@@ -18,7 +18,7 @@ var ViewMember = React.createClass({
   },
   render: function () {
     var member_id = this.props.params.id
-    var member = this.props.member || require('../__MOCK_MEMBER__.js')
+    var member = this.props.member || require('../../__MOCK_MEMBER__.js')
     var events = JSON.stringify(JSON.parse(member).events)
     var payments = JSON.stringify(JSON.parse(member).payments)
     return (
