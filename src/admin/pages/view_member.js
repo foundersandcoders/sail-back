@@ -16,7 +16,7 @@ var ViewMember = React.createClass({
   changeMode: function () {
     var changed_mode = (this.state.mode === 'edit') ? 'view' : 'edit'
     this.setState({mode: changed_mode})
-  },
+    },
   render: function () {
     var member_id = this.props.params.id
     var member = this.props.member || require('../../__MOCK_MEMBER__.js')

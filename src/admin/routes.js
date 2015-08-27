@@ -6,6 +6,7 @@ var routerModule  = require('react-router')
 var App = require('./components/app.js')
 var AdminHome = require('./pages/home.js')
 var ViewMember = require('./pages/view_member.js')
+var AddMember = require('./pages/add_member.js')
 
 var Router = routerModule.Router
 var Route = routerModule.Route
@@ -21,7 +22,8 @@ module.exports = function (h, onUpdate) {
     <Router history={h} onUpdate={onUpdate}>
     <Route component={App}>
     <Route path='/' component={AdminHome} />
-    <Route path='/members/:id' component={ViewMember} />
+      <Route path='/members/:id' component={ViewMember} />
+      <Route path='/addmember' component={AddMember} />
     </Route>
     </Router>
   )

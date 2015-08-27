@@ -2,13 +2,13 @@
 
 var expect = require('expect')
 var React = require('react/addons')
-var Component = require('../../../src/admin/pages/view_member.js')
+var Component = require('../../../../src/admin/pages/view_member.js')
 
-var member = require('../../../src/__MOCK_MEMBER__.js')
+var member = require('../../../../src/__MOCK_MEMBER__.js')
 
 describe('/members/:id route', function () {
 
-  var compileRoutes = require('../../../src/admin/routes.js')
+  var compileRoutes = require('../../../../src/admin/routes.js')
   var node
 
   beforeEach(function () {
