@@ -61,7 +61,7 @@ var TableRow = React.createClass({
 
 var PaymentsTable = React.createClass({
   render: function () {
-    var table_rows = this.props.records.map(function (record) {
+    var table_rows = JSON.parse(this.props.payments).map(function (record) {
       record = JSON.stringify(record)
       return <TableRow payment={record} />
     }.bind(this))
@@ -120,7 +120,7 @@ var MemberPayments = React.createClass({
       { buttons }
       </div>
       <div className='inner-section-divider-medium'></div>
-      <PaymentsTable records={payments} />
+      <PaymentsTable payments={this.props.payments} />
       </div>
     )
   }

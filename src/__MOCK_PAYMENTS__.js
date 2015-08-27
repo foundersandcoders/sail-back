@@ -1,4 +1,4 @@
-module.exports = [
+module.exports = JSON.stringify([
   {
     date: new Date(),
     reference: '12341',
@@ -21,4 +21,4 @@ module.exports = [
     amount: 14,
     category: 'payment'
   }
-]
+])
