@@ -1,7 +1,6 @@
 'use strict'
 
 module.exports = {
-  migrate: 'alter',
   attributes: {
     booking_records: {
       collection: 'BookingRecords',

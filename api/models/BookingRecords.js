@@ -5,7 +5,6 @@
  */
 
 module.exports = {
-  migrate: 'alter',
   attributes: {
     event_id: {
       model: 'Events'

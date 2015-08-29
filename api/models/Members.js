@@ -20,7 +20,6 @@ var bcrypt = require('bcryptjs')
 var is = require('torf')
 
 module.exports = {
-  migrate: 'alter',
   attributes: {
     // ------------------------------------------------------------
     // Original data

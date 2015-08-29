@@ -26,7 +26,7 @@ module.exports = function (sails) {
           .exec(function (err, items) {
             sails.log.info('Look for members...')
 
-            if (items.length > 0) {
+            if (items && items.length > 0) {
               sails.log.info('...members already there!')
             } else {
               createEntries(function (err, results) {

@@ -6,7 +6,6 @@
 */
 
 module.exports = {
-  migrate: 'alter',
   attributes: {
     description: {
       type: 'STRING'
