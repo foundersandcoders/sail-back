@@ -6,6 +6,9 @@
   var routes = require('./routes.js')()
   require('../styles/main.scss')
 
-  React.render(routes, document.body)
+  if (window.location.href.indexOf('/api/') === -1) {
+    console.log('reacting')
+    React.render(routes, document.body)
+  }
 
 }())

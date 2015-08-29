@@ -5,9 +5,20 @@ var React = require('react')
 var Navigation = require('../../shared/navigation.js')
 var SearchBox = require('../components/search_box.js')
 var SearchResults = require('../components/search_results.js')
+var request = require('xhr')
 
 var AdminHome = React.createClass({
-
+  getInitialState: function () {
+    return {
+      results: '[]'
+    }
+  },
+  updateResults: function (data) {
+    console.log('update RSELUCT')
+    this.setState({
+      results: data
+    })
+  },
   render: function () {
     return (
 	<div>
@@ -20,8 +31,8 @@ var AdminHome = React.createClass({
 	<h1>Search Members</h1>
 	</div>
 	<div id='search-component'>
-	<SearchBox />
-	<SearchResults />
+	<SearchBox updateResults={this.updateResults} />
+	<SearchResults results={this.state.results} />
 	</div>
 	</div>
 	</div>
