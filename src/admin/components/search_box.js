@@ -32,8 +32,6 @@ var SearchBox = React.createClass({
       method: 'GET',
       url: '/api/members?where=' + JSON.stringify(query) + '&populate=[payments]'
     }, function (err, resp, body) {
-      console.log('receivin')
-      console.log(err, resp, body)
       updateResults(body)
     })
   },

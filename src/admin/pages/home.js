@@ -14,7 +14,6 @@ var AdminHome = React.createClass({
     }
   },
   updateResults: function (data) {
-    console.log('update RSELUCT')
     this.setState({
       results: data
     })

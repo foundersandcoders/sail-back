@@ -40,50 +40,51 @@ var SingleResult = React.createClass({
   }
 })
 
-var data = [{
-  id: 1234,
-  title: 'Mr',
-  last_name: 'Fisher',
-  first_name: 'William',
-  initials: 'S',
-  payments: [],
-  membership_type: 'single-annual'
-},{
-  id: 1234,
-  title: 'Mr',
-  last_name: 'Fisher',
-  first_name: 'William',
-  initials: 'S',
-  payments: [],
-  membership_type: 'single-annual'
-},{
-  id: 1234,
-  title: 'Mr',
-  last_name: 'Fisher',
-  first_name: 'William',
-  initials: 'S',
-  payments: [],
-  membership_type: 'single-annual'
-},{
-  id: 1234,
-  title: 'Mr',
-  last_name: 'BESET',
-  first_name: 'William',
-  initials: 'S',
-  payments: [],
-  membership_type: 'single-annual'
-}]
+// var data = [{
+//   id: 1234,
+//   title: 'Mr',
+//   last_name: 'Fisher',
+//   first_name: 'William',
+//   initials: 'S',
+//   payments: [],
+//   membership_type: 'single-annual'
+// },{
+//   id: 1234,
+//   title: 'Mr',
+//   last_name: 'Fisher',
+//   first_name: 'William',
+//   initials: 'S',
+//   payments: [],
+//   membership_type: 'single-annual'
+// },{
+//   id: 1234,
+//   title: 'Mr',
+//   last_name: 'Fisher',
+//   first_name: 'William',
+//   initials: 'S',
+//   payments: [],
+//   membership_type: 'single-annual'
+// },{
+//   id: 1234,
+//   title: 'Mr',
+//   last_name: 'BESET',
+//   first_name: 'William',
+//   initials: 'S',
+//   payments: [],
+//   membership_type: 'single-annual'
+// }]
 
 var SearchResults = React.createClass({
   render: function () {
 
+    var data = JSON.parse(this.props.results)
     var results = data.map(function (result) {
       result = JSON.stringify(result)
       return <SingleResult member={result} />
     }.bind(this))
 
     return (
-      <div id='search-result'>
+    <div id='search-result'>
 	<div className='search-table-section-member'>
 	<div className='search-table-section-member-header'>
 	<div className='col-1'>
@@ -107,7 +108,7 @@ var SearchResults = React.createClass({
 	</div>
 	<div className='search-table-section-member-rows'>
 	{results}
-      </div>
+    </div>
 	</div>
 	</div>
     )
