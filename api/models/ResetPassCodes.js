@@ -1,7 +1,6 @@
 // Reset password codes
 
 module.exports = {
-  migrate: 'alter',
   attributes: {
     code: {
       type: 'STRING'

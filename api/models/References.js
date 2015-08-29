@@ -9,7 +9,6 @@
 */
 
 module.exports = {
-  migrate: 'alter',
   attributes: {
     payments: {
       collection: 'Payments',
