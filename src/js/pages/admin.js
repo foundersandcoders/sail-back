@@ -57,7 +57,12 @@ Admin.render = function (state) {
     h('div.main-container#member-component', [
       h('div.inner-section-divider-medium'),
       h('div.section-label', [
-        h('h1#member-title', 'Member info')
+        h('h1#member-title', 'Member info'),
+        h('button#return_button.btn-primary.w-3', {
+          onclick: function () {
+            window.location.href = '/admin' 
+          }
+        }, 'Close'),
       ]),
       h('div.inner-section-divider-medium'),
       components.member[state.modeMember()](state),
