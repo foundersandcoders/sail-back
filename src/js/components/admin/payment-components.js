@@ -97,7 +97,17 @@ module.exports.subscription = function (state) {
         data.amount = this.value
       }
     }),
+    
+    h('div.inner-section-divider-medium'),
 
+    h('input#date', {
+      placeholder: 'Subscription due date',
+      type: 'date',
+      onchange: function () {
+        data.date = this.value
+      }
+    }),
+    
     h('div.inner-section-divider-medium'),
 
     h('button#view-payment-btn.align-one.btn-primary', {
@@ -110,7 +120,7 @@ module.exports.subscription = function (state) {
 
     h('button#charge.align-two.btn-primary', {
       onclick: function () {
-        data.date = new Date()
+        data.date = data.date || new Date()
         data.category = 'subscription'
         data.description = 'Subscription'
         data.member = state.member().id
