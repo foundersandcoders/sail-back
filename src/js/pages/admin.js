@@ -90,6 +90,11 @@ function renderPayment (state) {
             return state.modePayment.set('donation')
           }
         }, '+ Donation'),
+        h('button#events_btn.btn-primary.w-3', {
+          onclick: function () {
+            return state.modePayment.set('events')
+          }
+        }, '+ Events'),
         h('button#payment_btn.btn-primary.w-3', {
           onclick: function () {
             return state.modePayment.set('payment')
