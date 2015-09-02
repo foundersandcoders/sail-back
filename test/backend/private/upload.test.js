@@ -30,7 +30,7 @@ test('Sign up and get cookies', function (t) {
 
       Cookies = res.headers['set-cookie'].pop().split(';')[0]
       t.equals(res.statusCode, 302, 'redirected')
-      t.equals(res.text, 'Moved Temporarily. Redirecting to /', 'redirect to home page')
+      t.ok(res.text.indexOf('Redirecting to /') > -1, 'redirect to home page')
       t.end()
     })
 })
@@ -56,7 +56,7 @@ test('Sign in as admin', function (t) {
 
       CookiesAdmin = res.headers['set-cookie'].pop().split(';')[0]
       t.equals(res.statusCode, 302, 'redirected')
-      t.equals(res.text, 'Moved Temporarily. Redirecting to /', 'redirect to home page')
+      t.ok(res.text.indexOf('Redirecting to /') > -1, 'redirect to home page')
       t.end()
     })
 })
