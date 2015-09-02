@@ -120,11 +120,11 @@ module.exports.subscription = function (state) {
           uri: '/api/payments',
           json: data
         }, function (err, header, body) {
+          console.log('return ffrom request aoeuaoeu')
           if (err) {
             alert('Could not create subscription yo')
           } else {
-            var payments = state.payments()
-            payments.push(body)
+            var payments = state.payments().concat([body])
             state.payments.set(payments)
             state.modePayment.set('view')
           }
