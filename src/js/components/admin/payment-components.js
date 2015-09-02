@@ -151,6 +151,16 @@ module.exports.donation = function (state) {
 
     h('div.inner-section-divider-small'),
 
+    h('input#date', {
+      placeholder: 'Payment date',
+      type: 'date',
+      onchange: function () {
+        data.date = this.value
+      }
+    }),
+
+    h('div.inner-section-divider-small'),
+
     h('input#notes', {
       placeholder: 'Optional note',
       onchange: function () {
@@ -170,7 +180,7 @@ module.exports.donation = function (state) {
 
     h('button#charge.align-two.btn-primary', {
       onclick: function () {
-        data.date = new Date()
+        data.date = data.date || new Date()
         data.description = 'Donation'
         data.category = 'donation'
         data.member = state.member().id
@@ -183,8 +193,7 @@ module.exports.donation = function (state) {
           if (err) {
             alert('Could not create donation')
           } else {
-            var payments = state.payments()
-            payments.push(body)
+            var payments = state.payments().concat([body])
             state.payments.set(payments)
             state.modePayment.set('view')
           }
@@ -272,15 +281,14 @@ module.exports.payment = function (state) {
           if (err) {
             alert('Could not create payment')
           } else {
-            var payments = state.payments()
-            payments.push(body)
+            var payments = state.payments().concat([body])
             state.payments.set(payments)
             state.modePayment.set('view')
           }
         })
 
       }
-    }, 'Charge')
+    }, 'Pay')
   ])
   )
 }
