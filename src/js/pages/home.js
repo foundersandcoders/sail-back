@@ -29,6 +29,8 @@ function Home (initialState) {
   var myEvents = is.type(initialState.myEvents, 'array') ? initialState.myEvents : []
 
   var state = nuclear.observS({
+    emailsMatch: nuclear.observ(true),
+    passwordsMatch: nuclear.observ(true),
     route: nuclear.observ(''),
     member: nuclear.observS(member),
     payments: nuclear.observ(member.payments),
