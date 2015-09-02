@@ -125,4 +125,5 @@ in the `dd/mm/yyyy` format.
 ```
 
 ## Notes to be integrated
-Some devs need to run redis concurrently with the server for the app to run. Without it, request.session is not defined at critical points; the app looks for properties on this ?object and thus throws an exception.
+* Some devs need to run redis concurrently with the server for the app to run. Without it, request.session is not defined at critical points; the app looks for properties on this ?object and thus throws an exception.
+* Must setup a foch_testing database to correctly run tests (probably something similar is needed to run production)
