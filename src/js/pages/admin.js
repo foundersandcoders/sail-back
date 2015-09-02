@@ -62,9 +62,9 @@ Admin.render = function (state) {
       h('div.inner-section-divider-medium'),
       components.member[state.modeMember()](state),
       h('div.inner-section-divider-medium'),
-      renderPayment(state),
-      h('div.inner-section-divider-medium'),
       renderEvents(state)
+      h('div.inner-section-divider-medium'),
+      renderPayment(state),
     ])
   ])
 }

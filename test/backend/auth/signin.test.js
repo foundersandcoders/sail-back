@@ -30,7 +30,7 @@ test('Signin member: ', function (t) {
     .send(memberMock)
     .end(function (err, res) {
       t.equals(res.statusCode, 302, 'redirect')
-      t.equals(res.text, 'Moved Temporarily. Redirecting to /', 'redirect to home page')
+      t.ok(res.text.indexOf('Redirecting to /') > -1, 'redirect to home page')
       t.end()
     })
 })

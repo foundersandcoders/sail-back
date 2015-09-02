@@ -29,7 +29,7 @@ test('Sign in as admin', function (t) {
 
       CookiesAdmin = res.headers['set-cookie'].pop().split(';')[0]
       t.equals(res.statusCode, 302, 'redirected')
-      t.equals(res.text, 'Moved Temporarily. Redirecting to /', 'redirect to home page')
+      t.ok(res.text.indexOf('Redirecting to /') > -1, 'redirect to home page')
       t.end()
     })
 })
@@ -49,7 +49,7 @@ test('Add member', function (t) {
     .send(json)
     .end(function (err, res) {
       t.equals(res.statusCode, 302, 'redirect status')
-      t.equals(res.text, 'Moved Temporarily. Redirecting to /members/88888', 'redirect to member')
+      t.ok(res.text.indexOf('Redirecting to /members/88888') > -1, 'redirect to member')
       t.end()
     })
 })
