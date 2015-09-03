@@ -1,9 +1,37 @@
 'use strict';
 
 var React = require('react')
+var request = require('xhr')
 
 var Signin = React.createClass({
+   
+    getInitialState: function () {
+      return {
+        login_failed: false
+      }
+    },
+    signin: function (event) {
+      event.preventDefault() 
+      var user = {
+        username: React.findDOMNode(this.refs.email).value,
+        password: React.findDOMNode(this.refs.password).value
+      } 
+      var handle_response = function (err, res, body) {
+      
+        if (err)
+          setState({login_failed: true})
+        else if (res.statusCode === 200)
+          window.location.pathname = '/'
+      } 
 
+      console.log('bout to request')
+      request({
+        method: 'POST',
+        uri: '/signin',
+        json: user
+      }, handle_response)
+
+    },
     render: function () {
 
       return (
@@ -12,7 +40,7 @@ var Signin = React.createClass({
 	  <div className='main-container'>
 	    <div className='inner-section-divider-small'></div>
 	    <div className='section-label'>
-		<h1>Signin</h1>
+		<h1>Sign in</h1>
 	    </div>
 	  <div className='container-small'>
 	  <div className='inner-section-divider-medium'></div>
@@ -21,7 +49,7 @@ var Signin = React.createClass({
 	  <h3>Membership Number</h3>
 	  </div>
 
-	  <form action='/signin' method='POST'>
+	  <form onSubmit={this.signin}>
 
 	  <input type='text' placeholder='Membership number' />
 	  <div className='inner-section-divider-small'></div>
@@ -30,11 +58,13 @@ var Signin = React.createClass({
 	  <h3>or Email</h3>
 	  </div>
 
-	  <input type='text' placeholder='Email address' />
+	  <input type='text' ref='email' id='email'  placeholder='Email address' />
 	  <div className='inner-section-divider-small'></div>
-	  <input type='password' id='password' placeholder='Password' />
+	  <input type='password' ref='password' id='password' placeholder='Password' />
 
-	  <div className='inner-section-divider-medium'></div>
+	  <div className='inner-section-divider-small'></div>
+    <input className='btn-primary' type='submit' id='submit-button' value='Sign In' />
+	  <div className='inner-section-divider-small'></div>
 
 	<div className='input-label-container'>
 	  <a href='/#/forgot'>Forgot password?</a>
