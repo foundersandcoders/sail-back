@@ -15,7 +15,7 @@ var make_query = function () {
   }
   return Object.keys(vals)
     .filter(function (key) {
-      return (vals[key] !== undefined & vals[key] !== null)
+      return (vals[key] !== undefined && vals[key] !== null && vals[key].length)
     })
     .reduce(function (agg, key) {
       agg[key] = vals[key]
@@ -43,9 +43,9 @@ var SearchBox = React.createClass({
 	<option value='activated'>Active</option>
 	<option value='deactivated'>Deleted</option>
 	</select>
-	<input className='input-member' ref='id' id='search-field-id' placeholder='Number' />
-	<input className='input-member' ref='email' id='search-field-email' placeholder='Email' />
-	<input className='input-member' ref='last_name' id='search-field-last-name' placeholder='Surname' />
+	<input className='input-member' ref='id' id='id' placeholder='Number' />
+	<input className='input-member' ref='email' id='email' placeholder='Email' />
+	<input className='input-member' ref='last_name' id='last_name' placeholder='Surname' />
 	<button onClick={this.search} className='button-two member' id='search-button'>Search</button>
 	<p id='test' ref='test'></p>
       </div>

@@ -4,12 +4,28 @@ var React = require('react')
 
 var SingleResult = React.createClass({
   last_subscription: function (payments) {
-    return payments
+    /* TODO: pull callbacks out and give them clear name 
+       TODO: filter out charges                           */
+
+    var most_recent_payment =  payments.map(function (payment) {
+      var dated_payment = Object.create(payment)
+      dated_payment.date = new Date(payment.date)
+      return dated_payment
+    })
+      .reduce(function (most_recent, payment) {
+        return payment.date.getTime() > most_recent.date.getTime() ?
+            payment :
+            most_recent
+      }, {date: {getTime: function () {return 0}}})
+
+    return format_payment(most_recent_payment)
   },
   format_membership: function (string) {
-      return string.replace('-', ' ').split(' ').map(function (elm) {
-        return elm.charAt(0).toUpperCase() + elm.slice(1)
-      }).join(' ')
+      if (string) {
+        return string.replace('-', ' ').split(' ').map(function (elm) {
+          return elm.charAt(0).toUpperCase() + elm.slice(1)
+        }).join(' ')
+      } else return ''
   },
   render: function () {
     var member = JSON.parse(this.props.member)
@@ -115,4 +131,12 @@ var SearchResults = React.createClass({
   }
 })
 
+/* TODO: factor out date formatting (to utils/) */
+function format_payment (payment) {
+  var time = payment.date.getTime()
+  if (!time) return ''
+  var date_sections = payment.date.toString().split(' ')
+  var date_string = [date_sections[2], date_sections[1], date_sections[3]].join(' ')
+  return date_string + ' - £' + payment.amount
+}
 module.exports = SearchResults
