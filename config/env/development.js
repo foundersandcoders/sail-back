@@ -1,9 +1,5 @@
 module.exports = {
   connections: {
-    test: {
-      adapter: 'sails-memory',
-      migrate: 'alter'
-    },
     localMySql: {
       adapter: 'sails-mysql',
       host: 'localhost',

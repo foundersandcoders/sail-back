@@ -57,14 +57,19 @@ Admin.render = function (state) {
     h('div.main-container#member-component', [
       h('div.inner-section-divider-medium'),
       h('div.section-label', [
-        h('h1#member-title', 'Member info')
+        h('h1#member-title', 'Member info'),
+        h('button#return_button.btn-primary.w-3', {
+          onclick: function () {
+            window.location.href = '/admin' 
+          }
+        }, 'Close'),
       ]),
       h('div.inner-section-divider-medium'),
       components.member[state.modeMember()](state),
       h('div.inner-section-divider-medium'),
-      renderPayment(state),
+      renderEvents(state),
       h('div.inner-section-divider-medium'),
-      renderEvents(state)
+      renderPayment(state)
     ])
   ])
 }
@@ -90,6 +95,11 @@ function renderPayment (state) {
             return state.modePayment.set('donation')
           }
         }, '+ Donation'),
+        h('button#events_btn.btn-primary.w-3', {
+          onclick: function () {
+            return state.modePayment.set('events')
+          }
+        }, '+ Events'),
         h('button#payment_btn.btn-primary.w-3', {
           onclick: function () {
             return state.modePayment.set('payment')

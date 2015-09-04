@@ -26,12 +26,12 @@ module.exports = {
   ServiceSignIn: function (req, res) {
     passport.authenticate('local', function (err, member, info) {
       if ((err) || (!member)) {
-        res.redirect('/signin')
+        res.status(401).end()
       } else {
         req.session.user = member
         req.session.authenticated = true
         req.member = member
-        res.redirect('/')
+        res.location('/').end()
       }
     })(req, res)
   },

@@ -30,13 +30,13 @@ In dev mode is possible to test the payment system, in order to do so use these 
 
 ```
 PayPal
-	Email: us-customer@commercefactory.org
-	Password: test1234
+  Email: us-customer@commercefactory.org
+  Password: test1234
 
 Credit Card
-	Number: 4111 1111 1111 1111
-	CVV: 123
-	Expiration date: 11/20
+  Number: 4111 1111 1111 1111
+  CVV: 123
+  Expiration date: 11/20
 ```
 
 ## Upload
@@ -48,53 +48,53 @@ The upload function expects to receive a well **predefined** set of columns, in 
 ```js
 // Members
 {
-	id:                           {type: "string"},
-	title:                        {type: "string"},
-	initials:                     {type: "string"},
-	last_name:                    {type: "string"},
-	first_name:                   {type: "string"},
-	address1:                     {type: "string"},
-	address2:                     {type: "string"},
-	address3:                     {type: "string"},
-	address4:                     {type: "string"},
-	county:                       {type: "string"},
-	postcode:                     {type: "string"},
-	deliverer:                    {type: "string"},
-	home_phone:                   {type: "string"},
-	mobile_phone:                 {type: "string"},
-	work_phone:                   {type: "string"},
-	birthday:                     {type: "date"},   // birthday
-	age: 		                  {type: "number"}, // age
-	primary_email:                {type: "string"},
-	secondary_email:              {type: "string"},
-	email_bounced:                {type: "boolean"},
-	date_joined:                  {type: "date"},
-	membership_type:              {type: "string"},
-	date_membership_type_changed: {type: "date"},
-	life_payment_date:            {type: "date"},
-	notes:                        {type: "string"},
-	gift_aid_signed:              {type: "boolean"},
-	date_gift_aid_signed:         {type: "date"},
-	date_gift_aid_cancelled:      {type: "date"},
-	standing_order:               {type: "boolean"},
-	activation_status:            {type: "custom"},
-	deletion_date:                {type: "date"},
-	deletion_reason:              {type: "string"},
-	lapsedMember:                 {type: "custom"}   // lapsedMember
+  id:                           {type: "string"},
+  title:                        {type: "string"},
+  initials:                     {type: "string"},
+  last_name:                    {type: "string"},
+  first_name:                   {type: "string"},
+  address1:                     {type: "string"},
+  address2:                     {type: "string"},
+  address3:                     {type: "string"},
+  address4:                     {type: "string"},
+  county:                       {type: "string"},
+  postcode:                     {type: "string"},
+  deliverer:                    {type: "string"},
+  home_phone:                   {type: "string"},
+  mobile_phone:                 {type: "string"},
+  work_phone:                   {type: "string"},
+  birthday:                     {type: "date"},   // birthday
+  age:                      {type: "number"}, // age
+  primary_email:                {type: "string"},
+  secondary_email:              {type: "string"},
+  email_bounced:                {type: "boolean"},
+  date_joined:                  {type: "date"},
+  membership_type:              {type: "string"},
+  date_membership_type_changed: {type: "date"},
+  life_payment_date:            {type: "date"},
+  notes:                        {type: "string"},
+  gift_aid_signed:              {type: "boolean"},
+  date_gift_aid_signed:         {type: "date"},
+  date_gift_aid_cancelled:      {type: "date"},
+  standing_order:               {type: "boolean"},
+  activation_status:            {type: "custom"},
+  deletion_date:                {type: "date"},
+  deletion_reason:              {type: "string"},
+  lapsedMember:                 {type: "custom"}   // lapsedMember
 }
 
 // Payments
 {
-	date:           {type: "date"},
-	member:         {type: "string"},
-	subscription:   {type: "number"},
-	donation:       {type: "number"},
-	events:         {type: "number"},
-	payment:        {type: "number"},
-	difference:     {type: "number"},
-	type_code:      {type: "string"},
-	reference: 	    {type: "string"},
-	notes:          {type: "string"}
+  date:           {type: "date"},
+  member:         {type: "string"},
+  subscription:   {type: "number"},
+  donation:       {type: "number"},
+  events:         {type: "number"},
+  payment:        {type: "number"},
+  difference:     {type: "number"},
+  type_code:      {type: "string"},
+  reference:      {type: "string"},
+  notes:          {type: "string"}
 }
 ```
 
@@ -106,20 +106,25 @@ in the `dd/mm/yyyy` format.
 
 ```
 /
-	assets/ <--- public static files
-		js/
-			app.js <--- main component and routing logic (built from pages)
-			pages/ <--- main pages of aff (built from services and components)
-			services/ <--- reusable generic utilities
-			components/ <--- reusable *vdom* components
+  assets/ <--- public static files
+    js/
+      app.js <--- main component and routing logic (built from pages)
+      pages/ <--- main pages of aff (built from services and components)
+      services/ <--- reusable generic utilities
+      components/ <--- reusable *vdom* components
 
-		styles/
-	api/
-	config/
-	tasks/
-	test/
-	views/
-	server.js
-	package.json
-	...
+    styles/
+  api/
+  config/
+  tasks/
+  test/
+  views/
+  server.js
+  package.json
+  ...
 ```
+
+## Notes to be integrated
+* Some devs need to run redis concurrently with the server for the app to run. Without it, request.session is not defined at critical points; the app looks for properties on this ?object and thus throws an exception.
+* Must setup a foch_testing database to correctly run tests (probably something similar is needed to run production)
+* on first run, the `models.migrate` property in `config/env/development.js` should be set to `alter`. On subsequent runs, it should be reverted to `safe`.

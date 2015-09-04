@@ -1,5 +1,5 @@
 'use strict'
-
+console.log('><jfdsklfjdsaklfjs')
 var panelViews = require('../components/signup/panels.js')
 var nuclear = require('nuclear.js')
 var h = nuclear.h
@@ -23,10 +23,12 @@ function createMember (state, member) {
 function SignUp (initialState) {
 
   initialState = initialState || {}
-
+  console.log('>>>M><MF<JKJFJKJ')
   return nuclear.observS({
     member: nuclear.observS(initialState.member || {}),
     panel: nuclear.observ(initialState.panel || 'one'),
+    passwordsMatch: nuclear.observ('true'),
+    emailsMatch: nuclear.observ(true),
     channels: {
       createMember: createMember
     }

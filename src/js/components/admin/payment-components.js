@@ -84,6 +84,76 @@ module.exports.view = function (state) {
   }
 }
 
+module.exports.events = function (state) {
+
+  var data = {}
+
+  return (
+  h('div.container-small.subscription-section', [
+    h('div.inner-section-divider-small'),
+
+    h('input#amount', {
+      placeholder: 'Amount',
+      onchange: function () {
+        data.amount = this.value
+      }
+    }),
+    
+    h('div.inner-section-divider-medium'),
+
+    h('input#date', {
+      placeholder: 'Date of charge',
+      type: 'date',
+      onchange: function () {
+        data.date = this.value
+      }
+    }),
+    
+    h('div.inner-section-divider-medium'),
+
+    h('input#notes', {
+      placeholder: 'Optional note',
+      onchange: function () {
+        data.notes = this.value
+      }
+    }),
+   
+    h('div.inner-section-divider-medium'),
+
+    h('button#view-payment-btn.align-one.btn-primary', {
+      onclick: function () {
+        state.modePayment.set('view')
+      }
+    }, 'Back'),
+
+    h('div.inner-section-divider-small'),
+
+    h('button#charge.align-two.btn-primary', {
+      onclick: function () {
+        data.date = data.date || new Date()
+        data.category = 'event'
+        data.description = 'Event'
+        data.member = state.member().id
+
+        utils.request({
+          method: 'POST',
+          uri: '/api/payments',
+          json: data
+        }, function (err, header, body) {
+          console.log('return ffrom request aoeuaoeu')
+          if (err) {
+            console.err(err)
+          } else {
+            var payments = state.payments().concat([body])
+            state.payments.set(payments)
+            state.modePayment.set('view')
+          }
+        })
+      }
+    }, 'Charge')
+  ])
+  )
+}
 module.exports.subscription = function (state) {
   var data = {}
 
@@ -97,7 +167,17 @@ module.exports.subscription = function (state) {
         data.amount = this.value
       }
     }),
+    
+    h('div.inner-section-divider-medium'),
 
+    h('input#date', {
+      placeholder: 'Subscription due date',
+      type: 'date',
+      onchange: function () {
+        data.date = this.value
+      }
+    }),
+    
     h('div.inner-section-divider-medium'),
 
     h('button#view-payment-btn.align-one.btn-primary', {
@@ -110,7 +190,7 @@ module.exports.subscription = function (state) {
 
     h('button#charge.align-two.btn-primary', {
       onclick: function () {
-        data.date = new Date()
+        data.date = data.date || new Date()
         data.category = 'subscription'
         data.description = 'Subscription'
         data.member = state.member().id
@@ -120,11 +200,11 @@ module.exports.subscription = function (state) {
           uri: '/api/payments',
           json: data
         }, function (err, header, body) {
+          console.log('return ffrom request aoeuaoeu')
           if (err) {
             alert('Could not create subscription yo')
           } else {
-            var payments = state.payments()
-            payments.push(body)
+            var payments = state.payments().concat([body])
             state.payments.set(payments)
             state.modePayment.set('view')
           }
@@ -151,6 +231,16 @@ module.exports.donation = function (state) {
 
     h('div.inner-section-divider-small'),
 
+    h('input#date', {
+      placeholder: 'Payment date',
+      type: 'date',
+      onchange: function () {
+        data.date = this.value
+      }
+    }),
+
+    h('div.inner-section-divider-small'),
+
     h('input#notes', {
       placeholder: 'Optional note',
       onchange: function () {
@@ -170,7 +260,7 @@ module.exports.donation = function (state) {
 
     h('button#charge.align-two.btn-primary', {
       onclick: function () {
-        data.date = new Date()
+        data.date = data.date || new Date()
         data.description = 'Donation'
         data.category = 'donation'
         data.member = state.member().id
@@ -183,8 +273,7 @@ module.exports.donation = function (state) {
           if (err) {
             alert('Could not create donation')
           } else {
-            var payments = state.payments()
-            payments.push(body)
+            var payments = state.payments().concat([body])
             state.payments.set(payments)
             state.modePayment.set('view')
           }
@@ -272,15 +361,14 @@ module.exports.payment = function (state) {
           if (err) {
             alert('Could not create payment')
           } else {
-            var payments = state.payments()
-            payments.push(body)
+            var payments = state.payments().concat([body])
             state.payments.set(payments)
             state.modePayment.set('view')
           }
         })
 
       }
-    }, 'Charge')
+    }, 'Pay')
   ])
   )
 }

@@ -4,25 +4,22 @@ var React = require('react')
 var request = require('xhr')
 
 var Signin = React.createClass({
-   
+
     getInitialState: function () {
       return {
         login_failed: false
       }
     },
     signin: function (event) {
-      event.preventDefault() 
+      event.preventDefault()
       var user = {
         username: React.findDOMNode(this.refs.email).value,
         password: React.findDOMNode(this.refs.password).value
-      } 
+      }
       var handle_response = function (err, res, body) {
-      
-        if (err)
-          setState({login_failed: true})
-        else if (res.statusCode === 200)
-          window.location.pathname = '/'
-      } 
+        if (err) setState({login_failed: true})
+        else if (res.statusCode === 200) window.location.hash = ''
+      }
 
       console.log('bout to request')
       request({
@@ -36,46 +33,46 @@ var Signin = React.createClass({
 
       return (
 
-	<div id='signin-component'>
-	  <div className='main-container'>
-	    <div className='inner-section-divider-small'></div>
-	    <div className='section-label'>
-		<h1>Sign in</h1>
-	    </div>
-	  <div className='container-small'>
-	  <div className='inner-section-divider-medium'></div>
+  <div id='signin-component'>
+    <div className='main-container'>
+      <div className='inner-section-divider-small'></div>
+      <div className='section-label'>
+    <h1>Sign in</h1>
+      </div>
+    <div className='container-small'>
+    <div className='inner-section-divider-medium'></div>
 
-	  <div className='input-label-container'>
-	  <h3>Membership Number</h3>
-	  </div>
+    <div className='input-label-container'>
+    <h3>Membership Number</h3>
+    </div>
 
-	  <form onSubmit={this.signin}>
+    <form onSubmit={this.signin}>
 
-	  <input type='text' placeholder='Membership number' />
-	  <div className='inner-section-divider-small'></div>
+    <input type='text' placeholder='Membership number' />
+    <div className='inner-section-divider-small'></div>
 
-	  <div className='input-label-container'>
-	  <h3>or Email</h3>
-	  </div>
+    <div className='input-label-container'>
+    <h3>or Email</h3>
+    </div>
 
-	  <input type='text' ref='email' id='email'  placeholder='Email address' />
-	  <div className='inner-section-divider-small'></div>
-	  <input type='password' ref='password' id='password' placeholder='Password' />
+    <input type='text' ref='email' id='email'  placeholder='Email address' />
+    <div className='inner-section-divider-small'></div>
+    <input type='password' ref='password' id='password' placeholder='Password' />
 
-	  <div className='inner-section-divider-small'></div>
+    <div className='inner-section-divider-small'></div>
     <input className='btn-primary' type='submit' id='submit-button' value='Sign In' />
-	  <div className='inner-section-divider-small'></div>
+    <div className='inner-section-divider-small'></div>
 
-	<div className='input-label-container'>
-	  <a href='/#/forgot'>Forgot password?</a>
-	  <h4>If you are an existing member who is logging in for the first time please click 'Forgot Password' and we'll email you a temporary one</h4>
-	</div>
+  <div className='input-label-container'>
+    <a href='/#/forgot'>Forgot password?</a>
+    <h4>If you are an existing member who is logging in for the first time please click 'Forgot Password' and we'll email you a temporary one</h4>
+  </div>
 
-	  </form>
+    </form>
 
-	  </div>
-	  </div>
-	</div>
+    </div>
+    </div>
+  </div>
 
         )
     }

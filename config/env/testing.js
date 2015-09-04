@@ -2,24 +2,13 @@ console.log('Testing')
 
 module.exports = {
   connections: {
-    test: {
-      adapter: 'sails-memory',
-      migrate: 'alter'
-    },
     localMySql: {
       adapter: 'sails-mysql',
       host: 'localhost',
       user: 'root',
+      // this needs to be set when testing locally
       password: process.env.TEST_DB_PASSWORD || '',
-      database: 'test'
-    },
-    mySqlStaging: {
-      adapter: 'sails-mysql',
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      port: 3306,
-      database: 'users',
-      host: process.env.DB_HOST
+      database: 'foch_testing'
     }
   },
   models: {
