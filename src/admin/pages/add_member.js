@@ -7,9 +7,9 @@ var Navigation = require('../../shared/navigation.js')
 var SectionTitle = React.createClass({
   render: function () {
     return (
-	<div className='topSectionDividor'>
-	<h2>{this.props.title}</h2>
-	</div>
+  <div className='topSectionDividor'>
+  <h2>{this.props.title}</h2>
+  </div>
     )
   }
 })
@@ -18,10 +18,10 @@ var Input = React.createClass({
   render: function () {
     var required = !!this.props.required
     return (
-	<div className='innerSectionContainer'>
-	<div className='inner-section-divider-medium'>
-	<h3>{this.props.label}</h3>
-	<input id={this.props.id} className={this.props.size} name={this.props.name} required={required} placeholder={this.props.placeholder} value={this.props.value} />
+  <div className='innerSectionContainer'>
+  <div className='inner-section-divider-medium'>
+  <h3>{this.props.label}</h3>
+  <input id={this.props.id} className={this.props.size} name={this.props.name} required={required} placeholder={this.props.placeholder} value={this.props.value} />
       </div>
       </div>
     )
@@ -48,9 +48,9 @@ var ProfileSection = React.createClass({
     var inputs = create_inputs(this.fields())
     return (
       <div>
-	<SectionTitle title='1. Profile' />
-	{ inputs }
-	</div>
+  <SectionTitle title='1. Profile' />
+  { inputs }
+  </div>
     )
   }
 })
@@ -69,13 +69,13 @@ var AddressSection = React.createClass({
     return (
       <div>
       <SectionTitle title='2. Address' />
-	{ inputs }
-	<div className='innerSectionContainer'>
-	<div className='inner-section-divider-medium'>
-	<div className='couterContainer'>
-	<h3>County</h3>
-	<input id='add-member-county' className='short-relative' name='county' placeholder='County name' />
-	<input id='add-member-postcode' className='short-relative' name='postcode' placeholder='Postcode' />
+  { inputs }
+  <div className='innerSectionContainer'>
+  <div className='inner-section-divider-medium'>
+  <div className='couterContainer'>
+  <h3>County</h3>
+  <input id='add-member-county' className='short-relative' name='county' placeholder='County name' />
+  <input id='add-member-postcode' className='short-relative' name='postcode' placeholder='Postcode' />
       </div>
       </div>
       </div>
@@ -98,9 +98,9 @@ var ContactSection = React.createClass({
     var inputs = create_inputs(this.fields())
     return (
       <div>
-	<SectionTitle title='3. Contact' />
-	{ inputs }
-	</div>
+  <SectionTitle title='3. Contact' />
+  { inputs }
+  </div>
     )
   }
 })
@@ -108,8 +108,8 @@ var ContactSection = React.createClass({
 var MembershipSection = React.createClass({
   options: function () {
     return ['Annual Single', 'Annual Double', 'Annual Family',
-	    'Annual Group', 'Annual Corporate', 'Life Single',
-	    'Life Double']
+      'Annual Group', 'Annual Corporate', 'Life Single',
+      'Life Double']
   },
   create_options: function () {
     return this.options().map(function (option, i) {
@@ -126,17 +126,17 @@ var MembershipSection = React.createClass({
   render: function () {
     var inputs = create_inputs(this.fields())
     return (
-	<div>
-	<SectionTitle title='4. Membership' />
-	<div className='innerSectionContainer'>
-	<div className='couterContainer'>
-	<h3>Membership Type</h3>
+  <div>
+  <SectionTitle title='4. Membership' />
+  <div className='innerSectionContainer'>
+  <div className='couterContainer'>
+  <h3>Membership Type</h3>
       </div>
-	<select name='membership_type' id='add-member-membership-type' class='short' style={{color:'#ccc',width:'320px'}}>
-	<option class='meta' value='' disabled selected>Click to select one</option>
-	{ this.create_options() }
+  <select name='membership_type' id='add-member-membership-type' class='short' style={{color:'#ccc',width:'320px'}}>
+  <option class='meta' value='' disabled selected>Click to select one</option>
+  { this.create_options() }
       </select>
-	{inputs}
+  {inputs}
       </div>
       </div>
     )
@@ -153,20 +153,20 @@ var GiftAidSection = React.createClass({
   render: function () {
     var inputs = create_inputs(this.fields())
     return (
-	<div>
-	<SectionTitle title='5. Gift aid' />
+  <div>
+  <SectionTitle title='5. Gift aid' />
 
-	<div className='innerSectionContainer'>
-	<div className='inner-section-divider-medium'>
-	<div className='checkbox'>
-	<input id='add-member-gift-aid-signed' type='checkbox' name='gift_aid_signed' value='true'/>
-	</div>
-	</div>
-	</div>
+  <div className='innerSectionContainer'>
+  <div className='inner-section-divider-medium'>
+  <div className='checkbox'>
+  <input id='add-member-gift-aid-signed' type='checkbox' name='gift_aid_signed' value='true'/>
+  </div>
+  </div>
+  </div>
 
       { inputs }
 
-	</div>
+  </div>
     )
   }
 })
@@ -174,29 +174,29 @@ var GiftAidSection = React.createClass({
 var OtherSection = React.createClass({
   render: function () {
     return (
-	<div>
-	<SectionTitle title='6. Other' />
-	<div className='innerSectionContainer'>
-	<div className='inner-section-divider-medium'>
-	<div className='couterContainer'>
-	<h3>News type</h3>
-	<select name='news_type' class='short' style={{color:'#ccc',width:'320px'}}>
-	<option class='meta' value='' disabled>Click to select one</option>
-	<option value='post'>Post</option>
-	<option value='online'>Online</option>
-	</select>
-	<div className='innerSectionContainer'>
-	<div className='inner-section-divider-medium'>
-	<div className='couterContainer'>
-	<h3>Notes</h3>
-	</div>
-	<textarea id='add-member-membership-notes' name='notes'></textarea>
-	</div>
-	</div>
+  <div>
+  <SectionTitle title='6. Other' />
+  <div className='innerSectionContainer'>
+  <div className='inner-section-divider-medium'>
+  <div className='couterContainer'>
+  <h3>News type</h3>
+  <select name='news_type' class='short' style={{color:'#ccc',width:'320px'}}>
+  <option class='meta' value='' disabled>Click to select one</option>
+  <option value='post'>Post</option>
+  <option value='online'>Online</option>
+  </select>
+  <div className='innerSectionContainer'>
+  <div className='inner-section-divider-medium'>
+  <div className='couterContainer'>
+  <h3>Notes</h3>
+  </div>
+  <textarea id='add-member-membership-notes' name='notes'></textarea>
+  </div>
+  </div>
       </div>
       </div>
       </div>
-	</div>
+  </div>
     )
   }
 })
@@ -204,29 +204,29 @@ var OtherSection = React.createClass({
 var NewMember = React.createClass({
   render: function () {
     return (
-	<div>
-	<Navigation />
-	<div className='new-member-container'>
-	<h1>New Member Form</h1>
-	<form id='create-member-form' action='/addmember' method='post'>
-	<ProfileSection />
-	<AddressSection />
-	<ContactSection />
-	<MembershipSection />
-	<GiftAidSection />
-	<OtherSection />
-	<SectionTitle title='7. Close' />
-	<div className='innerSectionContainer'>
-	<div className='inner-section-divider-medium'>
-	<button id='create-member-btn' className='button-one left' type='submit'>Submit</button>
-	<a href='javascript:history.back()'>
-	<button id='cancel-member-btn' class='button-two right'>Cancel</button>
-	</a>
-	</div>
-	</div>
-	</form>
-	</div>
-	</div>
+  <div>
+  <Navigation />
+  <div className='new-member-container'>
+  <h1>New Member Form</h1>
+  <form id='create-member-form' action='/addmember' method='post'>
+  <ProfileSection />
+  <AddressSection />
+  <ContactSection />
+  <MembershipSection />
+  <GiftAidSection />
+  <OtherSection />
+  <SectionTitle title='7. Close' />
+  <div className='innerSectionContainer'>
+  <div className='inner-section-divider-medium'>
+  <button id='create-member-btn' className='button-one left' type='submit'>Submit</button>
+  <a href='javascript:history.back()'>
+  <button id='cancel-member-btn' class='button-two right'>Cancel</button>
+  </a>
+  </div>
+  </div>
+  </form>
+  </div>
+  </div>
     )
   }
 })

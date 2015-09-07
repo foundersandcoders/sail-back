@@ -3,6 +3,7 @@
 var expect = require('expect')
 var React = require('react/addons')
 var Component = require('../../../../src/admin/pages/view_member.js')
+var arrayify = require('../../../../src/utils/arrayify.js')
 
 var member = require('../../../../src/__MOCK_MEMBER__.js')
 
@@ -19,10 +20,10 @@ describe('/members/:id route', function () {
 
     React.render((
       React.createElement(Component, {
-	member: member,
-	params: {
-	  id: 1234
-	}
+  member: member,
+  params: {
+    id: 1234
+  }
       })
     ), node, function () {
 
@@ -37,10 +38,10 @@ describe('/members/:id route', function () {
 
     React.render((
       React.createElement(Component, {
-	member: member,
-	params: {
-	  id: 1234
-	}
+  member: member,
+  params: {
+    id: 1234
+  }
       })
     ), node, function () {
 
@@ -49,7 +50,7 @@ describe('/members/:id route', function () {
       expect(node.innerHTML).toMatch(/Personal info/)
       expect(node.innerHTML).toMatch(/Address info/)
       expect(node.innerHTML).toMatch(/Membership info/)
-      done()
+     done()
     })
   })
 
@@ -57,10 +58,10 @@ describe('/members/:id route', function () {
 
     React.render((
       React.createElement(Component, {
-	member: member,
-	params: {
-	  id: 1234
-	}
+  member: member,
+  params: {
+    id: 1234
+  }
       })
     ), node, function () {
 
@@ -76,10 +77,10 @@ describe('/members/:id route', function () {
 
     React.render((
       React.createElement(Component, {
-	member: member,
-	params: {
-	  id: 1234
-	}
+        member: member,
+        params: {
+          id: 1234
+        }
       })
     ), node, function () {
 
@@ -87,6 +88,28 @@ describe('/members/:id route', function () {
       expect(node.innerHTML).toMatch(/Events/)
       expect(node.innerHTML).toMatch(/event-row/)
       expect(node.innerHTML).toMatch(/table-section-individual-rows/)
+      done()
+    })
+  })
+
+  it('should toggle between edit and view mode', function (done) {
+  
+    function get_data_nodes () {
+      return arrayify(node.querySelectorAll('.member-info-content .info')).map(function (node) {
+        return node.nextSibling })}
+    
+    function check_nodes_tag (tag, nodes) {
+      return nodes.every(function (node){
+        return node.tagName.toLowerCase() === tag })}
+
+    function assert_all_nodes_of_tag (tag, nodes) {
+      expect(check_nodes_tag(tag, nodes)).toBe(true) }
+
+    assert_all_nodes_of_tag('span', get_data_nodes())
+    node.querySelector('#edit-member-mode').click()
+    process.nextTick(function () {
+    
+      assert_all_nodes_of_tag('input', get_data_nodes())
       done()
     })
   })

@@ -78,11 +78,11 @@ describe('The route component', function () {
       fields.forEach(function (field) {
         document.querySelector('#' + field).value = ''
       }) 
-      var fields_to_fill = fields.filter(function() { return Math.random() > 0.5; })
+      var fields_to_fill = fields.filter(function() {
+        return Math.random() > 0.5;
+      })
       SearchBox.__set__('request', function (opts) {
 
-        console.log('fields_to_fill', fields_to_fill)
-        console.log('opts.url', opts.url)
         var get_fields = one_arg_compose(JSON.parse, get(0), split('&populate'), get(1), split('where='), get('url'))
         var filled_fields = get_fields(opts)
         var all_fields_present = fields_to_fill.every(function (field) { 

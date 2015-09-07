@@ -1,6 +1,7 @@
 'use strict'
 
 var React = require('react')
+var r = require('ramda') /* require utils.get when it's moved */
 
 var Field = require('./field.js')
 
@@ -8,10 +9,10 @@ var DeletionFields = React.createClass({
   render: function () {
     if (this.props.status === 'deactivated') {
       return (
-	  <div>
-	  <Field name='Deletion date: ' value={this.props.date} id='deletion_date'/>
-	  <Field name='Deletion Reason: ' value={this.props.reason.description} id='deletion_reason' />
-	  </div>
+    <div>
+    <Field name='Deletion date: ' value={this.props.date} id='deletion_date'/>
+    <Field name='Deletion Reason: ' value={this.props.reason.description} id='deletion_reason' />
+    </div>
       )
     } else {
       return (<div></div>)
@@ -19,69 +20,56 @@ var DeletionFields = React.createClass({
   }
 })
 
-var PersonalInformation = React.createClass({
-  getFullName: function () {
-    return 'William Fisher'
-  },
-  render: function () {
-    var member = JSON.parse(this.props.member)
-    return (
-	<div className='col-1'>
-	<h2>Personal info</h2>
-	<Field name='Name: ' value={this.getFullName()} id='full_name'/>
-	<Field name='ID: ' value={member.id.toString()} id='id' />
-	<Field name='Primary email: ' value={member.primary_email} id='primary_email' />
-	<Field name='Secondary email: ' value={member.secondary_email} id='secondary_email' />
-	<Field name='Bounced email: ' value={member.email_bounced} id='bounced_email' />
-	<Field name='News: ' value={member.news_type} id='news_type' />
-	<Field name='Status: ' value={member.activation_status} id='activation_status' />
-	<DeletionFields date={member.deletion_date} status={member.activation_status} reason={member.deletion_reason} />
-      </div>
-    )
-  }
-})
+function label_from_id (id) {
+  return id.slice(0, 1).toUpperCase() + id.slice(1).replace(/_/g, ' ') + ': ' }
 
-var AddressInformation = React.createClass({
-  render: function () {
-    var member = JSON.parse(this.props.member)
-    return (
-	<div className='col-2'>
-	<h2>Address info</h2>
-	<Field name='Address line: ' value={member.address1} id='address1' />
-	<Field name='Address line: ' value={member.address2} id='address2' />
-	<Field name='Address line: ' value={member.address3} id='address3' />
-	<Field name='Address line: ' value={member.address4} id='address4' />
-	<Field name='County: ' value={member.county} id='county' />
-	<Field name='Postcode: ' value={member.postcode} id='postcode' />
-	<Field name='Deliverer: ' value={member.deliverer} id='deliverer'/>
-	<Field name='Home phone: ' value={member.home_phone} id='home_phone' />
-	<Field name='Work phone: ' value={member.work_phone} id='work_phone' />
-	<Field name='Mobile phone: ' value={member.mobile_phone} id='mobile_phone' />
-      </div>
-    )
-  }
-})
+var personal_ids = ['id', 'title', 'initials', 'first_name',
+    'last_name', 'primary_email', 'secondary_email',
+    'news_type', 'email_bounced', 'activation_status']
 
-var MembershipInformation = React.createClass({
-  render: function () {
-    var member = JSON.parse(this.props.member)
-    return (
-	<div className='col-3'>
-	<h2>Membership info</h2>
-	<Field name='Date joined: ' value={member.date_joined} id='date_joined' />
-	<Field name='Membership type: ' value={member.membership_type} id='membership_type' />
-	<Field name='Life payment date: ' value={member.life_payment_date} id='life_payment_date' />
-	<Field name='Membership date changed: ' value={member.date_type_changed} id='date_type_changed' />
-	<Field name='GAD Signed: ' value={member.date_gift_aid_signed} id='gad_signed' />
-	<Field name='GAD Cancelled: ' value={member.date_gift_aid_cancelled} id='date_gift_aid_cancelled' />
-	<Field name='Standing order: ' value={member.standing_order} id='standing_order' />
-	<Field name='Notes: ' value={member.notes} id='notes'/>
-	<Field name='Status online: ' value={member.registered} id='registered' />
-	<Field name='Due date: ' value={member.due_date} id='due_date' />
-      </div>
-    )
-  }
-})
+var PersonalInformation = make_field_column(personal_ids, 'Personal info')
+
+/* TODO: allow different input types for different fields
+ * TODO: don't render deletion reasons for each column, put at top of */
+function make_field_column (ids, column_title) {
+
+  return React.createClass({
+    get_member_prop: function (prop) {
+      return (r.prop(prop, this.props.member) || '').toString() },
+
+    fields: function () {
+      var make_field_props = function (name, id) {
+        return { name: name, value: this.get_member_prop(id), id: id } }.bind(this)
+
+      function make_props_from_id (id) {
+        return make_field_props(label_from_id(id), id) }
+
+      return ids.map(make_props_from_id) },
+
+    render: function () {
+      var field_components = this.fields().map(function(field, i) {
+          return <Field mode={this.props.mode} name={field.name}
+              value={field.value} id={field.id} key={i} />}.bind(this))
+
+      return (
+        <div className='col-1'>
+          <h2>{column_title}</h2>
+          {field_components}
+        </div>
+      )
+    }
+  })
+}
+
+var address_ids = ['address1', 'address2', 'address3', 'address4',
+    'county', 'postcode', 'deliverer', 'home_phone', 'work_phone', 'mobile_phone']
+
+var AddressInformation = make_field_column(address_ids, 'Address info')
+
+var membership_ids = ['date_joined', 'membership_type', 'life_payment_date',
+    'date_type_changed', 'date_gift_aid_signed', 'date_gift_aid_cancelled',
+    'standing_order', 'notes', 'registered', 'due_date']
+var MembershipInformation = make_field_column(membership_ids, 'Membership info')
 
 var MemberInformation = React.createClass({
   changeMode: function () {
@@ -89,13 +77,17 @@ var MemberInformation = React.createClass({
   },
   render: function () {
     return (
-	<div className='member-info-controls'>
-	<button id='edit-member-mode' className='button-two m-l-15 right w-100' onClick={this.changeMode}>Edit</button>
-	<div className='member-info-content'>
-	<PersonalInformation member={this.props.member} />
-	<AddressInformation member={this.props.member} />
-	<MembershipInformation member={this.props.member} />
-      </div>
+      <div className='member-info-controls'>
+        <DeletionFields date={this.props.member.deletion_date}
+            status={this.props.member.activation_status}
+            reason={this.props.member.deletion_reason} />
+        <button id='edit-member-mode' className='button-two m-l-15 right w-100'
+            onClick={this.changeMode}>Edit</button>
+        <div className='member-info-content'>
+          <PersonalInformation mode={this.props.mode} member={this.props.member} />
+          <AddressInformation mode={this.props.mode} member={this.props.member} />
+          <MembershipInformation mode={this.props.mode} member={this.props.member} />
+        </div>
       </div>
     )
   }
