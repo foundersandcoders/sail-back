@@ -16,9 +16,11 @@ module.exports = function make_member_fields (ids, column_title) {
       this.props.onChange(e)
     },
     get_member_prop: function (prop) {
-      if (prop === 'membership_type') return this.props.member[prop].description
+      if (prop === 'membership_type' &&
+          typeof this.props.member[prop] === 'object') {
+        return this.props.member[prop].description}
       else if (prop === 'date_joined') {
-        return require('../../utils/format_date')(this.props.member[prop]) }
+        return require('../../../utils/format_date')(this.props.member[prop]) }
       else return (r.prop(prop, this.props.member) || '').toString() },
 
     fields: function () {
