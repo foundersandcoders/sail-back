@@ -1,0 +1,32 @@
+'use strict'
+
+var React = require('react')
+
+var Field = React.createClass({
+  render: function () {
+    if (this.props.value && this.props.mode !== 'edit') {
+      return (
+        <p>
+        <span className='info'>{this.props.name}</span>
+        <span id={'view-member-' + this.props.id}>{this.props.value}</span>
+        </p>
+      )
+    } else if (this.props.mode === 'edit') {
+
+
+      return (
+        <div>
+          <span className='info'>{this.props.name}</span>
+          <input type='text' value={this.props.value} id={this.props.id} />
+        </div>
+      )
+    } else {
+      return (
+        <div>
+        </div>
+      )
+    }
+  }
+})
+
+module.exports = Field

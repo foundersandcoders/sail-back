@@ -5,12 +5,12 @@ module.exports = {
       host: 'localhost',
       user: 'root',
       password: 'correct',
-      database: 'test'
-    }
+      database: 'foch_testing'
+    },
   },
   models: {
     connection: 'localMySql',
-    migrate: 'safe'
+    migrate: 'alter'
   },
   session: {
     secret: '496a95f915e063812b4c39d698db2462',

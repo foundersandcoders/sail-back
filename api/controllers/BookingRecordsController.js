@@ -3,7 +3,7 @@
 */
 
 var is = require('torf')
-var Validation = require('../../src/js/services/validate.js')
+var Validation = require('../../src/vdom/services/validate.js')
 
 module.exports = {
   book: function (req, res) {
