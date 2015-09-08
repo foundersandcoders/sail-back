@@ -29,8 +29,7 @@ test('Signin member: ', function (t) {
     .post('/signin')
     .send(memberMock)
     .end(function (err, res) {
-      t.equals(res.statusCode, 302, 'redirect')
-      t.ok(res.text.indexOf('Redirecting to /') > -1, 'redirect to home page')
+      t.ok(res.headers.location === '/', 'redirect to home page')
       t.end()
     })
 })
