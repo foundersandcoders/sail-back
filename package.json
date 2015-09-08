@@ -5,7 +5,7 @@
   "description": "a Sails application",
   "keywords": [],
   "scripts": {
-    "test": "npm run test:front && npm run test:server",
+    "test": "SINGLE=true npm run test:react && npm run test:server",
     "start": "webpack --config webpack.production.config.js && sails lift --verbose",
     "debug": "node-debug app.js",
     "test:upload": "standard && tape test/upload/*.test.js",
