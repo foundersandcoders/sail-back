@@ -3,6 +3,9 @@
 var React = require('react')
 
 var Field = React.createClass({
+  onChange: function (e) {
+    this.props.onChange(e)
+  },
   render: function () {
     if (this.props.value && this.props.mode !== 'edit') {
       return (
@@ -17,7 +20,7 @@ var Field = React.createClass({
       return (
         <div>
           <span className='info'>{this.props.name}</span>
-          <input type='text' value={this.props.value} id={this.props.id} />
+          <input type='text' value={this.props.value} id={this.props.id} onChange={this.onChange} />
         </div>
       )
     } else {
