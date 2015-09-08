@@ -35,7 +35,10 @@ function make_field_column (ids, column_title) {
 
   return React.createClass({
     get_member_prop: function (prop) {
-      return (r.prop(prop, this.props.member) || '').toString() },
+      if (prop === 'membership_type') return this.props.member[prop].description
+      else if (prop === 'date_joined') {
+        return require('../../utils/format_date')(this.props.member[prop]) }
+      else return (r.prop(prop, this.props.member) || '').toString() },
 
     fields: function () {
       var make_field_props = function (name, id) {
@@ -47,7 +50,9 @@ function make_field_column (ids, column_title) {
       return ids.map(make_props_from_id) },
 
     render: function () {
+      console.log(this.props.member.membership_type)
       var field_components = this.fields().map(function(field, i) {
+        if (field.id === 'membership_type') { console.log(field, field.value) }
           return <Field mode={this.props.mode} name={field.name}
               value={field.value} id={field.id} key={i} />}.bind(this))
 

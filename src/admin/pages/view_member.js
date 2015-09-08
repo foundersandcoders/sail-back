@@ -1,6 +1,7 @@
 'use strict'
 
 var React = require('react')
+var request = require('xhr')
 
 var Navigation = require('../../shared/navigation.js')
 var MemberEvents = require('../components/member_events.js')
@@ -10,17 +11,27 @@ var MemberInformation = require('../components/member_information.js')
 var ViewMember = React.createClass({
   getInitialState: function () {
     return {
-      mode: 'view'
+      mode: 'view',
+      member: JSON.parse(require('../../__MOCK_MEMBER__.js'))
     }
   },
+
+  get_member_by_id: function (id) {
+    request({
+      method: 'GET',
+      uri: make_id_request_uri(id),
+    }, function (err, data) {
+      this.setState({member: JSON.parse(data.body)}) }.bind(this))},
+
+  componentDidMount: function () {
+    this.get_member_by_id(this.props.params.id)},
+
   changeMode: function () {
     var changed_mode = (this.state.mode === 'edit') ? 'view' : 'edit'
     this.setState({mode: changed_mode}) },
+
   render: function () {
     var member_id = this.props.params.id
-    var member = JSON.parse(this.props.member || require('../../__MOCK_MEMBER__.js'))
-    var events = JSON.stringify(member.events)
-    var payments = JSON.stringify(member.payments)
     return (
       <div>
         <Navigation />
@@ -31,15 +42,21 @@ var ViewMember = React.createClass({
           </div>
           <div className='inner-section-divider-medium'></div>
           <MemberInformation mode={this.state.mode} changeMode={this.changeMode}
-              member={member}/>
+              member={this.state.member}/>
           <div className='inner-section-divider-medium'></div>
-          <MemberPayments mode={this.state.mode} payments={payments} />
+          <MemberPayments mode={this.state.mode}
+            payments={this.state.member.payments} />
           <div className='inner-section-divider-medium'></div>
-          <MemberEvents mode={this.state.mode} events={events}/>
+          <MemberEvents mode={this.state.mode}
+            events={this.state.member.events_booked}/>
         </div>
       </div>
     )
   }
 })
+
+function make_id_request_uri (id) {
+  return '/api/members/' + id +
+    '?populate=[payments,membership_type,deletion_reason,events_booked]' }
 
 module.exports = ViewMember

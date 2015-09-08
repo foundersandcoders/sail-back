@@ -24,6 +24,6 @@ module.exports = JSON.stringify({
   standing_order: true,
   membership_type: 'life_double',
   date_joined: new Date(),
-  events: JSON.parse(require('./__MOCK_EVENTS__.js')),
+  events_booked: JSON.parse(require('./__MOCK_EVENTS__.js')),
   payments: JSON.parse(require('./__MOCK_PAYMENTS__.js'))
 })
