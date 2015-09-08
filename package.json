@@ -5,7 +5,7 @@
   "description": "a Sails application",
   "keywords": [],
   "scripts": {
-    "test": "npm run test:front && npm run test:server",
+    "test": "SINGLE=true npm run test:react && npm run test:server",
     "start": "webpack --config webpack.production.config.js && sails lift --verbose",
     "debug": "node-debug app.js",
     "test:upload": "standard && tape test/upload/*.test.js",
@@ -65,6 +65,7 @@
     "path-to-regexp": "^0.1.6",
     "pronto": "^0.3.14",
     "query-string": "^2.3.0",
+    "ramda": "^0.17.1",
     "rc": "~0.5.0",
     "react": "^0.13.3",
     "react-router": "1.0.0-beta3",

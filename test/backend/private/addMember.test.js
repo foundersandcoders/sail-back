@@ -28,8 +28,7 @@ test('Sign in as admin', function (t) {
       // console.log('FROM SIGNIN', res)
 
       CookiesAdmin = res.headers['set-cookie'].pop().split(';')[0]
-      t.equals(res.statusCode, 302, 'redirected')
-      t.ok(res.text.indexOf('Redirecting to /') > -1, 'redirect to home page')
+      t.ok(res.headers.location = '/', 'redirect to home page')
       t.end()
     })
 })
