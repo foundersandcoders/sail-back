@@ -10,16 +10,17 @@ var DeletionFields = React.createClass({
   render: function () {
     if (this.props.status === 'deactivated') {
       return (
-	<div>
-	  <Field name='Deletion date: ' value={this.props.date} id='deletion_date'/>
-	  <Field name='Deletion Reason: ' value={this.props.reason.description} id='deletion_reason' />
-	</div> )
+  <div>
+    <Field name='Deletion date: ' value={this.props.date} id='deletion_date'/>
+    <Field name='Deletion Reason: ' value={this.props.reason.description} id='deletion_reason' />
+  </div> )
     } else {
     return (<div></div>) }}})
 
 var personal_ids = ['id', 'title', 'initials', 'first_name',
-'last_name', 'primary_email', 'secondary_email',
-'news_type', 'email_bounced', 'activation_status']
+    'last_name', 'primary_email', 'secondary_email',
+    'news_type', 'email_bounced', 'activation_status']
+
 var PersonalInformation = make_member_fields(personal_ids, 'Personal info')
 
 var address_ids = ['address1', 'address2', 'address3', 'address4',
@@ -38,14 +39,14 @@ var MemberInformation = React.createClass({
     return (
     <div className='member-info-controls'>
     <DeletionFields date={this.props.member.deletion_date}
-	status={this.props.member.activation_status}
-	reason={this.props.member.deletion_reason} />
+  status={this.props.member.activation_status}
+  reason={this.props.member.deletion_reason} />
     <button id='edit-member-mode' className='button-two m-l-15 right w-100'
-	onClick={this.changeMode}>Edit</button>
+  onClick={this.changeMode}>Edit</button>
     <div className='member-info-content'>
-	<PersonalInformation mode={this.props.mode} member={this.props.member} />
-	<AddressInformation mode={this.props.mode} member={this.props.member} />
-	<MembershipInformation mode={this.props.mode} member={this.props.member} />
+  <PersonalInformation mode={this.props.mode} member={this.props.member} />
+  <AddressInformation mode={this.props.mode} member={this.props.member} />
+  <MembershipInformation mode={this.props.mode} member={this.props.member} />
     </div>
     </div> )}})
 
