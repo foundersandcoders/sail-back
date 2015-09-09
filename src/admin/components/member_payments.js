@@ -1,6 +1,7 @@
 'use strict'
 
 var React = require('react')
+var Table = require('./table')
 
 var Button = React.createClass({
   render: function () {
@@ -12,33 +13,6 @@ var Button = React.createClass({
     )
   }
 })
-
-var Table = React.createClass({
-  render: function () {
-    var headers = this.props.data[0]
-    var rows = this.props.data[1]
-    return (
-      <div className='table'>
-        <TableRow header_row={true} entries={ headers } headers={ headers }/>
-        { rows.map(function (row) { return <TableRow entries={ row } headers={ headers } header_row={false}/> }) }
-      </div> )}})
-
-var TableRow = React.createClass({
-  render: function () {
-    var entries = this.props.entries
-    var headers = this.props.headers
-    var class_name = 'table-row' + (this.props.header_row ? ' table-header' : '')
-    return (
-      <div className={class_name} >
-        { entries.map(function (entry, i) { return <TableEntry header={ headers[i] } entry={ entry } /> }) }
-      </div> )}})
-
-var TableEntry = React.createClass({
-  render: function () {
-    return (
-      <div className='table-entry'>
-        <p className={ this.props.header } > { this.props.entry } </p>
-      </div> )}})
 
 var PaymentsTable = React.createClass({
   render: function () {
