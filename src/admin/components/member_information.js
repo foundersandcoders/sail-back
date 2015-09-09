@@ -41,26 +41,24 @@ var MemberInformation = React.createClass({
   changeMode: function () {
     this.props.changeMode() },
   save: function () {
-    /* TODO: put real member in */
-    var member = {}
     this.props.save()
   },
   render: function () {
     return (
     <div className='member-info-controls'>
     <DeletionFields date={this.props.member.deletion_date}
-  status={this.props.member.activation_status}
-  reason={this.props.member.deletion_reason} />
+        status={this.props.member.activation_status}
+        reason={this.props.member.deletion_reason} />
     <button id='edit-member-mode' className='button-two m-l-15 right w-100'
-      onClick={this.changeMode}>Edit</button>
-	<button id='save-member' onClick={this.save}>Save</button>
+        onClick={this.changeMode}>Edit</button>
+    <button id='save-member' onClick={this.save}>Save</button>
     <div className='member-info-content'>
     <PersonalInformation mode={this.props.mode} member={this.props.member}
-      onChange={this.change} />
+        onChange={this.change} />
     <AddressInformation mode={this.props.mode} member={this.props.member}
-	onChange={this.change} />
+        onChange={this.change} />
     <MembershipInformation mode={this.props.mode} member={this.props.member}
-	onChange={this.change} />
+        onChange={this.change} />
     </div>
     </div> )}})
 

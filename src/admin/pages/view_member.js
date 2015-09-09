@@ -32,18 +32,22 @@ var ViewMember = React.createClass({
 
   save: function () {
 
-    /* TODO: get real member details */
-    /*
-	var member = {}
-	request({
-	method: 'PUT',
-	uri: '/api/members/1234',
-	json: member
-	}, function () {
-
-	console.log('requested')
-	})
-    */
+    var self = this
+    var member = Object.keys(self.state.member).reduce(function (member, prop) {
+      if (typeof self.state.member === 'boolean' || !!self.state.member[prop]) {
+        member[prop] = self.state.member[prop]
+      }
+      return member
+    }, {})
+    console.log(member)
+    request({
+      method: 'PUT',
+      uri: '/api/members/' + this.state.member.id,
+      json: member
+    }, function (err, head, body) {
+      //Object.keys(bodyk
+      self.setState({ member: body, mode: 'view' })
+    })
   },
 
   change: function (e) {
@@ -53,8 +57,6 @@ var ViewMember = React.createClass({
       return member
     }.bind(this), {})
     member[e.target.id] = e.target.value
-    console.log(e.target.id, '=', e.target.value)
-    console.log(member)
     this.setState({member: member})
   },
 
@@ -70,7 +72,7 @@ var ViewMember = React.createClass({
           </div>
           <div className='inner-section-divider-medium'></div>
           <MemberInformation mode={this.state.mode} changeMode={this.changeMode}
-	    member={this.state.member} save={this.save} onChange={this.change} />
+            member={this.state.member} save={this.save} onChange={this.change} />
           <div className='inner-section-divider-medium'></div>
           <MemberPayments mode={this.state.mode}
             payments={this.state.member.payments} />
