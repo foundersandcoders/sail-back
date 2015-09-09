@@ -38,7 +38,6 @@ var EventRow = React.createClass({
 
 var MemberEvents = React.createClass({
   render: function () {
-    console.log(this.props.events)
     var table_rows = this.props.events.map(function (event) {
       return <EventRow event={event} />
     })
