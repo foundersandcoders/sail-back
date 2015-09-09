@@ -2,10 +2,17 @@
 
 var expect = require('expect')
 var React = require('react/addons')
-var Component = require('../../../../src/admin/pages/view_member.js')
+var rewire = require('rewire')
+var Component = rewire('../../../../src/admin/pages/view_member.js')
 var arrayify = require('../../../../src/utils/arrayify.js')
+var change = React.addons.TestUtils.Simulate.change
 
 var member = require('../../../../src/__MOCK_MEMBER__.js')
+
+Component.__set__('request', function (opts, cb) {
+
+  cb(null, {body: member})
+})
 
 describe('/members/:id route', function () {
 
@@ -20,10 +27,10 @@ describe('/members/:id route', function () {
 
     React.render((
       React.createElement(Component, {
-  member: member,
-  params: {
-    id: 1234
-  }
+	member: member,
+	params: {
+	    id: 1234
+	}
       })
     ), node, function () {
 
@@ -58,10 +65,10 @@ describe('/members/:id route', function () {
 
     React.render((
       React.createElement(Component, {
-  member: member,
-  params: {
-    id: 1234
-  }
+	member: member,
+	params: {
+	    id: 1234
+	}
       })
     ), node, function () {
 
@@ -93,11 +100,11 @@ describe('/members/:id route', function () {
   })
 
   it('should toggle between edit and view mode', function (done) {
-  
+
     function get_data_nodes () {
       return arrayify(node.querySelectorAll('.member-info-content .info')).map(function (node) {
         return node.nextSibling })}
-    
+
     function check_nodes_tag (tag, nodes) {
       return nodes.every(function (node){
         return node.tagName.toLowerCase() === tag })}
@@ -108,9 +115,57 @@ describe('/members/:id route', function () {
     assert_all_nodes_of_tag('span', get_data_nodes())
     node.querySelector('#edit-member-mode').click()
     process.nextTick(function () {
-    
+
       assert_all_nodes_of_tag('input', get_data_nodes())
       done()
+    })
+  })
+
+  it('inputs should all be editable', function (done) {
+
+    var fields = ['id', 'title', 'initials', 'first_name','last_name',
+	       'primary_email', 'secondary_email', 'news_type',
+	       'email_bounced', 'activation_status', 'address1',
+	       'address2', 'address3', 'address4', 'county', 'postcode',
+	       'deliverer', 'home_phone', 'work_phone', 'mobile_phone',
+	       'date_joined', 'membership_type', 'life_payment_date',
+	       'date_type_changed', 'date_gift_aid_signed',
+	       'date_gift_aid_cancelled', 'standing_order', 'notes',
+		  'registered', 'due_date']
+
+    Component.__set__('request', function (opts, cb) {
+      console.log('haoeua')
+      expect(opts.method).toBe('PUT')
+      expect(opts.uri).toBe('/api/members/1234')
+      var member_fields = Object.keys(opts.json || {})
+      var all_fields_filled = fields.every(function (field) {
+	return member_fields.indexOf(field) > -1 })
+      expect(all_fields_filled).toBe(true)
+      done()
+    })
+
+    React.render(
+      React.createElement(Component, {
+        member: member,
+        params: {
+          id: 1234
+        }
+      }), document.body, function () {
+
+	document.querySelector('#edit-member-mode').click()
+	process.nextTick(function () {
+
+	  fields.forEach(function (id) {
+	      change(document.querySelector('#' + id), { target: {
+	        id: id,
+	        value: Math.random().toString(36).substring(7)
+	      }})
+	  })
+
+	  process.nextTick(function () {
+	    document.querySelector('#save-button').click
+	  })
+	})
     })
   })
 })
