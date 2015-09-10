@@ -20,7 +20,9 @@
     "dev:react": "node webpack/server.js",
     "open:cov": "open coverage/lcov-report/index.html",
     "dev": "NODE_ENV=development sails lift --verbose",
-    "build": "webpack --config webpack.production.config.js --watch"
+    "build": "webpack --config webpack.production.config.js --watch",
+    "build:bf": "browserify src/admin/main.js src/user/main.js -t reactify -p [ factor-bundle -o .tmp/public/js/admin.min.js -o .tmp/public/js/user.min.js ] -o .tmp/public/js/common.min.js",
+    "build:wf": "watchify src/admin/main.js src/user/main.js -t reactify -p [ factor-bundle -o .tmp/public/js/admin.min.js -o .tmp/public/js/user.min.js ] -o .tmp/public/js/common.min.js -v" 
   },
   "standard": {
     "ignore": [
@@ -102,6 +104,7 @@
     "csv2": "^0.1.1",
     "decache": "^3.0.3",
     "expect": "^1.9.0",
+    "factor-bundle": "^2.5.0",
     "function-bind": "^1.0.2",
     "givit": "0.0.2",
     "hyperquest": "^1.2.0",
@@ -118,6 +121,7 @@
     "phantomjs": "^1.9.18",
     "protractor": "^2.1.0",
     "react-hot-loader": "^1.2.9",
+    "reactify": "^1.1.1",
     "shot": "^1.5.3",
     "standard": "^4.5.4",
     "superagent": "^1.2.0",
