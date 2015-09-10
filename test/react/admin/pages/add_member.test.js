@@ -51,7 +51,7 @@ describe('/addmember route', function () {
     Component.__set__('request', function (opts, cb) {
       var member_fields = Object.keys(opts.json)
       var all_fields_filled = fields.every(function (field) {
-      return member_fields.indexOf(field) > -1 })
+	return member_fields.indexOf(field) > -1 })
       expect(all_fields_filled).toBe(true)
       done()
     })

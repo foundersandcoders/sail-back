@@ -3,6 +3,7 @@
 var React = require('react')
 var r = require('ramda') /* require utils.get when it's moved */
 var make_member_fields = require('./common/make_member_fields.js')
+var request = require('xhr')
 
 var Field = require('./field.js')
 
@@ -33,20 +34,31 @@ var membership_ids = ['date_joined', 'membership_type', 'life_payment_date',
 var MembershipInformation = make_member_fields(membership_ids, 'Membership info')
 
 var MemberInformation = React.createClass({
+  getInitialState: function () { return {} },
+  change: function (e) {
+    this.props.onChange(e)
+  },
   changeMode: function () {
     this.props.changeMode() },
+  save: function () {
+    this.props.save()
+  },
   render: function () {
     return (
     <div className='member-info-controls'>
     <DeletionFields date={this.props.member.deletion_date}
-  status={this.props.member.activation_status}
-  reason={this.props.member.deletion_reason} />
+        status={this.props.member.activation_status}
+        reason={this.props.member.deletion_reason} />
     <button id='edit-member-mode' className='button-two m-l-15 right w-100'
-  onClick={this.changeMode}>Edit</button>
+        onClick={this.changeMode}>Edit</button>
+    <button id='save-member' onClick={this.save}>Save</button>
     <div className='member-info-content'>
-  <PersonalInformation mode={this.props.mode} member={this.props.member} />
-  <AddressInformation mode={this.props.mode} member={this.props.member} />
-  <MembershipInformation mode={this.props.mode} member={this.props.member} />
+    <PersonalInformation mode={this.props.mode} member={this.props.member}
+        onChange={this.change} />
+    <AddressInformation mode={this.props.mode} member={this.props.member}
+        onChange={this.change} />
+    <MembershipInformation mode={this.props.mode} member={this.props.member}
+        onChange={this.change} />
     </div>
     </div> )}})
 
