@@ -12,7 +12,7 @@ var ViewMember = React.createClass({
   getInitialState: function () {
     return {
       mode: 'view',
-      member: JSON.parse(require('../../__MOCK_MEMBER__.js'))
+      member: require('../../mock_member.js')
     }
   },
 
@@ -45,7 +45,6 @@ var ViewMember = React.createClass({
       uri: '/api/members/' + this.state.member.id,
       json: member
     }, function (err, head, body) {
-      //Object.keys(bodyk
       self.setState({ member: body, mode: 'view' })
     })
   },
