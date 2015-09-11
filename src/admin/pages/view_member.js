@@ -33,13 +33,14 @@ var ViewMember = React.createClass({
   save: function () {
 
     var self = this
+    console.log('SAVE.title', self.state.member['title'])
+    console.log('SAVE::self.state.member', Object.keys(self.state.member))
     var member = Object.keys(self.state.member).reduce(function (member, prop) {
       if (typeof self.state.member === 'boolean' || !!self.state.member[prop]) {
         member[prop] = self.state.member[prop]
       }
       return member
     }, {})
-    console.log(member)
     request({
       method: 'PUT',
       uri: '/api/members/' + this.state.member.id,
@@ -56,6 +57,8 @@ var ViewMember = React.createClass({
       return member
     }.bind(this), {})
     member[e.target.id] = e.target.value
+    if (e.target.id === 'title')
+    console.log('MMEMEMEMM.title', member.title)
     this.setState({member: member})
   },
 

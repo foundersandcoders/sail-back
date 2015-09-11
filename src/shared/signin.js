@@ -2,6 +2,7 @@
 
 var React = require('react')
 var request = require('xhr')
+var window = window // rewireify seems to require variable declaration
 
 var Signin = React.createClass({
 
@@ -59,7 +60,7 @@ var Signin = React.createClass({
           <input type='password' ref='password' id='password' placeholder='Password' />
 
           <div className='inner-section-divider-small'></div>
-          <input className='btn-primary' type='submit' id='submit-button' value='Sign In' />
+          <button className='btn-primary' type='submit' id='submit-button'>Submit</button>
           <div className='inner-section-divider-small'></div>
 
         <div className='input-label-container'>
