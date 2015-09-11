@@ -8,6 +8,9 @@ var Table = module.exports = React.createClass({
     return (
       <div className='table'>
         <TableRow header_row={true} entries={ headers } headers={ headers }/>
-        { rows.map(function (row) { return <TableRow entries={ row } headers={ headers } header_row={false}/> }) }
+        <div className='table-body'>
+          { rows.map(function (row, i) { return <TableRow entries={ row }
+              headers={ headers } header_row={ false } key={ i } /> }) }
+        </div>
       </div> )}})
 
