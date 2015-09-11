@@ -38,22 +38,26 @@ test('clicking submit sends a well-formed login request', function (t) {
 })
 
 test('successful login sets pathname to response.headers.location', function (t) {
-  var response = {statusCode: 200, headers: {location: 'hoho' }} 
-  var window = {location: {}}
+  
+  var response = {
+    statusCode: 200,
+    headers: {
+      location: 'hoho' 
+    }   
+  } 
+  var window_mock = {location: {}}
   Component.__set__({
       request: function (opts, cb) {
         cb(null, response, null)
         process.nextTick(function(){
-          t.equals(window.location.pathname, 'hoho')
+          t.equals(window_mock.location.pathname, 'hoho')
           t.end()
         })
       },
-      window: window
+      win: window_mock
   })
 
-  React.render((
-     React.createElement(Component)
-  ), document.body, function () {
-      document.body.querySelector('#submit-button').click()
+  React.render(React.createElement(Component), document.body, function () {
+    document.body.querySelector('#submit-button').click()
   })
 })

@@ -18,8 +18,13 @@ var Signin = React.createClass({
         password: React.findDOMNode(this.refs.password).value
       }
       var handle_response = function (err, res, body) {
-        if (err) setState({login_failed: true})
-        else if (res.statusCode === 200) win.location.pathname = res.headers.location
+          console.log('aoeuaeu')
+      
+        if (err) { 
+          setState({login_failed: true})
+        } else if (res.statusCode === 200) {
+          win.location.pathname = res.headers.location
+        }
       }
 
       console.log('bout to request')
