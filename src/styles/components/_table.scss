@@ -21,30 +21,51 @@ div.table {
     flex-direction: row;
     
     .table-entry {
+      width: 2em;
       padding: 1%;
-      &:nth-child(1) {
+      // payment info
+      &.date {
         flex: 3;
       }
-      &:nth-child(2) {
+      &.description {
         flex: 4;
       }
-      &:nth-child(3) {
+      &.charges {
         flex: 2;
       }
-      &:nth-child(4) {
+      &.payments {
         flex: 2;
       }
-      &:nth-child(5) {
+      &.balance {
         flex: 3;
       }
-      &:nth-child(6) {
+      &.reference {
         flex: 3;
       }
-      &:nth-child(7) {
+      &.notes {
         flex: 4;
       }
-      &:nth-child(8) {
+      &.delete {
         flex: 1;
+      }
+      // events table 
+      &.title {
+        flex: 3; 
+      }
+      &.time {
+        flex: 3; 
+      }
+      &.location {
+        flex: 3; 
+      }
+      &.host {
+        flex: 3; 
+      }
+      &.price-per-member {
+        flex: 3; 
+      }
+      &.price-per-guest {
+        flex: 3; 
       }
     }
   }
