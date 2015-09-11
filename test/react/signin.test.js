@@ -1,97 +1,60 @@
 'use strict'
 
-var expect = require('expect')
+var test = require('tape')
 var React = require('react/addons')
-var rewire = require('rewire')
-var Component = rewire('../../src/shared/signin.js')
+var Component = require('../../src/shared/signin.js')
+var click = React.addons.TestUtils.Simulate.click
 
 Component.__set__('request', function(){console.log('Request set! word')})
+test('should signin page', function (t) {
 
-describe('/signin route', function () {
+  React.render(React.createElement(Component), document.body, function () {
 
-  var node
-  beforeEach(function () {
-    node = document.body
+    //t.ok(document.body.innerHTML.indexOf('signin-component') > -1)
+    t.ok(document.body.innerHTML.indexOf('email') > -1)
+    t.ok(document.body.innerHTML.indexOf('password') > -1)
+    t.ok(document.body.innerHTML.indexOf('Membership number') > -1)
+    t.end()
+  })
+})
+
+test('clicking submit sends a well-formed login request', function (t) {
+  var username = 'fil@foch.org'
+  var password = 'wrongPa$$w0rd23'
+
+  Component.__set__('request', function (opts, cb) {
+    t.equals(opts.method, 'POST')
+    t.equals(opts.uri, '/signin')
+    t.equals(opts.json.username, username)
+    t.equals(opts.json.password, password)
+    t.end()
   })
 
-  it('should signin page', function (done) {
+  React.render(React.createElement(Component), document.body, function () {
+    document.body.querySelector('#email').value = username
+    document.body.querySelector('#password').value = password
+    var submit = document.body.querySelector('#submit-button')
+    submit.click()
+  })
+})
 
-    React.render((
-      React.createElement(Component)
-    ), node, function () {
-
-      expect(node.innerHTML).toMatch(/Sign In/)
-      expect(node.innerHTML).toMatch(/signin-component/)
-      expect(node.innerHTML).toMatch(/email/)
-      expect(node.innerHTML).toMatch(/password/)
-      expect(node.innerHTML).toMatch(/Membership number/)
-      done()
-    })
+test('successful login sets pathname to response.headers.location', function (t) {
+  var response = {statusCode: 200} 
+  var window = {location: {}}
+  Component.__set__({
+      request: function (opts, cb) {
+        cb(null, response, null)
+        process.nextTick(function(){
+          t.equals(window.location.hash, '')
+          t.end()
+        })
+      },
+      window: window
   })
 
-  it('clicking submit sends a well-formed login request', function (done) {
-    var username = 'fil@foch.org'
-    var password = 'wrongPa$$w0rd23'
-
-    Component.__set__('request', function (opts, cb) {
-      expect(opts.method).toBe('POST')
-      expect(opts.uri).toBe('/signin')
-      expect(opts.json.username).toBe(username)
-      expect(opts.json.password).toBe(password)
-      done()
-    })
-
-    React.render((
-      React.createElement(Component)
-    ), node, function () {
-      node.querySelector('#email').value = username
-      node.querySelector('#password').value = password
-      node.querySelector('#submit-button').click()
-    })
-
-  })
-
-  it('clicking submit sends a well-formed login request', function (done) {
-    var username = 'fil@foch.org'
-    var password = 'wrongPa$$w0rd23'
-
-    Component.__set__('request', function (opts, cb) {
-        expect(opts.method).toBe('POST')
-        expect(opts.uri).toBe('/signin')
-        expect(opts.json.username).toBe(username)
-        expect(opts.json.password).toBe(password)
-        done()
-    })
-
-    React.render((
-        React.createElement(Component)
-    ), node, function () {
-        node.querySelector('#email').value = username
-        node.querySelector('#password').value = password
-        node.querySelector('#submit-button').click()
-    })
-
-  })
-
-  it('successful login sets pathname to response.headers.location', function (done) {
-    var response = {statusCode: 200} 
-    var window = {location: {}}
-    Component.__set__({
-        request: function (opts, cb) {
-          cb(null, response, null)
-          process.nextTick(function(){
-            expect(window.location.hash).toBe('')
-            done()
-          })
-        },
-        window: window
-    })
-
-    React.render((
-        React.createElement(Component)
-    ), node, function () {
-        node.querySelector('#submit-button').click()
-    })
-
+  React.render((
+     React.createElement(Component)
+  ), document.body, function () {
+      document.body.querySelector('#submit-button').click()
   })
 })

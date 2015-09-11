@@ -12,7 +12,7 @@ var ViewMember = React.createClass({
   getInitialState: function () {
     return {
       mode: 'view',
-      member: JSON.parse(require('../../__MOCK_MEMBER__.js'))
+      member: require('../../mock_member.js')
     }
   },
 
@@ -33,19 +33,19 @@ var ViewMember = React.createClass({
   save: function () {
 
     var self = this
+    console.log('SAVE.title', self.state.member['title'])
+    console.log('SAVE::self.state.member', Object.keys(self.state.member))
     var member = Object.keys(self.state.member).reduce(function (member, prop) {
       if (typeof self.state.member === 'boolean' || !!self.state.member[prop]) {
         member[prop] = self.state.member[prop]
       }
       return member
     }, {})
-    console.log(member)
     request({
       method: 'PUT',
       uri: '/api/members/' + this.state.member.id,
       json: member
     }, function (err, head, body) {
-      //Object.keys(bodyk
       self.setState({ member: body, mode: 'view' })
     })
   },
@@ -57,6 +57,8 @@ var ViewMember = React.createClass({
       return member
     }.bind(this), {})
     member[e.target.id] = e.target.value
+    if (e.target.id === 'title')
+    console.log('MMEMEMEMM.title', member.title)
     this.setState({member: member})
   },
 

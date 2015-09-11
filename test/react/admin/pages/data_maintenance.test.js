@@ -1,24 +1,16 @@
 'use strict'
 
-var expect = require('expect')
+var test = require('tape')
 var React = require('react/addons')
 var Component = require('../../../../src/admin/pages/data_maintenance.js')
 
-describe('/maintenance route', function () {
+test('should load data maintenance page', function (t) {
 
-  var node
-  beforeEach(function () {
-    node = document.body
-  })
+  React.render((
+    React.createElement(Component)
+  ), document.body, function () {
 
-  it('should load data maintenance page', function (done) {
-
-    React.render((
-      React.createElement(Component)
-    ), node, function () {
-
-      expect(node.innerHTML).toMatch(/Data maintenance/)
-      done()
-    })
+    t.ok(document.body.innerHTML.indexOf('Data maintenance') > -1, 'Data maintenance rendered')
+    t.end()
   })
 })

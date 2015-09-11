@@ -4,7 +4,7 @@
 
   var React = require('react')
   var routes = require('./routes.js')()
-  require('../styles/main.scss')
+//  require('../styles/main.scss')
 
   if (window.location.href.indexOf('/api/') === -1) {
     console.log('reacting')
