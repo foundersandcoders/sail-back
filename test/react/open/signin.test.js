@@ -38,13 +38,13 @@ test('clicking submit sends a well-formed login request', function (t) {
 })
 
 test('successful login sets pathname to response.headers.location', function (t) {
-  var response = {statusCode: 200} 
+  var response = {statusCode: 200, headers: {location: 'hoho' }} 
   var window = {location: {}}
   Component.__set__({
       request: function (opts, cb) {
         cb(null, response, null)
         process.nextTick(function(){
-          t.equals(window.location.hash, '')
+          t.equals(window.location.pathname, 'hoho')
           t.end()
         })
       },
