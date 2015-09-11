@@ -2,7 +2,7 @@
 
 var React = require('react')
 var request = require('xhr')
-var window = window // rewireify seems to require variable declaration
+var win = window // rewireify seems to require variable declaration
 
 var Signin = React.createClass({
 
@@ -19,7 +19,7 @@ var Signin = React.createClass({
       }
       var handle_response = function (err, res, body) {
         if (err) setState({login_failed: true})
-        else if (res.statusCode === 200) window.location.hash = ''
+        else if (res.statusCode === 200) win.location.pathname = res.headers.location
       }
 
       console.log('bout to request')

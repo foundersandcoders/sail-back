@@ -2,8 +2,7 @@
 
 var test = require('tape')
 var React = require('react/addons')
-var Component = require('../../src/shared/signin.js')
-var click = React.addons.TestUtils.Simulate.click
+var Component = require('../../../src/open/pages/signin.js')
 
 Component.__set__('request', function(){console.log('Request set! word')})
 test('should signin page', function (t) {
