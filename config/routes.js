@@ -44,6 +44,10 @@ module.exports.routes = {
     controller: 'Public',
     action: 'showHome'
   },
+  'GET /user': {
+    controller: 'Private',
+    action: 'showUserHome'
+  },
   'GET /signin': {
     controller: 'Public',
     action: 'showSignIn'
@@ -107,7 +111,7 @@ module.exports.routes = {
   // -------------------------------------------------------------------------
   'GET /admin': {
     controller: 'Private',
-    action: 'showAdmin'
+    action: 'showAdminHome'
   },
   'GET /addmember': {
     controller: 'Private',

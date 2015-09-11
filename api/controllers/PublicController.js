@@ -1,6 +1,4 @@
-/*global
-  Members
-*/
+/* global Members */
 
 'use strict'
 
@@ -12,7 +10,7 @@ var Mailgun = require('../services/Email_mailgun')
 module.exports = {
 
   showHome: function (req, res) {
-    res.view('pages/home', {user: req.session.user})
+    res.view('pages/open', {user: req.session.user})
   },
 
   showSignIn: function (req, res) {
@@ -25,13 +23,15 @@ module.exports = {
 
   ServiceSignIn: function (req, res) {
     passport.authenticate('local', function (err, member, info) {
+    
       if ((err) || (!member)) {
         res.status(401).end()
-      } else {
+      } else  {
         req.session.user = member
         req.session.authenticated = true
         req.member = member
-        res.location('/').end()
+        var redirect_to = req.session.user.privileges === 'admin' ? '/admin' : '/user'
+        res.location(redirect_to).end()
       }
     })(req, res)
   },

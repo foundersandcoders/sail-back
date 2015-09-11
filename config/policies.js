@@ -2,7 +2,9 @@ module.exports.policies = {
   '*': ['isAuthenticated', 'isAdmin'],
 
   PrivateController: {
-    '*': ['isAuthenticated', 'isAdmin']
+    '*': ['isAuthenticated', 'isAdmin'],
+    'showAdminHome': 'isAdmin',
+    'showUserHome': 'isAuthenticated'
   },
 
   MembersController: {

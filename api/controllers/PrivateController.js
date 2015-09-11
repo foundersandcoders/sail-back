@@ -2,17 +2,15 @@
   Members, sails
 */
 
-/**
- *
- *
- */
-
 var Is = require('torf')
 var Upload = require('../services/Upload.js')()
 
 module.exports = {
-  showAdmin: function (req, res) {
-    res.view('pages/admin-search', {user: req.session.user})
+  showAdminHome: function (req, res) {
+    res.view('pages/admin', {user: req.session.user})
+  },
+  showUserHome: function (req, res) {
+    res.view('pages/user', {user: req.session.user})
   },
   showMemberForm: function (req, res) {
     res.view('pages/new-member', {user: req.session.user})
