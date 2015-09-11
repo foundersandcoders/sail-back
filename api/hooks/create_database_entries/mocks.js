@@ -1,6 +1,6 @@
 exports.admins = function () {
   var admins = [{
-    id: '471899',
+    id: '471800',
     title: 'Mr',
     initials: 'S',
     postcode: 'E1 0SY',
@@ -8,8 +8,8 @@ exports.admins = function () {
     last_name: 'Hoxhaj',
     primary_email: 'bes@foch.org',
     secondary_email: 'bes2@foch.org',
-    password: 'backdoor',
-    privileges: 'member',
+    password: 'cnvo2hh89h',
+    privileges: 'admin',
     activation_status: 'activated',
     gift_aid_signed: false,
     date_joined: new Date(),

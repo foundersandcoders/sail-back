@@ -29,7 +29,7 @@ test('Signin member: ', function (t) {
     .post('/signin')
     .send(memberMock)
     .end(function (err, res) {
-      t.ok(res.headers.location === '/', 'redirect to home page')
+      t.ok(res.headers.location === '/user', 'redirect to home page')
       t.end()
     })
 })

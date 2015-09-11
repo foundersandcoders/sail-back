@@ -26,7 +26,6 @@ test('Sign up and get cookies', function (t) {
     .post('/signup')
     .send({primary_email: 'uploadMember@email.com', password: 'correct', membership_type: 'annual-corporate'})
     .end(function (err, res) {
-      // console.log('FROM SIGNIN', res)
 
       Cookies = res.headers['set-cookie'].pop().split(';')[0]
       t.ok(res.headers.location === '/', 'redirect to home page')
@@ -51,10 +50,9 @@ test('Sign in as admin', function (t) {
     .post('/signin')
     .send({username: 'bes@foch.org', password: 'cnvo2hh89h'})
     .end(function (err, res) {
-      // console.log('FROM SIGNIN', res)
 
       CookiesAdmin = res.headers['set-cookie'].pop().split(';')[0]
-      t.ok(res.headers.location === '/', 'redirect to home page')
+      t.ok(res.headers.location === '/admin', 'redirect to home page')
       t.end()
     })
 })
