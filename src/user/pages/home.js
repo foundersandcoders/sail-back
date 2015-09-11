@@ -1,5 +1,7 @@
-var react = require('React')
+'use strict'
 
-module.exports = react.createClass({
+var React = require('react')
+
+module.exports = React.createClass({
   render: function () {
     return (<h1>User? More like Loser!</h1>)}})
