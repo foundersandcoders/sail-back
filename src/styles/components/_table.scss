@@ -1,9 +1,9 @@
 div.table {
-  
+
   display: flex;
   flex-direction: column;
   text-align: center;
-  
+
  .table-header {
     border-bottom: 1px solid #666;
     p {
@@ -11,15 +11,15 @@ div.table {
       font-size: 105%; }}
 
   .table-body {
-    max-height: 20%;
+    max-height: 20em;
     overflow-y: scroll;
   }
 
   .table-row {
- 
+
     display: flex;
     flex-direction: row;
-    
+
     .table-entry {
       width: 2em;
       padding: 1%;
@@ -48,24 +48,24 @@ div.table {
       &.delete {
         flex: 1;
       }
-      // events table 
+      // events table
       &.title {
-        flex: 3; 
+        flex: 3;
       }
       &.time {
-        flex: 3; 
+        flex: 3;
       }
       &.location {
-        flex: 3; 
+        flex: 3;
       }
       &.host {
-        flex: 3; 
+        flex: 3;
       }
       &.price-per-member {
-        flex: 3; 
+        flex: 3;
       }
       &.price-per-guest {
-        flex: 3; 
+        flex: 3;
       }
     }
   }
