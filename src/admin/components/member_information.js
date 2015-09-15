@@ -25,12 +25,12 @@ var personal_ids = ['id', 'title', 'initials', 'first_name',
 var PersonalInformation = make_member_fields(personal_ids, 'Personal info')
 
 var address_ids = ['address1', 'address2', 'address3', 'address4',
-'county', 'postcode', 'deliverer', 'home_phone', 'work_phone', 'mobile_phone']
+    'county', 'postcode', 'deliverer', 'home_phone', 'work_phone', 'mobile_phone']
 var AddressInformation = make_member_fields(address_ids, 'Address info')
 
 var membership_ids = ['date_joined', 'membership_type', 'life_payment_date',
-'date_type_changed', 'date_gift_aid_signed', 'date_gift_aid_cancelled',
-'standing_order', 'notes', 'registered', 'due_date']
+    'date_type_changed', 'date_gift_aid_signed', 'date_gift_aid_cancelled',
+    'standing_order', 'notes', 'registered', 'due_date']
 var MembershipInformation = make_member_fields(membership_ids, 'Membership info')
 
 var MemberInformation = React.createClass({
