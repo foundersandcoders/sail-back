@@ -109,6 +109,85 @@ test('should toggle between edit and view mode', function (t) {
     t.end()
   })
 })
+
+test('should be able to add charges', function (t) {
+
+
+  var node = document.body
+  
+  React.render(React.createElement(Component, {
+    member: member,
+    params: {
+      id: 1234
+    }
+  }), node, function () {
+ 
+    var fields =['event', 'subscription', 'donation', 'payment']
+    
+    t.ok(fields.every(function(field){ 
+      return !!document.querySelector('#'+field+'_btn')
+    }), 'all field buttons present')
+    fields.forEach(function (field, i) {
+      
+      t.test('checking rendering of ' + field, function (st) {
+      
+        var button = document.querySelector('#'+field+'_btn')
+        click(button)
+        process.nextTick(function () {
+          
+          st.ok(document.querySelector('.' + field), field + ' displaying')
+          st.end()
+        })
+      })
+    })
+    
+    
+   /* 
+    t.test(function (st) {
+    
+      var button = document.querySelector('#event_btn')
+      click(button)
+      process.nextTick(function () {
+         
+        st.ok(document.querySelector('.event'), 'event displaying')
+        st.end()
+      })
+    })
+  
+ */
+    /*
+    click(document.querySelector('#event_btn'))
+    process.nextTick(function () {
+       
+      var check = document.querySelector('.event')
+      t.ok(check, 'ok@')
+      t.end()
+    })
+    */
+/*
+    fields.forEach(function (field) {
+    
+      click(document.querySelector('#'+field+'_btn'))
+      var check = document.querySelector('#hohoho')
+      t.notOk(check, 'not ok@')
+      var btn = document.querySelector('#'+field+'_btn')
+      t.ok(!!btn, 'btn olk')
+      process.nextTick(function () {
+        var check = document.querySelector('#hohoho')
+        t.ok(check, 'ok@')
+        //t.equals(document.querySelector('#hohoho').innerHTML, 'aoeu')
+        // t.ok(document.querySelector('h2.'+field), field +' header exists')
+      })
+    })
+  */  
+    /* TODO: test clicks on buttons  */
+    /* TODO: test input of fields  */
+    /* TODO: test save on fields  */
+   // node.querySelector('h1')  
+   // t.end()
+  })
+})
+
 /* 
 test('inputs should all be editable', function (t) {
 

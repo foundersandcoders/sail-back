@@ -77,7 +77,7 @@ var ViewMember = React.createClass({
             member={this.state.member} save={this.save} onChange={this.change} />
           <div className='inner-section-divider-medium'></div>
           <MemberPayments mode={this.state.mode}
-            payments={this.state.member.payments} />
+            payments={this.state.member.payments} mid={member_id}/>
           <div className='inner-section-divider-medium'></div>
           <MemberEvents mode={this.state.mode}
             events={this.state.member.events_booked}/>
