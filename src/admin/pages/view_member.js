@@ -60,13 +60,11 @@ var ViewMember = React.createClass({
       self.setState({ member: body, mode: 'view' })})},
 
   change: function (e) {
-
     var member = Object.keys(this.state.member).reduce(function (member, prop) {
       member[prop] = this.state.member[prop]
       return member
     }.bind(this), {})
     member[e.target.id] = e.target.value
-    if (e.target.id === 'title')
     this.setState({member: member})
   },
 
