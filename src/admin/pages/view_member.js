@@ -20,6 +20,7 @@ var ViewMember = React.createClass({
       uri: make_id_request_uri(id),
     }, function (err, data) {
       this.setState({member: JSON.parse(data.body)})
+      /* TODO: don't do this! */
       this.get_members_events(this.props.params.id)}.bind(this))},
 
   get_members_events: function (id) {
