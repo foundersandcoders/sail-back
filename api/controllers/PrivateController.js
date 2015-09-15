@@ -35,6 +35,7 @@ module.exports = {
       })
   },
   showMember: function (req, res) {
+    /* TODO: redo so it uses applicative functor pattern to simultaneously get events */
     Members
       .findOne(req.param('id'))
       .populateAll()

@@ -33,7 +33,6 @@
     "bluebird": "^2.9.30",
     "braintree": "^1.26.0",
     "browserify": "^10.2.6",
-    "cheerio": "^0.19.0",
     "clone": "^1.0.2",
     "connect-redis": "1.4.5",
     "css-loader": "^0.16.0",
@@ -65,8 +64,6 @@
     "react": "^0.13.3",
     "react-router": "1.0.0-beta3",
     "request": "^2.58.0",
-    "rewire": "^2.3.4",
-    "rewire-webpack": "^1.0.0",
     "sails": "~0.11.0",
     "sails-disk": "~0.10.0",
     "sails-memory": "^0.10.4",
@@ -83,7 +80,6 @@
     "virtual-dom": "^2.0.1",
     "vtree": "0.0.22",
     "watchify": "^3.2.3",
-    "webpack": "^1.12.0",
     "xhr": "^2.0.1"
   },
   "main": "app.js",
@@ -104,13 +100,6 @@
     "istanbul": "^0.3.17",
     "jquery-browserify": "^1.8.1",
     "jsdom": "^5.6.1",
-    "karma": "^0.13.9",
-    "karma-chrome-launcher": "^0.2.0",
-    "karma-mocha": "^0.2.0",
-    "karma-phantomjs-launcher": "^0.2.1",
-    "karma-sourcemap-loader": "^0.3.5",
-    "karma-webpack": "^1.7.0",
-    "mocha": "^2.2.5",
     "parcelify": "^2.1.0",
     "phantomjs": "^1.9.18",
     "protractor": "^2.1.0",
@@ -124,7 +113,6 @@
     "supertest": "^1.0.1",
     "tape": "^4.0.0",
     "tape-run": "^1.1.0",
-    "through2": "^0.6.5",
-    "webpack-dev-server": "^1.10.1"
+    "through2": "^0.6.5"
   }
 }

@@ -41,22 +41,25 @@ module.exports = {
       })
   },
   showMyEvents: function (req, res) {
-    res.view('pages/myEvents', {user: req.session.user})
-  },
+    res.view('pages/myEvents', {user: req.session.user})},
+
   getMyEvents: function (req, res) {
-    BookingRecords
-      .find({head_member: req.session.user.id})
-      .populate('event_id')
-      .exec(function (error, items) {
-        if (error) {
-          return res.serverError({error: error})
-        }
+    get_user_events(respond_with_event_data(res),
+        req.session.user.id)},
 
-        var onlyEvents = Lazy(items).map(function (elm, index) {
-          return elm.event_id
-        }).toArray()
+  admin_get_user_events: function (req, res) {
+    get_user_events(respond_with_event_data(res), req.param('id'))},
 
-        return res.send(onlyEvents)
-      })
-  }
+  get_user_events: get_user_events
 }
+
+
+function get_user_events (cb, id) {
+  BookingRecords
+    .find({head_member: id})
+    .populate('event_id')
+    .exec(cb) }
+
+var respond_with_event_data = require('../../src/utils/curry')(function (res, err, data) {
+  if (err) res.serverError({error: error})
+  else res.send(require('../../src/utils/pluck')('event_id', data))})

@@ -12,16 +12,26 @@ var ViewMember = React.createClass({
   getInitialState: function () {
     return {
       mode: 'view',
-      member: require('../../mock_member.js')
-    }
-  },
+      member: require('../../mock_member.js')}},
 
   get_member_by_id: function (id) {
     request({
       method: 'GET',
       uri: make_id_request_uri(id),
     }, function (err, data) {
-      this.setState({member: JSON.parse(data.body)}) }.bind(this))},
+      this.setState({member: JSON.parse(data.body)})
+      /* TODO: don't do this! */
+      this.get_members_events(this.props.params.id)}.bind(this))},
+
+  get_members_events: function (id) {
+    request({
+      method: 'GET',
+      uri: make_event_request_uri(id),
+    }, function (err, data) {
+      var mem = this.state.member
+      mem.events_booked = JSON.parse(data.body)
+      this.setState({member: mem}) }.bind(this))},
+
 
   componentDidMount: function () {
     this.get_member_by_id(this.props.params.id)},
@@ -41,24 +51,20 @@ var ViewMember = React.createClass({
       }
       return member
     }, {})
+
     request({
       method: 'PUT',
       uri: '/api/members/' + this.state.member.id,
       json: member
     }, function (err, head, body) {
-      self.setState({ member: body, mode: 'view' })
-    })
-  },
+      self.setState({ member: body, mode: 'view' })})},
 
   change: function (e) {
-
     var member = Object.keys(this.state.member).reduce(function (member, prop) {
       member[prop] = this.state.member[prop]
       return member
     }.bind(this), {})
     member[e.target.id] = e.target.value
-    if (e.target.id === 'title')
-    console.log('MMEMEMEMM.title', member.title)
     this.setState({member: member})
   },
 
@@ -82,13 +88,13 @@ var ViewMember = React.createClass({
           <MemberEvents mode={this.state.mode}
             events={this.state.member.events_booked}/>
         </div>
-      </div>
-    )
-  }
-})
+      </div> )}})
 
 function make_id_request_uri (id) {
   return '/api/members/' + id +
     '?populate=[payments,membership_type,deletion_reason,events_booked]' }
+
+function make_event_request_uri (id) {
+  return '/api/members/' + id + '/events' }
 
 module.exports = ViewMember

@@ -13,10 +13,7 @@ var Button = React.createClass({
     return (
       <button id={type + '_btn'} onClick={this.click} className='btn-primary w-3'>
         {'+ ' + type}
-      </button>
-    )
-  }
-})
+      </button> )}})
 
 var PaymentsTable = React.createClass({
   render: function () {
@@ -27,8 +24,7 @@ var PaymentsTable = React.createClass({
       .slice(1)
       .map(function (payment, i) { return headers.map(get_entry_for_payment(payment)) })
 
-    return ( <Table data={ [headers, entries] } /> )}
-})
+    return ( <Table data={ [headers, entries] } /> )}})
 
 
 var AddSubscription = make_charge_form('subscription')
@@ -96,8 +92,8 @@ var get_entry_for_payment = require('../../utils/curry')(function (payment, head
   else { return payment[ header.toLowerCase() ] }})
 
 function charge_or_payment_amount(category, charge_or_payment, amount) {
-    var options = ['Charges', 'Payments']
-    var offset = category === 'payment' ? 0 : 1
-    return options.indexOf(charge_or_payment) + offset === 1 ? amount : '' }
+  var options = ['Charges', 'Payments']
+  var offset = category === 'payment' ? 0 : 1
+  return options.indexOf(charge_or_payment) + offset === 1 ? amount : '' }
 
 module.exports = MemberPayments
