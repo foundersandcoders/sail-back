@@ -44,7 +44,8 @@ module.exports = {
     res.view('pages/myEvents', {user: req.session.user})},
 
   getMyEvents: function (req, res) {
-    get_user_events(respond_with_event_data(res), req.param('id'))},
+    get_user_events(respond_with_event_data(res),
+        req.session.user.id)},
 
   admin_get_user_events: function (req, res) {
     get_user_events(respond_with_event_data(res), req.param('id'))},
@@ -60,5 +61,5 @@ function get_user_events (cb, id) {
     .exec(cb) }
 
 var respond_with_event_data = require('../../src/utils/curry')(function (res, err, data) {
-      if (err) res.serverError({error: error})
-      else (res.send(data))})
+  if (err) res.serverError({error: error})
+  else res.send(require('../../src/utils/pluck')('event_id', data))})
