@@ -1,4 +1,5 @@
 module.exports = [{
+  event_id: {
   date: new Date(),
   title: 'Cinqo de Mayo',
   reference: '28712aab',
@@ -7,8 +8,8 @@ module.exports = [{
   host: 'Ween',
   price_per_member: 20,
   price_per_guest: 25
-},
-{
+  },
+  event_id: {
   date: new Date(),
   title: 'Birthday Pardy',
   reference: '25516',
@@ -17,8 +18,8 @@ module.exports = [{
   host: 'Cat',
   price_per_member: 10,
   price_per_guest: 65
-},
-{
+  },
+  event_id: {
   date: new Date(),
   title: 'Squat Race',
   reference: '88712aden',
@@ -27,4 +28,4 @@ module.exports = [{
   host: 'Pork Man',
   price_per_member: 21,
   price_per_guest: 21
-}]
+}}]

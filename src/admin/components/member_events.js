@@ -21,13 +21,16 @@ var MemberEvents = React.createClass({
           <h1>Events</h1>
         </div>
         <div className='inner-section-divider-medium'></div>
-        <EventsTable events={ require('../../mock_events') } />
+        <EventsTable events={ this.props.events } />
       </div>
     )
   }
 })
 
 var get_entry_for_event = require('../../utils/curry')(function (event, header) {
-  return event[ header.toLowerCase() ] })
+  return format_if_necessary(header)(event[ header.toLowerCase().replace(/ /g, '_') ])})
+
+function format_if_necessary (header) {
+  return header === 'Date' ? require('../../utils/format_date') : function (data) { return data } }
 
 module.exports = MemberEvents

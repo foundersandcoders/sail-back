@@ -5,31 +5,29 @@ var React = require('react/addons')
 var Component = require('../../../../src/admin/pages/view_member.js')
 var arrayify = require('../../../../src/utils/arrayify.js')
 var change = React.addons.TestUtils.Simulate.change
-var click = React.addons.TestUtils.Simulate.click
 
 var member = require('../../../../src/mock_member.js')
+var events = require('../../../../src/mock_events.js')
 
 Component.__set__('request', function (opts, cb) {
-  
-  cb(null, {body: JSON.stringify(member)})
-})
+  opts.uri.match(/\/events/) ?
+      cb(null, {body: JSON.stringify(events)}) :
+      cb(null, {body: JSON.stringify(member)})})
+
 test('should load admin view member page', function (t) {
 
   var node = document.body
-   React.render(
-    React.createElement(Component, {
-      member: member,
-      params: {
-        id: 1234
-      }
-    }), node, function () {
-  
+  React.render(React.createElement(Component, {
+    member: member,
+    params: {
+      id: 1234
+    }
+  }), node, function () {
     t.ok(node.innerHTML.indexOf('Member info') > -1)
     t.ok(node.innerHTML.indexOf('1234') > -1)
     t.ok(node.innerHTML.indexOf('member-component') > -1)
-    t.end()
-  })
-})
+    t.end()})})
+
 test('should render member details', function (t) {
 
   var node = document.body
@@ -109,7 +107,7 @@ test('should toggle between edit and view mode', function (t) {
     t.end()
   })
 })
-/* 
+/*
 test('inputs should all be editable', function (t) {
 
   var node = document.body
@@ -129,7 +127,7 @@ test('inputs should all be editable', function (t) {
     var member_fields = Object.keys(opts.json || {})
     console.log("member fields", member_fields)
     var not_there = fields.filter(function (field) {
-      return member_fields.indexOf(field) === -1 
+      return member_fields.indexOf(field) === -1
     })
     console.log("not_there", not_there)
     var all_fields_filled = fields.every(function (field) {
@@ -158,6 +156,6 @@ test('inputs should all be editable', function (t) {
       process.nextTick(function () {
         click(document.querySelector('#save-member'))
       })
-  }) 
+  })
 })
 */

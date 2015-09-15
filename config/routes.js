@@ -125,6 +125,10 @@ module.exports.routes = {
     controller: 'Private',
     action: 'showMember'
   },
+  'GET /api/members/:id/events': {
+    controller: 'Members', //to change
+    action: 'admin_get_user_events'
+  },
   'GET /maintenance': {
     controller: 'Private',
     action: 'showMaintenance'

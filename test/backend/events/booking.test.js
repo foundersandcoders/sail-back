@@ -107,8 +107,6 @@ test("Check in 'myEvents'", function (t) {
       return t.end()
     }
 
-    // console.log('My events: ', res.body)
-
     t.ok(res.body[0], 'event attached')
     t.end()
   })
