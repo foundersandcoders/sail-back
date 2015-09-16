@@ -91,6 +91,7 @@
   "license": "",
   "devDependencies": {
     "csv2": "^0.1.1",
+    "data.task": "^3.0.0",
     "decache": "^3.0.3",
     "expect": "^1.9.0",
     "factor-bundle": "^2.5.0",

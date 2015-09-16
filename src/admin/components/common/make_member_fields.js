@@ -35,14 +35,10 @@ module.exports = function make_member_fields (ids, column_title) {
     render: function () {
       var field_components = this.fields().map(function(field, i) {
           return <Field mode={this.props.mode} name={field.name}
-        value={field.value} id={field.id} key={i} onChange={this.onChange} />}.bind(this))
+              value={field.value} id={field.id} key={i} onChange={this.onChange} />}.bind(this))
 
       return (
         <div className='col-1'>
           <h2>{column_title}</h2>
           {field_components}
-        </div>
-      )
-    }
-  })
-}
+        </div> )}})}
