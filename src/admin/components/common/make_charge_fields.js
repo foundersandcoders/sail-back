@@ -2,6 +2,7 @@
 
 var request = require('xhr')
 var to_title_case = require('../../../utils/to_title_case')
+var React = require('react')
 
 var make_charge_fields = function (charge) {
 

@@ -5,6 +5,7 @@ var React = require('react/addons')
 var Component = require('../../../../src/admin/pages/view_member.js')
 var arrayify = require('../../../../src/utils/arrayify.js')
 var change = React.addons.TestUtils.Simulate.change
+var click = React.addons.TestUtils.Simulate.click
 
 var member = require('../../../../src/mock_member.js')
 var events = require('../../../../src/mock_events.js')
