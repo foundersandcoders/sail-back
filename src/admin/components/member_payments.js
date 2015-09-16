@@ -2,12 +2,16 @@
 
 var React = require('react')
 var Table = require('./table')
+var make_charge_form = require('./common/make_charge_fields.js')
 
 var Button = React.createClass({
+  click: function () {
+     this.props.click(this.props.type)
+  },
   render: function () {
     var type = this.props.type
     return (
-      <button id={type + '_btn'} className='btn-primary w-3'>
+      <button id={type + '_btn'} onClick={this.click} className='btn-primary w-3'>
         {'+ ' + type}
       </button> )}})
 
@@ -15,16 +19,46 @@ var PaymentsTable = React.createClass({
   render: function () {
     var headers = ['Date', 'Description', 'Charges', 'Payments', 'Balance Due', 'Reference', 'Notes', 'Delete']
 
-    var entries = this.props.payments.reduce(make_payments_with_balance, [0]).slice(1)
+    var entries = (this.props.payments || [])
+      .reduce(make_payments_with_balance, [0])
+      .slice(1)
       .map(function (payment, i) { return headers.map(get_entry_for_payment(payment)) })
 
     return ( <Table data={ [headers, entries] } /> )}})
 
-var MemberPayments = React.createClass({
-  render: function () {
-    var buttons = ['subscription', 'donation', 'payment'].map(function (type) {
-      return <Button type={type} /> })
 
+var AddSubscription = make_charge_form('subscription')
+var AddEvent = make_charge_form('event')
+var AddDonation = make_charge_form('donation')
+var AddPayment = make_charge_form('payment')
+
+var MemberPayments = React.createClass({
+  getInitialState: function () {
+    return {
+      view: 'payments-table' 
+    } 
+  },
+  view: function (activated_view) {
+    this.setState({
+      view: activated_view 
+    }) 
+  },
+  render: function () {
+    var buttons = ['subscription', 'donation', 'payment', 'event'].map(function (type) {
+      return <Button type={type} click={this.view} />
+    }.bind(this))
+    
+    var view = (this.state.view === 'payments-table') ?
+        <PaymentsTable payments={this.props.payments} mid={this.props.mid} /> :
+        (this.state.view === 'subscription') ? 
+        <AddSubscription click={this.view} mid={this.props.mid} /> :
+        (this.state.view === 'event') ? 
+        <AddEvent click={this.view} mid={this.props.mid} /> :
+        (this.state.view === 'donation') ? 
+        <AddDonation click={this.view} mid={this.props.mid} /> :
+        (this.state.view === 'payment') ? 
+        <AddPayment click={this.view} mid={this.props.mid} /> : ''
+        
     return (
       <div>
         <div className='section-label'>
@@ -35,8 +69,11 @@ var MemberPayments = React.createClass({
           { buttons }
         </div>
         <div className='inner-section-divider-medium'></div>
-        <PaymentsTable payments={this.props.payments} />
-      </div> )}})
+        { view }
+      </div>
+    )
+  }
+})
 
 function make_payments_with_balance (rows, payment) {
   var new_balance = update_balance(rows[0], payment)
