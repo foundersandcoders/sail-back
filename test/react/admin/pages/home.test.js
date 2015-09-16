@@ -101,6 +101,14 @@ test('exactly those fields that are filled in are present in the request', funct
   })
 })
 
+test('events button should display', function (t) {
+  React.render(React.createElement(Component), document.body, function () {
+    
+    t.ok(document.body.querySelector('#events-btn'))
+    t.end()
+  })
+})
+
 function split (string, array) {
   if (array) return array.split(string)
   else return split.bind(null, string)
