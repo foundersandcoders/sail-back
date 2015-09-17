@@ -107,8 +107,9 @@ bower_components
 .tmp
 dump.rdb
 
-
-
+# Make directories uploadable
+!.tmp/public/styles/.placeholder
+!.tmp/public/js/.placeholder
 
 
 ################################################
