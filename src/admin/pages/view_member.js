@@ -120,7 +120,7 @@ var ViewMember = React.createClass({
               payments={this.state.payments} mid={member_id}/>
           <div className='inner-section-divider-medium'></div>
           <MemberEvents mode={this.state.mode}
-              events={this.state.events}/>
+            events={this.state.member.events_booked} mid={member_id} />
         </div>
       </div> )}})
 
