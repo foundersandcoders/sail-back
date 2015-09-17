@@ -9,8 +9,8 @@ var nullply = require('../../utils/nullply')
 var Field = require('./field.js')
 var Dropdown = require('./common/dropdown')
 
-var deletion_ids = ['date', 'deletion_reason']
-var DeletionFields = make_member_fields(deletion_ids, 'Delete Member')
+var deletion_ids = ['deletion_reason', 'deletion_date']
+var DeletionFields = make_member_fields(deletion_ids, 'Deletion reason')
 
 var personal_ids = ['id', 'title', 'initials', 'first_name',
     'last_name', 'primary_email', 'secondary_email',
@@ -93,7 +93,7 @@ var MemberInformation = React.createClass({
             onChange={this.change} />
         <MembershipInformation mode={this.props.mode} member={this.props.member}
             onChange={this.change} />
-        { this.props.status === 'deactivated' ? <DeletionFields mode={this.props.mode} member={this.props.member}
+        { this.props.member.activation_status === 'deactivated' ? <DeletionFields mode={this.props.mode} member={this.props.member}
             onChange={this.change} /> : <div></div> }
       </div>
     </div> )}})

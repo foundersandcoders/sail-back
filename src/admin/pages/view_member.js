@@ -6,6 +6,7 @@ var post = require('../../utils/post')
 var get = require('../../utils/get')
 var Task = require('data.task')
 var curry = require('../../utils/curry')
+var clone = require('../../utils/clone')
 
 var Navigation = require('../../shared/navigation.js')
 var MemberEvents = require('../components/member_events.js')
@@ -16,7 +17,9 @@ var ViewMember = React.createClass({
   getInitialState: function () {
     return {
       mode: 'view',
-      member: require('../../mock_member.js')}},
+      member: require('../../mock_member.js'),
+      events: require('../../mock_events.js'),
+      payments: require('../../mock_payments.js')}},
 
   get_member_by_id: function (id) {
     return get(make_id_request_uri(id)) },
@@ -114,23 +117,25 @@ var ViewMember = React.createClass({
               deleteMember={this.delete} reactivate={this.reactivate} />
           <div className='inner-section-divider-medium'></div>
           <MemberPayments mode={this.state.mode}
-              payments={this.state.member.payments} mid={member_id}/>
+              payments={this.state.payments} mid={member_id}/>
           <div className='inner-section-divider-medium'></div>
           <MemberEvents mode={this.state.mode}
-              events={this.state.member.events_booked}/>
+              events={this.state.events}/>
         </div>
       </div> )}})
 
 function make_id_request_uri (id) {
   return '/api/members/' + id +
-    '?populate=[payments,membership_type,deletion_reason,events_booked]' }
+    '?populate=[payments,membership_type,events_booked]' }
 
 function make_event_request_uri (id) {
   return '/api/members/' + id + '/events' }
 
 var update_member = curry(function (member_data, events_data) {
   var member = JSON.parse(member_data.body)
-  member.events_booked = JSON.parse(events_data.body)
-  return {member: member} })
+  return {member: member,
+    events: JSON.parse(events_data.body),
+    payments: member.payments
+  } })
 
 module.exports = ViewMember
