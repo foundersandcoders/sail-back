@@ -30,7 +30,6 @@ var AdminHome = React.createClass({
               <h1>Search Members</h1>
             </div>
             <div id='search-component'>
-            <a className='button-two' id='events-btn' href='#events'>Events</a>
               <SearchBox updateResults={this.updateResults} />
               <SearchResults results={this.state.results} />
             </div>
