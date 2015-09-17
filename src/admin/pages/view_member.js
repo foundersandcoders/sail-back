@@ -2,6 +2,11 @@
 
 var React = require('react')
 var request = require('xhr')
+var post = require('../../utils/post')
+var get = require('../../utils/get')
+var Task = require('data.task')
+var curry = require('../../utils/curry')
+var clone = require('../../utils/clone')
 
 var Navigation = require('../../shared/navigation.js')
 var MemberEvents = require('../components/member_events.js')
@@ -12,29 +17,20 @@ var ViewMember = React.createClass({
   getInitialState: function () {
     return {
       mode: 'view',
-      member: require('../../mock_member.js')}},
+      member: require('../../mock_member.js'),
+      events: require('../../mock_events.js'),
+      payments: require('../../mock_payments.js')}},
 
   get_member_by_id: function (id) {
-    request({
-      method: 'GET',
-      uri: make_id_request_uri(id),
-    }, function (err, data) {
-      this.setState({member: JSON.parse(data.body)})
-      /* TODO: don't do this! */
-      this.get_members_events(this.props.params.id)}.bind(this))},
+    return get(make_id_request_uri(id)) },
 
   get_members_events: function (id) {
-    request({
-      method: 'GET',
-      uri: make_event_request_uri(id),
-    }, function (err, data) {
-      var mem = this.state.member
-      mem.events_booked = JSON.parse(data.body)
-      this.setState({member: mem}) }.bind(this))},
-
+    return get(make_event_request_uri(id)) },
 
   componentDidMount: function () {
-    this.get_member_by_id(this.props.params.id)},
+    Task.of(update_member).ap(this.get_member_by_id(this.props.params.id))
+        .ap(this.get_members_events(this.props.params.id))
+        .fork(function(){}, this.setState.bind(this))},
 
   changeMode: function () {
     var changed_mode = (this.state.mode === 'edit') ? 'view' : 'edit'
@@ -43,8 +39,6 @@ var ViewMember = React.createClass({
   save: function () {
 
     var self = this
-    console.log('SAVE.title', self.state.member['title'])
-    console.log('SAVE::self.state.member', Object.keys(self.state.member))
     var member = Object.keys(self.state.member).reduce(function (member, prop) {
       if (typeof self.state.member === 'boolean' || !!self.state.member[prop]) {
         member[prop] = self.state.member[prop]
@@ -57,6 +51,7 @@ var ViewMember = React.createClass({
       uri: '/api/members/' + this.state.member.id,
       json: member
     }, function (err, head, body) {
+      body.events_booked = member.events_booked
       self.setState({ member: body, mode: 'view' })})},
 
   change: function (e) {
@@ -67,6 +62,44 @@ var ViewMember = React.createClass({
     member[e.target.id] = e.target.value
     this.setState({member: member})
   },
+
+  delete: function (e) {
+    var member = require('../../utils/clone')(this.state.member)
+    var dropdown = document.querySelector('#deletion-reason')
+    var deletion_reason = dropdown.options[dropdown.selectedIndex].value
+    if (deletion_reason === 'deletionReason') {
+      alert('Deletion reason needed')
+      return
+    }
+    var payload = {
+      deletion_date: new Date(),
+      deletion_reason: deletion_reason,
+      activation_status: 'deactivated'
+    }
+
+    request({
+      method: 'PUT',
+      uri: '/api/members/' + this.state.member.id,
+      json: payload
+    }, function (err, head, body) {
+      body.events_booked = member.events_booked
+      this.setState({member: body, mode: 'edit' })}.bind(this))},
+
+  reactivate: function (e) {
+    var member = require('../../utils/clone')(this.state.member)
+    var dropdown = document.querySelector('#deletion-reason')
+    var payload = {
+      deletion_reason: null,
+      activation_status: 'activated'
+    }
+
+    request({
+      method: 'PUT',
+      uri: '/api/members/' + this.state.member.id,
+      json: payload
+    }, function (err, head, body) {
+      body.events_booked = member.events_booked
+      this.setState({member: body, mode: 'edit' })}.bind(this))},
 
   render: function () {
     var member_id = this.props.params.id
@@ -80,10 +113,11 @@ var ViewMember = React.createClass({
           </div>
           <div className='inner-section-divider-medium'></div>
           <MemberInformation mode={this.state.mode} changeMode={this.changeMode}
-            member={this.state.member} save={this.save} onChange={this.change} />
+              member={this.state.member} save={this.save} onChange={this.change}
+              deleteMember={this.delete} reactivate={this.reactivate} />
           <div className='inner-section-divider-medium'></div>
           <MemberPayments mode={this.state.mode}
-            payments={this.state.member.payments} mid={member_id}/>
+              payments={this.state.payments} mid={member_id}/>
           <div className='inner-section-divider-medium'></div>
           <MemberEvents mode={this.state.mode}
             events={this.state.member.events_booked} mid={member_id} />
@@ -92,9 +126,16 @@ var ViewMember = React.createClass({
 
 function make_id_request_uri (id) {
   return '/api/members/' + id +
-    '?populate=[payments,membership_type,deletion_reason,events_booked]' }
+    '?populate=[payments,membership_type,events_booked]' }
 
 function make_event_request_uri (id) {
   return '/api/members/' + id + '/events' }
+
+var update_member = curry(function (member_data, events_data) {
+  var member = JSON.parse(member_data.body)
+  return {member: member,
+    events: JSON.parse(events_data.body),
+    payments: member.payments
+  } })
 
 module.exports = ViewMember
