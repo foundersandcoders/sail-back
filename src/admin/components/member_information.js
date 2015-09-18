@@ -59,7 +59,7 @@ var EditOptions = React.createClass({
           <button id='save-member' className='button-two m-l-15 right w-100'
               onClick={this.props.save}>Save</button>
           <button id='cancel' className='button-two m-l-15 right w-100'
-              onClick={this.props.changeMode}>Cancel</button>
+              onClick={this.props.cancel}>Cancel</button>
           { this.delete_or_undelete() }
         </div>  )}})
 
@@ -70,15 +70,12 @@ var EditToggle = React.createClass({
 
 var MemberInformation = React.createClass({
   getInitialState: function () { return {} },
-  change: function (e) {
-    this.props.onChange(e)
-  },
   correct_buttons: function () {
     return this.props.mode === 'edit' ?
         <EditOptions save={this.props.save} changeMode={this.props.changeMode}
             deleteMem={this.props.deleteMember} status={this.props.member.activation_status}
-            reactivate={this.props.reactivate} /> :
-        <EditToggle changeMode={this.props.changeMode} />
+            reactivate={this.props.reactivate} cancel={this.props.cancel} /> :
+        <EditToggle changeMode={this.props.changeMode}/>
   },
   render: function () {
     return (
@@ -93,8 +90,8 @@ var MemberInformation = React.createClass({
             onChange={this.change} />
         <MembershipInformation mode={this.props.mode} member={this.props.member}
             onChange={this.change} />
-        { this.props.member.activation_status === 'deactivated' ? <DeletionFields mode={this.props.mode} member={this.props.member}
-            onChange={this.change} /> : <div></div> }
+        { this.props.member.activation_status === 'deactivated' ? <DeletionFields mode={this.props.mode}
+          member={this.props.member} onChange={this.props.onChange} /> : <div></div> }
       </div>
     </div> )}})
 
