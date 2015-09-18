@@ -20,6 +20,7 @@ var MemberEvents = React.createClass({
         <div className='section-label'>
           <h1>Events</h1>
         </div>
+        <a className='button-two' href={'#/members/' + this.props.mid + '/events'}>Book Event</a>
         <div className='inner-section-divider-medium'></div>
         <EventsTable events={ this.props.events } />
       </div>
