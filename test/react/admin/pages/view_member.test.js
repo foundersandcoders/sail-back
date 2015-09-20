@@ -13,77 +13,77 @@ var events = require('../../../../src/mock_events.js')
 var node = document.body
 
 Component.__set__('request', function (opts, cb) {
-  opts.uri.match(/\/events/) ?
-      cb(null, {body: JSON.stringify(events)}) :
-      cb(null, {body: JSON.stringify(member)})})
+opts.uri.match(/\/events/) ?
+    cb(null, {body: JSON.stringify(events)}) :
+    cb(null, {body: JSON.stringify(member)})})
 
 test('should load admin view member page', function (t) {
 
-  var node = document.body
-  React.render(React.createElement(Component, {
+var node = document.body
+React.render(React.createElement(Component, {
+  member: member,
+  params: {
+    id: 1234
+  }
+}), node, function () {
+  t.ok(node.innerHTML.indexOf('Member info') > -1)
+  t.ok(node.innerHTML.indexOf('1234') > -1)
+  t.ok(node.innerHTML.indexOf('member-component') > -1)
+  t.end()})})
+
+test('should render member details', function (t) {
+
+var node = document.body
+React.render((
+  React.createElement(Component, {
     member: member,
     params: {
       id: 1234
     }
-  }), node, function () {
-    t.ok(node.innerHTML.indexOf('Member info') > -1)
-    t.ok(node.innerHTML.indexOf('1234') > -1)
-    t.ok(node.innerHTML.indexOf('member-component') > -1)
-    t.end()})})
-
-test('should render member details', function (t) {
-
-  var node = document.body
-  React.render((
-    React.createElement(Component, {
-      member: member,
-      params: {
-        id: 1234
-      }
-    })
-  ), node, function () {
-
-    t.ok(node.innerHTML.indexOf('edit-member-mode') > -1)
-    t.ok(node.innerHTML.indexOf('member-info-content') > -1)
-    t.ok(node.innerHTML.indexOf('Personal info') > -1)
-    t.ok(node.innerHTML.indexOf('Address info') > -1)
-    t.ok(node.innerHTML.indexOf('Membership info') > -1)
-    t.end()
   })
+), node, function () {
+
+  t.ok(node.innerHTML.indexOf('edit-member-mode') > -1)
+  t.ok(node.innerHTML.indexOf('member-info-content') > -1)
+  t.ok(node.innerHTML.indexOf('Personal info') > -1)
+  t.ok(node.innerHTML.indexOf('Address info') > -1)
+  t.ok(node.innerHTML.indexOf('Membership info') > -1)
+  t.end()
+})
 })
 
 test('should render payments section', function (t) {
 
-  var node = document.body
-  React.render((
-    React.createElement(Component, {
-      member: member,
-      params: {
-        id: 1234
-      }
-    })
-  ), node, function () {
+var node = document.body
+React.render((
+  React.createElement(Component, {
+    member: member,
+    params: {
+      id: 1234
+    }
+  })
+), node, function () {
 
-    t.ok(node.innerHTML.indexOf('Payment info') > -1)
-    t.ok(node.innerHTML.indexOf('subscription_btn') > -1)
-    t.end()})})
+  t.ok(node.innerHTML.indexOf('Payment info') > -1)
+  t.ok(node.innerHTML.indexOf('subscription_btn') > -1)
+  t.end()})})
 
 test('should render events section', function (t) {
 
-  var node = document.body
-  React.render((
-    React.createElement(Component, {
-      member: member,
-      params: {
-        id: 1234
-      }
-    })
-  ), node, function () {
-
-    t.ok(node.innerHTML.indexOf('events-section') > -1)
-    t.ok(node.innerHTML.indexOf('Events') > -1)
-    t.end()
+var node = document.body
+React.render((
+  React.createElement(Component, {
+    member: member,
+    params: {
+      id: 1234
+    }
   })
+), node, function () {
+
+  t.ok(node.innerHTML.indexOf('events-section') > -1)
+  t.ok(node.innerHTML.indexOf('Events') > -1)
+  t.end()
+})
 })
 
 test('should toggle between edit and view mode', function (t) {
@@ -96,9 +96,18 @@ test('should toggle between edit and view mode', function (t) {
   process.nextTick(function () {
     assert_all_nodes_of_tag('input', get_data_nodes())
     node.querySelector('#cancel').click()
-    t.end()
-  })
-})
+    t.end()})})
+
+test('field values should update', function (t) {
+  click('#edit-member-mode')
+  var nodes = get_data_nodes()
+  var input = nodes[Math.floor(Math.random() * nodes.length)]
+  var orig = input.value
+  input.value = 'random val'
+  change(input.value)
+  process.nextTick(function () {
+    t.equal(input.value, 'random val')
+    t.end()})})
 
 test('field values should update', function (t) {
   click('#edit-member-mode')
