@@ -50,12 +50,12 @@ var EditOptions = React.createClass({
         <div>
           <button id='edit-member-mode' className='button-two m-l-15 right w-100 red'
               onClick={this.props.deleteMem}>Delete</button>
-          <Dropdown id='deletion-reason' className='w-200' default={ deletion_reasons[0] } options={ deletion_reasons[1] } />
+          <Dropdown id='deletion-reason' className='right' default={ deletion_reasons[0] } options={ deletion_reasons[1] } />
         </div>
    },
 
   render: function () { return (
-        <div>
+        <div className='stretch'>
           <button id='save-member' className='button-two m-l-15 right w-100'
               onClick={this.props.save}>Save</button>
           <button id='cancel' className='button-two m-l-15 right w-100'

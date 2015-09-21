@@ -11,7 +11,8 @@ var make_query = function () {
   var vals = {
     email: value_of(this.refs.email),
     id: value_of(this.refs.id),
-    last_name: value_of(this.refs.last_name)
+    last_name: value_of(this.refs.last_name),
+    activation_status: value_of(this.refs.activation_status)
   }
   return Object.keys(vals)
     .filter(function (key) {
