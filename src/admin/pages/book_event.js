@@ -1,23 +1,26 @@
 'use strict'
 
 var React = require('react')
+var Task = require('data.task')
+
 var get = require('../../utils/get')
 var on_err = require('../../shared/error_handler')
-var Task = require('data.task')
 var curry = require('../../utils/curry')
+var change = require('../../shared/on_change')
+
 var Table = require('../components/table')
 var Navigation = require('../../shared/navigation')
+var Form = require('../../shared/form')
+var Title = require('../../shared/title')
 
 var PaymentsTable = require('../components/payments_table.js')
-
 
 var EventsTable = React.createClass({
   render: function () {
     
     var headers = ['Date', 'Reference', 'Short Description', 
       'Time', 'Location', 'Host', 'Price per member', 
-      'Price per guest', 'Max guests', 'Max places', 'Members booked', 
-      'Guests booked', 'Staff attending', 'Number waiting', 
+      'Price per guest', 'Max number of guests', 'Total places available', 
       'Open for booking']
   
   var get_entry_for_event = require('../../utils/curry')(function (ev, header) {
@@ -29,7 +32,7 @@ var EventsTable = React.createClass({
       })
     
     return (
-      <Table data={[headers, entries]} />
+      <Table className='events-table' data={[headers, entries]} />
     ) 
   }
 })
@@ -58,31 +61,17 @@ var BookingForm = React.createClass({
   }
 })
 
-// TODO: this should be generalized into a FORM component
-var PaymentForm = React.createClass({
-  render: function () {
-    var fields = ['date', 'type', 'reference', 'amount', 'notes']
-    var rendered_fields = fields.map(function (field) {
-      return <input type='text' placeholder={field} 
-        onChange={this.change} id={field} />
-    }.bind(this))
-    return (
-      <div>
-        <div className='section-label'>
-          <h3>Payment Form</h3>
-        </div>
-        { rendered_fields }
-        <button>Save Payment</button>
-      </div> 
-    ) 
-  }
-})
+var payment_form_fields = [ {component: Title, opts: {title: 'Payment Form'}}, 
+    'date', 'type', 'reference', 'amount', 'notes', {type: 'submit', value: 'Save Payment'} ]
+var booking_form_fields = [ {component: Title, opts: {title: 'Booking Form'}}, 'number_of_members', 'number_of_guests', {type: 'submit', value: 'Save Booking'}]
 
 var BookEvent = React.createClass({
   getInitialState: function () {
     return {
       events: [],
-      payments: []
+      payments: [],
+      booking_form: {},
+      payment_form: {}
     } 
   },
   componentDidMount: function () {
@@ -100,33 +89,44 @@ var BookEvent = React.createClass({
         function (state) { this.setState(state) }.bind(this)
       )
   },
+  change_booking: function (e) { 
+    return require('../../shared/on_change.js').call(this, 'booking_form', e)
+  },
+  change_payments: function (e) { 
+    return require('../../shared/on_change.js').call(this, 'payment_form', e)
+  },
   render: function () {
     return (
-      <div>
+      <div className='book-event'>
         <Navigation />
         <div className='main-container'>
           <div className='section-label'>
-            <h1>Book Event: {this.props.params.id} </h1> 
+            <h2>Book Event: {this.props.params.id} </h2>
           </div>
 
           <div className='inner-section-divider-medium'></div> 
           <div className='section-label'>
-            <h2>Payments</h2> 
+            <h3>Payments</h3> 
           </div>
           <PaymentsTable payments={this.state.payments} mid={this.props.params.id} />
           
           <div className='inner-section-divider-medium'></div> 
           
           <div className='section-label'>
-            <h2>Events</h2> 
+            <h3>Events</h3> 
           </div>
           <EventsTable events={this.state.events} />
           
           <div className='inner-section-divider-medium'></div> 
-          
-          <BookingForm />
-          
-          <PaymentForm />
+         
+          <div className='booking-form'>
+            <Form fields={booking_form_fields} data={this.state.booking_form} 
+                onChange={this.change_booking} /> 
+          </div>
+          <div className='payment-form'>
+          <Form fields={payment_form_fields} data={this.state.payment_form}
+              onChange={this.change_payments} /> 
+          </div>
         </div>
       </div>
     ) 

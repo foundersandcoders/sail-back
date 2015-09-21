@@ -33,6 +33,6 @@ var PaymentsTable = React.createClass({
       .slice(1)
       .map(function (payment, i) { return headers.map(get_entry_for_payment(payment)) })
 
-    return ( <Table data={ [headers, entries] } /> )}})
+    return ( <Table className='payments-table' data={ [headers, entries] } /> )}})
     
 module.exports = PaymentsTable
