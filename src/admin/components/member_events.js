@@ -11,7 +11,7 @@ var EventsTable = React.createClass({
         function (event, i) {
           return headers.map(get_entry_for_event(event)) })
 
-    return ( <Table data = { [headers, entries] } /> )} })
+    return ( <Table className='events-table' data = { [headers, entries] } /> )} })
 
 var MemberEvents = React.createClass({
   render: function () {

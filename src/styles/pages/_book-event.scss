@@ -1,0 +1,55 @@
+.book-event {
+
+  .main-container {
+    width: 90%;
+  }
+
+  .table {
+    .table-body {
+      max-height: 18em;
+    } 
+  }
+  .table.payments-table {
+  
+      .date {
+        flex: 2; }
+      .description {
+        flex: 4; } 
+      .charges {
+        flex: 1; }
+      .payments {
+        flex: 1; }
+      .balance-due {
+        flex: 1; }
+      .reference {
+        flex: 3; }
+      .notes {
+        flex: 4; }
+      .delete {
+        flex: 1; } }
+  
+  .table.events-table {
+      
+      .date {
+        flex: 1; }
+      .reference {
+        flex: 2; }
+      .short-description {
+        flex: 4; }
+      .time {
+        flex: 1; }
+      .location {
+        flex: 2; }
+      .host {
+        flex: 1; }
+      .price-per-member {
+        flex: 1; }
+      .price-per-guest {
+        flex: 1; }
+      .max-number-of-guests {
+        flex: 1; }
+      .total-places-available {
+        flex: 2; }
+      .open-for-booking {
+        flex: 2; }}
+}
