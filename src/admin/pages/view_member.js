@@ -30,76 +30,51 @@ var ViewMember = React.createClass({
   componentDidMount: function () {
     Task.of(update_member).ap(this.get_member_by_id(this.props.params.id))
         .ap(this.get_members_events(this.props.params.id))
-        .fork(function(){}, this.setState.bind(this))},
+        .fork(console.log.bind(console), this.setState.bind(this))},
 
   changeMode: function () {
     var changed_mode = (this.state.mode === 'edit') ? 'view' : 'edit'
-    this.setState({mode: changed_mode}) },
+    this.setState({mode: changed_mode})},
+
+  cancel: function () {
+    this.setState({member: this.pre_changes_member || this.state.member, mode: 'view'})
+    this.pre_changes_member = null },
 
   save: function () {
-
     var self = this
-    var member = Object.keys(self.state.member).reduce(function (member, prop) {
-      if (typeof self.state.member === 'boolean' || !!self.state.member[prop]) {
-        member[prop] = self.state.member[prop]
-      }
-      return member
-    }, {})
-
-    request({
-      method: 'PUT',
-      uri: '/api/members/' + this.state.member.id,
-      json: member
-    }, function (err, head, body) {
-      body.events_booked = member.events_booked
-      self.setState({ member: body, mode: 'view' })})},
+    var state = clone(this.state)
+    update_info(state, this.setState.bind(this))},
 
   change: function (e) {
-    var member = Object.keys(this.state.member).reduce(function (member, prop) {
-      member[prop] = this.state.member[prop]
-      return member
-    }.bind(this), {})
+    var member = clone(this.state.member)
     member[e.target.id] = e.target.value
-    this.setState({member: member})
-  },
+    this.setState({member: member})},
 
   delete: function (e) {
-    var member = require('../../utils/clone')(this.state.member)
+    var member = clone(this.state.member)
     var dropdown = document.querySelector('#deletion-reason')
     var deletion_reason = dropdown.options[dropdown.selectedIndex].value
     if (deletion_reason === 'deletionReason') {
       alert('Deletion reason needed')
       return
     }
-    var payload = {
-      deletion_date: new Date(),
-      deletion_reason: deletion_reason,
-      activation_status: 'deactivated'
-    }
+    this.remember()
+    member.activation_status = 'deactivated'
+    member.deletion_reason = deletion_reason
+    member.deletion_date = new Date()
 
-    request({
-      method: 'PUT',
-      uri: '/api/members/' + this.state.member.id,
-      json: payload
-    }, function (err, head, body) {
-      body.events_booked = member.events_booked
-      this.setState({member: body, mode: 'edit' })}.bind(this))},
+    this.setState({ member: member})},
+
+  remember: function () {
+    this.pre_changes_member = this.pre_changes_member || clone(this.state.member)},
 
   reactivate: function (e) {
-    var member = require('../../utils/clone')(this.state.member)
+    var member = clone(this.state.member)
     var dropdown = document.querySelector('#deletion-reason')
-    var payload = {
-      deletion_reason: null,
-      activation_status: 'activated'
-    }
+    member.deletion_reason = null
+    member.activation_status = 'activated'
 
-    request({
-      method: 'PUT',
-      uri: '/api/members/' + this.state.member.id,
-      json: payload
-    }, function (err, head, body) {
-      body.events_booked = member.events_booked
-      this.setState({member: body, mode: 'edit' })}.bind(this))},
+    this.setState({member: member})},
 
   render: function () {
     var member_id = this.props.params.id
@@ -114,13 +89,13 @@ var ViewMember = React.createClass({
           <div className='inner-section-divider-medium'></div>
           <MemberInformation mode={this.state.mode} changeMode={this.changeMode}
               member={this.state.member} save={this.save} onChange={this.change}
-              deleteMember={this.delete} reactivate={this.reactivate} />
+              deleteMember={this.delete} reactivate={this.reactivate} cancel={this.cancel} />
           <div className='inner-section-divider-medium'></div>
           <MemberPayments mode={this.state.mode}
               payments={this.state.payments} mid={member_id}/>
           <div className='inner-section-divider-medium'></div>
           <MemberEvents mode={this.state.mode}
-            events={this.state.member.events_booked} mid={member_id} />
+              events={this.state.events} mid={member_id} />
         </div>
       </div> )}})
 
@@ -135,7 +110,14 @@ var update_member = curry(function (member_data, events_data) {
   var member = JSON.parse(member_data.body)
   return {member: member,
     events: JSON.parse(events_data.body),
-    payments: member.payments
-  } })
+    payments: member.payments }})
+
+var update_info = function (state, setState) {
+  request({
+    method: 'POST',
+    uri: 'api/members/' + state.member.id,
+    json: state.member
+  }, function (err, head, data) {
+    setState({member: data, mode: 'view'})})}
 
 module.exports = ViewMember

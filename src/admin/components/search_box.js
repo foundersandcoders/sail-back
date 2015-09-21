@@ -11,7 +11,8 @@ var make_query = function () {
   var vals = {
     email: value_of(this.refs.email),
     id: value_of(this.refs.id),
-    last_name: value_of(this.refs.last_name)
+    last_name: value_of(this.refs.last_name),
+    activation_status: value_of(this.refs.activation_status)
   }
   return Object.keys(vals)
     .filter(function (key) {
@@ -37,21 +38,23 @@ var SearchBox = React.createClass({
   },
   render: function () {
     return (
-	<div className='search-component'>
-	<div className='search-container'>
-	<select id='member-status' defaultValue='activated'>
-	<option value='activated'>Active</option>
-	<option value='deactivated'>Deleted</option>
-	</select>
-	<input className='input-member' ref='id' id='id' placeholder='Number' />
-	<input className='input-member' ref='email' id='email' placeholder='Email' />
-	<input className='input-member' ref='last_name' id='last_name' placeholder='Surname' />
-	<button onClick={this.search} className='button-two member' id='search-button'>Search</button>
-	<p id='test' ref='test'></p>
+      <div className='search-component'>
+        <div className='search-container'>
+          <select id='member-status' ref='activation_status'
+              defaultValue='activated'>
+            <option value='activated'>Active</option>
+            <option value='deactivated'>Deleted</option>
+          </select>
+          <input className='input-member' ref='id' id='id' placeholder='Number' />
+          <input className='input-member' ref='email' id='email'
+              placeholder='Email' />
+          <input className='input-member' ref='last_name' id='last_name'
+              placeholder='Surname' />
+          <button onClick={this.search} className='button-two member'
+              id='search-button'>Search</button>
+          <p id='test' ref='test'></p>
+        </div>
       </div>
-      </div>
-    )
-  }
-})
+    )}})
 
 module.exports = SearchBox
