@@ -36,21 +36,33 @@ function presentable_values(value) {
   return value[0].toUpperCase() + value.slice(1, capital_position) +
       (capital_position === -1 ? '' : ' ') + value.slice(capital_position)}
 
-var deletion_reasons = [entry_maker('deletionReason'),
-    [['deceased'], ['notResponding', 'Did not respond to reminders'], ['duplicate'],
-    ['dissatisfied', 'Expressed dissatisfaction'], ['mailReturn', 'Mail returned to us'],
-    ['moved', 'Moved away'], ['notifiedTermination'], ['other'] ].map(nullply(entry_maker))]
+var deletion_reasons = [
+  entry_maker('deletionReason'),
+  [
+    ['deceased'],
+    ['notResponding', 'Did not respond to reminders'],
+    ['duplicate'],
+    ['dissatisfied', 'Expressed dissatisfaction'],
+    ['mailReturn', 'Mail returned to us'],
+    ['moved', 'Moved away'],
+    ['notifiedTermination'],
+    ['other']
+  ].map(nullply(entry_maker))
+]
 
 var EditOptions = React.createClass({
   delete_or_undelete: function () {
     return this.props.status === 'deactivated' ?
         <div>
-          <button className='button-two button-c m-l-15 red' onClick={this.props.reactivate} >Reactivate</button>
+          <button className='button-two button-c m-l-15 red right'
+              onClick={this.props.reactivate} >Reactivate</button>
         </div> :
         <div>
-          <button id='edit-member-mode' className='button-two m-l-15 right w-100 red'
+          <button id='edit-member-mode'
+              className='button-two m-l-15 right w-100 red'
               onClick={this.props.deleteMem}>Delete</button>
-          <Dropdown id='deletion-reason' className='right' default={ deletion_reasons[0] } options={ deletion_reasons[1] } />
+          <Dropdown id='deletion-reason' className='right'
+              default={ deletion_reasons[0] } options={ deletion_reasons[1] } />
         </div>
    },
 
@@ -73,7 +85,8 @@ var MemberInformation = React.createClass({
   correct_buttons: function () {
     return this.props.mode === 'edit' ?
         <EditOptions save={this.props.save} changeMode={this.props.changeMode}
-            deleteMem={this.props.deleteMember} status={this.props.member.activation_status}
+            deleteMem={this.props.deleteMember}
+            status={this.props.member.activation_status}
             reactivate={this.props.reactivate} cancel={this.props.cancel} /> :
         <EditToggle changeMode={this.props.changeMode}/>
   },
@@ -90,8 +103,10 @@ var MemberInformation = React.createClass({
             onChange={this.change} />
         <MembershipInformation mode={this.props.mode} member={this.props.member}
             onChange={this.change} />
-        { this.props.member.activation_status === 'deactivated' ? <DeletionFields mode={this.props.mode}
-          member={this.props.member} onChange={this.props.onChange} /> : <div></div> }
+        { this.props.member.activation_status === 'deactivated' ?
+            <DeletionFields mode={this.props.mode}
+                member={this.props.member} onChange={this.props.onChange} /> :
+            <div></div> }
       </div>
     </div> )}})
 

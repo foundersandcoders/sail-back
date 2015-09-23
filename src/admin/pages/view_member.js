@@ -27,7 +27,7 @@ var ViewMember = React.createClass({
   get_members_events: function (id) {
     return get(make_event_request_uri(id)) },
 
-  componentDidMount: function () {
+  componentWillMount: function () {
     Task.of(update_member).ap(this.get_member_by_id(this.props.params.id))
         .ap(this.get_members_events(this.props.params.id))
         .fork(console.log.bind(console), this.setState.bind(this))},
@@ -37,7 +37,9 @@ var ViewMember = React.createClass({
     this.setState({mode: changed_mode})},
 
   cancel: function () {
-    this.setState({member: this.pre_changes_member || this.state.member, mode: 'view'})
+    this.setState({
+      member: this.pre_changes_member || this.state.member,
+      mode: 'view'})
     this.pre_changes_member = null },
 
   save: function () {
@@ -89,13 +91,14 @@ var ViewMember = React.createClass({
           <div className='inner-section-divider-medium'></div>
           <MemberInformation mode={this.state.mode} changeMode={this.changeMode}
               member={this.state.member} save={this.save} onChange={this.change}
-              deleteMember={this.delete} reactivate={this.reactivate} cancel={this.cancel} />
-          <div className='inner-section-divider-medium'></div>
-          <MemberPayments mode={this.state.mode}
-              payments={this.state.payments} mid={member_id}/>
+              deleteMember={this.delete} reactivate={this.reactivate}
+              cancel={this.cancel} />
           <div className='inner-section-divider-medium'></div>
           <MemberEvents mode={this.state.mode}
               events={this.state.events} mid={member_id} />
+          <div className='inner-section-divider-medium'></div>
+          <MemberPayments mode={this.state.mode}
+              payments={this.state.payments} mid={member_id}/>
         </div>
       </div> )}})
 

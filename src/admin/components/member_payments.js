@@ -25,30 +25,31 @@ var AddPayment = make_charge_form('payment')
 var MemberPayments = React.createClass({
   getInitialState: function () {
     return {
-      view: 'payments-table' 
-    } 
+      view: 'payments-table'
+    }
   },
   view: function (activated_view) {
     this.setState({
-      view: activated_view 
-    }) 
+      view: activated_view
+    })
   },
   render: function () {
-    var buttons = ['subscription', 'donation', 'payment', 'event'].map(function (type) {
-      return <Button type={type} click={this.view} />
-    }.bind(this))
-    
+    var buttons = ['subscription', 'donation', 'payment', 'event']
+        .map(function (type) {
+          return <Button type={type} click={this.view} />
+        }.bind(this))
+
     var view = (this.state.view === 'payments-table') ?
         <PaymentsTable payments={this.props.payments} mid={this.props.mid} /> :
-        (this.state.view === 'subscription') ? 
+        (this.state.view === 'subscription') ?
         <AddSubscription click={this.view} mid={this.props.mid} /> :
-        (this.state.view === 'event') ? 
+        (this.state.view === 'event') ?
         <AddEvent click={this.view} mid={this.props.mid} /> :
-        (this.state.view === 'donation') ? 
+        (this.state.view === 'donation') ?
         <AddDonation click={this.view} mid={this.props.mid} /> :
-        (this.state.view === 'payment') ? 
+        (this.state.view === 'payment') ?
         <AddPayment click={this.view} mid={this.props.mid} /> : ''
-        
+
     return (
       <div>
         <div className='section-label'>

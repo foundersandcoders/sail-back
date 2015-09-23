@@ -28,10 +28,6 @@ var MemberEvents = React.createClass({
   }
 })
 
-var get_entry_for_event = require('../../utils/curry')(function (event, header) {
-  return format_if_necessary(header)(event[ header.toLowerCase().replace(/ /g, '_') ])})
-
-function format_if_necessary (header) {
-  return header === 'Date' ? require('../../utils/format_date') : function (data) { return data } }
+var get_entry_for_event = require('../../utils/get_entry')('_')
 
 module.exports = MemberEvents
