@@ -78,6 +78,11 @@ var ViewMember = React.createClass({
 
     this.setState({member: member})},
 
+  remove_payment: function (id) {
+    this.setState({
+      payments: this.state.payments
+          .filter(function (payment) { return payment.id !== id })})},
+
   render: function () {
     var member_id = this.props.params.id
     return (
@@ -98,7 +103,8 @@ var ViewMember = React.createClass({
               events={this.state.events} mid={member_id} />
           <div className='inner-section-divider-medium'></div>
           <MemberPayments mode={this.state.mode}
-              payments={this.state.payments} mid={member_id}/>
+              payments={this.state.payments} mid={member_id}
+              remove_payment={this.remove_payment} />
         </div>
       </div> )}})
 

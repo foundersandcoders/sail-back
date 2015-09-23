@@ -34,13 +34,15 @@ var MemberPayments = React.createClass({
     })
   },
   render: function () {
+    console.log(this.props)
     var buttons = ['subscription', 'donation', 'payment', 'event']
         .map(function (type) {
           return <Button type={type} click={this.view} />
         }.bind(this))
 
     var view = (this.state.view === 'payments-table') ?
-        <PaymentsTable payments={this.props.payments} mid={this.props.mid} /> :
+        <PaymentsTable payments={this.props.payments}
+            remove_payment={this.props.remove_payment} mid={this.props.mid} /> :
         (this.state.view === 'subscription') ?
         <AddSubscription click={this.view} mid={this.props.mid} /> :
         (this.state.view === 'event') ?

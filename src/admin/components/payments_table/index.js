@@ -14,12 +14,15 @@ function update_balance (balance, payment) {
   return balance + (payment.category === 'payment' ?
       - +payment.amount : +payment.amount)}
 
-var get_entry_for_payment = require('../../../utils/curry')(function (payment, header) {
-  if (header === 'Charges' || header === 'Payments') {
-    return charge_or_payment_amount(payment.category, header, payment.amount) }
-  if (header === 'Delete') { return (<DeletionEntry id={payment.id} />)}
-  if (header === 'Date') { return require('../../../utils/format_date')(payment['date']) }
-  else { return payment[ header.toLowerCase() ] }})
+var get_entry_for_payment = require('../../../utils/curry')(function (
+      payment, delete_method, header) {
+  return (header === 'Charges' || header === 'Payments') ?
+    charge_or_payment_amount(payment.category, header, payment.amount) :
+  header === 'Delete' ?
+    <DeletionEntry id={ payment.id } remove_payment={ delete_method }/> :
+  header === 'Date' ?
+    require('../../../utils/format_date')(payment['date']) :
+  payment[ header.toLowerCase() ]})
 
 function charge_or_payment_amount(category, charge_or_payment, amount) {
   var options = ['Charges', 'Payments']
@@ -35,7 +38,8 @@ var PaymentsTable = React.createClass({
         .reduce(make_payments_with_balance, [0])
         .slice(1)
         .map(function (payment) {
-          return headers.map(get_entry_for_payment(payment))})
+          return headers.map(get_entry_for_payment(payment,
+            this.props.remove_payment))}.bind(this))
 
     return ( <Table className='payments-table' data={ [headers, entries] } /> )}})
 
