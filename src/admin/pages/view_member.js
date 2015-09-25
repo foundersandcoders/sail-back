@@ -2,7 +2,7 @@
 
 var React = require('react')
 var request = require('xhr')
-var post = require('../../utils/post')
+var post = require('../../utils/post.js')
 var get = require('../../utils/get')
 var Task = require('data.task')
 var curry = require('../../utils/curry')
@@ -30,7 +30,7 @@ var ViewMember = React.createClass({
   componentWillMount: function () {
     Task.of(update_member).ap(this.get_member_by_id(this.props.params.id))
         .ap(this.get_members_events(this.props.params.id))
-        .fork(console.log.bind(console), this.setState.bind(this))},
+        .fork(console.log.bind(console, 'AN ERROR'), this.setState.bind(this))},
 
   changeMode: function () {
     var changed_mode = (this.state.mode === 'edit') ? 'view' : 'edit'
@@ -79,9 +79,14 @@ var ViewMember = React.createClass({
     this.setState({member: member})},
 
   remove_payment: function (id) {
-    this.setState({
-      payments: this.state.payments
-          .filter(function (payment) { return payment.id !== id })})},
+    request({
+      uri: '/api/payments/' + id,
+      method: 'DELETE'
+    }, function (err, data) { 
+      if (!err) {
+        this.setState({
+          payments: this.state.payments
+            .filter(function (payment) { return payment.id !== id })})}}.bind(this))},
 
   render: function () {
     var member_id = this.props.params.id
@@ -117,7 +122,8 @@ function make_event_request_uri (id) {
 
 var update_member = curry(function (member_data, events_data) {
   var member = JSON.parse(member_data.body)
-  return {member: member,
+  return {
+    member: member,
     events: JSON.parse(events_data.body),
     payments: member.payments }})
 
