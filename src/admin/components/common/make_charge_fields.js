@@ -11,7 +11,7 @@ var make_charge_fields = function (charge) {
   if (charge === 'payment') fields = fields.concat(['type', 'reference'])
   return fields }
 
-module.exports = function make_charge_form (charge, fields) {
+module.exports = require('../../../utils/curry.js')(function make_charge_form (add_payment, charge) {
 
   var fields = make_charge_fields(charge)
 
@@ -33,7 +33,6 @@ module.exports = function make_charge_form (charge, fields) {
       this.setState(state)},
 
     save: function () {
-
       var self = this
       var record = require('../../../utils/clone')(self.state)
 
@@ -48,12 +47,14 @@ module.exports = function make_charge_form (charge, fields) {
         json: record
       }, function (err, res, body) {
 
+        add_payment(body)
+
         self.setState({
-          date: '',
-          amount: '',
-          reference: '',
-          type: '',
-          notes: '' })})},
+        date: '',
+        amount: '',
+        reference: '',
+        type: '',
+        notes: '' })})},
 
     render: function () {
       var rendered_fields = fields.map(function (field, i) {
@@ -76,4 +77,4 @@ module.exports = function make_charge_form (charge, fields) {
           <button onClick={this.save} className='align-two btn-primary'>
             Save
           </button>
-        </div> )}})}
+        </div> )}})})

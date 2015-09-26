@@ -2,7 +2,6 @@
 
 var React = require('react')
 var Table = require('./table')
-var make_charge_form = require('./common/make_charge_fields.js')
 
 var Button = React.createClass({
   click: function () {
@@ -17,10 +16,6 @@ var Button = React.createClass({
 
 var PaymentsTable = require('./payments_table')
 
-var AddSubscription = make_charge_form('subscription')
-var AddEvent = make_charge_form('event')
-var AddDonation = make_charge_form('donation')
-var AddPayment = make_charge_form('payment')
 
 var MemberPayments = React.createClass({
   getInitialState: function () {
@@ -33,8 +28,12 @@ var MemberPayments = React.createClass({
       view: activated_view
     })
   },
-  render: function () {
-    console.log(this.props)
+  render: function () { 
+    var make_charge_form = require('./common/make_charge_fields.js')(this.props.add_payment)
+    var AddSubscription = make_charge_form('subscription')
+    var AddEvent = make_charge_form('event')
+    var AddDonation = make_charge_form('donation')
+    var AddPayment = make_charge_form('payment')
     var buttons = ['subscription', 'donation', 'payment', 'event']
         .map(function (type) {
           return <Button type={type} click={this.view} />
