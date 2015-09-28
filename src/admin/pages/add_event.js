@@ -25,7 +25,7 @@ var default_event_state = {
 
 var Events = React.createClass({
   getInitialState: function () {
-    return default_event_state 
+    return default_event_state
   },
   change: function (e) {
     var state = require('../../utils/clone')(this.state)
@@ -42,9 +42,10 @@ var Events = React.createClass({
   },
   render: function () {
     var fs = Object.keys(default_event_state).map(function (f, i) {
-      return <input id={f.replace(/_/g, '-')} key={i} ref={f} 
-        placeholder={ to_title_case(f.replace(/_/g, ' ')) } 
-        onChange={this.change} /> 
+      return <input id={f} key={i} ref={f}
+        placeholder={ to_title_case(f.replace(/_/g, ' ')) }
+        type={ f === 'date' ? 'date' : 'text' }
+        onChange={this.change} />
     }.bind(this))
     return (
       <div>
@@ -54,7 +55,7 @@ var Events = React.createClass({
         { fs }
         <button onClick={this.save} >Save</button>
       </div>
-    ) 
+    )
   }
 })
 

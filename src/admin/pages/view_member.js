@@ -85,7 +85,7 @@ var ViewMember = React.createClass({
     request({
       uri: '/api/payments/' + id,
       method: 'DELETE'
-    }, function (err, data) { 
+    }, function (err, data) {
       if (!err) {
         this.setState({
           payments: this.state.payments
@@ -102,17 +102,24 @@ var ViewMember = React.createClass({
             <h1 id='member-title'>{'Member info: ' + member_id}</h1>
           </div>
           <div className='inner-section-divider-medium'></div>
-          <MemberInformation mode={this.state.mode} changeMode={this.changeMode}
-              member={this.state.member} save={this.save} onChange={this.change}
-              deleteMember={this.delete} reactivate={this.reactivate}
+          <MemberInformation
+              mode={this.state.mode}
+              changeMode={this.changeMode}
+              member={this.state.member}
+              save={this.save}
+              onChange={this.change}
+              deleteMember={this.delete}
+              reactivate={this.reactivate}
               cancel={this.cancel} />
+
           <div className='inner-section-divider-medium'></div>
           <MemberEvents mode={this.state.mode}
               events={this.state.events} mid={member_id} />
           <div className='inner-section-divider-medium'></div>
           <MemberPayments mode={this.state.mode}
-              payments={this.state.payments} mid={member_id}
-              remove_payment={this.remove_payment} 
+              payments={this.state.payments}
+              mid={member_id}
+              remove_payment={this.remove_payment}
               add_payment={this.add_payment} />
         </div>
       </div> )}})
