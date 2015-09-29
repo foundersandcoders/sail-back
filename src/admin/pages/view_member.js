@@ -14,6 +14,9 @@ var MemberPayments = require('../components/member_payments.js')
 var MemberInformation = require('../components/member_information.js')
 
 var ViewMember = React.createClass({
+   add_payment: function  (payment) {
+      this.setState({ payments: this.state.payments.concat([payment])} ) },
+
   getInitialState: function () {
     return {
       mode: 'view',
@@ -109,7 +112,8 @@ var ViewMember = React.createClass({
           <div className='inner-section-divider-medium'></div>
           <MemberPayments mode={this.state.mode}
               payments={this.state.payments} mid={member_id}
-              remove_payment={this.remove_payment} />
+              remove_payment={this.remove_payment} 
+              add_payment={this.add_payment} />
         </div>
       </div> )}})
 
