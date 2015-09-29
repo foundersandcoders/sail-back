@@ -2,7 +2,7 @@
 
 var React = require('react')
 var request = require('xhr')
-var post = require('../../utils/post')
+var post = require('../../utils/post.js')
 var get = require('../../utils/get')
 var Task = require('data.task')
 var curry = require('../../utils/curry')
@@ -27,17 +27,19 @@ var ViewMember = React.createClass({
   get_members_events: function (id) {
     return get(make_event_request_uri(id)) },
 
-  componentDidMount: function () {
+  componentWillMount: function () {
     Task.of(update_member).ap(this.get_member_by_id(this.props.params.id))
         .ap(this.get_members_events(this.props.params.id))
-        .fork(console.log.bind(console), this.setState.bind(this))},
+        .fork(console.log.bind(console, 'AN ERROR'), this.setState.bind(this))},
 
   changeMode: function () {
     var changed_mode = (this.state.mode === 'edit') ? 'view' : 'edit'
     this.setState({mode: changed_mode})},
 
   cancel: function () {
-    this.setState({member: this.pre_changes_member || this.state.member, mode: 'view'})
+    this.setState({
+      member: this.pre_changes_member || this.state.member,
+      mode: 'view'})
     this.pre_changes_member = null },
 
   save: function () {
@@ -76,6 +78,16 @@ var ViewMember = React.createClass({
 
     this.setState({member: member})},
 
+  remove_payment: function (id) {
+    request({
+      uri: '/api/payments/' + id,
+      method: 'DELETE'
+    }, function (err, data) { 
+      if (!err) {
+        this.setState({
+          payments: this.state.payments
+            .filter(function (payment) { return payment.id !== id })})}}.bind(this))},
+
   render: function () {
     var member_id = this.props.params.id
     return (
@@ -89,13 +101,15 @@ var ViewMember = React.createClass({
           <div className='inner-section-divider-medium'></div>
           <MemberInformation mode={this.state.mode} changeMode={this.changeMode}
               member={this.state.member} save={this.save} onChange={this.change}
-              deleteMember={this.delete} reactivate={this.reactivate} cancel={this.cancel} />
-          <div className='inner-section-divider-medium'></div>
-          <MemberPayments mode={this.state.mode}
-              payments={this.state.payments} mid={member_id}/>
+              deleteMember={this.delete} reactivate={this.reactivate}
+              cancel={this.cancel} />
           <div className='inner-section-divider-medium'></div>
           <MemberEvents mode={this.state.mode}
               events={this.state.events} mid={member_id} />
+          <div className='inner-section-divider-medium'></div>
+          <MemberPayments mode={this.state.mode}
+              payments={this.state.payments} mid={member_id}
+              remove_payment={this.remove_payment} />
         </div>
       </div> )}})
 
@@ -108,7 +122,8 @@ function make_event_request_uri (id) {
 
 var update_member = curry(function (member_data, events_data) {
   var member = JSON.parse(member_data.body)
-  return {member: member,
+  return {
+    member: member,
     events: JSON.parse(events_data.body),
     payments: member.payments }})
 
