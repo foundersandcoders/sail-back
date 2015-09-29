@@ -57,7 +57,11 @@ var Navigation = React.createClass({
         <li id='nav-logout'>
           <a href='/signout'>Signout</a>
         </li>
-        <AdminButtons />
+        { this.props.user === 'Admin' ?
+            <AdminButtons /> :
+         this.props.user === 'User' ?
+            <UserButtons /> :
+            <UnregisteredButtons /> }
       </ul>
     )
   }

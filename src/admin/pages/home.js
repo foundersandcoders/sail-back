@@ -21,7 +21,7 @@ var AdminHome = React.createClass({
   render: function () {
     return (
       <div>
-        <Navigation />
+        <Navigation user='Admin'/>
         <div className='container-large'>
           <div className='inner-section-divider-medium'></div>
           <div className='main-container'>

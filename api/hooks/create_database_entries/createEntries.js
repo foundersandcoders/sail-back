@@ -10,7 +10,7 @@ var async = require('async')
 module.exports = createEntries
 
 var mocks = {
-  members: require('./mocks.js').admins(),
+  members: require('./mocks.js').members(),
   membershipTypes: require('./mocks.js').membershipTypes(),
   payments: require('./mocks.js').payments(),
   paymentTypes: require('./mocks.js').paymentTypes(),

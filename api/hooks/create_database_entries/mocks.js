@@ -1,5 +1,5 @@
-exports.admins = function () {
-  var admins = [{
+exports.members = function () {
+  var members = [{
     id: '471800',
     title: 'Mr',
     initials: 'S',
@@ -86,14 +86,28 @@ exports.admins = function () {
       date_joined: new Date(),
       gift_aid_signed: false,
       membership_type: module.exports.membershipTypes()[3].value
+    }, {
+      id: '33123',
+      title: 'Mr',
+      initials: 'S',
+      postcode: 'E1 0SY',
+      first_name: 'House',
+      last_name: 'Hat',
+      primary_email: 'house@foch.org',
+      secondary_email: 'hat@foch.org',
+      password: 'secure',
+      privileges: 'member',
+      date_joined: new Date(),
+      gift_aid_signed: false,
+      membership_type: module.exports.membershipTypes()[3].value
     }]
 
-  return admins
+  return members
 }
 
 exports.payments = function () {
   var payments = [{
-    member: module.exports.admins()[0].id, // bes
+    member: module.exports.members()[0].id, // bes
     category: 'subscription',
     type: module.exports.paymentTypes()[0].code, // join table
     description: 'Some description',
@@ -103,7 +117,7 @@ exports.payments = function () {
     date: new Date('2011')
   },
     {
-      member: module.exports.admins()[0].id, // bes
+      member: module.exports.members()[0].id, // bes
       category: 'donation',
       type: module.exports.paymentTypes()[0].code, // join table
       description: 'Some description',
@@ -113,7 +127,7 @@ exports.payments = function () {
       date: new Date('2012')
     },
     {
-      member: module.exports.admins()[0].id, // bes
+      member: module.exports.members()[0].id, // bes
       category: 'payment',
       type: module.exports.paymentTypes()[0].code, // join table
       description: 'Some description',
@@ -123,7 +137,7 @@ exports.payments = function () {
       date: new Date('2013')
     },
     {
-      member: module.exports.admins()[0].id, // bes
+      member: module.exports.members()[0].id, // bes
       category: 'payment',
       type: module.exports.paymentTypes()[0].code, // join table
       description: 'Some description',
@@ -133,7 +147,7 @@ exports.payments = function () {
       date: new Date('2013')
     },
     {
-      member: module.exports.admins()[1].id, // richard
+      member: module.exports.members()[1].id, // richard
       category: 'subscription',
       type: module.exports.paymentTypes()[0].code, // join table
       description: 'Some description',
@@ -141,7 +155,7 @@ exports.payments = function () {
       reference: module.exports.references()[0].code, // join table
       notes: 'This is a note',
       date: new Date('2011')
-    },
+    }
   ]
 
   return payments
