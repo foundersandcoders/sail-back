@@ -4,33 +4,25 @@ var React = require('react')
 var Task = require('data.task')
 
 var get = require('../../utils/get')
+var post = require('../../utils/post')
 var format_date = require('../../utils/format_date')
 var on_err = require('../../shared/error_handler')
 var curry = require('../../utils/curry')
 var change = require('../../shared/on_change')
 
-var Table = require('../components/table')
 var Navigation = require('../../shared/navigation')
 var Form = require('../../shared/form')
 var Title = require('../../shared/title')
 
 var PaymentsTable = require('../components/payments_table')
 
-var EventsTable = React.createClass({
-  render: function () {
+var EventsTable = require('../components/events_table')
 
-    var headers = ['Date', 'Reference', 'Short Description',
-      'Time', 'Location', 'Host', 'Price per member',
-      'Price per guest', 'Max number of guests', 'Total places available',
-      'Open for booking']
-
-    var get_entry_for_event = require('../../utils/get_entry')('_')
-
-    var entries = (this.props.events || [])
-      .map(function (event) {
-        return headers.map(get_entry_for_event(event))})
-
-    return (<Table className='events-table' data={[headers, entries]} />)}})
+function booking_save (state) {
+    post('/api/bookingrecords', state)
+    .fork(
+        on_err,
+        function(x) {console.log(x)})}
 
 var BookingForm = React.createClass({
   change: function (e) {
@@ -73,17 +65,16 @@ var BookEvent = React.createClass({
     var parse_events_and_payments = curry(function (events_res, payments_res) {
       return {
         events: JSON.parse(events_res.body),
-        payments: JSON.parse(payments_res.body)
-      }
-    })
+        payments: JSON.parse(payments_res.body) }})
+
     Task.of(parse_events_and_payments)
       .ap(get('/api/events'))
       .ap(get('/api/payments?member=' + this.props.params.id))
       .fork(
         on_err.bind(this),
         function (state) { this.setState(state) }.bind(this)
-      )
-  },
+      )},
+
   change_booking: function (e) {
     return require('../../shared/on_change.js').call(this, 'booking_form', e)
   },
@@ -116,17 +107,19 @@ var BookEvent = React.createClass({
           <div className='inner-section-divider-medium'></div>
 
           <div className='booking-form'>
-            <Form fields={booking_form_fields} data={this.state.booking_form}
+            <Form
+                fields={booking_form_fields}
+                data={this.state.booking_form}
+                on_save={booking_save}
                 onChange={this.change_booking} />
           </div>
           <div className='payment-form'>
-          <Form fields={payment_form_fields} data={this.state.payment_form}
+          <Form
+              fields={payment_form_fields}
+              data={this.state.payment_form}
               onChange={this.change_payments} />
           </div>
         </div>
-      </div>
-    )
-  }
-})
+      </div> )}})
 
 module.exports = BookEvent
