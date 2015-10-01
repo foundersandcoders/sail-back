@@ -82,7 +82,6 @@ var BookEvent = React.createClass({
     return require('../../shared/on_change.js').call(this, 'payment_form', e)
   },
   event_row_click_handler: function (e) {
-    console.log(e.target, e.target.key)
     this.setState({ selected_event: this.state.events[e.target.key] }) },
 
   render: function () {
