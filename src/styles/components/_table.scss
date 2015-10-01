@@ -10,7 +10,7 @@ div.table {
     }
   }
 
-  .table-header {
+  & > .table-row {
     border-bottom: 1px solid #666;
     p {
       font-weight: bold;
