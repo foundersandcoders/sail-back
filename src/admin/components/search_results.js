@@ -20,6 +20,8 @@ var SingleResult = React.createClass({
         }).join(' ')
       } else return ''
   },
+  safe_name: function (string) {
+    return string ? string : '' },
   render: function () {
     var member = JSON.parse(this.props.member)
     return (
