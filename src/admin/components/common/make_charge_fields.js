@@ -11,7 +11,7 @@ var make_charge_fields = function (charge) {
   if (charge === 'payment') fields = fields.concat(['type', 'reference'])
   return fields }
 
-module.exports = function make_charge_form (charge, fields) {
+module.exports = require('../../../utils/curry.js')(function make_charge_form (add_payment, charge) {
 
   var fields = make_charge_fields(charge)
 
@@ -22,60 +22,59 @@ module.exports = function make_charge_form (charge, fields) {
         amount: '',
         reference: '',
         type: '',
-        notes: ''
-      } 
-    },
+        notes: '' }},
+
     back: function () {
-      this.props.click('payments-table')   
-    },
+      this.props.click('payments-table')},
+
     change: function (e) {
       var state = require('../../../utils/clone')(this.state)
       state[e.target.id] = e.target.value
-      this.setState(state) 
-    },
+      this.setState(state)},
+
     save: function () {
-    
       var self = this
       var record = require('../../../utils/clone')(self.state)
-      
+
+
       record.description = to_title_case(charge)
       record.category = charge
       record.member = self.props.mid
-      
+
       request({
         method: 'POST',
         uri: '/api/payments',
         json: record
       }, function (err, res, body) {
-        
+
+        add_payment(body)
+
         self.setState({
-          date: '',
-          amount: '',
-          reference: '',
-          type: '',
-          notes: ''
-        })
-      })
-    },
+        date: '',
+        amount: '',
+        reference: '',
+        type: '',
+        notes: '' })})},
+
     render: function () {
       var rendered_fields = fields.map(function (field, i) {
         return (
           <div>
-            <input type='text' onChange={this.change} id={field} 
-            value={this.state[field]} placeholder={field} key={i} />
+            <input type={field === 'date' ? 'date' :'text'} onChange={this.change}
+                id={field} value={this.state[field]} placeholder={field} key={i} />
             <div className='inner-section-divider-small'></div>
-          </div> 
-        )
-      }.bind(this))
+          </div>
+        )}.bind(this))
+
       return (
         <div className='container-small'>
           <div className='inner-section-divider-medium'></div>
           <h2 className={charge}>{to_title_case(charge)}</h2>
           {rendered_fields}
-          <button onClick={this.back} className='align-one btn-primary'>Back</button>
-          <button onClick={this.save} className='align-two btn-primary'>Save</button>
-        </div>
-      ) 
-    }
-  })
-}
+          <button onClick={this.back} className='align-one btn-primary'>
+            Back
+          </button>
+          <button onClick={this.save} className='align-two btn-primary'>
+            Save
+          </button>
+        </div> )}})})

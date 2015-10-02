@@ -70,26 +70,25 @@ test('should be able to enter text and press search', function (t) {
   })
 })
 test('exactly those fields that are filled in are present in the request', function (t) {
-    var fields = ['id', 'email', 'last_name'] 
+    var fields = ['id', 'email', 'last_name']
     fields.forEach(function (field) {
-      document.querySelector('#' + field).value = ''
-    }) 
+      document.querySelector('#' + field).value = '' })
+
     var fields_to_fill = fields.filter(function() {
-      return Math.random() > 0.5;
-    })
+      return Math.random() > 0.5 })
+
     SearchBox.__set__('request', function (opts) {
 
-      var get_fields = one_arg_compose(JSON.parse, get(0), split('&populate'), get(1), split('where='), get('url'))
+      var get_fields = one_arg_compose(JSON.parse, get(0), split('&populate'),
+          get(1), split('where='), get('url'))
       var filled_fields = get_fields(opts)
-      var all_fields_present = fields_to_fill.every(function (field) { 
-        return filled_fields[field]
-      })
-
+      var all_fields_present = fields_to_fill.every(function (field) {
+        return filled_fields[field] })
       var no_extra_fields = Object.keys(filled_fields).every(function (field) {
-        return fields_to_fill.indexOf(field) > -1
-      })
-      t.ok(all_fields_present)
-      t.ok(no_extra_fields)
+        return fields_to_fill.indexOf(field) > -1 || field==='activation_status'})
+
+      t.ok(all_fields_present, 'all fields present')
+      t.ok(no_extra_fields, 'no extra fields')
       t.end()
   })
   Component.__set__('SearchBox', SearchBox)
@@ -98,14 +97,6 @@ test('exactly those fields that are filled in are present in the request', funct
       document.body.querySelector('#'+field).value = 'fkjdsfksjf'
     })
     document.body.querySelector('#search-button').click()
-  })
-})
-
-test('events button should display', function (t) {
-  React.render(React.createElement(Component), document.body, function () {
-    
-    t.ok(document.body.querySelector('#events-btn'))
-    t.end()
   })
 })
 

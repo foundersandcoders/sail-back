@@ -21,7 +21,7 @@ var AdminHome = React.createClass({
   render: function () {
     return (
       <div>
-        <Navigation />
+        <Navigation user='Admin'/>
         <div className='container-large'>
           <div className='inner-section-divider-medium'></div>
           <div className='main-container'>
@@ -30,7 +30,6 @@ var AdminHome = React.createClass({
               <h1>Search Members</h1>
             </div>
             <div id='search-component'>
-            <a id='events-btn' href='/#/events'>Events</a>
               <SearchBox updateResults={this.updateResults} />
               <SearchResults results={this.state.results} />
             </div>

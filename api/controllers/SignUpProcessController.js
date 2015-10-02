@@ -5,7 +5,7 @@
 var is = require('torf')
 var uuid = require('uuid')
 var Mailgun = require('../services/Email_mailgun')
-var Validation = require('../../src/vdom/services/validate.js')
+var Validation = require('../services/validate.js')
 
 module.exports = {
   showForm: function (req, res) {

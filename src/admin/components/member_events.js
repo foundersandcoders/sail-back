@@ -11,7 +11,7 @@ var EventsTable = React.createClass({
         function (event, i) {
           return headers.map(get_entry_for_event(event)) })
 
-    return ( <Table data = { [headers, entries] } /> )} })
+    return ( <Table className='events-table' data = { [headers, entries] } /> )} })
 
 var MemberEvents = React.createClass({
   render: function () {
@@ -20,6 +20,7 @@ var MemberEvents = React.createClass({
         <div className='section-label'>
           <h1>Events</h1>
         </div>
+        <a className='button-two' href={'#/members/' + this.props.mid + '/events'}>Book Event</a>
         <div className='inner-section-divider-medium'></div>
         <EventsTable events={ this.props.events } />
       </div>
@@ -27,10 +28,6 @@ var MemberEvents = React.createClass({
   }
 })
 
-var get_entry_for_event = require('../../utils/curry')(function (event, header) {
-  return format_if_necessary(header)(event[ header.toLowerCase().replace(/ /g, '_') ])})
-
-function format_if_necessary (header) {
-  return header === 'Date' ? require('../../utils/format_date') : function (data) { return data } }
+var get_entry_for_event = require('../../utils/get_entry')('_')
 
 module.exports = MemberEvents

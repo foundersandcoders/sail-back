@@ -38,13 +38,12 @@ test('clicking submit sends a well-formed login request', function (t) {
 })
 
 test('successful login sets pathname to response.headers.location', function (t) {
-  
   var response = {
     statusCode: 200,
     headers: {
-      location: 'hoho' 
-    }   
-  } 
+      location: 'hoho'
+    }
+  }
   var window_mock = {location: {}}
   Component.__set__({
       request: function (opts, cb) {

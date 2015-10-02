@@ -1,87 +1,90 @@
 #wrap {
-	min-height: 92%;
+  min-height: 92%;
 }
 
 #main {
-	overflow: hidden;
+  overflow: hidden;
 }
 
 .desktop-tablet-only {
-	display: none;
+  display: none;
 }
 
 @media(max-width: $mobile){
-	footer {
-		margin-top: 70px;
-	}
-	.meta {
-		font-size: 18px;
-	}
+  footer {
+    margin-top: 70px;
+  }
+  .meta {
+    font-size: 18px;
+  }
 }
 
 .main-container {
-	max-width: 1050px;
-	width: 100%;
-	margin: auto;
-	overflow: hidden;
-	// margin-top: 80px;
-	padding-right: 15px;
-	padding-left: 15px;
+  width: 100%;
+  margin: auto;
+  overflow: hidden;
+  // margin-top: 80px;
+  padding-right: 15px;
+  padding-left: 15px;
 }
 
-.inner-section-divider-small {	
-	margin-bottom: 25px;
+.inner-section-divider-small {
+  margin-bottom: 25px;
 }
 
-.inner-section-divider-medium {	
-	margin-bottom: 45px;
+.inner-section-divider-medium {
+  margin-bottom: 45px;
 }
 
 @media(max-width: $mobile){
-	.main-container {
-		margin-top: 20px;
-	}
-	.inner-section-divider-small {
-		margin-bottom: 15px;
-	}
-	.inner-section-divider-medium {
-		margin-bottom: 35px;
-	}
+  .main-container {
+    margin-top: 20px;
+  }
+  .inner-section-divider-small {
+    margin-bottom: 15px;
+  }
+  .inner-section-divider-medium {
+    margin-bottom: 35px;
+  }
 }
 
 .container-small {
-	max-width: 322px;
-	margin: auto;
+  max-width: 322px;
+  margin: auto;
 }
 
 .left {
-	float: left;
+  float: left;
 }
 
 .right {
-	float: right;
+  float: right;
+}
+
+.stretch {
+  width: 100%;
 }
 
 .flex {
-	display: flex;
-	justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .w-3 {
-	flex: 1;
-	max-width: 250px;
+  flex: 1;
+  max-width: 250px;
 }
 
 .m-l-10 {
-	margin-left: 10px;
+  margin-left: 10px;
 }
 
 .m-l-15 {
-	margin-left: 15px;
+  margin-left: 15px;
 }
 
 @media(max-width: 2000px){
-	.small-font {
-		font-size: 10px;
-	}
+  .small-font {
+    font-size: 10px;
+  }
 }

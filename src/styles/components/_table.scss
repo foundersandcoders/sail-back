@@ -4,7 +4,13 @@ div.table {
   flex-direction: column;
   text-align: center;
 
- .table-header {
+  &.events-table .table-body {
+    .table-row:hover {
+      background: #888;
+    }
+  }
+
+  & > .table-row {
     border-bottom: 1px solid #666;
     p {
       font-weight: bold;
@@ -12,6 +18,7 @@ div.table {
 
   .table-body {
     overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   .table-row {
@@ -22,50 +29,9 @@ div.table {
     .table-entry {
       width: 2em;
       padding: 1%;
-      // payment info
-      &.date {
-        flex: 3;
-      }
-      &.description {
-        flex: 4;
-      }
-      &.charges {
-        flex: 2;
-      }
-      &.payments {
-        flex: 2;
-      }
-      &.balance {
-        flex: 3;
-      }
-      &.reference {
-        flex: 3;
-      }
-      &.notes {
-        flex: 4;
-      }
-      &.delete {
-        flex: 1;
-      }
-      // events table
-      &.title {
-        flex: 3;
-      }
-      &.time {
-        flex: 3;
-      }
-      &.location {
-        flex: 3;
-      }
-      &.host {
-        flex: 3;
-      }
-      &.price-per-member {
-        flex: 3;
-      }
-      &.price-per-guest {
-        flex: 3;
-      }
     }
   }
+
+  .chosen {
+    background-color: #888; }
 }
