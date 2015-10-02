@@ -90,11 +90,16 @@ var BookEvent = React.createClass({
   event_row_click_handler: function (i) {
     return function () {
       this.setState({ selected_event: this.state.events[i] }) }.bind(this) },
-  add_payment: require('../../shared/add_payment.js'),
+  add_payment: function (payment) {
+    this.setState({ payments: this.state.payments.concat([payment]) }) },
   remove_payment: require('../components/common/remove_payment.js'),
 
   render: function () {
     console.log(this.state)
+    var PaymentForm = require('../components/common/make_charge_fields.js')(
+      this.add_payment,
+      'payment'
+    )
     return (
       <div className='book-event'>
         <Navigation />
@@ -134,11 +139,7 @@ var BookEvent = React.createClass({
                     onChange={this.change_booking} />
               </div>
               <div className='payment-form'>
-              <Form
-                  fields={payment_form_fields}
-                  data={this.state.payment_form}
-                  on_save={this.add_payment}
-                  onChange={this.change_payments} />
+                <PaymentForm mid={this.props.params.id}/>
               </div>
             </div> :
             ''
