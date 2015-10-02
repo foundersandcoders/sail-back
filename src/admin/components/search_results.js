@@ -31,7 +31,8 @@ var SingleResult = React.createClass({
   <p>{ member.id.toString()}</p>
   </div>
   <div className='col-2'>
-  <p>{ member.last_name + ' ' + member.first_name}</p>
+  <p>{ this.safe_name(member.last_name) + ' ' +
+    this.safe_name(member.first_name)}</p>
   </div>
   <div className='col-3'>
   <p>{member.title}</p>
