@@ -5,14 +5,14 @@ var Table = require('./table')
 
 var Button = React.createClass({
   click: function () {
-     this.props.click(this.props.type)
-  },
+     this.props.click(this.props.type) },
+
   render: function () {
     var type = this.props.type
     return (
       <button id={type + '_btn'} onClick={this.click} className='btn-primary w-3'>
         {'+ ' + type}
-      </button> )}})
+      </button> ) } })
 
 var PaymentsTable = require('./payments_table')
 
@@ -28,7 +28,7 @@ var MemberPayments = React.createClass({
       view: activated_view
     })
   },
-  render: function () { 
+  render: function () {
     var make_charge_form = require('./common/make_charge_fields.js')(this.props.add_payment)
     var AddSubscription = make_charge_form('subscription')
     var AddEvent = make_charge_form('event')
@@ -43,13 +43,13 @@ var MemberPayments = React.createClass({
         <PaymentsTable payments={this.props.payments}
             remove_payment={this.props.remove_payment} mid={this.props.mid} /> :
         (this.state.view === 'subscription') ?
-        <AddSubscription click={this.view} mid={this.props.mid} /> :
+          <AddSubscription click={this.view} mid={this.props.mid} /> :
         (this.state.view === 'event') ?
-        <AddEvent click={this.view} mid={this.props.mid} /> :
+          <AddEvent click={this.view} mid={this.props.mid} /> :
         (this.state.view === 'donation') ?
-        <AddDonation click={this.view} mid={this.props.mid} /> :
+          <AddDonation click={this.view} mid={this.props.mid} /> :
         (this.state.view === 'payment') ?
-        <AddPayment click={this.view} mid={this.props.mid} /> : ''
+          <AddPayment click={this.view} mid={this.props.mid} /> : ''
 
     return (
       <div>

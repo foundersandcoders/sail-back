@@ -30,7 +30,6 @@ var Events = React.createClass({
   change: function (e) {
     var state = require('../../utils/clone')(this.state)
     state[e.target.id] = e.target.value
-    console.log(state)
     this.setState(state)
   },
   save: function () {
