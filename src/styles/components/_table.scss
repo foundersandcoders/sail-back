@@ -4,7 +4,13 @@ div.table {
   flex-direction: column;
   text-align: center;
 
- .table-header {
+  &.events-table .table-body {
+    .table-row:hover {
+      background: #888;
+    }
+  }
+
+  .table-header {
     border-bottom: 1px solid #666;
     p {
       font-weight: bold;

@@ -8,7 +8,7 @@ var post = require('../../utils/post')
 var format_date = require('../../utils/format_date')
 var on_err = require('../../shared/error_handler')
 var curry = require('../../utils/curry')
-var change = require('../../shared/on_change')
+var change = require('../../shared/on_change.js')
 
 var Navigation = require('../../shared/navigation')
 var Form = require('../../shared/form')
@@ -58,7 +58,7 @@ var BookEvent = React.createClass({
       events: [],
       payments: [],
       booking_form: {},
-      payment_form: {}
+      payment_form: {},
     }
   },
   componentDidMount: function () {
@@ -81,6 +81,10 @@ var BookEvent = React.createClass({
   change_payments: function (e) {
     return require('../../shared/on_change.js').call(this, 'payment_form', e)
   },
+  event_row_click_handler: function (e) {
+    console.log(e.target, e.target.key)
+    this.setState({ selected_event: this.state.events[e.target.key] }) },
+
   render: function () {
     return (
       <div className='book-event'>
@@ -92,6 +96,7 @@ var BookEvent = React.createClass({
 
           <div className='inner-section-divider-medium'></div>
           <div className='section-label'>
+            <p>{this.thing}</p>
             <h3>Payments</h3>
           </div>
           <PaymentsTable payments={this.state.payments}
@@ -102,7 +107,10 @@ var BookEvent = React.createClass({
           <div className='section-label'>
             <h3>Events</h3>
           </div>
-          <EventsTable events={this.state.events} />
+          <EventsTable events={this.state.events}
+              selected={this.state.selected_event}
+              onClick={this.event_row_click_handler}
+          />
 
           <div className='inner-section-divider-medium'></div>
 
