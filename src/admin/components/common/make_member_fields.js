@@ -20,7 +20,7 @@ module.exports = function make_member_fields (ids, column_title) {
       if (prop === 'membership_type' &&
           typeof this.props.member[prop] === 'object') {
         return this.props.member[prop].description}
-      else if (prop === 'date_joined' || prop === 'deletion_date') {
+      else if (prop.match('date')) {
         return format_date(this.props.member[prop]) }
       else return (r.prop(prop, this.props.member) || '').toString() },
 
