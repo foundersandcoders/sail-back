@@ -15,7 +15,8 @@ var MemberInformation = require('../components/member_information.js')
 
 var ViewMember = React.createClass({
    add_payment: function  (payment) {
-      this.setState({ payments: this.state.payments.concat([payment])} ) },
+      this.setState({
+        payments: date_sort(this.state.payments.concat([payment]))} ) },
 
   getInitialState: function () {
     return {
@@ -131,12 +132,16 @@ function make_id_request_uri (id) {
 function make_event_request_uri (id) {
   return '/api/members/' + id + '/events' }
 
+function date_sort (array_of_dated) {
+  return array_of_dated.slice().sort(function (a, b) {
+    return new Date(a.date) < new Date(b.date) }) }
+
 var update_member = curry(function (member_data, events_data) {
   var member = JSON.parse(member_data.body)
   return {
     member: member,
     events: JSON.parse(events_data.body),
-    payments: member.payments }})
+    payments: date_sort(member.payments) }})
 
 var update_info = function (state, setState) {
   request({
