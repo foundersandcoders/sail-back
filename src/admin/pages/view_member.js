@@ -134,7 +134,7 @@ function make_event_request_uri (id) {
 
 function date_sort (array_of_dated) {
   return array_of_dated.slice().sort(function (a, b) {
-    return new Date(a.date) > new Date(b.date) }) }
+    return new Date(a.date).getTime() - new Date(b.date).getTime() }) }
 
 var update_member = curry(function (member_data, events_data) {
   var member = JSON.parse(member_data.body)
