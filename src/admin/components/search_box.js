@@ -2,27 +2,33 @@
 
 var React = require('react')
 var request = require('xhr')
-
-var value_of = function (ref) {
-  return React.findDOMNode(ref).value
-}
+var object_assign = require('object-assign')
 
 var make_query = function () {
+  var email = value_of(this.refs.email)
   var vals = {
-    email: value_of(this.refs.email),
     id: value_of(this.refs.id),
     last_name: value_of(this.refs.last_name),
     activation_status: value_of(this.refs.activation_status)
   }
-  return Object.keys(vals)
+
+  var filtered_vals = get_actual_values(vals)
+
+  function add_in_filtered (obj) { return object_assign(obj, filtered_vals) }
+
+  return !!email ? { or: [ add_in_filtered({primary_email: email}),
+    add_in_filtered({secondary_email: email}) ] } : filtered_vals }
+
+function value_of (ref) {
+  return React.findDOMNode(ref).value }
+
+function get_actual_values (object) {
+  return Object.keys(object)
     .filter(function (key) {
-      return (vals[key] !== undefined && vals[key] !== null && vals[key].length)
-    })
+      return ( !!object[key] || object[key] === false ) })
     .reduce(function (agg, key) {
-      agg[key] = vals[key]
-      return agg
-    }, {})
-}
+      agg[key] = object[key]
+      return agg }, {}) }
 
 var SearchBox = React.createClass({
 

@@ -53,6 +53,7 @@
     "myth": "^1.5.0",
     "node-sass": "^3.2.0",
     "nuclear.js": "1.0.0",
+    "object-assign": "^4.0.1",
     "observ": "^0.2.0",
     "observ-array": "^3.2.1",
     "observ-struct": "^6.0.0",
