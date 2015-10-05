@@ -77,15 +77,20 @@ test('exactly those fields that are filled in are present in the request', funct
     var fields_to_fill = fields.filter(function() {
       return Math.random() > 0.5 })
 
+    var expected_filled = fields_to_fill.reduce(function (expected, field) {
+      return field === 'email' ?
+        expected.concat(['primary_email', 'secondary_email']) :
+        expected.concat(field) }, [])
+
     SearchBox.__set__('request', function (opts) {
 
       var get_fields = one_arg_compose(JSON.parse, get(0), split('&populate'),
           get(1), split('where='), get('url'))
       var filled_fields = get_fields(opts)
-      var all_fields_present = fields_to_fill.every(function (field) {
+      var all_fields_present = expected_filled.every(function (field) {
         return filled_fields[field] })
       var no_extra_fields = Object.keys(filled_fields).every(function (field) {
-        return fields_to_fill.indexOf(field) > -1 || field==='activation_status'})
+        return expected_filled.indexOf(field) > -1 || field==='activation_status'})
 
       t.ok(all_fields_present, 'all fields present')
       t.ok(no_extra_fields, 'no extra fields')
