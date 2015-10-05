@@ -1,6 +1,7 @@
 'use strict'
 
 module.exports = function format_date (date) {
+  if (!date) return ''
   date = new Date(date) // allows arg to be date string
 
   var date_sections = date.toString().split(' ')
