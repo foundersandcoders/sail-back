@@ -35,8 +35,8 @@ var MemberPayments = React.createClass({
     var AddDonation = make_charge_form('donation')
     var AddPayment = make_charge_form('payment')
     var buttons = ['subscription', 'donation', 'payment', 'event']
-        .map(function (type) {
-          return <Button type={type} click={this.view} />
+        .map(function (type, i) {
+          return <Button type={type} click={this.view} ref={i}/>
         }.bind(this))
 
     var view = (this.state.view === 'payments-table') ?

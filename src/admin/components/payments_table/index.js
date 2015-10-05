@@ -19,7 +19,7 @@ var get_entry_for_payment = require('../../../utils/curry')(function (
   return (header === 'Charges' || header === 'Payments') ?
     charge_or_payment_amount(payment.category, header, payment.amount) :
   header === 'Delete' ?
-    <DeletionEntry id={ payment.id } remove_payment={ delete_method }/> :
+    <DeletionEntry id={ payment.id } remove_payment={ delete_method } /> :
   header === 'Date' ?
     require('../../../utils/format_date')(payment['date']) :
   payment[ header.toLowerCase() ]})
