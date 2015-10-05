@@ -6,5 +6,5 @@ module.exports = React.createClass({
     this.props.remove_payment(this.props.id) },
 
    render: function () {
-    return (<button onClick={this.delete}>x</button>)}})
+    return (<button className='small-button' onClick={this.delete}>x</button>)}})
 
