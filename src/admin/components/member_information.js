@@ -98,11 +98,11 @@ var MemberInformation = React.createClass({
       </div>
       <div className='member-info-content'>
         <PersonalInformation mode={this.props.mode} member={this.props.member}
-            onChange={this.change} />
+            onChange={this.props.onChange} />
         <AddressInformation mode={this.props.mode} member={this.props.member}
-            onChange={this.change} />
+            onChange={this.props.onChange} />
         <MembershipInformation mode={this.props.mode} member={this.props.member}
-            onChange={this.change} />
+            onChange={this.props.onChange} />
         { this.props.member.activation_status === 'deactivated' ?
             <DeletionFields mode={this.props.mode}
                 member={this.props.member} onChange={this.props.onChange} /> :
