@@ -60,8 +60,12 @@ module.exports = require('../../../utils/curry.js')(function make_charge_form (a
       var rendered_fields = fields.map(function (field, i) {
         return (
           <div>
-            <input type={field === 'date' ? 'date' :'text'} onChange={this.change}
-                id={field} value={this.state[field]} placeholder={field} key={i} />
+            <input type={field === 'date' ? 'date' : 'text'}
+                onChange={this.change}
+                id={field} value={this.state[field]}
+                placeholder={field}
+                key={i} />
+
             <div className='inner-section-divider-small'></div>
           </div>
         )}.bind(this))

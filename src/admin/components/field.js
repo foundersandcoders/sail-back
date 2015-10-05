@@ -15,12 +15,13 @@ var Field = React.createClass({
         </p>
       )
     } else if (this.props.mode === 'edit') {
-
-
       return (
         <div>
           <span className='info'>{this.props.name}</span>
-          <input type='text' value={this.props.value} id={this.props.id} onChange={this.onChange} />
+          <input type={ this.props.name.match(/[dD]ate/) ? 'date' : 'text' }
+            value={this.props.value}
+            id={this.props.id}
+            onChange={this.props.onChange} />
         </div>
       )
     } else {

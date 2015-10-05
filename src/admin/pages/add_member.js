@@ -14,9 +14,9 @@ var address_ids = ['address1', 'address2', 'address3', 'address4', 'county',
        'mobile_phone']
 
 var membership_ids = ['date_joined', 'membership_type', 'life_payment_date',
-          'date_type_changed', 'date_gift_aid_signed',
-          'date_gift_aid_cancelled', 'standing_order', 'notes',
-          'registered', 'due_date']
+       'date_type_changed', 'date_gift_aid_signed',
+       'date_gift_aid_cancelled', 'standing_order', 'notes',
+       'registered', 'due_date']
 
 var all_ids = personal_ids.concat(membership_ids).concat(address_ids)
 
@@ -39,9 +39,9 @@ var NewMember = React.createClass({
       method: 'POST',
       uri: '/addmember',
       json: this.state,
-      change: this.onChange
     }, function (err, res, body) {
-      console.log(err, res, body)
+      console.log(err,res, body)
+      //if (!err) window.location.hash = ''
     })
   },
   render: function () {
