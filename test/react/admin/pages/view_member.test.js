@@ -77,20 +77,20 @@ React.render((
   t.ok(node.innerHTML.indexOf('subscription_btn') > -1)
   t.end()})})
 
-test('should render events section', function (t) {
-
-var node = document.body
-React.render(
-  React.createElement(Component, {
-    member: member,
-    params: {
-      id: 1234
-    }
-  }), node, function () {
-
-  t.ok(node.innerHTML.indexOf('events-section') > -1)
-  t.ok(node.innerHTML.indexOf('Events') > -1)
-  t.end()})})
+// test('should render events section', function (t) {
+// 
+// var node = document.body
+// React.render(
+//   React.createElement(Component, {
+//     member: member,
+//     params: {
+//       id: 1234
+//     }
+//   }), node, function () {
+// 
+//   t.ok(node.innerHTML.indexOf('events-section') > -1)
+//   t.ok(node.innerHTML.indexOf('Events') > -1)
+//   t.end()})})
 
 
 test('should toggle between edit and view mode', function (t) {
