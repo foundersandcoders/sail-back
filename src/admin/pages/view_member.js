@@ -113,9 +113,9 @@ var ViewMember = React.createClass({
               reactivate={this.reactivate}
               cancel={this.cancel} />
 
-          <div className='inner-section-divider-medium'></div>
+          {/* <div className='inner-section-divider-medium'></div>
           <MemberEvents mode={this.state.mode}
-              events={this.state.events} mid={member_id} />
+              events={this.state.events} mid={member_id} /> */ }
           <div className='inner-section-divider-medium'></div>
           <MemberPayments mode={this.state.mode}
               payments={this.state.payments}
