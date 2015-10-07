@@ -96,7 +96,7 @@ test('Upload endpoint should upload MEMBERS', function (t) {
 
   var json = [
     {
-      id: '555555',
+      id: 555555,
       title: 'Mr',
       first_name: 'Upload'
     }
@@ -124,7 +124,7 @@ test('Upload endpoint called with no type', function (t) {
 
   var json = [
     {
-      id: '555555',
+      id: 555555,
       title: 'Mr',
       first_name: 'Upload'
     }
