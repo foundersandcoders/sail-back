@@ -25,8 +25,8 @@ module.exports = {
     // Original data
     // ------------------------------------------------------------
     id: {
-      type: 'STRING',
-      required: true,
+      type: 'INT',
+      autoIncrement: true,
       unique: true,
       primaryKey: true
     },

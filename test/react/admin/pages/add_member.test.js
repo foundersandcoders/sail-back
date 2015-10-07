@@ -14,7 +14,7 @@ test('should load new member page with all fields', function (t) {
 
     var node = document.body
 
-    var ids = ['id', 'title', 'initials', 'first_name','last_name',
+    var ids = ['title', 'initials', 'first_name','last_name',
    'primary_email', 'secondary_email', 'news_type',
    'email_bounced', 'activation_status', 'address1',
    'address2', 'address3', 'address4', 'county', 'postcode',
@@ -36,7 +36,7 @@ test('should load new member page with all fields', function (t) {
 
 test('all fields should be editable', function (t) {
 
-    var fields = ['id', 'title', 'initials', 'first_name','last_name',
+    var fields = ['title', 'initials', 'first_name','last_name',
          'primary_email', 'secondary_email', 'news_type',
          'email_bounced', 'activation_status', 'address1',
          'address2', 'address3', 'address4', 'county', 'postcode',

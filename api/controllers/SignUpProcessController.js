@@ -3,7 +3,6 @@
 */
 
 var is = require('torf')
-var uuid = require('uuid')
 var Mailgun = require('../services/Email_mailgun')
 var Validation = require('../services/validate.js')
 
@@ -36,7 +35,6 @@ module.exports = {
 
     var newMember = req.body
     newMember.registered = 'registered'
-    newMember.id = uuid.v4()
     newMember.date_joined = new Date()
 
     Validation('member', newMember, function (error, value) {

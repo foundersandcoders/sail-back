@@ -39,7 +39,7 @@ test('Add member', function (t) {
   req.cookies = CookiesAdmin
 
   var json = {
-    id: '88888',
+    id: 88888,
     date_joined: new Date(),
     primary_email: 'create@member.com'
   }
@@ -47,8 +47,7 @@ test('Add member', function (t) {
   req
     .send(json)
     .end(function (err, res) {
-      t.equals(res.statusCode, 302, 'redirect status')
-      t.ok(res.text.indexOf('Redirecting to /members/88888') > -1, 'redirect to member')
+      t.ok(res.body.primary_email, 'primary_email key available')
       t.end()
     })
 })

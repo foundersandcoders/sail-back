@@ -4,8 +4,9 @@ var React = require('react')
 var request = require('xhr')
 var make_member_fields = require('../components/common/make_member_fields.js')
 var Navigation = require('../../shared/navigation.js')
+var Spinner = require('../../shared/spinner.js')
 
-var personal_ids = ['id', 'title', 'initials', 'first_name','last_name',
+var personal_ids = ['title', 'initials', 'first_name','last_name',
         'primary_email', 'secondary_email', 'news_type',
         'email_bounced', 'activation_status']
 
@@ -34,6 +35,7 @@ var NewMember = React.createClass({
   onSave: function (e) {
 
     e.preventDefault()
+    this.setState({ submitting: true });
 
     request({
       method: 'POST',
@@ -41,8 +43,9 @@ var NewMember = React.createClass({
       json: this.state,
     }, function (err, res, body) {
       console.log(err,res, body)
+      this.setState({ submitting: false, submitted: true, memberNum: body.id })
       //if (!err) window.location.hash = ''
-    })
+    }.bind(this))
   },
   render: function () {
     return (
@@ -55,6 +58,10 @@ var NewMember = React.createClass({
       <AddressInputs mode='edit' member={this.state} onChange={this.onChange}/>
       <MembershipInputs mode='edit' member={this.state} onChange={this.onChange} />
   <input type='submit' value='Submit 'id='save-button' />
+  { this.state.submitting ? <Spinner /> : '' }
+  { this.state.submitted  ?
+      <div id='member-num'> Member ID is: { this.state.memberNum } </div> :
+      '' }
   </form>
   </div>
   </div>
