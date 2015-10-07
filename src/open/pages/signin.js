@@ -13,14 +13,15 @@ var Signin = React.createClass({
     },
     signin: function (event) {
       event.preventDefault()
+      var username = React.findDOMNode(this.refs.email).value ||
+          React.findDOMNode(this.refs.number).value;
       var user = {
-        username: React.findDOMNode(this.refs.email).value,
+        username: username,
         password: React.findDOMNode(this.refs.password).value
       }
       var handle_response = function (err, res, body) {
           console.log('aoeuaeu')
-      
-        if (err) { 
+        if (err) {
           setState({login_failed: true})
         } else if (res.statusCode === 200) {
           win.location.pathname = res.headers.location
@@ -53,7 +54,7 @@ var Signin = React.createClass({
 
           <form onSubmit={this.signin}>
 
-          <input type='text' placeholder='Membership number' />
+          <input type='text' ref='number' placeholder='Membership number' />
           <div className='inner-section-divider-small'></div>
 
           <div className='input-label-container'>
