@@ -26,7 +26,7 @@ module.exports = {
     // ------------------------------------------------------------
     id: {
       type: 'INT',
-      autoIncrement: true,
+      autoIncrement: 12000,
       unique: true,
       primaryKey: true
     },
