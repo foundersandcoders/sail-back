@@ -30,7 +30,7 @@ module.exports = {
         if (err) {
           res.json(err)
         } else {
-          res.redirect('/members/' + item.id)
+          res.json(item)
         }
       })
   },
