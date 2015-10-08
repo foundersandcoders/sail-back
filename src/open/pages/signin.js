@@ -47,7 +47,7 @@ var Signin = React.createClass({
       request({
         method: 'POST',
         uri: '/forgotPassword',
-        json: { email }
+        json: { email: email }
       }, handle_response) },
 
     passwordMessage: function () {

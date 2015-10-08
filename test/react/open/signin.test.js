@@ -74,7 +74,7 @@ test('clicking on forgot password sends appropriate request', function (t) {
   React.render(React.createElement(Component), document.body, function () {
     document.body.querySelector('#email').value = email
     var submit = document.body.querySelector('a')
-    submit.click()
+    React.addons.TestUtils.Simulate.click(submit)
   })
 })
 
@@ -87,7 +87,7 @@ test('clicking on forgot password without an email does not request and displays
   React.render(React.createElement(Component), document.body, function () {
     document.body.querySelector('#email').value = ''
     var submit = document.body.querySelector('a')
-    submit.click()
+    React.addons.TestUtils.Simulate.click(submit)
     process.nextTick(function () {
       t.equal(submit.nextSibling.innerHTML,
           'Please enter the correct email for your account')
