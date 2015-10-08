@@ -20,15 +20,13 @@ var Signin = React.createClass({
         password: React.findDOMNode(this.refs.password).value
       }
       var handle_response = function (err, res, body) {
-          console.log('aoeuaeu')
         if (err) {
-          setState({login_failed: true})
+          this.setState({login_failed: true})
         } else if (res.statusCode === 200) {
           win.location.pathname = res.headers.location
         }
-      }
+      }.bind(this)
 
-      console.log('bout to request')
       request({
         method: 'POST',
         uri: '/signin',
@@ -36,6 +34,34 @@ var Signin = React.createClass({
       }, handle_response)
 
     },
+    forgotPass: function (event) {
+      event.preventDefault()
+      var email = React.findDOMNode(this.refs.email).value
+      var handle_response = function (err, res, body) {
+        if (err) { return this.setState({erroredPass: true }) }
+        else { this.setState({ passwordReset: true }) } }.bind(this)
+
+      this.setState({needEmail: false, erroredPass: false, passwordReset: false})
+      if (!email) { return this.setState({ needEmail: true }) }
+
+      request({
+        method: 'POST',
+        uri: '/forgotPassword',
+        json: { email }
+      }, handle_response) },
+
+    passwordMessage: function () {
+      return this.state.needEmail ?
+        <h3 className='red'>Please enter the correct email for your account</h3> :
+      this.state.erroredPass ?
+        <h3 className='red'>There was an error. Your password was not reset</h3> :
+      this.state.passwordReset ?
+        <h3> Your password has been reset. Please check your email. </h3> :
+        <h4>
+          If you are an existing member who is logging in for the first time
+          please click 'Forgot Password' and we'll email you a temporary one </h4>
+    },
+
     render: function () {
       return (
 
@@ -70,8 +96,8 @@ var Signin = React.createClass({
           <div className='inner-section-divider-small'></div>
 
         <div className='input-label-container'>
-          <a href='/#/forgot'>Forgot password?</a>
-          <h4>If you are an existing member who is logging in for the first time please click 'Forgot Password' and we'll email you a temporary one</h4>
+          <a href='#' onClick={this.forgotPass}> Forgot password? </a>
+          { this.passwordMessage() }
         </div>
 
           </form>

@@ -60,3 +60,35 @@ test('successful login sets pathname to response.headers.location', function (t)
     document.body.querySelector('#submit-button').click()
   })
 })
+
+test('clicking on forgot password sends appropriate request', function (t) {
+  var email = 'fil@foch.org'
+
+  Component.__set__('request', function (opts, cb) {
+    t.equals(opts.method, 'POST')
+    t.equals(opts.uri, '/forgotPassword')
+    t.equals(opts.json.email, email)
+    t.end()
+  })
+
+  React.render(React.createElement(Component), document.body, function () {
+    document.body.querySelector('#email').value = email
+    var submit = document.body.querySelector('a')
+    submit.click()
+  })
+})
+
+test('clicking on forgot password without an email does not request and displays error message', function (t) {
+
+  Component.__set__('request', function (opts, cb) {
+    t.ok(false)
+  })
+
+  React.render(React.createElement(Component), document.body, function () {
+    document.body.querySelector('#email').value = ''
+    var submit = document.body.querySelector('a')
+    submit.click()
+    process.nextTick(function () {
+      t.equal(submit.nextSibling.innerHTML,
+          'Please enter the correct email for your account')
+      t.end() }) }) })
