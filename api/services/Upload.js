@@ -119,7 +119,7 @@ module.exports = function () {
       var problems = []
 
       members.forEach(function (member) {
-        member.due_date = new Date('01/01')
+        member.due_date = null //new Date('01/01')
         member.notes = ''
 
         Members

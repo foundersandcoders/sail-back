@@ -3,6 +3,7 @@
 var React = require('react')
 var request = require('xhr')
 var object_assign = require('object-assign')
+var Spinner = require('../../shared/spinner.js')
 
 var make_query = function () {
   var email = value_of(this.refs.email)
@@ -32,15 +33,20 @@ function get_actual_values (object) {
 
 var SearchBox = React.createClass({
 
+  getInitialState: function () {
+    return { loading: false } },
+
   search: function () {
     var query = make_query.bind(this)()
     var updateResults = this.props.updateResults
+    this.setState({ loading: true })
     request({
       method: 'GET',
       url: '/api/members?where=' + JSON.stringify(query) + '&populate=[payments]'
     }, function (err, resp, body) {
+      this.setState({ loading: false })
       updateResults(body)
-    })
+    }.bind(this))
   },
   render: function () {
     return (
@@ -60,6 +66,7 @@ var SearchBox = React.createClass({
               id='search-button'>Search</button>
           <p id='test' ref='test'></p>
         </div>
+        { this.state.loading ? <Spinner /> : '' }
       </div>
     )}})
 
