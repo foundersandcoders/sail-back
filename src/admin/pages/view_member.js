@@ -21,9 +21,9 @@ var ViewMember = React.createClass({
   getInitialState: function () {
     return {
       mode: 'view',
-      member: require('../../mock_member.js'),
-      events: require('../../mock_events.js'),
-      payments: require('../../mock_payments.js')}},
+      member: {},
+      events: [],
+      payments: []}},
 
   get_member_by_id: function (id) {
     return get(make_id_request_uri(id)) },
