@@ -159,8 +159,8 @@ module.exports = {
      *	i.e. yy/yy/(yyyy + 1)
      */
     due_date: {
-      type: 'DATE'
-    // defaultsTo: first of January next year
+      type: 'DATE',
+      defaultsTo: new Date('01/01/' + (new Date().getFullYear() + 1))
     },
     /**
      *	This differentiate whether a member has

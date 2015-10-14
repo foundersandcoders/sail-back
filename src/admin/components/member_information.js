@@ -23,8 +23,9 @@ var address_ids = ['address1', 'address2', 'address3', 'address4',
 var AddressInformation = make_member_fields(address_ids, 'Address info')
 
 var membership_ids = ['date_joined', 'membership_type', 'life_payment_date',
-    'date_type_changed', 'date_gift_aid_signed', 'date_gift_aid_cancelled',
-    'standing_order', 'notes', 'registered', 'due_date']
+    'date_membership_type_changed', 'date_gift_aid_signed',
+    'date_gift_aid_cancelled', 'standing_order', 'notes', 'registered',
+    'due_date']
 var MembershipInformation = make_member_fields(membership_ids, 'Membership info')
 
 function entry_maker (value, desc) {
