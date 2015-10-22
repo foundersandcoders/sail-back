@@ -21,7 +21,7 @@ module.exports = function make_member_fields (ids, column_title) {
       this.props.onChange(e) },
 
     get_member_prop: function (prop) {
-      return prop.toLowerCase().match('date') && prop.mode === 'view' ?
+      return prop.toLowerCase().match('date') && this.props.mode === 'view' ?
           format_date(this.props.member[prop]) :
       this.props.member[prop] == null ? // captures undefined and null
           '' :
