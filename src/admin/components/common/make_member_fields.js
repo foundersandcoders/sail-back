@@ -4,6 +4,7 @@ var React = require('react')
 var r = require('ramda')
 var Field = require('../field.js')
 var format_date = require('app/format_date.js')
+var to_title_case = require('app/to_title_case.js')
 
 function label_from_id (id) {
   return id.slice(0, 1).toUpperCase() + id.slice(1).replace(/_/g, ' ') + ': ' }
@@ -21,11 +22,12 @@ module.exports = function make_member_fields (ids, column_title) {
       this.props.onChange(e) },
 
     get_member_prop: function (prop) {
-      return prop.toLowerCase().match('date') && this.props.mode === 'view' ?
-          format_date(this.props.member[prop]) :
-      this.props.member[prop] == null ? // captures undefined and null
+      var value = this.props.member[prop]
+      return value == null ? // captures undefined and null
           '' :
-          this.props.member[prop].toString() },
+      prop === 'membership_type' ?
+          to_title_case((value).replace(/-/g, ' ')) :
+          value.toString() },
 
     fields: function () {
       var make_field_props = function (name, id) {
