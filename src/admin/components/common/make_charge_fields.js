@@ -38,13 +38,17 @@ module.exports = require('curry')(function make_charge_form (add_payment, charge
 
     save: function () {
       var self = this
-      var record = clone(self.state)
-
       var record = object_assign(self.state, {
         description: to_title_case(charge),
         category: charge,
         member: self.props.mid,
         date: standardise_date(self.state.date) })
+
+      if (reference_required(record.type) && !record.reference) {
+        self.setState({ reference_required: true })
+        return }
+
+      self.setState({ reference_required: false})
 
       request({
         method: 'POST',
@@ -64,14 +68,14 @@ module.exports = require('curry')(function make_charge_form (add_payment, charge
     render: function () {
       var rendered_fields = fields.map(function (field, i) {
         return (
-          <div>
+          <div key={i}>
             <Field
               onChange={this.change}
               id={field}
               name={to_title_case(field)}
               value={this.state[field]}
-              mode='edit'
-              key={i} />
+              error={field === 'reference' && this.state.reference_required}
+              mode='edit' />
             <div className='inner-section-divider-small'></div>
           </div>
         )}.bind(this))
@@ -89,3 +93,5 @@ module.exports = require('curry')(function make_charge_form (add_payment, charge
           </button>
         </div> )}})})
 
+function reference_required (category) {
+  return ['Cash', 'Cheque'].indexOf(category) > -1 }

@@ -28,8 +28,8 @@ var Field = React.createClass({
 function input_or_select (props) {
   var select_options = {
     standing_order: ['true', 'false'],
-    membership_type: ['annual-single', 'annual-double', 'annual-family',
-        'annual-group', 'annual-corporate', 'life-single', 'life-double'],
+    membership_type: ['Annual Single', 'Annual Double', 'Annual Family',
+        'Annual Group', 'Annual Corporate', 'Life Single', 'Life Double'],
     type: ['Cash', 'Cheque', 'BACs']
   }
   return select_options[props.id] ?
@@ -39,15 +39,17 @@ function input_or_select (props) {
 function make_input (props) {
   return <input
     placeholder={make_placeholder(props.name)}
+    className={props.error ? 'red' : ''}
     {...props} /> }
 
 function make_select (props, options) {
   return (
     <select {...props} value={'' + props.value} >
+      <option disabled value={''}> -- select an option -- </option>
       { options.map(function (option, i) {
         return <option
             value={option}
-            key={i}>{to_title_case('' + option.replace(/-/g, ' '))}</option> }) }
+            key={i}>{option}</option> }) }
     </select>)}
 
 function make_placeholder (name) {

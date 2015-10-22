@@ -28,9 +28,6 @@ var format_dated = transform_dated(format_date)
 
 
 var ViewMember = React.createClass({
-   add_payment: function  (payment) {
-      this.setState({
-        payments: date_sort(this.state.payments.concat([payment]))} ) },
 
   getInitialState: function () {
     return {
@@ -39,26 +36,34 @@ var ViewMember = React.createClass({
       events: [],
       payments: []}},
 
+  componentWillMount: function () {
+    Task.of(update_member).ap(this.get_member_by_id(this.props.params.id))
+        .ap(this.get_members_events(this.props.params.id))
+        .fork(console.log.bind(console, 'AN ERROR'), this.setState.bind(this))},
+
+  add_payment: function  (payment) {
+    this.setState({
+      payments: date_sort(this.state.payments.concat([payment]))} ) },
+
   get_member_by_id: function (id) {
     return get(make_id_request_uri(id)) },
 
   get_members_events: function (id) {
     return get(make_event_request_uri(id)) },
 
-  componentWillMount: function () {
-    Task.of(update_member).ap(this.get_member_by_id(this.props.params.id))
-        .ap(this.get_members_events(this.props.params.id))
-        .fork(console.log.bind(console, 'AN ERROR'), this.setState.bind(this))},
-
   changeMode: function () {
-    var changed_mode = (this.state.mode === 'edit') ? 'view' : 'edit'
-    this.setState({mode: changed_mode})},
+    this.setState(this.make_mode_state_update(this.state.mode))},
+
+  make_mode_state_update: function (current_mode) {
+    return current_mode === 'edit' ?
+      { mode: 'view', member: pre_changes_member || member } :
+      { mode: 'edit', pre_changes_member: clone(this.state.member) } },
 
   cancel: function () {
     this.setState({
-      member: this.pre_changes_member || this.state.member,
+      member: this.state.pre_changes_member || this.state.member,
       mode: 'view'})
-    this.pre_changes_member = null },
+    this.state.pre_changes_member = null },
 
   save: function () {
     var state = clone(this.state)
@@ -85,7 +90,8 @@ var ViewMember = React.createClass({
     this.setState({ member: member})},
 
   remember: function () {
-    this.pre_changes_member = this.pre_changes_member || clone(this.state.member)},
+    var pre_changes_member = this.pre_changes_member || clone(this.state.member)
+    this.setState({pre_changes_member}) },
 
   reactivate: function (e) {
     var member = clone(this.state.member)
@@ -103,7 +109,7 @@ var ViewMember = React.createClass({
       if (!err) {
         this.setState({
           payments: this.state.payments
-            .filter(function (payment) { return payment.id !== id })})}}.bind(this))},
+            .filter(function (pay) { return pay.id !== id })})}}.bind(this))},
 
   render: function () {
     var member_id = this.props.params.id
@@ -156,7 +162,8 @@ var update_member = curry(function (member_data, events_data) {
   return {
     member: format_dated(member),
     events: JSON.parse(events_data.body),
-    payments: date_sort(member.payments) }})
+    payments: date_sort(member.payments),
+    pre_changes_member: null }})
 
 var update_info = function (state, setState) {
   request({
