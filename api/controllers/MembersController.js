@@ -60,6 +60,6 @@ function get_user_events (cb, id) {
     .populate('event_id')
     .exec(cb) }
 
-var respond_with_event_data = require('../../src/utils/curry')(function (res, err, data) {
+var respond_with_event_data = require('app/curry')(function (res, err, data) {
   if (err) res.serverError({error: error})
-  else res.send(require('../../src/utils/pluck')('event_id', data))})
+  else res.send(require('app/pluck')('event_id', data))})

@@ -38,6 +38,7 @@
     "css-loader": "^0.16.0",
     "csv-parse": "^0.1.2",
     "csv-parser": "^1.6.0",
+    "curry": "^1.2.0",
     "d-bap": "^1.0.0",
     "data.task": "^3.0.0",
     "factor-bundle": "^2.5.0",

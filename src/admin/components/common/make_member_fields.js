@@ -3,7 +3,7 @@
 var React = require('react')
 var r = require('ramda')
 var Field = require('../field.js')
-var format_date = require('../../../utils/format_date.js')
+var format_date = require('app/format_date.js')
 
 function label_from_id (id) {
   return id.slice(0, 1).toUpperCase() + id.slice(1).replace(/_/g, ' ') + ': ' }
@@ -18,14 +18,11 @@ module.exports = function make_member_fields (ids, column_title) {
 
   return React.createClass({
     onChange: function (e) {
-      this.props.onChange(e)
-    },
+      this.props.onChange(e) },
+
     get_member_prop: function (prop) {
-      return prop === 'membership_type' &&
-          typeof this.props.member[prop] === 'object' ?
-        this.props.member[prop].description :
-      prop.toLowerCase().match('date') && this.props.mode === 'view' ?
-        format_date(this.props.member[prop]) :
+      return prop.toLowerCase().match('date') ?
+          format_date(this.props.member[prop]) :
       this.props.member[prop] == null ? // captures undefined and null
           '' :
           this.props.member[prop].toString() },

@@ -22,9 +22,9 @@ test('should load new member page with all fields', function (t) {
    'date_joined', 'membership_type', 'life_payment_date',
    'date_type_changed', 'date_gift_aid_signed',
    'date_gift_aid_cancelled', 'standing_order', 'notes',
-   'registered', 'due_date']
+   'due_date']
     var is_on_page = function (id) {
-      return document.querySelector('#'+id).tagName === 'INPUT' }
+      return 'INPUT SELECT'.match(document.querySelector('#'+id).tagName) }
     var all_ids_present = ids.every(is_on_page)
 
     t.ok(all_ids_present)
@@ -34,7 +34,7 @@ test('should load new member page with all fields', function (t) {
 
 })
 
-test('all fields should be editable', function (t) {
+test('appropriate fields should be editable', function (t) {
 
     var fields = ['title', 'initials', 'first_name','last_name',
          'primary_email', 'secondary_email', 'news_type',
@@ -44,7 +44,7 @@ test('all fields should be editable', function (t) {
          'date_joined', 'membership_type', 'life_payment_date',
          'date_type_changed', 'date_gift_aid_signed',
          'date_gift_aid_cancelled', 'standing_order', 'notes',
-   'registered', 'due_date']
+         'due_date']
 
   Component.__set__('request', function (opts, cb) {
     var member_fields = Object.keys(opts.json)

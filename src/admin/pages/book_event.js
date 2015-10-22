@@ -3,13 +3,14 @@
 var React = require('react')
 var Task = require('data.task')
 
-var get = require('../../utils/get')
-var post = require('../../utils/post')
-var format_date = require('../../utils/format_date')
+var get = require('app/get')
+var post = require('app/post')
+var format_date = require('app/format_date')
 var on_err = require('../../shared/error_handler')
-var curry = require('../../utils/curry')
+var curry = require('app/curry')
 var change = require('../../shared/on_change.js')
 var request = require('xhr')
+var clone = require('clone')
 
 var Navigation = require('../../shared/navigation')
 var Form = require('../../shared/form.js')
@@ -22,7 +23,7 @@ var EventsTable = require('../components/events_table')
 
 var BookingForm = React.createClass({
   change: function (e) {
-    var state = require('../../utils/clone')(this.state)
+    var state = clone(this.state)
     state[e.target.id] = e.target.value
     this.setState(state)
   },

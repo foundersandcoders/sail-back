@@ -2,11 +2,13 @@
 
 var React = require('react')
 var request = require('xhr')
-var post = require('../../utils/post.js')
-var get = require('../../utils/get')
+var post = require('app/post.js')
+var get = require('app/get')
 var Task = require('data.task')
-var curry = require('../../utils/curry')
-var clone = require('../../utils/clone')
+var curry = require('app/curry')
+var clone = require('clone')
+var standardise_date = require('app/standardise_date.js')
+var object_assign = require('object-assign')
 
 var Navigation = require('../../shared/navigation.js')
 var MemberEvents = require('../components/member_events.js')
@@ -47,7 +49,6 @@ var ViewMember = React.createClass({
     this.pre_changes_member = null },
 
   save: function () {
-    var self = this
     var state = clone(this.state)
     update_info(state, this.setState.bind(this))},
 
@@ -127,19 +128,22 @@ var ViewMember = React.createClass({
 
 function make_id_request_uri (id) {
   return '/api/members/' + id +
-    '?populate=[payments,membership_type,events_booked]' }
+    '?populate=[payments,events_booked]' }
 
 function make_event_request_uri (id) {
   return '/api/members/' + id + '/events' }
 
 function date_sort (array_of_dated) {
-  return array_of_dated.slice().sort(function (a, b) {
-    return new Date(a.date).getTime() - new Date(b.date).getTime() }) }
+  return array_of_dated
+    .map(ensure_date)
+    .sort(function (a, b) {
+      return a.date.getTime() - b.date.getTime() }) }
 
 var update_member = curry(function (member_data, events_data) {
   var member = JSON.parse(member_data.body)
+  console.log(member)
   return {
-    member: member,
+    member: standardise_dated(member),
     events: JSON.parse(events_data.body),
     payments: date_sort(member.payments) }})
 
@@ -147,8 +151,19 @@ var update_info = function (state, setState) {
   request({
     method: 'POST',
     uri: 'api/members/' + state.member.id,
-    json: state.member
+    json: standardise_dated(state.member)
   }, function (err, head, data) {
+    console.log(data, typeof data)
     setState({member: data, mode: 'view'})})}
+
+function ensure_date (dated_obj) {
+  return object_assign(dated_obj, { date: new Date(dated_obj.date) }) }
+
+function standardise_dated (dated_obj) {
+  var cloned_obj = clone(dated_obj)
+  Object.keys(dated_obj)
+    .filter(function (key) { return key.match('[dD]ate') })
+    .forEach(function (key) { cloned_obj[key] = standardise_date(dated_obj[key]) })
+  return cloned_obj }
 
 module.exports = ViewMember

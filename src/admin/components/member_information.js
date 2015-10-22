@@ -4,7 +4,7 @@ var React = require('react')
 var r = require('ramda') /* require utils.get when it's moved */
 var make_member_fields = require('./common/make_member_fields.js')
 var request = require('xhr')
-var nullply = require('../../utils/nullply')
+var nullply = require('app/nullply')
 
 var Field = require('./field.js')
 var Dropdown = require('./common/dropdown')

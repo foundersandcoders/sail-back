@@ -1,8 +1,12 @@
 'use strict'
 
 var request = require('xhr')
-var to_title_case = require('../../../utils/to_title_case')
+var to_title_case = require('app/to_title_case')
+var standardise_date = require('app/standardise_date.js')
 var React = require('react')
+var Field = require('../field.js')
+var object_assign = require('object-assign')
+var clone = require('clone')
 
 var make_charge_fields = function (charge) {
 
@@ -11,7 +15,7 @@ var make_charge_fields = function (charge) {
   if (charge === 'payment') fields = fields.concat(['type', 'reference'])
   return fields }
 
-module.exports = require('../../../utils/curry.js')(function make_charge_form (add_payment, charge) {
+module.exports = require('app/curry.js')(function make_charge_form (add_payment, charge) {
 
   var fields = make_charge_fields(charge)
 
@@ -28,18 +32,19 @@ module.exports = require('../../../utils/curry.js')(function make_charge_form (a
       this.props.click('payments-table')},
 
     change: function (e) {
-      var state = require('../../../utils/clone')(this.state)
+      var state = clone(this.state)
       state[e.target.id] = e.target.value
       this.setState(state)},
 
     save: function () {
       var self = this
-      var record = require('../../../utils/clone')(self.state)
+      var record = clone(self.state)
 
-
-      record.description = to_title_case(charge)
-      record.category = charge
-      record.member = self.props.mid
+      var record = object_assign(self.state, {
+        description: to_title_case(charge),
+        category: charge,
+        member: self.props.mid,
+        date: standardise_date(self.state.date) })
 
       request({
         method: 'POST',
@@ -50,22 +55,23 @@ module.exports = require('../../../utils/curry.js')(function make_charge_form (a
         add_payment(body)
 
         self.setState({
-        date: '',
-        amount: '',
-        reference: '',
-        type: '',
-        notes: '' })})},
+          date: '',
+          amount: '',
+          reference: '',
+          type: '',
+          notes: '' })})},
 
     render: function () {
       var rendered_fields = fields.map(function (field, i) {
         return (
           <div>
-            <input type={field === 'date' ? 'date' : 'text'}
-                onChange={this.change}
-                id={field} value={this.state[field]}
-                placeholder={field}
-                key={i} />
-
+            <Field
+              onChange={this.change}
+              id={field}
+              name={to_title_case(field)}
+              value={this.state[field]}
+              mode='edit'
+              key={i} />
             <div className='inner-section-divider-small'></div>
           </div>
         )}.bind(this))
@@ -82,3 +88,4 @@ module.exports = require('../../../utils/curry.js')(function make_charge_form (a
             Save
           </button>
         </div> )}})})
+
