@@ -3,13 +3,13 @@
 var test = require('tape')
 var React = require('react/addons')
 var Component = require('../../../../src/admin/pages/view_member.js')
-var arrayify = require('../../../../src/utils/arrayify.js')
+var arrayify = require('app/arrayify.js')
 var click = React.addons.TestUtils.Simulate.click
 var change = React.addons.TestUtils.Simulate.change
 
-var member = require('../../../../src/mock_member.js')
-var events = require('../../../../src/mock_events.js')
-var payments = require('../../../../src/mock_payments.js')
+var member = require('../../../mocks/member.js')
+var events = require('../../../mocks/events.js')
+var payments = require('../../../mocks/payments.js')
 
 var node = document.body
 
@@ -19,9 +19,9 @@ function fake_request (opts, cb) {
     cb(null, {body: JSON.stringify(member)})
 }
 
-var fake_get = require('../../../../src/utils/get.js')
+var fake_get = require('app/get.js')
 fake_get.__set__('request', fake_request)
-var fake_post = require('../../../../src/utils/post.js')
+var fake_post = require('app/post.js')
 fake_post.__set__('request', fake_request)
 
 Component.__set__({'get': fake_get, 'post': fake_post, 'request': fake_request})
