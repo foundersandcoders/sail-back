@@ -90,8 +90,9 @@ var ViewMember = React.createClass({
     this.setState({ member: member})},
 
   remember: function () {
-    var pre_changes_member = this.pre_changes_member || clone(this.state.member)
-    this.setState({pre_changes_member}) },
+    var pre_changes_member = this.state.pre_changes_member ||
+        clone(this.state.member)
+    this.setState({pre_changes_member: pre_changes_member}) },
 
   reactivate: function (e) {
     var member = clone(this.state.member)
