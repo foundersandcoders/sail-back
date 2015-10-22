@@ -3,6 +3,7 @@ div.table {
   display: flex;
   flex-direction: column;
   text-align: center;
+  clear: both;
 
   &.events-table .table-body {
     .table-row:hover {

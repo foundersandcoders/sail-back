@@ -39,10 +39,7 @@ var MemberPayments = React.createClass({
           return <Button type={type} click={this.view} ref={i}/>
         }.bind(this))
 
-    var view = (this.state.view === 'payments-table') ?
-        <PaymentsTable payments={this.props.payments}
-            remove_payment={this.props.remove_payment} mid={this.props.mid} /> :
-        (this.state.view === 'subscription') ?
+    var view = (this.state.view === 'subscription') ?
           <AddSubscription click={this.view} mid={this.props.mid} /> :
         (this.state.view === 'event') ?
           <AddEvent click={this.view} mid={this.props.mid} /> :
@@ -60,8 +57,11 @@ var MemberPayments = React.createClass({
         <div className='flex'>
           { buttons }
         </div>
-        <div className='inner-section-divider-medium'></div>
+        { view ? <div className='inner-section-divider-medium'></div> : '' }
         { view }
+        <div className='inner-section-divider-medium'></div>
+        <PaymentsTable payments={this.props.payments}
+            remove_payment={this.props.remove_payment} mid={this.props.mid} />
       </div>
     )
   }

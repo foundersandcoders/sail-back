@@ -1,4 +1,3 @@
-'use strict'
 
 var test = require('tape')
 var React = require('react/addons')
@@ -207,7 +206,7 @@ test('should be able to add charges', function (t) {
   })
 })
 
-test('should be able to delete a payment', function (t) {
+test('should be able to delete a payment after confirmation', function (t) {
   node.innerHTML = ''
   function get_num_payments () {
     return document.querySelectorAll('.payments-table .table-row').length }
@@ -218,13 +217,15 @@ test('should be able to delete a payment', function (t) {
     }
   }), node, function () {
     var original_payments_num = get_num_payments()
-	console.log(document.querySelectorAll('.payments-table .table-row'))
     process.nextTick(function(){
       var x = document.querySelector('.delete button')
       x.click()
       process.nextTick(function(){
-        t.equal(original_payments_num -1, get_num_payments())
-        t.end()})})})})
+        t.equal(x.innerHTML, 'Confirm', 'button asks for confirmation')
+        x.click()
+        process.nextTick(function(){
+          t.equal(original_payments_num -1, get_num_payments())
+          t.end()})})})})})
 
 function get_data_nodes () {
 
