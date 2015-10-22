@@ -141,7 +141,6 @@ function date_sort (array_of_dated) {
 
 var update_member = curry(function (member_data, events_data) {
   var member = JSON.parse(member_data.body)
-  console.log(member)
   return {
     member: standardise_dated(member),
     events: JSON.parse(events_data.body),
@@ -153,7 +152,6 @@ var update_info = function (state, setState) {
     uri: 'api/members/' + state.member.id,
     json: standardise_dated(state.member)
   }, function (err, head, data) {
-    console.log(data, typeof data)
     setState({member: data, mode: 'view'})})}
 
 function ensure_date (dated_obj) {

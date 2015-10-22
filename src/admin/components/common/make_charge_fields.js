@@ -15,7 +15,7 @@ var make_charge_fields = function (charge) {
   if (charge === 'payment') fields = fields.concat(['type', 'reference'])
   return fields }
 
-module.exports = require('app/curry.js')(function make_charge_form (add_payment, charge) {
+module.exports = require('curry')(function make_charge_form (add_payment, charge) {
 
   var fields = make_charge_fields(charge)
 
