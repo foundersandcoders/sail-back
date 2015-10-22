@@ -8,12 +8,24 @@ var Task = require('data.task')
 var curry = require('app/curry')
 var clone = require('clone')
 var standardise_date = require('app/standardise_date.js')
+var format_date = require('app/format_date.js')
 var object_assign = require('object-assign')
 
 var Navigation = require('../../shared/navigation.js')
 var MemberEvents = require('../components/member_events.js')
 var MemberPayments = require('../components/member_payments.js')
 var MemberInformation = require('../components/member_information.js')
+
+var transform_dated = curry(function (transform, dated_obj) {
+  var cloned_obj = clone(dated_obj)
+  Object.keys(dated_obj)
+    .filter(function (key) { return key.match('[dD]ate') })
+    .forEach(function (key) { cloned_obj[key] = transform(dated_obj[key]) })
+  return cloned_obj })
+
+var standardise_dated = transform_dated(standardise_date)
+var format_dated = transform_dated(format_date)
+
 
 var ViewMember = React.createClass({
    add_payment: function  (payment) {
@@ -118,7 +130,7 @@ var ViewMember = React.createClass({
           <MemberEvents mode={this.state.mode}
               events={this.state.events} mid={member_id} /> */ }
           <div className='inner-section-divider-medium'></div>
-          <MemberPayments mode={this.state.mode}
+          <MemberPayments
               payments={this.state.payments}
               mid={member_id}
               remove_payment={this.remove_payment}
@@ -142,7 +154,7 @@ function date_sort (array_of_dated) {
 var update_member = curry(function (member_data, events_data) {
   var member = JSON.parse(member_data.body)
   return {
-    member: standardise_dated(member),
+    member: format_dated(member),
     events: JSON.parse(events_data.body),
     payments: date_sort(member.payments) }})
 
@@ -152,16 +164,9 @@ var update_info = function (state, setState) {
     uri: 'api/members/' + state.member.id,
     json: standardise_dated(state.member)
   }, function (err, head, data) {
-    setState({member: data, mode: 'view'})})}
+    setState({member: format_dated(data), mode: 'view'})})}
 
 function ensure_date (dated_obj) {
   return object_assign(dated_obj, { date: new Date(dated_obj.date) }) }
-
-function standardise_dated (dated_obj) {
-  var cloned_obj = clone(dated_obj)
-  Object.keys(dated_obj)
-    .filter(function (key) { return key.match('[dD]ate') })
-    .forEach(function (key) { cloned_obj[key] = standardise_date(dated_obj[key]) })
-  return cloned_obj }
 
 module.exports = ViewMember
