@@ -14,14 +14,14 @@ function update_balance (balance, payment) {
   return balance + (payment.category === 'payment' ?
       - +payment.amount : +payment.amount)}
 
-var get_entry_for_payment = require('../../../utils/curry')(function (
+var get_entry_for_payment = require('app/curry')(function (
       payment, delete_method, header) {
   return (header === 'Charges' || header === 'Payments') ?
     charge_or_payment_amount(payment.category, header, payment.amount) :
   header === 'Delete' ?
     <DeletionEntry id={ payment.id } remove_payment={ delete_method } /> :
   header === 'Date' ?
-    require('../../../utils/format_date')(payment['date']) :
+    require('app/format_date')(payment['date']) :
   payment[ header.toLowerCase() ]})
 
 function charge_or_payment_amount(category, charge_or_payment, amount) {

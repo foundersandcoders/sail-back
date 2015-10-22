@@ -28,6 +28,6 @@ var MemberEvents = React.createClass({
   }
 })
 
-var get_entry_for_event = require('../../utils/get_entry')('_')
+var get_entry_for_event = require('app/get_entry')('_')
 
 module.exports = MemberEvents

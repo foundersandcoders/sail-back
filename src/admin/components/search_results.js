@@ -1,7 +1,8 @@
 'use strict'
 
 var React = require('react')
-var format_date = require('../../utils/format_date.js')
+var format_date = require('app/format_date.js')
+var to_title_case = require('app/to_title_case.js')
 
 var SingleResult = React.createClass({
   last_subscription: function (payments) {
@@ -14,12 +15,7 @@ var SingleResult = React.createClass({
     return format_payment(most_recent_payment)
   },
   format_membership: function (string) {
-      if (string) {
-        return string.replace('-', ' ').split(' ').map(function (elm) {
-          return elm.charAt(0).toUpperCase() + elm.slice(1)
-        }).join(' ')
-      } else return ''
-  },
+    return string ? to_title_case(string.replace(/-/g, ' ')) : '' },
   safe_name: function (string) {
     return string ? string : '' },
   render: function () {

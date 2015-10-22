@@ -12,8 +12,8 @@
     "test:upload": "standard && tape test/upload/*.test.js",
     "test:server": "tape test/backend/runner.js",
     "test:wserver": "nodemon --delay 15 test/backend/runner.js",
-    "test:react": "browserify -t reactify -t rewireify test/react/tests.js | tape-run",
-    "test:wreact": "watchify -v -t reactify -t rewireify test/react/tests.js -o 'tape-run | tee /dev/tty > test.log'",
+    "test:react": "browserify -t reactify -g rewireify test/react/tests.js | tape-run",
+    "test:wreact": "watchify -v -t reactify -g rewireify test/react/tests.js -o 'tape-run | tee /dev/tty > test.log'",
     "build": "browserify src/admin/main.js src/user/main.js src/open/main.js -t reactify -p [ factor-bundle -o .tmp/public/js/admin.min.js -o .tmp/public/js/user.min.js -o .tmp/public/js/open.min.js ] -o .tmp/public/js/common.min.js -p [ parcelify -o .tmp/public/styles/main.css -t sass-css-stream -d src/styles/*]",
     "build:w": "watchify src/admin/main.js src/user/main.js src/open/main.js -t reactify -p [ factor-bundle -o .tmp/public/js/admin.min.js -o .tmp/public/js/user.min.js -o .tmp/public/js/open.min.js ] -o .tmp/public/js/common.min.js -p [ parcelify -wo .tmp/public/styles/main.css -t sass-css-stream -d src/styles/* ] -v"
   },
@@ -38,6 +38,7 @@
     "css-loader": "^0.16.0",
     "csv-parse": "^0.1.2",
     "csv-parser": "^1.6.0",
+    "curry": "^1.2.0",
     "d-bap": "^1.0.0",
     "data.task": "^3.0.0",
     "factor-bundle": "^2.5.0",
@@ -100,7 +101,6 @@
   "license": "",
   "devDependencies": {
     "csv2": "^0.1.1",
-    "data.task": "^3.0.0",
     "rewireify": "^0.2.4",
     "tape": "^4.0.0",
     "tape-run": "^1.1.0",

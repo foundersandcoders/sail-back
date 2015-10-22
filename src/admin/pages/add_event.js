@@ -2,9 +2,10 @@
 
 var React = require('react')
 var Navigation = require('../../shared/navigation.js')
-var post = require('../../utils/post')
+var post = require('app/post')
 var on_err = require('../../shared/error_handler')
-var to_title_case = require('../../utils/to_title_case')
+var to_title_case = require('app/to_title_case')
+var clone = require('clone')
 
 var default_event_state = {
   title: '',
@@ -28,12 +29,12 @@ var Events = React.createClass({
     return default_event_state
   },
   change: function (e) {
-    var state = require('../../utils/clone')(this.state)
+    var state = clone(this.state)
     state[e.target.id] = e.target.value
     this.setState(state)
   },
   save: function () {
-    var ev = require('../../utils/clone')(this.state)
+    var ev = clone(this.state)
     ev.date = new Date(ev.date)
     post('/api/events', ev).fork(on_err.bind(this), function (res, body) {
       window.location.hash = '#/'

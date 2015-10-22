@@ -9,7 +9,7 @@ module.exports = React.createClass({
       'Price per guest', 'Max number of guests', 'Total places available',
       'Open for booking']
 
-    var get_entry_for_event = require('../../utils/get_entry.js')('_')
+    var get_entry_for_event = require('app/get_entry.js')('_')
 
     var entries = (this.props.events || [])
       .map(function (event) {
