@@ -12,10 +12,10 @@
     "test:upload": "standard && tape test/upload/*.test.js",
     "test:server": "tape test/backend/runner.js",
     "test:wserver": "nodemon --delay 15 test/backend/runner.js",
-    "test:react": "browserify -t reactify -g rewireify test/react/tests.js | tape-run",
-    "test:wreact": "watchify -v -t reactify -g rewireify test/react/tests.js -o 'tape-run | tee /dev/tty > test.log'",
-    "build": "browserify src/admin/main.js src/user/main.js src/open/main.js -t reactify -p [ factor-bundle -o .tmp/public/js/admin.min.js -o .tmp/public/js/user.min.js -o .tmp/public/js/open.min.js ] -o .tmp/public/js/common.min.js -p [ parcelify -o .tmp/public/styles/main.css -t sass-css-stream -d src/styles/*]",
-    "build:w": "watchify src/admin/main.js src/user/main.js src/open/main.js -t reactify -p [ factor-bundle -o .tmp/public/js/admin.min.js -o .tmp/public/js/user.min.js -o .tmp/public/js/open.min.js ] -o .tmp/public/js/common.min.js -p [ parcelify -wo .tmp/public/styles/main.css -t sass-css-stream -d src/styles/* ] -v"
+    "test:react": "browserify -g rewireify test/react/tests.js | tape-run",
+    "test:wreact": "watchify -v -g rewireify test/react/tests.js -o 'tape-run | tee /dev/tty > test.log'",
+    "build": "browserify src/admin/main.js src/user/main.js src/open/main.js -p [ factor-bundle -o .tmp/public/js/admin.min.js -o .tmp/public/js/user.min.js -o .tmp/public/js/open.min.js ] -o .tmp/public/js/common.min.js -p [ parcelify -o .tmp/public/styles/main.css -t sass-css-stream -d src/styles/*]",
+    "build:w": "watchify src/admin/main.js src/user/main.js src/open/main.js -p [ factor-bundle -o .tmp/public/js/admin.min.js -o .tmp/public/js/user.min.js -o .tmp/public/js/open.min.js ] -o .tmp/public/js/common.min.js -p [ parcelify -wo .tmp/public/styles/main.css -t sass-css-stream -d src/styles/* ] -v"
   },
   "standard": {
     "ignore": [
@@ -23,6 +23,7 @@
       "/test/"
     ]
   },
+  "browserify": { "transform": [ "reactify" ] },
   "dependencies": {
     "async": "^1.0.0",
     "babel": "^5.8.21",
