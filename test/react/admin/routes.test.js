@@ -27,6 +27,6 @@ test('all and only the desired routes are present', function (t) {
 
   t.ok(Object.keys(desiredRoutes).every(function (r) {
     return result.props.route.childRoutes.map(prop('path')).indexOf(r) > -1 }),
-        'all desired routes present') 
+        'all desired routes present')
 
   t.end() })
