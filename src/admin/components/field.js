@@ -30,7 +30,7 @@ function input_or_select (props) {
     standing_order: ['true', 'false'],
     membership_type: ['Annual Single', 'Annual Double', 'Annual Family',
         'Annual Group', 'Annual Corporate', 'Life Single', 'Life Double'],
-    type: ['Cash', 'Cheque', 'BACs']
+    type: ['Cash', 'Cheque', 'BACs', 'SO', 'HO', 'CAF']
   }
   return select_options[props.id] ?
       make_select(props, select_options[props.id]) :
