@@ -50,18 +50,15 @@ var MemberPayments = React.createClass({
 
     return (
       <div>
-        <div className='section-label'>
-          <h1>Payment info</h1>
-        </div>
         <div className='inner-section-divider-medium'></div>
+        <div className='inner-section-divider-medium'></div>
+        <PaymentsTable payments={this.props.payments}
+            remove_payment={this.props.remove_payment} mid={this.props.mid} />
         <div className='flex'>
           { buttons }
         </div>
         { view ? <div className='inner-section-divider-medium'></div> : '' }
         { view }
-        <div className='inner-section-divider-medium'></div>
-        <PaymentsTable payments={this.props.payments}
-            remove_payment={this.props.remove_payment} mid={this.props.mid} />
       </div>
     )
   }

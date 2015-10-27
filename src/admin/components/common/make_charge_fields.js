@@ -15,11 +15,18 @@ var make_charge_fields = function (charge) {
   if (charge === 'payment') fields = fields.concat(['type', 'reference'])
   return fields }
 
-module.exports = require('curry')(function make_charge_form (add_payment, charge) {
+var charge_forms = {}
+
+module.exports = require('curry')(make_charge_form)
+
+function make_charge_form (add_payment, charge) {
+
+  if (charge_forms[add_payment] && charge_forms[add_payment][charge]) {
+    return charge_forms[add_payment][charge] }
 
   var fields = make_charge_fields(charge)
 
-  return React.createClass({
+  var ChargeForm = React.createClass({
     getInitialState: function () {
       return {
         date: '',
@@ -38,7 +45,7 @@ module.exports = require('curry')(function make_charge_form (add_payment, charge
 
     save: function () {
       var self = this
-      var record = object_assign(self.state, {
+      var record = object_assign({}, self.state, {
         description: to_title_case(charge),
         category: charge,
         member: self.props.mid,
@@ -59,7 +66,7 @@ module.exports = require('curry')(function make_charge_form (add_payment, charge
         add_payment(body)
 
         self.setState({
-          date: '',
+          date: self.state.date,
           amount: '',
           reference: '',
           type: '',
@@ -68,30 +75,32 @@ module.exports = require('curry')(function make_charge_form (add_payment, charge
     render: function () {
       var rendered_fields = fields.map(function (field, i) {
         return (
-          <div key={i}>
             <Field
               onChange={this.change}
               id={field}
               name={to_title_case(field)}
               value={this.state[field]}
               error={field === 'reference' && this.state.reference_required}
+              className='charge-field'
+              key={i}
               mode='edit' />
-            <div className='inner-section-divider-small'></div>
-          </div>
         )}.bind(this))
 
       return (
-        <div className='container-small'>
-          <div className='inner-section-divider-medium'></div>
+        <div>
           <h2 className={charge}>{to_title_case(charge)}</h2>
-          {rendered_fields}
-          <button onClick={this.back} className='align-one btn-primary'>
-            Back
-          </button>
-          <button onClick={this.save} className='align-two btn-primary'>
-            Save
-          </button>
-        </div> )}})})
+          <div className='flex'>
+            {rendered_fields}
+            <button onClick={this.save} className='btn-primary'>
+              Save
+            </button>
+          </div>
+        </div> )}})
+
+      charge_forms[add_payment] = charge_forms[add_payment] || {}
+      charge_forms[add_payment][charge] = ChargeForm
+
+      return ChargeForm }
 
 function reference_required (category) {
   return ['Cash', 'Cheque'].indexOf(category) > -1 }

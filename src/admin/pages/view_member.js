@@ -119,10 +119,6 @@ var ViewMember = React.createClass({
         <Navigation />
         <div className='main-container' id='member-component'>
           <div className='inner-section-divider-medium'></div>
-          <div className='section-label'>
-            <h1 id='member-title'>{'Member info: ' + member_id}</h1>
-          </div>
-          <div className='inner-section-divider-medium'></div>
           <MemberInformation
               mode={this.state.mode}
               changeMode={this.changeMode}
@@ -175,6 +171,6 @@ var update_info = function (state, setState) {
     setState({member: format_dated(data), mode: 'view'})})}
 
 function ensure_date (dated_obj) {
-  return object_assign(dated_obj, { date: new Date(dated_obj.date) }) }
+  return object_assign({}, dated_obj, { date: new Date(dated_obj.date) }) }
 
 module.exports = ViewMember

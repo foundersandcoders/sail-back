@@ -2,7 +2,6 @@
 
 var React = require('react')
 var to_title_case = require('app/to_title_case.js')
-var DateInput = require('./date')
 
 var Field = React.createClass({
   render: function () {
@@ -15,7 +14,7 @@ var Field = React.createClass({
       )
     } else if (this.props.mode === 'edit') {
       return (
-        <div>
+        <div className={this.props.className}>
           <span className='info'>{this.props.name}</span>
           { input_or_select(this.props) }
         </div>
@@ -40,7 +39,7 @@ function input_or_select (props) {
 function make_input (props) {
   return <input
     placeholder={make_placeholder(props.name)}
-    className={props.error ? 'red' : ''}
+    className={props.className + (props.error ? ' red' : '')}
     {...props} /> }
 
 function make_select (props, options) {
