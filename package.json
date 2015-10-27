@@ -23,7 +23,11 @@
       "/test/"
     ]
   },
-  "browserify": { "transform": [ "reactify" ] },
+  "browserify": {
+    "transform": [
+      "reactify"
+    ]
+  },
   "dependencies": {
     "async": "^1.0.0",
     "babel": "^5.8.21",
@@ -42,6 +46,7 @@
     "curry": "^1.2.0",
     "d-bap": "^1.0.0",
     "data.task": "^3.0.0",
+    "deep-memoize": "0.0.0",
     "factor-bundle": "^2.5.0",
     "function-bind": "^1.0.2",
     "include-all": "~0.1.3",

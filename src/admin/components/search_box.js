@@ -15,7 +15,7 @@ var make_query = function () {
 
   var filtered_vals = get_actual_values(vals)
 
-  function add_in_filtered (obj) { return object_assign(obj, filtered_vals) }
+  function add_in_filtered (obj) { return object_assign({}, obj, filtered_vals) }
 
   return !!email ? { or: [ add_in_filtered({primary_email: email}),
     add_in_filtered({secondary_email: email}) ] } : filtered_vals }
