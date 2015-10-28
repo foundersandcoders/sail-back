@@ -34,8 +34,6 @@ React.render(React.createElement(Component, {
     id: 1234
   }
 }), node, function () {
-  t.ok(node.innerHTML.indexOf('Member info') > -1)
-  t.ok(node.innerHTML.indexOf('1234') > -1)
   t.ok(node.innerHTML.indexOf('member-component') > -1)
   t.end()})})
 
@@ -72,7 +70,6 @@ React.render((
   })
 ), node, function () {
 
-  t.ok(node.innerHTML.indexOf('Payment info') > -1)
   t.ok(node.innerHTML.indexOf('subscription_btn') > -1)
   t.end()})})
 

@@ -1,0 +1,15 @@
+div.charge-field {
+  flex: 2 0 8em;
+  padding: 0.5em;
+}
+
+.flex button {
+  align-self: flex-end;
+  flex: 1 0 4em;
+  margin-left: 0.5em;
+  margin-bottom: 0.3em;
+}
+
+.charge-field * {
+  width: 100%;
+}
