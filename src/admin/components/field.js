@@ -9,7 +9,9 @@ var Field = React.createClass({
       return (
         <p>
           <span className='info'>{this.props.name}</span>
-          <span id={'view-member-' + this.props.id}>{this.props.value}</span>
+          <span id={'view-member-' + this.props.id}>
+            {caser(this.props.id, this.props.value)}
+          </span>
         </p>
       )
     } else if (this.props.mode === 'edit') {
@@ -30,7 +32,7 @@ function input_or_select (props) {
     membership_type: ['Annual Single', 'Annual Double', 'Annual Family',
         'Annual Group', 'Annual Corporate', 'Life Single', 'Life Double'],
     type: ['Cash', 'Cheque', 'BACs', 'SO', 'HO', 'CAF'],
-    news_type: ['Post', 'Email']
+    news_type: ['post', 'online']
   }
   return select_options[props.id] ?
       make_select(props, select_options[props.id]) :
@@ -49,10 +51,13 @@ function make_select (props, options) {
       { options.map(function (option, i) {
         return <option
             value={option}
-            key={i}>{option}</option> }) }
+            key={i}>{to_title_case(option)}</option> }) }
     </select>)}
 
 function make_placeholder (name) {
   return name.match(/[dD]ate/) ? 'dd/mm/yyyy' : name }
+
+function caser (id, value) {
+  return id.match('email') ? value: to_title_case(value) }
 
 module.exports = Field
