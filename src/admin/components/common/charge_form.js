@@ -8,7 +8,7 @@ var Field = require('../field.js')
 var object_assign = require('object-assign')
 var clone = require('clone')
 
-var make_charge_fields = function (charge) {
+var make_charge_field_names = function (charge) {
 
   var fields = ['amount', 'date']
   var notes_if_needed = charge !== 'subscription' ? ['notes'] : []
@@ -20,7 +20,7 @@ module.exports = React.createClass({
     return {
       date: this.props.initial_date,
       amount: '',
-      reference: '',
+      reference: this.props.initial_reference,
       type: '',
       notes: '' }},
 
@@ -28,7 +28,8 @@ module.exports = React.createClass({
     this.props.click('payments-table')},
 
   change: function (e) {
-    if (e.target.id === 'date') { this.props.update_date(e.target.value) }
+    if ('date-reference'.match(e.target.id)) {
+      this.props.update({[e.target.id]: e.target.value }) }
     this.update_field_state(e) },
 
   update_field_state: function (e) {
@@ -40,7 +41,7 @@ module.exports = React.createClass({
     var self = this
     var record = object_assign({}, self.state, {
       description: to_title_case(this.props.type),
-      category: this.props.type,
+      category: self.props.type,
       member: self.props.mid,
       date: standardise_date(self.state.date) })
 
@@ -61,24 +62,27 @@ module.exports = React.createClass({
       self.setState({
         date: self.state.date,
         amount: '',
-        reference: '',
+        reference: self.state.reference,
         type: '',
         notes: '' })})},
 
+  make_charge_field: function (field, i) {
+    return (
+        <Field
+          onChange={this.change}
+          id={field}
+          name={to_title_case(field)}
+          value={this.state[field]}
+          error={field === 'reference' && this.state.reference_required}
+          className='charge-field'
+          key={i}
+          mode='edit' />
+    )},
+
+
   render: function () {
-    var rendered_fields = make_charge_fields(this.props.type)
-      .map(function (field, i) {
-        return (
-            <Field
-              onChange={this.change}
-              id={field}
-              name={to_title_case(field)}
-              value={this.state[field]}
-              error={field === 'reference' && this.state.reference_required}
-              className='charge-field'
-              key={i}
-              mode='edit' />
-        )}.bind(this))
+    var rendered_fields = make_charge_field_names(this.props.type)
+      .map(this.make_charge_field)
 
     return (
       <div>
@@ -93,3 +97,4 @@ module.exports = React.createClass({
 
 function reference_required (category) {
   return ['Cash', 'Cheque'].indexOf(category) > -1 }
+

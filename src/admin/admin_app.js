@@ -5,18 +5,19 @@ var App = require('../shared/app.js')
 
 var AdminApp = React.createClass({
   getInitialState: function () {
-    return { payment_date: '' } },
+    return {
+      date: '',
+      reference: '' } },
 
-  update_date: function (date) {
-    this.setState({payment_date: date}) },
-
-  add_date: function (elem) {
+  add_payment_info: function (elem) {
     return React.cloneElement(elem, {
-      payment_date: this.state.payment_date,
-      update_date: this.update_date }) },
+      payment_date: this.state.date,
+      payment_reference: this.state.reference,
+      update: this.setState.bind(this) }) },
 
   add_details: function (child) {
-    return child.type.displayName==='ViewMember' ? this.add_date(child) : child },
+    return child.type.displayName==='ViewMember' ?
+      this.add_payment_info(child) : child },
 
   render: function () {
     return <App
