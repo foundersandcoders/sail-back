@@ -30,9 +30,13 @@ var MemberPayments = React.createClass({
     })
   },
 
+  add_payment: function (payment) {
+    this.setState({view: 'payments-table'})
+    this.props.add_payment(payment) },
+
   make_charge_forms: function (charge_type, i) {
     return <ChargeForm
-        add_payment={this.props.add_payment}
+        add_payment={this.add_payment}
         type={charge_type}
         initial_date={this.props.initial_date}
         initial_reference={this.props.initial_reference}
@@ -48,7 +52,7 @@ var MemberPayments = React.createClass({
     var charge_forms = charge_types
         .map(this.make_charge_forms)
 
-    var buttons = ['subscription', 'donation', 'payment', 'event']
+    var buttons = ['subscription', 'event', 'donation', 'payment']
         .map(make_button.bind(this))
 
     var view = get_same_place_entry(charge_types, charge_forms, this.state.view)
@@ -59,18 +63,22 @@ var MemberPayments = React.createClass({
         <div className='inner-section-divider-medium'></div>
         <PaymentsTable payments={this.props.payments}
             remove_payment={this.props.remove_payment} mid={this.props.mid} />
-        <div className='flex'>
-          { buttons }
-        </div>
         { view ? <div className='inner-section-divider-medium'></div> : '' }
         { view }
+        <div className='flex payment-buttons'>
+          { buttons }
+        </div>
       </div>
     )
   }
 })
 
 function make_button (type, i) {
-  return <Button type={type} click={this.view} ref={i}/>
+  return <Button
+      type={type}
+      click={this.view}
+      ref={i}
+      className='add-payment-button' />
 }
 
 function get_same_place_entry (first_array, second_array, entry) {

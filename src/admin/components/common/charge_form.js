@@ -92,6 +92,9 @@ module.exports = React.createClass({
           <button onClick={this.save} className='btn-primary'>
             Save
           </button>
+          <a href="#/" className="flex-button">
+            <button className="btn-primary">Home</button>
+          </a>
         </div>
       </div> )}})
 

@@ -3,9 +3,12 @@ div.charge-field {
   padding: 0.5em;
 }
 
-.flex button {
+.flex button, .flex-button {
   align-self: flex-end;
   flex: 1 0 4em;
+}
+
+.flex button {
   margin-left: 0.5em;
   margin-bottom: 0.3em;
 }
