@@ -20,9 +20,9 @@
       .payments {
         flex: 1; }
       .balance-due {
-        flex: 1; }
+        flex: 1.5; }
       .reference {
-        flex: 3; }
+        flex: 2.5; }
       .notes {
         flex: 4; }
       .delete {
@@ -46,5 +46,12 @@
         flex: 1;}
       .price-per-guest {
         flex: 1;}}
+
+  .member-info-edit-button {
+    width: 4em;
+    font-size: 1.2em;
+    position: absolute;
+  }
+
 
 }

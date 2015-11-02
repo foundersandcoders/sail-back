@@ -78,7 +78,8 @@ var EditOptions = React.createClass({
 
 var EditToggle = React.createClass({
   render: function () { return (
-          <button id='edit-member-mode' className='button-two m-l-15 right w-100'
+          <button id='edit-member-mode'
+              className='member-info-edit-button'
               onClick={this.props.changeMode}>Edit</button> )}})
 
 var MemberInformation = React.createClass({

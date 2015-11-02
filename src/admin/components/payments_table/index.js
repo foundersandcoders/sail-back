@@ -21,7 +21,9 @@ var get_entry_for_payment = require('app/curry')(function (
   header === 'Delete' ?
     <DeletionEntry id={ payment.id } remove_payment={ delete_method } /> :
   header === 'Date' ?
-    require('app/format_date')(payment['date']) :
+    require('app/format_date')(payment.date) :
+  payment.category === 'payment' && header === 'Description' ?
+    payment.description + ' - ' + payment.type :
   payment[ header.toLowerCase() ]})
 
 function charge_or_payment_amount(category, charge_or_payment, amount) {
@@ -41,6 +43,8 @@ var PaymentsTable = React.createClass({
           return headers.map(get_entry_for_payment(payment,
             this.props.remove_payment))}.bind(this))
 
-    return ( <Table className='payments-table' data={ [headers, entries] } /> )}})
+    return ( <Table
+        className='payments-table'
+        data={ [headers, entries] } /> )}})
 
 module.exports = PaymentsTable
