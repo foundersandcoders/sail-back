@@ -25,7 +25,7 @@
   },
   "browserify": {
     "transform": [
-      "reactify"
+      "babelify"
     ]
   },
   "dependencies": {
@@ -106,10 +106,12 @@
   "author": "besartshyti",
   "license": "",
   "devDependencies": {
+    "babel-plugin-transform-es2015-computed-properties": "^6.0.14",
+    "babel-plugin-transform-es2015-destructuring": "^6.0.14",
+    "babel-plugin-transform-es2015-parameters": "^6.0.14",
+    "babel-preset-react": "^6.0.15",
+    "babelify": "^7.2.0",
     "csv2": "^0.1.1",
-    "rewireify": "^0.2.4",
-    "tape": "^4.0.0",
-    "tape-run": "^1.1.0",
     "decache": "^3.0.3",
     "expect": "^1.9.0",
     "givit": "0.0.2",
@@ -120,10 +122,13 @@
     "phantomjs": "^1.9.18",
     "protractor": "^2.1.0",
     "react-hot-loader": "^1.2.9",
+    "rewireify": "^0.2.4",
     "shot": "^1.5.3",
     "standard": "^4.5.4",
     "superagent": "^1.2.0",
     "supertest": "^1.0.1",
+    "tape": "^4.0.0",
+    "tape-run": "^1.1.0",
     "through2": "^0.6.5"
   }
 }

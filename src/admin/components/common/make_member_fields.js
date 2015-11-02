@@ -54,6 +54,5 @@ module.exports = function make_member_fields (ids, column_title) {
 
       return (
         <div className='col-1'>
-          <h2>{column_title}</h2>
           {field_components}
         </div> )}})}

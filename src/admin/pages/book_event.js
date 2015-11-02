@@ -97,10 +97,10 @@ var BookEvent = React.createClass({
 
   render: function () {
     console.log(this.state)
-    var PaymentForm = require('../components/common/make_charge_fields.js')(
+    var PaymentForm /*= require('../components/common/make_charge_fields.js')(
       this.add_payment,
       'payment'
-    )
+    ) */
     return (
       <div className='book-event'>
         <Navigation />

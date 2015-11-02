@@ -29,6 +29,8 @@ var format_dated = transform_dated(format_date)
 
 var ViewMember = React.createClass({
 
+  displayName: 'ViewMember',
+
   getInitialState: function () {
     return {
       mode: 'view',
@@ -134,6 +136,9 @@ var ViewMember = React.createClass({
               events={this.state.events} mid={member_id} /> */ }
           <div className='inner-section-divider-medium'></div>
           <MemberPayments
+              initial_date={this.props.payment_date}
+              initial_reference={this.props.payment_reference}
+              update={this.props.update}
               payments={this.state.payments}
               mid={member_id}
               remove_payment={this.remove_payment}

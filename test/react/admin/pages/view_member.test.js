@@ -51,9 +51,6 @@ React.render((
 
   t.ok(node.innerHTML.indexOf('edit-member-mode') > -1)
   t.ok(node.innerHTML.indexOf('member-info-content') > -1)
-  t.ok(node.innerHTML.indexOf('Personal info') > -1)
-  t.ok(node.innerHTML.indexOf('Address info') > -1)
-  t.ok(node.innerHTML.indexOf('Membership info') > -1)
   t.end()
 })
 })
