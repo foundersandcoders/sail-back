@@ -41,6 +41,8 @@ var PaymentsTable = React.createClass({
           return headers.map(get_entry_for_payment(payment,
             this.props.remove_payment))}.bind(this))
 
-    return ( <Table className='payments-table' data={ [headers, entries] } /> )}})
+    return ( <Table
+        className='payments-table'
+        data={ [headers, entries] } /> )}})
 
 module.exports = PaymentsTable

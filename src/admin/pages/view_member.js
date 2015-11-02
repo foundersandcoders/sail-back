@@ -134,6 +134,8 @@ var ViewMember = React.createClass({
               events={this.state.events} mid={member_id} /> */ }
           <div className='inner-section-divider-medium'></div>
           <MemberPayments
+              initial_date={this.props.payment_date}
+              update_date={this.props.update_date}
               payments={this.state.payments}
               mid={member_id}
               remove_payment={this.remove_payment}

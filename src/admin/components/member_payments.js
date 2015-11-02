@@ -15,7 +15,7 @@ var Button = React.createClass({
       </button> ) } })
 
 var PaymentsTable = require('./payments_table')
-
+var ChargeForm = require('./common/charge_form.js')
 
 var MemberPayments = React.createClass({
   getInitialState: function () {
@@ -23,30 +23,34 @@ var MemberPayments = React.createClass({
       view: 'payments-table'
     }
   },
+
   view: function (activated_view) {
     this.setState({
       view: activated_view
     })
   },
-  render: function () {
-    var make_charge_form = require('./common/make_charge_fields.js')(this.props.add_payment)
-    var AddSubscription = make_charge_form('subscription')
-    var AddEvent = make_charge_form('event')
-    var AddDonation = make_charge_form('donation')
-    var AddPayment = make_charge_form('payment')
-    var buttons = ['subscription', 'donation', 'payment', 'event']
-        .map(function (type, i) {
-          return <Button type={type} click={this.view} ref={i}/>
-        }.bind(this))
 
-    var view = (this.state.view === 'subscription') ?
-          <AddSubscription click={this.view} mid={this.props.mid} /> :
-        (this.state.view === 'event') ?
-          <AddEvent click={this.view} mid={this.props.mid} /> :
-        (this.state.view === 'donation') ?
-          <AddDonation click={this.view} mid={this.props.mid} /> :
-        (this.state.view === 'payment') ?
-          <AddPayment click={this.view} mid={this.props.mid} /> : ''
+  make_charge_forms: function (charge_type, i) {
+    return <ChargeForm
+        add_payment={this.props.add_payment}
+        type={charge_type}
+        initial_date={this.props.initial_date}
+        update_date={this.props.update_date}
+        key={i}
+        click={this.view}
+        mid={this.props.mid} /> },
+
+  render: function () {
+
+    var charge_types = ['subscription', 'donation', 'payment', 'event']
+
+    var charge_forms = charge_types
+        .map(this.make_charge_forms)
+
+    var buttons = ['subscription', 'donation', 'payment', 'event']
+        .map(make_button.bind(this))
+
+    var view = get_same_place_entry(charge_types, charge_forms, this.state.view)
 
     return (
       <div>
@@ -63,5 +67,12 @@ var MemberPayments = React.createClass({
     )
   }
 })
+
+function make_button (type, i) {
+  return <Button type={type} click={this.view} ref={i}/>
+}
+
+function get_same_place_entry (first_array, second_array, entry) {
+  return second_array[first_array.indexOf(entry)] }
 
 module.exports = MemberPayments

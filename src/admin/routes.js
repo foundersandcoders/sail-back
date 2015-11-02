@@ -3,7 +3,7 @@
 var React = require('react')
 var routerModule  = require('react-router')
 
-var App = require('../shared/app.js')
+var App = require('./admin_app.js')
 var AdminHome = require('./pages/home.js')
 var ViewMember = require('./pages/view_member.js')
 var AddMember = require('./pages/add_member.js')
@@ -24,12 +24,12 @@ module.exports = function (h, onUpdate) {
   return (
     <Router history={h} onUpdate={onUpdate}>
       <Route component={App}>
-        <Route path='/' component={AdminHome} />
-          <Route path='/members/:id' component={ViewMember} />
-          <Route path='/addmember' component={AddMember} />
-          <Route path='/maintenance' component={DataMaintenance} />
+        <Route path='/' component={AdminHome} ref='home' />
+          <Route path='/members/:id' component={ViewMember} ref='view-member' />
+            <Route path='/members/:id/events' component={BookEvent} />
+          <Route path='/addmember' component={AddMember} ref='add-member' />
+          <Route path='/maintenance' component={DataMaintenance}/>
           <Route path='/addevent' component={AddEvent} />
-          <Route path='/members/:id/events' component={BookEvent} />
       </Route>
     </Router>
   )
