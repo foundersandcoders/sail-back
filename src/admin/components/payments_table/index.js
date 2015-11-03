@@ -23,13 +23,16 @@ var get_entry_for_payment = require('app/curry')(function (
   header === 'Date' ?
     require('app/format_date')(payment.date) :
   payment.category === 'payment' && header === 'Description' ?
-    payment.description + ' - ' + payment.type :
+    get_description(payment) :
   payment[ header.toLowerCase() ]})
 
 function charge_or_payment_amount(category, charge_or_payment, amount) {
   var options = ['Charges', 'Payments']
   var offset = category === 'payment' ? 0 : 1
   return options.indexOf(charge_or_payment) + offset === 1 ? amount : '' }
+
+function get_description (payment) {
+  return payment.description + (payment.type ? ' - ' + payment.type : '') }
 
 var PaymentsTable = React.createClass({
   render: function () {
