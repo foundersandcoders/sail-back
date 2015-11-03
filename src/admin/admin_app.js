@@ -7,12 +7,14 @@ var AdminApp = React.createClass({
   getInitialState: function () {
     return {
       date: '',
-      reference: '' } },
+      reference: '',
+      type: '' } },
 
   add_payment_info: function (elem) {
     return React.cloneElement(elem, {
       payment_date: this.state.date,
       payment_reference: this.state.reference,
+      payment_type: this.state.type,
       update: this.setState.bind(this) }) },
 
   add_details: function (child) {

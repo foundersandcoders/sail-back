@@ -21,14 +21,14 @@ module.exports = React.createClass({
       date: this.props.initial_date,
       amount: '',
       reference: this.props.initial_reference,
-      type: '',
+      type: this.props.initial_type,
       notes: '' }},
 
   back: function () {
     this.props.click('payments-table')},
 
   change: function (e) {
-    if ('date-reference'.match(e.target.id)) {
+    if ('date-reference-type'.match(e.target.id)) {
       this.props.update({[e.target.id]: e.target.value }) }
     this.update_field_state(e) },
 
@@ -39,7 +39,7 @@ module.exports = React.createClass({
 
   save: function () {
     var self = this
-    var record = object_assign({}, self.state, {
+    var record = object_assign({}, relevant_to_category(self), {
       description: to_title_case(this.props.type),
       category: self.props.type,
       member: self.props.mid,
@@ -60,11 +60,8 @@ module.exports = React.createClass({
       self.props.add_payment(body)
 
       self.setState({
-        date: self.state.date,
         amount: '',
-        reference: self.state.reference,
-        type: '',
-        notes: '' })})},
+        notes: '' }) }) },
 
   make_charge_field: function (field, i) {
     return (
@@ -96,8 +93,13 @@ module.exports = React.createClass({
             <button className="btn-primary">Home</button>
           </a>
         </div>
-      </div> )}})
+      </div> )} })
 
-function reference_required (category) {
-  return ['Cash', 'Cheque'].indexOf(category) > -1 }
+function reference_required (type) {
+  return ['Cash', 'Cheque'].indexOf(type) > -1 }
+
+function relevant_to_category (self) {
+  var { state, state: {type, reference, ...remaining_state }, props } = self
+  if (props.type === 'payment') return state
+  else return remaining_state }
 
