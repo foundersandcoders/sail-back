@@ -40,6 +40,7 @@ var MemberPayments = React.createClass({
         type={charge_type}
         initial_date={this.props.initial_date}
         initial_reference={this.props.initial_reference}
+        initial_type={this.props.initial_type}
         update={this.props.update}
         key={i}
         click={this.view}

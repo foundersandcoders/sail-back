@@ -138,6 +138,7 @@ var ViewMember = React.createClass({
           <MemberPayments
               initial_date={this.props.payment_date}
               initial_reference={this.props.payment_reference}
+              initial_type={this.props.payment_type}
               update={this.props.update}
               payments={this.state.payments}
               mid={member_id}

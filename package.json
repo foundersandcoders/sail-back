@@ -36,6 +36,7 @@
     "babel-plugin-transform-es2015-computed-properties": "^6.0.14",
     "babel-plugin-transform-es2015-destructuring": "^6.0.14",
     "babel-plugin-transform-es2015-parameters": "^6.0.14",
+    "babel-plugin-transform-object-rest-spread": "^6.0.14",
     "babel-preset-react": "^6.0.15",
     "babelify": "^7.2.0",
     "babyparse": "^0.4.3",
