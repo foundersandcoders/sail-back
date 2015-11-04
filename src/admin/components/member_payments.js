@@ -30,6 +30,9 @@ var MemberPayments = React.createClass({
     this.setState({view: 'payments-table'})
     this.props.add_payment(payment) },
 
+  subscription_amount_if_needed (charge_type) {
+    return charge_type === 'subscription' ? this.props.subscription_amount : '' },
+
   make_charge_forms: function (charge_type, i) {
     return <ChargeForm
         add_payment={this.add_payment}
@@ -37,6 +40,7 @@ var MemberPayments = React.createClass({
         initial_date={this.props.initial_date}
         initial_reference={this.props.initial_reference}
         initial_type={this.props.initial_type}
+        initial_amount={this.subscription_amount_if_needed(charge_type)}
         update={this.props.update}
         key={i}
         click={this.view}
