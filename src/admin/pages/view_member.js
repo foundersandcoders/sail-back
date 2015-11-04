@@ -10,6 +10,7 @@ var clone = require('clone')
 var standardise_date = require('app/standardise_date.js')
 var format_date = require('app/format_date.js')
 var object_assign = require('object-assign')
+var compose = require('fn-compose')
 
 var Navigation = require('../../shared/navigation.js')
 var MemberEvents = require('../components/member_events.js')
@@ -26,7 +27,6 @@ var transform_dated = curry(function (transform, dated_obj) {
 var standardise_dated = transform_dated(standardise_date)
 var format_dated = transform_dated(format_date)
 
-
 var ViewMember = React.createClass({
 
   displayName: 'ViewMember',
@@ -39,7 +39,7 @@ var ViewMember = React.createClass({
       payments: []}},
 
   componentWillMount: function () {
-    Task.of(update_member).ap(this.get_member_by_id(this.props.params.id))
+    Task.of(receive_member).ap(this.get_member_by_id(this.props.params.id))
         .ap(this.get_members_events(this.props.params.id))
         .fork(console.log.bind(console, 'AN ERROR'), this.setState.bind(this))},
 
@@ -139,6 +139,7 @@ var ViewMember = React.createClass({
               initial_date={this.props.payment_date}
               initial_reference={this.props.payment_reference}
               initial_type={this.props.payment_type}
+              subscription_amount={this.state.member.subscription_amount}
               update={this.props.update}
               payments={this.state.payments}
               mid={member_id}
@@ -149,7 +150,7 @@ var ViewMember = React.createClass({
 
 function make_id_request_uri (id) {
   return '/api/members/' + id +
-    '?populate=[payments,events_booked]' }
+    '?populate=[payments,membership_type,events_booked]' }
 
 function make_event_request_uri (id) {
   return '/api/members/' + id + '/events' }
@@ -160,8 +161,8 @@ function date_sort (array_of_dated) {
     .sort(function (a, b) {
       return a.date.getTime() - b.date.getTime() }) }
 
-var update_member = curry(function (member_data, events_data) {
-  var member = JSON.parse(member_data.body)
+var receive_member = curry(function (member_data, events_data) {
+  var member = process_member_JSON(member_data.body)
   return {
     member: format_dated(member),
     events: JSON.parse(events_data.body),
@@ -178,5 +179,13 @@ var update_info = function (state, setState) {
 
 function ensure_date (dated_obj) {
   return object_assign({}, dated_obj, { date: new Date(dated_obj.date) }) }
+
+var process_member_JSON = compose(process_member, JSON.parse)
+
+function process_member (member) {
+  var { membership_type: { description, amount }, ...other_details } = member
+  return object_assign ({}, other_details, {
+    membership_type: description,
+    subscription_amount: amount }) }
 
 module.exports = ViewMember

@@ -19,7 +19,7 @@ module.exports = React.createClass({
   getInitialState: function () {
     return {
       date: this.props.initial_date,
-      amount: '',
+      amount: this.props.initial_amount,
       reference: this.props.initial_reference,
       type: this.props.initial_type,
       notes: '' }},
