@@ -20,15 +20,11 @@ var ChargeForm = require('./common/charge_form.js')
 var MemberPayments = React.createClass({
   getInitialState: function () {
     return {
-      view: 'payments-table'
-    }
-  },
+      view: 'payments-table' } },
 
   view: function (activated_view) {
     this.setState({
-      view: activated_view
-    })
-  },
+      view: activated_view }) },
 
   add_payment: function (payment) {
     this.setState({view: 'payments-table'})
@@ -68,6 +64,9 @@ var MemberPayments = React.createClass({
         { view }
         <div className='flex payment-buttons'>
           { buttons }
+          <a href="#/" className="flex-button">
+            <button className="btn-primary">Home</button>
+          </a>
         </div>
       </div>
     )
