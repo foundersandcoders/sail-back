@@ -87,6 +87,7 @@ module.exports = React.createClass({
         <div className='flex'>
           {rendered_fields}
           <div className='charge-field'>
+            <span></span>
             <button onClick={this.save} className='btn-primary flex-button'>
               Save
             </button>
