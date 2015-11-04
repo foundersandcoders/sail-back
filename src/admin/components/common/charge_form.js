@@ -86,12 +86,11 @@ module.exports = React.createClass({
         <h2 className={this.props.type}>{to_title_case(this.props.type)}</h2>
         <div className='flex'>
           {rendered_fields}
-          <button onClick={this.save} className='btn-primary'>
-            Save
-          </button>
-          <a href="#/" className="flex-button">
-            <button className="btn-primary">Home</button>
-          </a>
+          <div className='charge-field'>
+            <button onClick={this.save} className='btn-primary flex-button'>
+              Save
+            </button>
+          </div>
         </div>
       </div> )} })
 

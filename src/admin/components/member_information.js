@@ -13,8 +13,7 @@ var deletion_ids = ['deletion_reason', 'deletion_date']
 var DeletionFields = make_member_fields(deletion_ids, 'Deletion reason')
 
 var personal_ids = ['id', 'title', 'initials', 'first_name',
-    'last_name', 'primary_email', 'secondary_email',
-    'news_type', 'email_bounced', 'activation_status']
+    'last_name', 'primary_email', 'secondary_email']
 
 var PersonalInformation = make_member_fields(personal_ids, 'Personal info')
 
@@ -25,7 +24,7 @@ var AddressInformation = make_member_fields(address_ids, 'Address info')
 var membership_ids = ['date_joined', 'membership_type', 'life_payment_date',
     'date_membership_type_changed', 'date_gift_aid_signed',
     'date_gift_aid_cancelled', 'standing_order', 'notes', 'registered',
-    'due_date']
+    'due_date', 'news_type', 'email_bounced', 'activation_status']
 var MembershipInformation = make_member_fields(membership_ids, 'Membership info')
 
 function entry_maker (value, desc) {
