@@ -3,26 +3,27 @@ var TestUtils = React.addons.TestUtils
 var Routes = require('../../../src/admin/routes.js')()
 var test = require('tape')
 var prop = require('ramda').prop
+var Home = require('../../../src/admin/pages/home.js')
+var ViewMember = require('../../../src/admin/pages/view_member.js')
+var AddMember = require('../../../src/admin/pages/add_member.js')
+var DataMaintenance = require('../../../src/admin/pages/data_maintenance.js')
+var Reports = require('../../../src/admin/pages/reports.js')
 
 var renderer = TestUtils.createRenderer()
 renderer.render(Routes)
 
 var desiredRoutes = {
-  '/': 'AdminHome',
-  '/members/:id': 'ViewMember',
-  '/addmember': 'NewMember',
-  '/maintenance': 'DataMaintenance',
-  '/addevent': 'Events',
-  '/members/:id/events': 'BookEvent',
-  '/reports': 'Reports'
+  '/': Home,
+  '/members/:id': ViewMember,
+  '/addmember': AddMember,
+  '/reports': Reports
 }
 
 var result = renderer.getRenderOutput()
 
 test('all and only the desired routes are present', function (t) {
   t.ok(result.props.route.childRoutes.every(function (route) {
-    console.log(desiredRoutes[route.path], route.component.displayName)
-    return desiredRoutes[route.path] === route.component.displayName }),
+    return desiredRoutes[route.path] === route.component }),
         'only desired routes present')
 
   t.ok(Object.keys(desiredRoutes).every(function (r) {

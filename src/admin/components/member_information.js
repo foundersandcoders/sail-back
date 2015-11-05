@@ -85,10 +85,12 @@ var MemberInformation = React.createClass({
   getInitialState: function () { return {} },
   correct_buttons: function () {
     return this.props.mode === 'edit' ?
-        <EditOptions save={this.props.save} changeMode={this.props.changeMode}
+        <EditOptions save={this.props.save}
+            changeMode={this.props.changeMode}
             deleteMem={this.props.deleteMember}
             status={this.props.member.activation_status}
-            reactivate={this.props.reactivate} cancel={this.props.cancel} /> :
+            reactivate={this.props.reactivate}
+            cancel={this.props.cancel} /> :
         <EditToggle changeMode={this.props.changeMode}/>
   },
   render: function () {

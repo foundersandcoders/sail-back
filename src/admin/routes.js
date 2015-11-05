@@ -27,10 +27,7 @@ module.exports = function (h, onUpdate) {
       <Route component={App}>
         <Route path='/' component={AdminHome} />
           <Route path='/members/:id' component={ViewMember} />
-            <Route path='/members/:id/events' component={BookEvent} />
           <Route path='/addmember' component={AddMember} />
-          <Route path='/maintenance' component={DataMaintenance}/>
-          <Route path='/addevent' component={AddEvent} />
           <Route path='/reports' component={Reports} />
       </Route>
     </Router>
