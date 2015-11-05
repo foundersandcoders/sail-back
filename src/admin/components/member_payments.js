@@ -20,19 +20,18 @@ var ChargeForm = require('./common/charge_form.js')
 var MemberPayments = React.createClass({
   getInitialState: function () {
     return {
-      view: 'payments-table'
-    }
-  },
+      view: 'payments-table' } },
 
   view: function (activated_view) {
     this.setState({
-      view: activated_view
-    })
-  },
+      view: activated_view }) },
 
   add_payment: function (payment) {
     this.setState({view: 'payments-table'})
     this.props.add_payment(payment) },
+
+  subscription_amount_if_needed (charge_type) {
+    return charge_type === 'subscription' ? this.props.subscription_amount : '' },
 
   make_charge_forms: function (charge_type, i) {
     return <ChargeForm
@@ -41,6 +40,7 @@ var MemberPayments = React.createClass({
         initial_date={this.props.initial_date}
         initial_reference={this.props.initial_reference}
         initial_type={this.props.initial_type}
+        initial_amount={this.subscription_amount_if_needed(charge_type)}
         update={this.props.update}
         key={i}
         click={this.view}
@@ -68,6 +68,9 @@ var MemberPayments = React.createClass({
         { view }
         <div className='flex payment-buttons'>
           { buttons }
+          <a href="#/" className="flex-button">
+            <button className="btn-primary">Home</button>
+          </a>
         </div>
       </div>
     )

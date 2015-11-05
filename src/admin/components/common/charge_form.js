@@ -19,7 +19,7 @@ module.exports = React.createClass({
   getInitialState: function () {
     return {
       date: this.props.initial_date,
-      amount: '',
+      amount: this.props.initial_amount,
       reference: this.props.initial_reference,
       type: this.props.initial_type,
       notes: '' }},
@@ -86,12 +86,12 @@ module.exports = React.createClass({
         <h2 className={this.props.type}>{to_title_case(this.props.type)}</h2>
         <div className='flex'>
           {rendered_fields}
-          <button onClick={this.save} className='btn-primary'>
-            Save
-          </button>
-          <a href="#/" className="flex-button">
-            <button className="btn-primary">Home</button>
-          </a>
+          <div className='charge-field'>
+            <span></span>
+            <button onClick={this.save} className='btn-primary flex-button'>
+              Save
+            </button>
+          </div>
         </div>
       </div> )} })
 
