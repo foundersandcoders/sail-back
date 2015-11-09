@@ -27,10 +27,11 @@ var Field = React.createClass({
         </div> )}}})
 
 function input_or_select (props) {
+  // why is this in this component?
   var select_options = {
     standing_order: ['true', 'false'],
-    membership_type: ['Annual Single', 'Annual Double', 'Annual Family',
-        'Annual Group', 'Annual Corporate', 'Life Single', 'Life Double'],
+    membership_type: ['annual-single', 'annual-double', 'annual-family',
+        'annual-group', 'annual-corporate', 'life-single', 'life-double'],
     type: ['Cash', 'Cheque', 'BACs', 'SO', 'HO', 'CAF'],
     news_type: ['post', 'online']
   }
@@ -51,13 +52,13 @@ function make_select (props, options) {
       { options.map(function (option, i) {
         return <option
             value={option}
-            key={i}>{to_title_case(option)}</option> }) }
+            key={i}>{to_title_case(option.replace(/-/g, ' '))}</option> }) }
     </select>)}
 
 function make_placeholder (name) {
   return name.match(/[dD]ate/) ? 'dd/mm/yyyy' : name }
 
 function caser (id, value) {
-  return id.match('email') ? value: to_title_case(value) }
+  return id.match('email') ? value: to_title_case(value.replace(/-/g, ' ')) }
 
 module.exports = Field

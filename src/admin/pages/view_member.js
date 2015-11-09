@@ -183,9 +183,9 @@ function ensure_date (dated_obj) {
 var process_member_JSON = compose(process_member, JSON.parse)
 
 function process_member (member) {
-  var { membership_type: { description, amount }, ...other_details } = member
+  var { membership_type: { value, amount }, ...other_details } = member
   return object_assign ({}, other_details, {
-    membership_type: description,
+    membership_type: value,
     subscription_amount: amount }) }
 
 module.exports = ViewMember

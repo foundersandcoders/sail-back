@@ -25,10 +25,7 @@ module.exports = function make_member_fields (ids, column_title) {
       var value = this.props.member[prop]
       return value == null ? // captures undefined and null
           '' :
-      prop === 'membership_type' ?
-          to_title_case((value).replace(/-/g, ' ')) :
           value.toString() },
-
     fields: function () {
       var make_field_props = function (name, id) {
         return {
