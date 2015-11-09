@@ -54,6 +54,7 @@
     "d-bap": "^1.0.0",
     "data.maybe": "^1.2.1",
     "data.task": "^3.0.0",
+    "deep-equal": "^1.0.1",
     "deep-memoize": "0.0.0",
     "factor-bundle": "^2.5.0",
     "fn-compose": "^1.1.0",
