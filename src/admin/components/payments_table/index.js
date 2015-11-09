@@ -4,15 +4,7 @@ var React = require('react')
 var Table = require('../table')
 var DeletionEntry = require('./deletion_entry')
 
-function make_payments_with_balance (rows, payment) {
-  var new_balance = update_balance(rows[0], payment)
-  var decorated_payment = Object.create(payment)
-  decorated_payment['balance due'] = new_balance
-  return [new_balance].concat(rows.slice(1)).concat([decorated_payment]) }
-
-function update_balance (balance, payment) {
-  return balance + (payment.category === 'payment' ?
-      - +payment.amount : +payment.amount)}
+var make_payments_with_balance = require('app/make_payments_with_balance')
 
 var get_entry_for_payment = require('app/curry')(function (
       payment, delete_method, header) {
@@ -39,8 +31,7 @@ var PaymentsTable = React.createClass({
     var headers = ['Date', 'Description', 'Charges', 'Payments', 'Balance Due',
         'Reference', 'Notes', 'Delete']
 
-    var entries = (this.props.payments || [])
-        .reduce(make_payments_with_balance, [0])
+    var entries = make_payments_with_balance(this.props.payments || [])
         .slice(1)
         .map(function (payment) {
           return headers.map(get_entry_for_payment(payment,

@@ -112,17 +112,14 @@ exports.payments = function () {
     type: module.exports.paymentTypes()[0].code, // join table
     description: 'Some description',
     amount: 50.5,
-    reference: module.exports.references()[0].code, // join table
     notes: 'This is a note',
     date: new Date('2011')
   },
     {
       member: module.exports.members()[0].id, // bes
       category: 'donation',
-      type: module.exports.paymentTypes()[0].code, // join table
       description: 'Some description',
       amount: 20,
-      reference: module.exports.references()[0].code, // join table
       notes: 'This is a nice donation',
       date: new Date('2012')
     },
@@ -132,7 +129,7 @@ exports.payments = function () {
       type: module.exports.paymentTypes()[0].code, // join table
       description: 'Some description',
       amount: 30.5,
-      reference: module.exports.references()[0].code, // join table
+      reference: module.exports.references()[0].code.slice(1), // join table
       notes: 'This is a nice payment',
       date: new Date('2013')
     },
@@ -149,12 +146,43 @@ exports.payments = function () {
     {
       member: module.exports.members()[1].id, // richard
       category: 'subscription',
-      type: module.exports.paymentTypes()[0].code, // join table
       description: 'Some description',
       amount: 15.5,
-      reference: module.exports.references()[0].code, // join table
       notes: 'This is a note',
       date: new Date('2011')
+    },
+    {
+      member: module.exports.members()[2].id, //Ymouse
+      category: 'donation',
+      description: ':)',
+      amount: 137,
+      notes: 'cool beans',
+      date: new Date('2012, 9, 22')
+    },
+    {
+      member: module.exports.members()[2].id,
+      category: 'payment',
+      amount: 100,
+      type: module.exports.paymentTypes()[0].code,
+      reference: module.exports.references()[0].code.slice(1),
+      notes: 'boss',
+      date: new Date('2012, 11, 25')
+    },
+    {
+      member: module.exports.members()[2].id,
+      category: 'subscription',
+      amount: 175,
+      notes: ':)',
+      date: new Date('2013, 1, 1')
+    },
+    {
+      member: module.exports.members()[2].id,
+      category: 'payment',
+      amount: 175,
+      type: module.exports.paymentTypes()[0].code,
+      reference: module.exports.references()[0].code,
+      notes: 'awesome',
+      date: new Date('2013, 2, 3')
     }
   ]
 

@@ -10,6 +10,7 @@ var AddMember = require('./pages/add_member.js')
 var DataMaintenance = require('./pages/data_maintenance.js')
 var AddEvent = require('./pages/add_event.js')
 var BookEvent = require('./pages/book_event.js')
+var Reports = require('./pages/reports.js')
 
 var Router = routerModule.Router
 var Route = routerModule.Route
@@ -26,10 +27,8 @@ module.exports = function (h, onUpdate) {
       <Route component={App}>
         <Route path='/' component={AdminHome} />
           <Route path='/members/:id' component={ViewMember} />
-            <Route path='/members/:id/events' component={BookEvent} />
           <Route path='/addmember' component={AddMember} />
-          <Route path='/maintenance' component={DataMaintenance}/>
-          <Route path='/addevent' component={AddEvent} />
+          <Route path='/reports' component={Reports} />
       </Route>
     </Router>
   )
