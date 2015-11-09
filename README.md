@@ -130,3 +130,4 @@ in the `dd/mm/yyyy` format.
 * Some devs need to run redis concurrently with the server for the app to run. Without it, request.session is not defined at critical points; the app looks for properties on this ?object and thus throws an exception.
 * Must setup a foch_testing database to correctly run tests (probably something similar is needed to run production)
 * on first run, the `models.migrate` property in `config/env/development.js` should be set to `alter`. On subsequent runs, it should be reverted to `safe`.
+* Add directions for data migration

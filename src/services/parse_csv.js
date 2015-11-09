@@ -19,8 +19,6 @@ module.exports = {
  */
 function parseFun (file, callback) {
 
-  console.log('SDJSAK', file)
-
   parseLibrary(file.result, function (err, outputFromCsvParser) {
 
     if (err) return callback(err);
@@ -35,11 +33,9 @@ function jsonify (file, fileType) {
 
   var stamp = blueprints[fileType];
 
-  console.log(file)
-  console.log(stamp, fileType)
-
   return lazy(file).map(function (row, index) {
-
+    var obj = _stamp(index, row, stamp)
+    if (obj.id === 9811 || obj.id === '9811') { console.log(obj) }
     return _stamp(index, row, stamp);
   }).toArray();
 }
@@ -61,9 +57,8 @@ function _stamp (index, data, stamppattern){
 
   if (index === 0 && (data.length !== stampkeys.length)) {
 
-    console.log(data.length, stampkeys.length);
 
-    throw new Error({message: "Blueprint does not match with file csv columns"});
+    throw new Error("Blueprint does not match with file csv columns");
   }
 
   stampkeys.forEach(function (keystamp, index){
@@ -102,7 +97,7 @@ function _transform (value, type) {
   type === "boolean" ?
       value === "TRUE" ? true : false :
   type === "custom" ?
-      value === "FALSE" ? "activated" : "deactivated" :
+      value === "deactivated" ? "deactivated" : "activated" :
   type === "notes" ?
       value.replace('\\n', '\n', 'g') :
       null }
@@ -117,15 +112,14 @@ function decode(s) {
 function _dateconvert (str) {
 
   function isValidDate(d) {
-    if ( {}.toString.call(d) !== "[object Date]" )
+    if ( {}.toString.call(d) !== "[object Date]")
       return false;
-    return !isNaN(d.getTime());
+    return !isNaN(d.getTime())
   }
 
-  var parts = str.split("/");
-  var dt    = new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+  var dt    = require('app/standardise_date.js')(str);
 
-  if(isValidDate(dt)){
+  if(isValidDate(new Date(dt))){
     return dt;
   }else{
     return null;

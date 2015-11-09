@@ -52,6 +52,7 @@
     "csv-parser": "^1.6.0",
     "curry": "^1.2.0",
     "d-bap": "^1.0.0",
+    "data.maybe": "^1.2.1",
     "data.task": "^3.0.0",
     "deep-memoize": "0.0.0",
     "factor-bundle": "^2.5.0",
@@ -106,6 +107,9 @@
     "xhr": "^2.0.1"
   },
   "main": "app.js",
+  "engines": {
+    "node": "4.1.1"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/besartshyti/sail-back-2.git"

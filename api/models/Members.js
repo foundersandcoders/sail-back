@@ -79,7 +79,7 @@ module.exports = {
     /* Required */
     primary_email: {
       type: 'STRING',
-      // unique: true
+      unique: true
     },
     /* Required */
     /**
