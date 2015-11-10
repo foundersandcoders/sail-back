@@ -1,7 +1,6 @@
 'use strict'
 
 var React = require('react')
-var r = require('ramda')
 var Field = require('../field.js')
 var format_date = require('app/format_date.js')
 var to_title_case = require('app/to_title_case.js')

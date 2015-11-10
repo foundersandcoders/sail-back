@@ -1,4 +1,3 @@
-
 var test = require('tape')
 var React = require('react/addons')
 var Component = require('../../../../src/admin/pages/view_member.js')
@@ -6,9 +5,9 @@ var arrayify = require('app/arrayify.js')
 var click = React.addons.TestUtils.Simulate.click
 var change = React.addons.TestUtils.Simulate.change
 
-var member = require('../../../mocks/member.js')
-var events = require('../../../mocks/events.js')
-var payments = require('../../../mocks/payments.js')
+var member = require('../../../fixtures/member.js')
+var events = require('../../../fixtures/events.js')
+var payments = require('../../../fixtures/payments.js')
 
 var node = document.body
 

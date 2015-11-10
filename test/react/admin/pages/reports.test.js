@@ -5,20 +5,37 @@ var TestUtils = React.addons.TestUtils
 var test = require('tape')
 
 var Reports = require('../../../../src/admin/pages/reports.js')
-var mock_reference_payments = require('../../../mocks/ref_payments.json')
-var mock_charges = require('../../../mocks/charges.json')
-var expected_structure = require('../../../mocks/expected.json')
+var ReportsTable = require('../../../../src/admin/components/report_table.js')
 
-var renderer = TestUtils.createRenderer()
+var Table = require('../../../../src/admin/components/table')
 
-renderer.render(<Reports
-    payments={mock_reference_payments}
-    charges={mock_charges} />)
-
-var result = renderer.getRenderOutput()
+var mock_reference_payments = require('../../../fixtures/ref_payments.json')
+var mock_charges = require('../../../fixtures/charges.json')
+var expected_structure = require('../../../fixtures/expected_structure.json')
+var expected_table_props = require('../../../fixtures/expected_table_props.json')
 
 test('The data has been correctly transformed', function (t) {
-  t.deepEqual(result._store.props.charges, expected_structure)
+
+  var renderer = TestUtils.createRenderer()
+
+  renderer.render(<Reports
+      payments={mock_reference_payments}
+      charges={mock_charges} />)
+
+  var report_page = renderer.getRenderOutput()
+
+  t.deepEqual(report_page.props.charges, expected_structure)
   t.end() })
 
-console.log(result)
+test('The report table has the right entries', function (t) {
+
+  var renderer = TestUtils.createRenderer()
+
+  renderer.render(<ReportsTable
+      charges={expected_structure} />)
+
+  var report_table = renderer.getRenderOutput()
+
+  t.deepEqual(report_table.props, expected_table_props)
+  t.end() })
+
