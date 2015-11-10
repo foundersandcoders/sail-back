@@ -80,7 +80,6 @@
     "path-to-regexp": "^0.1.6",
     "pronto": "^0.3.14",
     "query-string": "^2.3.0",
-    "ramda": "^0.17.1",
     "rc": "~0.5.0",
     "react": "^0.13.3",
     "react-router": "1.0.0-beta3",

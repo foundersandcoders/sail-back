@@ -17,7 +17,7 @@ module.exports = React.createClass({
 
     return (<Table
         {...this.props}
-        Row={require('./table/SmartRow.js')(this.props.onClick)}
+        Row={require('./table/smart_row.js')(this.props.onClick)}
         className='events-table'
         data={[headers, entries]}
       />)}})
