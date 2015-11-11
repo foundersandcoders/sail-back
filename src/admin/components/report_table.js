@@ -1,7 +1,7 @@
 'use strict'
 
 var React = require('react')
-var Table = require('./Table')
+var Table = require('./table')
 
 var compose = require('fn-compose')
 var get_report_entry = require('app/get_entry')('_')
