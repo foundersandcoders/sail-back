@@ -3,8 +3,11 @@
 var React = require('react')
 var Table = require('./Table')
 
+var compose = require('fn-compose')
 var get_report_entry = require('app/get_entry')('_')
 var flip = require('app/flip.js')
+var prop_or = require('app/prop_or.js')
+var map = require('app/map.js')
 
 module.exports = React.createClass({
   render: function () {
@@ -21,6 +24,10 @@ var headers = [
   'Balance Due'
 ]
 
-var make_data = function ({ charges: charges = [ {} ] }) {
-  return charges.map(function (charge) {
-    return headers.map(get_report_entry(charge)) }) }
+var header_gets = flip(map)(headers)
+
+var make_data = compose(
+    map(header_gets),
+    map(get_report_entry),
+    prop_or([], 'charges'))
+
