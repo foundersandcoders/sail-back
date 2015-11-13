@@ -1,15 +1,15 @@
 {
-  data:
+  "data":
     [
       [
-        'Member Number',
-        'Payment Date',
-        'Subscription',
-        'Donation',
-        'Events',
-        'Payments',
-        'Payments not on this ref',
-        'Balance Due'
+        "Member Number",
+        "Payment Date",
+        "Subscription",
+        "Donation",
+        "Events",
+        "Payments",
+        "Payments not on this ref",
+        "Balance Due"
       ],
       [
         [
@@ -31,6 +31,66 @@
           175,
           100,
           37
+        ],
+        [
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          ''
+        ],
+        [
+          "Totals",
+          "",
+          225.5,
+          157,
+          0,
+          225.5,
+          130.5,
+          26.5
+        ],
+        [
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          ''
+        ],
+        [
+          "Total Charges",
+          '',
+          '',
+          '',
+          '',
+          382.5,
+          '',
+          ''
+        ],
+        [
+          "Less Total Payments",
+          '',
+          '',
+          '',
+          '',
+          356,
+          '',
+          ''
+        ],
+        [
+          "Total Balances Due",
+          '',
+          '',
+          '',
+          '',
+          26.5,
+          '',
+          ''
         ]
       ]
     ]
