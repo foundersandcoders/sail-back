@@ -17,13 +17,17 @@ module.exports = React.createClass({
   getDefaultProps: function () {
     return {
       payments: require('../../../test/fixtures/ref_payments.json'),
-      charges: require('../../../test/fixtures/charges.json') } },
+      charges: require('../../../test/fixtures/charges.json'),
+      reference: 'DH47F' } },
 
   render: function () {
     var {charges, payments} = this.props
     return (
-      <ReportTable
-          charges={get_charges(payments, charges)}></ReportTable> ) } })
+        <div>
+          <h3>Bank Reference: {this.props.reference}</h3>
+          <ReportTable
+              charges={get_charges(payments, charges)}></ReportTable>
+        </div> ) } })
 
 var get_charges = function get_charges (payments, charges) {
   return payments.map( compose(
