@@ -7,7 +7,7 @@ var Home = require('../../../src/admin/pages/home.js')
 var ViewMember = require('../../../src/admin/pages/view_member.js')
 var AddMember = require('../../../src/admin/pages/add_member.js')
 var DataMaintenance = require('../../../src/admin/pages/data_maintenance.js')
-var Reports = require('../../../src/admin/pages/reports.js')
+var Reports = require('../../../src/admin/pages/paying_in.js')
 
 var renderer = TestUtils.createRenderer()
 renderer.render(Routes)
