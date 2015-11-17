@@ -29,7 +29,7 @@ fake_get.__set__('request', fake_req)
 
 function fake_req (opts, cb) {
   var body =
-      opts.uri.match(/\?reference/)
+      opts.uri.match(/reference/)
       ?  mock_reference_payments
       : opts.uri.match(/\?member/)
       ? opts.uri.match(/471663/)

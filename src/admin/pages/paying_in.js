@@ -74,7 +74,7 @@ var get_data = curry (function get_data (url) {
         get(url) ) })
 
 function get_payments (ref) {
-  return get_data('api/payments/?reference=' + ref) }
+  return get_data('api/payments/?category=payment&reference=' + ref) }
 
 function get_charges (id) {
   return get_data('api/payments/?member=' + id).map(function (d) {
