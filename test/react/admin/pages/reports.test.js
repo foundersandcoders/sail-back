@@ -23,25 +23,28 @@ var ref = "DH47F"
 
 function noop () {}
 
-var fake_get = require('app/get.js')
+test('rewireify setup', function (t) {
+  var fake_get = require('app/get.js')
 
-fake_get.__set__('request', fake_req)
+  fake_get.__set__('request', fake_req)
 
-function fake_req (opts, cb) {
-  var body =
-      opts.uri.match(/reference/)
-      ?  mock_reference_payments
-      : opts.uri.match(/\?member/)
-      ? opts.uri.match(/471663/)
-          ?  mock_charges[471663]
-          :  mock_charges[471800]
-      : '{}'
+  function fake_req (opts, cb) {
+    var body =
+        opts.uri.match(/reference/)
+        ?  mock_reference_payments
+        : opts.uri.match(/\?member/)
+        ? opts.uri.match(/471663/)
+            ?  mock_charges[471663]
+            :  mock_charges[471800]
+        : '{}'
 
-  cb(null, { body: JSON.stringify(body) }) }
+    cb(null, { body: JSON.stringify(body) }) }
 
-test('Paying in page', function (t) {
   PayingInPage.__set__('get', fake_get)
 
+  t.end() })
+
+test('Paying in page', function (t) {
   var renderer = TestUtils.createRenderer()
 
   renderer.render(<PayingInPage />)
@@ -67,11 +70,12 @@ test('Paying in page', function (t) {
 
   var page = renderer.getRenderOutput()
 
-  t.deepEqual([page.props.children[1]._store], [
-    <PayingIn
-        reference={ref}
-        payments={mock_reference_payments}
-        charges={mock_charges} />._store
+  t.deepEqual(page.props.children, [
+      <PayingInSearch submit_handler={search} />,
+      <PayingIn
+          reference={ref}
+          payments={mock_reference_payments}
+          charges={mock_charges} />
   ])
 
   t.end() })

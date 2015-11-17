@@ -11,30 +11,33 @@ var payments = require('../../../fixtures/payments.js')
 
 var node = document.body
 
-function fake_request (opts, cb) {
-  opts.uri.match(/\/events/) ?
-    cb(null, {body: JSON.stringify(events)}) :
-    cb(null, {body: JSON.stringify(member)})
-}
+test('rewireify set up', function (t) {
+  function fake_request (opts, cb) {
+    opts.uri.match(/\/events/) ?
+      cb(null, {body: JSON.stringify(events)}) :
+      cb(null, {body: JSON.stringify(member)})
+  }
 
-var fake_get = require('app/get.js')
-fake_get.__set__('request', fake_request)
-var fake_post = require('app/post.js')
-fake_post.__set__('request', fake_request)
+  var fake_get = require('app/get.js')
+  fake_get.__set__('request', fake_request)
 
-Component.__set__({'get': fake_get, 'post': fake_post, 'request': fake_request})
+  var fake_post = require('app/post.js')
+  fake_post.__set__('request', fake_request)
+
+  Component.__set__({'get': fake_get, 'post': fake_post, 'request': fake_request})
+  t.end() })
 
 test('should load admin view member page', function (t) {
 
-var node = document.body
-React.render(React.createElement(Component, {
-  member: member,
-  params: {
-    id: 1234
-  }
-}), node, function () {
-  t.ok(node.innerHTML.indexOf('member-component') > -1)
-  t.end()})})
+  var node = document.body
+  React.render(React.createElement(Component, {
+    member: member,
+    params: {
+      id: 1234
+    }
+  }), node, function () {
+    t.ok(node.innerHTML.indexOf('member-component') > -1)
+    t.end()})})
 
 test('should render member details', function (t) {
 

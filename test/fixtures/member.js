@@ -22,7 +22,9 @@ module.exports = {
   date_gift_aid_signed: new Date(),
   notes: 'I am green',
   standing_order: true,
-  membership_type: 'life_double',
+  membership_type: {
+    description: 'life_double',
+  },
   date_joined: new Date(),
   events_booked: require('./events.js'),
   payments: require('./payments.js')
