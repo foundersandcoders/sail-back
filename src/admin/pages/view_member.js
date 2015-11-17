@@ -175,7 +175,7 @@ var update_info = function (state, setState) {
     uri: 'api/members/' + state.member.id,
     json: standardise_dated(state.member)
   }, function (err, head, data) {
-    setState({member: format_dated(data), mode: 'view'})})}
+    setState({member: format_dated(data), mode: 'view'}) }) }
 
 function ensure_date (dated_obj) {
   return object_assign({}, dated_obj, { date: new Date(dated_obj.date) }) }
