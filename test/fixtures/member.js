@@ -26,6 +26,5 @@ module.exports = {
     description: 'life_double',
   },
   date_joined: new Date(),
-  events_booked: require('./events.js'),
   payments: require('./payments.js')
 }
