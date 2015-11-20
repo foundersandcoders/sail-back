@@ -3,6 +3,6 @@
 module.exports = function (error) {
 
   this.setState({
-    error: error 
+    error: error
   })
 }

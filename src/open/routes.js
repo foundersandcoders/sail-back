@@ -9,11 +9,9 @@ var Signin = require('./pages/signin.js')
 var Router = ReactRouter.Router
 var Route = ReactRouter.Route
 var Redirect = ReactRouter.Redirect
-var history = require('react-router/lib/HashHistory').history
 
 module.exports = function (h, onUpdate) {
 
-  h = h || history
   onUpdate = onUpdate || function noop () {}
 
   return (

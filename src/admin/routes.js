@@ -8,18 +8,14 @@ var AdminHome = require('./pages/home.js')
 var ViewMember = require('./pages/view_member.js')
 var AddMember = require('./pages/add_member.js')
 var DataMaintenance = require('./pages/data_maintenance.js')
-var AddEvent = require('./pages/add_event.js')
-var BookEvent = require('./pages/book_event.js')
 var Reports = require('./pages/paying_in.js')
 
 var Router = routerModule.Router
 var Route = routerModule.Route
 var Redirect = routerModule.Redirect
-var history = require('react-router/lib/HashHistory').history
 
 module.exports = function (h, onUpdate) {
 
-  h = h || history
   onUpdate = onUpdate || function noop () {}
 
   return (

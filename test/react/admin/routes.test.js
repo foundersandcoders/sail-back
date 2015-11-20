@@ -2,7 +2,7 @@ var React = require('react/addons')
 var TestUtils = React.addons.TestUtils
 var Routes = require('../../../src/admin/routes.js')()
 var test = require('tape')
-var prop = require('ramda').prop
+var prop_or = require('app/prop_or.js')
 var Home = require('../../../src/admin/pages/home.js')
 var ViewMember = require('../../../src/admin/pages/view_member.js')
 var AddMember = require('../../../src/admin/pages/add_member.js')
@@ -22,12 +22,15 @@ var desiredRoutes = {
 var result = renderer.getRenderOutput()
 
 test('all and only the desired routes are present', function (t) {
-  t.ok(result.props.route.childRoutes.every(function (route) {
+  t.ok(get_child_routes(result).every(function (route) {
     return desiredRoutes[route.path] === route.component }),
         'only desired routes present')
 
   t.ok(Object.keys(desiredRoutes).every(function (r) {
-    return result.props.route.childRoutes.map(prop('path')).indexOf(r) > -1 }),
+    return get_child_routes(result).map(prop_or('', 'path')).indexOf(r) > -1 }),
         'all desired routes present')
 
   t.end() })
+
+function get_child_routes (result) {
+  return result.props.routes[0].childRoutes }
