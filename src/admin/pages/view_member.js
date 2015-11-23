@@ -36,6 +36,7 @@ var ViewMember = React.createClass({
   getInitialState: function () {
     return {
       mode: 'view',
+      errors: [],
       member: {},
       payments: []}},
 
@@ -73,7 +74,7 @@ var ViewMember = React.createClass({
     member[e.target.id] = e.target.value
     this.setState({member: member}) },
 
-  delete: function (e) {
+  remove: function (e) {
     var member = clone(this.state.member)
     var dropdown = document.querySelector('#deletion-reason')
     var deletion_reason = dropdown.options[dropdown.selectedIndex].value
@@ -112,8 +113,9 @@ var ViewMember = React.createClass({
             .filter(function (pay) { return pay.id !== id })})}}.bind(this))},
 
   verify_member: function (e) {
-    member_schema.validate(this.state.member, function (err, member) {
-      err ? function noop () {} : this.setState({ member: member }) }) },
+    member_schema.validate(this.state.member, (err, member) => {
+      this.setState({errors: [] })
+      err && this.setState({ errors: map(id_from_error, err.errors) }) }) },
 
   render: function () {
     var member_id = this.props.params.id
@@ -123,13 +125,14 @@ var ViewMember = React.createClass({
         <div className='main-container' id='member-component'>
           <div className='inner-section-divider-medium'></div>
           <MemberInformation
-              on_composition_end={this.verify_member}
               mode={this.state.mode}
               changeMode={this.changeMode}
               member={this.state.member}
               save={this.save}
               onChange={this.change}
-              deleteMember={this.delete}
+              on_composition_end={this.verify_member}
+              errors={this.state.errors}
+              deleteMember={this.remove}
               reactivate={this.reactivate}
               cancel={this.cancel} />
 
@@ -145,7 +148,7 @@ var ViewMember = React.createClass({
               remove_payment={this.remove_payment}
               add_payment={this.add_payment} />
         </div>
-      </div> )}})
+      </div> )} })
 
 function make_id_request_uri (id) {
   return '/api/members/' + id +
@@ -185,5 +188,8 @@ function process_member (member) {
 
 function null_to_undefined (val) {
   return val === null ? undefined : val }
+
+function id_from_error (err) {
+  return err.split(' ')[0] }
 
 module.exports = ViewMember

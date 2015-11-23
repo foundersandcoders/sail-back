@@ -1,7 +1,7 @@
 'use strict'
 
 var React = require('react')
-var make_member_fields = require('./common/make_member_fields.js')
+var MemberFields = require('./member_fields')
 var request = require('xhr')
 var nullply = require('app/nullply')
 
@@ -9,22 +9,16 @@ var Field = require('./field.js')
 var Dropdown = require('./common/dropdown')
 
 var deletion_ids = ['deletion_reason', 'deletion_date']
-var DeletionFields = make_member_fields(deletion_ids, 'Deletion reason')
 
 var personal_ids = ['id', 'title', 'initials', 'first_name',
     'last_name', 'primary_email', 'secondary_email']
 
-var PersonalInformation = make_member_fields(personal_ids, 'Personal info')
-
 var address_ids = ['address1', 'address2', 'address3', 'address4',
     'county', 'postcode', 'deliverer', 'home_phone', 'work_phone', 'mobile_phone']
-var AddressInformation = make_member_fields(address_ids, 'Address info')
-
 var membership_ids = ['date_joined', 'membership_type', 'life_payment_date',
     'date_membership_type_changed', 'date_gift_aid_signed',
     'date_gift_aid_cancelled', 'standing_order', 'notes', 'registered',
     'due_date', 'news_type', 'email_bounced', 'activation_status']
-var MembershipInformation = make_member_fields(membership_ids, 'Membership info')
 
 function entry_maker (value, desc) {
   desc = desc || presentable_values(value)
@@ -72,7 +66,7 @@ var EditOptions = React.createClass({
           <button id='cancel' className='button-two m-l-15 right w-100'
               onClick={this.props.cancel}>Cancel</button>
           { this.delete_or_undelete() }
-        </div>  )}})
+        </div>  ) } })
 
 var EditToggle = React.createClass({
   render: function () { return (
@@ -99,16 +93,35 @@ var MemberInformation = React.createClass({
         { this.correct_buttons() }
       </div>
       <div className='member-info-content'>
-        <PersonalInformation mode={this.props.mode} member={this.props.member}
+        <MemberFields
+            ids={personal_ids}
+            mode={this.props.mode}
+            member={this.props.member}
+            errors={this.props.errors}
+            on_composition_end={this.props.on_composition_end}
             onChange={this.props.onChange} />
-        <AddressInformation mode={this.props.mode} member={this.props.member}
+        <MemberFields
+            ids={address_ids}
+            mode={this.props.mode}
+            member={this.props.member}
+            errors={this.props.errors}
+            on_composition_end={this.props.on_composition_end}
             onChange={this.props.onChange} />
-        <MembershipInformation mode={this.props.mode} member={this.props.member}
+        <MemberFields
+            ids={membership_ids}
+            mode={this.props.mode}
+            member={this.props.member}
+            errors={this.props.errors}
+            on_composition_end={this.props.on_composition_end}
             onChange={this.props.onChange} />
-        { this.props.member.activation_status === 'deactivated' ?
-            <DeletionFields mode={this.props.mode}
-                member={this.props.member} onChange={this.props.onChange} /> :
-            <div></div> }
+        { this.props.member.activation_status === 'deactivated'
+            ? <MemberFields
+                  ids={deletion_ids}
+                  mode={this.props.mode}
+                  member={this.props.member}
+                  on_composition_end={this.props.on_composition_end}
+                  onChange={this.props.onChange} />
+            : <div></div> }
       </div>
     </div> )}})
 

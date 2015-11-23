@@ -32,6 +32,7 @@
   "dependencies": {
     "async": "^1.0.0",
     "babel": "^6.0.0",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.1.18",
     "babel-plugin-transform-es2015-block-scoping": "^6.1.18",
     "babel-plugin-transform-es2015-computed-properties": "^6.0.14",
     "babel-plugin-transform-es2015-destructuring": "^6.0.14",
@@ -124,6 +125,7 @@
     "istanbul": "^0.3.17",
     "protractor": "^2.1.0",
     "react-hot-loader": "^1.2.9",
+    "react-shallow-testutils": "^0.4.0",
     "rewireify": "^0.2.5",
     "shot": "^1.5.3",
     "standard": "^4.5.4",

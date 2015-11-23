@@ -2,7 +2,7 @@
 
 var React = require('react')
 var request = require('xhr')
-var make_member_fields = require('../components/common/make_member_fields.js')
+var MemberFields = require('../components/member_fields')
 var Navigation = require('../../shared/navigation.js')
 var Spinner = require('../../shared/spinner.js')
 
@@ -20,10 +20,6 @@ var membership_ids = ['date_joined', 'membership_type', 'life_payment_date',
        'registered', 'due_date']
 
 var all_ids = personal_ids.concat(membership_ids).concat(address_ids)
-
-var PersonalInputs = make_member_fields(personal_ids, 'Personal information')
-var AddressInputs = make_member_fields(address_ids, 'Address information')
-var MembershipInputs = make_member_fields(membership_ids, 'Membership information')
 
 var NewMember = React.createClass({
   getInitialState: function () {return {} },
@@ -54,9 +50,22 @@ var NewMember = React.createClass({
       <div className='new-member-container'>
   <h1>New Member Form</h1>
   <form onSubmit={this.onSave}>
-      <PersonalInputs mode='edit' member={this.state} onChange={this.onChange} />
-      <AddressInputs mode='edit' member={this.state} onChange={this.onChange}/>
-      <MembershipInputs mode='edit' member={this.state} onChange={this.onChange} />
+      <MemberFields
+          ids={personal_ids}
+          mode='edit'
+          member={this.state}
+          onChange={this.onChange} />
+      <MemberFields
+          ids={address_ids}
+          mode='edit'
+          member={this.state}
+          onChange={this.onChange}/>
+      <MemberFields
+          ids={membership_ids}
+          mode='edit'
+          member={this.state}
+          onChange={this.onChange} />
+
   <input type='submit' value='Submit 'id='save-button' />
   { this.state.submitting ? <Spinner /> : '' }
   { this.state.submitted  ?

@@ -4,7 +4,7 @@ var yup = require('yup')
 var date_schema = require('./date.js')
 
 module.exports = yup.object().shape({
-  title: yup.string(),
+  title: yup.string().required(),
   initials: yup.string(),
   last_name: yup.string().required(),
   first_name: yup.string(),
