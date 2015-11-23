@@ -3,6 +3,10 @@ var Row = require('./row.js')
 var Header = require('./header.js')
 
 var Table = module.exports = React.createClass({
+  componentDidMount: function () {
+    this.refs.tbody.scrollTop = this.refs.tbody.scrollHeight },
+  componentDidUpdate: function () {
+    this.refs.tbody.scrollTop = this.refs.tbody.scrollHeight },
   render: function () {
     var headers = this.props.data[0]
     var rows = this.props.data[1]
@@ -16,9 +20,7 @@ var Table = module.exports = React.createClass({
             headers={ headers } />
         <div
             className='table-body'
-            ref={function (d) {
-              // Will need to change in React 0.14
-              if (d) {d.getDOMNode().scrollTop = d.getDOMNode().scrollHeight} }}>
+            ref='tbody' >
           { rows.map(function (row, i) {
             return <TableRow
                 {...this.props}

@@ -2,13 +2,14 @@
 
 var test = require('tape')
 
-var React = require('react/addons')
-var change = React.addons.TestUtils.Simulate.change
+var React = require('react')
+var ReactDOM = require('react-dom')
+var change = require('react-addons-test-utils').Simulate.change
 var Component = require('../../../../src/admin/pages/add_member.js')
 
 test('should load new member page with all fields', function (t) {
 
-  React.render((
+  ReactDOM.render((
     React.createElement(Component)
   ), document.body, function () {
 
@@ -54,7 +55,7 @@ test('appropriate fields should be editable', function (t) {
     t.end()
   })
 
-  React.render(React.createElement(Component), document.body, function () {
+  ReactDOM.render(React.createElement(Component), document.body, function () {
 
     fields.forEach(function (id) {
       change(document.querySelector('#' + id), {target: {
