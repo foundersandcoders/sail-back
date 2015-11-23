@@ -4,6 +4,7 @@ var React = require('react')
 var to_title_case = require('app/to_title_case.js')
 
 var Field = React.createClass({
+  displayName: 'Field',
   render: function () {
     if (this.props.value && this.props.mode !== 'edit') {
       return (

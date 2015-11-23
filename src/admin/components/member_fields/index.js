@@ -19,6 +19,7 @@ var id_in_errors = curry(function (errors, id) {
 /* TODO: stop duplicating the ids passed in in view_member and add_member
  * This may be easiest with micro / function components */
 module.exports = React.createClass({
+  displayName: 'MemberField',
   onChange: function (e) {
     this.props.onChange(e) },
 

@@ -156,14 +156,18 @@ test('should be able to delete a payment after confirmation', function (t) {
           t.equal(original_payments_num -1, get_num_payments())
           t.end() }) }) }) }) })
 
-/*test(
+test(
     'verification is called on compositionend and accepts valid title',
     function (t) {
+      var ViewMember = require('../../../../src/admin/pages/view_member.js')
       var renderer = createRenderer()
-      renderer.render(<Component
+      renderer.render(<ViewMember
           params={ { id: 1234 } } />)
 
       var result = renderer.getRenderOutput()
+
+      var component = test_utils.getMountedInstance(renderer)
+      component.setState({member: member, payments: payments})
 
       var on_change =
           result.props.children[1].props.children[1].props.onChange
@@ -196,6 +200,9 @@ test(
 
       var result = renderer.getRenderOutput()
 
+      var component = test_utils.getMountedInstance(renderer)
+      component.setState({member: member, payments: payments})
+
       var on_change =
           result.props.children[1].props.children[1].props.onChange
       on_change({ target: { value: 'bad string' , id: 'date_joined' } } )
@@ -220,7 +227,7 @@ test(
           props.errors,
           ['date_joined'],
           'an error' )
-        t.end() }, 900) }) */
+        t.end() }, 900) })
 
 test(
     'Member information with errors passes them down to personal info',

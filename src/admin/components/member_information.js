@@ -6,7 +6,7 @@ var request = require('xhr')
 var nullply = require('app/nullply')
 
 var Field = require('./field.js')
-var Dropdown = require('./common/dropdown')
+var Dropdown = require('./common/dropdown.js')
 
 var deletion_ids = ['deletion_reason', 'deletion_date']
 
@@ -54,7 +54,9 @@ var EditOptions = React.createClass({
           <button id='edit-member-mode'
               className='button-two m-l-15 right w-100 red'
               onClick={this.props.deleteMem}>Delete</button>
-          <Dropdown id='deletion-reason' className='right'
+          <Dropdown
+              id='deletion-reason'
+              className='right'
               default={ deletion_reasons[0] } options={ deletion_reasons[1] } />
         </div>
    },
@@ -75,6 +77,7 @@ var EditToggle = React.createClass({
               onClick={this.props.changeMode}>Edit</button> )}})
 
 var MemberInformation = React.createClass({
+  displayName: 'Member Information',
   getInitialState: function () { return {} },
   correct_buttons: function () {
     return this.props.mode === 'edit' ?

@@ -40,7 +40,7 @@ var ViewMember = React.createClass({
       member: {},
       payments: []}},
 
-  componentWillMount: function () {
+  componentDidMount: function () {
     Task.of(receive_member).ap(this.get_member_by_id(this.props.params.id))
         .fork(console.log.bind(console, 'AN ERROR'), this.setState.bind(this))},
 
