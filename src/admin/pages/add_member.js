@@ -22,6 +22,7 @@ var membership_ids = ['date_joined', 'membership_type', 'life_payment_date',
 var all_ids = personal_ids.concat(membership_ids).concat(address_ids)
 
 var NewMember = React.createClass({
+  displayName: 'AddMember',
   getInitialState: function () {return {} },
   onChange: function (e) {
     var state = {}

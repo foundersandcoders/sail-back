@@ -16,7 +16,13 @@ var { createRenderer, Simulate: { click, change, compositionend } } =
 var member = require('../../../fixtures/member.js')
 var payments = require('../../../fixtures/payments.js')
 
-var node = document.body
+var node
+
+test('create a wrapper', function (t) {
+  node = document.createElement('div')
+  node.id = 'wrapper'
+  document.body.appendChild(node)
+  t.end() } )
 
 test('rewireify set up', function (t) {
   function fake_request (opts, cb) {
@@ -36,7 +42,6 @@ test('rewireify set up', function (t) {
 
 test('should load admin view member page', function (t) {
 
-  var node = document.body
   ReactDOM.render(React.createElement(Component, {
     member: member,
     params: {
@@ -48,33 +53,30 @@ test('should load admin view member page', function (t) {
 
 test('should render member details', function (t) {
 
-var node = document.body
-ReactDOM.render((
-  React.createElement(Component, {
-    member: member,
-    params: {
-      id: 1234 } }) ), node, function () {
-  t.ok(node.innerHTML.indexOf('edit-member-mode') > -1)
-  t.ok(node.innerHTML.indexOf('member-info-content') > -1)
-  t.end() }) })
+  ReactDOM.render((
+    React.createElement(Component, {
+      member: member,
+      params: {
+        id: 1234 } }) ), node, function () {
+    t.ok(node.innerHTML.indexOf('edit-member-mode') > -1)
+    t.ok(node.innerHTML.indexOf('member-info-content') > -1)
+    t.end() }) })
 
 test('should render payments section', function (t) {
 
-var node = document.body
-ReactDOM.render((
-  React.createElement(Component, {
-    member: member,
-    params: {
-      id: 1234
-    }
-  })
-), node, function () {
+  ReactDOM.render((
+    React.createElement(Component, {
+      member: member,
+      params: {
+        id: 1234
+      }
+    })
+  ), node, function () {
 
-  t.ok(node.innerHTML.indexOf('subscription_btn') > -1)
-  t.end() }) })
+    t.ok(node.innerHTML.indexOf('subscription_btn') > -1)
+    t.end() }) })
 
 test('should toggle between edit and view mode', function (t) {
-  var node = document.body
   function assert_all_nodes_of_tag (tag, nodes) {
     t.ok(check_nodes_tag(tag, nodes)) }
 
@@ -108,7 +110,6 @@ test('field values should update', function (t) {
     t.end() }) })
 
 test('should be able to add charges', function (t) {
-  var node = document.body
 
   ReactDOM.render(React.createElement(Component, {
     member: member,
