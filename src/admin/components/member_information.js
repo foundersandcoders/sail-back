@@ -1,24 +1,14 @@
 'use strict'
 
 var React = require('react')
-var MemberFields = require('./member_fields')
+var { PersonalFields, AddressFields, MembershipFields, DeletionFields } =
+    require('./member_fields/specific.js')
 var request = require('xhr')
 var nullply = require('app/nullply')
+var curry = require('curry')
 
 var Field = require('./field.js')
 var Dropdown = require('./common/dropdown.js')
-
-var deletion_ids = ['deletion_reason', 'deletion_date']
-
-var personal_ids = ['id', 'title', 'initials', 'first_name',
-    'last_name', 'primary_email', 'secondary_email']
-
-var address_ids = ['address1', 'address2', 'address3', 'address4',
-    'county', 'postcode', 'deliverer', 'home_phone', 'work_phone', 'mobile_phone']
-var membership_ids = ['date_joined', 'membership_type', 'life_payment_date',
-    'date_membership_type_changed', 'date_gift_aid_signed',
-    'date_gift_aid_cancelled', 'standing_order', 'notes', 'registered',
-    'due_date', 'news_type', 'email_bounced', 'activation_status']
 
 function entry_maker (value, desc) {
   desc = desc || presentable_values(value)
@@ -90,42 +80,29 @@ var MemberInformation = React.createClass({
         <EditToggle changeMode={this.props.changeMode}/>
   },
   render: function () {
+    var fields_with_props = render_with_props(this.props)
     return (
     <div>
       <div className='member-info-controls'>
         { this.correct_buttons() }
       </div>
       <div className='member-info-content'>
-        <MemberFields
-            ids={personal_ids}
-            mode={this.props.mode}
-            member={this.props.member}
-            errors={this.props.errors}
-            on_composition_end={this.props.on_composition_end}
-            onChange={this.props.onChange} />
-        <MemberFields
-            ids={address_ids}
-            mode={this.props.mode}
-            member={this.props.member}
-            errors={this.props.errors}
-            on_composition_end={this.props.on_composition_end}
-            onChange={this.props.onChange} />
-        <MemberFields
-            ids={membership_ids}
-            mode={this.props.mode}
-            member={this.props.member}
-            errors={this.props.errors}
-            on_composition_end={this.props.on_composition_end}
-            onChange={this.props.onChange} />
+        { [PersonalFields, AddressFields, MembershipFields]
+            .map(fields_with_props) }
         { this.props.member.activation_status === 'deactivated'
-            ? <MemberFields
-                  ids={deletion_ids}
-                  mode={this.props.mode}
-                  member={this.props.member}
-                  on_composition_end={this.props.on_composition_end}
-                  onChange={this.props.onChange} />
+            ? render_with_props(DeletionFields)
             : <div></div> }
       </div>
     </div> )}})
+
+var render_with_props = curry((props, Fields, i) =>
+    <Fields
+      key={i}
+      mode={props.mode}
+      member={props.member}
+      errors={props.errors}
+      on_composition_end={props.on_composition_end}
+      onChange={props.onChange} /> )
+
 
 module.exports = MemberInformation

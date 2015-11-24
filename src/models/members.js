@@ -31,9 +31,11 @@ module.exports = yup.object().shape({
   gift_aid_cancelled: yup.bool(),
   date_gift_aid_cancelled: date_schema,
   standing_order: yup.bool(),
-  activation_status: yup.mixed().oneOf(['created', 'activated', 'deactivated']),
+  activation_status: yup.mixed().oneOf(
+      [undefined, 'created', 'activated', 'deactivated']),
   password: yup.string(),
-  news_type: yup.mixed().oneOf(['post', 'online', 'Post', 'Online']),
+  news_type: yup.mixed().oneOf(
+      [undefined, 'post', 'online', 'Post', 'Online']),
   due_date: date_schema,
   deletion_date: date_schema,
   activated_date: date_schema,

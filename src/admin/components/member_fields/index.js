@@ -16,8 +16,6 @@ function get_mode (id) {
 var id_in_errors = curry(function (errors, id) {
   return errors && errors.indexOf(id) > -1 })
 
-/* TODO: stop duplicating the ids passed in in view_member and add_member
- * This may be easiest with micro / function components */
 module.exports = React.createClass({
   displayName: 'MemberField',
   onChange: function (e) {
@@ -51,10 +49,43 @@ module.exports = React.createClass({
             value={field.value}
             id={field.id}
             key={i}
-            onBlur={this.props.on_composition_end}
+            input_or_select={input_or_select}
+            onBlur={this.props.blur_handler}
             onChange={this.onChange} />})
 
     return (
       <div className='col-1'>
         {field_components}
       </div> ) } })
+
+function input_or_select (props) {
+  var select_options = {
+    standing_order: ['true', 'false'],
+    membership_type: ['annual-single', 'annual-double', 'annual-family',
+        'annual-group', 'annual-corporate', 'life-single', 'life-double'],
+    type: ['Cash', 'Cheque', 'BACs', 'SO', 'HO', 'CAF'],
+    news_type: ['post', 'online']
+  }
+  return select_options[props.id] ?
+      { type: 'select', options: select_options[props.id] } :
+      { type: 'input' } }
+
+function make_input (props) {
+  return <input
+    placeholder={make_placeholder(props.name)}
+    className={props.className + (props.error ? ' red' : '')}
+    {...props} /> }
+
+function make_select (props, options) {
+  return (
+    <select {...props} value={'' + props.value} >
+      <option disabled value={''}> -- select an option -- </option>
+      { options.map(function (option, i) {
+        return <option
+            value={option}
+            key={i}>{to_title_case(option.replace(/-/g, ' '))}</option> }) }
+    </select>) }
+
+function make_placeholder (name) {
+  return name.match(/[dD]ate/) ? 'dd/mm/yyyy' : name }
+

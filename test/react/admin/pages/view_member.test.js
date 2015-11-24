@@ -170,26 +170,16 @@ test(
       var component = test_utils.getMountedInstance(renderer)
       component.setState({member: member, payments: payments})
 
-      var on_change =
-          result.props.children[1].props.children[1].props.onChange
-      on_change({ target: { value: 'Ms', id: 'title' } })
+      var { change_handler, verify_member } = result.props
 
-      var on_composition_end =
-          result.props.children[1].props.children[1]
-              .props.on_composition_end
-      on_composition_end({})
+      change_handler({ target: { value: 'Ms', id: 'title' } })
+      verify_member({})
 
       setTimeout(function () {
-        var updated_result = renderer.getRenderOutput()
-        var {
-          props: {
-            children: [,
-              {props:
-                { children:
-                  [, { props } ] } } ] } } = updated_result
+        var { member: { title }, errors } = component.state
 
-        t.equal(props.member.title, 'Ms', 'member title updated')
-        t.deepEqual(props.errors, [], 'no errors')
+        t.equal(title, 'Ms', 'member title updated')
+        t.deepEqual(errors, [], 'no errors')
         t.end() }, 300) })
 
 test(
@@ -204,31 +194,20 @@ test(
       var component = test_utils.getMountedInstance(renderer)
       component.setState({member: member, payments: payments})
 
-      var on_change =
-          result.props.children[1].props.children[1].props.onChange
-      on_change({ target: { value: 'bad string' , id: 'date_joined' } } )
+      var { change_handler, verify_member } = result.props
 
-      process.nextTick(function() {
-        var on_composition_end =
-            result.props.children[1].props.children[1]
-                .props.on_composition_end
-        on_composition_end({}) })
+      change_handler({ target: { value: 'bad string' , id: 'date_joined' } } )
+      verify_member({})
 
-      setTimeout(function () {
-        var updated_result = renderer.getRenderOutput()
-        var {
-          props: {
-            children: [,
-              {props:
-                { children:
-                  [, { props } ] } } ] } } = updated_result
+      setTimeout(function() {
+        var { member: { date_joined }, errors } = component.state
 
-        t.equal(props.member.date_joined, 'bad string', 'member title updated')
+        t.equal(date_joined, 'bad string', 'member title updated')
         t.deepEqual(
-          props.errors,
+          errors,
           ['date_joined'],
           'an error' )
-        t.end() }, 900) })
+        t.end() }, 300) })
 
 test(
     'Member information with errors passes them down to personal info',
@@ -242,7 +221,7 @@ test(
           errors={['bing', 'bang', 'boo']}
           member={{}} />)
       var result = renderer.getRenderOutput()
-      var personal = test_utils.findAllWithType(result, MemberFields)[0]
+      var personal = find_with_higher_type(result, 'MemberFields')[0]
       t.deepEqual(personal.props.errors, ['bing', 'bang', 'boo'])
       t.end()
     } )
@@ -310,3 +289,6 @@ function check_nodes_tag (tagPossibilities, nodes) {
   return nodes.every(function (node){
     return tagPossibilities.match(node.tagName.toLowerCase()) }) }
 
+function find_with_higher_type (node, type_string) {
+  return test_utils.findAll(node, function (n) {
+    return n.type.toString().match(type_string) }) }

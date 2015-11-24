@@ -19,6 +19,8 @@ var Navigation = require('../../shared/navigation.js')
 var MemberPayments = require('../components/member_payments.js')
 var MemberInformation = require('../components/member_information.js')
 
+var manage_member = require('../hocs/manage_member.js')
+
 var transform_dated = curry(function (transform, dated_obj) {
   var cloned_obj = clone(dated_obj)
   Object.keys(dated_obj)
@@ -36,20 +38,15 @@ var ViewMember = React.createClass({
   getInitialState: function () {
     return {
       mode: 'view',
-      errors: [],
-      member: {},
-      payments: []}},
+      member: this.props.member,
+      payments: this.props.member.payments }},
 
-  componentDidMount: function () {
-    Task.of(receive_member).ap(this.get_member_by_id(this.props.params.id))
-        .fork(console.log.bind(console, 'AN ERROR'), this.setState.bind(this))},
+  componentWillReceiveProps: function (new_props) {
+    this.setState({ payments: new_props.member.payments }) },
 
   add_payment: function  (payment) {
     this.setState({
       payments: date_sort(this.state.payments.concat([payment]))} ) },
-
-  get_member_by_id: function (id) {
-    return get(make_id_request_uri(id)) },
 
   changeMode: function () {
     this.setState(this.make_mode_state_update(this.state.mode))},
@@ -66,13 +63,7 @@ var ViewMember = React.createClass({
     this.state.pre_changes_member = null },
 
   save: function () {
-    var state = clone(this.state)
-    update_info(state, this.setState.bind(this))},
-
-  change: function (e) {
-    var member = clone(this.state.member)
-    member[e.target.id] = e.target.value
-    this.setState({member: member}) },
+    update_info(this.props, this.props.update_member) },
 
   remove: function (e) {
     var member = clone(this.state.member)
@@ -87,7 +78,7 @@ var ViewMember = React.createClass({
     member.deletion_reason = deletion_reason
     member.deletion_date = new Date().toISOString()
 
-    this.setState({ member: member}) },
+    this.props.update_member(member) },
 
   remember: function () {
     var pre_changes_member = this.state.pre_changes_member ||
@@ -100,7 +91,7 @@ var ViewMember = React.createClass({
     member.deletion_reason = null
     member.activation_status = 'activated'
 
-    this.setState({member: member})},
+    this.props.update_member(member)},
 
   remove_payment: function (id) {
     request({
@@ -112,11 +103,6 @@ var ViewMember = React.createClass({
           payments: this.state.payments
             .filter(function (pay) { return pay.id !== id })})}}.bind(this))},
 
-  verify_member: function (e) {
-    member_schema.validate(this.state.member, (err, member) => {
-      this.setState({errors: [] })
-      err && this.setState({ errors: map(id_from_error, err.errors) }) }) },
-
   render: function () {
     var member_id = this.props.params.id
     return (
@@ -127,11 +113,11 @@ var ViewMember = React.createClass({
           <MemberInformation
               mode={this.state.mode}
               changeMode={this.changeMode}
-              member={this.state.member}
+              member={this.props.member}
               save={this.save}
-              onChange={this.change}
-              on_composition_end={this.verify_member}
-              errors={this.state.errors}
+              onChange={this.props.change_handler}
+              blur_handler={this.props.verify_member}
+              errors={this.props.errors}
               deleteMember={this.remove}
               reactivate={this.reactivate}
               cancel={this.cancel} />
@@ -160,20 +146,29 @@ function date_sort (array_of_dated) {
     .sort(function (a, b) {
       return a.date.getTime() - b.date.getTime() }) }
 
+function get_member (update_member, props) {
+    Task.of(receive_member).ap(get_member_by_id(props.params.id))
+        .fork(console.log.bind(console, 'AN ERROR'), update_member) }
+
+function get_member_by_id (id) {
+  return get(make_id_request_uri(id)) }
+
 var receive_member = curry(function (member_data) {
   var member = process_member_JSON(member_data.body)
+  return format_dated(member)
   return {
     member: format_dated(member),
     payments: date_sort(member.payments),
     pre_changes_member: null }})
 
-var update_info = function (state, set_state) {
+var update_info = function (state, update_member, toggle_view) {
   request({
     method: 'POST',
     uri: 'api/members/' + state.member.id,
     json: standardise_dated(state.member)
-  }, function (err, head, data) {
-    set_state({member: format_dated(data), mode: 'view'}) }) }
+  }, function (err, res, body) {
+    update_member(format_dated(body))
+    toggle_view() }) }
 
 function ensure_date (dated_obj) {
   return object_assign({}, dated_obj, { date: new Date(dated_obj.date) }) }
@@ -189,7 +184,4 @@ function process_member (member) {
 function null_to_undefined (val) {
   return val === null ? undefined : val }
 
-function id_from_error (err) {
-  return err.split(' ')[0] }
-
-module.exports = ViewMember
+module.exports = manage_member(ViewMember, {}, get_member)
