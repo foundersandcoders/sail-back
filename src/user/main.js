@@ -2,12 +2,12 @@
 
   'use strict'
 
-  var React = require('react')
+  var ReactDOM = require('react-dom')
   var routes = require('./routes.js')()
 //  require('../styles/main.scss')
 
   if (window.location.href.indexOf('/api/') === -1) {
-    React.render(routes, document.body)
+    ReactDOM.render(routes, document.body)
   }
 
 }())

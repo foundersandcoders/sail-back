@@ -1,38 +1,47 @@
 'use strict'
 
 var test = require('tape')
-var React = require('react/addons')
-var click = React.addons.TestUtils.Simulate.click
+var React = require('react')
+var ReactDOM = require('react-dom')
+var click = require('react-addons-test-utils').Simulate.click
 var Component = require('../../../../src/admin/pages/home.js')
 var SearchBox = require('../../../../src/admin/components/search_box.js')
 
+var wrapper
+
+test('create a wrapper', function (t) {
+  wrapper = document.createElement('div')
+  wrapper.id = 'wrapper'
+  document.body.appendChild(wrapper)
+  t.end() } )
+
 test('should load admin home page', function (t) {
 
-  React.render(React.createElement(Component), document.body, function () {
+  ReactDOM.render(React.createElement(Component), wrapper, function () {
 
-    t.ok(document.body.innerHTML.indexOf('Search Members') > -1)
+    t.ok(wrapper.innerHTML.indexOf('Search Members') > -1)
     t.end()
   })
 })
 
 test('should render search box component', function (t) {
 
-  React.render(React.createElement(Component), document.body, function () {
+  ReactDOM.render(React.createElement(Component), wrapper, function () {
 
-    t.ok(document.body.innerHTML.indexOf('email') > -1)
-    t.ok(document.body.innerHTML.indexOf('id') > -1)
-    t.ok(document.body.innerHTML.indexOf('last_name') > -1)
-    t.ok(document.body.innerHTML.indexOf('search-button') > -1)
+    t.ok(wrapper.innerHTML.indexOf('email') > -1)
+    t.ok(wrapper.innerHTML.indexOf('id') > -1)
+    t.ok(wrapper.innerHTML.indexOf('last_name') > -1)
+    t.ok(wrapper.innerHTML.indexOf('search-button') > -1)
     t.end()
   })
 })
 
 test('should render search results component', function (t) {
 
-  React.render(React.createElement(Component), document.body, function () {
+  ReactDOM.render(React.createElement(Component), wrapper, function () {
 
-    t.ok(document.body.innerHTML.indexOf('search-table-section-member-header') > -1)
-    t.ok(document.body.innerHTML.indexOf('search-table-section-member-rows') > -1)
+    t.ok(wrapper.innerHTML.indexOf('search-table-section-member-header') > -1)
+    t.ok(wrapper.innerHTML.indexOf('search-table-section-member-rows') > -1)
     t.end()
   })
 })
@@ -55,16 +64,16 @@ test('should be able to enter text and press search', function (t) {
 
   Component.__set__('SearchBox', SearchBox)
 
-  React.render(React.createElement(Component), document.body, function () {
+  ReactDOM.render(React.createElement(Component), wrapper, function () {
 
-    document.body.querySelector('#id').value = 1234
-    document.body.querySelector('#email').value = 'wil@foch.com'
-    document.body.querySelector('#last_name').value = 'Fisher'
-    click(document.body.querySelector('#search-button'))
+    wrapper.querySelector('#id').value = 1234
+    wrapper.querySelector('#email').value = 'wil@foch.com'
+    wrapper.querySelector('#last_name').value = 'Fisher'
+    click(wrapper.querySelector('#search-button'))
 
     process.nextTick(function () {
 
-        t.ok(document.body.innerHTML.indexOf('fil_bes') > -1)
+        t.ok(wrapper.innerHTML.indexOf('fil_bes') > -1)
         t.end()
     })
   })
@@ -94,11 +103,11 @@ test('exactly those fields that are filled in are present in the request', funct
       t.end()
   })
   Component.__set__('SearchBox', SearchBox)
-  React.render(React.createElement(Component), document.body, function () {
+  ReactDOM.render(React.createElement(Component), wrapper, function () {
     fields_to_fill.forEach(function(field) {
-      document.body.querySelector('#'+field).value = 'fkjdsfksjf'
+      wrapper.querySelector('#'+field).value = 'fkjdsfksjf'
     })
-    document.body.querySelector('#search-button').click()
+    wrapper.querySelector('#search-button').click()
   })
 })
 

@@ -13,11 +13,11 @@ var Signin = React.createClass({
     },
     signin: function (event) {
       event.preventDefault()
-      var username = React.findDOMNode(this.refs.email).value ||
-          React.findDOMNode(this.refs.number).value;
+      var username = this.refs.email.value ||
+         this.refs.number.value;
       var user = {
         username: username,
-        password: React.findDOMNode(this.refs.password).value
+        password: this.refs.password.value
       }
       var handle_response = function (err, res, body) {
         if (err) {
@@ -36,7 +36,7 @@ var Signin = React.createClass({
     },
     forgotPass: function (event) {
       event.preventDefault()
-      var email = React.findDOMNode(this.refs.email).value
+      var email = this.refs.email.value
       var handle_response = function (err, res, body) {
         if (err) { return this.setState({erroredPass: true }) }
         else { this.setState({ passwordReset: true }) } }.bind(this)

@@ -1,22 +1,32 @@
 var test = require('tape')
-var React = require('react/addons')
-var Component = require('../../../../src/admin/pages/view_member.js')
+var React = require('react')
+var ReactDOM = require('react-dom')
+var test_utils = require('react-shallow-testutils')
+var deep_equal = require('deep-equal')
+
+var Component =
+    require('../../../../src/admin/pages/view_member.js')
+var MemberInformation =
+    require('../../../../src/admin/components/member_information.js')
+
 var arrayify = require('app/arrayify.js')
-var click = React.addons.TestUtils.Simulate.click
-var change = React.addons.TestUtils.Simulate.change
+var { createRenderer, Simulate: { click, change, compositionend } } =
+    require('react-addons-test-utils')
 
 var member = require('../../../fixtures/member.js')
-var events = require('../../../fixtures/events.js')
 var payments = require('../../../fixtures/payments.js')
 
-var node = document.body
+var node
+
+test('create a wrapper', function (t) {
+  node = document.createElement('div')
+  node.id = 'wrapper'
+  document.body.appendChild(node)
+  t.end() } )
 
 test('rewireify set up', function (t) {
   function fake_request (opts, cb) {
-    opts.uri.match(/\/events/) ?
-      cb(null, {body: JSON.stringify(events)}) :
-      cb(null, {body: JSON.stringify(member)})
-  }
+    cb(null, {body: JSON.stringify(member)}) }
 
   var fake_get = require('app/get.js')
   fake_get.__set__('request', fake_request)
@@ -24,13 +34,15 @@ test('rewireify set up', function (t) {
   var fake_post = require('app/post.js')
   fake_post.__set__('request', fake_request)
 
-  Component.__set__({'get': fake_get, 'post': fake_post, 'request': fake_request})
+  Component.__set__({
+    'get': fake_get,
+    'post': fake_post,
+    'request': fake_request })
   t.end() })
 
 test('should load admin view member page', function (t) {
 
-  var node = document.body
-  React.render(React.createElement(Component, {
+  ReactDOM.render(React.createElement(Component, {
     member: member,
     params: {
       id: 1234
@@ -41,55 +53,30 @@ test('should load admin view member page', function (t) {
 
 test('should render member details', function (t) {
 
-var node = document.body
-React.render((
-  React.createElement(Component, {
-    member: member,
-    params: {
-      id: 1234
-    }
-  })
-), node, function () {
-
-  t.ok(node.innerHTML.indexOf('edit-member-mode') > -1)
-  t.ok(node.innerHTML.indexOf('member-info-content') > -1)
-  t.end()
-})
-})
+  ReactDOM.render((
+    React.createElement(Component, {
+      member: member,
+      params: {
+        id: 1234 } }) ), node, function () {
+    t.ok(node.innerHTML.indexOf('edit-member-mode') > -1)
+    t.ok(node.innerHTML.indexOf('member-info-content') > -1)
+    t.end() }) })
 
 test('should render payments section', function (t) {
 
-var node = document.body
-React.render((
-  React.createElement(Component, {
-    member: member,
-    params: {
-      id: 1234
-    }
-  })
-), node, function () {
+  ReactDOM.render((
+    React.createElement(Component, {
+      member: member,
+      params: {
+        id: 1234
+      }
+    })
+  ), node, function () {
 
-  t.ok(node.innerHTML.indexOf('subscription_btn') > -1)
-  t.end()})})
-
-// test('should render events section', function (t) {
-//
-// var node = document.body
-// React.render(
-//   React.createElement(Component, {
-//     member: member,
-//     params: {
-//       id: 1234
-//     }
-//   }), node, function () {
-//
-//   t.ok(node.innerHTML.indexOf('events-section') > -1)
-//   t.ok(node.innerHTML.indexOf('Events') > -1)
-//   t.end()})})
-
+    t.ok(node.innerHTML.indexOf('subscription_btn') > -1)
+    t.end() }) })
 
 test('should toggle between edit and view mode', function (t) {
-  var node = document.body
   function assert_all_nodes_of_tag (tag, nodes) {
     t.ok(check_nodes_tag(tag, nodes)) }
 
@@ -99,7 +86,7 @@ test('should toggle between edit and view mode', function (t) {
     t.ok(get_data_nodes().some(function (node) {
       return node.tagName.toLowerCase() === 'input'}))
     node.querySelector('#cancel').click()
-    t.end()})})
+    t.end() }) })
 
 test('field values should update', function (t) {
   click('#edit-member-mode')
@@ -110,7 +97,7 @@ test('field values should update', function (t) {
   change(input.value)
   process.nextTick(function () {
     t.equal(input.value, 'random val')
-    t.end()})})
+    t.end() }) })
 
 test('field values should update', function (t) {
   click('#edit-member-mode')
@@ -120,16 +107,11 @@ test('field values should update', function (t) {
   change(input.value)
   process.nextTick(function () {
     t.equal(input.value, 'random val')
-    t.end()})})
-
-
+    t.end() }) })
 
 test('should be able to add charges', function (t) {
 
-
-  var node = document.body
-
-  React.render(React.createElement(Component, {
+  ReactDOM.render(React.createElement(Component, {
     member: member,
     params: {
       id: 1234
@@ -139,8 +121,10 @@ test('should be able to add charges', function (t) {
     var fields =['event', 'subscription', 'donation', 'payment']
 
     t.ok(fields.every(function(field){
+
       return !!document.querySelector('#'+field+'_btn')
     }), 'all field buttons present')
+
     fields.forEach(function (field, i) {
 
       t.test('checking rendering of ' + field, function (st) {
@@ -150,70 +134,20 @@ test('should be able to add charges', function (t) {
         process.nextTick(function () {
 
           st.ok(document.querySelector('.' + field), field + ' displaying')
-          st.end()
-        })
-      })
-    })
-
-
-   /*
-    t.test(function (st) {
-
-      var button = document.querySelector('#event_btn')
-      click(button)
-      process.nextTick(function () {
-
-        st.ok(document.querySelector('.event'), 'event displaying')
-        st.end()
-      })
-    })
-
- */
-    /*
-    click(document.querySelector('#event_btn'))
-    process.nextTick(function () {
-
-      var check = document.querySelector('.event')
-      t.ok(check, 'ok@')
-      t.end()
-    })
-    */
-/*
-    fields.forEach(function (field) {
-
-      click(document.querySelector('#'+field+'_btn'))
-      var check = document.querySelector('#hohoho')
-      t.notOk(check, 'not ok@')
-      var btn = document.querySelector('#'+field+'_btn')
-      t.ok(!!btn, 'btn olk')
-      process.nextTick(function () {
-        var check = document.querySelector('#hohoho')
-        t.ok(check, 'ok@')
-        //t.equals(document.querySelector('#hohoho').innerHTML, 'aoeu')
-        // t.ok(document.querySelector('h2.'+field), field +' header exists')
-      })
-    })
-  */
-    /* TODO: test clicks on buttons  */
-    /* TODO: test input of fields  */
-    /* TODO: test save on fields  */
-   // node.querySelector('h1')
-   // t.end()
-  })
-})
+          st.end() }) }) }) }) })
 
 test('should be able to delete a payment after confirmation', function (t) {
   node.innerHTML = ''
   function get_num_payments () {
     return document.querySelectorAll('.payments-table .table-row').length }
-  React.render(React.createElement(Component, {
+  ReactDOM.render(React.createElement(Component, {
     member: member,
     params: {
       id: 1234
     }
   }), node, function () {
     var original_payments_num = get_num_payments()
-    process.nextTick(function(){
+    process.nextTick(function () {
       var x = document.querySelector('.delete button')
       x.click()
       process.nextTick(function(){
@@ -221,15 +155,140 @@ test('should be able to delete a payment after confirmation', function (t) {
         x.click()
         process.nextTick(function(){
           t.equal(original_payments_num -1, get_num_payments())
-          t.end()})})})})})
+          t.end() }) }) }) }) })
+
+test(
+    'verification is called on compositionend and accepts valid title',
+    function (t) {
+      var ViewMember = require('../../../../src/admin/pages/view_member.js')
+      var renderer = createRenderer()
+      renderer.render(<ViewMember
+          params={ { id: 1234 } } />)
+
+      var result = renderer.getRenderOutput()
+
+      var component = test_utils.getMountedInstance(renderer)
+      component.setState({member: member, payments: payments})
+
+      var { change_handler, verify_member } = result.props
+
+      change_handler({ target: { value: 'Ms', id: 'title' } })
+      verify_member({})
+
+      setTimeout(function () {
+        var { member: { title }, errors } = component.state
+
+        t.equal(title, 'Ms', 'member title updated')
+        t.deepEqual(errors, [], 'no errors')
+        t.end() }, 300) })
+
+test(
+    'verification is called on compositionend and rejects invalid title',
+    function (t) {
+      var renderer = createRenderer()
+      renderer.render(<Component
+          params={ { id: 1234 } } />)
+
+      var result = renderer.getRenderOutput()
+
+      var component = test_utils.getMountedInstance(renderer)
+      component.setState({member: member, payments: payments})
+
+      var { change_handler, verify_member } = result.props
+
+      change_handler({ target: { value: 'bad string' , id: 'date_joined' } } )
+      verify_member({})
+
+      setTimeout(function() {
+        var { member: { date_joined }, errors } = component.state
+
+        t.equal(date_joined, 'bad string', 'member title updated')
+        t.deepEqual(
+          errors,
+          ['date_joined'],
+          'an error' )
+        t.end() }, 300) })
+
+test(
+    'Member information with errors passes them down to personal info',
+    function (t) {
+      var renderer = createRenderer()
+      var MemberInformation =
+          require('../../../../src/admin/components/member_information.js')
+      var MemberFields =
+          require('../../../../src/admin/components/member_fields')
+      renderer.render(<MemberInformation
+          errors={['bing', 'bang', 'boo']}
+          member={{}} />)
+      var result = renderer.getRenderOutput()
+      var personal = find_with_higher_type(result, 'MemberFields')[0]
+      t.deepEqual(personal.props.errors, ['bing', 'bang', 'boo'])
+      t.end()
+    } )
+
+test(
+    'Member Fields with errors passes errors to fields',
+    function (t) {
+      var renderer = createRenderer()
+      var MemberFields =
+          require('../../../../src/admin/components/member_fields')
+      var Field =
+          require('../../../../src/admin/components/field.js')
+      renderer.render(<MemberFields
+          ids={['me', 'you', 'us']}
+          member={{}}
+          errors={['me']} />)
+      var result = renderer.getRenderOutput()
+      var actual = test_utils.findAll(result, function (node) {
+        return test_utils.isComponentOfType(node, Field)
+            && node.props.error })
+      t.equal(actual[0].props.id, 'me')
+      t.end()
+    } )
+
+test(
+    'onCompositionEnd callbacks are passed through',
+    function (t) {
+      var MemberInformation =
+          require('../../../../src/admin/components/member_information.js')
+      var MemberFields =
+          require('../../../../src/admin/components/member_fields')
+      var Field =
+          require('../../../../src/admin/components/field.js')
+      function on_comp_end() { }
+
+      var renderer1 = createRenderer()
+      renderer1.render(<MemberInformation
+          member={{}}
+          on_composition_end={on_comp_end} />)
+      var result1 = renderer1.getRenderOutput()
+      var outcome = test_utils.findAllWithType(result1, MemberFields)
+      var all_have_comp = outcome.every(function (node) {
+        return node.props.on_composition_end === on_comp_end})
+      t.ok(all_have_comp)
+
+      var renderer2 = createRenderer()
+      renderer2.render(<MemberFields
+          ids={['a']}
+          member={{}}
+          on_composition_end={on_comp_end} />)
+      var result3 = renderer2.getRenderOutput()
+      var all_have_comp_end = test_utils.findAllWithType(node, Field).
+          every(function (node) {
+            return node.props.onCompositionEnd })
+    t.ok(all_have_comp_end, 'Composition end passed through')
+    t.end() } )
+
 
 function get_data_nodes () {
-
-  return arrayify(node.querySelectorAll('.member-info-content .info'))
-      .map(function (node) {
-    return node.nextSibling })}
+  var info_nodes= arrayify(node.querySelectorAll('.member-info-content .info'))
+  return info_nodes.map(function (node) {
+    return node.nextSibling }) }
 
 function check_nodes_tag (tagPossibilities, nodes) {
   return nodes.every(function (node){
-    return tagPossibilities.match(node.tagName.toLowerCase()) })}
+    return tagPossibilities.match(node.tagName.toLowerCase()) }) }
 
+function find_with_higher_type (node, type_string) {
+  return test_utils.findAll(node, function (n) {
+    return n.type.toString().match(type_string) }) }

@@ -2,50 +2,42 @@
 
 var React = require('react')
 
-var UserButtons = React.createClass({
-  render: function () {
-    return (
-      <li>
-        <li>
-          <a href='#/account'>Account</a>
-        </li>
-      </li>
-    )
-  }
-})
+var UserButtons = function () {
+  return (
+    <li>
+      <a href='#/account'>Account</a>
+    </li>
+  )
+}
 
-var AdminButtons = React.createClass({
-  render: function () {
-    return (
-      <li>
-        <li id='nav-add-member'>
-          <a href='#addmember'>Add Member</a>
-        </li>
-        <li id='nav-data-maintenance'>
-          <a href='#maintenance'>Maintenance</a>
-        </li>
-        <li id='nav-events'>
-          <a href='#addevent'>Add Event</a>
-        </li>
+var AdminButtons = function () {
+  return (
+    [
+      <li key={0} id='nav-add-member'>
+        <a href='#addmember'>Add Member</a>
+      </li>,
+      <li key={1} id='nav-reports'>
+        <a href='#Reports'>Reports</a>
+      </li>,
+      <li key={2} id='nav-events'>
+        <a href='#addevent'>Add Event</a>
       </li>
-    )
-  }
-})
+    ]
+  )
+}
 
-var UnregisteredButtons = React.createClass({
-  render: function () {
-    return (
-      <li>
-        <li id='nav-signup'>
-          <a href='#/signup'>Signup</a>
-        </li>
-        <li>
-          <a href='#/signin'>Signin</a>
-        </li>
+var UnregisteredButtons = function () {
+  return (
+    [
+      <li key={0} id='nav-signup'>
+        <a href='#/signup'>Signup</a>
+      </li>,
+      <li key={1}>
+        <a href='#/signin'>Signin</a>
       </li>
-    )
-  }
-})
+    ]
+  )
+}
 
 var Navigation = React.createClass({
   render: function () {
@@ -58,10 +50,10 @@ var Navigation = React.createClass({
           <a href='/signout'>Signout</a>
         </li>
         { this.props.user === 'Admin' ?
-            <AdminButtons /> :
+            AdminButtons() :
          this.props.user === 'User' ?
-            <UserButtons /> :
-            <UnregisteredButtons /> }
+            UserButtons() :
+            UnregisteredButtons() }
       </ul>
     )
   }

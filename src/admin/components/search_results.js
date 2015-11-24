@@ -21,28 +21,28 @@ var SingleResult = React.createClass({
   render: function () {
     var member = JSON.parse(this.props.member)
     return (
-  <a id='member-tag' href={'#/members/' + member.id}>
-  <div className='row member-row'>
-  <div className='col-1'>
-  <p>{ member.id.toString()}</p>
-  </div>
-  <div className='col-2'>
-  <p>{ this.safe_name(member.last_name) + ' ' +
-    this.safe_name(member.first_name)}</p>
-  </div>
-  <div className='col-3'>
-  <p>{member.title}</p>
-  </div>
-  <div className='col-4'>
-  <p>{member.initials}</p>
-  </div>
-  <div className='col-5'>
-  <p>{this.format_membership(member.membership_type)}</p>
-  </div>
-  <div className='col-6'>
-  <p>{this.last_subscription(member.payments)}</p>
-  </div>
-      </div>
+      <a id='member-tag' href={'#/members/' + member.id}>
+        <div className='row member-row'>
+          <div className='col-1'>
+            <p>{ member.id.toString()}</p>
+          </div>
+          <div className='col-2'>
+            <p>{ this.safe_name(member.last_name) + ' ' +
+                this.safe_name(member.first_name)}</p>
+          </div>
+          <div className='col-3'>
+            <p>{member.title}</p>
+          </div>
+          <div className='col-4'>
+            <p>{member.initials}</p>
+          </div>
+          <div className='col-5'>
+            <p>{this.format_membership(member.membership_type)}</p>
+          </div>
+          <div className='col-6'>
+            <p>{this.last_subscription(member.payments)}</p>
+          </div>
+        </div>
       </a>
     )
   }
@@ -53,9 +53,9 @@ var SearchResults = React.createClass({
   render: function () {
 
     var data = JSON.parse(this.props.results)
-    var results = data.map(function (result) {
+    var results = data.map(function (result, i) {
       result = JSON.stringify(result)
-      return <SingleResult member={result} />
+      return <SingleResult key={i} member={result} />
     }.bind(this))
 
     return (

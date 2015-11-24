@@ -1,7 +1,7 @@
 'use strict'
 
-var React = require('react/addons')
-var TestUtils = React.addons.TestUtils
+var React = require('react')
+var TestUtils = require('react-addons-test-utils')
 var test = require('tape')
 
 var PayingInPage =
@@ -15,10 +15,14 @@ var ReportsTable =
 var Table =
     require('../../../../src/admin/components/table')
 
-var mock_reference_payments = require('../../../fixtures/ref_payments.json')
-var mock_charges = require('../../../fixtures/charges.json')
-var expected_structure = require('../../../fixtures/expected_structure.json')
-var expected_table_props = require('../../../fixtures/expected_table_props.json')
+var mock_reference_payments =
+    require('../../../fixtures/ref_payments.json')
+var mock_charges =
+    require('../../../fixtures/charges.json')
+var expected_structure =
+    require('../../../fixtures/expected_structure.json')
+var expected_table_props =
+    require('../../../fixtures/expected_table_props.json')
 var ref = "DH47F"
 
 function noop () {}

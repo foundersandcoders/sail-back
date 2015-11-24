@@ -1,18 +1,26 @@
 'use strict'
 
 var test = require('tape')
-var React = require('react/addons')
+var React = require('react')
+var ReactDOM = require('react-dom')
 var Component = require('../../../src/open/pages/signin.js')
+
+var node
+
+test('create a wrapper', function (t) {
+  node = document.createElement('div')
+  node.id = 'wrapper'
+  document.body.appendChild(node)
+  t.end() } )
 
 Component.__set__('request', function(){console.log('Request set! word')})
 test('should signin page', function (t) {
 
-  React.render(React.createElement(Component), document.body, function () {
+  ReactDOM.render(React.createElement(Component), node, function () {
 
-    //t.ok(document.body.innerHTML.indexOf('signin-component') > -1)
-    t.ok(document.body.innerHTML.indexOf('email') > -1)
-    t.ok(document.body.innerHTML.indexOf('password') > -1)
-    t.ok(document.body.innerHTML.indexOf('Membership number') > -1)
+    t.ok(node.innerHTML.indexOf('email') > -1)
+    t.ok(node.innerHTML.indexOf('password') > -1)
+    t.ok(node.innerHTML.indexOf('Membership number') > -1)
     t.end()
   })
 })
@@ -29,10 +37,10 @@ test('clicking submit sends a well-formed login request', function (t) {
     t.end()
   })
 
-  React.render(React.createElement(Component), document.body, function () {
-    document.body.querySelector('#email').value = username
-    document.body.querySelector('#password').value = password
-    var submit = document.body.querySelector('#submit-button')
+  ReactDOM.render(React.createElement(Component), node, function () {
+    node.querySelector('#email').value = username
+    node.querySelector('#password').value = password
+    var submit = node.querySelector('#submit-button')
     submit.click()
   })
 })
@@ -56,8 +64,8 @@ test('successful login sets pathname to response.headers.location', function (t)
       win: window_mock
   })
 
-  React.render(React.createElement(Component), document.body, function () {
-    document.body.querySelector('#submit-button').click()
+  ReactDOM.render(React.createElement(Component), node, function () {
+    node.querySelector('#submit-button').click()
   })
 })
 
@@ -71,10 +79,10 @@ test('clicking on forgot password sends appropriate request', function (t) {
     t.end()
   })
 
-  React.render(React.createElement(Component), document.body, function () {
-    document.body.querySelector('#email').value = email
-    var submit = document.body.querySelector('a')
-    React.addons.TestUtils.Simulate.click(submit)
+  ReactDOM.render(React.createElement(Component), node, function () {
+    node.querySelector('#email').value = email
+    var submit = node.querySelector('a')
+    require('react-addons-test-utils').Simulate.click(submit)
   })
 })
 
@@ -84,10 +92,10 @@ test('clicking on forgot password without an email does not request and displays
     t.ok(false)
   })
 
-  React.render(React.createElement(Component), document.body, function () {
-    document.body.querySelector('#email').value = ''
-    var submit = document.body.querySelector('a')
-    React.addons.TestUtils.Simulate.click(submit)
+  ReactDOM.render(React.createElement(Component), node, function () {
+    node.querySelector('#email').value = ''
+    var submit = node.querySelector('a')
+    require('react-addons-test-utils').Simulate.click(submit)
     process.nextTick(function () {
       t.equal(submit.nextSibling.innerHTML,
           'Please enter the correct email for your account')

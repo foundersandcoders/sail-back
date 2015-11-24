@@ -1,30 +1,14 @@
 'use strict'
 
 var React = require('react')
-var make_member_fields = require('./common/make_member_fields.js')
+var { PersonalFields, AddressFields, MembershipFields, DeletionFields } =
+    require('./member_fields/specific.js')
 var request = require('xhr')
 var nullply = require('app/nullply')
+var curry = require('curry')
 
 var Field = require('./field.js')
-var Dropdown = require('./common/dropdown')
-
-var deletion_ids = ['deletion_reason', 'deletion_date']
-var DeletionFields = make_member_fields(deletion_ids, 'Deletion reason')
-
-var personal_ids = ['id', 'title', 'initials', 'first_name',
-    'last_name', 'primary_email', 'secondary_email']
-
-var PersonalInformation = make_member_fields(personal_ids, 'Personal info')
-
-var address_ids = ['address1', 'address2', 'address3', 'address4',
-    'county', 'postcode', 'deliverer', 'home_phone', 'work_phone', 'mobile_phone']
-var AddressInformation = make_member_fields(address_ids, 'Address info')
-
-var membership_ids = ['date_joined', 'membership_type', 'life_payment_date',
-    'date_membership_type_changed', 'date_gift_aid_signed',
-    'date_gift_aid_cancelled', 'standing_order', 'notes', 'registered',
-    'due_date', 'news_type', 'email_bounced', 'activation_status']
-var MembershipInformation = make_member_fields(membership_ids, 'Membership info')
+var Dropdown = require('./common/dropdown.js')
 
 function entry_maker (value, desc) {
   desc = desc || presentable_values(value)
@@ -60,7 +44,9 @@ var EditOptions = React.createClass({
           <button id='edit-member-mode'
               className='button-two m-l-15 right w-100 red'
               onClick={this.props.deleteMem}>Delete</button>
-          <Dropdown id='deletion-reason' className='right'
+          <Dropdown
+              id='deletion-reason'
+              className='right'
               default={ deletion_reasons[0] } options={ deletion_reasons[1] } />
         </div>
    },
@@ -72,7 +58,7 @@ var EditOptions = React.createClass({
           <button id='cancel' className='button-two m-l-15 right w-100'
               onClick={this.props.cancel}>Cancel</button>
           { this.delete_or_undelete() }
-        </div>  )}})
+        </div>  ) } })
 
 var EditToggle = React.createClass({
   render: function () { return (
@@ -81,6 +67,7 @@ var EditToggle = React.createClass({
               onClick={this.props.changeMode}>Edit</button> )}})
 
 var MemberInformation = React.createClass({
+  displayName: 'Member Information',
   getInitialState: function () { return {} },
   correct_buttons: function () {
     return this.props.mode === 'edit' ?
@@ -93,23 +80,29 @@ var MemberInformation = React.createClass({
         <EditToggle changeMode={this.props.changeMode}/>
   },
   render: function () {
+    var fields_with_props = render_with_props(this.props)
     return (
     <div>
       <div className='member-info-controls'>
         { this.correct_buttons() }
       </div>
       <div className='member-info-content'>
-        <PersonalInformation mode={this.props.mode} member={this.props.member}
-            onChange={this.props.onChange} />
-        <AddressInformation mode={this.props.mode} member={this.props.member}
-            onChange={this.props.onChange} />
-        <MembershipInformation mode={this.props.mode} member={this.props.member}
-            onChange={this.props.onChange} />
-        { this.props.member.activation_status === 'deactivated' ?
-            <DeletionFields mode={this.props.mode}
-                member={this.props.member} onChange={this.props.onChange} /> :
-            <div></div> }
+        { [PersonalFields, AddressFields, MembershipFields]
+            .map(fields_with_props) }
+        { this.props.member.activation_status === 'deactivated'
+            ? render_with_props(DeletionFields)
+            : <div></div> }
       </div>
     </div> )}})
+
+var render_with_props = curry((props, Fields, i) =>
+    <Fields
+      key={i}
+      mode={props.mode}
+      member={props.member}
+      errors={props.errors}
+      on_composition_end={props.on_composition_end}
+      onChange={props.onChange} /> )
+
 
 module.exports = MemberInformation

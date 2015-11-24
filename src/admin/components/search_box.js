@@ -6,11 +6,11 @@ var object_assign = require('object-assign')
 var Spinner = require('../../shared/spinner.js')
 
 var make_query = function () {
-  var email = value_of(this.refs.email)
+  var email = this.refs.email.value
   var vals = {
-    id: value_of(this.refs.id),
-    last_name: value_of(this.refs.last_name),
-    activation_status: value_of(this.refs.activation_status)
+    id: this.refs.id.value,
+    last_name: this.refs.last_name.value,
+    activation_status: this.refs.activation_status.value
   }
 
   var filtered_vals = get_actual_values(vals)
@@ -19,9 +19,6 @@ var make_query = function () {
 
   return !!email ? { or: [ add_in_filtered({primary_email: email}),
     add_in_filtered({secondary_email: email}) ] } : filtered_vals }
-
-function value_of (ref) {
-  return React.findDOMNode(ref).value }
 
 function get_actual_values (object) {
   return Object.keys(object)
