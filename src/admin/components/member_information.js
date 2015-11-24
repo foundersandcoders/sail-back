@@ -97,12 +97,8 @@ var MemberInformation = React.createClass({
 
 var render_with_props = curry((props, Fields, i) =>
     <Fields
-      key={i}
-      mode={props.mode}
-      member={props.member}
-      errors={props.errors}
-      on_composition_end={props.on_composition_end}
-      onChange={props.onChange} /> )
+        {...props}
+        key={i} /> )
 
 
 module.exports = MemberInformation
