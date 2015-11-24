@@ -21,8 +21,8 @@ var AdminButtons = React.createClass({
         <li id='nav-add-member'>
           <a href='#addmember'>Add Member</a>
         </li>
-        <li id='nav-data-maintenance'>
-          <a href='#maintenance'>Maintenance</a>
+        <li id='nav-reports'>
+          <a href='#Reports'>Reports</a>
         </li>
         <li id='nav-events'>
           <a href='#addevent'>Add Event</a>
