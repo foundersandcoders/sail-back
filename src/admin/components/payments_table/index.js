@@ -5,18 +5,18 @@ var Table = require('../table')
 var DeletionEntry = require('./deletion_entry')
 
 var make_payments_with_balance = require('app/make_payments_with_balance')
+var curry = require('curry')
 
-var get_entry_for_payment = require('app/curry')(function (
-      payment, delete_method, header) {
-  return (header === 'Charges' || header === 'Payments') ?
-    charge_or_payment_amount(payment.category, header, payment.amount) :
-  header === 'Delete' ?
-    <DeletionEntry id={ payment.id } remove_payment={ delete_method } /> :
-  header === 'Date' ?
-    require('app/format_date')(payment.date) :
-  payment.category === 'payment' && header === 'Description' ?
-    get_description(payment) :
-  payment[ header.toLowerCase() ]})
+var get_entry_for_payment = curry(function (payment, delete_method, header) {
+  return (header === 'Charges' || header === 'Payments')
+      ? charge_or_payment_amount(payment.category, header, payment.amount)
+  : header === 'Delete'
+      ? <DeletionEntry id={ payment.id } remove_payment={ delete_method } />
+  : header === 'Date'
+      ? require('app/format_date')(payment.date)
+  : payment.category === 'payment' && header === 'Description'
+      ? get_description(payment)
+  : payment[ header.toLowerCase() ]})
 
 function charge_or_payment_amount(category, charge_or_payment, amount) {
   var options = ['Charges', 'Payments']

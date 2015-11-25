@@ -24,11 +24,10 @@ module.exports = React.createClass({
       charges: {}
     }
   },
-  search: function (e) { return search(this.setState.bind(this), e) },
   render: function () {
     return (
-      <div>
-        <Search submit_handler={this.search}/>
+      <div className='main-container'>
+        <Search submit_handler={search(this.state, this.setState.bind(this))} />
         {Object.keys(this.state.charges).length ?
             <PayingIn
                 payments={this.state.payments}
@@ -44,7 +43,7 @@ var combine = curry(function combine (a, b) {
 var receive = curry(function (set_state, ref, charges, payments) {
   set_state({ ref: ref, charges: charges, payments: payments }) })
 
-var search = curry(function search (set_state, e) {
+var search = curry(function search (state, set_state, e) {
   e.preventDefault()
   var ref = e.target.firstChild.value
   var payments = get_payments(ref)
@@ -53,19 +52,21 @@ var search = curry(function search (set_state, e) {
           map(get_charges),
           filter(first_occurrence),
           map(prop_or('', 'member')) )
-
-  var compile = Task.of( fold(compile_charges, Task.of(combine({})) ) )
-
   payments.fork(function () {}, function (match_ref) {
     var charges = make_charges(match_ref)
 
-    compile.ap(Task.of(charges))
-        .chain(id)
-        .fork(trace('charge error'), function (cs) {
-          set_state({
-            charges: cs,
-            payments: match_ref,
-            reference: ref }) } ) }) })
+    set_state({
+      payments: match_ref,
+      reference: ref
+    })
+
+    charges.map(function (a) {
+      a.fork(trace('charge error'), function (c) {
+        set_state({
+          charges: combine(state.charges, c)
+        }) }) })
+
+  }) })
 
 var get_data = curry (function get_data (url) {
   return map(compose(
@@ -79,9 +80,6 @@ function get_payments (ref) {
 function get_charges (id) {
   return get_data('api/payments/?member=' + id).map(function (d) {
     return { [id]: d } }) }
-
-var compile_charges = curry(function compile (charges, charge) {
-  return charges.chain(compose(Task.of, combine)).ap(charge) })
 
 function necessary_members (tasks, member) {
   tasks[member] = get_charges(member)

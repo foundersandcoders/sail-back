@@ -82,7 +82,6 @@ var compute_from_subsection =
           total_computation,
           compose(process_slice, slice.apply(this, slice_dims) ) ) ) })
 
-
 var compute_summary = curry(function (s, o, r) {
   return compute_from_subsection(add_summary_row(s, o, r)) })
 

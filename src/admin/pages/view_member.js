@@ -107,7 +107,6 @@ var ViewMember = React.createClass({
     var member_id = this.props.params.id
     return (
       <div className='view-member'>
-        <Navigation />
         <div className='main-container' id='member-component'>
           <div className='inner-section-divider-medium'></div>
           <MemberInformation

@@ -8,6 +8,7 @@ var object_assign = require('object-assign')
 var deep_equal = require('deep-equal')
 var curry = require('curry')
 var compose = require('fn-compose')
+var prop_or = require('app/prop_or.js')
 
 module.exports = React.createClass({
   propTypes: {
@@ -16,8 +17,8 @@ module.exports = React.createClass({
 
   getDefaultProps: function () {
     return {
-      payments: require('../../../test/fixtures/ref_payments.json'),
-      charges: require('../../../test/fixtures/charges.json'),
+      payments: [],
+      charges: {},
       reference: 'DH47F' } },
 
   render: function () {
@@ -38,7 +39,8 @@ var add_relevant_charges = curry(function add_relevant (charges, payment) {
   return get_relevant_charges(charges, payment).reduce(add_charge, payment) })
 
 var get_relevant_charges = curry(function get_relevant (charges, payment) {
-  return charges[payment.member_number].filter(earlier_and_not_same(payment)) })
+  return prop_or([], payment.member_number, charges)
+      .filter(earlier_and_not_same(payment)) })
 
 var add_charge = function add_charge (entry, { category, amount } ) {
   return object_assign({}, entry, {
@@ -66,7 +68,6 @@ function user_entry_from_payment ({member, date, amount}) {
     payment_date: date,
     payments: amount,
     balance_due: -amount }) }
-
 
 var blank_entry = {
   member_number: 0,

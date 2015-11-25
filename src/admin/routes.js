@@ -7,7 +7,6 @@ var App = require('./admin_app.js')
 var AdminHome = require('./pages/home.js')
 var ViewMember = require('./pages/view_member.js')
 var AddMember = require('./pages/add_member.js')
-var DataMaintenance = require('./pages/data_maintenance.js')
 var Reports = require('./pages/paying_in.js')
 
 module.exports = function () {
