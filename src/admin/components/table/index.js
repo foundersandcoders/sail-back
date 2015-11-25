@@ -21,14 +21,13 @@ var Table = module.exports = React.createClass({
         <div
             className='table-body'
             ref='tbody' >
-          { rows.map(function (row, i) {
-            return <TableRow
+          { rows.map((row, i) =>
+            <TableRow
                 {...this.props}
                 entries={ row }
                 headers={ headers }
                 header_row={ false }
                 row_num={ i }
-                key={ i } /> }.bind(this)) }
+                key={ i } /> ) }
         </div>
       </div> )}})
-

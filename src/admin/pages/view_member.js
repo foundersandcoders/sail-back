@@ -3,7 +3,7 @@
 var React = require('react')
 var request = require('xhr')
 var post = require('app/post.js')
-var get = require('app/get')
+var get = require('app/get.js')
 var Task = require('data.task')
 var curry = require('app/curry')
 var clone = require('clone')
@@ -24,7 +24,7 @@ var manage_member = require('../hocs/manage_member.js')
 var transform_dated = curry(function (transform, dated_obj) {
   var cloned_obj = clone(dated_obj)
   Object.keys(dated_obj)
-    .filter(function (key) { return key.match('[dD]ate') })
+    .filter(function (key) { return key.match(/[dD]ate/) })
     .forEach(function (key) { cloned_obj[key] = transform(dated_obj[key]) })
   return cloned_obj })
 
@@ -127,7 +127,7 @@ var ViewMember = React.createClass({
               initial_date={this.props.payment_date}
               initial_reference={this.props.payment_reference}
               initial_type={this.props.payment_type}
-              subscription_amount={this.state.member.subscription_amount}
+              subscription_amount={this.props.member.subscription_amount}
               update={this.props.update}
               payments={this.state.payments}
               mid={member_id}
@@ -156,10 +156,7 @@ function get_member_by_id (id) {
 var receive_member = curry(function (member_data) {
   var member = process_member_JSON(member_data.body)
   return format_dated(member)
-  return {
-    member: format_dated(member),
-    payments: date_sort(member.payments),
-    pre_changes_member: null }})
+})
 
 var update_info = function (state, update_member, toggle_view) {
   request({
