@@ -8,6 +8,8 @@ var object_assign = require('object-assign')
 
 module.exports = curry((Component, start_member, get_member) => {
   var WithMember = React.createClass({
+    displayName: Component.displayName || Component.name || 'Component',
+
     getInitialState () {
       return { member: start_member, errors: [] }
     },

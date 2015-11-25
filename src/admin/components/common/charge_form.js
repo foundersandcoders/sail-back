@@ -28,7 +28,7 @@ module.exports = React.createClass({
     this.props.click('payments-table')},
 
   change: function (e) {
-    if ('date-reference-type'.match(e.target.id)) {
+    if (e.target.id.match(/date|reference|type/)) {
       this.props.update({[e.target.id]: e.target.value }) }
     this.update_field_state(e) },
 
