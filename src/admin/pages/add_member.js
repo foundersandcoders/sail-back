@@ -31,7 +31,6 @@ var NewMember = React.createClass({
   render: function () {
     return (
   <div>
-      <Navigation />
   <div className='new-member-container'>
     <h1>New Member Form</h1>
       <form onSubmit={this.submit_handler}>

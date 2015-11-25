@@ -3,26 +3,27 @@
 var React = require('react')
 var TestUtils = require('react-addons-test-utils')
 var test = require('tape')
+var get_component_type = require('app/test/get_component_type.js')
 
 var PayingInPage =
-    require('../../../../src/admin/pages/paying_in.js')
+    require('../../../../../src/admin/pages/paying_in.js')
 var PayingInSearch =
-    require('../../../../src/admin/components/paying_in_search.js')
+    require('../../../../../src/admin/components/paying_in_search.js')
 var PayingIn =
-    require('../../../../src/admin/components/paying_in.js')
+    require('../../../../../src/admin/components/paying_in.js')
 var ReportsTable =
-    require('../../../../src/admin/components/report_table.js')
+    require('../../../../../src/admin/components/report_table.js')
 var Table =
-    require('../../../../src/admin/components/table')
+    require('../../../../../src/admin/components/table')
 
 var mock_reference_payments =
-    require('../../../fixtures/ref_payments.json')
+    require('../../../../fixtures/ref_payments.json')
 var mock_charges =
-    require('../../../fixtures/charges.json')
+    require('../../../../fixtures/charges.json')
 var expected_structure =
-    require('../../../fixtures/expected_structure.json')
+    require('../../../../fixtures/expected_structure.json')
 var expected_table_props =
-    require('../../../fixtures/expected_table_props.json')
+    require('../../../../fixtures/expected_table_props.json')
 var ref = "DH47F"
 
 function noop () {}
@@ -55,11 +56,9 @@ test('Paying in page', function (t) {
 
   var page = renderer.getRenderOutput()
 
-  var search = renderer._instance._instance.search
-
-  t.deepEqual(page.props.children,
+  t.deepEqual(get_component_type(page.props.children),
     [
-      <PayingInSearch submit_handler={search} />,
+      PayingInSearch,
       ''
     ],
       'Paying in page initially renders search')
@@ -74,12 +73,9 @@ test('Paying in page', function (t) {
 
   var page = renderer.getRenderOutput()
 
-  t.deepEqual(page.props.children, [
-      <PayingInSearch submit_handler={search} />,
-      <PayingIn
-          reference={ref}
-          payments={mock_reference_payments}
-          charges={mock_charges} />
+  t.deepEqual(page.props.children.map(function(c) { return c.type }), [
+      PayingInSearch,
+      PayingIn
   ])
 
   t.end() })

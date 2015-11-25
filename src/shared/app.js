@@ -1,6 +1,7 @@
 'use strict'
 
 var React = require('react')
+var Navigation = require('./navigation.js')
 
 var App = React.createClass({
 
@@ -8,6 +9,7 @@ var App = React.createClass({
     var add_details = this.props.add_details || id
     return (
       <div>
+        <Navigation user={this.props.user}/>
         { React.Children.map(this.props.children, add_details) }
       </div>
     )
