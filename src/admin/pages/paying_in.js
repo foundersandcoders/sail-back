@@ -12,6 +12,7 @@ var get = require('app/get.js')
 var chain = require('app/chain.js')
 var map = require('app/map.js')
 var compose = require('fn-compose')
+var concat = require('app/concat')
 var prop_or = require('app/prop_or.js')
 var trace = require('app/trace.js')
 var fold = require('app/fold.js')
@@ -47,26 +48,32 @@ var search = curry(function search (state, set_state, e) {
   e.preventDefault()
   var ref = e.target.firstChild.value
   var payments = get_payments(ref)
-  var make_charges =
-      compose(
-          map(get_charges),
-          filter(first_occurrence),
-          map(prop_or('', 'member')) )
-  payments.fork(function () {}, function (match_ref) {
+  payments.fork(trace('error getting payments'), function (match_ref) {
     var charges = make_charges(match_ref)
 
-    set_state({
-      payments: match_ref,
-      reference: ref
-    })
-
-    charges.map(function (a) {
-      a.fork(trace('charge error'), function (c) {
+    charges.fork(trace('charge error'), function (cs) {
         set_state({
-          charges: combine(state.charges, c)
+          payments: match_ref,
+          reference: ref,
+          charges: cs
         }) }) })
+  })
 
-  }) })
+var make_charges =
+    compose(
+        group_charges,
+        get_charges,
+        filter(first_occurrence),
+        map(prop_or('', 'member')) )
+
+var gather_charges = curry((cs, ids) =>
+    map((id => ({ [id]: filter(same_id(id), cs) }) ), ids) )
+
+var same_id = curry((id, charge) => id === charge.member)
+
+function group_charges (charges) {
+  return charges[1].map(cs =>
+    fold(combine, {}, gather_charges(cs, charges[0])) ) }
 
 var get_data = curry (function get_data (url) {
   return map(compose(
@@ -77,9 +84,8 @@ var get_data = curry (function get_data (url) {
 function get_payments (ref) {
   return get_data('api/payments/?category=payment&reference=' + ref) }
 
-function get_charges (id) {
-  return get_data('api/payments/?member=' + id).map(function (d) {
-    return { [id]: d } }) }
+function get_charges (ids) {
+  return [ids, get_data('api/payments/?where={"member"=' + ids +'}')] }
 
 function necessary_members (tasks, member) {
   tasks[member] = get_charges(member)

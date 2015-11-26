@@ -18,6 +18,8 @@ var Table =
 
 var mock_reference_payments =
     require('../../../../fixtures/ref_payments.json')
+var mock_received_charges =
+    require('../../../../fixtures/received_charges.json')
 var mock_charges =
     require('../../../../fixtures/charges.json')
 var expected_structure =
@@ -36,11 +38,9 @@ test('rewireify setup', function (t) {
   function fake_req (opts, cb) {
     var body =
         opts.uri.match(/reference/)
-        ?  mock_reference_payments
-        : opts.uri.match(/\?member/)
-        ? opts.uri.match(/471663/)
-            ?  mock_charges[471663]
-            :  mock_charges[471800]
+          ?  mock_reference_payments
+        : opts.uri.match(/member/)
+          ? mock_received_charges
         : '{}'
 
     cb(null, { body: JSON.stringify(body) }) }
