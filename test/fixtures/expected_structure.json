@@ -4,7 +4,7 @@
     payment_date: "2013-01-01T00:00:00.000Z",
     subscription: 50.5,
     donation: 20,
-    events: 0,
+    event: 0,
     payments: 50.5,
     payments_not_on_this_ref: 30.5,
     balance_due: -10.5
@@ -13,7 +13,7 @@
     member_number: 471663,
     payment_date: "2013-02-03T00:00:00.000Z",
     subscription: 175,
-    events: 0,
+    event: 0,
     donation: 137,
     payments: 175,
     payments_not_on_this_ref: 100,

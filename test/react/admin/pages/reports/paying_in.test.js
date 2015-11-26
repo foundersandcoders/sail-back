@@ -4,9 +4,12 @@ var React = require('react')
 var TestUtils = require('react-addons-test-utils')
 var test = require('tape')
 var get_component_type = require('app/test/get_component_type.js')
+var shallow_utils = require('react-shallow-testutils')
 
 var PayingInPage =
     require('../../../../../src/admin/pages/paying_in.js')
+var PaymentsReportsPage =
+    require('../../../../../src/admin/pages/payments.js')
 var PayingInSearch =
     require('../../../../../src/admin/components/paying_in_search.js')
 var PayingIn =
@@ -31,9 +34,12 @@ var ref = "DH47F"
 function noop () {}
 
 test('rewireify setup', function (t) {
+  var fake_get_data = require('app/get_data.js')
   var fake_get = require('app/get.js')
 
   fake_get.__set__('request', fake_req)
+
+  fake_get_data.__set__('get', fake_get)
 
   function fake_req (opts, cb) {
     var body =
@@ -45,7 +51,7 @@ test('rewireify setup', function (t) {
 
     cb(null, { body: JSON.stringify(body) }) }
 
-  PayingInPage.__set__('get', fake_get)
+  PayingInPage.__set__('get_data', fake_get_data)
 
   t.end() })
 
@@ -54,16 +60,25 @@ test('Paying in page', function (t) {
 
   renderer.render(<PayingInPage />)
 
-  var page = renderer.getRenderOutput()
+  var result = renderer.getRenderOutput()
 
-  t.deepEqual(get_component_type(page.props.children),
+  var get_payments = result.props.get_payments
+
+  var renderer_1 = TestUtils.createRenderer()
+
+  renderer_1.render(<PaymentsReportsPage
+      get_payments={get_payments} />)
+
+  var get_paying_in = renderer_1.getRenderOutput()
+
+  t.deepEqual(get_component_type(get_paying_in.props.children),
     [
       PayingInSearch,
       ''
     ],
       'Paying in page initially renders search')
 
-  var get_request = (page.props.children[0].props.submit_handler({
+  var get_request = (get_paying_in.props.children[0].props.submit_handler({
     target:
       { firstChild:
         { value: ref }
@@ -71,9 +86,9 @@ test('Paying in page', function (t) {
     preventDefault: noop
   }))
 
-  var page = renderer.getRenderOutput()
+  get_paying_in = renderer_1.getRenderOutput()
 
-  t.deepEqual(page.props.children.map(function(c) { return c.type }), [
+  t.deepEqual(get_paying_in.props.children.map(function(c) { return c.type }), [
       PayingInSearch,
       PayingIn
   ])
@@ -93,7 +108,7 @@ test('The search has the right form', function (t) {
     <form onSubmit={noop}>
        <input />
        <input type="submit" />
-    </form>] )
+    </form>], 'search rendered correctly')
   t.end() })
 
 
