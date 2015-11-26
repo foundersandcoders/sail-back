@@ -13,3 +13,4 @@ module.exports = React.createClass({
 function get_payments (e) {
   var ref = e.target.firstChild.value
   return get_data('api/payments/?category=payment&reference=' + ref) }
+

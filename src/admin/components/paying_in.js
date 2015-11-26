@@ -74,7 +74,7 @@ var blank_entry = {
   payment_date: '',
   subscription: 0,
   donation: 0,
-  events: 0,
+  event: 0,
   payments: 0,
   payments_not_on_this_ref: 0,
   balance_due: 0
