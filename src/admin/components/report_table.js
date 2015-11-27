@@ -30,7 +30,7 @@ var headers = [
   'Subscription',
   'Donation',
   'Event',
-  'Payments',
+  'Payment',
   'Payments not on this ref',
   'Balance Due'
 ]

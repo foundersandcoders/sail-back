@@ -31,7 +31,8 @@ module.exports = {
       type: 'STRING'
     },
     date: {
-      type: 'DATE'
+      type: 'DATE',
+      required: true
     }
   }
 }

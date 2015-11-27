@@ -1,16 +1,14 @@
 'use strict'
 
-var React = require('react')
-var PaymentsReport = require('./payments.js')
-var get_data = require('app/get_data')
+const React = require('react')
+const PaymentsReport = require('./payments.js')
+const get_data = require('app/get_data')
 
-module.exports = React.createClass({
-  render () {
-    return <PaymentsReport get_payments={get_payments} />
-  }
-})
+module.exports = () =>
+  <PaymentsReport
+    get_payments={get_payments}
+    inputs={['reference'] }/>
 
-function get_payments (e) {
-  var ref = e.target.firstChild.value
-  return get_data('api/payments/?category=payment&reference=' + ref) }
+const get_payments = ({target: {firstChild: {children: [,{value: ref}] } } }) =>
+  get_data('api/payments/?category=payment&reference=' + ref)
 

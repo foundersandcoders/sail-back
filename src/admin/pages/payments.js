@@ -24,11 +24,13 @@ module.exports = React.createClass({
       charges: {}
     }
   },
-  search: function (e) { return search((this.props.get_payments || get_payments), this.setState.bind(this), e) },
   render: function () {
+    var { get_payments } = this.props
     return (
       <div className='main-container'>
-        <Search submit_handler={this.search}/>
+        <Search
+            submit_handler={search(get_payments, this.setState.bind(this))}
+            inputs={this.props.inputs} />
         {Object.keys(this.state.charges).length ?
             <PayingIn
                 payments={this.state.payments}
@@ -65,10 +67,6 @@ var search = curry(function search (get_payments, set_state, e) {
             charges: cs,
             payments: match_ref,
           }) } ) }) })
-
-function get_payments (e) {
-  var ref = e.target.firstChild.value
-  return get_data('api/payments/?category=payment&reference=' + ref) }
 
 function get_charges (id) {
   return get_data('api/payments/?member=' + id).map(function (d) {

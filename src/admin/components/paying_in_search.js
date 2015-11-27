@@ -9,9 +9,13 @@ module.exports = React.createClass({
   render: function () {
     return (
       <div>
-        <span>Enter desired reference: </span>
         <form onSubmit={this.props.submit_handler}>
-          <input />
+          {this.props.inputs.map((name, i) =>
+            <div key={i}>
+              <span>Enter desired {name}: </span>
+              <input
+                  name={name} />
+            </div> ) }
           <input type='submit' />
         </form>
       </div>) } })

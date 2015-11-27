@@ -131,3 +131,8 @@ in the `dd/mm/yyyy` format.
 * Must setup a foch_testing database to correctly run tests (probably something similar is needed to run production)
 * on first run, the `models.migrate` property in `config/env/development.js` should be set to `alter`. On subsequent runs, it should be reverted to `safe`.
 * Add directions for data migration
+* WATCH OUT WITH COMPARISONS IN TESTING -- an interpolated string creates a
+different string of props for a component than putting it in directly.
+e.g. `<span>My name is {name}!</span>` may produce a span with props
+`['My name is ', 'Sarah', !]`, so be careful not to test against an element like
+`<span>My name is Sarah!</span>`, which has props `['My name is Sarah!]`

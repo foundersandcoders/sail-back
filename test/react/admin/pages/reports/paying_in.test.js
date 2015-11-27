@@ -3,7 +3,7 @@
 var React = require('react')
 var TestUtils = require('react-addons-test-utils')
 var test = require('tape')
-var get_component_type = require('app/test/get_component_type.js')
+var get_component_type = require('app/test/get_component_type')
 var shallow_utils = require('react-shallow-testutils')
 
 var PayingInPage =
@@ -81,7 +81,9 @@ test('Paying in page', function (t) {
   var get_request = (get_paying_in.props.children[0].props.submit_handler({
     target:
       { firstChild:
-        { value: ref }
+        { children:
+          [ , { value: ref } ]
+        }
       },
     preventDefault: noop
   }))
@@ -99,16 +101,21 @@ test('The search has the right form', function (t) {
 
   var renderer = TestUtils.createRenderer()
 
-  renderer.render(<PayingInSearch submit_handler={noop}/>)
+  renderer.render(<PayingInSearch
+      submit_handler={noop}
+      inputs={['reference']} />)
 
   var search = renderer.getRenderOutput()
 
-  t.deepEqual(search.props.children, [
-    <span>Enter desired reference: </span>,
-    <form onSubmit={noop}>
-       <input />
+  t.deepEqual(search.props.children,
+    (<form onSubmit={noop}>
+      { [ <div key={0}>
+            <span>Enter desired {'reference'}: </span>
+            <input name="reference" />
+          </div>
+      ] }
        <input type="submit" />
-    </form>], 'search rendered correctly')
+    </form>), 'search rendered correctly')
   t.end() })
 
 
@@ -123,9 +130,11 @@ test('The data has been correctly transformed', function (t) {
 
   var report_page = renderer.getRenderOutput()
 
-  t.deepEqual(report_page.props.children, [
-    <h3>Bank Reference: {ref}</h3>,
-    <ReportsTable charges={expected_structure}  /> ] )
+  // big owner object on actual output. Don't want it!
+  var {_owner, ...output} = report_page
+  var {_owner, ...table} = <ReportsTable charges={expected_structure} />
+
+  t.deepEqual(output, table)
   t.end() })
 
 test('The report table has the right entries', function (t) {
