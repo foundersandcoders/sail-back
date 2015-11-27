@@ -9,6 +9,6 @@ module.exports = () =>
     get_payments={get_payments}
     inputs={['reference'] }/>
 
-const get_payments = ({target: {firstChild: {children: [,{value: ref}] } } }) =>
+const get_payments = ({target: {firstChild: {children: {1:{value: ref}} } } }) =>
   get_data('api/payments/?category=payment&reference=' + ref)
 

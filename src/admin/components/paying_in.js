@@ -7,7 +7,7 @@ var ReportTable = require('../components/report_table.js')
 var object_assign = require('object-assign')
 var deep_equal = require('deep-equal')
 var curry = require('curry')
-var compose = require('fn-compose')
+var dethunk = require('dethunking-compose')
 var prop_or = require('app/prop_or.js')
 
 var PayingIn = module.exports = ({charges, payments}) =>
@@ -24,9 +24,9 @@ PayingIn.defaultProps ={
   reference: '' }
 
 var get_charges = curry((payments, charges) =>
-  payments.map( compose(
-      add_relevant_charges(charges),
-      user_entry_from_payment) ))
+  payments.map( dethunk(
+      () => add_relevant_charges(charges),
+      () => user_entry_from_payment) ))
 
 var add_relevant_charges = curry((charges, payment) =>
   get_relevant_charges(charges, payment).reduce(add_charge, payment) )

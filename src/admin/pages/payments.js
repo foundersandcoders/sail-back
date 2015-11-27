@@ -11,7 +11,7 @@ var object_assign = require('object-assign')
 var get_data = require('app/get_data.js')
 var chain = require('app/chain.js')
 var map = require('app/map.js')
-var compose = require('fn-compose')
+var dethunk = require('dethunking-compose')
 var prop_or = require('app/prop_or.js')
 var trace = require('app/trace.js')
 var fold = require('app/fold.js')
@@ -50,10 +50,10 @@ var search = curry(function search (get_payments, set_state, e) {
   e.preventDefault()
   var payments = get_payments(e)
   var make_charges =
-      compose(
-          map(get_charges),
-          filter(first_occurrence),
-          map(prop_or('', 'member')) )
+      dethunk(
+          () => map(get_charges)
+          , () => filter(first_occurrence)
+          , () => map(prop_or('', 'member')) )
 
   var compile = Task.of( fold(compile_charges, Task.of(combine({})) ) )
 
@@ -73,7 +73,7 @@ function get_charges (id) {
     return { [id]: d } }) }
 
 var compile_charges = curry(function compile (charges, charge) {
-  return charges.chain(compose(Task.of, combine)).ap(charge) })
+  return charges.chain(dethunk(() => Task.of, () => combine)).ap(charge) })
 
 function necessary_members (tasks, member) {
   tasks[member] = get_charges(member)

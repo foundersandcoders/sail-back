@@ -10,7 +10,7 @@ var clone = require('clone')
 var standardise_date = require('app/standardise_date.js')
 var format_date = require('app/format_date.js')
 var object_assign = require('object-assign')
-var compose = require('fn-compose')
+var dethunk = require('dethunking-compose')
 var map = require('app/map.js')
 
 var member_schema = require('../../models/members.js')
@@ -169,7 +169,9 @@ var update_info = function (state, update_member, toggle_view) {
 function ensure_date (dated_obj) {
   return object_assign({}, dated_obj, { date: new Date(dated_obj.date) }) }
 
-var process_member_JSON = compose(process_member, JSON.parse)
+var process_member_JSON = dethunk(
+    () => process_member
+    , () => JSON.parse)
 
 function process_member (member) {
   var { membership_type: { value, amount }, ...other_details } = member

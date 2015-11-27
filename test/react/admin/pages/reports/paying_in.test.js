@@ -107,15 +107,18 @@ test('The search has the right form', function (t) {
 
   var search = renderer.getRenderOutput()
 
-  t.deepEqual(search.props.children,
-    (<form onSubmit={noop}>
-      { [ <div key={0}>
-            <span>Enter desired {'reference'}: </span>
-            <input name="reference" />
-          </div>
-      ] }
-       <input type="submit" />
-    </form>), 'search rendered correctly')
+  var {_owner, actual} = search.props.children
+  var {_owner, expected} =
+      (<form onSubmit={noop}>
+        { [ <div key={0}>
+              <span>Enter desired {'reference'}: </span>
+              <input name="reference" />
+            </div>
+        ] }
+         <input type="submit" />
+      </form>)
+
+  t.deepEqual(actual, expected, 'search rendered correctly')
   t.end() })
 
 

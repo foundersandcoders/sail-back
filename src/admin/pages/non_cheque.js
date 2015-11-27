@@ -4,7 +4,7 @@ var React = require('react')
 var PaymentsReport = require('./payments.js')
 var get_data = require('app/get_data')
 var standardise = require('app/standardise_date')
-var compose = require('fn-compose')
+var dethunk = require('dethunking-compose')
 var filter = require('app/filter')
 var map = require('app/map')
 var prop_or = require('app/prop_or')
@@ -18,12 +18,12 @@ module.exports = () =>
       inputs={['Category', 'Start Date', 'End Date']} />
 
 var get_payments = (e) =>
-  compose(
+  dethunk(
       get_data
       , make_query_string
       , map(prop_or('', 'value'))
       , filter(input => !!input)
-      , map(compose(prop_or(null, 1), prop_or([], 'children')))
+      , map(() => dethunk(prop_or(null, 1), () => prop_or([], 'children')))
       , arrayify)(e.target.children)
 
 var make_query_string =  ([type, after, before]) =>
