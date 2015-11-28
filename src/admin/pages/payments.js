@@ -30,6 +30,7 @@ module.exports = React.createClass({
       <div className='main-container'>
         <Search
             submit_handler={search(get_payments, this.setState.bind(this))}
+            input_or_select={this.props.input_or_select}
             inputs={this.props.inputs} />
         {Object.keys(this.state.charges).length ?
             <PayingIn

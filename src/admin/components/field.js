@@ -4,6 +4,36 @@ var React = require('react')
 var to_title_case = require('app/to_title_case.js')
 var curry = require('app/curry.js')
 
+var Field = props =>
+      props.value && props.mode !== 'edit' ?
+          <Display {...props} /> :
+      props.mode === 'edit' ?
+          <Input {...props} /> :
+          <div></div>
+
+var Display = ({name, id, value}) =>
+  <p>
+    <span className='info'>{name}</span>
+    <span id={'view-member-' + id}>
+      {caser(id, value)}
+    </span>
+  </p>
+
+var Input = ({ input_or_select: input_or_select = always_input, ...props}) =>
+  <div className={props.className}>
+    <span className='info'>{props.name}</span>
+    { need_input(input_or_select, props) }
+  </div>
+
+Field.displayName = 'Field'
+
+Field.propTypes = {
+  value: React.PropTypes.string
+  , mode: React.PropTypes.string
+  , id: React.PropTypes.string
+  , input_or_select: React.PropTypes.func
+}
+
 var need_input = curry((test, props) => {
     var {type, options} = test(props)
     return type === 'select' ?
@@ -11,27 +41,7 @@ var need_input = curry((test, props) => {
         make_input(props)
 })
 
-var Field = React.createClass({
-  displayName: 'Field',
-  render: function () {
-    var select_necessary = need_input(this.props.input_or_select || always_input)
-    return (
-      this.props.value && this.props.mode !== 'edit' ?
-          <p>
-            <span className='info'>{this.props.name}</span>
-            <span id={'view-member-' + this.props.id}>
-              {caser(this.props.id, this.props.value)}
-            </span>
-          </p> :
-      this.props.mode === 'edit' ?
-          <div className={this.props.className}>
-            <span className='info'>{this.props.name}</span>
-            { select_necessary(this.props) }
-          </div> :
-          <div></div>
-    ) } })
-
-function always_input () { return { type: 'input' } }
+var always_input = () => ({ type: 'input' })
 
 function make_input (props) {
   return <input
@@ -41,7 +51,7 @@ function make_input (props) {
 
 function make_select (props, options) {
   return (
-    <select {...props} value={'' + props.value} >
+    <select {...props} value={ props.value ? '' + props.value : undefined } >
       <option disabled value={''}> -- select an option -- </option>
       { options.map(function (option, i) {
         return <option

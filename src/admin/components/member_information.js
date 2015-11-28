@@ -64,7 +64,7 @@ var EditToggle = React.createClass({
   render: function () { return (
           <button id='edit-member-mode'
               className='member-info-edit-button'
-              onClick={this.props.changeMode}>Edit</button> )}})
+              onClick={this.props.toggle_mode}>Edit</button> )}})
 
 var MemberInformation = React.createClass({
   displayName: 'Member Information',
@@ -72,12 +72,12 @@ var MemberInformation = React.createClass({
   correct_buttons: function () {
     return this.props.mode === 'edit' ?
         <EditOptions save={this.props.save}
-            changeMode={this.props.changeMode}
+            toggle_mode={this.props.toggle_mode}
             deleteMem={this.props.deleteMember}
             status={this.props.member.activation_status}
             reactivate={this.props.reactivate}
             cancel={this.props.cancel} /> :
-        <EditToggle changeMode={this.props.changeMode}/>
+        <EditToggle toggle_mode={this.props.toggle_mode}/>
   },
   render: function () {
     var fields_with_props = render_with_props(this.props)

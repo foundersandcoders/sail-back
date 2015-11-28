@@ -1,7 +1,6 @@
 'use strict'
 
 var React = require('react')
-var Table = require('./table')
 
 var Button = React.createClass({
   click: function () {

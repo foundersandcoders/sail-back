@@ -48,7 +48,7 @@ var ViewMember = React.createClass({
     this.setState({
       payments: date_sort(this.state.payments.concat([payment]))} ) },
 
-  changeMode: function () {
+  toggle_mode: function () {
     this.setState(this.make_mode_state_update(this.state.mode))},
 
   make_mode_state_update: function (current_mode) {
@@ -63,7 +63,7 @@ var ViewMember = React.createClass({
     this.state.pre_changes_member = null },
 
   save: function () {
-    update_info(this.props, this.props.update_member) },
+    update_info(this.props, this.props.update_member, this.toggle_mode) },
 
   remove: function (e) {
     var member = clone(this.state.member)
@@ -111,7 +111,7 @@ var ViewMember = React.createClass({
           <div className='inner-section-divider-medium'></div>
           <MemberInformation
               mode={this.state.mode}
-              changeMode={this.changeMode}
+              toggle_mode={this.toggle_mode}
               member={this.props.member}
               save={this.save}
               onChange={this.props.change_handler}

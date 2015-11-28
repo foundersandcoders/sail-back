@@ -16,7 +16,8 @@ var PayingIn = module.exports = ({charges, payments}) =>
 
 PayingIn.propTypes = {
   payments: React.PropTypes.array,
-  charges: React.PropTypes.object },
+  charges: React.PropTypes.object,
+  reference: React.PropTypes.string },
 
 PayingIn.defaultProps ={
   payments: [],
