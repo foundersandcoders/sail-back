@@ -51,6 +51,7 @@
     "deep-equal": "^1.0.1",
     "deep-memoize": "0.0.0",
     "factor-bundle": "^2.5.0",
+    "history": "^1.13.1",
     "joi": "^6.4.3",
     "lazy.js": "^0.4.0",
     "mailgun": "^0.5.0",
@@ -75,7 +76,6 @@
     "swig": "^1.4.2",
     "torf": "^1.0.7",
     "uuid": "^2.0.1",
-    "vdom-to-html": "^2.1.1",
     "watchify": "^3.2.3",
     "xhr": "^2.0.1",
     "yup": "^0.11.0"
@@ -96,6 +96,7 @@
     "faucet": "0.0.1",
     "hyperquest": "^1.2.0",
     "istanbul": "^0.3.17",
+    "react-addons-test-utils": "^0.14.3",
     "react-shallow-testutils": "^0.6.0",
     "rewireify": "^0.2.5",
     "standard": "^4.5.4",
