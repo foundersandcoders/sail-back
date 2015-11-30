@@ -25,21 +25,23 @@ module.exports = React.createClass({
     }
   },
   render: function () {
-    var { get_payments } = this.props
+    var { get_payments, input_or_select, inputs } = this.props
+    var { charges, payments, reference } = this.state
     return (
       <div className='main-container'>
         <Search
             submit_handler={search(get_payments, this.setState.bind(this))}
-            input_or_select={this.props.input_or_select}
-            inputs={this.props.inputs} />
-        {number_of_keys(this.state.charges) > 0 ?
-            <PayingIn
-                payments={this.state.payments}
-                charges={this.state.charges}
-                reference={this.state.reference}
-            /> :
-            '' }
-          </div> ) } })
+            input_or_select={input_or_select}
+            inputs={inputs} />
+        { payments.length
+            && number_of_keys(charges) > number_of_members(payments) - 10 ?
+              <PayingIn
+                  payments={payments}
+                  charges={charges}
+                  reference={reference}
+              /> :
+              '' }
+      </div> ) } })
 
 var receive = curry(function (set_state, ref, charges, payments) {
   set_state({ ref: ref, charges: charges, payments: payments }) })
