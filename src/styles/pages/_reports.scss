@@ -1,3 +1,16 @@
-.report-table .table-entry {
-  flex: 1
+.report-options {
+  text-align: center;
+}
+
+.report-options > a {
+  font-size: larger;
+  margin: 3em;
+}
+
+.search-options {
+  justify-content: flex-start
+}
+
+.search-options > div {
+  margin-right: 1em;
 }

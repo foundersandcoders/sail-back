@@ -10,7 +10,7 @@ var clone = require('clone')
 var standardise_date = require('app/standardise_date.js')
 var format_date = require('app/format_date.js')
 var object_assign = require('object-assign')
-var compose = require('fn-compose')
+var dethunk = require('dethunking-compose')
 var map = require('app/map.js')
 
 var member_schema = require('../../models/members.js')
@@ -48,7 +48,7 @@ var ViewMember = React.createClass({
     this.setState({
       payments: date_sort(this.state.payments.concat([payment]))} ) },
 
-  changeMode: function () {
+  toggle_mode: function () {
     this.setState(this.make_mode_state_update(this.state.mode))},
 
   make_mode_state_update: function (current_mode) {
@@ -63,7 +63,7 @@ var ViewMember = React.createClass({
     this.state.pre_changes_member = null },
 
   save: function () {
-    update_info(this.props, this.props.update_member) },
+    update_info(this.props, this.props.update_member, this.toggle_mode) },
 
   remove: function (e) {
     var member = clone(this.state.member)
@@ -111,7 +111,7 @@ var ViewMember = React.createClass({
           <div className='inner-section-divider-medium'></div>
           <MemberInformation
               mode={this.state.mode}
-              changeMode={this.changeMode}
+              toggle_mode={this.toggle_mode}
               member={this.props.member}
               save={this.save}
               onChange={this.props.change_handler}
@@ -169,7 +169,9 @@ var update_info = function (state, update_member, toggle_view) {
 function ensure_date (dated_obj) {
   return object_assign({}, dated_obj, { date: new Date(dated_obj.date) }) }
 
-var process_member_JSON = compose(process_member, JSON.parse)
+var process_member_JSON = dethunk(
+    () => process_member
+    , () => JSON.parse)
 
 function process_member (member) {
   var { membership_type: { value, amount }, ...other_details } = member

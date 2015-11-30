@@ -5,6 +5,7 @@ var Field = require('../field.js')
 var format_date = require('app/format_date.js')
 var to_title_case = require('app/to_title_case.js')
 var curry = require('app/curry.js')
+var input_or_select = require('app/input_or_select')
 
 function label_from_id (id) {
   return id.slice(0, 1).toUpperCase() + id.slice(1).replace(/_/g, ' ') + ': ' }
@@ -41,51 +42,29 @@ module.exports = React.createClass({
 
   render: function () {
     var error_needed = id_in_errors(this.props.errors)
-    var field_components = this.fields().map((field, i) => {
-        return <Field
+    var field_components = this.fields().map((field, i) =>
+        <Field
             error={error_needed(field.id)}
             mode={field.mode || this.props.mode}
             name={field.name}
             value={field.value}
             id={field.id}
             key={i}
-            input_or_select={input_or_select}
+            input_or_select={input_or_select(select_options)}
             onBlur={this.props.blur_handler}
-            onChange={this.onChange} />})
+            onChange={this.onChange} />)
 
     return (
       <div className='col-1'>
         {field_components}
       </div> ) } })
 
-function input_or_select (props) {
-  var select_options = {
-    standing_order: ['true', 'false'],
-    membership_type: ['annual-single', 'annual-double', 'annual-family',
-        'annual-group', 'annual-corporate', 'life-single', 'life-double'],
-    type: ['Cash', 'Cheque', 'BACs', 'SO', 'HO', 'CAF'],
-    news_type: ['post', 'online']
-  }
-  return select_options[props.id] ?
-      { type: 'select', options: select_options[props.id] } :
-      { type: 'input' } }
-
-function make_input (props) {
-  return <input
-    placeholder={make_placeholder(props.name)}
-    className={props.className + (props.error ? ' red' : '')}
-    {...props} /> }
-
-function make_select (props, options) {
-  return (
-    <select {...props} value={'' + props.value} >
-      <option disabled value={''}> -- select an option -- </option>
-      { options.map(function (option, i) {
-        return <option
-            value={option}
-            key={i}>{to_title_case(option.replace(/-/g, ' '))}</option> }) }
-    </select>) }
-
 function make_placeholder (name) {
   return name.match(/[dD]ate/) ? 'dd/mm/yyyy' : name }
 
+var select_options = {
+  standing_order: ['true', 'false'],
+  membership_type: ['annual-single', 'annual-double', 'annual-family',
+      'annual-group', 'annual-corporate', 'life-single', 'life-double'],
+  news_type: ['post', 'online']
+}

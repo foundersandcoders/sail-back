@@ -7,6 +7,7 @@ var React = require('react')
 var Field = require('../field.js')
 var object_assign = require('object-assign')
 var clone = require('clone')
+var input_or_select = require('app/input_or_select')
 
 var make_charge_field_names = function (charge) {
 
@@ -70,6 +71,7 @@ module.exports = React.createClass({
           id={field}
           name={to_title_case(field)}
           value={this.state[field]}
+          input_or_select = {input_or_select(options)}
           error={field === 'reference' && this.state.reference_required}
           className='charge-field'
           key={i}
@@ -94,6 +96,10 @@ module.exports = React.createClass({
           </div>
         </div>
       </div> )} })
+
+var options = {
+  type: ['Cash', 'Cheque', 'BACs', 'Standing Order', 'HO', 'CAF']
+}
 
 function reference_required (type) {
   return ['Cash', 'Cheque'].indexOf(type) > -1 }

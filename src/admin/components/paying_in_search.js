@@ -1,17 +1,20 @@
 'use strict'
 
 var React = require('react')
+var Field = require('./field.js')
+var to_title_case = require('app/to_title_case')
 
-module.exports = React.createClass({
-  propTypes: {
-    submit_handler: React.PropTypes.func,
-  },
-  render: function () {
-    return (
-      <div>
-        <span>Enter desired reference: </span>
-        <form onSubmit={this.props.submit_handler}>
-          <input />
-          <input type='submit' />
-        </form>
-      </div>) } })
+module.exports = props =>
+  <form onSubmit={props.submit_handler} className='search-options flex'>
+    {props.inputs.map((name, i) =>
+      <Field
+          {...props}
+          key={i}
+          id={name}
+          className='paying-in-search'
+          name={to_title_case(name)}
+          mode='edit' />
+    )}
+    <input type='submit' />
+  </form>
+

@@ -6,6 +6,6 @@
   var routes = require('./routes.js')()
 
   console.log('src/open/main.js')
-  ReactDOM.render(routes, document.body)
+  ReactDOM.render(routes, document.querySelector('#main'))
 
 }())
