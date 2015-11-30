@@ -6,7 +6,7 @@
     donation: 20,
     event: 0,
     payment: 50.5,
-    payments_not_on_this_ref: 30.5,
+    other_payments: 30.5,
     balance_due: -10.5
   },
   {
@@ -16,7 +16,7 @@
     event: 0,
     donation: 137,
     payment: 175,
-    payments_not_on_this_ref: 100,
+    other_payments: 100,
     balance_due: 37
   }
 ]
