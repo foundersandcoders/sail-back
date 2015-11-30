@@ -12,6 +12,7 @@ var format_date = require('app/format_date.js')
 var object_assign = require('object-assign')
 var dethunk = require('dethunking-compose')
 var map = require('app/map.js')
+var prop_or = require('app/prop_or')
 
 var member_schema = require('../../models/members.js')
 
@@ -152,34 +153,34 @@ function get_member (update_member, props) {
 function get_member_by_id (id) {
   return get(make_id_request_uri(id)) }
 
-var receive_member = curry(function (member_data) {
-  var member = process_member_JSON(member_data.body)
-  return format_dated(member)
-})
+var receive_member = dethunk(
+  () => format_dated
+  , () => process_member_JSON
+  , () => prop_or('', 'body')
+)
 
-var update_info = function (state, update_member, toggle_view) {
+var update_info = (state, update_member, toggle_view) =>
   request({
     method: 'POST',
     uri: 'api/members/' + state.member.id,
     json: standardise_dated(state.member)
-  }, function (err, res, body) {
+  }, (err, res, body) => {
     update_member(format_dated(body))
-    toggle_view() }) }
+    toggle_view() })
 
-function ensure_date (dated_obj) {
-  return object_assign({}, dated_obj, { date: new Date(dated_obj.date) }) }
+var ensure_date = dated_obj =>
+  object_assign({}, dated_obj, { date: new Date(dated_obj.date) })
 
 var process_member_JSON = dethunk(
     () => process_member
     , () => JSON.parse)
 
-function process_member (member) {
-  var { membership_type: { value, amount }, ...other_details } = member
-  return object_assign ({}, map(null_to_undefined, other_details), {
+var process_member = ({ membership_type: { value, amount } = {}, ...member }) =>
+ object_assign ({}, map(null_to_undefined, member), {
     membership_type: value,
-    subscription_amount: amount }) }
+    subscription_amount: amount })
 
-function null_to_undefined (val) {
-  return val === null ? undefined : val }
+var null_to_undefined = val =>
+  val === null ? undefined : val
 
 module.exports = manage_member(ViewMember, {}, get_member)

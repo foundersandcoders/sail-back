@@ -34,7 +34,7 @@ var make_query_string = ([type, after, before]) =>
       '">":"' + standardise(after) + '",' +
       '"<":"' + standardise(before) + '"},' +
       '"category":"payment",' +
-      '"type":"' + type + '"}'
+      '"type":"' + type + '"}&limit=3000'
 
 var options = {
   "Category": ['BACs', 'Standing Order', 'CAF']
