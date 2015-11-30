@@ -51,6 +51,7 @@
     "data.task": "^3.0.0",
     "deep-equal": "^1.0.1",
     "deep-memoize": "0.0.0",
+    "dethunking-compose": "^0.1.2",
     "factor-bundle": "^2.5.0",
     "history": "^1.13.1",
     "joi": "^6.4.3",
@@ -93,7 +94,6 @@
   "license": "",
   "devDependencies": {
     "csv2": "^0.1.1",
-    "dethunking-compose": "^0.1.0",
     "faucet": "0.0.1",
     "hyperquest": "^1.2.0",
     "istanbul": "^0.3.17",

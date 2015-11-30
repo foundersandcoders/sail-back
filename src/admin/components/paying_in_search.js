@@ -5,7 +5,7 @@ var Field = require('./field.js')
 var to_title_case = require('app/to_title_case')
 
 module.exports = props =>
-  <form onSubmit={props.submit_handler}>
+  <form onSubmit={props.submit_handler} className='search-options flex'>
     {props.inputs.map((name, i) =>
       <Field
           {...props}

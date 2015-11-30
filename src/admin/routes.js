@@ -7,6 +7,7 @@ var App = require('./admin_app.js')
 var AdminHome = require('./pages/home.js')
 var ViewMember = require('./pages/view_member.js')
 var AddMember = require('./pages/add_member.js')
+var Reports = require('./pages/available_reports.js')
 var PayingIn = require('./pages/paying_in.js')
 var NonCheque = require('./pages/non_cheque.js')
 
@@ -17,8 +18,9 @@ module.exports = function () {
         <Route path='/' component={AdminHome} />
           <Route path='/members/:id' component={ViewMember} />
           <Route path='/addmember' component={AddMember} />
-          <Route path='/reports/paying_in' component={PayingIn} />
-          <Route path='/reports/non_cheque' component={NonCheque} />
+          <Route path='/reports' component={Reports} />
+            <Route path='/reports/paying_in' component={PayingIn} />
+            <Route path='/reports/non_cheque' component={NonCheque} />
       </Route>
     </Router>
   ) }

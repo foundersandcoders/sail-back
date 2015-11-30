@@ -9,8 +9,11 @@ var Button = React.createClass({
   render: function () {
     var type = this.props.type
     return (
-      <button id={type + '_btn'} onClick={this.click} className='btn-primary w-3'>
-        {'+ ' + type}
+      <button
+          id={type + '_btn'}
+          onClick={this.click}
+          className='btn-primary w-3'>
+            {'+ ' + type}
       </button> ) } })
 
 var PaymentsTable = require('./payments_table')
@@ -80,7 +83,7 @@ function make_button (type, i) {
   return <Button
       type={type}
       click={this.view}
-      ref={i}
+      key={i}
       className='add-payment-button' />
 }
 
