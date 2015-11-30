@@ -5,6 +5,7 @@ var Task = require('data.task')
 
 var Search = require('../components/paying_in_search.js')
 var PayingIn = require('../components/paying_in.js')
+var Spinner = require('../../shared/spinner.js')
 
 var curry = require('curry')
 var object_assign = require('object-assign')
@@ -20,13 +21,14 @@ var filter = require('app/filter.js')
 module.exports = React.createClass({
   getInitialState: function () {
     return {
-      payments: [],
-      charges: {}
+      payments: []
+      , charges: {}
+      , searching: false
     }
   },
   render: function () {
     var { get_payments, input_or_select, inputs } = this.props
-    var { charges, payments, reference } = this.state
+    var { charges, payments, reference, searching } = this.state
     return (
       <div className='main-container'>
         <Search
@@ -34,13 +36,15 @@ module.exports = React.createClass({
             input_or_select={input_or_select}
             inputs={inputs} />
         { payments.length
-            && number_of_keys(charges) > number_of_members(payments) - 10 ?
-              <PayingIn
+            && number_of_keys(charges) > number_of_members(payments) - 10
+              ? <PayingIn
                   payments={payments}
                   charges={charges}
                   reference={reference}
-              /> :
-              '' }
+              />
+              : searching
+              ? <Spinner />
+              : '' }
       </div> ) } })
 
 var receive = curry(function (set_state, ref, charges, payments) {
@@ -57,7 +61,7 @@ var receive_payments = curry((set_state, match_ref) => {
   var charge_data = {}
   var update_data = more_data => object_assign(charge_data, more_data)
 
-  set_state({ payments: match_ref })
+  set_state({ payments: match_ref, searching: true })
 
   // Ap doesn't work nicely for data.Task
   // going to mutate! :cry:
