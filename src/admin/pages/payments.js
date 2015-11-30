@@ -41,40 +41,46 @@ module.exports = React.createClass({
             '' }
           </div> ) } })
 
-var combine = curry(function combine (a, b) {
-    return object_assign({}, a, b) })
-
 var receive = curry(function (set_state, ref, charges, payments) {
   set_state({ ref: ref, charges: charges, payments: payments }) })
 
 var search = curry(function search (get_payments, set_state, e) {
   e.preventDefault()
   var payments = get_payments(e)
-  var make_charges =
-      dethunk(
-          () => map(get_charges)
-          , () => filter(first_occurrence)
-          , () => map(prop_or('', 'member')) )
 
-  var compile = Task.of( fold(compile_charges, Task.of(combine({})) ) )
-
-  payments.fork(function () {}, function (match_ref) {
+  payments.fork(trace('payments error'), match_ref => {
     var charges = make_charges(match_ref)
 
-    compile.ap(Task.of(charges))
-        .chain(id)
-        .fork(trace('charge error'), function (cs) {
-          set_state({
-            charges: cs,
-            payments: match_ref,
-          }) } ) }) })
+    set_state({
+      payments: match_ref
+    })
+
+    // Ap doesn't work nicely for data.Task
+    // going to mutate! :cry:
+
+    var charge_data = {}
+
+    var update_data = more_data => object_assign(charge_data, more_data)
+
+    charges.forEach(member_charges =>
+      member_charges.fork(trace('charge error'), dethunk(
+          () => set_charges(set_state)
+          , () => combine(charge_data)) )) }) })
 
 function get_charges (id) {
   return get_data('api/payments/?member=' + id).map(function (d) {
     return { [id]: d } }) }
 
-var compile_charges = curry(function compile (charges, charge) {
-  return charges.chain(dethunk(() => Task.of, () => combine)).ap(charge) })
+var make_charges = dethunk(
+    () => map(get_charges)
+    , () => filter(first_occurrence)
+    , () => map(prop_or('', 'member')) )
+
+var set_charges = curry((set_state, charge_data) =>
+  set_state({ charges: charge_data }))
+
+var combine = curry((a, b) =>
+    object_assign({}, a, b))
 
 function necessary_members (tasks, member) {
   tasks[member] = get_charges(member)
