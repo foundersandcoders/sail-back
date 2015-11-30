@@ -28,7 +28,7 @@ var headers = [
   , 'Donation'
   , 'Event'
   , 'Payment'
-  , 'Payments not on this ref'
+  , 'Other Payments'
   , 'Balance Due'
 ]
 

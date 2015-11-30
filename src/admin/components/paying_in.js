@@ -54,7 +54,7 @@ var correct_sign = (category, amount) =>
   (category === 'payment' ? -1 : 1) * amount
 
 var field = category =>
-  category === 'payment' ? 'payments_not_on_this_ref' : category
+  category === 'payment' ? 'other_payments' : category
 
 var user_entry_from_payment = ({member, date, amount, category}) =>
   object_assign({}, blank_entry, {
@@ -70,7 +70,7 @@ var blank_entry = {
   donation: 0,
   event: 0,
   payment: 0,
-  payments_not_on_this_ref: 0,
+  other_payments: 0,
   balance_due: 0
 }
 
