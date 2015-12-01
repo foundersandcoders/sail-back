@@ -19,7 +19,11 @@ module.exports = curry((Component, start_member, get_member) => {
     },
 
     update_member (new_member) {
-      this.setState({ member: new_member })
+      this.setState({ member: object_assign({}, this.state.member, new_member) })
+    },
+
+    validation_error (errors) {
+      this.setState({errors: this.state.errors.concat(errors)})
     },
 
     change_handler (e) {
@@ -38,6 +42,7 @@ module.exports = curry((Component, start_member, get_member) => {
           update_member={this.update_member}
           verify_member={this.verify_member}
           change_handler={this.change_handler}
+          validation_error={this.validation_error}
           {...this.props}
           {...this.state} />
     }

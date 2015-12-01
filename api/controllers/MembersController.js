@@ -9,8 +9,6 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var Lazy = require('lazy.js')
-
 module.exports = {
   accountPage: function (req, res) {
     res.view('pages/account', {user: req.session.user})
