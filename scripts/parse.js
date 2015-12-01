@@ -1,10 +1,14 @@
+#!/usr/bin/env node
+
 var fs = require('fs')
 var parse_csv = require('../src/services/parse_csv.js').parse
-var members_csv = fs.readFileSync('../foch-data/members.csv')
 
-var members = { type: 'members', result: members_csv.toString() }
+var type = process.argv[2]
+var csv = fs.readFileSync('../foch-data/' + type + '.csv')
 
-parse_csv(members, write_members)
+var result = { type: type, result: csv.toString() }
 
-function write_members (err, json) {
-  fs.writeFileSync('../foch-data/members.json', JSON.stringify(json)) }
+parse_csv(result, write)
+
+function write (err, json) {
+  fs.writeFileSync('../foch-data/' + type + '.json', JSON.stringify(json)) }

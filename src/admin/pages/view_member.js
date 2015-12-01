@@ -54,7 +54,7 @@ var ViewMember = React.createClass({
 
   make_mode_state_update: function (current_mode) {
     return current_mode === 'edit' ?
-      { mode: 'view', member: pre_changes_member || member } :
+      { mode: 'view', member: this.state.pre_changes_member || member } :
       { mode: 'edit', pre_changes_member: clone(this.state.member) } },
 
   cancel: function () {
@@ -64,7 +64,7 @@ var ViewMember = React.createClass({
     this.state.pre_changes_member = null },
 
   save: function () {
-    update_info(this.props, this.props.update_member, this.toggle_mode) },
+    update_info(this.props, this.toggle_mode) },
 
   remove: function (e) {
     var member = clone(this.state.member)
@@ -159,17 +159,23 @@ var receive_member = dethunk(
   , () => prop_or('', 'body')
 )
 
-var update_info = (state, update_member, toggle_view) =>
+var update_info = (props, toggle_view) =>
   request({
     method: 'POST',
-    uri: 'api/members/' + state.member.id,
-    json: standardise_dated(state.member)
+    uri: 'api/members/' + props.member.id,
+    json: standardise_dated(props.member)
   }, (err, res, body) => {
-    update_member(format_dated(body))
+    if (res.statusCode >= 400) return handle_error(props.validation_error, body)
+    props.update_member(format_dated(body))
     toggle_view() })
 
 var ensure_date = dated_obj =>
   object_assign({}, dated_obj, { date: new Date(dated_obj.date) })
+
+var handle_error = (validation_error, body) =>
+  body.error === "E_VALIDATION"
+   ?  validation_error(Object.keys(body.invalidAttributes))
+   :  validation_error(['id'])
 
 var process_member_JSON = dethunk(
     () => process_member

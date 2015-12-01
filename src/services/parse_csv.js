@@ -1,7 +1,6 @@
 "use strict";
 
 var parseLibrary = require("csv-parse");
-var lazy         = require("lazy.js");
 var blueprints   = require("./blueprints.js");
 var is           = require("torf");
 
@@ -33,11 +32,11 @@ function jsonify (file, fileType) {
 
   var stamp = blueprints[fileType];
 
-  return lazy(file).map(function (row, index) {
+  return file.map(function (row, index) {
     var obj = _stamp(index, row, stamp)
     if (obj.id === 9811 || obj.id === '9811') { console.log(obj) }
     return _stamp(index, row, stamp);
-  }).toArray();
+  });
 }
 
 /**

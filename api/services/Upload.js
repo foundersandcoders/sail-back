@@ -4,6 +4,8 @@
 
 'use strict'
 
+var prop_or = require('app/prop_or')
+
 module.exports = function () {
   var that = {
     /**
@@ -61,17 +63,23 @@ module.exports = function () {
 
       var transactions = []
       payments.forEach(function (payment) {
-        var subscription = (payment.subscription !== 0) ? that._createCharge(payment, 'subscription') : {}
-        var donation = (payment.donation !== 0) ? that._createCharge(payment, 'donation') : {}
-        var events = (payment.events !== 0) ? that._createCharge(payment, 'events') : {}
-
+        var subscription = (payment.subscription !== 0)
+            ? that._createCharge(payment, 'subscription')
+            : {}
+        var donation = (payment.donation !== 0)
+            ? that._createCharge(payment, 'donation')
+            : {}
+        var events = (payment.events !== 0)
+            ? that._createCharge(payment, 'events')
+            : {}
         payment = that._createCharge(payment, 'payment')
+
         ;[subscription, donation, events, payment]
-          .forEach(function (record) {
-            if (record.amount && record.amount !== '0') {
-              transactions.push(record)
-            }
-          })
+            .forEach(function (record) {
+              if (record.amount && record.amount !== '0') {
+                transactions.push(record)
+              }
+            })
       })
 
       return transactions
@@ -105,7 +113,7 @@ module.exports = function () {
       charge.description = type[0].toUpperCase()
       charge.description += type.substr(1, type.length - 1)
 
-      if (type === 'payment') charge.description += ' by ' + charge.type_code
+      if (type === 'payment') charge.type = get_type(charge.type_code)
 
       return charge
     },
@@ -138,6 +146,11 @@ module.exports = function () {
           })
       })
     }
+  }
+
+  function get_type (type_code) {
+    var code = type_code || ''
+    return prop_or('', 1, code.split(' - ')).toLowerCase()
   }
 
   return that
