@@ -44,6 +44,7 @@ var add_charge = curry((entry, { category, date, amount } ) => {
       : entry
   return object_assign({}, base, {
     member_number: entry.member_number
+    , surname: entry.surname
     , payment_date: entry.payment_date
     , payment: entry.payment
     , [field(category)]: amount + base[field(category)]
@@ -61,14 +62,16 @@ var correct_sign = (category, amount) =>
 var field = category =>
   category === 'payment' ? 'other_payments' : category
 
-var user_entry_from_payment = ({member, date, amount, category}) =>
+var user_entry_from_payment = ({ member: { id, last_name }, date, amount }) =>
   object_assign({}, blank_entry, {
-    member_number: member,
-    payment_date: date,
-    payment: amount })
+    member_number: id
+    , surname: last_name
+    , payment_date: date
+    , payment: amount })
 
 var blank_entry = {
   member_number: 0
+  , surname: ''
   , payment_date: ''
   , subscription: 0
   , donation: 0

@@ -10,5 +10,6 @@ module.exports = () =>
     inputs={['reference'] }/>
 
 const get_payments = ({target: {firstChild: {children: {1:{value: ref}} } } }) =>
-  get_data('api/payments/?category=payment&reference=' + ref + '&limit=3000')
+  get_data('api/payments/?category=payment&reference=' +
+      ref + '&populate=member&limit=3000')
 
