@@ -1,6 +1,7 @@
 [
   {
     member_number: 471800,
+    surname: "Hoxhaj",
     payment_date: "2013-01-01T00:00:00.000Z",
     subscription: 50.5,
     donation: 20,
@@ -11,6 +12,7 @@
   },
   {
     member_number: 471663,
+    surname: "Fisher",
     payment_date: "2013-02-03T00:00:00.000Z",
     subscription: 175,
     event: 0,

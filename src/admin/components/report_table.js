@@ -23,6 +23,7 @@ module.exports = props =>
 
 var headers = [
   'Member Number'
+  , 'Surname'
   , 'Payment Date'
   , 'Subscription'
   , 'Donation'
@@ -52,16 +53,16 @@ var add_total_line = dethunk(
 var header_gets = flip(map)(headers)
 
 var charge_total = dethunk(
-    () => compute_total('Total Charges', range(2, 5))([-2, -1]))
+    () => compute_total('Total Charges', range(3, 6))([-2, -1]))
 
 var payments_total = dethunk(
-    () => compute_total('Less Total Payments', range(5, 7))([-3, -2]))
+    () => compute_total('Less Total Payments', range(6, 8))([-3, -2]))
 
 var balance_total = dethunk(
     () => compute_summary(
        latest_diff
        , 'Total Balances Due'
-       , range(0, 2))(get_col(5), [-2, 'end']))
+       , range(0, 2))(get_col(6), [-2, 'end']))
 
 var compute_total = (o, r) =>
   compute_summary(sum, o, r)(unwrap)
@@ -81,9 +82,9 @@ var get_subsection = curry((process_slice, slice_dims) =>
     , () => slice.apply(this, slice_dims) ) )
 
 var add_totals = curry((entries, rows) => {
-  var sums = map(sum_column, range(2, 8))
+  var sums = map(sum_column, range(3, 9))
   var totals = map(arg(entries), sums)
-  return concat([concat(totals, ['Totals', ''] )], rows ) })
+  return concat([concat(totals, ['Totals', '', ''] )], rows ) })
 
 var sum_column = dethunk(
     () => sum_column_between(0, 'end'))
@@ -106,16 +107,16 @@ var get_total = curry((totals, cols) =>
     , () => prop_or(0))(cols) )
 
 var make_summary_row = curry((opener, entry) =>
-  fold(concat, [], [blank_array(2), [entry], blank_array(4), [opener]]))
+  fold(concat, [], [blank_array(2), [entry], blank_array(5), [opener]]))
 
 var get_col = curry((column, grid) =>
   map(prop_or(undefined, column))(grid) )
 
 var id = x => x
 
-var add_blank = concat([blank_array(8)])
+var add_blank = concat([blank_array(9)])
 
-var unwrap = prop_or(blank_array(8), 0)
+var unwrap = prop_or(blank_array(9), 0)
 
 var sum = curry((a, b) =>
   a + b )
