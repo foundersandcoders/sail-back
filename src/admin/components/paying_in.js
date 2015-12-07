@@ -26,19 +26,22 @@ PayingIn.defaultProps ={
 
 var get_charges = curry((payments, charges) =>
   payments.map( dethunk(
-      () => add_relevant_charges(charges)
+      () => subtract_double_count
+      , () => add_relevant_charges(charges)
       , () => user_entry_from_payment) ))
 
 var add_relevant_charges = curry((charges, payment) =>
-  get_relevant_charges(charges, payment).reduce(add_charge, payment) )
+  get_relevant_charges(charges, payment).reduce(add_charge, payment))
 
 var get_relevant_charges = curry((charges, payment) =>
   prop_or([], payment.member_number, charges)
-      .filter(earlier_and_not_same(payment)) )
+      .filter(earlier(payment)) )
 
-var add_charge = curry((entry, { category, amount } ) => {
+var add_charge = curry((entry, { category, date, amount } ) => {
   var balance_due = correct_sign(category, amount) + entry.balance_due
-  var base = balance_due === 0 ? blank_entry : entry
+  var base = balance_due === 0 && date !== entry.payment_date
+      ? object_assign({}, blank_entry, { [field(category)]: -amount })
+      : entry
   return object_assign({}, base, {
     member_number: entry.member_number
     , payment_date: entry.payment_date
@@ -46,14 +49,11 @@ var add_charge = curry((entry, { category, amount } ) => {
     , [field(category)]: amount + base[field(category)]
     , balance_due: balance_due }) })
 
-var earlier_and_not_same = curry((a, b) =>
-  not_same(a,b) && earlier(a, b))
+var subtract_double_count = ({ other_payments: other, ...charges }) =>
+  object_assign({}, charges, { other_payments: other - charges.payment })
 
-var not_same = (a, b) =>
-  !deep_equal(a, user_entry_from_payment(b))
-
-var earlier = (entry_a, entry_b) =>
-  new Date(entry_a.payment_date) >= new Date(entry_b.date)
+var earlier = curry((entry_a, entry_b) =>
+  new Date(entry_a.payment_date) >= new Date(entry_b.date))
 
 var correct_sign = (category, amount) =>
   (category === 'payment' ? -1 : 1) * amount
@@ -65,8 +65,7 @@ var user_entry_from_payment = ({member, date, amount, category}) =>
   object_assign({}, blank_entry, {
     member_number: member,
     payment_date: date,
-    [category]: amount,
-    balance_due: correct_sign(category, amount) })
+    payment: amount })
 
 var blank_entry = {
   member_number: 0

@@ -71,7 +71,7 @@ var receive_payments = curry((set_state, match_ref) => {
         , () => update_data ) )) })
 
 var get_member_charges = (id) =>
-  get_data('api/payments/?member=' + id).map(member_charges =>
+  get_data('api/payments/?member=' + id + '&sort=date').map(member_charges =>
       ({ [id]: member_charges }))
 
 var make_charges = dethunk(
