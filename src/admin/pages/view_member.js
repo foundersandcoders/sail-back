@@ -37,13 +37,14 @@ var ViewMember = React.createClass({
   displayName: 'ViewMember',
 
   getInitialState: function () {
+    var { member: { payments = [] } } = this.props
     return {
       mode: 'view',
       member: this.props.member,
-      payments: this.props.member.payments }},
+      payments: date_sort(payments) }},
 
   componentWillReceiveProps: function (new_props) {
-    this.setState({ payments: new_props.member.payments }) },
+    this.setState({ payments: date_sort(new_props.member.payments) }) },
 
   add_payment: function  (payment) {
     this.setState({

@@ -41,28 +41,28 @@ var need_input = curry((test, props) => {
         make_input(props)
 })
 
-var always_input = () => ({ type: 'input' })
+var always_input = () =>
+  ({ type: 'input' })
 
-function make_input (props) {
-  return <input
+var make_input = (props)  =>
+  <input
     placeholder={make_placeholder(props.name)}
     className={props.className + (props.error ? ' red' : '')}
-    {...props} /> }
+    {...props} />
 
-function make_select (props, options) {
-  return (
-    <select {...props} value={ props.value ? '' + props.value : undefined } >
-      <option disabled value={''}> -- select an option -- </option>
-      { options.map(function (option, i) {
-        return <option
-            value={option}
-            key={i}>{to_title_case(option.replace(/-/g, ' '))}</option> }) }
-    </select>)}
+var make_select = (props, options) =>
+  <select {...props} value={ props.value ? '' + props.value : undefined } >
+    <option disabled value={''}> -- select an option -- </option>
+    { options.map((option, i) =>
+      <option
+          value={option}
+          key={i}>{to_title_case(option.replace(/-/g, ' '))}</option>) }
+  </select>
 
-function make_placeholder (name) {
-  return name.match(/[dD]ate/) ? 'dd/mm/yyyy' : name }
+var make_placeholder = (name) =>
+  name.match(/[dD]ate/) ? 'dd/mm/yyyy' : name
 
-function caser (id, value) {
-  return id.match('email') ? value: to_title_case(value.replace(/-/g, ' ')) }
+var caser = (id, value) =>
+  id.match('email') ? value: to_title_case(value.replace(/-/g, ' '))
 
 module.exports = Field

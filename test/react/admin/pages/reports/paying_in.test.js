@@ -109,14 +109,14 @@ test('The search has the right form', function (t) {
 
   var {_owner, actual} = search.props.children
   var {_owner, expected} =
-      (<form onSubmit={noop}>
+      <form onSubmit={noop}>
         { [ <div key={0}>
               <span>Enter desired {'reference'}: </span>
               <input name="reference" />
             </div>
         ] }
          <input type="submit" />
-      </form>)
+      </form>
 
   t.deepEqual(actual, expected, 'search rendered correctly')
   t.end() })
