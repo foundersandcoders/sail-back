@@ -47,8 +47,8 @@ module.exports = React.createClass({
               : '' }
       </div> ) } })
 
-var receive = curry(function (set_state, ref, charges, payments) {
-  set_state({ ref: ref, charges: charges, payments: payments }) })
+var receive = curry((set_state, ref, charges, payments) =>
+  set_state({ ref: ref, charges: charges, payments: payments }))
 
 var search = curry(function search (get_payments, set_state, e) {
   e.preventDefault()
@@ -59,18 +59,18 @@ var search = curry(function search (get_payments, set_state, e) {
 var receive_payments = curry((set_state, match_ref) => {
   var charges = make_charges(match_ref)
   var charge_data = {}
-  var update_data = more_data => object_assign(charge_data, more_data)
+  var update_data = (more_data) => object_assign(charge_data, more_data)
 
   set_state({ payments: match_ref, searching: true })
 
   // Ap doesn't work nicely for data.Task
   // going to mutate! :cry:
-  charges.forEach(member_charges =>
+  charges.forEach((member_charges) =>
     member_charges.fork(trace('charge error'), dethunk(
         () => set_charges(set_state)
         , () => update_data ) )) })
 
-var get_member_charges = id =>
+var get_member_charges = (id) =>
   get_data('api/payments/?member=' + id).map(member_charges =>
       ({ [id]: member_charges }))
 
