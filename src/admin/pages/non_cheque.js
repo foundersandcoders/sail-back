@@ -31,11 +31,11 @@ var get_payments = dethunk(
 
 var make_query_string = ([type, after, before]) =>
   'api/payments?where={"date":{' +
-      '">":"' + standardise(after) + '",' +
-      '"<":"' + standardise(before) + '"},' +
+      '">=":"' + standardise(after) + '",' +
+      '"<=":"' + standardise(before) + '"},' +
       '"category":"payment",' +
-      '"type":"' + type + '"}&limit=3000&populate="member"'
+      '"type":"' + type + '"}&populate=member&limit=3000'
 
 var options = {
-  "Category": ['BACs', 'Standing Order', 'CAF']
+  "Category": ['BACs', 'Standing Order', 'CAF', 'HO', 'Credit Card', 'Paypal']
 }
