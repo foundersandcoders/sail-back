@@ -25,7 +25,9 @@ PayingIn.defaultProps ={
   , reference: '' }
 
 var get_charges = curry((payments, charges) =>
-  payments.map( dethunk(
+  payments.filter(
+      (p) => !!p.member
+  ).map( dethunk(
       () => subtract_double_count
       , () => add_relevant_charges(charges)
       , () => user_entry_from_payment) ))
