@@ -10,6 +10,7 @@ var Spinner = require('../../shared/spinner.js')
 var member_schema = require('../../models/members.js')
 var manage_member = require('../hocs/manage_member.js')
 var map = require('app/map.js')
+var { standardise } = require('app/transform_dated')
 
 var NewMember = React.createClass({
   displayName: 'AddMember',
@@ -22,7 +23,7 @@ var NewMember = React.createClass({
     request({
       method: 'POST',
       uri: '/addmember',
-      json: this.props.member,
+      json: standardise(this.props.member),
     }, (err, res, body) => {
       this.setState({ submitting: false, submitted: true, member_id: body.id })
     })
@@ -40,6 +41,7 @@ var NewMember = React.createClass({
               mode='edit'
               member={this.props.member}
               blur_handler={this.props.verify_member}
+              skips={['activation_status']}
               errors={this.props.errors}
               onChange={this.props.change_handler} /> ) }
         <input type='submit' value='Submit 'id='save-button' />
@@ -50,10 +52,13 @@ var NewMember = React.createClass({
             </div> :
             '' }
       </form>
+      <a href='#/' className='flex-button'>
+        <button className='button-primary'>Home</button>
+      </a>
     </div>
   </div>
     )
   }
 })
 
-module.exports = manage_member(NewMember, {}, () => {})
+module.exports = manage_member(NewMember, { deliverer: 'Post' }, () => {})

@@ -27,6 +27,7 @@ module.exports = React.createClass({
     return value == null ? // captures undefined and null
         '' :
         value.toString() },
+
   fields: function () {
     var make_field_props = (name, id) => {
       return {
@@ -35,10 +36,12 @@ module.exports = React.createClass({
         mode: get_mode(id),
         id: id } }
 
+    var { skips = [], ids = [] } = this.props
+
     function make_props_from_id (id) {
       return make_field_props(label_from_id(id), id) }
 
-    return this.props.ids.map(make_props_from_id) },
+    return ids.filter((id) => skips.indexOf(id) === -1).map(make_props_from_id)},
 
   render: function () {
     var error_needed = id_in_errors(this.props.errors)
@@ -59,12 +62,10 @@ module.exports = React.createClass({
         {field_components}
       </div> ) } })
 
-function make_placeholder (name) {
-  return name.match(/[dD]ate/) ? 'dd/mm/yyyy' : name }
-
 var select_options = {
-  standing_order: ['true', 'false'],
-  membership_type: ['annual-single', 'annual-double', 'annual-family',
-      'annual-group', 'annual-corporate', 'life-single', 'life-double'],
-  news_type: ['post', 'online']
+  standing_order: ['false', 'true']
+  , membership_type: ['annual-single', 'annual-double', 'annual-family',
+      'annual-group', 'annual-corporate', 'life-single', 'life-double']
+  , news_type: ['post', 'online']
+  , email_bounced: ['false', 'true']
 }

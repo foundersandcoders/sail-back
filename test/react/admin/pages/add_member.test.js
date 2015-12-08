@@ -24,7 +24,7 @@ test('should load new member page with all fields', function (t) {
 
     var ids = ['title', 'initials', 'first_name','last_name',
         'primary_email', 'secondary_email', 'news_type',
-        'email_bounced', 'activation_status', 'address1',
+        'email_bounced', 'address1',
         'address2', 'address3', 'address4', 'county', 'postcode',
         'deliverer', 'home_phone', 'work_phone', 'mobile_phone',
         'date_joined', 'membership_type', 'life_payment_date',

@@ -60,7 +60,7 @@ var make_select = (props, options) =>
   </select>
 
 var make_placeholder = (name) =>
-  name.match(/[dD]ate/) ? 'dd/mm/yyyy' : name
+  name.match(/[dD]ate/) ? name.match(/[dD]ue/) ? 'dd/mm' : 'dd/mm/yyyy' : name
 
 var caser = (id, value) =>
   id.match('email') ? value: to_title_case(value.replace(/-/g, ' '))
