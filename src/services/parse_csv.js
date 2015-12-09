@@ -90,7 +90,7 @@ function _transform (value, type) {
   is.type(value, type) ?
       encode(value) :
   type === "number" ?
-      parseInt(value, 10) :
+      Number(value) :
   type === "date" ?
       _dateconvert(value) :
   type === "boolean" ?

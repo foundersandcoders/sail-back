@@ -1,13 +1,17 @@
 'use strict'
 
-var request = require('xhr')
-var to_title_case = require('app/to_title_case')
-var standardise_date = require('app/standardise_date.js')
 var React = require('react')
 var Field = require('../field.js')
+
 var object_assign = require('object-assign')
 var clone = require('clone')
+
 var input_or_select = require('app/input_or_select')
+var to_title_case = require('app/to_title_case')
+var standardise_date = require('app/standardise_date.js')
+var handle_error = require('app/handle_validation_error.js')
+var trace = require('app/trace')
+var post = require('app/post')
 
 var make_charge_field_names = function (charge) {
 
@@ -22,7 +26,7 @@ module.exports = React.createClass({
       date: this.props.initial_date,
       amount: this.props.initial_amount,
       reference: this.props.initial_reference,
-      type: this.props.initial_type,
+      type: this.props.initial_type || 'Cash',
       notes: '' }},
 
   back: function () {
@@ -38,31 +42,38 @@ module.exports = React.createClass({
     state[e.target.id] = e.target.value
     this.setState(state)},
 
+  reset_errors: function () {
+    this.setState({
+      date_error: false
+      , notes_error: false
+      , amount_error: false
+      , type_error: false
+    }) },
+
   save: function () {
-    var self = this
-    var record = object_assign({}, relevant_to_category(self), {
+    var record = object_assign({}, relevant_to_category(this), {
       description: to_title_case(this.props.type),
-      category: self.props.type,
-      member: self.props.mid,
-      date: standardise_date(self.state.date) })
+      category: this.props.type,
+      member: this.props.mid,
+      date: standardise_date(this.state.date) })
 
-    if (reference_required(record.type) && !record.reference) {
-      self.setState({ reference_required: true })
-      return }
+    post('/api/payments', record)
+        .fork(trace('ERROR'), (res, body) => {
+          this.reset_errors()
+          var action = res.statusCode >= 400
+              ? this.save_error
+              : this.save_success
+          action(body) })
+  },
 
-    self.setState({ reference_required: false})
+  save_error: function (body) {
+    handle_error((fs) =>
+        fs.forEach((f) =>
+          this.setState({ [right_field(f) + '_error']: true })), body) },
 
-    request({
-      method: 'POST',
-      uri: '/api/payments',
-      json: record
-    }, function (err, res, body) {
-
-      self.props.add_payment(body)
-
-      self.setState({
-        amount: '',
-        notes: '' }) }) },
+  save_success: function (body) {
+    this.props.add_payment(body)
+    this.setState({ notes: '' }) },
 
   make_charge_field: function (field, i) {
     return (
@@ -72,7 +83,7 @@ module.exports = React.createClass({
           name={to_title_case(field)}
           value={this.state[field]}
           input_or_select = {input_or_select(options)}
-          error={field === 'reference' && this.state.reference_required}
+          error={this.state[field + '_error']}
           className='charge-field'
           key={i}
           mode='edit' />
@@ -109,3 +120,4 @@ function relevant_to_category (self) {
   if (props.type === 'payment') return state
   else return remaining_state }
 
+var right_field = (field) => field === 'type' ? 'reference': field

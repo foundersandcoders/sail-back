@@ -7,12 +7,12 @@ var get = require('app/get.js')
 var Task = require('data.task')
 var curry = require('app/curry')
 var clone = require('clone')
-var standardise_date = require('app/standardise_date.js')
-var format_date = require('app/format_date.js')
 var object_assign = require('object-assign')
 var dethunk = require('dethunking-compose')
 var map = require('app/map.js')
 var prop_or = require('app/prop_or')
+var { standardise, format } = require('app/transform_dated')
+var handle_error = require('app/handle_validation_error')
 
 var member_schema = require('../../models/members.js')
 
@@ -21,16 +21,6 @@ var MemberPayments = require('../components/member_payments.js')
 var MemberInformation = require('../components/member_information.js')
 
 var manage_member = require('../hocs/manage_member.js')
-
-var transform_dated = curry(function (transform, dated_obj) {
-  var cloned_obj = clone(dated_obj)
-  Object.keys(dated_obj)
-    .filter(function (key) { return key.match(/[dD]ate/) })
-    .forEach(function (key) { cloned_obj[key] = transform(dated_obj[key]) })
-  return cloned_obj })
-
-var standardise_dated = transform_dated(standardise_date)
-var format_dated = transform_dated(format_date)
 
 var ViewMember = React.createClass({
 
@@ -44,9 +34,10 @@ var ViewMember = React.createClass({
       payments: date_sort(payments) }},
 
   componentWillReceiveProps: function (new_props) {
+    if (this.state.payments.length) return
     this.setState({ payments: date_sort(new_props.member.payments) }) },
 
-  add_payment: function  (payment) {
+  add_payment: function (payment) {
     this.setState({
       payments: date_sort(this.state.payments.concat([payment]))} ) },
 
@@ -75,7 +66,6 @@ var ViewMember = React.createClass({
       alert('Deletion reason needed')
       return
     }
-    this.remember()
     member.activation_status = 'deactivated'
     member.deletion_reason = deletion_reason
     member.deletion_date = new Date().toISOString()
@@ -155,7 +145,7 @@ function get_member_by_id (id) {
   return get(make_id_request_uri(id)) }
 
 var receive_member = dethunk(
-  () => format_dated
+  () => format
   , () => process_member_JSON
   , () => prop_or('', 'body')
 )
@@ -164,19 +154,14 @@ var update_info = (props, toggle_view) =>
   request({
     method: 'POST',
     uri: 'api/members/' + props.member.id,
-    json: standardise_dated(props.member)
+    json: standardise(props.member)
   }, (err, res, body) => {
     if (res.statusCode >= 400) return handle_error(props.validation_error, body)
-    props.update_member(format_dated(body))
+    props.update_member(format(body))
     toggle_view() })
 
 var ensure_date = dated_obj =>
   object_assign({}, dated_obj, { date: new Date(dated_obj.date) })
-
-var handle_error = (validation_error, body) =>
-  body.error === "E_VALIDATION"
-   ?  validation_error(Object.keys(body.invalidAttributes))
-   :  validation_error(['id'])
 
 var process_member_JSON = dethunk(
     () => process_member
