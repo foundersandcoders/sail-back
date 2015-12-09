@@ -46,9 +46,10 @@ var always_input = () =>
 
 var make_input = (props)  =>
   <input
+    {...props}
     placeholder={make_placeholder(props.name)}
     className={props.className + (props.error ? ' red' : '')}
-    {...props} />
+  />
 
 var make_select = (props, options) =>
   <select {...props} value={ props.value ? '' + props.value : undefined } >

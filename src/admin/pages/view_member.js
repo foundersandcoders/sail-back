@@ -12,6 +12,7 @@ var dethunk = require('dethunking-compose')
 var map = require('app/map.js')
 var prop_or = require('app/prop_or')
 var { standardise, format } = require('app/transform_dated')
+var handle_error = require('app/handle_validation_error')
 
 var member_schema = require('../../models/members.js')
 
@@ -33,9 +34,10 @@ var ViewMember = React.createClass({
       payments: date_sort(payments) }},
 
   componentWillReceiveProps: function (new_props) {
+    if (this.state.payments.length) return
     this.setState({ payments: date_sort(new_props.member.payments) }) },
 
-  add_payment: function  (payment) {
+  add_payment: function (payment) {
     this.setState({
       payments: date_sort(this.state.payments.concat([payment]))} ) },
 
@@ -64,7 +66,6 @@ var ViewMember = React.createClass({
       alert('Deletion reason needed')
       return
     }
-    this.remember()
     member.activation_status = 'deactivated'
     member.deletion_reason = deletion_reason
     member.deletion_date = new Date().toISOString()
@@ -161,11 +162,6 @@ var update_info = (props, toggle_view) =>
 
 var ensure_date = dated_obj =>
   object_assign({}, dated_obj, { date: new Date(dated_obj.date) })
-
-var handle_error = (validation_error, body) =>
-  body.error === "E_VALIDATION"
-   ?  validation_error(Object.keys(body.invalidAttributes))
-   :  validation_error(['id'])
 
 var process_member_JSON = dethunk(
     () => process_member

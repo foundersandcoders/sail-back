@@ -20,6 +20,8 @@ var PaymentsTable = require('./payments_table')
 var ChargeForm = require('./common/charge_form.js')
 
 var MemberPayments = React.createClass({
+  displayName: 'MemberPayments',
+
   getInitialState: function () {
     return {
       view: 'payments-table' } },
@@ -29,7 +31,6 @@ var MemberPayments = React.createClass({
       view: activated_view }) },
 
   add_payment: function (payment) {
-    this.setState({view: 'payments-table'})
     this.props.add_payment(payment) },
 
   subscription_amount_if_needed (charge_type) {

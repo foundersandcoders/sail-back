@@ -27,6 +27,7 @@ function get_description (payment) {
   return payment.description + (payment.type ? ' - ' + payment.type : '') }
 
 var PaymentsTable = React.createClass({
+  displayName: 'PaymentsTable',
   render: function () {
     var headers = ['Date', 'Description', 'Charges', 'Payments', 'Balance Due',
         'Reference', 'Notes', 'Delete']
