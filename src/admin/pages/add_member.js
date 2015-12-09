@@ -18,6 +18,7 @@ var NewMember = React.createClass({
 
   submit_handler (e) {
     e.preventDefault()
+    if (this.props.errors.length) { return }
     this.setState({ submitting: true })
 
     request({
@@ -27,6 +28,13 @@ var NewMember = React.createClass({
     }, (err, res, body) => {
       this.setState({ submitting: false, submitted: true, member_id: body.id })
     })
+  },
+
+  blur_handler: function (e) {
+    this.props.verify_member(e)
+    if (!this.props.member.date_joined) {
+      this.props.validation_error('date_joined')
+    }
   },
 
   render: function () {
@@ -40,7 +48,7 @@ var NewMember = React.createClass({
               key={i}
               mode='edit'
               member={this.props.member}
-              blur_handler={this.props.verify_member}
+              blur_handler={this.blur_handler}
               skips={['activation_status']}
               errors={this.props.errors}
               onChange={this.props.change_handler} /> ) }

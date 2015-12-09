@@ -203,10 +203,9 @@ test(
         var { member: { date_joined }, errors } = component.state
 
         t.equal(date_joined, 'bad string', 'member title updated')
-        t.deepEqual(
-          errors,
-          ['date_joined'],
-          'an error' )
+        t.ok(
+          errors.indexOf('date_joined') > -1
+          , 'an error' )
         t.end() }, 300) })
 
 test(
