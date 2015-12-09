@@ -26,7 +26,7 @@ module.exports = React.createClass({
       date: this.props.initial_date,
       amount: this.props.initial_amount,
       reference: this.props.initial_reference,
-      type: this.props.initial_type,
+      type: this.props.initial_type || 'Cash',
       notes: '' }},
 
   back: function () {
@@ -57,20 +57,19 @@ module.exports = React.createClass({
       member: this.props.mid,
       date: standardise_date(this.state.date) })
 
-    if (reference_required(record.type) && !record.reference) {
-      return this.setState({ reference_error: true }) }
-
-    this.setState({ reference_error: false})
-
     post('/api/payments', record)
-        .fork(trace('ERROR'), (_, body) => {
+        .fork(trace('ERROR'), (res, body) => {
           this.reset_errors()
-          (res.statusCode >= 400 ? this.save_error : this.save_success)(body) })
+          var action = res.statusCode >= 400
+              ? this.save_error
+              : this.save_success
+          action(body) })
   },
 
   save_error: function (body) {
     handle_error((fs) =>
-        fs.forEach((f) => this.setState({ [f + '_error']: true })), body) },
+        fs.forEach((f) =>
+          this.setState({ [right_field(f) + '_error']: true })), body) },
 
   save_success: function (body) {
     this.props.add_payment(body)
@@ -121,3 +120,4 @@ function relevant_to_category (self) {
   if (props.type === 'payment') return state
   else return remaining_state }
 
+var right_field = (field) => field === 'type' ? 'reference': field

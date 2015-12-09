@@ -6,6 +6,11 @@
 */
 
 module.exports = {
+  types: {
+    payment_type: function (type) {
+      return !type.match(/[cC]ash|[cC]heque/) || this.reference
+    },
+  },
   attributes: {
     member: {
       model: 'Members'
@@ -16,7 +21,8 @@ module.exports = {
       required: true
     },
     type: {
-      model: 'PaymentTypes'
+      model: 'PaymentTypes',
+      payment_type: true
     },
     description: {
       type: 'STRING'
