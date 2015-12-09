@@ -33,9 +33,16 @@ module.exports = curry((Component, start_member, get_member) => {
           { [e.target.id]: e.target.value })) },
 
     verify_member (e) {
-      member_schema.validate(this.state.member, (err, member) => {
-        this.setState({errors: [] })
-        err && this.setState({ errors: map(id_from_error, err.errors) }) }) },
+      member_schema.validate(
+          this.state.member
+          , { abortEarly: false }
+          , (err, member) => {
+            this.setState({
+              errors: this.state.errors.filter((e) => e === 'date_joined')
+            })
+            err && this.setState({
+              errors: this.state.errors.concat(map(id_from_error, err.errors))
+            }) }) },
 
     render () {
       return <Component
