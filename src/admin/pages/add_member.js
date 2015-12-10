@@ -31,10 +31,14 @@ var NewMember = React.createClass({
   },
 
   blur_handler: function (e) {
-    this.props.verify_member(e)
-    if (!this.props.member.date_joined) {
-      this.props.validation_error('date_joined')
-    }
+    this.props.verify_member(
+      e
+      , () => {
+        if (!this.props.member.date_joined) {
+          this.props.validation_error('date_joined')
+        }
+      }
+    )
   },
 
   render: function () {
