@@ -18,5 +18,6 @@
 @media print {
   .search-options, .navigation, footer { display: none !important }
   .table-body { overflow: visible !important }
+  .table-row { page-break-inside: avoid }
   body { font-size: 0.8em !important }
 }
