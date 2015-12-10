@@ -14,3 +14,9 @@
 .search-options > div {
   margin-right: 1em;
 }
+
+@media print {
+  .search-options, .navigation, footer { display: none !important }
+  .table-body { overflow: visible !important }
+  body { font-size: 0.8em !important }
+}
