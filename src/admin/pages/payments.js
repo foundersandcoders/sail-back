@@ -24,11 +24,12 @@ module.exports = React.createClass({
       payments: []
       , charges: {}
       , searching: false
+      , empty_search: false
     }
   },
   render: function () {
     var { get_payments, input_or_select, inputs } = this.props
-    var { charges, payments, reference, searching } = this.state
+    var { charges, payments, reference, searching, empty_search } = this.state
     return (
       <div className='main-container'>
         <Search
@@ -44,6 +45,8 @@ module.exports = React.createClass({
               />
               : searching
               ? <Spinner />
+              : empty_search
+              ? <div id='spinner'>No results found</div>
               : '' }
       </div> ) } })
 
@@ -52,11 +55,13 @@ var receive = curry((set_state, ref, charges, payments) =>
 
 var search = curry(function search (get_payments, set_state, e) {
   e.preventDefault()
+  set_state({ empty_search: false })
   var payments = get_payments(e)
 
   payments.fork(trace('payments error'), receive_payments(set_state)) })
 
 var receive_payments = curry((set_state, match_ref) => {
+  if (!match_ref.length) return set_state({ empty_search: true })
   var charges = make_charges(match_ref)
   var charge_data = {}
   var update_data = (more_data) => object_assign(charge_data, more_data)
