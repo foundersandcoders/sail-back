@@ -32,17 +32,18 @@ module.exports = curry((Component, start_member, get_member) => {
           this.state.member,
           { [e.target.id]: e.target.value })) },
 
-    verify_member (e) {
+    verify_member (e, cb = noop) {
       member_schema.validate(
           this.state.member
           , { abortEarly: false }
           , (err, member) => {
             this.setState({
-              errors: this.state.errors.filter((e) => e === 'date_joined')
+              errors: []
             })
             err && this.setState({
               errors: this.state.errors.concat(map(id_from_error, err.errors))
-            }) }) },
+            })
+            cb() }) },
 
     render () {
       return <Component
@@ -59,4 +60,6 @@ module.exports = curry((Component, start_member, get_member) => {
 
 function id_from_error (err) {
   return err.split(' ')[0] }
+
+function noop () {}
 
