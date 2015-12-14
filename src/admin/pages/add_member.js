@@ -18,7 +18,10 @@ var NewMember = React.createClass({
 
   submit_handler (e) {
     e.preventDefault()
-    if (this.props.errors.length) { return }
+    // not checked server side
+    if (!this.props.member.date_joined_error) {
+      return this.setState({ date_joined_error: true })
+    }
     this.setState({ submitting: true })
 
     request({
@@ -36,6 +39,8 @@ var NewMember = React.createClass({
       , () => {
         if (!this.props.member.date_joined) {
           this.props.validation_error('date_joined')
+        } else {
+          this.setState({ date_joined_error: false })
         }
       }
     )
@@ -57,12 +62,15 @@ var NewMember = React.createClass({
               errors={this.props.errors}
               onChange={this.props.change_handler} /> ) }
         <input type='submit' value='Submit 'id='save-button' />
-        { this.state.submitting ? <Spinner /> : '' }
-        { this.state.submitted  ?
-            <div id='member-num'>
+        { this.state.submitting
+          ? <Spinner />
+        : this.state.date_joined_error
+          ? <div id="spinner">Check 'Date Joined'</div>
+        : this.state.submitted
+            ? <div id='member-num'>
               Member ID is: { this.state.member_id }
-            </div> :
-            '' }
+            </div>
+            : '' }
       </form>
       <a href='#/' className='flex-button'>
         <button className='button-primary'>Home</button>
