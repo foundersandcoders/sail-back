@@ -52,8 +52,8 @@ var add_charge = curry((entry, { category, date, amount } ) => {
     , [field(category)]: amount + base[field(category)]
     , balance_due: balance_due }) })
 
-var subtract_double_count = ({ other_payments: other, ...charges }) =>
-  object_assign({}, charges, { other_payments: other - charges.payment })
+var subtract_double_count = ({ balance_due, ...charges }) =>
+  object_assign({}, charges, { balance_due: balance_due - charges.payment })
 
 var earlier = curry((entry_a, entry_b) =>
   new Date(entry_a.payment_date) >= new Date(entry_b.date))

@@ -56,13 +56,16 @@ var receive = curry((set_state, ref, charges, payments) =>
 var search = curry(function search (get_payments, set_state, e) {
   e.preventDefault()
   set_state({ empty_search: false })
-  var payments = get_payments(e)
+  var { payments, restriction_start } = get_payments(e)
 
-  payments.fork(trace('payments error'), receive_payments(set_state)) })
+  payments.fork(
+    trace('payments error')
+    , receive_payments(set_state, restriction_start))
+  })
 
-var receive_payments = curry((set_state, match_ref) => {
+var receive_payments = curry((set_state, restriction, match_ref) => {
   if (!match_ref.length) return set_state({ empty_search: true })
-  var charges = make_charges(match_ref)
+  var charges = make_charges(restriction, match_ref)
   var charge_data = {}
   var update_data = (more_data) => object_assign(charge_data, more_data)
 
@@ -75,13 +78,17 @@ var receive_payments = curry((set_state, match_ref) => {
         () => set_charges(set_state)
         , () => update_data ) )) })
 
-var get_member_charges = (id) =>
-  get_data('api/payments/?member=' + id + '&sort=date').map(member_charges =>
-      ({ [id]: member_charges }))
+var get_member_charges = curry((restriction, id) =>
+  get_data(
+    'api/payments/?' + restriction + ',"member":' + id + '}&sort=date'
+  )
+      .map(member_charges =>
+        ({ [id]: member_charges })))
 
-var make_charges = dethunk(
-    () => map(get_member_charges)
-    , () => get_unique_members )
+var make_charges = curry((restriction, charges) =>
+    dethunk(
+      () => map(get_member_charges(restriction))
+      , () => get_unique_members)(charges))
 
 var number_of_keys = object =>
   Object.keys(object).length
