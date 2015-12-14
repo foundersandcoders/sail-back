@@ -23,11 +23,11 @@ var make_charge_field_names = function (charge) {
 module.exports = React.createClass({
   getInitialState: function () {
     return {
-      date: this.props.initial_date,
-      amount: this.props.initial_amount,
-      reference: this.props.initial_reference,
-      type: this.props.initial_type || 'Cash',
-      notes: '' }},
+      date: this.props.initial_date
+      , amount: this.props.initial_amount
+      , reference: this.props.initial_reference
+      , type: this.props.initial_type || 'Cheque'
+      , notes: '' }},
 
   back: function () {
     this.props.click('payments-table')},
@@ -81,14 +81,21 @@ module.exports = React.createClass({
           onChange={this.change}
           id={field}
           name={to_title_case(field)}
-          value={this.state[field]}
-          input_or_select = {input_or_select(options)}
+          value={this.get_field_value(field)}
+          input_or_select={input_or_select(options)}
           error={this.state[field + '_error']}
           className='charge-field'
           key={i}
           mode='edit' />
     )},
 
+  get_field_value: function (field) {
+    return field !== 'reference'
+      ? this.state[field]
+      : reference_required(this.state.type)
+      ? this.state[field]
+      : ''
+  },
 
   render: function () {
     var rendered_fields = make_charge_field_names(this.props.type)
