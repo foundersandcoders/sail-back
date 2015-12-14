@@ -76,7 +76,7 @@ module.exports = {
     work_phone: {
       type: 'STRING'
     },
-    /* Required */
+    /* NOT Required */
     primary_email: {
       type: 'STRING',
       unique: true

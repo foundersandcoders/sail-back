@@ -19,7 +19,7 @@ var NewMember = React.createClass({
   submit_handler (e) {
     e.preventDefault()
     // not checked server side
-    if (!this.props.member.date_joined_error) {
+    if (!this.props.member.date_joined) {
       return this.setState({ date_joined_error: true })
     }
     this.setState({ submitting: true })
@@ -81,4 +81,6 @@ var NewMember = React.createClass({
   }
 })
 
-module.exports = manage_member(NewMember, { deliverer: 'Post' }, () => {})
+module.exports = manage_member(NewMember, {
+  deliverer: 'Post',
+  membership_type: 'annual-single' }, () => {})

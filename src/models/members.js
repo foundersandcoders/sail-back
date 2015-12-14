@@ -18,7 +18,7 @@ module.exports = yup.object().shape({
   home_phone: yup.string(),
   mobile_phone: yup.string(),
   work_phone: yup.string(),
-  primary_email: yup.string().required(),
+  primary_email: yup.string().email(),
   secondary_email: yup.string(),
   email_bounced: yup.bool(),
   date_joined: date_schema,
