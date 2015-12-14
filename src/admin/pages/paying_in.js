@@ -12,7 +12,7 @@ module.exports = () =>
 const get_payments = ({target: {firstChild: {children: {1:{value: ref}} } } }) =>
   ({
     payments: get_data('api/payments/?category=payment&reference=' +
-      ref + '&populate=member&limit=3000')
+        ref + '&populate=member&limit=3000')
     , restriction_start: 'where={"or":[{"category":{"!":"payment"}},' +
           '{"reference":{"!":"' + ref + '"}}]'
   })
