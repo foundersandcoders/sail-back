@@ -23,11 +23,11 @@ var make_charge_field_names = function (charge) {
 module.exports = React.createClass({
   getInitialState: function () {
     return {
-      date: this.props.initial_date,
-      amount: this.props.initial_amount,
-      reference: this.props.initial_reference,
-      type: this.props.initial_type || 'Cash',
-      notes: '' }},
+      date: this.props.initial_date
+      , amount: this.props.initial_amount
+      , reference: this.props.initial_reference
+      , type: this.props.initial_type || 'Cheque'
+      , notes: '' }},
 
   back: function () {
     this.props.click('payments-table')},
