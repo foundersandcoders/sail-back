@@ -16,7 +16,7 @@ var NewMember = React.createClass({
   displayName: 'AddMember',
   getInitialState: function () { return {} },
 
-  submit_handler (e) {
+  submit_handler: function (e) {
     e.preventDefault()
     // not checked server side
     if (!this.props.member.date_joined) {
