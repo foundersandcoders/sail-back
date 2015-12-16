@@ -50,7 +50,8 @@ module.exports = React.createClass({
       , type_error: false
     }) },
 
-  save: function () {
+  save: function (e) {
+    e.preventDefault()
     var record = object_assign({}, relevant_to_category(this), {
       description: to_title_case(this.props.type),
       category: this.props.type,
@@ -73,7 +74,7 @@ module.exports = React.createClass({
 
   save_success: function (body) {
     this.props.add_payment(body)
-    this.setState({ notes: '', amount: 0, reference: '',  date: '' }) },
+    this.props.revert_to_view() },
 
   make_charge_field: function (field, i) {
     return (
@@ -104,15 +105,16 @@ module.exports = React.createClass({
     return (
       <div>
         <h2 className={this.props.type}>{to_title_case(this.props.type)}</h2>
-        <div className='flex'>
+        <form className='flex' onSubmit={this.save}>
           {rendered_fields}
           <div className='charge-field'>
             <span></span>
-            <button onClick={this.save} className='btn-primary flex-button'>
-              Save
-            </button>
+            <input
+                type='submit'
+                className='btn-primary flex-button'
+                value='Save' />
           </div>
-        </div>
+        </form>
       </div> )} })
 
 var options = {
@@ -122,9 +124,11 @@ var options = {
 function reference_required (type) {
   return ['Cash', 'Cheque'].indexOf(type) > -1 }
 
-function relevant_to_category (self) {
-  var { state, state: {type, reference, ...remaining_state }, props } = self
-  if (props.type === 'payment') return state
-  else return remaining_state }
+var relevant_to_category = ({ state: { type, reference, ...remain }, props }) =>
+  props.type === 'payment'
+      ? reference_required(type)
+          ? { ...remain, type: type, reference: reference }
+          : { ...remain, type: type }
+      : remain
 
 var right_field = (field) => field === 'type' ? 'reference': field
