@@ -73,7 +73,7 @@ module.exports = React.createClass({
 
   save_success: function (body) {
     this.props.add_payment(body)
-    this.setState({ notes: '' }) },
+    this.setState({ notes: '', amount: 0, reference: '',  date: '' }) },
 
   make_charge_field: function (field, i) {
     return (
@@ -99,7 +99,7 @@ module.exports = React.createClass({
 
   render: function () {
     var rendered_fields = make_charge_field_names(this.props.type)
-      .map(this.make_charge_field)
+        .map(this.make_charge_field)
 
     return (
       <div>
