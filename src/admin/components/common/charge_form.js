@@ -23,18 +23,14 @@ var make_charge_field_names = function (charge) {
 module.exports = React.createClass({
   getInitialState: function () {
     return {
-      date: this.props.initial_date
-      , amount: this.props.initial_amount
-      , reference: this.props.initial_reference
-      , type: this.props.initial_type || 'Cheque'
+      type: this.props.initial_type || 'Cheque'
       , notes: '' }},
 
   back: function () {
     this.props.click('payments-table')},
 
   change: function (e) {
-    if (e.target.id.match(/date|reference|type/)) {
-      this.props.update({[e.target.id]: e.target.value }) }
+    this.props.update_field({field: e.target.id, value: e.target.value})
     this.update_field_state(e) },
 
   update_field_state: function (e) {
@@ -52,11 +48,11 @@ module.exports = React.createClass({
 
   save: function (e) {
     e.preventDefault()
-    var record = object_assign({}, relevant_to_category(this), {
+    var record = {...relevant_to_category(this.props),
       description: to_title_case(this.props.type),
       category: this.props.type,
       member: this.props.mid,
-      date: standardise_date(this.state.date) })
+      date: standardise_date(this.state.date) }
 
     post('/api/payments', record)
         .fork(trace('ERROR'), (res, body) => {
@@ -92,9 +88,9 @@ module.exports = React.createClass({
 
   get_field_value: function (field) {
     return field !== 'reference'
-      ? this.state[field]
+      ? this.props[field]
       : reference_required(this.state.type)
-      ? this.state[field]
+      ? this.props[field]
       : ''
   },
 
@@ -124,7 +120,7 @@ var options = {
 function reference_required (type) {
   return ['Cash', 'Cheque'].indexOf(type) > -1 }
 
-var relevant_to_category = ({ state: { type, reference, ...remain }, props }) =>
+var relevant_to_category = ( { type, reference, ...remain } ) =>
   props.type === 'payment'
       ? reference_required(type)
           ? { ...remain, type: type, reference: reference }

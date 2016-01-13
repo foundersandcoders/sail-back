@@ -1,6 +1,8 @@
 'use strict'
 
 var React = require('react')
+var { Provider } = require('react-redux')
+var store = require('./store.js')
 var App = require('../shared/app.js')
 
 var AdminApp = React.createClass({
@@ -21,10 +23,14 @@ var AdminApp = React.createClass({
     return child.type.displayName==='ViewMember' ?
       this.add_payment_info(child) : child },
 
-  render: function () {
-    return <App
-        user='Admin'
-        add_details={this.add_details}
-        children={this.props.children}/> } })
+  render () {
+    return (
+      <Provider store={store}>
+        <App
+          user='Admin'
+          add_details={this.add_details}
+          children={this.props.children}/>
+      </Provider>
+  )} })
 
 module.exports = AdminApp

@@ -7,11 +7,11 @@ var TableRow = module.exports = React.createClass({
     var headers = this.props.headers
     var TableEntry = this.props.Entry || Entry
     return (
-      <div className='table-row' >
-        { entries.map(function (entry, i) {
-          return <TableEntry {...this.props}
+      <div className='table-row'>
+        { entries.map((entry, i) =>
+          <TableEntry {...this.props}
             header={ headers[i].toLowerCase().replace(/ /g, '-') }
             entry={ entry }
-            key = { i } /> }) }
+            key = { i } /> ) }
       </div> )}})
 

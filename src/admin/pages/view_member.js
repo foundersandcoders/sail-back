@@ -34,6 +34,7 @@ var ViewMember = React.createClass({
       payments: date_sort(payments) }},
 
   componentWillReceiveProps: function (new_props) {
+    return
     if (this.state.payments.length) return
     this.setState({ payments: date_sort(new_props.member.payments) }) },
 
@@ -133,9 +134,22 @@ function make_id_request_uri (id) {
 
 function date_sort (array_of_dated) {
   return array_of_dated
+  return array_of_dated
     .map(ensure_date)
     .sort(function (a, b) {
       return a.date.getTime() - b.date.getTime() }) }
+
+const { createAction } = require('redux-actions')
+const fetch = createAction(
+    'fetch_member',
+    ([{ id }, dispatch]) => {
+      dispatch({ type: 'fetching_member' })
+      return Task.of(receive_member)
+        .ap(get_member_by_id(id))
+        .map((v) => dispatch(createAction('member_fetched')(v)))})
+
+const alternative_get = (_, { params: id, dispatch }) =>
+  dispatch(fetch([id, dispatch]))
 
 function get_member (update_member, props) {
     Task.of(receive_member).ap(get_member_by_id(props.params.id))
@@ -175,4 +189,9 @@ var process_member = ({ membership_type: { value, amount } = {}, ...member }) =>
 var null_to_undefined = val =>
   val === null ? undefined : val
 
-module.exports = manage_member(ViewMember, {}, get_member)
+// being weird
+
+const { identity } = require('ramda')
+const { connect } = require('react-redux')
+
+module.exports = connect(identity)(manage_member(ViewMember, {}, alternative_get))

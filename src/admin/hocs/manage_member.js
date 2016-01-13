@@ -11,7 +11,7 @@ module.exports = curry((Component, start_member, get_member) => {
     displayName: Component.displayName || Component.name || 'Component',
 
     getInitialState: function () {
-      return { member: start_member, errors: [] }
+      return { errors: [] }
     },
 
     componentDidMount: function () {

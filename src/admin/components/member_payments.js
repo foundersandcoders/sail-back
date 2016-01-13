@@ -1,6 +1,9 @@
 'use strict'
 
 var React = require('react')
+var { connect } = require('react-redux')
+var update_field = require('../actions/field_update.js')
+var { compose } = require('ramda')
 
 var Button = React.createClass({
   click: function () {
@@ -32,25 +35,32 @@ var MemberPayments = React.createClass({
 
   subscription_amount_if_needed: function (charge_type) {
     return charge_type === 'subscription'
-        ? this.props.subscription_amount
+        ? String(this.props.subscription_amount)
         : '' },
 
   revert_to_view: function () {
     this.setState({ view: 'payments-table' }) },
 
   make_charge_forms: function (charge_type, i) {
+    const { add_payment
+    , date
+    , reference
+    , type
+    , update
+    , mid
+    } = this.props
     return <ChargeForm
-        add_payment={this.props.add_payment}
+        add_payment={add_payment}
         type={charge_type}
-        initial_date={this.props.initial_date}
-        initial_reference={this.props.initial_reference}
-        initial_type={this.props.initial_type}
-        initial_amount={this.subscription_amount_if_needed(charge_type)}
-        update={this.props.update}
+        date={date}
+        reference={reference}
+        type={type}
+        amount={this.subscription_amount_if_needed(charge_type)}
+        update_field={update}
         revert_to_view={this.revert_to_view}
         key={i}
         click={this.view}
-        mid={this.props.mid} /> },
+        mid={mid} /> },
 
   render: function () {
 
@@ -83,6 +93,17 @@ var MemberPayments = React.createClass({
   }
 })
 
+const stateToProps = ({ payment_defaults: { date, reference, type }}) => (
+  { date
+  , reference
+  , type
+  }
+)
+
+const dispatchToProps = dispatch => (
+  { update: compose(dispatch, update_field) }
+)
+
 function make_button (type, i) {
   return <Button
       type={type}
@@ -94,4 +115,4 @@ function make_button (type, i) {
 function get_same_place_entry (first_array, second_array, entry) {
   return second_array[first_array.indexOf(entry)] }
 
-module.exports = MemberPayments
+module.exports = connect(stateToProps, dispatchToProps)(MemberPayments)

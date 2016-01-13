@@ -1,9 +1,7 @@
 'use strict'
 
 var React = require('react')
-var { PersonalFields, AddressFields, MembershipFields, DeletionFields } =
-    require('./member_fields/specific.js')
-var PersonalFields2 = require('./member_fields/personal_fields_2.js')
+var PersonalFields2 = require('./member_fields.js')
 var request = require('xhr')
 var nullply = require('app/nullply')
 var curry = require('curry')
@@ -81,28 +79,17 @@ var MemberInformation = React.createClass({
         <EditToggle toggle_mode={this.props.toggle_mode}/>
   },
   render: function () {
-    var fields_with_props = render_with_props(this.props)
     return (
     <div>
       <div className='member-info-controls'>
         { this.correct_buttons() }
       </div>
-      {/* <div className='member-info-content'>
-        { [PersonalFields, AddressFields, MembershipFields]
-            .map(fields_with_props) } */}
         <PersonalFields2
           className='member-info-content'
           mode={this.props.mode}/>
         { this.props.member.activation_status === 'deactivated'
             ? render_with_props(DeletionFields)
             : <div></div> }
-      {/*</div>*/}
     </div> )}})
-
-var render_with_props = curry((props, Fields, i) =>
-    <Fields
-        {...props}
-        key={i} /> )
-
 
 module.exports = MemberInformation

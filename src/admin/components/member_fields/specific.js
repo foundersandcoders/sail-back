@@ -1,3 +1,5 @@
+'use strict'
+
 var React = require('react')
 var MemberFields = require('./')
 
@@ -14,7 +16,7 @@ var membership_ids = ['date_joined', 'membership_type', 'life_payment_date',
 
 var deletion_ids = ['deletion_reason', 'deletion_date']
 
-fields_with_ids = (ids) => (props) =>
+const fields_with_ids = (ids) => (props) =>
     <MemberFields {...props} ids={ids} />
 
 exports.PersonalFields = fields_with_ids(personal_ids)
