@@ -2,10 +2,10 @@
 
   'use strict'
 
-  var ReactDOM = require('react-dom')
+  var { render } = require('react-dom')
   var routes = require('./routes.js')()
 
   console.log('src/admin/main.js')
-  ReactDOM.render(routes, document.querySelector('#main'))
+  render(routes, document.querySelector('#main'))
 
 }())
