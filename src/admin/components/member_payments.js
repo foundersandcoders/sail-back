@@ -2,7 +2,7 @@
 
 var React = require('react')
 var { connect } = require('react-redux')
-var update_field = require('../actions/field_update.js')
+var { update_field } = require('../redux/modules/payment_defaults.js')
 var { compose } = require('ramda')
 
 var Button = React.createClass({

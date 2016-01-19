@@ -1,9 +1,8 @@
 'use strict'
 
 var React = require('react')
-var { PersonalFields, AddressFields, MembershipFields, DeletionFields } =
-    require('./member_fields/specific.js')
-var PersonalFields2 = require('./member_fields/personal_fields_2.js')
+var { DeletionFields } = require('./member_fields/specific.js')
+var PersonalFields = require('./member_fields/personal_fields_2.js')
 var request = require('xhr')
 var nullply = require('app/nullply')
 var curry = require('curry')
@@ -71,33 +70,31 @@ var MemberInformation = React.createClass({
   displayName: 'Member Information',
   getInitialState: function () { return {} },
   correct_buttons: function () {
-    return this.props.mode === 'edit' ?
-        <EditOptions save={this.props.save}
-            toggle_mode={this.props.toggle_mode}
-            deleteMem={this.props.deleteMember}
+    return this.props.mode === 'edit'
+        ? <EditOptions save={this.props.save}
+            toggle_mode={this.props.toggle_member_click}
+            deleteMem={this.props.deactivate_member_click}
             status={this.props.member.activation_status}
-            reactivate={this.props.reactivate}
-            cancel={this.props.cancel} /> :
-        <EditToggle toggle_mode={this.props.toggle_mode}/>
+            reactivate={this.props.reactivate_member_click}
+            cancel={this.props.cancel_member_click} />
+        : <EditToggle toggle_mode={this.props.edit_member_click}/>
   },
   render: function () {
     var fields_with_props = render_with_props(this.props)
     return (
-    <div>
+    <form>
       <div className='member-info-controls'>
         { this.correct_buttons() }
       </div>
-      {/* <div className='member-info-content'>
-        { [PersonalFields, AddressFields, MembershipFields]
-            .map(fields_with_props) } */}
-        <PersonalFields2
+        <PersonalFields
           className='member-info-content'
-          mode={this.props.mode}/>
+          mode={this.props.mode}
+          onSubmit={(fields, dispatch) => false}
+        />
         { this.props.member.activation_status === 'deactivated'
             ? render_with_props(DeletionFields)
             : <div></div> }
-      {/*</div>*/}
-    </div> )}})
+    </form> )}})
 
 var render_with_props = curry((props, Fields, i) =>
     <Fields

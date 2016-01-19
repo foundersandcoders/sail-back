@@ -5,7 +5,7 @@ var { Router, Route, Redirect }  = require('react-router')
 
 var App = require('./admin_app.js')
 var AdminHome = require('./pages/home.js')
-var ViewMember = require('./pages/view_member.js')
+var ViewMember = require('./containers/member_page.js')
 var AddMember = require('./pages/add_member.js')
 var Reports = require('./pages/available_reports.js')
 var PayingIn = require('./pages/paying_in.js')

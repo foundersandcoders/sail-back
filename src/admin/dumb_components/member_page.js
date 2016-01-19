@@ -1,9 +1,13 @@
-'use strict'
-
-var React = require('react')
+const React = require('react')
 
 var MemberPayments = require('../components/member_payments.js')
-var MemberInformation = require('../dumb_components/member_information.js')
+const MemberInformation = require('./member_fields.js')
+const { fields, fieldStructure } = require('./fields.js')
+
+const correct_fields = (fields, mode) =>
+  mode === 'deactivated'
+    ? fields.concat(['deletion_reason', 'deletion_date'])
+    : fields
 
 var ViewMember = (
   { deactivate_member_click
@@ -11,38 +15,41 @@ var ViewMember = (
   , reactivate_member_click
   , cancel_member_click
   , save_member_click
-  , member
-  , member_edit_mode
+  , member_edit_mode: mode
   , member_payments
+  , activation_status
   , add_payment
   , delete_payment
   , subscription_amount
 }) => (
-  <div className='view-member'>
-    <div className='main-container' id='member-component'>
-      <div className='inner-section-divider-medium'></div>
-      <MemberInformation
-          {...
-            { deactivate_member_click
-            , edit_member_click
-            , reactivate_member_click
-            , cancel_member_click
-            , save_member_click
-            , member
-            , member_edit_mode: mode
-            }
-          } />
+  <div className='view-member main-container' id='member-component'>
+    <div className='inner-section-divider-medium'></div>
+    <MemberInformation
+      {...
+        { deactivate_member_click
+        , edit_member_click
+        , reactivate_member_click
+        , cancel_member_click
+        , save_member_click
+        , activation_status
+        , onSubmit: save_member_click
+        , fields: fields.concat(mode === 'view' ? [] : ['edit.deletion_reasons'])
+        , mode
+        , className: 'member-info-content'
+        }
+      }
+    />
 
-      <div className='inner-section-divider-medium'></div>
-      <MemberPayments
-          {...
-            { member_payments
-            , add_payment
-            , delete_payment
-            , subscription_amount
-            }
-          } />
-    </div>
+    <div className='inner-section-divider-medium'></div>
+    <MemberPayments
+      {...
+        { member_payments
+        , add_payment
+        , delete_payment
+        , subscription_amount
+        }
+      }
+    />
   </div> )
 
 ViewMember.propTypes =
@@ -59,4 +66,6 @@ ViewMember.propTypes =
   , subscription_amount: React.PropTypes.number
   }
 
-ViewMember.displayName = 'ViewMember'
+ViewMember.displayName = 'DumbViewMember'
+
+module.exports = ViewMember

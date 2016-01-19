@@ -5,7 +5,7 @@ const FieldComponent = require('../field.js')
 const { fields, fieldStructure } = require('./fields.js')
 const { __, contains } = require('ramda')
 
-const PersonalFieldsA = (
+const PersonalFields = (
   { fields: fs
   , handleSubmit
   , load
@@ -40,12 +40,10 @@ const get_sub_forms = (member) =>
   ['personal', 'address', 'membership'].reduce((form, sub) =>
     ({...form, [sub]: get_sub_fields(sub, member)}), {})
 
+const map_state_to_props = ({ member }) =>
+  Object.keys(member).length && { initialValues: get_sub_forms(member) }
+
 module.exports = redux_form(
-  { form: 'personal'
-  , fields: fields
-  }
-  , (
-      { member }
-    ) =>
-      Object.keys(member).length && { initialValues: get_sub_forms(member) }
-)(PersonalFieldsA)
+  { form: 'personal' , fields: fields }
+  , map_state_to_props
+)(PersonalFields)
