@@ -82,5 +82,11 @@ const options =
     ]
   }
 
+const read_only =
+  [ 'id'
+  , 'registered'
+  , 'activation_status'
+  ]
 
-module.exports = { fields, fieldStructure, options, field_order }
+
+module.exports = { fields, fieldStructure, options, field_order, read_only }
