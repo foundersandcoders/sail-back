@@ -3,7 +3,7 @@ const { prop } = require('ramda')
 const React = require('react')
 const FieldComponent = require('../components/field.js')
 const Buttons = require('./edit_member_buttons.js')
-const { fields, fieldStructure } = require('./fields.js')
+const { fields, fieldStructure, options } = require('./fields.js')
 const { __, contains } = require('ramda')
 
 const PersonalFields = (
@@ -31,15 +31,17 @@ const PersonalFields = (
         }
       }
     />
-    { Object.keys(fs).map((field_list, i) =>
-      <fieldset key={i} className={ 'col-1 member-column-' + field_list }>
-        { Object.keys(fs[field_list]).map((field, i) =>
+    { Object.keys(fs).map((field_list) =>
+      <fieldset key={field_list} className={'col-1 member-column-' + field_list}>
+        { Object.keys(fs[field_list]).map((field) =>
           <FieldComponent
             {...fs[field_list][field]}
             id={field}
             name={label_from_id(field)}
+            options={options[field]}
             mode={mode}
-            key={i} />
+            key={field}
+          />
         )}
       </fieldset>
     ) }

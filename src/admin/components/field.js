@@ -22,7 +22,7 @@ var Display = ({name, id, value}) =>
 var Input = ({ className, name, options, ...props}) =>
   <div className={className}>
     <span className='info'>{name}</span>
-    { options ? make_select(props, options) : make_input(props) }
+    { options ? make_select(props, options) : make_input(name, props) }
   </div>
 
 Field.displayName = 'Field'
@@ -33,17 +33,10 @@ Field.propTypes =
   , id: React.PropTypes.string
   }
 
-var need_input = curry((test, props) => {
-  var {type, options} = test(props)
-  return type === 'select' ?
-      make_select(props, options) :
-      make_input(props)
-})
-
-var make_input = (props)  =>
+var make_input = (name, props)  =>
   <input
     {...props}
-    placeholder={make_placeholder(props.name)}
+    placeholder={make_placeholder(name)}
     className={props.className + (props.error ? ' red' : '')}
   />
 

@@ -21,7 +21,8 @@ var ViewMember = (
   , add_payment
   , delete_payment
   , subscription_amount
-}) => (
+  }
+) => (
   <div className='view-member main-container' id='member-component'>
     <div className='inner-section-divider-medium'></div>
     <MemberInformation
@@ -33,7 +34,7 @@ var ViewMember = (
         , save_member_click
         , activation_status
         , onSubmit: save_member_click
-        , fields: fields.concat(mode === 'view' ? [] : ['edit.deletion_reasons'])
+        , fields: fields.concat(mode === 'view' ? [] : ['edit.deletion_reason'])
         , mode
         , className: 'member-info-content'
         }

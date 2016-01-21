@@ -4,7 +4,6 @@ const Buttons = (
   { edit_member_click
   , reactivate_member_click
   , deactivate_member_click
-  , update_member_click
   , cancel_member_click
   , activation_status
   , mode
@@ -16,7 +15,6 @@ const Buttons = (
         {...
           { reactivate_member_click
           , deactivate_member_click
-          , update_member_click
           , cancel_member_click
           , activation_status
           }
@@ -38,7 +36,6 @@ const ViewButton = (
 const EditButtons = (
   { reactivate_member_click: reactivate
   , deactivate_member_click: deactivate
-  , update_member_click
   , cancel_member_click
   , activation_status
   }
@@ -47,7 +44,7 @@ const EditButtons = (
     <button
       className='member-activation-control'
       type='button'
-      onClick={activation_status === 'activated' ? reactivate : deactivate }
+      onClick={activation_status === 'activated' ? deactivate : reactivate }
     >
       { activation_status === 'activated' ? 'Delete' : 'Reactivate' }
     </button>

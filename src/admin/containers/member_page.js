@@ -23,7 +23,7 @@ const ViewMember = React.createClass({
   deactivate_member_click (_) {
     const { deactivate_member } = this.props
     const { value: deletion_reason } =
-      document.querySelector('#deletion-reason').selectedOptions[0]
+      document.querySelector('#deletion_reason').selectedOptions[0]
     deactivate_member(deletion_reason)
   },
 

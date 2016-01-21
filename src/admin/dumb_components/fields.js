@@ -40,4 +40,38 @@ const fieldStructure =
 const fields = Object.keys(fieldStructure).reduce((fields, list) =>
   fields.concat(fieldStructure[list].map((field) => list + '.' + field)), [])
 
-module.exports = { fields, fieldStructure }
+const options =
+  { deletion_reason:
+    [ 'deceased'
+    , 'not-responding'
+    , 'duplicate'
+    , 'mail-return'
+    , 'moved'
+    , 'notified-termination'
+    , 'other'
+    ]
+  , standing_order:
+    [ 'false'
+    , 'true'
+    ]
+  , membership_type:
+    [ 'annual-single'
+    , 'annual-double'
+    , 'annual-family'
+    , 'annual-group'
+    , 'annual-corporate'
+    , 'life-single'
+    , 'life-double'
+    ]
+  , news_type:
+    [ 'post'
+    , 'online'
+    ]
+  , email_bounced:
+    [ 'false'
+    , 'true'
+    ]
+  }
+
+
+module.exports = { fields, fieldStructure, options }
