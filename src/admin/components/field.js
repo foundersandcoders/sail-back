@@ -42,7 +42,7 @@ var make_input = (name, props)  =>
 
 var make_select = (props, options) =>
   <select {...props} value={ props.value ? '' + props.value : undefined } >
-    <option disabled value={''}> -- select an option -- </option>
+    <option> -- select an option -- </option>
     {options.map((option, i) =>
       <option
         value={option}
