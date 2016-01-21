@@ -28,8 +28,8 @@ const ViewMember = React.createClass({
   },
 
   render () {
-    const { activation_status
-      , mode
+    const
+      { mode
       , toggle_member_mode
       , reactivate_member
       , update_member
@@ -41,13 +41,12 @@ const ViewMember = React.createClass({
       cancel_member_click={toggle_member_mode}
       save_member_click={update_member}
       member_edit_mode={mode}
-      activation_status={activation_status}
     />
   }
 })
 
-const map_state_to_props = ({ member: { activation_status }, mode }) =>
-  ({ activation_status, mode })
+const map_state_to_props = ({ mode }) =>
+  ({ mode })
 
 const map_dispatch_to_props =
   { toggle_member_mode

@@ -1,10 +1,10 @@
 const { createAction, handleAction } = require('redux-actions')
 const { __, replace, compose, map, prop, concat, converge, contains, mergeAll,
-  apply } =
+  unapply } =
     require('ramda')
 
 const { get, post } = require('app/http')
-const { format: format_dated } = require('app/transform_dated')
+const { format: format_dated, standardise } = require('app/transform_dated')
 
 const { fieldStructure } = require('../../dumb_components/fields.js')
 
@@ -30,9 +30,9 @@ const reducer =
           { ...member
           , membership:
             { ...membership
-            , deactivation_reason: action.payload
-            , deletion_date: new Date().toISOString()
-            , activation_status: 'deactivated'
+            , deactivation_reason: { value: action.payload }
+            , deletion_date: { value: new Date().toISOString() }
+            , activation_status: { value: 'deactivated' }
             }
           })
       case REACTIVATED_MEMBER:
@@ -54,12 +54,6 @@ const reducer =
         return member
     }
   }
-
-const TEMP_FUNC_OBJECTIZE = (member) => (
-  Object.keys(member).reduce((obj, key) =>
-    ({...obj, [key]: { value: '' + member[key] } })
-  , {})
-)
 
 const user_url = 'api/members/{ID}'
 
@@ -95,8 +89,8 @@ const to_member = compose
   )
 
 const flatten = converge
-  ( apply(mergeAll)
-  , [prop('personal'), prop('address'), prop('membership')]
+  ( unapply(mergeAll)
+  , [prop('personal'), prop('address'), prop('membership'), prop('edit')]
   )
 
 const fetch_member = createAction
@@ -108,7 +102,7 @@ const update_member = createAction(
   UPDATED_MEMBER
   , (member) => compose
     ( map(to_member)
-    , post(flatten(member))
+    , post(standardise(flatten(member)))
     , make_user_url
     )(member.personal.id)
 )

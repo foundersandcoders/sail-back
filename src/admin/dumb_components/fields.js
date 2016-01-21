@@ -37,7 +37,13 @@ const fieldStructure =
       ]
     }
 
-const fields = Object.keys(fieldStructure).reduce((fields, list) =>
+const field_order =
+  [ "personal"
+  , "address"
+  , "membership"
+  ]
+
+const fields = field_order.reduce((fields, list) =>
   fields.concat(fieldStructure[list].map((field) => list + '.' + field)), [])
 
 const options =
@@ -74,4 +80,4 @@ const options =
   }
 
 
-module.exports = { fields, fieldStructure, options }
+module.exports = { fields, fieldStructure, options, field_order }

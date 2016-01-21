@@ -17,7 +17,6 @@ var ViewMember = (
   , save_member_click
   , member_edit_mode: mode
   , member_payments
-  , activation_status
   , add_payment
   , delete_payment
   , subscription_amount
@@ -32,7 +31,6 @@ var ViewMember = (
         , reactivate_member_click
         , cancel_member_click
         , save_member_click
-        , activation_status
         , onSubmit: save_member_click
         , fields: fields.concat(mode === 'view' ? [] : ['edit.deletion_reason'])
         , mode

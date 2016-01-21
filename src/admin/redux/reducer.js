@@ -7,7 +7,6 @@ const mode = require('./modules/mode.js')
 const admin_app = combineReducers(
   { payment_defaults
   , form
-  , member
   , mode
   }
 )
