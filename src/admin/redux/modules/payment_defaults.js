@@ -1,17 +1,21 @@
 const UPDATE_FIELD = 'UPDATE_FIELD'
 const { createAction } = require('redux-actions')
+const { FETCHED_MEMBER } = require('./member.js')
 
 const initial_state =
   { date: ''
   , reference: ''
   , type: ''
+  , subscription_amount: ''
   }
 
-function payment_defaults (state = initial_state, action) {
-  switch (action.type) {
+function payment_defaults (state = initial_state, {type, payload}) {
+  switch (type) {
+    case FETCHED_MEMBER:
+      return {...state, subscription_amount: payload.subscription_amount }
     case UPDATE_FIELD:
       return action.payload.field.match(/^date|reference|type$/)
-        ? { ...state, [action.payload.field]: action.payload.value }
+        ? { ...state, [payload.field]: payload.value }
         : state
     default:
       return state
