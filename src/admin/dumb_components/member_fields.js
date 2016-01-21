@@ -59,10 +59,6 @@ const get_sub_forms = (member) =>
   ['personal', 'address', 'membership'].reduce((form, sub) =>
     ({...form, [sub]: get_sub_fields(sub, member)}), {})
 
-const map_state_to_props = ({ member }) =>
-  Object.keys(member).length && { initialValues: get_sub_forms(member) }
-
 module.exports = reduxForm(
   { form: 'personal' }
-  , map_state_to_props
 )(PersonalFields)
