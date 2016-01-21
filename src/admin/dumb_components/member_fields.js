@@ -11,6 +11,7 @@ const PersonalFields = (
   { fields: fs
   , edit_member_click
   , deactivate_member_click
+  , reactivate_member_click
   , cancel_member_click
   , handleSubmit
   , mode
@@ -25,6 +26,7 @@ const PersonalFields = (
       {...
         { edit_member_click
         , deactivate_member_click
+        , reactivate_member_click
         , cancel_member_click
         , activation_status: fs.membership.activation_status.value
         , mode

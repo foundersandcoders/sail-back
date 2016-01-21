@@ -1,6 +1,6 @@
 const { createAction, handleAction } = require('redux-actions')
 const { __, replace, compose, map, prop, concat, converge, contains, mergeAll,
-  unapply } =
+  unapply, cond, T, identity, is } =
     require('ramda')
 
 const { get, post } = require('app/http')
@@ -20,8 +20,8 @@ const UPDATED_MEMBER =
   'UPDATED_MEMBER'
 
 const reducer =
-  (member = { personal: {}, address: {}, membership : {} }, action) => {
-    const { personal, address, membership } = member
+  (member = { personal: {}, address: {}, membership: {}, edit: {} }, action) => {
+    const { personal, address, membership, edit } = member
     switch (action.type) {
       case FETCHED_MEMBER:
         return { ...action.payload }
@@ -30,9 +30,8 @@ const reducer =
           { ...member
           , membership:
             { ...membership
-            , deactivation_reason: { value: action.payload }
-            , deletion_date: { value: new Date().toISOString() }
             , activation_status: { value: 'deactivated' }
+            , deletion_date: { value: new Date().toISOString() }
             }
           })
       case REACTIVATED_MEMBER:
@@ -40,9 +39,12 @@ const reducer =
           { ...member
           , membership:
             { ...membership
-            , activation_status: 'activated'
-            , deactivation_reason: undefined
-            , deletion_date: undefined
+            , activation_status: { value: 'activated' }
+            , deletion_date: {}
+            }
+          , edit:
+            { ...edit
+            , deletion_reason: { value: null }
             }
           })
       case UPDATED_MEMBER:
@@ -66,6 +68,12 @@ const make_user_request_url = compose
 
 const null_to_undefined = val => val === null ? undefined : val
 
+const parse_if_needed = cond(
+  [ [is(String), JSON.parse]
+  , [T, identity]
+  ]
+)
+
 const reshape = ({ membership_type: { value, amount } = {}, ...member }) =>
   ({...member, membership_type: value, subscription_amount: amount })
 
@@ -76,7 +84,7 @@ const get_sub_fields = (sub, member) =>
     , {})
 
 const get_sub_forms = (member) =>
-  ['personal', 'address', 'membership'].reduce((form, sub) =>
+  ['personal', 'address', 'membership', 'edit'].reduce((form, sub) =>
     ({...form, [sub]: get_sub_fields(sub, member)}), {})
 
 const to_member = compose
@@ -84,7 +92,7 @@ const to_member = compose
   , format_dated
   , reshape
   , map(null_to_undefined)
-  , JSON.parse
+  , parse_if_needed
   , prop('body')
   )
 
@@ -98,27 +106,28 @@ const fetch_member = createAction
   , compose(map(to_member), get, make_user_request_url)
   )
 
-const update_member = createAction(
-  UPDATED_MEMBER
+const update_member = createAction
+  ( UPDATED_MEMBER
   , (member) => compose
     ( map(to_member)
     , post(standardise(flatten(member)))
     , make_user_url
     )(member.personal.id)
-)
+  )
 const deactivate_member = createAction(DEACTIVATED_MEMBER)
 
 const reactivate_member = createAction(REACTIVATED_MEMBER)
 
 module.exports = reducer
 
-Object.assign(
-  module.exports,
-  { fetch_member
-  , deactivate_member
-  , reactivate_member
-  , update_member
-  , FETCHED_MEMBER
-  , UPDATED_MEMBER
-  }
-)
+Object.assign
+  ( module.exports
+  , { fetch_member
+    , deactivate_member
+    , reactivate_member
+    , update_member
+    , FETCHED_MEMBER
+    , UPDATED_MEMBER
+    }
+  )
+

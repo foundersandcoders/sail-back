@@ -35,6 +35,9 @@ const fieldStructure =
       , 'email_bounced'
       , 'activation_status'
       ]
+    , edit:
+      [ 'deletion_reason'
+      ]
     }
 
 const field_order =
