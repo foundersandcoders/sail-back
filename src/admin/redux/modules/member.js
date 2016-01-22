@@ -1,6 +1,6 @@
 const { createAction, handleAction } = require('redux-actions')
 const { __, replace, compose, map, prop, concat, converge, contains, mergeAll,
-  unapply, cond, T, identity, is } =
+  unapply, cond, T, identity, is, filter } =
     require('ramda')
 
 const { get, post } = require('app/http')
@@ -85,7 +85,8 @@ const get_sub_fields = (sub, member) =>
 
 const get_sub_forms = (member) =>
   ['personal', 'address', 'membership', 'edit'].reduce((form, sub) =>
-    ({...form, [sub]: get_sub_fields(sub, member)}), {})
+    ({...form, [sub]: get_sub_fields(sub, member)}),
+  { other: { subscription_amount: member.subscription_amount } })
 
 const to_member = compose
   ( get_sub_forms

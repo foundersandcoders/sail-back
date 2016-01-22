@@ -3,7 +3,7 @@
 var React = require('react')
 var { connect } = require('react-redux')
 var { update_field } = require('../redux/modules/payment_defaults.js')
-var { compose } = require('ramda')
+var { compose, curry } = require('ramda')
 
 var Button = React.createClass({
   click: function () {
@@ -70,7 +70,7 @@ var MemberPayments = React.createClass({
         .map(this.make_charge_forms)
 
     var buttons = ['subscription', 'event', 'donation', 'payment']
-        .map(make_button.bind(this))
+        .map(make_button(this.view))
 
     var view = get_same_place_entry(charge_types, charge_forms, this.state.view)
 
@@ -93,26 +93,22 @@ var MemberPayments = React.createClass({
   }
 })
 
-const stateToProps = ({ payment_defaults: { date, reference, type }}) => (
-  { date
-  , reference
-  , type
-  }
-)
+const stateToProps = ({ payment_defaults}) => payment_defaults
 
 const dispatchToProps = dispatch => (
   { update: compose(dispatch, update_field) }
 )
 
-function make_button (type, i) {
-  return <Button
-      type={type}
-      click={this.view}
-      key={i}
-      className='add-payment-button' />
-}
+const make_button = curry((view, type, i) =>
+  <Button
+    type={type}
+    click={view}
+    key={i}
+    className='add-payment-button'
+  />
+)
 
-function get_same_place_entry (first_array, second_array, entry) {
-  return second_array[first_array.indexOf(entry)] }
+const get_same_place_entry = (first_array, second_array, entry) =>
+  second_array[first_array.indexOf(entry)]
 
 module.exports = connect(stateToProps, dispatchToProps)(MemberPayments)

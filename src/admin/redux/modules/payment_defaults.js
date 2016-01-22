@@ -12,7 +12,7 @@ const initial_state =
 function payment_defaults (state = initial_state, {type, payload}) {
   switch (type) {
     case FETCHED_MEMBER:
-      return {...state, subscription_amount: payload.subscription_amount }
+      return {...state, subscription_amount: payload.other.subscription_amount }
     case UPDATE_FIELD:
       return action.payload.field.match(/^date|reference|type$/)
         ? { ...state, [payload.field]: payload.value }
