@@ -56,5 +56,5 @@ const label_from_id = (id) =>
   id.slice(0, 1).toUpperCase() + id.slice(1).replace(/_/g, ' ') + ': '
 
 module.exports = reduxForm(
-  { form: 'personal' }
+  { form: 'member' }
 )(PersonalFields)
