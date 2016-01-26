@@ -5,7 +5,7 @@ const { FETCHED_MEMBER } = require('./member.js')
 const initial_state =
   { date: ''
   , reference: ''
-  , type: ''
+  , payment_type: ''
   , subscription_amount: ''
   }
 

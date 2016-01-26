@@ -5,7 +5,7 @@ const Buttons = (
   , reactivate_member_click
   , deactivate_member_click
   , cancel_member_click
-  , activation_status
+  , fields: { membership: { activation_status } }
   , mode
   }
 ) =>
@@ -16,7 +16,7 @@ const Buttons = (
           { reactivate_member_click
           , deactivate_member_click
           , cancel_member_click
-          , activation_status
+          , activation_status: activation_status.value
           }
         }
       />

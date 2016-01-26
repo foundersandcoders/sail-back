@@ -5,7 +5,6 @@ const fieldStructure =
       , 'initials'
       , 'first_name'
       , 'last_name'
-      , 'age'
       , 'primary_email'
       , 'secondary_email'
       ]

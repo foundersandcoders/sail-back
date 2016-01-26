@@ -41,10 +41,11 @@ var MemberPayments = React.createClass({
   revert_to_view: function () {
     this.setState({ view: 'payments-table' }) },
 
-  make_charge_forms: function (charge_type, i) {
+  make_charge_forms: function (charge_type) {
     const { add_payment
     , date
     , reference
+    , payment_type
     , type
     , update
     , mid
@@ -54,11 +55,10 @@ var MemberPayments = React.createClass({
         type={charge_type}
         date={date}
         reference={reference}
-        type={type}
         amount={this.subscription_amount_if_needed(charge_type)}
         update_field={update}
         revert_to_view={this.revert_to_view}
-        key={i}
+        key={charge_type}
         click={this.view}
         mid={mid} /> },
 
@@ -93,7 +93,11 @@ var MemberPayments = React.createClass({
   }
 })
 
-const stateToProps = ({ payment_defaults}) => payment_defaults
+const stateToProps = ({ payment_defaults, payments }) => (
+  { ...payment_defaults
+  , payments
+  }
+)
 
 const dispatchToProps = dispatch => (
   { update: compose(dispatch, update_field) }

@@ -1,8 +1,9 @@
 const React = require('react')
 
 var MemberPayments = require('../components/member_payments.js')
-const MemberInformation = require('./member_fields.js')
+const MemberInformation = require('./add_member.js')
 const { fields, fieldStructure } = require('./fields.js')
+const Buttons = require('./edit_member_buttons.js')
 
 const correct_fields = (fields, mode) =>
   mode === 'deactivated'
@@ -26,15 +27,19 @@ var ViewMember = (
     <div className='inner-section-divider-medium'></div>
     <MemberInformation
       {...
-        { deactivate_member_click
-        , edit_member_click
-        , reactivate_member_click
-        , cancel_member_click
-        , save_member_click
-        , onSubmit: save_member_click
+        { onSubmit: save_member_click
         , fields: fields.concat(mode === 'view' ? [] : ['edit.deletion_reason'])
         , mode
         , className: 'member-info-content'
+        , Buttons
+        , button_props:
+          { deactivate_member_click
+          , edit_member_click
+          , reactivate_member_click
+          , cancel_member_click
+          , save_member_click
+          , mode
+          }
         }
       }
     />

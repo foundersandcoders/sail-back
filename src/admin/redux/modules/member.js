@@ -1,6 +1,6 @@
 const { createAction, handleAction } = require('redux-actions')
 const { __, replace, compose, map, prop, concat, converge, contains, mergeAll,
-  unapply, cond, T, identity, is, filter } =
+  unapply, cond, T, identity, is, filter, propOr, chain } =
     require('ramda')
 
 const { get, post } = require('app/http')
@@ -18,6 +18,8 @@ const REACTIVATED_MEMBER =
   'REACTIVATED_MEMBER'
 const UPDATED_MEMBER =
   'UPDATED_MEMBER'
+const CREATED_MEMBER =
+  'CREATED_MEMBER'
 
 const reducer =
   (member = { personal: {}, address: {}, membership: {}, edit: {} }, action) => {
@@ -52,6 +54,13 @@ const reducer =
           { ...member
           , ...action.payload
           })
+      case CREATED_MEMBER:
+        return (
+          { personal: {}
+          , address: {}
+          , membership: {}
+          }
+        )
       default:
         return member
     }
@@ -86,7 +95,11 @@ const get_sub_fields = (sub, member) =>
 const get_sub_forms = (member) =>
   ['personal', 'address', 'membership', 'edit'].reduce((form, sub) =>
     ({...form, [sub]: get_sub_fields(sub, member)}),
-  { other: { subscription_amount: member.subscription_amount } })
+  { other:
+    { subscription_amount: member.subscription_amount
+    , payments: member.payments
+    }
+  })
 
 const to_member = compose
   ( get_sub_forms
@@ -99,7 +112,7 @@ const to_member = compose
 
 const flatten = converge
   ( unapply(mergeAll)
-  , [prop('personal'), prop('address'), prop('membership'), prop('edit')]
+  , map(propOr({}), ['personal', 'address', 'membership', 'edit'])
   )
 
 const fetch_member = createAction
@@ -115,9 +128,18 @@ const update_member = createAction
     , make_user_url
     )(member.personal.id)
   )
+
 const deactivate_member = createAction(DEACTIVATED_MEMBER)
 
 const reactivate_member = createAction(REACTIVATED_MEMBER)
+
+const create_member = createAction
+  ( CREATED_MEMBER
+  , compose
+    ( map(to_member)
+    , compose(post(__, 'addmember'), standardise, flatten)
+    )
+  )
 
 module.exports = reducer
 
@@ -127,6 +149,7 @@ Object.assign
     , deactivate_member
     , reactivate_member
     , update_member
+    , create_member
     , FETCHED_MEMBER
     , UPDATED_MEMBER
     }
