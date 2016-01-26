@@ -2,7 +2,7 @@ const React = require('react')
 
 var MemberPayments = require('../components/member_payments.js')
 const MemberInformation = require('./add_member.js')
-const { fields, fieldStructure } = require('./fields.js')
+const { fields, fieldStructure } = require('./form_fields/member.js')
 const Buttons = require('./edit_member_buttons.js')
 
 const correct_fields = (fields, mode) =>

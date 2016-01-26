@@ -6,7 +6,7 @@ const { __, replace, compose, map, prop, concat, converge, contains, mergeAll,
 const { get, post } = require('app/http')
 const { format: format_dated, standardise } = require('app/transform_dated')
 
-const { fieldStructure } = require('../../dumb_components/fields.js')
+const { fieldStructure } = require('../../form_fields/member.js')
 
 const FETCHING_MEMBER =
   'FETCHING_MEMBER'

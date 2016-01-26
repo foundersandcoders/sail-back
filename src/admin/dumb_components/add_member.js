@@ -4,7 +4,7 @@ const React = require('react')
 const FieldComponent = require('../components/field.js')
 const Buttons = require('./edit_member_buttons.js')
 const { options, field_order, fieldStructure, read_only } =
-  require('./fields.js')
+  require('../form_fields/member.js')
 const { array_order_keys } = require('app/sort')
 const { __, contains, assoc } = require('ramda')
 

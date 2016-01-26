@@ -1,9 +1,9 @@
 'use strict'
 
-var React = require('react')
-var { connect } = require('react-redux')
-var { update_field } = require('../redux/modules/payment_defaults.js')
-var { compose, curry } = require('ramda')
+const React = require('react')
+const { connect } = require('react-redux')
+const { update_field } = require('../redux/modules/payment_defaults.js')
+const { compose, curry } = require('ramda')
 
 var Button = React.createClass({
   click: function () {

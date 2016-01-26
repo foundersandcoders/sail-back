@@ -1,5 +1,3 @@
-const Task = require('data.task')
-
 const { FETCHED_MEMBER } = require('./member.js')
 
 const reducer = (payments = [], { type, payload }) => {

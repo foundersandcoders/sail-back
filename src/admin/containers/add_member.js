@@ -4,7 +4,7 @@ const React = require('react')
 const { connect } = require('react-redux')
 
 const MemberFields = require('../dumb_components/add_member.js')
-const { fields } = require('../dumb_components/fields.js')
+const { fields } = require('../form_fields/member.js')
 const { create_member } = require('../redux/modules/member.js')
 
 const buttons = () => (<button type='submit'>Submit</button>)
