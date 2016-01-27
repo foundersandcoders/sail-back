@@ -19,10 +19,12 @@ var ViewMember = (
   , member_edit_mode: mode
   , member_payments
   , add_payment
-  , delete_payment
+  , remove_payment
   , subscription_amount
   , switch_charge_type
   , charge_type
+  , payments
+  , payment_defaults
   }
 ) => (
   <div className='view-member main-container' id='member-component'>
@@ -51,8 +53,9 @@ var ViewMember = (
       {...
         { member_payments
         , add_payment
-        , delete_payment
-        , subscription_amount
+        , payments
+        , payment_defaults
+        , remove_payment
         , switch_charge_type
         , charge_type
         }

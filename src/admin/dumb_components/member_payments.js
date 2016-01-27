@@ -1,6 +1,4 @@
 const React = require('react')
-const { connect } = require('react-redux')
-const { update_field } = require('../redux/modules/payment_defaults.js')
 const { compose, curry, map } = require('ramda')
 const { types, type_order } = require('../form_fields/charge_form.js')
 
@@ -10,9 +8,12 @@ const ChargeForm = require('./charge_form.js')
 var MemberPayments = (
   { payments
   , category
+  , payment_defaults
   , switch_charge_type
   , charge_type
   , add_payment
+  , remove_payment
+  , update_field
   }
 ) =>
   <div>
@@ -20,11 +21,13 @@ var MemberPayments = (
     <div className='inner-section-divider-medium'></div>
     <PaymentsTable
       payments={payments}
+      remove_payment={remove_payment}
     />
     { charge_type
       ? <ChargeForm
           fields={types[charge_type]}
           type={charge_type}
+          initialValues={payment_defaults}
           onSubmit={add_payment}
         />
       : ''
@@ -32,7 +35,11 @@ var MemberPayments = (
     <div className='flex payment-buttons'>
       { map
         ( (type) =>
-            <button onClick={(_) => switch_charge_type(type)} />
+            <button
+              onClick={(_) => switch_charge_type(type)}
+            >
+              { '+ ' + type }
+            </button>
           , type_order
         )
       }
@@ -42,10 +49,4 @@ var MemberPayments = (
     </div>
   </div>
 
-const stateToProps = ({ payment_defaults, payments }) => (
-  { ...payment_defaults
-  , payments
-  }
-)
-
-module.exports = connect(stateToProps)(MemberPayments)
+module.exports = (MemberPayments)

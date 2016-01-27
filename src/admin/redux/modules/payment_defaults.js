@@ -1,29 +1,44 @@
-const UPDATE_FIELD = 'UPDATE_FIELD'
 const { createAction } = require('redux-actions')
+
 const { FETCHED_MEMBER } = require('./member.js')
+const { ADDED_PAYMENT } = require('./payments.js')
+const { format } = require('app/transform_dated.js')
+const { reduce, keys, compose } = require('ramda')
 
 const initial_state =
   { date: ''
   , reference: ''
-  , payment_type: ''
+  , category: ''
   , subscription_amount: ''
+  }
+
+const name_map =
+  { date: 'date'
+  , reference: 'reference'
+  , category: 'type'
   }
 
 function payment_defaults (state = initial_state, {type, payload}) {
   switch (type) {
     case FETCHED_MEMBER:
       return {...state, subscription_amount: payload.other.subscription_amount }
-    case UPDATE_FIELD:
-      return action.payload.field.match(/^date|reference|type$/)
-        ? { ...state, [payload.field]: payload.value }
-        : state
+    case ADDED_PAYMENT:
+      return compose
+        ( format
+        , reduce
+          ( (state, field) =>
+              field.match(/^date|reference|type$/)
+              ? { ...state, [field]: payload[field] }
+              : state
+          , state
+          )
+        , keys
+        )(payload)
     default:
       return state
   }
 }
 
 exports = module.exports = payment_defaults
-
-exports.update_field = createAction(UPDATE_FIELD)
 
 module.exports = payment_defaults

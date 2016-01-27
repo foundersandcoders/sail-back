@@ -1,5 +1,3 @@
-'use strict'
-
 const React = require('react')
 const { connect } = require('react-redux')
 const { pick, compose, propOr, merge } = require('ramda')
@@ -8,7 +6,8 @@ const { fetch_member, deactivate_member, reactivate_member, update_member } =
   require('../redux/modules/member.js')
 const { toggle_member_mode } = require('../redux/modules/mode.js')
 const { switch_charge_type } = require('../redux/modules/charge_form.js')
-const { add_payment } = require('../redux/modules/payments.js')
+const { add_payment, remove_payment } = require('../redux/modules/payments.js')
+const { update_field } = require('../redux/modules/payment_defaults.js')
 
 const MemberPage = require('../dumb_components/member_page.js')
 
@@ -32,7 +31,8 @@ const ViewMember = React.createClass({
     const { params: { id }, add_payment, charge_type } = this.props
     compose(add_payment, merge(
       { member: id
-      , category: charge_type }))(payment)
+      , category: charge_type
+      , description: charge_type }))(payment)
   },
 
   render () {
@@ -43,6 +43,9 @@ const ViewMember = React.createClass({
       , update_member
       , switch_charge_type
       , charge_type
+      , payments
+      , remove_payment
+      , payment_defaults
       } = this.props
     return <MemberPage
       deactivate_member_click={this.deactivate_member_click}
@@ -53,13 +56,16 @@ const ViewMember = React.createClass({
       switch_charge_type={switch_charge_type}
       charge_type={charge_type}
       member_edit_mode={mode}
+      payments={payments}
       add_payment={this.add_payment}
+      remove_payment={remove_payment}
+      payment_defaults={payment_defaults}
     />
   }
 })
 
-const map_state_to_props = ({ mode, charge_form }) =>
-  ({ mode, charge_type: charge_form })
+const map_state_to_props = ({ mode, charge_form, payment_defaults, payments }) =>
+  ({ mode, charge_type: charge_form, payment_defaults, payments })
 
 const map_dispatch_to_props =
   { toggle_member_mode
@@ -69,6 +75,8 @@ const map_dispatch_to_props =
   , update_member
   , switch_charge_type
   , add_payment
+  , remove_payment
+  , update_field
   }
 
 module.exports = connect(map_state_to_props, map_dispatch_to_props)(ViewMember)
