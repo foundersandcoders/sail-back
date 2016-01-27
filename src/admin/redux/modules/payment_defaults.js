@@ -9,19 +9,13 @@ const initial_state =
   { date: ''
   , reference: ''
   , category: ''
-  , subscription_amount: ''
-  }
-
-const name_map =
-  { date: 'date'
-  , reference: 'reference'
-  , category: 'type'
+  , amount: ''
   }
 
 function payment_defaults (state = initial_state, {type, payload}) {
   switch (type) {
     case FETCHED_MEMBER:
-      return {...state, subscription_amount: payload.other.subscription_amount }
+      return {...state, amount: payload.other.subscription_amount }
     case ADDED_PAYMENT:
       return compose
         ( format

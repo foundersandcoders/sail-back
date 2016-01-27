@@ -1,5 +1,5 @@
 const React = require('react')
-const { compose, curry, map } = require('ramda')
+const { compose, curry, map, dissoc } = require('ramda')
 const { types, type_order } = require('../form_fields/charge_form.js')
 
 var PaymentsTable = require('../components/payments_table')
@@ -27,7 +27,7 @@ var MemberPayments = (
       ? <ChargeForm
           fields={types[charge_type]}
           type={charge_type}
-          initialValues={payment_defaults}
+          initialValues={with_amount(charge_type, payment_defaults)}
           onSubmit={add_payment}
         />
       : ''
@@ -49,4 +49,9 @@ var MemberPayments = (
     </div>
   </div>
 
-module.exports = (MemberPayments)
+const with_amount = (type, defaults) => {
+  const amount = defaults.subscription_amount
+  return type === 'subscription' ? defaults : dissoc('amount', defaults)
+}
+
+module.exports = MemberPayments
