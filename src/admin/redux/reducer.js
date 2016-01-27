@@ -5,6 +5,7 @@ const member = require('./modules/member.js')
 const mode = require('./modules/mode.js')
 const payments = require('./modules/payments.js')
 const charge_form = require('./modules/charge_form.js')
+const route = require('./modules/route.js')
 
 const admin_app = combineReducers(
   { payment_defaults
@@ -12,6 +13,7 @@ const admin_app = combineReducers(
   , form
   , charge_form
   , mode
+  , route
   }
 )
 

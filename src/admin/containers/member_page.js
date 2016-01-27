@@ -8,7 +8,6 @@ const { toggle_member_mode } = require('../redux/modules/mode.js')
 const { switch_charge_type } = require('../redux/modules/charge_form.js')
 const { add_payment, remove_payment } = require('../redux/modules/payments.js')
 const { update_field } = require('../redux/modules/payment_defaults.js')
-const { close_charge } = require('../redux/modules/charge_form.js')
 
 const MemberPage = require('../dumb_components/member_page.js')
 
@@ -19,10 +18,6 @@ const ViewMember = React.createClass({
   componentDidMount () {
     const { params: { id }, fetch_member } = this.props
     fetch_member(id)
-  },
-
-  componentWillMount () {
-    this.props.close_charge()
   },
 
   deactivate_member_click (_) {
@@ -82,7 +77,6 @@ const map_dispatch_to_props =
   , add_payment
   , remove_payment
   , update_field
-  , close_charge
   }
 
 module.exports = connect(map_state_to_props, map_dispatch_to_props)(ViewMember)
