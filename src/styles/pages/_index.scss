@@ -89,7 +89,28 @@ p {
 .member-info-controls {
 	display: flex;
 	flex-direction: row-reverse;
-	flex: 1;
+}
+
+.member-edit-buttons {
+  margin-top: 18px
+}
+
+.member-activation-control,
+.member-cancel-button,
+.member-save-button {
+  width: 100px;
+  float: right;
+  margin-left: 15px;
+}
+
+.member-cancel-button {
+  @include red;
+}
+
+.member-column-personal
+, .member-column-address
+, .member-column-membership {
+  flex: 1
 }
 
 .member-info-content {

@@ -40,7 +40,9 @@ const EditButtons = (
   , activation_status
   }
 ) =>
-  <div>
+  <div
+    className='member-edit-buttons'
+  >
     <button
       className='member-activation-control'
       type='button'

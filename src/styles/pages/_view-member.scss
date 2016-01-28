@@ -1,20 +1,18 @@
 .view-member {
 
-  .main-container {
-    width: 90%;
-  }
+  width: 90%;
 
   .table {
     .table-body {
       max-height: 18em;
-    } 
+    }
   }
   .table.payments-table {
-  
+
       .date {
         flex: 2; }
       .description {
-        flex: 4; } 
+        flex: 4; }
       .charges {
         flex: 1; }
       .payments {
@@ -27,9 +25,9 @@
         flex: 4; }
       .delete {
         flex: 1; } }
-  
+
   .table.events-table {
-      
+
       .date {
         flex: 1;}
       .reference {

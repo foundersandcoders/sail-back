@@ -1,0 +1,9 @@
+@mixin red {
+	background-color: #ffe5e5;
+	&:hover {
+		background-color: #ff7f7f;
+	}	
+	&:active {
+		background-color: #ffe5e5;	
+	}	
+}

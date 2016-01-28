@@ -85,6 +85,10 @@
   margin-left: 15px;
 }
 
+fieldset {
+  border: 0
+}
+
 @media(max-width: 2000px){
   .small-font {
     font-size: 10px;
