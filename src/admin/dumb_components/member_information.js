@@ -1,7 +1,7 @@
 const { reduxForm } = require('redux-form')
 const { prop } = require('ramda')
 const React = require('react')
-const FieldComponent = require('../components/field.js')
+const Field = require('../components/field.js')
 const Buttons = require('./edit_member_buttons.js')
 const { options, field_order, fieldStructure, read_only } =
   require('../form_fields/member.js')
@@ -36,7 +36,7 @@ const PersonalFields = (
       <fieldset key={field_list} className={'col-1 member-column-' + field_list}>
         { array_order_keys(fieldStructure[field_list], fs[field_list])
           .map((field) =>
-            <FieldComponent
+            <Field
               {...fs[field_list][field]}
               id={field}
               name={label_from_id(field)}

@@ -15,7 +15,7 @@ const initial_state =
 function payment_defaults (state = initial_state, {type, payload}) {
   switch (type) {
     case FETCHED_MEMBER:
-      return {...state, amount: payload.other.subscription_amount }
+      return {...state, amount: String(payload.other.subscription_amount) }
     case ADDED_PAYMENT:
       return compose
         ( format

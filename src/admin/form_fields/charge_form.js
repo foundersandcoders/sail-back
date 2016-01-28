@@ -1,4 +1,6 @@
-const { concat } = require('ramda')
+const { concat, contains, prop, equals, not, propOr, compose, test, curry
+  , both, keys, assoc } =
+    require('ramda')
 
 const subscription = ['amount', 'date']
 const event = concat(subscription, ['notes'])
@@ -22,8 +24,28 @@ const type_order =
   , 'payment'
   ]
 
+const validate = (values) => {
+  const exists = curry(compose(not, prop))
+  const selected = curry(compose(equals('-- select an option --'), prop))
+  const ref_required = compose(test(/ash|eque/), propOr('', 'type'))
+
+  const tests =
+    { date: exists
+    , amount: exists
+    , type: selected
+    , reference: (field) => both(ref_required, exists(field))
+    }
+
+  return keys(tests).reduce((errors, field) =>
+    tests[field](field)(values)
+      ? assoc(field, 'Required', errors)
+      : errors
+  , {})
+}
+
 module.exports =
   { types
   , type_order
   , options: { type: payment_category_options }
+  , validate
   }

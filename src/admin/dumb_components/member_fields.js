@@ -1,7 +1,7 @@
 const { reduxForm } = require('redux-form')
 const { prop } = require('ramda')
 const React = require('react')
-const FieldComponent = require('../components/field.js')
+const Field = require('../components/field.js')
 const Buttons = require('./edit_member_buttons.js')
 const { options, field_order, fieldStructure, read_only } =
   require('../form_fields/member.js')
@@ -30,7 +30,7 @@ const PersonalFields = (
     >
       { array_only_keys(fieldStructure[field_list], fs[field_list])
         .map((field) =>
-          <FieldComponent
+          <Field
             {...fs[field_list][field]}
             id={field}
             name={label_from_id(field)}
