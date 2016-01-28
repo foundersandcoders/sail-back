@@ -3,7 +3,7 @@
 const React = require('react')
 const { connect } = require('react-redux')
 
-const MemberFields = require('../dumb_components/add_member.js')
+const MemberFields = require('../dumb_components/member_fields.js')
 const { fields } = require('../form_fields/member.js')
 const { create_member } = require('../redux/modules/member.js')
 

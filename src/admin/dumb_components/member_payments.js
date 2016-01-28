@@ -37,6 +37,7 @@ var MemberPayments = (
         ( (type) =>
             <button
               onClick={(_) => switch_charge_type(type)}
+              key={type}
             >
               { '+ ' + type }
             </button>

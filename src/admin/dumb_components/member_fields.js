@@ -6,14 +6,12 @@ const Buttons = require('./edit_member_buttons.js')
 const { options, field_order, fieldStructure, read_only } =
   require('../form_fields/member.js')
 const { array_order_keys } = require('app/sort')
-const { __, contains } = require('ramda')
+const { __, contains, assoc } = require('ramda')
 
 const PersonalFields = (
   { fields: fs
-  , edit_member_click
-  , deactivate_member_click
-  , reactivate_member_click
-  , cancel_member_click
+  , Buttons
+  , button_props
   , handleSubmit
   , mode
   , className
@@ -23,17 +21,6 @@ const PersonalFields = (
     onSubmit={handleSubmit}
     className={className}
   >
-    <Buttons
-      {...
-        { edit_member_click
-        , deactivate_member_click
-        , reactivate_member_click
-        , cancel_member_click
-        , activation_status: fs.membership.activation_status.value
-        , mode
-        }
-      }
-    />
     { array_order_keys(field_order, fs).map((field_list) =>
       <fieldset key={field_list} className={'col-1 member-column-' + field_list}>
         { array_order_keys(fieldStructure[field_list], fs[field_list])
@@ -50,6 +37,10 @@ const PersonalFields = (
         }
       </fieldset>
     ) }
+    <Buttons
+      { ...assoc('fields', fs, button_props)
+      }
+    />
   </form>
 
 const label_from_id = (id) =>
