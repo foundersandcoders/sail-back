@@ -7,16 +7,11 @@ var Search = require('../components/paying_in_search.js')
 var PayingIn = require('../components/paying_in.js')
 var Spinner = require('../../shared/spinner.js')
 
-var curry = require('curry')
+const { curry, chain, filter, map, propOr } = require('ramda')
 var object_assign = require('object-assign')
 var get_data = require('app/get_data.js')
-var chain = require('app/chain.js')
-var map = require('app/map.js')
 var dethunk = require('dethunking-compose')
-var prop_or = require('app/prop_or.js')
 var trace = require('app/trace.js')
-var fold = require('app/fold.js')
-var filter = require('app/filter.js')
 
 module.exports = React.createClass({
   getInitialState: function () {
@@ -99,7 +94,7 @@ var number_of_members = dethunk(
 
 var get_unique_members = dethunk(
   () => filter(first_occurrence)
-  , () => map(dethunk(() => prop_or('', 'id'), () => prop_or({}, 'member'))) )
+  , () => map(dethunk(() => propOr('', 'id'), () => propOr({}, 'member'))) )
 
 var set_charges = curry((set_state, charge_data) =>
   set_state({ charges: charge_data }))

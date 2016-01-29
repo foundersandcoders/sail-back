@@ -5,7 +5,7 @@ var Table = require('../table')
 var DeletionEntry = require('./deletion_entry')
 
 var make_payments_with_balance = require('app/make_payments_with_balance')
-var curry = require('curry')
+const { curry } = require('ramda')
 
 var get_entry_for_payment = curry(function (payment, delete_method, header) {
   return (header === 'Charges' || header === 'Payments')

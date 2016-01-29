@@ -5,13 +5,9 @@ var PaymentsReport = require('./payments.js')
 var get_data = require('app/get_data')
 var standardise = require('app/standardise_date')
 var dethunk = require('dethunking-compose')
-var filter = require('app/filter')
-var map = require('app/map')
-var prop_or = require('app/prop_or')
-var pluck = require('app/pluck')
+const { filter, map, propOr } = require('ramda')
 var arrayify = require('app/arrayify')
 var trace = require('app/trace')
-var input_or_select = require('app/input_or_select')
 
 module.exports = () =>
   <PaymentsReport
@@ -35,12 +31,12 @@ var get_restriction = dethunk(
 )
 
 var get_event_details = dethunk(
-      () => map(prop_or('', 'value'))
+      () => map(propOr('', 'value'))
       , () => filter(input => !!input)
-      , () => map(dethunk(() => prop_or(null, 1), () => prop_or([], 'children')))
+      , () => map(dethunk(() => propOr(null, 1), () => propOr([], 'children')))
       , () => arrayify
-      , () => prop_or([], 'children')
-      , () => prop_or({}, 'target'))
+      , () => propOr([], 'children')
+      , () => propOr({}, 'target'))
 
 var make_query_string = ([type, after, before]) =>
   'api/payments?where={"date":{' +

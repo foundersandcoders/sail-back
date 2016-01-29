@@ -6,7 +6,7 @@ var ReportTable = require('../components/report_table.js')
 
 var object_assign = require('object-assign')
 var deep_equal = require('deep-equal')
-var curry = require('curry')
+const { curry } = require('ramda')
 var dethunk = require('dethunking-compose')
 var prop_or = require('app/prop_or.js')
 
