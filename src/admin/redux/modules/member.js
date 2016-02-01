@@ -1,6 +1,6 @@
 const { createAction, handleAction } = require('redux-actions')
 const { __, replace, compose, map, prop, concat, converge, contains, mergeAll,
-  unapply, cond, T, identity, is, filter, propOr, chain } =
+  unapply, cond, T, identity, is, filter, propOr, chain, keys } =
     require('ramda')
 
 const { get, post } = require('app/http')
@@ -87,7 +87,7 @@ const reshape = ({ membership_type: { value, amount } = {}, ...member }) =>
   ({...member, membership_type: value, subscription_amount: amount })
 
 const get_sub_fields = (sub, member) =>
-  Object.keys(member).filter(contains(__, fieldStructure[sub]))
+  keys(member).filter(contains(__, fieldStructure[sub]))
     .reduce((fields, key) =>
       ({...fields, [key]: member[key] && { value: String(member[key])  }})
     , {})
@@ -124,7 +124,7 @@ const update_member = createAction
   ( UPDATED_MEMBER
   , (member) => compose
     ( map(to_member)
-    , post(standardise(flatten(member)))
+    , compose(post, standardise, flatten)(member)
     , make_user_url
     )(member.personal.id)
   )

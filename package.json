@@ -48,7 +48,6 @@
     "deep-memoize": "0.0.0",
     "dethunking-compose": "^0.1.2",
     "factor-bundle": "^2.5.0",
-    "history": "^1.13.1",
     "joi": "^6.4.3",
     "mailgun": "^0.5.0",
     "mandrill-api": "^1.0.45",

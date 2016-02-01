@@ -23,14 +23,15 @@ module.exports = React.createClass({
     }
   },
   render: function () {
-    var { get_payments, input_or_select, inputs } = this.props
+    var { get_payments, inputs, options } = this.props
     var { charges, payments, reference, searching, empty_search } = this.state
     return (
       <div className='main-container'>
         <Search
-            submit_handler={search(get_payments, this.setState.bind(this))}
-            input_or_select={input_or_select}
-            inputs={inputs} />
+          submit_handler={search(get_payments, this.setState.bind(this))}
+          inputs={inputs}
+          options={options}
+        />
         { payments.length
             && number_of_keys(charges) > number_of_members(payments) - 10
               ? <PayingIn

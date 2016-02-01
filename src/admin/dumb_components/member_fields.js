@@ -3,7 +3,7 @@ const { prop } = require('ramda')
 const React = require('react')
 const Field = require('../components/field.js')
 const Buttons = require('./edit_member_buttons.js')
-const { options, field_order, fieldStructure, read_only } =
+const { options, field_order, fieldStructure, read_only, validate } =
   require('../form_fields/member.js')
 const { array_only_keys } = require('app/sort')
 const { __, contains, assoc, filter, compose } = require('ramda')
@@ -61,5 +61,8 @@ const label_from_id = (id) =>
   id.slice(0, 1).toUpperCase() + id.slice(1).replace(/_/g, ' ') + ': '
 
 module.exports = reduxForm(
-  { form: 'member' }
+  { form: 'member'
+  , fields: []
+  , validate
+  }
 )(PersonalFields)

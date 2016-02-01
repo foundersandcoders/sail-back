@@ -1,6 +1,7 @@
 const { concat, contains, prop, equals, not, propOr, compose, test, curry
   , both, keys, assoc } =
     require('ramda')
+const { exists, selected } = require('app/validate')
 
 const subscription = ['amount', 'date']
 const event = concat(subscription, ['notes'])
@@ -25,8 +26,6 @@ const type_order =
   ]
 
 const validate = (values) => {
-  const exists = curry(compose(not, prop))
-  const selected = curry(compose(equals('-- select an option --'), prop))
   const ref_required = compose(test(/ash|eque/), propOr('', 'type'))
 
   const tests =

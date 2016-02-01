@@ -1,3 +1,6 @@
+const { prop, keys, assoc, reduce } = require('ramda')
+const { exists, selected } = require('app/validate')
+
 const fieldStructure =
     { personal:
       [ 'id'
@@ -87,5 +90,33 @@ const read_only =
   , 'activation_status'
   ]
 
+const validate = (values) => {
+  const tests =
+    { personal:
+      { title: exists
+      , last_name: exists
+      }
+    , membership:
+      { date_joined: exists
+      , membership_type: selected
+      }
+    }
 
-module.exports = { fields, fieldStructure, options, field_order, read_only }
+  return keys(tests).reduce((errors, subform) =>
+    assoc(subform, keys(tests[subform]).reduce((errors, field) =>
+      tests[subform][field](field)(prop(subform, values))
+        ? assoc(field, 'Required', errors)
+        : errors
+    , {}), errors)
+  , {})
+}
+
+
+module.exports =
+  { fields
+  , fieldStructure
+  , options
+  , field_order
+  , read_only
+  , validate
+  }

@@ -11,9 +11,10 @@ var trace = require('app/trace')
 
 module.exports = () =>
   <PaymentsReport
-      get_payments={get_payments_and_restrictions}
-      input_or_select={input_or_select(options)}
-      inputs={['Category', 'Start Date', 'End Date']} />
+    get_payments={get_payments_and_restrictions}
+    inputs={['Category', 'Start Date', 'End Date']}
+    options={options}
+  />
 
 var get_payments_and_restrictions = (e) =>
   ({
