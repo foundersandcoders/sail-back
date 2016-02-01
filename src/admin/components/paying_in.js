@@ -5,7 +5,7 @@ var React = require('react')
 var ReportTable = require('../components/report_table.js')
 
 var object_assign = require('object-assign')
-const { curry, propOr } = require('ramda')
+const { curry, propOr, path } = require('ramda')
 var dethunk = require('dethunking-compose')
 
 var PayingIn = module.exports = React.createClass({
@@ -93,7 +93,8 @@ var previous_details = (ps, payment) => {
 }
 
 var earlier_member = curry((payment, charge) =>
-  payment.member_number === charge.member.id && strict_earlier(payment, charge))
+  payment.member_number === path(['member', 'id'], charge)
+    && strict_earlier(payment, charge))
 
 var earlier = curry((entry_a, entry_b) =>
   new Date(entry_a.payment_date) >= new Date(entry_b.date))
