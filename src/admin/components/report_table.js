@@ -3,7 +3,7 @@
 var React = require('react')
 var Table = require('./table')
 
-const { curry, concat, flip, reduce, map, propOr, slice, range } =
+const { curry, concat: conc, flip, reduce, map, propOr, slice, range } =
   require('ramda')
 var dethunk = require('dethunking-compose')
 var get_report_entry = require('app/get_entry')('_')
@@ -11,6 +11,8 @@ var arg = require('app/arg.js')
 var make_array = require('app/make_array.js')
 var blank_array = make_array('')
 var echo = require('app/echo.js')
+
+const concat = flip(conc)
 
 module.exports = props =>
     <Table data={[headers, make_data(props)]} />
@@ -56,7 +58,7 @@ var balance_total = dethunk(
     () => compute_summary(
        latest_diff
        , 'Total Balances Due'
-       , range(0, 2))(get_col(6), [-2, 'end']))
+       , range(0, 2))(get_col(6), [-2, Infinity]))
 
 var compute_total = (o, r) =>
   compute_summary(sum, o, r)(unwrap)
@@ -81,7 +83,7 @@ var add_totals = curry((entries, rows) => {
   return concat([concat(totals, ['Totals', '', ''] )], rows ) })
 
 var sum_column = dethunk(
-    () => sum_column_between(0, 'end'))
+    () => sum_column_between(0, Infinity))
 
 var sum_column_between = curry((first_row, last_row, n) =>
   dethunk(

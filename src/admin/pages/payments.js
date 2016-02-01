@@ -94,7 +94,7 @@ var number_of_members = dethunk(
   , () => get_unique_members )
 
 var get_unique_members = dethunk(
-  () => filter(first_occurrence)
+  () => (a) => a.filter(first_occurrence)
   , () => map(dethunk(() => propOr('', 'id'), () => propOr({}, 'member'))) )
 
 var set_charges = curry((set_state, charge_data) =>
