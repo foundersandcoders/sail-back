@@ -1,5 +1,5 @@
 const { prop, keys, assoc, reduce } = require('ramda')
-const { exists, selected } = require('app/validate')
+const { exists, selected, check_tests } = require('app/validate')
 
 const fieldStructure =
     { personal:
@@ -49,7 +49,7 @@ const field_order =
   ]
 
 const fields = field_order.reduce((fields, list) =>
-  fields.concat(fieldStructure[list].map((field) => list + '.' + field)), [])
+  fields.concat(fieldStructure[list]), [])
 
 const options =
   { deletion_reason:
@@ -92,23 +92,13 @@ const read_only =
 
 const validate = (values) => {
   const tests =
-    { personal:
-      { title: exists
-      , last_name: exists
-      }
-    , membership:
-      { date_joined: exists
-      , membership_type: selected
-      }
+    { title: exists
+    , last_name: exists
+    , date_joined: exists
+    , membership_type: selected
     }
 
-  return keys(tests).reduce((errors, subform) =>
-    assoc(subform, keys(tests[subform]).reduce((errors, field) =>
-      tests[subform][field](field)(prop(subform, values))
-        ? assoc(field, 'Required', errors)
-        : errors
-    , {}), errors)
-  , {})
+  return check_tests(tests, values)
 }
 
 

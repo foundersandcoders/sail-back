@@ -7,7 +7,13 @@ const MemberFields = require('../dumb_components/member_fields.js')
 const { fields } = require('../form_fields/member.js')
 const { create_member } = require('../redux/modules/member.js')
 
-const buttons = () => (<button type='submit'>Submit</button>)
+const buttons = (
+  { fields: { id: { value: id } } }
+) =>
+  <div>
+    {id && <div id='member-num'>Member ID is: {id} </div>}
+    <button type='submit'>Submit</button>
+  </div>
 
 var NewMember = (
   { create_member

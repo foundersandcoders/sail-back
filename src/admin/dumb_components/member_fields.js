@@ -2,11 +2,10 @@ const { reduxForm } = require('redux-form')
 const { prop } = require('ramda')
 const React = require('react')
 const Field = require('../components/field.js')
-const Buttons = require('./edit_member_buttons.js')
 const { options, field_order, fieldStructure, read_only, validate } =
   require('../form_fields/member.js')
 const { array_only_keys } = require('app/sort')
-const { __, contains, assoc, filter, compose } = require('ramda')
+const { __, contains, merge, filter, compose } = require('ramda')
 
 const PersonalFields = (
   { fields: fs
@@ -16,11 +15,12 @@ const PersonalFields = (
   , mode
   , className
   , buttons_first
+  , error
   }
 ) => {
   const buttons =
     <Buttons
-      { ...assoc('fields', fs, button_props)
+      { ...merge({ fields: fs, error }, (button_props || {}))
       }
     />
   const make_fieldset = (field_list) =>
@@ -28,10 +28,10 @@ const PersonalFields = (
       key={field_list}
       className={'member-column-' + field_list}
     >
-      { array_only_keys(fieldStructure[field_list], fs[field_list])
+      { array_only_keys(fieldStructure[field_list], fs)
         .map((field) =>
           <Field
-            {...fs[field_list][field]}
+            {...fs[field]}
             id={field}
             name={label_from_id(field)}
             options={options[field]}
@@ -47,10 +47,10 @@ const PersonalFields = (
     >
       <div className='member-info-controls'>
         { buttons_first ? buttons : '' }
-        { fs.edit ? make_fieldset('edit') : '' }
+        { fs.deletion_reason ? make_fieldset('edit') : '' }
       </div>
       <div className={className}>
-        { array_only_keys(field_order, fs).map(make_fieldset) }
+        { field_order.map(make_fieldset) }
       </div>
       { buttons_first ? '' : buttons }
     </form>

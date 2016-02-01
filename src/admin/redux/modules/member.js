@@ -1,6 +1,8 @@
 const { createAction, handleAction } = require('redux-actions')
+const { stopSubmit } = require('redux-form')
 const { __, replace, compose, map, prop, concat, converge, contains, mergeAll,
-  unapply, cond, T, identity, is, filter, propOr, chain, keys } =
+  unapply, cond, T, identity, is, filter, propOr, chain, keys, path, reduce
+  , assoc } =
     require('ramda')
 
 const { get, post } = require('app/http')
@@ -22,45 +24,32 @@ const CREATED_MEMBER =
   'CREATED_MEMBER'
 
 const reducer =
-  (member = { personal: {}, address: {}, membership: {}, edit: {} }, action) => {
-    const { personal, address, membership, edit } = member
-    switch (action.type) {
+  (member = { }, { type, payload }) => {
+    switch (type) {
       case FETCHED_MEMBER:
-        return { ...action.payload }
+        return { ...payload }
       case DEACTIVATED_MEMBER:
         return (
           { ...member
-          , membership:
-            { ...membership
-            , activation_status: { value: 'deactivated' }
-            , deletion_date: { value: new Date().toISOString() }
-            }
-          })
+          , activation_status: { value: 'deactivated' }
+          , deletion_date: { value: new Date().toISOString() }
+          }
+        )
       case REACTIVATED_MEMBER:
         return (
           { ...member
-          , membership:
-            { ...membership
-            , activation_status: { value: 'activated' }
-            , deletion_date: {}
-            }
-          , edit:
-            { ...edit
-            , deletion_reason: { value: null }
-            }
-          })
+          , activation_status: { value: 'activated' }
+          , deletion_date: {}
+          , deletion_reason: { value: null }
+          }
+        )
       case UPDATED_MEMBER:
         return (
           { ...member
-          , ...action.payload
+          , ...payload
           })
       case CREATED_MEMBER:
-        return (
-          { personal: {}
-          , address: {}
-          , membership: {}
-          }
-        )
+        return { id: { value: compose(String, path(['body', 'id']))(payload) } }
       default:
         return member
     }
@@ -86,23 +75,18 @@ const parse_if_needed = cond(
 const reshape = ({ membership_type: { value, amount } = {}, ...member }) =>
   ({...member, membership_type: value, subscription_amount: amount })
 
-const get_sub_fields = (sub, member) =>
-  keys(member).filter(contains(__, fieldStructure[sub]))
-    .reduce((fields, key) =>
-      ({...fields, [key]: member[key] && { value: String(member[key])  }})
-    , {})
-
-const get_sub_forms = (member) =>
-  ['personal', 'address', 'membership', 'edit'].reduce((form, sub) =>
-    ({...form, [sub]: get_sub_fields(sub, member)}),
-  { other:
+const prepare_for_form = (member) =>
+  ({ ...wrap_values(member)
+  , other:
     { subscription_amount: member.subscription_amount
     , payments: member.payments
     }
   })
 
+const wrap_values = map((v) => (v && { value: String(v) }))
+
 const to_member = compose
-  ( get_sub_forms
+  ( prepare_for_form
   , format_dated
   , reshape
   , map(null_to_undefined)
@@ -115,6 +99,32 @@ const flatten = converge
   , map(propOr({}), ['personal', 'address', 'membership', 'edit'])
   )
 
+const has_errors = path(['body', 'error'])
+
+const to_errors = (dispatch) => ({ body: { invalidAttributes } }) => {
+  const errors = reduce
+    ( (errors, key) =>
+        assoc(key, invalidAttributes[key][0].message, errors)
+      , {}
+      , keys(invalidAttributes)
+    )
+  dispatch(
+    stopSubmit(
+      'member'
+      , { _error: 'Save failed'
+        , ...errors
+        }
+    )
+  )
+}
+
+const errors_or_to_member = (dispatch) =>
+  cond(
+    [ [has_errors, to_errors(dispatch)]
+    , [T, to_member]
+    ]
+  )
+
 const fetch_member = createAction
   ( FETCHED_MEMBER
   , compose(map(to_member), get, make_user_request_url)
@@ -122,11 +132,11 @@ const fetch_member = createAction
 
 const update_member = createAction
   ( UPDATED_MEMBER
-  , (member) => compose
-    ( map(to_member)
-    , compose(post, standardise, flatten)(member)
+  , (member, dispatch) => compose
+    ( map(errors_or_to_member(dispatch))
+    , compose(post, standardise)(member)
     , make_user_url
-    )(member.personal.id)
+    )(member.id)
   )
 
 const deactivate_member = createAction(DEACTIVATED_MEMBER)
@@ -135,10 +145,7 @@ const reactivate_member = createAction(REACTIVATED_MEMBER)
 
 const create_member = createAction
   ( CREATED_MEMBER
-  , compose
-    ( map(to_member)
-    , compose(post(__, 'addmember'), standardise, flatten)
-    )
+  , compose(post(__, 'addmember'), standardise)
   )
 
 module.exports = reducer

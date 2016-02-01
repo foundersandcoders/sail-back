@@ -1,7 +1,7 @@
 const { concat, contains, prop, equals, not, propOr, compose, test, curry
   , both, keys, assoc } =
     require('ramda')
-const { exists, selected } = require('app/validate')
+const { exists, selected, check_tests } = require('app/validate')
 
 const subscription = ['amount', 'date']
 const event = concat(subscription, ['notes'])
@@ -35,11 +35,7 @@ const validate = (values) => {
     , reference: (field) => both(ref_required, exists(field))
     }
 
-  return keys(tests).reduce((errors, field) =>
-    tests[field](field)(values)
-      ? assoc(field, 'Required', errors)
-      : errors
-  , {})
+  return check_tests(tests, values)
 }
 
 module.exports =

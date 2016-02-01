@@ -32,7 +32,7 @@ var ViewMember = (
     <MemberInformation
       {...
         { onSubmit: save_member_click
-        , fields: fields.concat(mode === 'view' ? [] : ['edit.deletion_reason'])
+        , fields: fields.concat(mode === 'view' ? [] : ['deletion_reason'])
         , mode
         , className: 'member-info-content'
         , Buttons
