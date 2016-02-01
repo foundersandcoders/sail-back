@@ -5,7 +5,7 @@ var Table = require('../table')
 var DeletionEntry = require('./deletion_entry')
 
 var make_payments_with_balance = require('app/make_payments_with_balance')
-var curry = require('curry')
+const { curry } = require('ramda')
 
 var get_entry_for_payment = curry(function (payment, delete_method, header) {
   return (header === 'Charges' || header === 'Payments')
@@ -26,20 +26,25 @@ function charge_or_payment_amount(category, charge_or_payment, amount) {
 function get_description (payment) {
   return payment.description + (payment.type ? ' - ' + payment.type : '') }
 
-var PaymentsTable = React.createClass({
-  displayName: 'PaymentsTable',
-  render: function () {
-    var headers = ['Date', 'Description', 'Charges', 'Payments', 'Balance Due',
-        'Reference', 'Notes', 'Delete']
+var PaymentsTable = (
+  { remove_payment
+  , payments = []
+  }
+) => {
+  var headers = ['Date', 'Description', 'Charges', 'Payments', 'Balance Due',
+      'Reference', 'Notes', 'Delete']
 
-    var entries = make_payments_with_balance(this.props.payments || [])
-        .slice(1)
-        .map(function (payment) {
-          return headers.map(get_entry_for_payment(payment,
-            this.props.remove_payment))}.bind(this))
+  var entries = make_payments_with_balance(payments)
+      .slice(1)
+      .map((payment) =>
+        headers.map(get_entry_for_payment(payment, remove_payment)))
 
-    return ( <Table
-        className='payments-table'
-        data={ [headers, entries] } /> )}})
+  return (
+    <Table
+      className='payments-table'
+      data={ [headers, entries] }
+    />
+  )
+}
 
 module.exports = PaymentsTable

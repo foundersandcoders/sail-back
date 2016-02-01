@@ -5,10 +5,8 @@ var React = require('react')
 var ReportTable = require('../components/report_table.js')
 
 var object_assign = require('object-assign')
-var deep_equal = require('deep-equal')
-var curry = require('curry')
+const { curry, propOr } = require('ramda')
 var dethunk = require('dethunking-compose')
-var prop_or = require('app/prop_or.js')
 
 var PayingIn = module.exports = React.createClass({
   componentWillReceiveProps: function () {
@@ -60,7 +58,7 @@ var add_relevant_charges = curry((charges, payment) =>
   get_relevant_charges(charges, payment).reduce(add_charge, payment))
 
 var get_relevant_charges = curry((charges, payment) =>
-  prop_or([], payment.member_number, charges)
+  propOr([], payment.member_number, charges)
       .filter(in_range(payment)) )
 
 var add_charge = curry((entry, { category, payment_date, id, amount } ) => {

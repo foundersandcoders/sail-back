@@ -9,6 +9,8 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
+var R = require('ramda')
+
 module.exports = {
   accountPage: function (req, res) {
     res.view('pages/account', {user: req.session.user})
@@ -58,6 +60,6 @@ function get_user_events (cb, id) {
     .populate('event_id')
     .exec(cb) }
 
-var respond_with_event_data = require('app/curry')(function (res, err, data) {
+var respond_with_event_data = R.curry(function (res, err, data) {
   if (err) res.serverError({error: error})
-  else res.send(require('app/pluck')('event_id', data))})
+  else res.send(R.pluck('event_id', data))})

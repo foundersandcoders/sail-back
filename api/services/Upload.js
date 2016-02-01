@@ -4,7 +4,7 @@
 
 'use strict'
 
-var prop_or = require('app/prop_or')
+var prop_or = require('ramda').propOr
 
 module.exports = function () {
   var that = {
