@@ -98,12 +98,12 @@ p {
 .member-activation-control,
 .member-cancel-button,
 .member-save-button {
-  width: 100px;
+  width: 150px;
   float: right;
   margin-left: 15px;
 }
 
-.member-cancel-button {
+.member-activation-control {
   @include red;
 }
 

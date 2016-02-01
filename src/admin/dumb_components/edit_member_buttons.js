@@ -44,11 +44,10 @@ const EditButtons = (
     className='member-edit-buttons'
   >
     <button
-      className='member-activation-control'
-      type='button'
-      onClick={activation_status === 'activated' ? deactivate : reactivate }
+      className='member-save-button'
+      type='submit'
     >
-      { activation_status === 'activated' ? 'Delete' : 'Reactivate' }
+      Save
     </button>
     <button
       className='member-cancel-button'
@@ -58,10 +57,11 @@ const EditButtons = (
       Cancel
     </button>
     <button
-      className='member-save-button'
-      type='submit'
+      className='member-activation-control'
+      type='button'
+      onClick={activation_status === 'activated' ? deactivate : reactivate }
     >
-      Save
+      { activation_status === 'activated' ? 'Delete' : 'Reactivate' }
     </button>
   </div>
 
