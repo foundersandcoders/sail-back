@@ -104,8 +104,11 @@ const is_required = (id, mode) =>
   mode === 'edit' && contains(id, required) ? '*' : ''
 
 const validate = (values) => {
-  const tests =
-    reduce((tests, key) => assoc(key, exists, tests), {}, required)
+
+  const add_test = (tests, key) =>
+    assoc(key, options[key] ? selected : exists, tests)
+
+  const tests = reduce(add_test, {}, required)
 
   return check_tests(tests, values)
 }
