@@ -2,8 +2,9 @@ const { reduxForm } = require('redux-form')
 const { prop } = require('ramda')
 const React = require('react')
 const Field = require('../components/field.js')
-const { options, field_order, fieldStructure, read_only, validate } =
-  require('../form_fields/member.js')
+const { options, field_order, fieldStructure, read_only, validate
+  , is_required } =
+    require('../form_fields/member.js')
 const { array_only_keys } = require('app/sort')
 const { __, contains, merge, filter, compose } = require('ramda')
 
@@ -33,7 +34,7 @@ const PersonalFields = (
           <Field
             {...fs[field]}
             id={field}
-            name={label_from_id(field)}
+            name={label_from_id(field, mode)}
             options={options[field]}
             mode={contains(field, read_only) ? 'view' : mode}
             key={field}
@@ -57,8 +58,10 @@ const PersonalFields = (
   )
 }
 
-const label_from_id = (id) =>
-  id.slice(0, 1).toUpperCase() + id.slice(1).replace(/_/g, ' ') + ': '
+const label_from_id = (id, mode) =>
+  id[0].toUpperCase()
+  + id.slice(1).replace(/_/g, ' ')
+  + is_required(id, mode) + ': '
 
 module.exports = reduxForm(
   { form: 'member'

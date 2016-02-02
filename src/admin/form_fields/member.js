@@ -1,5 +1,6 @@
-const { prop, keys, assoc, reduce } = require('ramda')
+const { prop, keys, assoc, reduce, contains } = require('ramda')
 const { exists, selected, check_tests } = require('app/validate')
+const to_title = require('app/to_title_case')
 
 const fieldStructure =
     { personal:
@@ -90,16 +91,29 @@ const read_only =
   , 'activation_status'
   ]
 
+const required =
+  [ 'title'
+  , 'last_name'
+  , 'address1'
+  , 'postcode'
+  , 'date_joined'
+  , 'membership_type'
+  ]
+
+const is_required = (id, mode) =>
+  mode === 'edit' && contains(id, required) ? '*' : ''
+
 const validate = (values) => {
   const tests =
-    { title: exists
-    , last_name: exists
-    , date_joined: exists
-    , membership_type: selected
-    }
+    reduce((tests, key) => assoc(key, exists, tests), {}, required)
 
   return check_tests(tests, values)
 }
+
+const normalise =
+  { last_name: to_title
+  , first_name: to_title
+  }
 
 
 module.exports =
@@ -109,4 +123,6 @@ module.exports =
   , field_order
   , read_only
   , validate
+  , normalise
+  , is_required
   }
