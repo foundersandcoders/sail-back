@@ -33,7 +33,8 @@ var SearchBox = React.createClass({
   getInitialState: function () {
     return { loading: false } },
 
-  search: function () {
+  search: function (e) {
+    e.preventDefault()
     var query = make_query.bind(this)()
     var updateResults = this.props.updateResults
     this.setState({ loading: true })
@@ -48,7 +49,10 @@ var SearchBox = React.createClass({
   render: function () {
     return (
       <div className='search-component'>
-        <div className='search-container'>
+        <form
+          className='search-container'
+          onSubmit={this.search}
+        >
           <select id='member-status' ref='activation_status'
               defaultValue='activated'>
             <option value='activated'>Active</option>
@@ -59,10 +63,10 @@ var SearchBox = React.createClass({
               placeholder='Email' />
           <input className='input-member' ref='last_name' id='last_name'
               placeholder='Surname' />
-          <button onClick={this.search} className='button-two member'
+          <button type='submit' className='button-two member'
               id='search-button'>Search</button>
           <p id='test' ref='test'></p>
-        </div>
+        </form>
         { this.state.loading ? <Spinner /> : '' }
       </div>
     )}})
