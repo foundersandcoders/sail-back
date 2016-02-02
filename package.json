@@ -40,7 +40,7 @@
     "babelify": "^7.2.0",
     "bcryptjs": "^2.1.0",
     "braintree": "^1.26.0",
-    "browserify": "^10.2.6",
+    "browserify": "^12.0.0",
     "csv-parse": "^0.1.2",
     "data.maybe": "^1.2.1",
     "data.task": "^3.0.0",
