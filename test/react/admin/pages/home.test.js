@@ -46,38 +46,6 @@ test('should render search results component', function (t) {
   })
 })
 
-test('should be able to enter text and press search', function (t) {
-
-  SearchBox.__set__('request', function (opts, cb) {
-    var mock_results = [{
-      id: 1234,
-      title: 'Mr',
-      last_name: 'fil_bes',
-      first_name: 'Hoxhaj',
-      initials: 'S',
-      payments: [],
-      membership_type: 'single-annual'
-    }];
-
-    return cb(undefined, undefined, JSON.stringify(mock_results))
-  })
-
-  Component.__set__('SearchBox', SearchBox)
-
-  ReactDOM.render(React.createElement(Component), wrapper, function () {
-
-    wrapper.querySelector('#id').value = 1234
-    wrapper.querySelector('#email').value = 'wil@foch.com'
-    wrapper.querySelector('#last_name').value = 'Fisher'
-    click(wrapper.querySelector('#search-button'))
-
-    process.nextTick(function () {
-
-        t.ok(wrapper.innerHTML.indexOf('fil_bes') > -1)
-        t.end()
-    })
-  })
-})
 test('exactly those fields that are filled in are present in the request', function (t) {
     var fields = ['id', 'email', 'last_name']
     fields.forEach(function (field) {
