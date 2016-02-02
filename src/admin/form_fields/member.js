@@ -110,6 +110,11 @@ const validate = (values) => {
   return check_tests(tests, values)
 }
 
+const normalise =
+  { last_name: to_title
+  , first_name: to_title
+  }
+
 
 module.exports =
   { fields
@@ -118,5 +123,6 @@ module.exports =
   , field_order
   , read_only
   , validate
+  , normalise
   , is_required
   }
