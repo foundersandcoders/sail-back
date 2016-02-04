@@ -11,8 +11,10 @@ const buttons = (
   { fields: { id: { value: id } } }
 ) =>
   <div>
-    {id && <div id='member-num'>Member ID is: {id} </div>}
-    <button type='submit'>Submit</button>
+    {id
+      ? <div id='member-num'>Member ID is: {id} </div>
+      : <button type='submit'>Submit</button>
+    }
   </div>
 
 var NewMember = (
