@@ -480,8 +480,11 @@ div.gbp {
 	width: 100%;
 }
 
-.search-error {
-  font-size: 3em;
+.search-error, .login-error {
   text-align: center;
   margin: 1em;
+}
+
+.search-error {
+  font-size: 3em;
 }

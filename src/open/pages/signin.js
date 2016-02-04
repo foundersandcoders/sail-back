@@ -20,10 +20,10 @@ var Signin = React.createClass({
         password: this.refs.password.value
       }
       var handle_response = function (err, res, body) {
-        if (err) {
-          this.setState({login_failed: true})
-        } else if (res.statusCode === 200) {
+        if (res && res.statusCode === 200) {
           win.location.pathname = res.headers.location
+        } else {
+          this.setState({login_failed: true})
         }
       }.bind(this)
 
@@ -92,6 +92,10 @@ var Signin = React.createClass({
           <input type='password' ref='password' id='password' placeholder='Password' />
 
           <div className='inner-section-divider-small'></div>
+          { this.state.login_failed
+            ? <div className='login-error'>Login Failed</div>
+            : ''
+          }
           <button className='btn-primary' type='submit' id='submit-button'>Submit</button>
           <div className='inner-section-divider-small'></div>
 
