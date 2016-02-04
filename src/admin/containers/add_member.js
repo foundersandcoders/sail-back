@@ -8,10 +8,11 @@ const { fields } = require('../form_fields/member.js')
 const { create_member } = require('../redux/modules/member.js')
 
 const buttons = (
-  { fields: { id: { value: id } } }
+  { fields: { id: { value: id } }, error }
 ) =>
   <div>
-    {id
+    { error ? <div className='error'>{error}</div> : '' }
+    { id
       ? <div id='member-num'>Member ID is: {id} </div>
       : <button type='submit'>Submit</button>
     }

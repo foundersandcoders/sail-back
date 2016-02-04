@@ -2,7 +2,7 @@ const { createAction, handleAction } = require('redux-actions')
 const { stopSubmit } = require('redux-form')
 const { __, replace, compose, map, prop, concat, converge, contains, mergeAll,
   unapply, cond, T, identity, is, filter, propOr, chain, keys, path, reduce
-  , assoc } =
+  , assoc, join, values } =
     require('ramda')
 
 const { get, post } = require('app/http')
@@ -49,7 +49,7 @@ const reducer =
           , ...payload
           })
       case CREATED_MEMBER:
-        return { id: { value: compose(String, path(['body', 'id']))(payload) } }
+        return typeof payload === 'string' ? { id: { value: payload } } : member
       default:
         return member
     }
@@ -111,19 +111,25 @@ const to_errors = (dispatch) => ({ body: { invalidAttributes } }) => {
   dispatch(
     stopSubmit(
       'member'
-      , { _error: 'Save failed'
+      , { _error: join(' ', values(errors))
         , ...errors
         }
     )
   )
 }
 
-const errors_or_to_member = (dispatch) =>
+const id_value = compose(String, path(['body', 'id']))
+
+const errors_or = (on_success) => (dispatch) =>
   cond(
     [ [has_errors, to_errors(dispatch)]
-    , [T, to_member]
+    , [T, on_success]
     ]
   )
+
+const errors_or_to_member = errors_or(to_member)
+
+const error_id = errors_or(id_value)
 
 const fetch_member = createAction
   ( FETCHED_MEMBER
@@ -145,7 +151,8 @@ const reactivate_member = createAction(REACTIVATED_MEMBER)
 
 const create_member = createAction
   ( CREATED_MEMBER
-  , compose(post(__, 'addmember'), standardise)
+  , (member, dispatch) =>
+    compose(map(error_id(dispatch)), post(__, 'addmember'), standardise)(member)
   )
 
 module.exports = reducer
