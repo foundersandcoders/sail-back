@@ -1,4 +1,7 @@
-const { prop, keys, assoc, reduce, contains } = require('ramda')
+const { prop, keys, assoc, reduce, contains, converge, merge } =
+  require('ramda')
+const validate_email = require('email-validator').validate
+const valid_email = (field) => (values) => !validate_email(values[field])
 const { exists, selected, check_tests } = require('app/validate')
 const to_title = require('app/to_title_case')
 
@@ -109,9 +112,18 @@ const validate = (values) => {
   const add_test = (tests, key) =>
     assoc(key, options[key] ? selected : exists, tests)
 
-  const tests = reduce(add_test, {}, required)
+  const required_tests = reduce(add_test, {}, required)
+  const email_tests =
+    { primary_email: valid_email
+    , secondary_email: valid_email
+    }
 
-  return check_tests(tests, values)
+  return converge
+    ( merge
+    , [ check_tests('required', required_tests)
+      , check_tests('invalid email', email_tests)
+      ]
+    )(values)
 }
 
 const normalise =
