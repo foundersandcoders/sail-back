@@ -61,6 +61,7 @@ var SearchResults = React.createClass({
     return (
     <div id='search-result'>
   <div className='search-table-section-member'>
+  { this.props.error ? <div className='search-error'>No results</div> : '' }
   <div className='search-table-section-member-header'>
   <div className='col-1'>
   <p>ID</p>

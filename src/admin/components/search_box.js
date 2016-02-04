@@ -36,13 +36,14 @@ var SearchBox = React.createClass({
   search: function (e) {
     e.preventDefault()
     var query = make_query.bind(this)()
-    var updateResults = this.props.updateResults
+    var { updateResults, none_found } = this.props
     this.setState({ loading: true })
     request({
       method: 'GET',
       url: '/api/members?where=' + JSON.stringify(query) + '&populate=[payments]'
     }, function (err, resp, body) {
       this.setState({ loading: false })
+      if (JSON.parse(body).length === 0) none_found()
       updateResults(body)
     }.bind(this))
   },
