@@ -98,6 +98,7 @@ const required =
   , 'postcode'
   , 'date_joined'
   , 'membership_type'
+  , 'news_type'
   ]
 
 const is_required = (id, mode) =>
