@@ -1,7 +1,7 @@
 const { concat, contains, prop, equals, not, propOr, compose, test, curry
-  , both, keys, assoc } =
+  , both, keys, assoc, complement, converge, merge } =
     require('ramda')
-const { exists, selected, check_tests } = require('app/validate')
+const { exists, selected, check_tests, date } = require('app/validate')
 
 const subscription = ['amount', 'date']
 const event = concat(subscription, ['notes'])
@@ -26,16 +26,21 @@ const type_order =
   ]
 
 const validate = (values) => {
-  const ref_required = compose(test(/ash|eque/), propOr('', 'type'))
+  const ref_required = both(complement(test(/ash|eque/)), propOr('', 'type'))
 
-  const tests =
+  const required_tests =
     { date: exists
     , amount: exists
     , type: selected
     , reference: (field) => both(ref_required, exists(field))
     }
 
-  return check_tests(tests, values)
+  return converge
+    ( merge
+    , [ check_tests('required', required_tests)
+      , check_tests('invalid date', { date })
+      ]
+    )(values)
 }
 
 module.exports =
