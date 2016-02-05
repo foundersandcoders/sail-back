@@ -22,6 +22,9 @@ var AdminHome = React.createClass({
   none_found: function () {
     this.setState({ none_found: true })
   },
+  clear_none_found: function () {
+    this.setState({ none_found: false })
+  },
   render: function () {
     return (
       <div>
@@ -36,6 +39,7 @@ var AdminHome = React.createClass({
               <SearchBox
                 updateResults={this.updateResults}
                 none_found={this.none_found}
+                clear_none_found={this.clear_none_found}
               />
               <SearchResults
                 results={this.state.results}
