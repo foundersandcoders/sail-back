@@ -36,7 +36,8 @@ var SearchBox = React.createClass({
   search: function (e) {
     e.preventDefault()
     var query = make_query.bind(this)()
-    var { updateResults, none_found } = this.props
+    var { updateResults, none_found, clear_none_found } = this.props
+    this.props.clear_none_found()
     this.setState({ loading: true })
     request({
       method: 'GET',
