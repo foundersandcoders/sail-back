@@ -1,8 +1,9 @@
-const { prop, keys, assoc, reduce, contains, converge, merge } =
-  require('ramda')
+const { prop, keys, assoc, reduce, contains, converge, merge, unapply,
+  mergeAll } =
+    require('ramda')
 const validate_email = require('email-validator').validate
-const valid_email = (field) => (values) => !validate_email(values[field])
-const { exists, selected, check_tests } = require('app/validate')
+const valid_email = (field) => (values) => validate_email(values[field])
+const { exists, selected, check_tests, date } = require('app/validate')
 const to_title = require('app/to_title_case')
 
 const fieldStructure =
@@ -117,11 +118,18 @@ const validate = (values) => {
     { primary_email: valid_email
     , secondary_email: valid_email
     }
+  const date_tests = reduce
+    ( (tests, key) =>
+      key.match(/date/) && !key.match(/due/) ? assoc(key, date, tests) : tests
+    , {}
+    , fields
+    )
 
   return converge
-    ( merge
+    ( unapply(mergeAll)
     , [ check_tests('required', required_tests)
       , check_tests('invalid email', email_tests)
+      , check_tests('invalid date', date_tests)
       ]
     )(values)
 }
