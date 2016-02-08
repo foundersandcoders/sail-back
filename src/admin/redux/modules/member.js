@@ -1,8 +1,8 @@
 const { createAction, handleAction } = require('redux-actions')
 const { stopSubmit } = require('redux-form')
 const { __, replace, compose, map, prop, concat, converge, contains, mergeAll,
-  unapply, cond, T, identity, is, filter, propOr, chain, keys, path, reduce
-  , assoc, join, values } =
+  unapply, cond, T, identity, is, reject, propOr, chain, keys, path, reduce
+  , assoc, join, values, equals } =
     require('ramda')
 
 const { get, post } = require('app/http')
@@ -120,6 +120,8 @@ const to_errors = (dispatch) => ({ body: { invalidAttributes } }) => {
 
 const id_value = compose(String, path(['body', 'id']))
 
+const null_empty = map((v) => v == '' ? null : v)
+
 const errors_or = (on_success) => (dispatch) =>
   cond(
     [ [has_errors, to_errors(dispatch)]
@@ -140,7 +142,7 @@ const update_member = createAction
   ( UPDATED_MEMBER
   , (member, dispatch) => compose
     ( map(errors_or_to_member(dispatch))
-    , compose(post, standardise)(member)
+    , compose(post, null_empty, standardise)(member)
     , make_user_url
     )(member.id)
   )
