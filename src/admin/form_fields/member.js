@@ -2,7 +2,8 @@ const { prop, keys, assoc, reduce, contains, converge, merge, unapply,
   mergeAll } =
     require('ramda')
 const validate_email = require('email-validator').validate
-const valid_email = (field) => (values) => validate_email(values[field])
+const valid_email = (field) => (values) =>
+  !values[field] || validate_email(values[field])
 const { exists, selected, check_tests, date } = require('app/validate')
 const to_title = require('app/to_title_case')
 
