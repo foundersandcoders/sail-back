@@ -101,7 +101,6 @@ const required =
   , 'last_name'
   , 'address1'
   , 'postcode'
-  , 'date_joined'
   , 'membership_type'
   , 'news_type'
   ]
@@ -114,7 +113,9 @@ const validate = (values) => {
   const add_test = (tests, key) =>
     assoc(key, options[key] ? selected : exists, tests)
 
-  const required_tests = reduce(add_test, {}, required)
+  const req = values.id ? required : required.concat('date_joined')
+
+  const required_tests = reduce(add_test, {}, req)
   const email_tests =
     { primary_email: valid_email
     , secondary_email: valid_email
