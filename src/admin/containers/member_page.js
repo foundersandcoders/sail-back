@@ -1,6 +1,7 @@
 const React = require('react')
 const { connect } = require('react-redux')
 const { pick, compose, propOr, merge } = require('ramda')
+const title_case = require('app/to_title_case')
 
 const { fetch_member, deactivate_member, reactivate_member, update_member } =
   require('../redux/modules/member.js')
@@ -32,7 +33,7 @@ const ViewMember = React.createClass({
     compose(add_payment, merge(
       { member: id
       , category: charge_type
-      , description: charge_type }))(payment)
+      , description: title_case(charge_type) }))(payment)
   },
 
   render () {
