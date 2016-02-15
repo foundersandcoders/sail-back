@@ -6,10 +6,10 @@ const { options, field_order, fieldStructure, read_only, validate
   , is_required } =
     require('../form_fields/member.js')
 const { array_only_keys } = require('app/sort')
-const { __, contains, merge, filter, compose } = require('ramda')
+const { __, contains, merge, filter, compose, dissoc } = require('ramda')
 
 const PersonalFields = (
-  { fields: fs
+  { fields
   , Buttons
   , button_props
   , handleSubmit
@@ -19,11 +19,16 @@ const PersonalFields = (
   , error
   }
 ) => {
+  const fs = (fields.membership_type.value || '').match('life')
+    ? fields
+    : dissoc('life_payment_date', fields)
+
   const buttons =
     <Buttons
       { ...merge({ fields: fs, error }, (button_props || {}))
       }
     />
+
   const make_fieldset = (field_list) =>
     <fieldset
       key={field_list}
@@ -42,6 +47,7 @@ const PersonalFields = (
         )
       }
     </fieldset>
+
   return (
     <form
       onSubmit={handleSubmit}
