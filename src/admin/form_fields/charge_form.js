@@ -26,7 +26,7 @@ const type_order =
   ]
 
 const validate = (values) => {
-  const ref_required = compose(complement(test(/ash|eque/)), propOr('', 'type'))
+  const ref_required = compose(test(/ash|eque/), propOr('', 'type'))
 
   const required_tests =
     { date: exists
