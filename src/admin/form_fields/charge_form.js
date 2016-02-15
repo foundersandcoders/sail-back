@@ -3,7 +3,7 @@ const { concat, contains, prop, equals, not, propOr, compose, test, curry
     require('ramda')
 const { exists, selected, check_tests, date } = require('app/validate')
 
-const subscription = ['amount', 'date']
+const subscription = ['date', 'amount']
 const event = concat(subscription, ['notes'])
 const donation = event
 const payment = concat(donation, ['type', 'reference'])
