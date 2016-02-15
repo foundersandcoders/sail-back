@@ -75,6 +75,9 @@ const parse_if_needed = cond(
 const reshape = ({ membership_type: { value, amount } = {}, ...member }) =>
   ({...member, membership_type: value, subscription_amount: amount })
 
+const reshape_if_necessary = (member) =>
+  typeof member.membership_type === 'object' ? reshape(member) : member
+
 const prepare_for_form = (member) =>
   ({ ...wrap_values(member)
   , other:
@@ -88,7 +91,7 @@ const wrap_values = map((v) => (v && { value: String(v) }))
 const to_member = compose
   ( prepare_for_form
   , format_dated
-  , reshape
+  , reshape_if_necessary
   , map(null_to_undefined)
   , parse_if_needed
   , prop('body')
