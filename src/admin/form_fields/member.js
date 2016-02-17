@@ -8,45 +8,45 @@ const { exists, selected, check_tests, date } = require('app/validate')
 const to_title = require('app/to_title_case')
 
 const fieldStructure =
-    { personal:
-      [ 'id'
-      , 'title'
-      , 'initials'
-      , 'first_name'
-      , 'last_name'
-      , 'primary_email'
-      , 'secondary_email'
-      ]
-    , address:
-      [ 'address1'
-      , 'address2'
-      , 'address3'
-      , 'address4'
-      , 'county'
-      , 'postcode'
-      , 'deliverer'
-      , 'home_phone'
-      , 'work_phone'
-      , 'mobile_phone'
-      ]
-    , membership:
-      [ 'date_joined'
-      , 'membership_type'
-      , 'life_payment_date'
-      , 'date_membership_type_changed'
-      , 'date_gift_aid_signed'
-      , 'standing_order'
-      , 'notes'
-      , 'registered'
-      , 'due_date'
-      , 'news_type'
-      , 'email_bounced'
-      , 'activation_status'
-      ]
-    , edit:
-      [ 'deletion_reason'
-      ]
-    }
+  { personal:
+    [ 'id'
+    , 'title'
+    , 'initials'
+    , 'first_name'
+    , 'last_name'
+    , 'primary_email'
+    , 'secondary_email'
+    ]
+  , address:
+    [ 'address1'
+    , 'address2'
+    , 'address3'
+    , 'address4'
+    , 'county'
+    , 'postcode'
+    , 'deliverer'
+    , 'home_phone'
+    , 'work_phone'
+    , 'mobile_phone'
+    ]
+  , membership:
+    [ 'date_joined'
+    , 'membership_type'
+    , 'life_payment_date'
+    , 'date_membership_type_changed'
+    , 'date_gift_aid_signed'
+    , 'standing_order'
+    , 'notes'
+    , 'registered'
+    , 'due_date'
+    , 'news_type'
+    , 'email_bounced'
+    , 'activation_status'
+    ]
+  , edit:
+    [ 'deletion_reason'
+    ]
+  }
 
 const field_order =
   [ "personal"
@@ -105,15 +105,19 @@ const required =
   , 'news_type'
   ]
 
-const is_required = (id, mode) =>
-  mode === 'edit' && contains(id, required) ? '*' : ''
+const new_required = required.concat('date_joined')
 
 const validate = (values) => {
+
+  const { id, membership_type } = values
 
   const add_test = (tests, key) =>
     assoc(key, options[key] ? selected : exists, tests)
 
-  const req = values.id ? required : required.concat('date_joined')
+  const req = id ? required :
+    new_required.concat(
+      membership_type && membership_type.match(/life/) ? ['life_payment_date']: []
+    )
 
   const required_tests = reduce(add_test, {}, req)
   const email_tests =
@@ -150,5 +154,5 @@ module.exports =
   , read_only
   , validate
   , normalise
-  , is_required
+  , required
   }

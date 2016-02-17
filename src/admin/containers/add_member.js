@@ -2,9 +2,10 @@
 
 const React = require('react')
 const { connect } = require('react-redux')
+const { reduxForm } = require('redux-form')
 
 const MemberFields = require('../dumb_components/member_fields.js')
-const { fields } = require('../form_fields/member.js')
+const { fields, validate, required } = require('../form_fields/member.js')
 const { create_member } = require('../redux/modules/member.js')
 
 const buttons = (
@@ -18,17 +19,25 @@ const buttons = (
     }
   </div>
 
-var NewMember = (
+const AddMember = reduxForm(
+  { form: 'member'
+  , validate
+  , fields: []
+  }
+)(MemberFields)
+
+const NewMember = (
   { create_member
   }
 ) => (
   <div>
     <div className='new-member-container'>
       <h1>New Member Form</h1>
-      <MemberFields
+      <AddMember
         fields={fields}
         Buttons={buttons}
         onSubmit={create_member}
+        required={required}
         mode='edit'
       />
       <a href='#/' className='flex-button'>

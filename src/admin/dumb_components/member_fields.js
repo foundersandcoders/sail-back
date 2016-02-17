@@ -10,6 +10,7 @@ const { __, contains, merge, filter, compose, dissoc } = require('ramda')
 
 const PersonalFields = (
   { fields
+  , required
   , Buttons
   , button_props
   , handleSubmit
@@ -29,6 +30,12 @@ const PersonalFields = (
       }
     />
 
+  const label_from_id = (id) =>
+    id[0].toUpperCase()
+    + id.slice(1).replace(/_/g, ' ')
+    + (mode === 'edit' && contains(id, required) ? '*' : '')
+    + ': '
+
   const make_fieldset = (field_list) =>
     <fieldset
       key={field_list}
@@ -39,7 +46,7 @@ const PersonalFields = (
           <Field
             {...fs[field]}
             id={field}
-            name={label_from_id(field, mode)}
+            name={label_from_id(field)}
             options={options[field]}
             mode={contains(field, read_only) ? 'view' : mode}
             key={field}
@@ -64,14 +71,4 @@ const PersonalFields = (
   )
 }
 
-const label_from_id = (id, mode) =>
-  id[0].toUpperCase()
-  + id.slice(1).replace(/_/g, ' ')
-  + is_required(id, mode) + ': '
-
-module.exports = reduxForm(
-  { form: 'member'
-  , fields: []
-  , validate
-  }
-)(PersonalFields)
+module.exports = PersonalFields
