@@ -20,7 +20,8 @@ module.exports.policies = {
     '*': ['isAuthenticated', 'isAdmin'],
     'clientToken': 'isAuthenticated',
     'makePaypalPayment': 'isAuthenticated',
-    'charge': 'isAuthenticated'
+    'charge': 'isAuthenticated',
+    'payingInReport': 'isAdmin'
   },
 
   EventsController: {

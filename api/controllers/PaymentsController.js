@@ -106,5 +106,23 @@ module.exports = {
           }
         })
     })
+  },
+
+  payingInReport: function (req, res) {
+    Payments.query
+      ( 'select * from payments p' +
+        '  where exists (' +
+        '    select 1 from payments p2' +
+        '      where p2.reference = ?' +
+        '        AND p2.member = p.member' +
+        '        AND p2.date >= p.date' +
+        '  )' +
+        '  order by p.date'
+      , [req.params.ref]
+      , function (err, results) {
+          if (err) res.badRequest({ error: err })
+          else res.send(results)
+        }
+      )
   }
 }
