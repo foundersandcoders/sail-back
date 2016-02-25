@@ -136,6 +136,11 @@ module.exports.routes = {
   'POST /upload': {
     controller: 'Private',
     action: 'upload'
+  },
+
+  'GET /api/payingin/:ref': {
+    controller: 'Payments',
+    action: 'payingInReport'
   }
 // -------------------------------------------------------------------------
 }
