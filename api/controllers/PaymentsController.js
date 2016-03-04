@@ -110,13 +110,14 @@ module.exports = {
 
   payingInReport: function (req, res) {
     Payments.query
-      ( 'select * from payments p' +
+      ( 'select p.*, m.last_name from payments p, members m' +
         '  where exists (' +
         '    select 1 from payments p2' +
         '      where p2.reference = ?' +
         '        AND p2.member = p.member' +
         '        AND p2.date >= p.date' +
         '  )' +
+        '  AND p.member = m.id' +
         '  order by p.date'
       , [req.params.ref]
       , function (err, results) {

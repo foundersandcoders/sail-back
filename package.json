@@ -75,6 +75,7 @@
     "sails-disk": "0.10.8",
     "sails-memory": "0.10.4",
     "sails-mysql": "0.10.12",
+    "sanctuary": "^0.9.0",
     "sass-css-stream": "0.1.6",
     "skipper": "0.5.8",
     "swig": "1.4.2",

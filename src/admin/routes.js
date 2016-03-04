@@ -10,7 +10,7 @@ var AdminHome = require('./pages/home.js')
 var ViewMember = require('./containers/member_page.js')
 var AddMember = require('./containers/add_member.js')
 var Reports = require('./pages/available_reports.js')
-var PayingIn = require('./pages/paying_in.js')
+var PayingIn = require('./containers/paying_in.js')
 var NonCheque = require('./pages/non_cheque.js')
 var Email = require('./pages/email.js')
 
