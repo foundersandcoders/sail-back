@@ -1,9 +1,10 @@
 const { createAction } = require('redux-actions')
 const { get_body } = require('app/http')
+const { format } = require('app/transform_dated')
 const { floor } = Math
 const { compose, concat, reduce, map, add, negate, lens, lensPath, flip,
   over, defaultTo, prop, view, set, append, identity, divide, multiply, __
-  , objOf, propOr, mergeAll, converge, unapply, assoc } =
+  , objOf, propOr, mergeAll, converge, unapply, assoc, pick } =
     require('ramda')
 const { S } = require('sanctuary')
 
@@ -64,7 +65,11 @@ const make_balances = (ref) =>
   }
 
 const make_payments = (ref) =>
-  compose(prop('payments'), reduce(make_balances(ref), {}))
+  compose
+    ( over(payments, map(format))
+    , pick(['payments'])
+    , reduce(make_balances(ref), {})
+    )
 
 const plus = amount =>
   compose(divide(__, 100), floor, add(amount * 100), multiply(100), defaultTo(0))
@@ -87,8 +92,12 @@ export const receive_paying_in =
   createAction
     ( RECEIVED_PAYING_IN
     , (ref) => compose
-      ( map(compose(S(flip(assoc('totals')), make_totals), make_payments(ref)))
+      ( map(compose
+        ( S(flip(assoc('totals')), compose(make_totals, prop('payments')))
+        , make_payments(ref)
+        ))
       , get_body
-      , make_url)(ref)
+      , make_url
+      )(ref)
     )
 
