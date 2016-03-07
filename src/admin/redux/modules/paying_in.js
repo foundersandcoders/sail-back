@@ -3,7 +3,7 @@ const { get_body } = require('app/http')
 const { format } = require('app/transform_dated')
 const { compose, concat, reduce, map, add, negate, lensPath, flip, over, prop,
   view, set, append, identity, objOf, propOr, mergeAll, converge, unapply,
-  assoc, pick } =
+  assoc, pick, cond, equals, T } =
     require('ramda')
 const { plus, plus2 } = require('app/money_arith')
 const { S } = require('sanctuary')
@@ -49,12 +49,17 @@ const make_balances = (check) => (balances, charge) => {
   const add_payment = (payment) => over(payments, append(payment), balances)
 
   const transfer_payment = compose(reset_current, add_payment)
+  const clear_if_zerod = cond(
+    [ [compose(equals(0), view(curr_bal)), reset_current], [T, identity] ]
+  )
 
   return check(charge)
     ? transfer_payment(add_member_details(view(curr, credit())), balances)
-    : category === 'payment'
-    ? credit()
-    : debit()
+    : clear_if_zerod
+      ( category === 'payment'
+      ? credit()
+      : debit()
+      )
 }
 
 const make_payments = (check) =>
