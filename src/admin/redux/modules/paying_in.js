@@ -10,7 +10,7 @@ const { S } = require('sanctuary')
 
 const RECEIVED_PAYING_IN = 'RECEIVED_PAYING_IN'
 
-export default (state = [], { type, payload }) => {
+export default (state = {}, { type, payload }) => {
   switch (type) {
     case RECEIVED_PAYING_IN:
       return payload
@@ -68,7 +68,7 @@ const make_payments = (ref) =>
   compose
     ( over(payments, map(format))
     , pick(['payments'])
-    , reduce(make_balances(ref), {})
+    , reduce(make_balances(ref), { payments: [] })
     )
 
 const plus = amount =>
@@ -88,14 +88,16 @@ const make_totals =
       )
     )
 
+const add_totals = S(flip(assoc('totals')), compose(make_totals, prop('payments')))
+
+// link to issue on discussion around alternatives to breaking encapsulation
+export const prepare = ref => compose(add_totals, make_payments(ref))
+
 export const receive_paying_in =
   createAction
     ( RECEIVED_PAYING_IN
     , (ref) => compose
-      ( map(compose
-        ( S(flip(assoc('totals')), compose(make_totals, prop('payments')))
-        , make_payments(ref)
-        ))
+      ( map(prepare(ref))
       , get_body
       , make_url
       )(ref)
