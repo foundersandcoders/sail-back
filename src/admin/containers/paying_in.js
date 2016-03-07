@@ -87,8 +87,15 @@ const PayingIn = (
   }
 ) =>
   <div className='main-container'>
-    <form onSubmit={compose(receive_paying_in, get_form_value, prev_def)}>
-      <input />
+    <form
+      onSubmit={compose(receive_paying_in, get_form_value, prev_def)}
+      className="search-options flex"
+    >
+      <input
+        placeholder='Reference'
+        id='reference'
+        className='paying-in-search'
+      />
       <input type='submit' />
     </form>
     { paying_in.payments && <Table data={make_data(paying_in)} /> }

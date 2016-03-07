@@ -8,10 +8,12 @@
 }
 
 .search-options {
-  justify-content: flex-start
+  justify-content: flex-start;
+  padding-bottom: 0.4em;
 }
 
-.search-options > div {
+.search-options > * {
+  margin-top: 1em;
   margin-right: 1em;
 }
 
