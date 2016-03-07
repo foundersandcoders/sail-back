@@ -1,38 +1,16 @@
 import React, { createClass } from 'react'
 import { connect } from 'react-redux'
 import { compose, props, map, append, lensIndex, set, range, apply, lift,
-  subtract }
+  defaultTo }
     from 'ramda'
+import { minus, plus } from 'app/money_arith'
+import { fields, headers } from '../form_fields/paying_in.js'
 
 import { receive_paying_in } from '../redux/modules/paying_in.js'
 
 import Table from '../components/table'
 
-const fields =
-  [ 'member'
-  , 'surname'
-  , 'date'
-  , 'subscription'
-  , 'donation'
-  , 'event'
-  , 'payments'
-  , 'payment'
-  , 'balance'
-  ]
-
-const headers =
-  [ 'Member Number'
-  , 'Surname'
-  , 'Payment Date'
-  , 'Subscription'
-  , 'Donation'
-  , 'Event'
-  , 'Payment'
-  , 'Other Payments'
-  , 'Balance'
-  ]
-
-const get_fields = map(props(fields))
+const get_fields = map(compose(map(defaultTo(0)), props(fields)))
 
 const head_lens = lensIndex(0)
 const total_lens = lensIndex(6)
@@ -50,14 +28,14 @@ const summary = string => from_totals => totals =>
     )(blank)
 
 const sum_charges =
-  ({ subscription, donation, event }) => subscription + donation + event
+  ({ subscription, donation, event }) => plus(plus(subscription)(donation))(event)
 const sum_payments =
-  ({ payment, payments }) => payment + payments
+  ({ payment, payments }) => plus(payment)(payments)
 
 const total_charges = summary('Total Charges')(sum_charges)
 const total_payments = summary('Less Total Payments')(sum_payments)
 const total_balances =
-  summary('Total Balances Due')(lift(subtract)(sum_payments, sum_charges))
+  summary('Total Balances Due')(lift(minus)(sum_payments, sum_charges))
 
 const append_compose = compose(apply(compose), map(append))
 
