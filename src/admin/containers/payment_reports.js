@@ -4,9 +4,12 @@ import { compose, props, map, append, lensIndex, set, range, apply, lift,
   defaultTo }
     from 'ramda'
 import { minus, plus } from 'app/money_arith'
+import standardise from 'app/standardise_date'
 import { fields, headers } from '../form_fields/paying_in.js'
+import Field from '../components/field.js'
 
-import { receive_paying_in } from '../redux/modules/paying_in.js'
+import { receive_non_cheque, receive_paying_in }
+  from '../redux/modules/paying_in.js'
 
 import Table from '../components/table'
 
@@ -59,29 +62,82 @@ const make_data = ({ totals, payments }) =>
   , add_totals(totals)(get_fields(payments))
   ]
 
-const PayingIn = (
-  { receive_paying_in
-  , paying_in
+
+const PaymentsReport = (
+  { receive
+  , data
+  , fields
+  , get_form_value
   }
 ) =>
   <div className='main-container'>
     <form
-      onSubmit={compose(receive_paying_in, get_form_value, prev_def)}
+      onSubmit={compose(receive, get_form_value, prev_def)}
       className="search-options flex"
     >
-      <input
-        placeholder='Reference'
-        id='reference'
-        className='paying-in-search'
-      />
+      { fields.map(({ id, ...field_props }) =>
+        <Field
+          className='paying-in-search'
+          mode='edit'
+          key={id}
+          { ...
+            { id
+            , ...field_props
+            }
+          }
+        />
+      )}
       <input type='submit' />
     </form>
-    { paying_in.payments && <Table data={make_data(paying_in)} /> }
+    { data.payments && <Table data={make_data(data)} /> }
   </div>
 
-const get_form_value = ({ target }) => target.children[0].value
+const add_details = fields => get_form_value => props =>
+  <PaymentsReport
+    { ...
+      { fields
+      , get_form_value
+      , ...props
+      }
+    }
+  />
+
+const non_cheque_fields =
+  [ { name: 'Type'
+    , id: 'type'
+    , options: [ 'BACs', 'Standing Order', 'CAF', 'HO', 'Credit Card', 'Paypal' ]
+    }
+  , { name: 'Start Date'
+    , id: 'from'
+    }
+  , { name: 'End Date'
+    , id: 'until'
+    }
+  ]
+
+const paying_in_fields = [ { name: 'Reference', id: 'reference' } ]
+
+const get_non_cheque_value = ({ target }) => (
+  { type: target.querySelector('#type').value
+  , before: standardise(target.querySelector('#until').value)
+  , after: standardise(target.querySelector('#from').value)
+  }
+)
+
+const get_paying_in_value = ({ target }) =>
+  target.querySelector('#reference').value
+
 const prev_def = (e) => { e.preventDefault(); return (e) }
 
-module.exports =
-  connect(({ paying_in }) => ({ paying_in }), { receive_paying_in })(PayingIn)
+export const NonCheque =
+  connect
+    ( ({ non_cheque }) => ({ data: non_cheque })
+    , { receive: receive_non_cheque }
+    )(add_details(non_cheque_fields)(get_non_cheque_value))
+
+export const PayingIn =
+  connect
+    ( ({ paying_in }) => ({ data: paying_in })
+    , { receive: receive_paying_in }
+    )(add_details(paying_in_fields)(get_paying_in_value))
 

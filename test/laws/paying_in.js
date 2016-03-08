@@ -27,22 +27,26 @@ const charge = jsv.record(
   }
 )
 
-const balances_match = jsv.forall(jsv.array(charge), function (charges) {
-  return prepare(12313)(charges).payments.every((
-    { payment = 0
-    , payments = 0
-    , donation = 0
-    , event = 0
-    , subscription = 0
-    , balance = 0
-    }
-  ) =>
-    payment + payments - donation - event - subscription === balance
-  )
-})
+const balances_match = check =>
+  jsv.forall(jsv.array(charge), function (charges) {
+    return prepare(check)(12313)(charges).payments.every((
+      { payment = 0
+      , payments = 0
+      , donation = 0
+      , event = 0
+      , subscription = 0
+      , balance = 0
+      }
+    ) =>
+      payment + payments - donation - event - subscription === balance
+    )
+  })
+
+const balances_with_check =
+  jsv.forall(jsv.fn(jsv.fn(jsv.bool)), (f) => jsv.check(balances_match(f)))
 
 module.exports = test('Balances always check out', t => {
-  const actual = jsv.check(balances_match)
+  const actual = jsv.check(balances_with_check, { tests: 5 })
   t.strictEqual(true, actual, 'balances all matched')
   t.end()
 })

@@ -9,18 +9,20 @@ const { plus, plus2 } = require('app/money_arith')
 const { S } = require('sanctuary')
 const { payments: fields } = require('../../form_fields/paying_in.js')
 
-const RECEIVED_PAYING_IN = 'RECEIVED_PAYING_IN'
+const RECEIVED = 'RECEIVED_REPORT_DATA'
 
 export default (state = {}, { type, payload }) => {
   switch (type) {
-    case RECEIVED_PAYING_IN:
+    case RECEIVED:
       return payload
     default:
       return state
   }
 }
 
-const make_url = concat('/api/payingin/')
+const make_paying_in_url = concat('/api/payingin/')
+const make_non_cheque_url = ({ type, before, after }) =>
+  `/api/noncheque/${type}?before=${before}&after=${after}`
 
 const payments = lensPath(['payments'])
 const memberL = lensPath(['member'])
@@ -86,16 +88,23 @@ const add_totals = S(flip(assoc('totals')), compose(make_totals, prop('payments'
 const check = ref => ({ reference, category }) =>
   category === 'payment' && ref === reference
 
-// link to issue on discussion around alternatives to breaking encapsulation
-export const prepare = ref => compose(add_totals, make_payments(check(ref)))
+const check2 = ({ type: t }) => ({ type, category }) =>
+  category === 'payment' && t === type
 
-export const receive_paying_in =
+// link to issue on discussion around alternatives to breaking encapsulation
+export const prepare = check => payload =>
+  compose(add_totals, make_payments(check(payload)))
+
+export const receive = make_url => check =>
   createAction
-    ( RECEIVED_PAYING_IN
-    , (ref) => compose
-      ( map(prepare(ref))
+    ( RECEIVED
+    , (payload) => compose
+      ( map(prepare(check)(payload))
       , get_body
       , make_url
-      )(ref)
+      )(payload)
     )
 
+export const receive_paying_in = receive(make_paying_in_url)(check)
+
+export const receive_non_cheque = receive(make_non_cheque_url)(check2)
