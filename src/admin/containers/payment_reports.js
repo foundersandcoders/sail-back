@@ -105,7 +105,14 @@ const add_details = fields => get_form_value => props =>
 const non_cheque_fields =
   [ { name: 'Type'
     , id: 'type'
-    , options: [ 'BACs', 'Standing Order', 'CAF', 'HO', 'Credit Card', 'Paypal' ]
+    , options:
+      [ 'BACs'
+      , 'standing order'
+      , 'CAF'
+      , 'harbour office'
+      , 'credit card'
+      , 'paypal'
+      ]
     }
   , { name: 'Start Date'
     , id: 'from'

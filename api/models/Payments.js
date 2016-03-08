@@ -23,7 +23,15 @@ module.exports = {
     },
     type: {
       model: 'PaymentTypes',
-      payment_type: true
+      payment_type: true,
+      enum:
+        [ 'harbour office'
+        , 'standing order'
+        , 'donation'
+        , 'event'
+        , 'caf'
+        , 'refund'
+        ]
     },
     description: {
       type: 'STRING'
