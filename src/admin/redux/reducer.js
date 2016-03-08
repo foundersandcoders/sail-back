@@ -6,6 +6,7 @@ const mode = require('./modules/mode.js')
 const payments = require('./modules/payments.js')
 const charge_form = require('./modules/charge_form.js')
 const route = require('./modules/route.js')
+import payments_report from './modules/payment_reports.js'
 
 const admin_app = combineReducers(
   { payment_defaults
@@ -14,6 +15,8 @@ const admin_app = combineReducers(
   , charge_form
   , mode
   , route
+  , paying_in: payments_report
+  , non_cheque: payments_report
   }
 )
 

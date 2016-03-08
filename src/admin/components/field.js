@@ -55,7 +55,7 @@ var make_select = (props, options) =>
     <option> -- select an option -- </option>
     {options.map((option, i) =>
       <option
-        value={option}
+        value={option.toLowerCase()}
         key={i}
       >
         {to_title_case(option.replace(/-/g, ' '))}

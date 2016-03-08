@@ -141,6 +141,11 @@ module.exports.routes = {
   'GET /api/payingin/:ref': {
     controller: 'Payments',
     action: 'payingInReport'
+  },
+
+  'GET /api/noncheque/:type': {
+    controller: 'Payments',
+    action: 'nonChequeReport'
   }
 // -------------------------------------------------------------------------
 }

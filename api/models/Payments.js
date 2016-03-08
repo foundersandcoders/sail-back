@@ -13,7 +13,8 @@ module.exports = {
   },
   attributes: {
     member: {
-      model: 'Members'
+      model: 'Members',
+      index: true
     },
     category: {
       type: 'STRING',
@@ -22,7 +23,15 @@ module.exports = {
     },
     type: {
       model: 'PaymentTypes',
-      payment_type: true
+      payment_type: true,
+      enum:
+        [ 'harbour office'
+        , 'standing order'
+        , 'donation'
+        , 'event'
+        , 'caf'
+        , 'refund'
+        ]
     },
     description: {
       type: 'STRING'
@@ -31,14 +40,16 @@ module.exports = {
       type: 'FLOAT'
     },
     reference: {
-      model: 'References'
+      model: 'References',
+      index: true
     },
     notes: {
       type: 'STRING'
     },
     date: {
       type: 'DATE',
-      required: true
+      required: true,
+      index: true
     }
   }
 }

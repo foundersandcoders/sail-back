@@ -110,14 +110,40 @@ module.exports = {
 
   payingInReport: function (req, res) {
     Payments.query
-      ( 'select * from payments p' +
+      ( 'select p.*, m.last_name from payments p, members m' +
         '  where exists (' +
         '    select 1 from payments p2' +
         '      where p2.reference = ?' +
         '        AND p2.member = p.member' +
+        '        AND p2.date >= p.date' +
+        '  )' +
+        '  AND p.member = m.id' +
+        '  order by p.date' +
+        "  , field(p.category, 'donation', 'event', 'subscription', 'payment');"
         '  )' +
         '  order by p.date desc'
       , [req.params.ref]
+      , function (err, results) {
+          if (err) res.badRequest({ error: err })
+          else res.send(results)
+        }
+      )
+  },
+
+  nonChequeReport: function (req, res) {
+    Payments.query
+      ( 'select p.*, m.last_name from payments p, members m' +
+        '  where exists (' +
+        '    select 1 from payments p2' +
+        '      where p2.date >= ? AND p2.date <= ?' +
+        '        AND p2.type = ?' +
+        '        AND p2.member = p.member' +
+        '        AND p2.date >= p.date' +
+        '  )' +
+        '  AND p.member = m.id' +
+        '  order by p.date' +
+        "  , field(p.category, 'donation', 'event', 'subscription', 'payment');"
+      , [req.query.after, req.query.before, req.params.type]
       , function (err, results) {
           if (err) res.badRequest({ error: err })
           else res.send(results)
