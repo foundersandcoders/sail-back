@@ -9,7 +9,7 @@ import { fields, headers } from '../form_fields/paying_in.js'
 import Field from '../components/field.js'
 
 import { receive_non_cheque, receive_paying_in }
-  from '../redux/modules/paying_in.js'
+  from '../redux/modules/payments_report.js'
 
 import Table from '../components/table'
 
