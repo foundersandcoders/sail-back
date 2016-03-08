@@ -120,6 +120,8 @@ module.exports = {
         '  AND p.member = m.id' +
         '  order by p.date' +
         "  , field(p.category, 'donation', 'event', 'subscription', 'payment');"
+        '  )' +
+        '  order by p.date desc'
       , [req.params.ref]
       , function (err, results) {
           if (err) res.badRequest({ error: err })
