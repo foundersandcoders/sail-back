@@ -1,5 +1,7 @@
 const { createStore, applyMiddleware } = require('redux')
 const reducer = require('./reducer.js')
-const { default: future_middleware } = require('redux-future')
+import future from 'redux-future'
+import heartbeat from './middleware/heartbeat.js'
 
-module.exports = applyMiddleware(future_middleware)(createStore)(reducer)
+module.exports =
+  applyMiddleware(heartbeat, future)(createStore)(reducer)
