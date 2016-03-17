@@ -23,7 +23,7 @@ module.exports = {
 
   ServiceSignIn: function (req, res) {
     passport.authenticate('local', function (err, member, info) {
-    
+
       if ((err) || (!member)) {
         res.status(401).end()
       } else  {

@@ -17,11 +17,9 @@ module.exports = {
     cookie: {
       maxAge: 14 * 24 * 60 * 60 * 1000,
     },
-  // In production, uncomment the following lines to set up a shared redis session store
-  // that can be shared across multiple Sails.js servers
-  // adapter: process.env.NODE_ENV == "testing" ? "memory" : 'redis',
-  // adapter: process.env.NODE_ENV == "development" ? "memory" : 'redis',
-  // adapter: 'redis'
+    adapter: 'redis',
+    client: require('redis').createClient(process.env.REDIS_URL)
   },
   port: process.env.PORT || 80
 }
+
