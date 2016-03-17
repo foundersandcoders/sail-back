@@ -6,6 +6,7 @@ var Navigation = require('../../shared/navigation.js')
 var SearchBox = require('../components/search_box.js')
 var SearchResults = require('../components/search_results.js')
 var request = require('xhr')
+var connect = require('react-redux').connect
 
 var AdminHome = React.createClass({
   getInitialState: function () {
@@ -23,6 +24,7 @@ var AdminHome = React.createClass({
     this.setState({ none_found: true })
   },
   clear_none_found: function () {
+    this.props.beat()
     this.setState({ none_found: false })
   },
   render: function () {
@@ -53,4 +55,5 @@ var AdminHome = React.createClass({
   }
 })
 
-module.exports = AdminHome
+module.exports =
+  connect(() => ({}), { beat: () => ({ type: 'BEAT' }) })(AdminHome)
