@@ -15,7 +15,7 @@ module.exports = {
   session: {
     secret: '496a95f915e063812b4c39d698db2462',
     cookie: {
-      maxAge: 14 * 24 * 60 * 60 * 1000,
+      maxAge: 15 * 60 * 1000,
     },
     adapter: 'redis',
     client: require('redis').createClient(process.env.REDIS_URL)
