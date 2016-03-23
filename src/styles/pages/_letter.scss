@@ -1,0 +1,68 @@
+.email-page {
+  width: 80%;
+  .letter, .letter * {
+    font-size: larger;
+  }
+  h1, h3 {
+    text-align: center;
+  }
+}
+
+.header {
+  position: relative;
+}
+
+.letter-logo {
+  position: absolute;
+  top: 2em;
+  right: 0;
+}
+
+.receiver-address {
+  float: left;
+}
+
+.sender-address {
+  float: right;
+  text-align: right;
+}
+
+.letter {
+  clear: both;
+  padding-top: 1em;
+  text-align: justify;
+}
+
+@media print {
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+
+  .addresses {
+    margin-top: 1.5em;
+    padding-bottom: 1.5em;
+  }
+
+  .addresses, .addresses * {
+    font-size: 12px;
+  }
+
+  *, .letter.letter * {
+    font-size: 16px;
+  }
+
+  .letter p {
+    margin-top: 7px;
+    margin-bottom: 7px;
+  }
+
+  .letter span {
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+}

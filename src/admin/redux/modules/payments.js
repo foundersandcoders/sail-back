@@ -11,7 +11,7 @@ const REMOVED_PAYMENT = 'REMOVED_PAYMENT'
 const reducer = (payments = [], { type, payload }) => {
   switch (type) {
     case FETCHED_MEMBER:
-      return sort_dated(payload.other.payments)
+      return sort_dated(payload.payments)
     case ADDED_PAYMENT:
       return sort_dated(concat(payments, [payload]))
     case REMOVED_PAYMENT:

@@ -1,5 +1,11 @@
 .report-options {
   text-align: center;
+  @media print {
+    .table { display: inline !important }
+    .table-body { overflow: visible !important }
+    .table-row { page-break-inside: avoid }
+    body { font-size: 0.8em !important }
+  }
 }
 
 .report-options > a {
@@ -19,8 +25,5 @@
 
 @media print {
   .search-options, .navigation, footer { display: none !important }
-  .table { display: inline !important }
-  .table-body { overflow: visible !important }
-  .table-row { page-break-inside: avoid }
-  body { font-size: 0.8em !important }
+  body, body * { color: black; }
 }

@@ -12,7 +12,7 @@ var AddMember = require('./containers/add_member.js')
 var Reports = require('./pages/available_reports.js')
 var { PayingIn } = require('./containers/payment_reports.js')
 var { NonCheque } = require('./containers/payment_reports.js')
-var Email = require('./pages/email.js')
+var Email = require('./containers/email.js')
 
 var { pathDidUpdate } = require('./redux/modules/route.js')
 
@@ -29,7 +29,7 @@ module.exports = function () {
             <Route path='/reports' component={Reports} />
               <Route path='/reports/paying_in' component={PayingIn} />
               <Route path='/reports/non_cheque' component={NonCheque} />
-            <Route path='/email' component={Email} />
+            <Route path='/email/:id' component={Email} />
         </Route>
       </Router>
     </Provider>
