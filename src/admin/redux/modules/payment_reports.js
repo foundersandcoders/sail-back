@@ -89,7 +89,7 @@ const check = ref => ({ reference, category }) =>
   category === 'payment' && ref === reference
 
 const check2 = ({ type: t }) => ({ type, category }) =>
-  category === 'payment' && t === type
+  category === 'payment' && t === type.toLowerCase()
 
 // link to issue on discussion around alternatives to breaking encapsulation
 export const prepare = check => payload =>
