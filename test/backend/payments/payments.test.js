@@ -90,6 +90,7 @@ test('Make a payment', function (t) {
       amount: 20,
       payment_method_nonce: 'fake-valid-nonce',
       category: 'payment',
+      reference: '11',
       member: MEMBER.id
     }
 

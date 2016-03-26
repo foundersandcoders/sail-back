@@ -87,9 +87,10 @@ module.exports = {
                 var paymentRecord = {
                   category: 'payment',
                   description: 'Payment by ' + result.transaction.paymentInstrumentType,
-                  type: 'PAYPAL',
+                  type: 'paypal',
                   amount: result.transaction.amount,
                   member: member.id,
+                  reference: req.body.reference,
                   date: new Date()
                 }
 

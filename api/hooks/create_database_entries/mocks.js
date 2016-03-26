@@ -257,10 +257,10 @@ exports.membershipTypes = function () {
 
 exports.paymentTypes = function () {
   var types = [{
-    code: 'CHQ',
+    code: 'cheque',
     description: 'cheque'
   }, {
-    code: 'CASH',
+    code: 'cash',
     description: 'cash'
   }, {
     code: 'SOA',

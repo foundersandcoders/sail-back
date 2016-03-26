@@ -27,10 +27,11 @@ module.exports = {
       enum:
         [ 'harbour office'
         , 'standing order'
-        , 'donation'
-        , 'event'
+        , 'cash'
+        , 'cheque'
         , 'caf'
         , 'refund'
+        , 'paypal'
         ]
     },
     description: {
