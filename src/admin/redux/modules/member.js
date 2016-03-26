@@ -27,7 +27,7 @@ const reducer =
   (member = { }, { type, payload }) => {
     switch (type) {
       case FETCHED_MEMBER:
-        return { ...payload }
+        return prepare_for_form(payload)
       case DEACTIVATED_MEMBER:
         return (
           { ...member
@@ -89,8 +89,7 @@ const prepare_for_form = (member) =>
 const wrap_values = map((v) => (v && { value: String(v) }))
 
 const to_member = compose
-  ( prepare_for_form
-  , format_dated
+  ( format_dated
   , reshape_if_necessary
   , map(null_to_undefined)
   , parse_if_needed

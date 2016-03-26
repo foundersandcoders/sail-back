@@ -14,7 +14,12 @@ const buttons = (
   <div>
     { error ? <div className='error'>{error}</div> : '' }
     { id
-      ? <div id='member-num'>Member ID is: {id} </div>
+      ? <div>
+          <a href={'#/email/' + id}>
+            Print Welcome Letter
+          </a>
+          <div id='member-num'>Member ID is: {id} </div>
+        </div>
       : <button type='submit'>Submit</button>
     }
   </div>

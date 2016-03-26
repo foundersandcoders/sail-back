@@ -49,7 +49,7 @@ var make_input = (name, props)  =>
 var make_select = (props, options) =>
   <select
     {...props}
-    value={ props.value ? '' + props.value : undefined }
+    value={ props.value ? String(props.value) : undefined }
     className={props.className + (props.error ? ' red' : '')}
   >
     <option> -- select an option -- </option>
