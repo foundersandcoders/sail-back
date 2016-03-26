@@ -31,6 +31,7 @@ module.exports = {
         , 'cheque'
         , 'caf'
         , 'refund'
+        , 'paypal'
         ]
     },
     description: {
