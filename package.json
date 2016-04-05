@@ -101,8 +101,6 @@
     "hyperquest": "^1.2.0",
     "istanbul": "^0.3.17",
     "jsverify": "0.7.1",
-    "react-addons-test-utils": "^0.14.3",
-    "react-shallow-testutils": "^0.6.0",
     "redux-devtools": "^3.0.1",
     "rewireify": "^0.2.5",
     "standard": "^4.5.4",
