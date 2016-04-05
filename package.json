@@ -82,8 +82,7 @@
     "torf": "1.0.7",
     "uuid": "2.0.1",
     "watchify": "3.2.3",
-    "xhr": "2.2.0",
-    "yup": "0.11.0"
+    "xhr": "2.2.0"
   },
   "main": "app.js",
   "engines": {
@@ -99,14 +98,11 @@
     "csv2": "^0.1.1",
     "faucet": "0.0.1",
     "hyperquest": "^1.2.0",
-    "istanbul": "^0.3.17",
     "jsverify": "0.7.1",
     "redux-devtools": "^3.0.1",
-    "rewireify": "^0.2.5",
     "standard": "^4.5.4",
     "supertest": "^1.0.1",
     "tape": "^4.0.0",
-    "tape-run": "^2.1.0",
     "through2": "^0.6.5"
   }
 }

@@ -2,7 +2,6 @@
 
 var React = require('react')
 var request = require('xhr')
-var win = window // rewireify seems to require variable declaration
 
 var Signin = React.createClass({
 
