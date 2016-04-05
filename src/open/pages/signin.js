@@ -20,7 +20,7 @@ var Signin = React.createClass({
       }
       var handle_response = function (err, res, body) {
         if (res && res.statusCode === 200) {
-          win.location.pathname = res.headers.location
+          window.location.pathname = res.headers.location
         } else {
           this.setState({login_failed: true})
         }
