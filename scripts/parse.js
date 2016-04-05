@@ -13,6 +13,7 @@ var result = { type: type, result: csv.toString() }
 parse_csv(result, write)
 
 function write (err, json) {
+  if (err) throw err
   fs.writeFileSync(
       normalize(__dirname + '../../../foch-data/' + type + '.json')
       , JSON.stringify(json)) }

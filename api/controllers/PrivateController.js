@@ -43,7 +43,7 @@ module.exports = {
         if (Is.ok(err) || !Is.ok(item)) {
           return res.notFound()
         } else {
-          return res.view('pages/member', {member: item, user: req.session.user})
+          return res.json(item)
         }
       })
   },

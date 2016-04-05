@@ -90,7 +90,7 @@ function _transform (value, type) {
   is.type(value, type) ?
       encode(value) :
   type === "number" ?
-      Number(value) :
+      Number(comma_safe(value)) :
   type === "date" ?
       _dateconvert(value) :
   type === "boolean" ?
@@ -106,6 +106,10 @@ function encode(s) {
 
 function decode(s) {
   return decodeURIComponent(escape(s));
+}
+
+function comma_safe (v) {
+  return v.replace && v.replace(',', '') || v
 }
 
 function _dateconvert (str) {
