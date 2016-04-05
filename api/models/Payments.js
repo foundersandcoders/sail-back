@@ -27,6 +27,7 @@ module.exports = {
       enum:
         [ 'harbour office'
         , 'standing order'
+        , 'bacs'
         , 'cash'
         , 'cheque'
         , 'caf'

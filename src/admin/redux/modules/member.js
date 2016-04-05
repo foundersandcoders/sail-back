@@ -55,14 +55,9 @@ const reducer =
     }
   }
 
-const user_url = 'api/members/{ID}'
+const user_url = '/members/{ID}'
 
 const make_user_url = replace('{ID}', __, user_url)
-
-const make_user_request_url = compose
-  ( concat(__, '?populate=[payments,membership_type]')
-  , make_user_url
-  )
 
 const null_to_undefined = val => val === null ? undefined : val
 
@@ -137,7 +132,7 @@ const error_id = errors_or(id_value)
 
 const fetch_member = createAction
   ( FETCHED_MEMBER
-  , compose(map(to_member), get, make_user_request_url)
+  , compose(map(to_member), get, make_user_url)
   )
 
 const update_member = createAction
