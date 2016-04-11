@@ -3,7 +3,7 @@
 */
 
 var is = require('torf')
-var Mailgun = require('../services/Email_mailgun')
+var Mailgun = require('../services/email_mailgun')
 var Validation = require('../services/validate.js')
 
 module.exports = {
