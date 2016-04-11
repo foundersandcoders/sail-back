@@ -1,11 +1,5 @@
 .report-options {
   text-align: center;
-  @media print {
-    .table { display: inline !important }
-    .table-body { overflow: visible !important }
-    .table-row { page-break-inside: avoid }
-    body { font-size: 0.8em !important }
-  }
 }
 
 .report-options > a {
@@ -21,6 +15,13 @@
 .search-options > * {
   margin-top: 1em;
   margin-right: 1em;
+}
+
+@media print {
+  .table { display: inline !important }
+  .table.table.table.table * { font-size: 14px; }
+  .table-body { overflow: visible !important }
+  .table-row { page-break-inside: avoid }
 }
 
 @media print {
