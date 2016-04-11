@@ -10,6 +10,7 @@
  */
 
 var R = require('ramda')
+var sendSubscribe = require('../services/email_mailgun.js').sendSubscribe
 
 module.exports = {
   accountPage: function (req, res) {
@@ -50,7 +51,14 @@ module.exports = {
   admin_get_user_events: function (req, res) {
     get_user_events(respond_with_event_data(res), req.param('id'))},
 
-  get_user_events: get_user_events
+  get_user_events: get_user_events,
+
+  welcome: function (req, res) {
+    sendSubscribe(req.body, function (err, data) {
+      if (err) return res.status(err).end()
+      return res.json(data)
+    })
+  }
 }
 
 

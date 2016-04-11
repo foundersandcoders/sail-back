@@ -3,26 +3,37 @@
 const React = require('react')
 const { connect } = require('react-redux')
 const { reduxForm } = require('redux-form')
+const { post } = require('app/http')
 
 const MemberFields = require('../dumb_components/member_fields.js')
 const { fields, validate, required } = require('../form_fields/member.js')
 const { create_member } = require('../redux/modules/member.js')
 
 const buttons = (
-  { fields: { id: { value: id } }, error }
+  { fields: { id: { value: id }, primary_email: { value: primary } }, error }
 ) =>
   <div>
     { error ? <div className='error'>{error}</div> : '' }
     { id
       ? <div>
-          <a href={'#/email/' + id}>
-            Print Welcome Letter
-          </a>
+          { letter_or_email(primary, id) }
           <div id='member-num'>Member ID is: {id} </div>
         </div>
       : <button type='submit'>Submit</button>
     }
   </div>
+
+const letter_or_email = (primary_email, id) =>
+  primary_email
+  ? <a onClick={sendEmail(primary_email)} href='#/'>
+      Send Welcome Email
+    </a>
+  : <a href={'#/email/' + id}>
+      Print Welcome Letter
+    </a>
+
+const sendEmail = primary_email =>
+  () => post({ email: primary_email}, '/api/members/welcome').fork(console.log.bind(console), console.log.bind(console))
 
 const AddMember = reduxForm(
   { form: 'member'
