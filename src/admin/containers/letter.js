@@ -6,7 +6,7 @@ const { connect } = require('react-redux')
 const Field = require('../components/field.js')
 const { fetch_member } = require('../redux/modules/member.js')
 
-const Email = React.createClass({
+const Letter = React.createClass({
   initialState: {},
 
   componentDidMount () {
@@ -14,9 +14,9 @@ const Email = React.createClass({
     fetch_member(id)
   },
   render () {
-    const { id, address, name } = this.props.email
+    const { id, address, name } = this.props.letter
     return (
-      <div className='main-container email-page'>
+      <div className='main-container letter-page'>
         <div className='header'>
           <h1>Friends of Chichester Harbour</h1>
           <h3>Registered Charity No: 1051162</h3>
@@ -64,6 +64,6 @@ const Email = React.createClass({
   }
 })
 
-Email.displayName = 'EmailPage'
+Letter.displayName = 'LetterPage'
 
-module.exports = connect(({ email }) => ({ email }), { fetch_member })(Email)
+module.exports = connect(({ letter }) => ({ letter }), { fetch_member })(Letter)

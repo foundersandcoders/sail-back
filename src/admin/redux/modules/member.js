@@ -47,9 +47,12 @@ const reducer =
         return (
           { ...member
           , ...payload
-          })
+          }
+        )
       case CREATED_MEMBER:
-        return typeof payload === 'string' ? { id: { value: payload } } : member
+        return typeof payload === 'string'
+          ? { ...member, id: { value: payload } }
+          : member
       default:
         return member
     }

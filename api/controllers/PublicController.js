@@ -5,7 +5,7 @@
 var is = require('torf')
 var passport = require('passport')
 var ForgotPass = require('../services/ForgotPass.js')
-var Mailgun = require('../services/Email_mailgun')
+var Mailgun = require('../services/email_mailgun')
 
 module.exports = {
 
