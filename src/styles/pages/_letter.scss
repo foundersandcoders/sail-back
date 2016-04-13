@@ -6,6 +6,10 @@
   h1, h3 {
     text-align: center;
   }
+
+  h3 {
+    font-size: medium;
+  }
 }
 
 .header {
@@ -35,34 +39,41 @@
 
 @media print {
 
-  h1 {
-    font-size: 24px;
-  }
+  .letter-page {
 
-  h3 {
-    font-size: 20px;
-  }
+    h1 {
+      font-size: 24px;
+    }
 
-  .addresses {
-    margin-top: 1.5em;
-    padding-bottom: 1.5em;
-  }
+    h3 {
+      font-size: 12px;
+    }
 
-  .addresses, .addresses * {
-    font-size: 12px;
-  }
+    .addresses {
+      margin-top: 1.5em;
+      padding-bottom: 1.5em;
+    }
 
-  *, .letter.letter * {
-    font-size: 16px;
-  }
+    .sender-address, .sender-address * {
+      font-size: 12px;
+    }
 
-  .letter p {
-    margin-top: 7px;
-    margin-bottom: 7px;
-  }
+    .receiver-address, .receiver-address * {
+      font-size: 16px;
+    }
 
-  .letter span {
-    margin-top: 3px;
-    margin-bottom: 3px;
+    *, .letter.letter * {
+      font-size: 16px;
+    }
+
+    .letter p {
+      margin-top: 7px;
+      margin-bottom: 7px;
+    }
+
+    .letter span {
+      margin-top: 3px;
+      margin-bottom: 3px;
+    }
   }
 }
