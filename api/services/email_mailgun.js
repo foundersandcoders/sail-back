@@ -9,7 +9,7 @@ var mg = new Mailgun(process.env.MAILGUN)
 
 module.exports = {
   /**
-   * Creates and email and sends it through Mandrill.
+   * Creates and email and sends it through Mailgun.
    * @param  {Object} - data in the form {code: 'String', email: 'String'}
    * @return {}
    */
