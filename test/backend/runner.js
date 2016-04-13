@@ -3,8 +3,6 @@
 process.env.NODE_ENV = 'testing'
 
 // services
-require('./services/Utils.test.js')
-require('./services/Upload.test.js')
 require('./services/ForgotPass.test.js')
 
 // acceptance server

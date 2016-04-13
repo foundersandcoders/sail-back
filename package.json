@@ -51,7 +51,6 @@
     "joi": "6.4.3",
     "lodash.throttle": "^4.0.1",
     "mailgun": "0.5.0",
-    "mandrill-api": "1.0.45",
     "mysql": "2.7.0",
     "node-sass": "3.4.2",
     "object-assign": "4.0.1",
