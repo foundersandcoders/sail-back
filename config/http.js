@@ -25,6 +25,7 @@ module.exports.http = {
   customMiddleware: function (app) {
     app.use(passport.initialize())
     app.use(passport.session())
+    app.use(require('serve-static')(__dirname + '/assets'))
   },
 
   middleware: {

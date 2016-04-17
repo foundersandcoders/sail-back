@@ -7,15 +7,14 @@
   "keywords": [],
   "scripts": {
     "test": "SINGLE=true npm run test:laws && npm run test:server",
-    "start": "npm run tmp && npm run build && sails lift --verbose",
+    "start": "npm run build && sails lift --verbose",
     "debug": "node-debug app.js",
     "test:upload": "standard && tape test/upload/*.test.js",
     "test:laws": "browserify test/laws/* > foo.js && node foo.js; rm foo.js",
     "test:server": "tape test/backend/runner.js",
     "test:wserver": "nodemon --delay 15 test/backend/runner.js",
     "build": "browserify src/admin/main.js src/user/main.js src/open/main.js -p [ factor-bundle -o .tmp/public/js/admin.min.js -o .tmp/public/js/user.min.js -o .tmp/public/js/open.min.js ] -o .tmp/public/js/common.min.js -p [ parcelify -o .tmp/public/styles/main.css -t sass-css-stream -d src/styles/*]",
-    "build:w": "watchify src/admin/main.js src/user/main.js src/open/main.js -p [ factor-bundle -o .tmp/public/js/admin.min.js -o .tmp/public/js/user.min.js -o .tmp/public/js/open.min.js ] -o .tmp/public/js/common.min.js -p [ parcelify -wo .tmp/public/styles/main.css -t sass-css-stream -d src/styles/* ] -v",
-    "tmp": "cp -R assets/ .tmp/public"
+    "build:w": "watchify src/admin/main.js src/user/main.js src/open/main.js -p [ factor-bundle -o .tmp/public/js/admin.min.js -o .tmp/public/js/user.min.js -o .tmp/public/js/open.min.js ] -o .tmp/public/js/common.min.js -p [ parcelify -wo .tmp/public/styles/main.css -t sass-css-stream -d src/styles/* ] -v"
   },
   "standard": {
     "ignore": [
@@ -76,6 +75,7 @@
     "sails-mysql": "0.10.12",
     "sanctuary": "^0.9.0",
     "sass-css-stream": "0.1.6",
+    "serve-static": "^1.10.2",
     "skipper": "0.5.8",
     "swig": "1.4.2",
     "torf": "1.0.7",
