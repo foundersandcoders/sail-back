@@ -10,6 +10,7 @@
  */
 
 var passport = require('passport')
+var path = require('path')
 
 module.exports.http = {
   /****************************************************************************
@@ -25,7 +26,7 @@ module.exports.http = {
   customMiddleware: function (app) {
     app.use(passport.initialize())
     app.use(passport.session())
-    app.use(require('serve-static')(__dirname + '/assets'))
+    app.use(require('serve-static')(path.dirname(__filename) + '/assets'))
   },
 
   middleware: {
