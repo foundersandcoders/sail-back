@@ -26,7 +26,6 @@ module.exports.http = {
   customMiddleware: function (app) {
     app.use(passport.initialize())
     app.use(passport.session())
-    app.use(require('serve-static')(path.dirname(__filename) + '/assets'))
   },
 
   middleware: {
@@ -51,6 +50,7 @@ module.exports.http = {
       '$custom',
       'router',
       'www',
+      'assets',
       'favicon',
       '404',
       '500'
@@ -79,7 +79,9 @@ module.exports.http = {
     bodyParser: (function() {
       var opts = {limit: '50mb'}
       var fn = require('skipper')
-      return fn(opts) }())
+      return fn(opts) }()),
+
+    assets: require('serve-static')(path.dirname(__filename) + '/../assets')
 
   },
 
@@ -95,3 +97,4 @@ module.exports.http = {
 
 // cache: 31557600000
 }
+
