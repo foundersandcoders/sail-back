@@ -20,7 +20,7 @@ const Letter = React.createClass({
         <div className='header'>
           <h1>Friends of Chichester Harbour</h1>
           <h3>Registered Charity No: 1051162</h3>
-          <img src='/' className='letter-logo'></img>
+          <img src='/images/logo.png' className='letter-logo'></img>
         </div>
         <div className='addresses'>
           <div className='receiver-address'>
@@ -67,3 +67,4 @@ const Letter = React.createClass({
 Letter.displayName = 'LetterPage'
 
 module.exports = connect(({ letter }) => ({ letter }), { fetch_member })(Letter)
+
