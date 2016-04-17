@@ -18,8 +18,9 @@
 
 .letter-logo {
   position: absolute;
-  top: 2em;
-  right: 0;
+  top: 0.5em;
+  right: 0.5em;
+  width: 2.93cm;
 }
 
 .receiver-address {
@@ -74,6 +75,11 @@
     .letter span {
       margin-top: 3px;
       margin-bottom: 3px;
+    }
+
+    .letter-logo {
+      top: 0em;
+      right: -1em;
     }
   }
 }
