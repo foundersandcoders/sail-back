@@ -21,6 +21,9 @@ var AdminButtons = function () {
       </li>,
       <li key={2} id='nav-events'>
         <a href='#addevent'>Add Event</a>
+      </li>,
+      <li key={3} id='nav-emails'>
+        <a href='#emails'>Emails</a>
       </li>
     ]
   )
