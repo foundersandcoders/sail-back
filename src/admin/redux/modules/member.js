@@ -46,9 +46,8 @@ const reducer =
       case UPDATED_MEMBER:
         return (
           { ...member
-          , ...payload
-          }
-        )
+          , ...prepare_for_form(payload)
+          })
       case CREATED_MEMBER:
         return typeof payload === 'string'
           ? { ...member, id: { value: payload } }
@@ -58,9 +57,11 @@ const reducer =
     }
   }
 
-const user_url = '/members/{ID}'
+const post_user_url = '/api/members/{ID}'
 
-const make_user_url = replace('{ID}', __, user_url)
+const get_user_url = '/members/{ID}'
+
+const make_user_url = url => replace('{ID}', __, url)
 
 const null_to_undefined = val => val === null ? undefined : val
 
@@ -135,7 +136,7 @@ const error_id = errors_or(id_value)
 
 const fetch_member = createAction
   ( FETCHED_MEMBER
-  , compose(map(to_member), get, make_user_url)
+  , compose(map(to_member), get, make_user_url(get_user_url))
   )
 
 const update_member = createAction
@@ -143,7 +144,7 @@ const update_member = createAction
   , (member, dispatch) => compose
     ( map(errors_or_to_member(dispatch))
     , compose(post, null_empty, standardise)(member)
-    , make_user_url
+    , make_user_url(post_user_url)
     )(member.id)
   )
 
