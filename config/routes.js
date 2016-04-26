@@ -133,6 +133,10 @@ module.exports.routes = {
     controller: 'Members', //to change
     action: 'welcome'
   },
+  'GET /api/reminders': {
+    controller: 'Private',
+    action: 'sendReminder'
+  },
   'GET /maintenance': {
     controller: 'Private',
     action: 'showMaintenance'

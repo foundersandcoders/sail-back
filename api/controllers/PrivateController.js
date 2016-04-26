@@ -4,6 +4,7 @@
 
 var Is = require('torf')
 var Upload = require('../services/Upload.js')()
+var sendReminder = require('../services/email_mailgun.js').sendReminder
 
 module.exports = {
   showAdminHome: function (req, res) {
@@ -47,23 +48,40 @@ module.exports = {
         }
       })
   },
+  sendReminder: function (req, res) {
+    var query =
+      `select members.primary_email, max(payments.date) as last,
+      members.first_name, members.last_name, members.title
+        from members right outer join payments
+        on members.id = payments.member
+        where payments.category = 'subscription'
+          and (
+            payments.date < date_sub(members.due_date, INTERVAL 1 YEAR)
+            or payments.date is null
+          )
+        group by members.id;`
+    Members.query(query, function (err, results) {
+      if (err) return res.badRequest({ error: err })
+      return res.json({ results })
+    })
+  },
   showMaintenance: function (req, res) {
     res.view('pages/maintenance', {user: req.session.user})
   },
   Upload: function (req, res) {
     /**
-     *	The sign '&' (ampersand) splits the
-     *	request body content in different objects
-     *	where all the keys are the data.
+     *  The sign '&' (ampersand) splits the
+     *  request body content in different objects
+     *  where all the keys are the data.
      *
-     *	Examples:
+     *  Examples:
      *
-     *	{
-     *		'6095;Mr ': '',
-     *		' Mrs;J H;Adams;': ''
-     *	}
+     *  {
+     *    '6095;Mr ': '',
+     *    ' Mrs;J H;Adams;': ''
+     *  }
      *
-     *	The original line was: '6095;Mr & Mrs;J H;Adams;'
+     *  The original line was: '6095;Mr & Mrs;J H;Adams;'
      */
     var csv = req.body
 
