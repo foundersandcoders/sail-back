@@ -492,3 +492,25 @@ div.gbp {
 .login-error {
   font-size: 1.8em;
 }
+
+.email-toggle {
+  position: absolute;
+  font-size: 1em;
+  width: 8em;
+  height: 2.5em;
+  left: 11em;
+  top: -0.8em;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.email-addressee {
+  position: relative;
+  height: 3em;
+}
+
+.email-content {
+  position: absolute;
+  left: 21em;
+}
+

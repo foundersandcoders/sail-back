@@ -1,28 +1,44 @@
 const { createAction, handleAction } = require('redux-actions')
-const { post } = require('app/http')
+const { get_body, post } = require('app/http')
+const { lensPath, over, not, indexBy, map, prop } = require('ramda')
+const { K } = require('sanctuary')
 
 const { PATH_UPDATE } = require('./route.js')
 
-const SENDING_WELCOME =
-  'SENDING_WELCOME'
-
 const SEND_WELCOME =
   'SEND_WELCOME'
+const SEND_REMINDER =
+  'SEND_REMINDER'
+const TOGGLE_CONTENT =
+  'TOGGLE_CONTENT'
 
-export default (state = false, { type, payload }) => {
+export default (state = {}, { type, payload }) => {
   switch (type) {
-    case SENDING_WELCOME:
-      return true
-    case PATH_UPDATE:
-      return false
+    case SEND_REMINDER:
+      return map(K(sample_entry), shape_results(payload.results))
+    case TOGGLE_CONTENT:
+      return toggle_show(payload)(state)
     default:
       return state
   }
 }
 
+const sample_entry =
+  { content: 'Sample content', shown: false }
+
+const shape_results = indexBy(prop('primary_email'))
+
+const toggle_show = address => state => {
+  const shown_lens = lensPath([ address, 'shown' ])
+  return over(shown_lens, not, state)
+}
+
 export const send_welcome =
   createAction(SEND_WELCOME, email => post({ email }, '/api/members/welcome'))
 
-export const sending_welcome =
-  createAction(SENDING_WELCOME)
+export const send_reminder =
+  createAction(SEND_REMINDER, () => get_body('api/reminders'))
+
+export const toggle_content =
+  createAction(TOGGLE_CONTENT)
 
