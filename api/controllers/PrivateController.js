@@ -51,10 +51,13 @@ module.exports = {
   sendReminder: function (req, res) {
     var query =
       `select members.primary_email, max(payments.date) as last,
-      members.first_name, members.last_name, members.title
+      members.first_name, members.last_name, members.title,
+      members.standing_order, members.due_date
         from members right outer join payments
         on members.id = payments.member
         where payments.category = 'subscription'
+          and members.membership_type in
+            ('annual-single', 'annual-double', 'annual-family')
           and (
             payments.date < date_sub(members.due_date, INTERVAL 1 YEAR)
             or payments.date is null
