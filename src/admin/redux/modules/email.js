@@ -1,6 +1,6 @@
 const { createAction, handleAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
-const { lensPath, over, not, indexBy, map, prop } = require('ramda')
+const { lensPath, over, not, indexBy, map, prop, merge } = require('ramda')
 const { K } = require('sanctuary')
 
 const { PATH_UPDATE } = require('./route.js')
@@ -13,11 +13,14 @@ const TOGGLE_CONTENT =
   'TOGGLE_CONTENT'
 
 export default (state = {}, { type, payload }) => {
+  const update = merge(state)
   switch (type) {
     case SEND_REMINDER:
-      return map(K(sample_entry), shape_results(payload.results))
+      return update(map(K(sample_entry), shape_results(payload.results)))
     case TOGGLE_CONTENT:
-      return toggle_show(payload)(state)
+      return update(toggle_show(payload)(state))
+    case SEND_WELCOME:
+      return update({ email_sent: true })
     default:
       return state
   }

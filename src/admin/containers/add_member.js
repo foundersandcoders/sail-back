@@ -12,7 +12,7 @@ const buttons = (
   { fields: { id, primary_email }, error, email_handler, email_sent }
 ) =>
   <div>
-    { error ? <div className='error'>{error}</div> : '' }
+    { error ? <div className='error'>{error.message}</div> : '' }
     { id.value && !email_sent
       ? <div>
           { letter_or_email(email_handler, primary_email.value, id.value) }
@@ -53,7 +53,7 @@ const NewMember = (
         Buttons={buttons}
         button_props={
           { email_handler: email_handler(send_welcome)(sending_welcome)
-          , email_sent: email
+          , email_sent: email.email_sent
           }
         }
         onSubmit={create_member}
