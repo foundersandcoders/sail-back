@@ -1,7 +1,9 @@
 const { createAction, handleAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
-const { lensPath, over, not, indexBy, map, prop } = require('ramda')
-const { K } = require('sanctuary')
+const { lensPath, over, not, indexBy, map, prop, merge, ifElse, flip, gte,
+  cond, assoc, where, objOf, zip } =
+      require('ramda')
+const { K, compose, pipe } = require('sanctuary')
 
 const { PATH_UPDATE } = require('./route.js')
 
@@ -13,20 +15,48 @@ const TOGGLE_CONTENT =
   'TOGGLE_CONTENT'
 
 export default (state = {}, { type, payload }) => {
+  const update = merge(state)
   switch (type) {
     case SEND_REMINDER:
-      return map(K(sample_entry), shape_results(payload.results))
+      return update(map(template_emails, shape_reminders(payload.results)))
     case TOGGLE_CONTENT:
-      return toggle_show(payload)(state)
+      return update(toggle_show(payload)(state))
+    case SEND_WELCOME:
+      return update({ email_sent: true })
     default:
       return state
   }
 }
 
-const sample_entry =
-  { content: 'Sample content', shown: false }
+const time_check = pipe([gte, objOf('overdue'), where])
 
-const shape_results = indexBy(prop('primary_email'))
+const templating = compose(cond, zip([ time_check(60), time_check(90), K(true)]))
+
+const placeholder = compose(K, objOf('content'))
+
+const missing_standing_order = templating(
+  [ placeholder('30 day SO'), placeholder('60 day SO'), placeholder('90 day SO')]
+)
+
+const late_payment = templating(
+  [ placeholder('30 day late'), placeholder('60 day late'), placeholder('90 day late')]
+)
+
+const template_emails = ifElse
+  ( prop('standing_order')
+  , missing_standing_order
+  , late_payment
+  )
+
+const add_overdue = member => {
+  const { last, due_date } = member
+  return assoc('overdue', days_overdue(due_date, last), member)
+}
+
+const days_overdue = (due, last) =>
+  ((new Date(due) - new Date('1/1/71')) - new Date(last))/(1000 * 60 * 60 * 24)
+
+const shape_reminders = compose(map(add_overdue), indexBy(prop('primary_email')))
 
 const toggle_show = address => state => {
   const shown_lens = lensPath([ address, 'shown' ])
