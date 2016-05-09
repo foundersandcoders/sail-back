@@ -98,7 +98,6 @@
     "faucet": "0.0.1",
     "hyperquest": "^1.2.0",
     "jsverify": "0.7.1",
-    "redux-devtools": "^3.0.1",
     "request": "^2.70.0",
     "standard": "^4.5.4",
     "supertest": "^1.0.1",
