@@ -1,32 +1,55 @@
 const React = require('react')
 const { connect } = require('react-redux')
-const { pick, keys, toPairs } = require('ramda')
+const { pick, keys, toPairs, flip, prop, zip, fromPairs, compose, replace,
+  map, lensPath, set } =
+    require('ramda')
 
-const { send_reminder, toggle_content } = require('../redux/modules/email.js')
+const
+  { send_sub_reminder
+  , toggle_content
+  , send_newsletter
+  , send_newsletter_reminder
+  } = require('../redux/modules/email.js')
 
 const Email = (
-  { send_reminder
-  , email
+  { send_sub_reminder: sub
+  , send_newsletter: news
+  , send_newsletter_reminder: remind
+  , emails
   , toggle_content
   }
 ) =>
   <div className='main-container email'>
     <form
       className='email-controls'
-      onSubmit={without_default(send_reminder)}
     >
-      <button>Send reminder emails</button>
+      { map(send_button, zip(email_ids, [sub, news, remind])) }
     </form>
-    { keys(email).length > 0 && email_list(toggle_content)(email) }
+    { keys(emails).length > 0 && email_list(toggle_content)(emails) }
   </div>
+
+const send_button = ([ id, fn ]) =>
+  <button
+    id={id}
+    key={id}
+    className='send-button'
+    onClick={without_default(fn)}
+  >
+    {label_from_id(id)}
+  </button>
 
 const email_list = toggle_show => emails =>
   <div>
     <h1>The following addresses will receive an email:</h1>
     <ul>
-      { toPairs(emails).map(email(toggle_show)) }
+      { map(email(toggle_show), toPairs(emails)) }
     </ul>
   </div>
+
+const label_from_id =
+  compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-', ' '))
+
+const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder']
 
 const email = toggle_show => ([ address, { content, shown }]) =>
   <li key={address} className='email-addressee'>
@@ -43,5 +66,12 @@ const email = toggle_show => ([ address, { content, shown }]) =>
 
 const without_default = cb => e => { e.preventDefault(); cb(e) }
 
-module.exports = connect(pick(['email']), { send_reminder, toggle_content })(Email)
+module.exports = connect
+  ( compose(pick(['emails']), prop('email'))
+  , { send_sub_reminder
+    , send_newsletter
+    , send_newsletter_reminder
+    , toggle_content
+    }
+  )(Email)
 

@@ -135,7 +135,11 @@ module.exports.routes = {
   },
   'GET /api/reminders': {
     controller: 'Private',
-    action: 'sendReminder'
+    action: 'sendSubsReminder'
+  },
+  'GET /api/newsletter-alert': {
+    controller: 'Private',
+    action: 'sendNewsletterAlert'
   },
   'GET /maintenance': {
     controller: 'Private',
