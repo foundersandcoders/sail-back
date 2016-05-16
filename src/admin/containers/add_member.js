@@ -6,7 +6,7 @@ const { pick } = require('ramda')
 const MemberFields = require('../dumb_components/member_fields.js')
 const { fields, validate, required } = require('../form_fields/member.js')
 const { create_member } = require('../redux/modules/member.js')
-const { send_welcome, sending_welcome } = require('../redux/modules/email.js')
+const { send_welcome } = require('../redux/modules/email.js')
 
 const buttons = (
   { fields: { id, primary_email }, error, email_handler, email_sent }
@@ -41,7 +41,6 @@ const AddMember = reduxForm(
 const NewMember = (
   { create_member
   , send_welcome
-  , sending_welcome
   , email
   }
 ) => (
@@ -52,7 +51,7 @@ const NewMember = (
         fields={fields}
         Buttons={buttons}
         button_props={
-          { email_handler: email_handler(send_welcome)(sending_welcome)
+          { email_handler: email_handler(send_welcome)
           , email_sent: email.email_sent
           }
         }
@@ -67,16 +66,14 @@ const NewMember = (
   </div>
 )
 
-const email_handler = send_welcome => sending_welcome => email => {
+const email_handler = send_welcome => email => {
   send_welcome(email)
-  sending_welcome()
 }
 
 const map_state_to_props = pick(['email'])
 const map_dispatch_to_props = (
   { create_member
   , send_welcome
-  , sending_welcome
   }
 )
 
