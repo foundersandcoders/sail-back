@@ -1,3 +1,4 @@
+/* @flow */
 const React = require('react')
 const { connect } = require('react-redux')
 const { reduxForm } = require('redux-form')
@@ -77,4 +78,4 @@ const map_dispatch_to_props = (
   }
 )
 
-module.exports = connect(map_state_to_props, map_dispatch_to_props)(NewMember)
+export default connect(map_state_to_props, map_dispatch_to_props)(NewMember)

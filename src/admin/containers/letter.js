@@ -1,4 +1,4 @@
-'use strict'
+/* @flow */
 
 const React = require('react')
 const { connect } = require('react-redux')
@@ -66,5 +66,5 @@ const Letter = React.createClass({
 
 Letter.displayName = 'LetterPage'
 
-module.exports = connect(({ letter }) => ({ letter }), { fetch_member })(Letter)
+export default connect(({ letter }) => ({ letter }), { fetch_member })(Letter)
 

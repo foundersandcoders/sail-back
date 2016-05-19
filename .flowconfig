@@ -1,0 +1,13 @@
+[ignore]
+.*/node_modules/sails
+.*/react/node_modules
+.*/test/.*json
+.*/node_modules/jsverify
+.*/bcryptjs
+
+[include]
+
+[libs]
+interfaces/
+
+[options]

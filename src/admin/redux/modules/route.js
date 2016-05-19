@@ -1,8 +1,13 @@
+/* @flow */
 const { createAction } = require('redux-actions')
 
-const PATH_UPDATE = 'PATH_UPDATE'
+export const PATH_UPDATE = 'PATH_UPDATE'
 
-const reducer = (state = {}, { type, payload }) => {
+import type { Action } from 'redux'
+
+const reducer
+  : (s: {}, a: Action) => {}
+  = (state = {}, { type, payload }) => {
   switch (type) {
     case PATH_UPDATE:
       return payload
@@ -11,13 +16,7 @@ const reducer = (state = {}, { type, payload }) => {
   }
 }
 
-const pathDidUpdate = createAction(PATH_UPDATE)
+export const pathDidUpdate = createAction(PATH_UPDATE)
 
-module.exports = reducer
+export default reducer
 
-Object.assign
-  ( module.exports
-  , { PATH_UPDATE
-    , pathDidUpdate
-    }
-  )

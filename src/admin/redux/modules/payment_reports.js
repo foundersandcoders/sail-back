@@ -1,3 +1,4 @@
+/* @flow */
 const { createAction } = require('redux-actions')
 const { get_body } = require('app/http')
 const { format } = require('app/transform_dated')
@@ -11,14 +12,24 @@ const { payments: fields } = require('../../form_fields/paying_in.js')
 
 const RECEIVED = 'RECEIVED_REPORT_DATA'
 
-export default (state = {}, { type, payload }) => {
-  switch (type) {
-    case RECEIVED:
-      return payload
-    default:
-      return state
+import type { Action } from 'redux'
+import type Payment from './payment_defaults'
+
+type State = {}
+type Check = (x: any) => (p: Payment) => boolean
+
+const reducer
+  : (s: State, a: Action) => State
+  = (state = {}, { type, payload }) => {
+    switch (type) {
+      case RECEIVED:
+        return payload
+      default:
+        return state
+    }
   }
-}
+
+export default reducer
 
 const make_paying_in_url = concat('/api/payingin/')
 const make_non_cheque_url = ({ type, before, after }) =>
@@ -74,16 +85,16 @@ const make_payments = (check) =>
 const make_total = type =>
   compose(objOf(type), reduce(plus2, 0), map(propOr(0, type)))
 
-const make_totals =
-  converge
-    ( unapply(mergeAll)
-    , map
-      ( make_total
-      , [ 'subscription', 'donation', 'event', 'payment', 'payments', 'balance' ]
-      )
+const make_totals = converge
+  ( unapply(mergeAll)
+  , map
+    ( make_total
+    , [ 'subscription', 'donation', 'event', 'payment', 'payments', 'balance' ]
     )
+  )
 
-const add_totals = S(flip(assoc('totals')), compose(make_totals, prop('payments')))
+const add_totals =
+  S(flip(assoc('totals')), compose(make_totals, prop('payments')))
 
 const check = ref => ({ reference, category }) =>
   category === 'payment' && ref === reference
@@ -92,18 +103,22 @@ const check2 = ({ type: t }) => ({ type, category }) =>
   category === 'payment' && t === type.toLowerCase()
 
 // link to issue on discussion around alternatives to breaking encapsulation
-export const prepare = check => payload =>
-  compose(add_totals, make_payments(check(payload)))
+export const prepare
+  : (f: Check) => (a: any) => (ps: Payment[]) => {}
+  = check => payload =>
+    compose(add_totals, make_payments(check(payload)))
 
-export const receive = make_url => check =>
-  createAction
-    ( RECEIVED
-    , (payload) => compose
-      ( map(prepare(check)(payload))
-      , get_body
-      , make_url
-      )(payload)
-    )
+export const receive
+  : (f: (x: any) => string) => (g: Check) => Function
+  = make_url => check =>
+    createAction
+      ( RECEIVED
+      , (payload) => compose
+        ( map(prepare(check)(payload))
+        , get_body
+        , make_url
+        )(payload)
+      )
 
 export const receive_paying_in = receive(make_paying_in_url)(check)
 

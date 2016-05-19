@@ -1,15 +1,16 @@
+/* @flow */
 const React = require('react')
 const { connect } = require('react-redux')
 const { pick, keys, toPairs, flip, prop, zip, fromPairs, compose, replace,
   map, lensPath, set } =
     require('ramda')
 
-const
+import
   { send_sub_reminder
   , toggle_content
   , send_newsletter
   , send_newsletter_reminder
-  } = require('../redux/modules/email.js')
+  } from '../redux/modules/email.js'
 
 const Email = (
   { send_sub_reminder: sub
@@ -47,7 +48,7 @@ const email_list = toggle_show => emails =>
   </div>
 
 const label_from_id =
-  compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-', ' '))
+  compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
 
 const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder']
 
@@ -66,7 +67,7 @@ const email = toggle_show => ([ address, { content, shown }]) =>
 
 const without_default = cb => e => { e.preventDefault(); cb(e) }
 
-module.exports = connect
+export default connect
   ( compose(pick(['emails']), prop('email'))
   , { send_sub_reminder
     , send_newsletter

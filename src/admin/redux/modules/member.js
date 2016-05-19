@@ -1,29 +1,32 @@
+/* @flow */
 const { createAction, handleAction } = require('redux-actions')
 const { stopSubmit } = require('redux-form')
-const { __, replace, compose, map, prop, concat, converge, contains, mergeAll,
-  unapply, cond, T, identity, is, reject, propOr, chain, keys, path, reduce
-  , assoc, join, values, equals } =
+const { flip, replace, compose, map, prop, concat, converge, contains
+  , mergeAll, unapply, cond, T, identity, is, reject, propOr, chain, keys
+  , path, reduce, assoc, join, values, equals, assocPath, over, lens } =
     require('ramda')
 
-const { get, post } = require('app/http')
+const { get_body, post } = require('app/http')
 const { format: format_dated, standardise } = require('app/transform_dated')
 
 const { fieldStructure } = require('../../form_fields/member.js')
 
+import type { Action } from 'redux'
+
 const FETCHING_MEMBER =
   'FETCHING_MEMBER'
-const FETCHED_MEMBER =
+export const FETCHED_MEMBER =
   'MEMBER_FETCHED'
 const DEACTIVATED_MEMBER =
   'DEACTIVATED_MEMBER'
 const REACTIVATED_MEMBER =
   'REACTIVATED_MEMBER'
-const UPDATED_MEMBER =
+export const UPDATED_MEMBER =
   'UPDATED_MEMBER'
 const CREATED_MEMBER =
   'CREATED_MEMBER'
 
-const reducer =
+const reducer: (member: Object, action: Action) => Object =
   (member = { }, { type, payload }) => {
     switch (type) {
       case FETCHED_MEMBER:
@@ -61,7 +64,7 @@ const post_user_url = '/api/members/{ID}'
 
 const get_user_url = '/members/{ID}'
 
-const make_user_url = url => replace('{ID}', __, url)
+const make_user_url = url => flip(replace('{ID}'))(url)
 
 const null_to_undefined = val => val === null ? undefined : val
 
@@ -71,8 +74,13 @@ const parse_if_needed = cond(
   ]
 )
 
-const reshape = ({ membership_type: { value, amount } = {}, ...member }) =>
-  ({...member, membership_type: value, subscription_amount: amount })
+const pull_across = origin => destination =>
+  over(lens(path(origin), assocPath(destination)), identity)
+
+const reshape = compose
+  ( pull_across(['membership_type', 'value'])(['membership_type'])
+  , pull_across(['membership_type', 'amount'])(['subscription_amount'])
+  )
 
 const reshape_if_necessary = (member) =>
   typeof member.membership_type === 'object' ? reshape(member) : member
@@ -92,7 +100,6 @@ const to_member = compose
   , reshape_if_necessary
   , map(null_to_undefined)
   , parse_if_needed
-  , prop('body')
   )
 
 const flatten = converge
@@ -100,7 +107,7 @@ const flatten = converge
   , map(propOr({}), ['personal', 'address', 'membership', 'edit'])
   )
 
-const has_errors = path(['body', 'error'])
+const has_errors = compose(Boolean, path(['body', 'error']))
 
 const to_errors = (dispatch) => ({ body: { invalidAttributes } }) => {
   const errors = reduce
@@ -134,12 +141,12 @@ const errors_or_to_member = errors_or(to_member)
 
 const error_id = errors_or(id_value)
 
-const fetch_member = createAction
+export const fetch_member = createAction
   ( FETCHED_MEMBER
-  , compose(map(to_member), get, make_user_url(get_user_url))
+  , compose(map(to_member), get_body, make_user_url(get_user_url))
   )
 
-const update_member = createAction
+export const update_member = createAction
   ( UPDATED_MEMBER
   , (member, dispatch) => compose
     ( map(errors_or_to_member(dispatch))
@@ -148,27 +155,15 @@ const update_member = createAction
     )(member.id)
   )
 
-const deactivate_member = createAction(DEACTIVATED_MEMBER)
+export const deactivate_member = createAction(DEACTIVATED_MEMBER)
 
-const reactivate_member = createAction(REACTIVATED_MEMBER)
+export const reactivate_member = createAction(REACTIVATED_MEMBER)
 
-const create_member = createAction
+export const create_member = createAction
   ( CREATED_MEMBER
   , (member, dispatch) =>
-    compose(map(error_id(dispatch)), post(__, 'addmember'), standardise)(member)
+    compose(map(error_id(dispatch)), flip(post)('addmember'), standardise)(member)
   )
 
-module.exports = reducer
-
-Object.assign
-  ( module.exports
-  , { fetch_member
-    , deactivate_member
-    , reactivate_member
-    , update_member
-    , create_member
-    , FETCHED_MEMBER
-    , UPDATED_MEMBER
-    }
-  )
+export default reducer
 

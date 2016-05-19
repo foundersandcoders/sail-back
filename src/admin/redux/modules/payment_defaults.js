@@ -1,3 +1,4 @@
+/* @flow */
 const { createAction } = require('redux-actions')
 
 const { FETCHED_MEMBER } = require('./member.js')
@@ -5,34 +6,66 @@ const { ADDED_PAYMENT } = require('./payments.js')
 const { format } = require('app/transform_dated.js')
 const { reduce, keys, compose } = require('ramda')
 
-const initial_state =
+import type { Action } from 'redux'
+
+
+type Category = 'payment' | 'subscription' | 'donation' | 'event' | ''
+
+type Type
+  = 'harbour office'
+  | 'standing order'
+  | 'bacs'
+  | 'cash'
+  | 'cheque'
+  | 'caf'
+  | 'refund'
+  | 'paypal'
+  | ''
+
+export type Payment =
+  { date: string
+  , reference: string
+  , category: Category
+  , amount: string
+  , type: Type
+  , description: string
+  , notes: string
+  , id: any
+  }
+
+const initial_state: Payment =
   { date: ''
   , reference: ''
   , category: ''
   , amount: ''
+  , description: ''
+  , notes: ''
+  , type: ''
+  , id: ''
   }
 
-function payment_defaults (state = initial_state, {type, payload}) {
-  switch (type) {
-    case FETCHED_MEMBER:
-      return {...state, amount: String(payload.subscription_amount) }
-    case ADDED_PAYMENT:
-      return compose
-        ( format
-        , reduce
-          ( (state, field) =>
-              field.match(/^date|reference|type$/)
-              ? { ...state, [field]: payload[field] }
-              : state
-          , state
-          )
-        , keys
-        )(payload)
-    default:
-      return state
+const payment_defaults
+  : (s: Payment, a: Action) => Payment
+  = (state = initial_state, {type, payload}) => {
+    switch (type) {
+      case FETCHED_MEMBER:
+        return {...state, amount: String(payload.subscription_amount) }
+      case ADDED_PAYMENT:
+        return compose
+          ( format
+          , reduce
+            ( (state, field) =>
+                field.match(/^date|reference|type$/)
+                ? { ...state, [field]: payload[field] }
+                : state
+            , state
+            )
+          , keys
+          )(payload)
+      default:
+        return state
+    }
   }
-}
 
-exports = module.exports = payment_defaults
+export default payment_defaults
 
-module.exports = payment_defaults

@@ -1,7 +1,10 @@
+/* @flow */
 const xhr = require('xhr')
 const throttle = require('lodash.throttle')
 
-export default store => next => action => {
+import type { MiddlewareAPI, Dispatch, Action } from 'redux'
+
+export default (_: MiddlewareAPI) => (next: Dispatch) => (action: Action) => {
   relogin_timedout()
   return next(action)
 }
