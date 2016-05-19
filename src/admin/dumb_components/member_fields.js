@@ -6,7 +6,7 @@ const { options, field_order, fieldStructure, read_only, validate
   , is_required } =
     require('../form_fields/member.js')
 const { array_only_keys } = require('app/sort')
-const { __, contains, merge, filter, compose, dissoc } = require('ramda')
+const { contains, merge, filter, compose, dissoc } = require('ramda')
 
 const PersonalFields = (
   { fields

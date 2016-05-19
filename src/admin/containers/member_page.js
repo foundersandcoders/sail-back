@@ -1,3 +1,4 @@
+/* @flow */
 const React = require('react')
 const { connect } = require('react-redux')
 const { pick, compose, propOr, merge } = require('ramda')
@@ -8,7 +9,6 @@ const { fetch_member, deactivate_member, reactivate_member, update_member } =
 const { toggle_member_mode } = require('../redux/modules/mode.js')
 const { switch_charge_type } = require('../redux/modules/charge_form.js')
 const { add_payment, remove_payment } = require('../redux/modules/payments.js')
-const { update_field } = require('../redux/modules/payment_defaults.js')
 
 const MemberPage = require('../dumb_components/member_page.js')
 
@@ -24,7 +24,7 @@ const ViewMember = React.createClass({
   deactivate_member_click (_) {
     const { deactivate_member } = this.props
     const { value: deletion_reason } =
-      document.querySelector('#deletion_reason').selectedOptions[0]
+      (document.querySelector('#deletion_reason'): any).selectedOptions[0]
     deactivate_member(deletion_reason)
   },
 
@@ -77,7 +77,6 @@ const map_dispatch_to_props =
   , switch_charge_type
   , add_payment
   , remove_payment
-  , update_field
   }
 
-module.exports = connect(map_state_to_props, map_dispatch_to_props)(ViewMember)
+export default connect(map_state_to_props, map_dispatch_to_props)(ViewMember)

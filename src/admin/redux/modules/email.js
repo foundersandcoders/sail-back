@@ -1,6 +1,7 @@
+/* @flow */
 const { createAction, handleAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
-const { lensPath, over, not, indexBy, map, prop, merge, ifElse, flip, gte,
+const { lensPath, over, not, indexBy, map, propOr, merge, ifElse, flip, gte,
   cond, assoc, where, objOf, zip, set } =
       require('ramda')
 const { K, compose, pipe } = require('sanctuary')
@@ -18,33 +19,43 @@ const SEND_NEWS_REMINDER =
 const TOGGLE_CONTENT =
   'TOGGLE_CONTENT'
 
-export default (state = { emails: {} }, { type, payload }) => {
-  const update = lens => value => set(lens, value, state)
-  const emails = lensPath(['emails'])
-  const sent = lensPath(['email_sent'])
-  const new_emails =
-    template => shape => update(emails)(map(template, shape(payload.results)))
-  switch (type) {
-    case SEND_SUB_REMINDER:
-      return new_emails(template_subs)(shape_sub_reminders)
-    case SEND_NEWSLETTER:
-      return new_emails(newsletter_alert)(shape_emails)
-    case SEND_NEWS_REMINDER:
-      return new_emails(newsletter_reminder)(shape_emails)
-    case TOGGLE_CONTENT:
-      return toggle_show(payload)(state)
-    case SEND_WELCOME:
-      return update(sent)(true)
-    default:
-      return state
+import type { Action } from 'redux'
+
+type State = { emails: {} }
+type Shaped = { [key: string]: { last: any, due_date: any } }
+type Overdue = { [key:string] : { last: any, due_date: any, overdue: any } }
+
+const reducer
+  : (s: State, Action: { type: string, payload: any }) => State
+  = (state = { emails: {} }, { type, payload }) => {
+    const update = lens => value => set(lens, value, state)
+    const emails = lensPath(['emails'])
+    const sent = lensPath(['email_sent'])
+    const new_emails = template => shape =>
+      update(emails)(map(template, shape(payload.results)))
+    switch (type) {
+      case SEND_SUB_REMINDER:
+        return new_emails(template_subs)(shape_sub_reminders)
+      case SEND_NEWSLETTER:
+        return new_emails(newsletter_alert)(shape_emails)
+      case SEND_NEWS_REMINDER:
+        return new_emails(newsletter_reminder)(shape_emails)
+      case TOGGLE_CONTENT:
+        return toggle_show(payload)(state)
+      case SEND_WELCOME:
+        return update(sent)(true)
+      default:
+        return state
+    }
   }
-}
+
+export default reducer
 
 const time_check = pipe([gte, objOf('overdue'), where])
 
-const templating = compose(cond, zip(map(time_check, [60, 90, Infinity])))
+const templating = compose(cond)(zip(map(time_check, [60, 90, Infinity])))
 
-const placeholder = compose(K, objOf('content'))
+const placeholder = compose(K)(objOf('content'))
 
 const missing_standing_order = templating(
   map(placeholder, [ '30 day SO', '60 day SO', '90 day SO' ])
@@ -59,7 +70,7 @@ const newsletter_alert = placeholder('1st newsletter email')
 const newsletter_reminder = placeholder('2nd newsletter email')
 
 const template_subs = ifElse
-  ( prop('standing_order')
+  ( propOr(false, 'standing_order')
   , missing_standing_order
   , late_payment
   )
@@ -72,9 +83,10 @@ const add_overdue = member => {
 const days_overdue = (due, last) =>
   ((new Date(due) - new Date('1/1/71')) - new Date(last))/(1000 * 60 * 60 * 24)
 
-const shape_emails = indexBy(prop('primary_email'))
+const shape_emails = indexBy(propOr('', 'primary_email'))
 
-const shape_sub_reminders = compose(map(add_overdue), shape_emails)
+const shape_sub_reminders
+  = compose((map(add_overdue): (o: Shaped) => Overdue))(shape_emails)
 
 const toggle_show = address => state => {
   const shown_lens = lensPath([ 'emails', address, 'shown' ])

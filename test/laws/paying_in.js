@@ -1,7 +1,7 @@
 import jsv from 'jsverify'
 import test from 'tape'
 
-import { prepare } from '../../src/admin/redux/modules/paying_in.js'
+import { prepare } from '../../src/admin/redux/modules/payment_reports.js'
 
 const fixed_sum = (options) =>
   jsv.bless({ generator: () => options[(jsv.random(0, options.length - 1))] })

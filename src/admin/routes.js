@@ -1,19 +1,19 @@
-'use strict'
+/* @flow */
 
 var React = require('react')
 var { Router, Route, Redirect, hashHistory }  = require('react-router')
 var { Provider } = require('react-redux')
-var store = require('./redux/store.js')
+import store from './redux/store.js'
 
 var App = require('./admin_app.js')
 var AdminHome = require('./pages/home.js')
-var ViewMember = require('./containers/member_page.js')
-var AddMember = require('./containers/add_member.js')
-var Reports = require('./pages/available_reports.js')
-var { PayingIn } = require('./containers/payment_reports.js')
-var { NonCheque } = require('./containers/payment_reports.js')
-var Letter = require('./containers/letter.js')
-var Emails = require('./containers/email.js')
+import ViewMember from './containers/member_page.js'
+import AddMember from './containers/add_member.js'
+import Reports from './pages/available_reports.js'
+import { PayingIn } from './containers/payment_reports.js'
+import { NonCheque } from './containers/payment_reports.js'
+import Letter from './containers/letter.js'
+import Emails from './containers/email.js'
 
 var { pathDidUpdate } = require('./redux/modules/route.js')
 

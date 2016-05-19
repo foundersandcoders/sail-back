@@ -1,8 +1,9 @@
+/* @flow */
 import React, { createClass } from 'react'
 import { connect } from 'react-redux'
-import { compose, props, map, append, lensIndex, set, range, apply, lift,
+const { compose, props, map, append, lensIndex, set, range, apply, lift,
   defaultTo }
-    from 'ramda'
+    = require('ramda')
 import { minus, plus } from 'app/money_arith'
 import standardise from 'app/standardise_date'
 import { fields, headers } from '../form_fields/paying_in.js'
@@ -13,7 +14,8 @@ import { receive_non_cheque, receive_paying_in }
 
 import Table from '../components/table'
 
-const get_fields = map(compose(map(defaultTo(0)), props(fields)))
+const get_fields =
+  map(compose(map((defaultTo(0): (x: number) => number)), props(fields)))
 
 const head_lens = lensIndex(0)
 const total_lens = lensIndex(6)

@@ -1,11 +1,12 @@
-const { combineReducers } = require('redux')
-const form = require('./form_reducer.js')
-const payment_defaults = require('./modules/payment_defaults.js')
-const member = require('./modules/member.js')
-const mode = require('./modules/mode.js')
-const payments = require('./modules/payments.js')
-const charge_form = require('./modules/charge_form.js')
-const route = require('./modules/route.js')
+/* @flow */
+import { combineReducers } from 'redux'
+import form from './form_reducer.js'
+import payment_defaults from './modules/payment_defaults.js'
+import member from './modules/member.js'
+import mode from './modules/mode.js'
+import payments from './modules/payments.js'
+import charge_form from './modules/charge_form.js'
+import route from './modules/route.js'
 import payment_reports from './modules/payment_reports.js'
 import letter from './modules/letter.js'
 import email from './modules/email.js'
@@ -24,5 +25,5 @@ const admin_app = combineReducers(
   }
 )
 
-module.exports = admin_app
+export default admin_app
 
