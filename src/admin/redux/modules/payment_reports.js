@@ -4,7 +4,7 @@ const { get_body } = require('app/http')
 const { format } = require('app/transform_dated')
 const { compose, concat, reduce, map, add, negate, lensPath, flip, over, prop,
   view, set, append, identity, objOf, propOr, mergeAll, converge, unapply,
-  assoc, pick, cond, equals, T } =
+  assoc, pick, cond, equals, T, sortBy } =
     require('ramda')
 const { plus, plus2 } = require('app/money_arith')
 const { S } = require('sanctuary')
@@ -31,8 +31,8 @@ const reducer
 
 export default reducer
 
-const make_paying_in_url = concat('/api/payingin/')
-const make_non_cheque_url = ({ type, before, after }) =>
+const paying_in_url = concat('/api/payingin/')
+const non_cheque_url = ({ type, before, after }) =>
   `/api/noncheque/${type}?before=${before}&after=${after}`
 
 const payments = lensPath(['payments'])
@@ -96,11 +96,15 @@ const make_totals = converge
 const add_totals =
   S(flip(assoc('totals')), compose(make_totals, prop('payments')))
 
-const check = ref => ({ reference, category }) =>
+const sails_date_string = string => new Date(string).setHours(12)
+
+const paying_in_check = ref => ({ reference, category }) =>
   category === 'payment' && ref === reference
 
-const check2 = ({ type: t }) => ({ type, category }) =>
-  category === 'payment' && t === type.toLowerCase()
+const non_cheque_check =
+  ({ type: t, before, after }) => ({ type, category, date }) =>
+    category === 'payment' && t === type.toLowerCase()
+      && sortBy(sails_date_string, [after, date, before])[1] === date
 
 // link to issue on discussion around alternatives to breaking encapsulation
 export const prepare
@@ -120,6 +124,6 @@ export const receive
         )(payload)
       )
 
-export const receive_paying_in = receive(make_paying_in_url)(check)
+export const receive_paying_in = receive(paying_in_url)(paying_in_check)
 
-export const receive_non_cheque = receive(make_non_cheque_url)(check2)
+export const receive_non_cheque = receive(non_cheque_url)(non_cheque_check)
