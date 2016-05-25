@@ -14,6 +14,7 @@
 
 var braintree = require('braintree')
 var Validation = require('../services/validate.js')
+var queries = require('../queries/payments.js')
 
 // ATTENTION: sandbox credentials: need real credentials and must be kept PRIVATE
 var BraintreeGateway = braintree.connect({
@@ -111,20 +112,7 @@ module.exports = {
 
   payingInReport: function (req, res) {
     Payments.query
-      ( 'select p.*, m.last_name from payments p, members m' +
-        '  where exists (' +
-        '    select 1 from payments p2' +
-        '      where p2.reference = ?' +
-        '        AND p2.member = p.member' +
-        '        AND p2.date >= p.date' +
-        '  )' +
-        '  AND p.member = m.id' +
-        '  order by' +
-        '    case' +
-        '      when p.reference = ? then 0' +
-        '      else 1' +
-        '    end desc, p.date' +
-        "  , field(p.category, 'donation', 'event', 'subscription', 'payment');"
+      ( queries.paying_in
       , [req.params.ref, req.params.ref]
       , function (err, results) {
           if (err) res.badRequest({ error: err })
@@ -135,17 +123,7 @@ module.exports = {
 
   nonChequeReport: function (req, res) {
     Payments.query
-      ( 'select p.*, m.last_name from payments p, members m' +
-        '  where exists (' +
-        '    select 1 from payments p2' +
-        '      where p2.date >= ? AND p2.date <= ?' +
-        '        AND p2.type = ?' +
-        '        AND p2.member = p.member' +
-        '        AND p2.date >= p.date' +
-        '  )' +
-        '  AND p.member = m.id' +
-        '  order by p.date' +
-        "  , field(p.category, 'donation', 'event', 'subscription', 'payment');"
+      ( queries.non_cheque
       , [req.query.after, req.query.before, req.params.type]
       , function (err, results) {
           if (err) res.badRequest({ error: err })

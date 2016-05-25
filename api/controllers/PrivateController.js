@@ -6,6 +6,8 @@ var Is = require('torf')
 var Upload = require('../services/Upload.js')()
 var sendReminder = require('../services/email_mailgun.js').sendReminder
 
+var queries = require('../queries/private.js')
+
 module.exports = {
   showAdminHome: function (req, res) {
     res.view('pages/admin', {user: req.session.user})
@@ -49,33 +51,13 @@ module.exports = {
       })
   },
   sendSubsReminder: function (req, res) {
-    var query =
-      `select members.primary_email, max(payments.date) as last,
-      members.first_name, members.last_name, members.title,
-      members.standing_order, members.due_date
-        from members right outer join payments
-        on members.id = payments.member
-        where payments.category = 'subscription'
-          and members.news_type = 'online'
-          and members.membership_type in
-            ('annual-single', 'annual-double', 'annual-family')
-          and (
-            payments.date < date_sub(members.due_date, INTERVAL 1 YEAR)
-            or payments.date is null
-          )
-        group by members.id;`
-    Members.query(query, function (err, results) {
+    Members.query(queries.subscriptions, function (err, results) {
       if (err) return res.badRequest({ error: err })
       return res.json({ results })
     })
   },
   sendNewsletterAlert: function (req, res) {
-    var query =
-      `select members.primary_email,
-      members.first_name, members.last_name, members.title
-        from members
-        where members.news_type = 'online';`
-    Members.query(query, function (err, results) {
+    Members.query(queries.newsletter, function (err, results) {
       if (err) return res.badRequest({ error: err })
       return res.json({ results })
     })
