@@ -6,7 +6,7 @@
   "style": "src/styles/main.scss",
   "keywords": [],
   "scripts": {
-    "test": "SINGLE=true npm run test:laws && npm run test:server",
+    "test": "SINGLE=true npm run test:laws && flow && npm run test:server",
     "start": "npm run build && sails lift --verbose",
     "debug": "node-debug app.js",
     "test:upload": "standard && tape test/upload/*.test.js",
@@ -96,6 +96,7 @@
   "devDependencies": {
     "csv2": "^0.1.1",
     "faucet": "0.0.1",
+    "flow-bin": "^0.25.0",
     "hyperquest": "^1.2.0",
     "jsverify": "0.7.1",
     "request": "^2.70.0",
