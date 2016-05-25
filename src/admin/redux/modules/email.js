@@ -2,7 +2,7 @@
 const { createAction, handleAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
 const { lensPath, over, not, indexBy, map, propOr, merge, ifElse, flip, gte,
-  cond, assoc, where, objOf, zip, set } =
+  cond, assoc, where, objOf, zip, set, lift } =
       require('ramda')
 const { K, compose, pipe } = require('sanctuary')
 
@@ -35,11 +35,11 @@ const reducer
       update(emails)(map(template, shape(payload.results)))
     switch (type) {
       case SEND_SUB_REMINDER:
-        return new_emails(template_subs)(shape_sub_reminders)
+        return new_emails(template_subs)(primaries)
       case SEND_NEWSLETTER:
-        return new_emails(newsletter_alert)(shape_emails)
+        return new_emails(newsletter_alert)(shape_newsletters)
       case SEND_NEWS_REMINDER:
-        return new_emails(newsletter_reminder)(shape_emails)
+        return new_emails(newsletter_reminder)(shape_newsletters)
       case TOGGLE_CONTENT:
         return toggle_show(payload)(state)
       case SEND_WELCOME:
@@ -75,18 +75,12 @@ const template_subs = ifElse
   , late_payment
   )
 
-const add_overdue = member => {
-  const { last, due_date } = member
-  return assoc('overdue', days_overdue(due_date, last), member)
-}
+const indexByProp = compose(indexBy, propOr(''))
 
-const days_overdue = (due, last) =>
-  ((new Date(due) - new Date('1/1/71')) - new Date(last))/(1000 * 60 * 60 * 24)
+const [ primaries, secondaries ] =
+  map(indexByProp, [ 'primary_email', 'secondary_email' ])
 
-const shape_emails = indexBy(propOr('', 'primary_email'))
-
-const shape_sub_reminders
-  = compose((map(add_overdue): (o: Shaped) => Overdue))(shape_emails)
+const shape_newsletters = lift(merge)(primaries, secondaries)
 
 const toggle_show = address => state => {
   const shown_lens = lensPath([ 'emails', address, 'shown' ])
