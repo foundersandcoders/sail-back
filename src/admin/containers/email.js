@@ -8,6 +8,7 @@ const { pick, keys, toPairs, flip, prop, zip, fromPairs, compose, replace,
 import
   { send_sub_reminder
   , toggle_content
+  , toggle_list
   , send_newsletter
   , send_newsletter_reminder
   } from '../redux/modules/email.js'
@@ -17,7 +18,7 @@ const Email = (
   , send_newsletter: news
   , send_newsletter_reminder: remind
   , emails
-  , toggle_content
+  , ...list_props
   }
 ) =>
   <div className='main-container email'>
@@ -26,7 +27,7 @@ const Email = (
     >
       { map(send_button, zip(email_ids, [sub, news, remind])) }
     </form>
-    { keys(emails).length > 0 && email_list(toggle_content)(emails) }
+    { keys(emails).length > 0 && email_list({ emails, ...list_props }) }
   </div>
 
 const send_button = ([ id, fn ]) =>
@@ -39,11 +40,14 @@ const send_button = ([ id, fn ]) =>
     {label_from_id(id)}
   </button>
 
-const email_list = toggle_show => emails =>
+const email_list = ({ toggle_list, list_hidden, emails, toggle_content }) =>
   <div>
     <h1>The following addresses will receive an email:</h1>
+    <button type='button' onClick={toggle_list} className='email-list-toggle'>
+      { (list_hidden ? 'Show' : 'Hide') + ' Emails' }
+    </button>
     <ul>
-      { map(email(toggle_show), toPairs(emails)) }
+      { list_hidden || map(email(toggle_content), toPairs(emails)) }
     </ul>
   </div>
 
@@ -51,6 +55,8 @@ const label_from_id =
   compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
 
 const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder']
+
+const show_list = (emails, toggle) => keys(emails).length > 0 && toggle
 
 const email = toggle_show => ([ address, { content, shown }]) =>
   <li key={address} className='email-addressee'>
@@ -68,11 +74,12 @@ const email = toggle_show => ([ address, { content, shown }]) =>
 const without_default = cb => e => { e.preventDefault(); cb(e) }
 
 export default connect
-  ( compose(pick(['emails']), prop('email'))
+  ( compose(pick(['emails', 'list_hidden']), prop('email'))
   , { send_sub_reminder
     , send_newsletter
     , send_newsletter_reminder
     , toggle_content
+    , toggle_list
     }
   )(Email)
 
