@@ -9,8 +9,6 @@ const { flip, replace, compose, map, prop, concat, converge, contains
 const { get_body, post } = require('app/http')
 const { format: format_dated, standardise } = require('app/transform_dated')
 
-const { fieldStructure } = require('../../form_fields/member.js')
-
 import type { Action } from 'redux'
 
 const FETCHING_MEMBER =

@@ -258,6 +258,7 @@ declare class RList<T> {
   slice<V,T:Array<V>|string>(from: number, ...rest: Array<void>): (to: number) => (src: T) => T;
   slice<V,T:Array<V>|string>(from: number, to: number, ...rest: Array<void>): (src: T) => T;
   slice<V,T:Array<V>|string>(from: number, to: number, src: T, ...rest: Array<void>): T;
+  splitEvery: CurriedFunction2<number, T[], T[][]>;
   sort<V,T:Array<V>>(fn: BinaryPredicateFn<V>, xs:T): T;
   sort<V,T:Array<V>>(fn: BinaryPredicateFn<V>): (xs:T) => T;
   tail<T,V:Array<T>|string>(xs: V): V;
@@ -350,9 +351,7 @@ declare class RObject<s, a> {
   propOr<T>(v: T): (key: string) => (o: Object) => any|T;
   props(keys: Array<string>, o: Object): Array<any>;
   props(keys: Array<string>): (o: Object) => Array<any>;
-  set<s, a>(lens: Lens<s, a>): (a: a) => (s: s) => s;
-  set<s, a>(lens: Lens<s, a>, a: a): (s: s) => s;
-  set<s, a>(lens: Lens<s, a>, a: a, s: s): s;
+  set: CurriedFunction3<Lens<s, a>, a, s, s>;
   toPairs(o: Object): Array<[string, any]>;
   toPairsIn(o: Object): Array<[string, any]>;
   values(o: Object): Array<any>;

@@ -62,6 +62,12 @@ module.exports = {
       return res.json({ results })
     })
   },
+  getNewsletterLabels: function (req, res) {
+    Members.query(queries.newsletter_labels, function (err, results) {
+      if (err) return res.badRequest({ error: err })
+      return res.json({ results })
+    })
+  },
   showMaintenance: function (req, res) {
     res.view('pages/maintenance', {user: req.session.user})
   },
