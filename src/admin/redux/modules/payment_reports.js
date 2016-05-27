@@ -12,14 +12,14 @@ const { payments: fields } = require('../../form_fields/paying_in.js')
 
 const RECEIVED = 'RECEIVED_REPORT_DATA'
 
-import type { Action } from 'redux'
-import type Payment from './payment_defaults'
+import type { Action, Reducer } from 'redux'
+import type { Payment } from './payment_defaults'
 
 type State = {}
 type Check = (x: any) => (p: Payment) => boolean
 
 const reducer
-  : (s: State, a: Action) => State
+  : Reducer<State, Action>
   = (state = {}, { type, payload }) => {
     switch (type) {
       case RECEIVED:

@@ -4,11 +4,11 @@ const { UPDATED_MEMBER } = require('./member.js')
 
 const TOGGLE_MEMBER_MODE = 'TOGGLE_MEMBER_MODE'
 
-import type { Action } from 'redux'
+import type { Action, Reducer } from 'redux'
 
-type mode_state = 'view' | 'edit'
+type State = 'view' | 'edit'
 
-const reducer: (x: mode_state, y: Action) => mode_state =
+const reducer: Reducer<State, Action> =
   (mode = 'view', { type, payload }) => {
     switch (type) {
       case TOGGLE_MEMBER_MODE:

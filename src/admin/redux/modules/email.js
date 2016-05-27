@@ -19,16 +19,15 @@ const SEND_NEWS_REMINDER =
 const TOGGLE_CONTENT =
   'TOGGLE_CONTENT'
 
-import type { Action } from 'redux'
+import type { Action, Reducer } from 'redux'
 
-type State = { emails: {} }
-type Shaped = { [key: string]: { last: any, due_date: any } }
-type Overdue = { [key:string] : { last: any, due_date: any, overdue: any } }
+type State = { emails: { [key: string]: { overdue: number } } }
 
-const reducer
-  : (s: State, Action: { type: string, payload: any }) => State
-  = (state = { emails: {} }, { type, payload }) => {
-    const update = lens => value => set(lens, value, state)
+const initialState = { emails: { } }
+
+const reducer : Reducer<State, Action>
+  = (state = initialState, { type, payload }) => {
+    const update = lens => value => (set(lens, value, state) : State)
     const emails = lensPath(['emails'])
     const sent = lensPath(['email_sent'])
     const new_emails = template => shape =>
@@ -82,7 +81,7 @@ const [ primaries, secondaries ] =
 
 const shape_newsletters = lift(merge)(primaries, secondaries)
 
-const toggle_show = address => state => {
+const toggle_show = (address: string) => (state: State): State => {
   const shown_lens = lensPath([ 'emails', address, 'shown' ])
   return over(shown_lens, not, state)
 }
