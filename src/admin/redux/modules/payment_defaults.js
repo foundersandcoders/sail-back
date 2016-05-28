@@ -22,18 +22,9 @@ type Type
   | 'paypal'
   | ''
 
-export type Payment =
-  { date: string
-  , reference: string
-  , category: Category
-  , amount: string
-  , type: Type
-  , description: string
-  , notes: string
-  , id: any
-  }
+export type Payment = typeof initial_state
 
-const initial_state: Payment =
+const initial_state =
   { date: ''
   , reference: ''
   , category: ''
