@@ -3,10 +3,9 @@ const { createAction } = require('redux-actions')
 
 export const PATH_UPDATE = 'PATH_UPDATE'
 
-import type { Action } from 'redux'
+import type { Action, Reducer } from 'redux'
 
-const reducer
-  : (s: {}, a: Action) => {}
+const reducer : Reducer<{}, Action>
   = (state = {}, { type, payload }) => {
   switch (type) {
     case PATH_UPDATE:

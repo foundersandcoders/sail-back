@@ -2,11 +2,11 @@
 import { FETCHED_MEMBER } from './member.js'
 import { mergeAll, converge, unapply, compose, objOf, prop } from 'ramda'
 
-import type { Action } from 'redux'
+import type { Action, Reducer } from 'redux'
 
 type State = {}
 
-const reducer: (x: State, y: Action) => State =
+const reducer: Reducer<State, Action> =
   (state = { id: 0, address: [], name: '' }, { type, payload }) => {
     switch (type) {
       case FETCHED_MEMBER:

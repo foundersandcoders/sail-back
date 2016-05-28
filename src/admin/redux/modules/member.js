@@ -9,9 +9,7 @@ const { flip, replace, compose, map, prop, concat, converge, contains
 const { get_body, post } = require('app/http')
 const { format: format_dated, standardise } = require('app/transform_dated')
 
-const { fieldStructure } = require('../../form_fields/member.js')
-
-import type { Action } from 'redux'
+import type { Action, Reducer } from 'redux'
 
 const FETCHING_MEMBER =
   'FETCHING_MEMBER'
@@ -26,7 +24,7 @@ export const UPDATED_MEMBER =
 const CREATED_MEMBER =
   'CREATED_MEMBER'
 
-const reducer: (member: Object, action: Action) => Object =
+const reducer: Reducer<{}, Action> =
   (member = { }, { type, payload }) => {
     switch (type) {
       case FETCHED_MEMBER:

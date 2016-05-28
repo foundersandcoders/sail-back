@@ -10,9 +10,9 @@ export const ADDED_PAYMENT = 'ADDED_PAYMENT'
 const REMOVED_PAYMENT = 'REMOVED_PAYMENT'
 
 import type { Payment } from './payment_defaults'
-import type { Action } from 'redux'
+import type { Action, Reducer } from 'redux'
 
-const reducer: (ps: Payment[], a: Action) => Payment[]
+const reducer: Reducer<Payment[], Action>
   = (payments = [], { type, payload }) => {
     switch (type) {
       case FETCHED_MEMBER:

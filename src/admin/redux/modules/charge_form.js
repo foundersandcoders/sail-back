@@ -5,10 +5,9 @@ const { ADDED_PAYMENT } = require('./payments.js')
 const { PATH_UPDATE } = require('./route.js')
 const SWITCHED_CHARGE_TYPE = 'SWITCHED_CHARGE_TYPE'
 
-import type { Action } from 'redux'
+import type { Action, Reducer } from 'redux'
 
-const reducer
-  : (x: string, y: Action) => string
+const reducer : Reducer<string, Action>
   = (charge_type = '', { type, payload }) => {
     switch (type) {
       case SWITCHED_CHARGE_TYPE:

@@ -6,7 +6,7 @@ const { ADDED_PAYMENT } = require('./payments.js')
 const { format } = require('app/transform_dated.js')
 const { reduce, keys, compose } = require('ramda')
 
-import type { Action } from 'redux'
+import type { Action, Reducer } from 'redux'
 
 
 type Category = 'payment' | 'subscription' | 'donation' | 'event' | ''
@@ -35,8 +35,7 @@ const initial_state =
   , id: ''
   }
 
-const payment_defaults
-  : (s: Payment, a: Action) => Payment
+const payment_defaults : Reducer<Payment, Action>
   = (state = initial_state, {type, payload}) => {
     switch (type) {
       case FETCHED_MEMBER:

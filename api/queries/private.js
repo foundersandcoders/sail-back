@@ -19,3 +19,10 @@ exports.subscriptions =
               else                 payments.amount
               end) > 0
       and datediff(curdate(), max(payments.date)) > 30;`
+
+exports.newsletter_labels =
+  `select title, first_name, last_name, address1, address2, address3, address4,
+  postcode, county from members
+    where members.news_type = 'post'
+      or members.email_bounced = true;`
+
