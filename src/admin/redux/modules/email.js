@@ -43,7 +43,7 @@ const reducer : Reducer<State, Action>
       case SEND_NEWS_REMINDER:
         return new_emails(newsletter_reminder)(shape_newsletters)
       case TOGGLE_LIST:
-        return over(list_hidden, not, state)
+        return (over(list_hidden, not, state): State)
       case TOGGLE_CONTENT:
         return toggle_show(payload)(state)
       case SEND_WELCOME:
