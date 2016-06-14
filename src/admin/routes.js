@@ -15,6 +15,7 @@ import { NonCheque } from './containers/payment_reports.js'
 import Letter from './containers/letter.js'
 import Emails from './containers/email.js'
 import Labels from './containers/labels.js'
+import Letters from './containers/letters.js'
 
 var { pathDidUpdate } = require('./redux/modules/route.js')
 
@@ -31,6 +32,7 @@ module.exports = function () {
             <Route path='/reports' component={Reports} />
               <Route path='/reports/paying_in' component={PayingIn} />
               <Route path='/reports/non_cheque' component={NonCheque} />
+            <Route path='/letters' component={Letters} />
             <Route path='/emails' component={Emails} />
             <Route path='/labels' component={Labels} />
             <Route path='/letter/:id' component={Letter} />
@@ -38,4 +40,3 @@ module.exports = function () {
       </Router>
     </Provider>
   ) }
-

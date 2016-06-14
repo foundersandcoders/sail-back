@@ -18,6 +18,7 @@ module.exports = {
       maxAge: 15 * 60 * 1000,
     },
     adapter: 'redis',
+    rolling: true,
     client: require('redis').createClient(process.env.REDIS_URL)
   },
   port: process.env.PORT || 80

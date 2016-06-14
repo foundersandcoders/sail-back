@@ -41,7 +41,8 @@ test('Add member', function (t) {
   var json = {
     id: 88888,
     date_joined: new Date(),
-    primary_email: 'create@member.com'
+    primary_email: 'create@member.com',
+    membership_type: 'life-single'
   }
 
   req

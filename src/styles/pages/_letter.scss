@@ -1,5 +1,37 @@
+.top-letter-container {
+  li {
+    list-style: none;
+  }
+}
+
+.sub-letters-header {
+  margin-left: 50px;
+  margin-top: 60px;
+  font-size: 20px;
+  font-style: italic;
+}
+
+.letter-list-container {
+  display: inline-block;
+}
+
+.letter-recipients {
+  margin-top: 40px;
+  margin-left: 50px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.letter-recipients li {
+  font-size: 21px;
+  margin-bottom: 10px;
+}
+
+.letter-list li:nth-child(n+2) {
+  display: none;
+}
+
 .letter-page {
-  width: 80%;
   .letter, .letter * {
     font-size: larger;
   }
@@ -9,6 +41,7 @@
 
   h3 {
     font-size: medium;
+    margin-bottom: 10px;
   }
 }
 
@@ -16,12 +49,6 @@
   position: relative;
 }
 
-.letter-logo {
-  position: absolute;
-  top: 0.5em;
-  right: 0.5em;
-  width: 2.93cm;
-}
 
 .receiver-address {
   float: left;
@@ -38,16 +65,108 @@
   text-align: justify;
 }
 
+.letter-page {
+  width: 80%;
+  max-width: 800px;
+  height: 1000px;
+  padding: 80px;
+  border: solid black 1px;
+  margin: 40px 80px 80px 80px;
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h3 {
+    font-size: 12px;
+    margin-top: 2em;
+    margin-bottom: 30px;
+  }
+
+  .addresses {
+    margin-top: 1.5em;
+    padding-bottom: 1.5em;
+  }
+
+  .sender-address, .sender-address * {
+    font-size: 12px;
+  }
+
+  .receiver-address, .receiver-address * {
+    font-size: 16px;
+  }
+
+  *, .letter.letter * {
+    font-size: 16px;
+  }
+
+  .letter p {
+    margin-top: 7px;
+    margin-bottom: 7px;
+  }
+
+  .letter-greeting {
+    margin-bottom: 25px;
+  }
+
+  .letter span {
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+
+  .letter-logo {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    width: 2.93cm;
+  }
+
+  .letter-footer {
+    margin-top: 50px;
+    page-break-after: always;
+  }
+}
+
 @media print {
+  /* Remove url and date from top and bottom of printed page */
+  @page {
+     size: auto;
+     margin: 0mm;
+   }
+
+  button {
+    display: none;
+  }
+
+  .letter-list li:nth-child(n+2) {
+    display: block;
+  }
+
+  .sub-letters-header {
+    display: none;
+  }
+
+  .letter-recipients {
+    display: none;
+  }
+
+  button {
+    display: none;
+  }
 
   .letter-page {
 
+    margin-top: 80px;
+    border: none;
+    padding: 10px;
+    
     h1 {
       font-size: 24px;
     }
 
     h3 {
       font-size: 12px;
+      margin-top: 2em;
     }
 
     .addresses {
@@ -80,6 +199,10 @@
     .letter-logo {
       top: 0em;
       right: -1em;
+    }
+
+    .letter-footer {
+      page-break-after: always;
     }
   }
 }

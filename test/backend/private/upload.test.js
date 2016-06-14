@@ -98,7 +98,8 @@ test('Upload endpoint should upload MEMBERS', function (t) {
     {
       id: 555555,
       title: 'Mr',
-      first_name: 'Upload'
+      first_name: 'Upload',
+      membership_type: 'annual-double'
     }
   ]
 
