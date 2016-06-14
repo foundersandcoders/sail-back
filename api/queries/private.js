@@ -26,3 +26,7 @@ exports.newsletter_labels =
     where members.news_type = 'post'
       or members.email_bounced = true;`
 
+// exports.subscriptions =
+//   `select title, first_name, last_name, address1, address2,
+//   address3, address4, postcode, county from members
+//     where news_type = 'post' or email_bounced = true;`
