@@ -68,6 +68,12 @@ module.exports = {
       return res.json({ results })
     })
   },
+  getPostMembers: function (req, res) {
+    Members.query(queries.newstype_post, function (err, results) {
+      if (err) return res.badRequest({ error: err })
+      return res.json( { results } )
+    })
+  },
   showMaintenance: function (req, res) {
     res.view('pages/maintenance', {user: req.session.user})
   },

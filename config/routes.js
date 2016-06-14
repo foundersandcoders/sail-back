@@ -163,5 +163,9 @@ module.exports.routes = {
     controller: 'Payments',
     action: 'nonChequeReport'
   }
+  'GET /api/get-post-members': {
+    controller: 'Private',
+    action: 'getPostMembers'
+  }
 // -------------------------------------------------------------------------
 }
