@@ -24,6 +24,9 @@ var AdminButtons = function () {
       </li>,
       <li key={3} id='nav-emails'>
         <a href='#emails'>Emails</a>
+      </li>,
+      <li key={4} id='nav-letters'>
+        <a href='#letters'>Letters</a>
       </li>
     ]
   )
