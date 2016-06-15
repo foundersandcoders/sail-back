@@ -34,7 +34,7 @@ exports.newstype_post =
 
 exports.newstype_post_nonzero =
   `select title, first_name, last_name, address1, address2,
-  address3, address4, postcode, county
+  address3, address4, postcode, county, due_date, overdue
     from members right outer join payments
     on members.id = payments.member
     where news_type = 'post'
