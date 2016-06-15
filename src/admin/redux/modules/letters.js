@@ -9,14 +9,16 @@ const initialState = {}
 const reducer = (state = initialState, {type, payload}) => {
   console.log('reducer reached', payload);
   switch (type) {
-  case COMPOSE_LETTER:
-    return state //TODO change
+    case COMPOSE_LETTER:
+      return state //TODO change
+    default:
+      return state
   }
-  default:
-    return state
 }
 
 export default reducer
 
 export const get_post_members =
-  createAction('COMPOSE_LETTER', () => get_body('api/get-post-members'))
+  createAction('COMPOSE_LETTER', () => {
+    return get_body('api/get-post-members')
+  })

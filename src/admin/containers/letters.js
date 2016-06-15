@@ -3,18 +3,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { get_post_members } from '../redux/modules/letters.js'
 
-class Letters extends React.Component {
-  render () {
-    return (
-      <div>
-        <button>Get Members</button>
-        in letters containeer
-      </div>
-    )
-  }
+const Letters = (props) => {
+  return (
+    <div>
+      <button onClick={props.get_post_members}>Get Members</button>
+    </div>
+  )
 }
 
 
 
-export default connect()(Letters)
+export default connect(null, { get_post_members })(Letters)
