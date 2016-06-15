@@ -28,5 +28,11 @@ exports.newsletter_labels =
 
 exports.newstype_post =
   `select title, first_name, last_name, address1, address2,
-  address3, address4, postcode, county from members
-    where news_type = 'post' or email_bounced = true;`
+  address3, address4, postcode, county
+    from members
+    where news_type = 'post';`
+
+exports.newstype_post_nonzero_balance =
+  `select title, first_name, last_name, address1, address2,
+  address3, address4, postcode, county, balance from members
+    where news_type = 'post';`
