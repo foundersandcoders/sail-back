@@ -9,10 +9,19 @@ const Letters = (props) => {
   return (
     <div>
       <button onClick={props.get_post_members}>Get Members</button>
+      {props.letters.length > 0
+        ? <ul>
+          {props.letters.map((member, i) => <li key={i}>{member.first_name}</li>)}
+        </ul>
+        : <p>ivans div</p>
+      }
     </div>
   )
 }
 
 
+const mapStateToProps = (state) => {
+  return { letters: state.letters }
+}
 
-export default connect(null, { get_post_members })(Letters)
+export default connect(mapStateToProps, { get_post_members })(Letters)
