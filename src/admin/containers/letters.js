@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 
 import { send_newsletter_post, send_sub_reminder_post } from '../redux/modules/letters.js'
 
+import StandingOrderLetter from '../dumb_components/standing_order_letter.js'
+
 const Letters = (props) => {
   return (
     <div>
@@ -16,6 +18,7 @@ const Letters = (props) => {
         </ul>
         : <p>ivans div</p>
       }
+      <StandingOrderLetter letters={props.letters[0]}/>
     </div>
   )
 }
