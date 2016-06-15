@@ -3,12 +3,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { get_post_members, send_sub_reminder_post } from '../redux/modules/letters.js'
+import { send_newsletter_post, send_sub_reminder_post } from '../redux/modules/letters.js'
 
 const Letters = (props) => {
   return (
     <div>
-      <button onClick={props.get_post_members}>Get Members</button>
+      <button onClick={props.send_newsletter_post}>Get Members</button>
       <button onClick={props.send_sub_reminder_post}>Get Outstanding Members</button>
       {props.letters.length > 0
         ? <ul>
@@ -25,4 +25,4 @@ const mapStateToProps = (state) => {
   return { letters: state.letters }
 }
 
-export default connect(mapStateToProps, { get_post_members, send_sub_reminder_post })(Letters)
+export default connect(mapStateToProps, { send_newsletter_post, send_sub_reminder_post })(Letters)
