@@ -21,7 +21,7 @@ const TOGGLE_LIST =
 const TOGGLE_CONTENT =
   'TOGGLE_CONTENT'
 
-import type { Action, Reducer } from 'redux'
+import type { Action, Reducer } from 'redux'  //eslint-disable-line
 
 type State = { emails: { [key: string]: { overdue: number } } }
 
