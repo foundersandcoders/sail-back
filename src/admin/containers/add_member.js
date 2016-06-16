@@ -13,24 +13,24 @@ const buttons = (
   { fields: { id, primary_email }, error, email_handler, email_sent }
 ) =>
   <div>
-    { error ? <div className='error'>{error.message}</div> : '' }
-    { id.value && !email_sent
+    {error ? <div className='error'>{error.message}</div> : ''}
+    {id.value && !email_sent
       ? <div>
-          { letter_or_email(email_handler, primary_email.value, id.value) }
-          <div id='member-num'>Member ID is: {id.value} </div>
-        </div>
+          {letter_or_email(email_handler, primary_email.value, id.value)}
+        <div id='member-num'>Member ID is: {id.value} </div>
+      </div>
       : email_sent || <button type='submit'>Submit</button>
     }
   </div>
 
 const letter_or_email = (email_handler, email, id) =>
   email
-  ? <button onClick={() => email_handler(email)} type="button">
+  ? <button onClick={() => email_handler(email)} type='button'>
       Send Welcome Email
-    </button>
+  </button>
   : <a href={'#/letter/' + id}>
       Print Welcome Letter
-    </a>
+  </a>
 
 const AddMember = reduxForm(
   { form: 'member'
@@ -71,7 +71,7 @@ const email_handler = send_welcome => email => {
   send_welcome(email)
 }
 
-const map_state_to_props = pick(['email'])
+const map_state_to_props = pick([ 'email' ])
 const map_dispatch_to_props = (
   { create_member
   , send_welcome

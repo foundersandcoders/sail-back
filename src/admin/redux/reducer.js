@@ -14,7 +14,7 @@ import newsletter_labels from './modules/labels.js'
 import letters from './modules/letters.js'
 
 const admin_app = combineReducers(
-  { payment_defaults
+  { payment_defaults    
   , payments
   , form
   , charge_form

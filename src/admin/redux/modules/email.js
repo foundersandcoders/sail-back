@@ -108,4 +108,3 @@ export const toggle_list =
 
 export const toggle_content =
   createAction(TOGGLE_CONTENT)
-
