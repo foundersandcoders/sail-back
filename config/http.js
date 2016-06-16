@@ -23,9 +23,17 @@ module.exports.http = {
   *                                                                           *
   ****************************************************************************/
 
+
   customMiddleware: function (app) {
     app.use(passport.initialize())
     app.use(passport.session())
+  },
+
+  // broken dependency doesn't update the cookie timeout
+  refreshSessionCookie: function(req, res, next) {
+    req.session._garbage = Date();
+    req.session.touch();
+    return next();
   },
 
   middleware: {
@@ -40,6 +48,7 @@ module.exports.http = {
       'startRequestTimer',
       'cookieParser',
       'session',
+      'refreshSessionCookie',
       'myRequestLogger',
       'bodyParser',
       'handleBodyParserError',
