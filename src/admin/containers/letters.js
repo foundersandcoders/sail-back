@@ -16,7 +16,7 @@ const Letters = (props) => {
         ? <ul>
           {props.letters.map((member, i) => <li key={i}>{member.first_name}</li>)}
         </ul>
-        : <p>ivans div</p>
+        : <p>Loading</p>
       }
       <StandingOrderLetter letters={props.letters[0]}/>
     </div>
