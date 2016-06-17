@@ -1,6 +1,6 @@
 const { createAction } = require('redux-actions')
 const { get_body } = require('app/http')
-const { compose, objOf, map, props } = require('ramda')
+const { merge, compose, objOf, map, props, zipWith } = require('ramda')
 
 const SEND_NEWSLETTER_POST =
   'SEND_NEWSLETTER_POST'
@@ -14,13 +14,16 @@ const reducer = (state = initialState, { type, payload }) => {
   case SEND_NEWSLETTER_POST:
     return payload.results
   case SEND_SUB_REMINDER_POST:
-  // console.log('reducer reached', map(addressArr, payload.results))
-    console.log('reducer reached', objOf('email_content', inject(payload.results[0])))
+    const addressArray = map(addressArr, payload.results)
+    const contentArray = map(objOf('email_content'), map(inject, payload.results))
+    console.log(zipWith(merge, contentArray, addressArray))
     return payload.results
   default:
     return state
   }
 }
+
+//[[{},{}], [{},{}]]
 
 export default reducer
 
