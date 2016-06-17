@@ -33,8 +33,10 @@ const type_order =
   ]
 
 const validate = (values) => {
-  const ref_not_required =
-    compose(test(/SO|BACS|harbour/i), compose(defaultTo('cash'), prop('type')))
+  const ref_not_required = compose
+    ( test(/standing|BACS|harbour/i)
+    , compose(defaultTo('cash'), prop('type'))
+    )
 
   const required_tests =
     { date: exists
