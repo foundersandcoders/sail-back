@@ -40,6 +40,10 @@
 
 @media print {
 
+  button {
+    display: none;
+  }
+
   .letter-page {
 
     h1 {
