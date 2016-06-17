@@ -22,7 +22,8 @@ test('"Forgot password" connection: ', function (t) {
 test('Create member from upload', function (t) {
   var memberMock = {
     id: '123',
-    primary_email: 'hello@world.com'
+    primary_email: 'hello@world.com',
+    membership_type: 'life-single'
   }
 
   Members
