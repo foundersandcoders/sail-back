@@ -13,7 +13,7 @@ const Labels = (
   }
 ) =>
   <div>
-    <button onClick={newsletter_labels}></button>
+    <button onClick={newsletter_labels}>Newsletter Labels</button>
     <table>
       { r('tbody')()(compose(map(LabelRow), splitEvery(3))(addresses)) }
     </table>
