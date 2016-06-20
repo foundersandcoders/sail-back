@@ -1,6 +1,6 @@
 const { createAction } = require('redux-actions')
 const { get_body } = require('app/http')
-const { merge, compose, objOf, map, props, zipWith, pick, indexBy, prop } = require('ramda')
+const { merge, compose, objOf, map, props, zipWith, pick, indexBy, prop, values } = require('ramda')
 
 const SEND_NEWSLETTER_POST =
   'SEND_NEWSLETTER_POST'
@@ -18,8 +18,7 @@ const reducer = (state = initialState, { type, payload }) => {
     const addressArray = map(addressArr, payload.results)
     const contentArray = map(objOf('email_content'), map(inject, payload.results))
     const letterObj = zipWith(merge, contentArray, addressArray)
-    console.log(indexBy(prop('id'), zipWith(merge, idObj, letterObj)))
-    return indexBy(prop('id'), zipWith(merge, idObj, letterObj))
+    return zipWith(merge, idObj, letterObj)
   default:
     return state
   }
