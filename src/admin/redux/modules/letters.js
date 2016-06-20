@@ -19,7 +19,7 @@ const reducer = (state = initialState, { type, payload }) => {
     const contentArray = map(objOf('email_content'), map(inject, payload.results))
     const letterObj = zipWith(merge, contentArray, addressArray)
     console.log(indexBy(prop('id'), zipWith(merge, idObj, letterObj)))
-    return payload.results
+    return indexBy(prop('id'), zipWith(merge, idObj, letterObj))
   default:
     return state
   }
@@ -49,9 +49,6 @@ const inject = (members) => {
   If, alternatively, your intention is to cancel your membership of the Friends
   we’d be grateful if you could let the Membership Secretary
   (Pam Marrs, 42 Bracklesham Road, Hayling Island PO11 9SJ) know that that is your intention.
-  If you have already sorted the problem out, our apologies and please ignore this letter.
-  Sincerely,
-  Richard Evans,
-  Treasurer FoCH`
+  If you have already sorted the problem out, our apologies and please ignore this letter.`
   return template
 }
