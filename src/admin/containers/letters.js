@@ -8,8 +8,9 @@ import { send_newsletter_post, send_sub_reminder_post } from '../redux/modules/l
 import StandingOrderLetter from '../dumb_components/standing_order_letter.js'
 
 const Letters = (props) => {
+  console.log(props)
   return (
-    <div>
+    <div className='top-letter-container'>
       <button onClick={props.send_newsletter_post}>Get Members</button>
       <button onClick={props.send_sub_reminder_post}>Get Outstanding Members</button>
         {props.letters.post_members.length > 0
@@ -19,10 +20,11 @@ const Letters = (props) => {
           : <p>Loading</p>
         }
         {props.letters.sub_reminders.length > 0
-          ? props.letters.sub_reminders.map((letter, i) =>
+          ? props.letters.sub_reminders.map((letter, i) => ( //eslint-disable-line
             <li key={i}>
               <StandingOrderLetter letter={letter}/>
-            </li>)
+            </li>
+            ))
           : <p>Loading</p>
         }
     </div>
