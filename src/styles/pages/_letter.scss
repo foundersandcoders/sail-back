@@ -39,6 +39,11 @@
 }
 
 @media print {
+  /* Remove url and date from top and bottom of printed page */
+  @page {
+     size: auto;
+     margin: 0mm;
+   }
 
   button {
     display: none;
@@ -52,6 +57,7 @@
 
     h3 {
       font-size: 12px;
+      margin-top: 2em;
     }
 
     .addresses {
