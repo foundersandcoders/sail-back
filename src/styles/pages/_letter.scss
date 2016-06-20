@@ -45,6 +45,11 @@
 }
 
 @media print {
+  /* Remove url and date from top and bottom of printed page */
+  @page {
+     size: auto;
+     margin: 0mm;
+   }
 
   button {
     display: none;
@@ -58,6 +63,7 @@
 
     h3 {
       font-size: 12px;
+      margin-top: 2em;
     }
 
     .addresses {
@@ -95,5 +101,57 @@
     .letter-footer {
       page-break-after: always;
     }
+  }
+}
+
+.letter-page {
+  max-width: 700px;
+  height: 1000px;
+  padding: 80px;
+  border: solid black 1px;
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h3 {
+    font-size: 12px;
+    margin-top: 2em;
+  }
+
+  .addresses {
+    margin-top: 1.5em;
+    padding-bottom: 1.5em;
+  }
+
+  .sender-address, .sender-address * {
+    font-size: 12px;
+  }
+
+  .receiver-address, .receiver-address * {
+    font-size: 16px;
+  }
+
+  *, .letter.letter * {
+    font-size: 16px;
+  }
+
+  .letter p {
+    margin-top: 7px;
+    margin-bottom: 7px;
+  }
+
+  .letter span {
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+
+  .letter-logo {
+    top: 0em;
+    right: -1em;
+  }
+
+  .letter-footer {
+    page-break-after: always;
   }
 }
