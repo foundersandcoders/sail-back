@@ -85,5 +85,9 @@
       top: 0em;
       right: -1em;
     }
+
+    .letter-footer {
+      page-break-after: always;
+    }
   }
 }

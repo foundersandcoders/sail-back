@@ -8,7 +8,6 @@ import { send_newsletter_post, send_sub_reminder_post } from '../redux/modules/l
 import StandingOrderLetter from '../dumb_components/standing_order_letter.js'
 
 const Letters = (props) => {
-  console.log(props)
   return (
     <div>
       <button onClick={props.send_newsletter_post}>Get Members</button>

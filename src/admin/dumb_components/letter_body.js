@@ -14,11 +14,6 @@ export default ({ letter }) => {
     <div className='letter'>
       <h3>Membership Number: {letter.id}</h3>
         {formatContent(letter.email_content)}
-      <p>Sincerely</p>
-
-      Richard Evans, <br />
-      Treasurer, <br />
-      Friends of Chichester Harbour <br />
     </div>
   )
 }
