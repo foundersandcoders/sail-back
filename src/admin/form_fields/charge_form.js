@@ -9,7 +9,14 @@ const donation = event
 const payment = concat(donation, ['type', 'reference'])
 
 const payment_category_options =
-  [ 'Cash', 'Cheque', 'Standing Order', 'HO', 'CAF', 'Refund' ]
+  [ 'Cash'
+  , 'Cheque'
+  , 'Standing Order'
+  , 'Harbour Office'
+  , 'BACS'
+  , 'CAF'
+  , 'Refund'
+  ]
 
 const types =
   { subscription
@@ -26,8 +33,10 @@ const type_order =
   ]
 
 const validate = (values) => {
-  const ref_not_required =
-    compose(test(/ash|eque|efund/), compose(defaultTo('cash'), prop('type')))
+  const ref_not_required = compose
+    ( test(/standing|BACS|harbour/i)
+    , compose(defaultTo('cash'), prop('type'))
+    )
 
   const required_tests =
     { date: exists

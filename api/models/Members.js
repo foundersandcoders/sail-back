@@ -99,7 +99,8 @@ module.exports = {
       type: 'DATE'
     },
     membership_type: {
-      model: 'MembershipTypes'
+      model: 'MembershipTypes',
+      required: true
     },
     date_membership_type_changed: {
       type: 'DATE'
