@@ -1,6 +1,6 @@
 const { createAction } = require('redux-actions')
 const { get_body } = require('app/http')
-const { merge, compose, objOf, map, props, zipWith, pick, indexBy, prop, values } = require('ramda')
+const { merge, compose, objOf, map, props, zipWith, pick } = require('ramda')
 
 const SEND_NEWSLETTER_POST =
   'SEND_NEWSLETTER_POST'
