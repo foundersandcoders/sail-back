@@ -5,7 +5,7 @@ export default ({ letter }) => {
   const formatContent = (content) => {
     return (
       <div>
-        {content.split('\n').map(paragraph => <p>{paragraph}</p>)}
+        {content.split('\n').map((paragraph, i) => <p key={i}>{paragraph}</p>)}
       </div>
     )
   }
