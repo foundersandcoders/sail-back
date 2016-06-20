@@ -1,24 +1,28 @@
 const { createAction } = require('redux-actions')
 const { get_body } = require('app/http')
 const { merge, compose, objOf, map, props, zipWith, pick } = require('ramda')
+const formatDate = require('app/format_date')
 
 const SEND_NEWSLETTER_POST =
   'SEND_NEWSLETTER_POST'
 const SEND_SUB_REMINDER_POST =
   'SEND_SUB_REMINDER_POST'
 
-const initialState = []
+const initialState = {
+  post_members: [],
+  sub_reminders: []
+}
 
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
   case SEND_NEWSLETTER_POST:
-    return payload.results
+    return { ...state, post_members: payload.results }
   case SEND_SUB_REMINDER_POST:
     const idObj = map(pick([ 'id' ]), payload.results)
     const addressArray = map(addressArr, payload.results)
     const contentArray = map(objOf('email_content'), map(inject, payload.results))
     const letterObj = zipWith(merge, contentArray, addressArray)
-    return zipWith(merge, idObj, letterObj)
+    return { ...state, sub_reminders: zipWith(merge, idObj, letterObj) }
   default:
     return state
   }
@@ -41,7 +45,7 @@ const inject = (members) => {
     return days > 60 ? 60 : 30
   }
   const template = `Dear ${members.first_name || members.title + ' ' + members.last_name },
-  We notice that your Standing Order which is normally paid on ${members.due_date}
+  We notice that your Standing Order which is normally paid on ${formatDate(members.due_date)}
   each year has not been paid this year and £${members.amount} has now been unpaid
   for over ${getOverdue(members.overdue)} days. We assume that this is probably an
   administrative error and would be very grateful if you could look into it.

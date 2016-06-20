@@ -13,6 +13,6 @@ var AdminApp = React.createClass({
         add_details={this.add_details}
         children={this.props.children}
       />
-  )} })
+  ) } })
 
 module.exports = AdminApp
