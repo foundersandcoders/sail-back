@@ -1,6 +1,7 @@
 const { createAction } = require('redux-actions')
 const { get_body } = require('app/http')
 const { merge, compose, objOf, map, props, zipWith, pick } = require('ramda')
+const formatDate = require('app/format_date')
 
 const SEND_NEWSLETTER_POST =
   'SEND_NEWSLETTER_POST'
@@ -44,7 +45,7 @@ const inject = (members) => {
     return days > 60 ? 60 : 30
   }
   const template = `Dear ${members.first_name || members.title + ' ' + members.last_name },
-  We notice that your Standing Order which is normally paid on ${members.due_date}
+  We notice that your Standing Order which is normally paid on ${formatDate(members.due_date)}
   each year has not been paid this year and £${members.amount} has now been unpaid
   for over ${getOverdue(members.overdue)} days. We assume that this is probably an
   administrative error and would be very grateful if you could look into it.
