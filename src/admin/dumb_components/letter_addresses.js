@@ -1,15 +1,6 @@
 import React from 'react'
 
-export default (props) => {
-  const {
-    address1,
-    address2,
-    address3,
-    address4,
-    county,
-    postcode
-  } = props.letters
-  const address = [ address1, address2, address3, address4, county, postcode ]
+export default ({ address }) => {
   return (
     <div className='addresses'>
       <div className='receiver-address'>
