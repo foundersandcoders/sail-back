@@ -1,6 +1,6 @@
 const { createAction } = require('redux-actions')
 const { get_body } = require('app/http')
-const { merge, compose, objOf, map, props, zipWith } = require('ramda')
+const { merge, compose, objOf, map, props, zipWith, pick, indexBy, prop } = require('ramda')
 
 const SEND_NEWSLETTER_POST =
   'SEND_NEWSLETTER_POST'
@@ -14,16 +14,16 @@ const reducer = (state = initialState, { type, payload }) => {
   case SEND_NEWSLETTER_POST:
     return payload.results
   case SEND_SUB_REMINDER_POST:
+    const idObj = map(pick([ 'id' ]), payload.results)
     const addressArray = map(addressArr, payload.results)
     const contentArray = map(objOf('email_content'), map(inject, payload.results))
-    console.log(zipWith(merge, contentArray, addressArray))
+    const letterObj = zipWith(merge, contentArray, addressArray)
+    console.log(indexBy(prop('id'), zipWith(merge, idObj, letterObj)))
     return payload.results
   default:
     return state
   }
 }
-
-//[[{},{}], [{},{}]]
 
 export default reducer
 
@@ -32,25 +32,6 @@ export const send_newsletter_post =
 
 export const send_sub_reminder_post =
   createAction(SEND_SUB_REMINDER_POST, () => get_body('/api/post-sub-reminders'))
-
-// const indexById = R.indexBy(R.prop('id'))
-//
-// const members = {
-//   address1: '14 Palmers Road',
-//   address2: 'GlobeTowns',
-//   address3: 'Bethnal Green',
-//   address4: 'Meath Gardens',
-//   postcode: 'E1 0SY',
-//   county: null,
-//   amount: 37,
-//   due_date: '2017-01-01T00:00:00.000Z',
-//   first_name: 'Wil',
-//   id: 471663,
-//   last_name: 'Fisher',
-//   overdue: 1229,
-//   standing_order: null,
-//   title: 'Mr'
-// }
 
 const addressProps = [ 'address1', 'address2', 'address3', 'address4', 'county', 'postcode' ]
 const addressArr = compose(objOf('address'), props(addressProps))
