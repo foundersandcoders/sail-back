@@ -17,7 +17,7 @@ const Letters = (props) => {
           ? <ul>
             {props.letters.post_members.map((member, i) => <li key={i}>{member.first_name}</li>)}
           </ul>
-          : <p>Loading</p>
+          : null
         }
         {props.letters.sub_reminders.length > 0
           ? props.letters.sub_reminders.map((letter, i) => ( //eslint-disable-line
@@ -25,7 +25,7 @@ const Letters = (props) => {
               <StandingOrderLetter letter={letter}/>
             </li>
             ))
-          : <p>Loading</p>
+          : null
         }
     </div>
   )
