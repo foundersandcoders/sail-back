@@ -1,6 +1,16 @@
 const { createAction } = require('redux-actions')
 const { get_body } = require('app/http')
-const { merge, compose, objOf, map, props, zipWith, pick, reduce } = require('ramda')
+const {
+    merge
+  , compose
+  , objOf
+  , map
+  , props
+  , pick
+  , reduce
+  , liftN
+  , unapply
+} = require('ramda')
 const formatDate = require('app/format_date')
 
 const SEND_NEWSLETTER_POST =
@@ -18,15 +28,10 @@ const reducer = (state = initialState, { type, payload }) => {
   case SEND_NEWSLETTER_POST:
     return { ...state, post_members: payload.results }
   case SEND_SUB_REMINDER_POST:
-    const idObj = map(pick([ 'id' ]), payload.results)
-    // console.log('idObj' , idObj)
-    const addresses = map(addressArr, payload.results)
-    // console.log('addresses', addresses)
-    const contentArray = map(compose(objOf('email_content'), inject), payload.results)
-    // console.log('contentArray' , contentArray)
-    // console.log('rafey', reduce(zipWith(merge), [{}], [idObj, contentArray, addresses]));
-    const letterObj = zipWith(merge, contentArray, addresses)
-    return { ...state, sub_reminders: zipWith(merge, idObj, letterObj) }
+    const ids = pick([ 'id' ])
+    const emails = compose(objOf('email_content'), inject)
+    const shape = map(liftN(3, unapply(reduce(merge, {})))(emails, addresses, ids))
+    return { ...state, sub_reminders: shape(payload.results) }
   default:
     return state
   }
@@ -41,7 +46,7 @@ export const send_sub_reminder_post =
   createAction(SEND_SUB_REMINDER_POST, () => get_body('/api/post_sub_reminders'))
 
 const addressProps = [ 'address1', 'address2', 'address3', 'address4', 'county', 'postcode' ]
-const addressArr = compose(objOf('address'), props(addressProps))
+const addresses = compose(objOf('address'), props(addressProps))
 
 const getOverdue = (days) => {
   if (days > 90) return 90
