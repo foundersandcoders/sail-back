@@ -55,3 +55,24 @@ exports.newstype_post_nonzero =
                 else                 payments.amount
                 end) > 0
         and datediff(curdate(), max(payments.date)) > 30;`
+
+// const template =
+//   `select first_name, last_name, title,
+//   datediff(curdate(), max(payments.date)) as overdue,
+//   members.standing_order, members.due_date, members.id,
+//   sum(case payments.category
+//     when 'payment' then -payments.amount
+//     else                 payments.amount
+//     end) as amount
+//     from members right outer join payments
+//     on members.id = payments.member
+//     where members.news_type = '{online/post}'
+//       and members.membership_type in
+//         ('annual-single', 'annual-double', 'annual-family')
+//     group by members.id
+//     having sum(case payments.category
+//               when 'payment' then -payments.amount
+//               else                 payments.amount
+//               end) > 0
+//       and datediff(curdate(), max(payments.date)) > 30;`
+//

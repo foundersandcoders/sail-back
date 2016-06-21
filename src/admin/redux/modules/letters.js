@@ -34,17 +34,18 @@ export const send_newsletter_post =
   createAction(SEND_NEWSLETTER_POST, () => get_body('api/post_members'))
 
 export const send_sub_reminder_post =
-  createAction(SEND_SUB_REMINDER_POST, () => get_body('/api/post-sub-reminders'))
+  createAction(SEND_SUB_REMINDER_POST, () => get_body('/api/post_sub_reminders'))
 
 const addressProps = [ 'address1', 'address2', 'address3', 'address4', 'county', 'postcode' ]
 const addressArr = compose(objOf('address'), props(addressProps))
 
-const inject = (members) => {
-  const getOverdue = (days) => {
-    if (days > 90) return 90
-    return days > 60 ? 60 : 30
-  }
-  const template = `Dear ${members.first_name || members.title + ' ' + members.last_name },
+const getOverdue = (days) => {
+  if (days > 90) return 90
+  return days > 60 ? 60 : 30
+}
+
+const inject = (members) => (
+  `Dear ${members.first_name || members.title + ' ' + members.last_name },
   We notice that your Standing Order which is normally paid on ${formatDate(members.due_date)}
   each year has not been paid this year and £${members.amount} has now been unpaid
   for over ${getOverdue(members.overdue)} days. We assume that this is probably an
@@ -53,5 +54,4 @@ const inject = (members) => {
   we’d be grateful if you could let the Membership Secretary
   (Pam Marrs, 42 Bracklesham Road, Hayling Island PO11 9SJ) know that that is your intention.
   If you have already sorted the problem out, our apologies and please ignore this letter.`
-  return template
-}
+)

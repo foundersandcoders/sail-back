@@ -20,9 +20,9 @@ const TOGGLE_LIST =
 const TOGGLE_CONTENT =
   'TOGGLE_CONTENT'
 
-import type { Action, Reducer } from 'redux'  // eslint-disable-line
+import type { Action, Reducer } from 'redux'
 
-type State = { emails: { [key: string]: { overdue: number } } }  //eslint-disable-line
+type State = { emails: { [key: string]: { overdue: number } } }
 
 const initialState = { emails: { } }
 
