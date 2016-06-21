@@ -19,9 +19,9 @@ const reducer = (state = initialState, { type, payload }) => {
     return { ...state, post_members: payload.results }
   case SEND_SUB_REMINDER_POST:
     const idObj = map(pick([ 'id' ]), payload.results)
-    const addressArray = map(addressArr, payload.results)
+    const addresses = map(addressArr, payload.results)
     const contentArray = map(objOf('email_content'), map(inject, payload.results))
-    const letterObj = zipWith(merge, contentArray, addressArray)
+    const letterObj = zipWith(merge, contentArray, addresses)
     return { ...state, sub_reminders: zipWith(merge, idObj, letterObj) }
   default:
     return state
