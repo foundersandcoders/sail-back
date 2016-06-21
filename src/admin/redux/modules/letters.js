@@ -1,6 +1,6 @@
 const { createAction } = require('redux-actions')
 const { get_body } = require('app/http')
-const { merge, compose, objOf, map, props, zipWith, pick } = require('ramda')
+const { merge, compose, objOf, map, props, zipWith, pick, reduce } = require('ramda')
 const formatDate = require('app/format_date')
 
 const SEND_NEWSLETTER_POST =
@@ -19,8 +19,12 @@ const reducer = (state = initialState, { type, payload }) => {
     return { ...state, post_members: payload.results }
   case SEND_SUB_REMINDER_POST:
     const idObj = map(pick([ 'id' ]), payload.results)
+    // console.log('idObj' , idObj)
     const addresses = map(addressArr, payload.results)
-    const contentArray = map(objOf('email_content'), map(inject, payload.results))
+    // console.log('addresses', addresses)
+    const contentArray = map(compose(objOf('email_content'), inject), payload.results)
+    // console.log('contentArray' , contentArray)
+    // console.log('rafey', reduce(zipWith(merge), [{}], [idObj, contentArray, addresses]));
     const letterObj = zipWith(merge, contentArray, addresses)
     return { ...state, sub_reminders: zipWith(merge, idObj, letterObj) }
   default:
