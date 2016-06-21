@@ -11,3 +11,4 @@
 interfaces/
 
 [options]
+module.system=haste
