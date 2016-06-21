@@ -13,7 +13,6 @@ export default ({ letter }) => {
     </div>
   )
 
-
   return (
     <div className='letter'>
       <h3>Membership Number: {letter.id}</h3>
