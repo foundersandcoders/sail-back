@@ -3,7 +3,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { send_newsletter_post, send_sub_reminder_post } from '../redux/modules/letters.js'
+import { send_newsletter_post, send_sub_reminder_post } from '../redux/modules/letters/letters.js'
 
 import StandingOrderLetter from '../dumb_components/standing_order_letter.js'
 
