@@ -4,6 +4,10 @@
   }
 }
 
+.letter-list li:nth-child(n+2) {
+  display: none;
+}
+
 .letter-page {
   .letter, .letter * {
     font-size: larger;
@@ -108,6 +112,10 @@
 
   button {
     display: none;
+  }
+
+  .letter-list li:nth-child(n+2) {
+    display: block;
   }
 
   .letter-page {

@@ -17,14 +17,16 @@ const Letters = (props) => (
         </ul>
         : null
       }
-      {props.letters.sub_reminders.length > 0
-        ? props.letters.sub_reminders.map((letter, i) => ( //eslint-disable-line
-          <li key={i}>
-            <StandingOrderLetter letter={letter}/>
-          </li>
-          ))
-        : null
-      }
+    <ul className='letter-list'>
+    {props.letters.sub_reminders.length > 0
+      ? props.letters.sub_reminders.map((letter, i) => (
+        <li key={i}>
+          <StandingOrderLetter letter={letter}/>
+        </li>
+        ))
+      : null
+    }
+    </ul>
   </div>
 )
 
