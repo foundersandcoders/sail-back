@@ -18,24 +18,29 @@ const SEND_NEWSLETTER_POST =
 const SEND_SUB_REMINDER_POST =
   'SEND_SUB_REMINDER_POST'
 
+type State = typeof initialState
+
+import type { Action, Reducer } from 'redux'
+
 const initialState = {
   post_members: [],
   sub_reminders: []
 }
 
-const reducer = (state = initialState, { type, payload }) => {
-  switch (type) {
-  case SEND_NEWSLETTER_POST:
-    return { ...state, post_members: payload.results }
-  case SEND_SUB_REMINDER_POST:
-    const ids = pick([ 'id' ])
-    const emails = compose(objOf('email_content'), inject)
-    const shape = map(liftN(3, unapply(reduce(merge, {})))(emails, addresses, ids))
-    return { ...state, sub_reminders: shape(payload.results) }
-  default:
-    return state
-  }
-}
+const reducer: Reducer<State, Action>
+ = (state = initialState, { type, payload }) => {
+   switch (type) {
+   case SEND_NEWSLETTER_POST:
+     return { ...state, post_members: payload.results }
+   case SEND_SUB_REMINDER_POST:
+     const ids = pick([ 'id' ])
+     const emails = compose(objOf('email_content'), inject)
+     const shape = map(liftN(3, unapply(reduce(merge, {})))(emails, addresses, ids))
+     return { ...state, sub_reminders: shape(payload.results) }
+   default:
+     return state
+   }
+ }
 
 export default reducer
 
