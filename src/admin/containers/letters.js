@@ -17,17 +17,23 @@ const Letters = (props) => (
         </ul>
         : null
       }
-    <ul className='letter-list'>
+
+
     {props.letters.sub_reminders.length > 0
-      ? props.letters.sub_reminders.map((letter, i) => (
-        <li key={i}>
-          <StandingOrderLetter letter={letter}/>
-        </li>
-        ))
+      ? generateSubLetters(props.letters)
       : null
     }
-    </ul>
   </div>
+)
+
+const generateSubLetters = (letters) => (
+  <ul className='letter-list'>
+  {letters.sub_reminders.map((letter, i) => (
+    <li key={i}>
+      <StandingOrderLetter letter={letter}/>
+    </li>
+  ))}
+  </ul>
 )
 
 

@@ -34,7 +34,7 @@ const reducer: Reducer<State, Action>
    case SEND_NEWSLETTER_POST:
      return { ...state, post_members: payload.results }
    case SEND_SUB_REMINDER_POST:
-     const ids = pick([ 'id' ])
+     const ids = pick([ 'id', 'first_name', 'last_name' ])
      const emails = compose(objOf('email_content'), sub_reminder)
      const shape = map(liftN(3, unapply(reduce(merge, {})))(emails, addresses, ids))
      return { ...state, sub_reminders: shape(payload.results) }
