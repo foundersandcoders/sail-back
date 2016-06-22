@@ -4,6 +4,16 @@
   }
 }
 
+.letter-recipients {
+  margin-top: 100px;
+  margin-left: 50px;
+}
+
+.letter-recipients li {
+  font-size: 21px;
+  margin-bottom: 10px;
+}
+
 .letter-list li:nth-child(n+2) {
   display: none;
 }
@@ -116,6 +126,10 @@
 
   .letter-list li:nth-child(n+2) {
     display: block;
+  }
+
+  .letter-recipients {
+    display: none;
   }
 
   .letter-page {
