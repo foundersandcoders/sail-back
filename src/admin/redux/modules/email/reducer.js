@@ -2,7 +2,7 @@
 const { createAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
 const { lensPath, over, not, indexBy, map, propOr, merge, ifElse, gte,
-  cond, where, objOf, zip, set, lift } =
+  cond, where, objOf, zip, set, lift, assoc } =
       require('ramda')
 const { K, compose, pipe } = require('sanctuary')
 
