@@ -142,13 +142,17 @@
     display: block;
   }
 
+  .sub-letters-header {
+    display: none;
+  }
+
   .letter-recipients {
     display: none;
   }
 
   .letter-page {
 
-    margin-top: 100px;
+    margin-top: 80px;
 
     border: none;
     padding: 10px;

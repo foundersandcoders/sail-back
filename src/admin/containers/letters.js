@@ -26,7 +26,9 @@ const Letters = ({ letters, send_newsletter_post, send_sub_reminder_post }) => (
 
 const generateSubLetters = (subLetters) => (
   <div>
-    <p className='sub-letters-header'>The following sample letter will be printed out for these recipients</p>
+    <p className='sub-letters-header'>
+      The following sample letter will be printed out for these recipients.
+    </p>
     <div className='letter-recipients'>
       <h2>Letter Recipients</h2>
       <ul>
