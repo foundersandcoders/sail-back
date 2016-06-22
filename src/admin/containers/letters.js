@@ -1,5 +1,3 @@
-//TODO learn ramda
-
 import React from 'react'
 import { connect } from 'react-redux'
 
@@ -7,33 +5,42 @@ import { send_newsletter_post, send_sub_reminder_post } from '../redux/modules/l
 
 import StandingOrderLetter from '../dumb_components/standing_order_letter.js'
 
-const Letters = (props) => (
+const Letters = ({ letters, send_newsletter_post, send_sub_reminder_post }) => (
   <div className='top-letter-container'>
-    <button onClick={props.send_newsletter_post}>Get Members</button>
-    <button onClick={props.send_sub_reminder_post}>Get Outstanding Members</button>
-      {props.letters.post_members.length > 0
+    <button onClick={send_newsletter_post}>Post Members</button>
+    <button onClick={send_sub_reminder_post}>Send Subscription Reminder</button>
+      {letters.post_members.length > 0
         ? <ul>
-          {props.letters.post_members.map((member, i) => <li key={i}>{member.first_name}</li>)}
+          {letters.post_members.map((member, i) => <li key={i}>{member.first_name}</li>)}
         </ul>
         : null
       }
 
 
-    {props.letters.sub_reminders.length > 0
-      ? generateSubLetters(props.letters)
+    {letters.sub_reminders.length > 0
+      ? generateSubLetters(letters.sub_reminders)
       : null
     }
   </div>
 )
 
-const generateSubLetters = (letters) => (
-  <ul className='letter-list'>
-  {letters.sub_reminders.map((letter, i) => (
-    <li key={i}>
-      <StandingOrderLetter letter={letter}/>
-    </li>
-  ))}
-  </ul>
+const generateSubLetters = (subLetters) => (
+  <div>
+    <ul className='letter-recipients'>
+      {subLetters.map((letter) =>
+        <li key={letter.id + letter.first_name}>
+          {`${letter.first_name} ${letter.last_name}`}
+        </li>
+      )}
+    </ul>
+    <ul className='letter-list'>
+    {subLetters.map((letter, i) => (
+      <li key={i}>
+        <StandingOrderLetter letter={letter}/>
+      </li>
+    ))}
+    </ul>
+  </div>
 )
 
 
