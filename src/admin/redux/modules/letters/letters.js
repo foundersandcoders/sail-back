@@ -10,9 +10,12 @@ const {
   , reduce
   , liftN
   , unapply
+  , ifElse
+  , prop
 } = require('ramda')
 
 const { sub_reminder } = require('./bodies.js')
+const { sub_reminder_SO } = require('./bodies.js')
 
 const SEND_NEWSLETTER_POST =
   'SEND_NEWSLETTER_POST'
@@ -30,12 +33,13 @@ const initialState = {
 
 const reducer: Reducer<State, Action>
  = (state = initialState, { type, payload }) => {
+   console.log(payload)
    switch (type) {
    case SEND_NEWSLETTER_POST:
      return { ...state, post_members: payload.results }
    case SEND_SUB_REMINDER_POST:
      const ids = pick([ 'id', 'first_name', 'last_name' ])
-     const emails = compose(objOf('email_content'), sub_reminder)
+     const emails = compose(objOf('email_content'), bodyPicker)
      const shape = map(liftN(3, unapply(reduce(merge, {})))(emails, addresses, ids))
      return { ...state, sub_reminders: shape(payload.results) }
    default:
@@ -53,3 +57,5 @@ export const send_sub_reminder_post =
 
 const addressProps = [ 'address1', 'address2', 'address3', 'address4', 'county', 'postcode' ]
 const addresses = compose(objOf('address'), props(addressProps))
+
+const bodyPicker = ifElse(prop('standing_order'), sub_reminder_SO, sub_reminder)
