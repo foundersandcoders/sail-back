@@ -4,11 +4,12 @@ import { connect } from 'react-redux'
 import { send_newsletter_post, send_sub_reminder_post } from '../redux/modules/letters/letters.js'
 
 import StandingOrderLetter from '../dumb_components/standing_order_letter.js'
+import LetterRecipients from '../dumb_components/letter_recipients.js'
 
 const Letters = ({ letters, send_newsletter_post, send_sub_reminder_post }) => (
   <div className='top-letter-container'>
-    <button onClick={send_newsletter_post}>Post Members</button>
-    <button onClick={send_sub_reminder_post}>Send Subscription Reminder</button>
+    <button onClick={send_newsletter_post}>Show All Post Members</button>
+    <button onClick={send_sub_reminder_post}>Print Subscription Reminders</button>
       {letters.post_members.length > 0
         ? <ul>
           {letters.post_members.map((member, i) => <li key={i}>{member.first_name}</li>)}
@@ -29,16 +30,7 @@ const generateSubLetters = (subLetters) => (
     <p className='sub-letters-header'>
       The following sample letter will be printed out for these recipients.
     </p>
-    <div className='letter-recipients'>
-      <h2>Letter Recipients</h2>
-      <ul>
-        {subLetters.map((letter) =>
-          <li key={letter.id + letter.first_name}>
-            {`${letter.first_name} ${letter.last_name}`}
-          </li>
-        )}
-      </ul>
-    </div>
+    <LetterRecipients letters={subLetters} />
     <div className='letter-list-container'>
       <ul className='letter-list'>
       {subLetters.map((letter, i) => (
