@@ -33,7 +33,6 @@ const initialState = {
 
 const reducer: Reducer<State, Action>
  = (state = initialState, { type, payload }) => {
-   console.log(payload)
    switch (type) {
    case SEND_NEWSLETTER_POST:
      return { ...state, post_members: payload.results }

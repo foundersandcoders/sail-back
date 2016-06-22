@@ -10,18 +10,17 @@ const Letters = ({ letters, send_newsletter_post, send_sub_reminder_post }) => (
   <div className='top-letter-container'>
     <button onClick={send_newsletter_post}>Show All Post Members</button>
     <button onClick={send_sub_reminder_post}>Print Subscription Reminders</button>
-      {letters.post_members.length > 0
-        ? <ul>
-          {letters.post_members.map((member, i) => <li key={i}>{member.first_name}</li>)}
-        </ul>
-        : null
-      }
+      <div>
+        {letters.post_members.length > 0
+          ? <LetterRecipients letters={letters.post_members} />
+          : null
+        }
 
-
-    {letters.sub_reminders.length > 0
-      ? generateSubLetters(letters.sub_reminders)
-      : null
-    }
+        {letters.sub_reminders.length > 0
+          ? generateSubLetters(letters.sub_reminders)
+          : null
+        }
+      </div>
   </div>
 )
 
