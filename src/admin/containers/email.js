@@ -11,7 +11,7 @@ import
   , toggle_list
   , send_newsletter
   , send_newsletter_reminder
-  } from '../redux/modules/email.js'
+  } from '../redux/modules/email/reducer.js'
 
 const Email = (
   { send_sub_reminder: sub
@@ -59,8 +59,8 @@ const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder']
 const show_list = (emails, toggle) => keys(emails).length > 0 && toggle
 
 const email = toggle_show => ([ address, { content, shown }]) =>
-  <li key={address} className='email-addressee'>
-    { address }
+  <li key={address}>
+    <span className='email-addressee'>{address}</span>
     <button
       type='button'
       className='email-toggle'
@@ -68,7 +68,7 @@ const email = toggle_show => ([ address, { content, shown }]) =>
     >
       { shown ? 'Hide' : 'Show' } email
     </button>
-    { shown && <span className='email-content'>{content}</span> }
+    { shown && <div>{ content.map(line => <p key={line}>{line}</p>) }</div> }
   </li>
 
 const without_default = cb => e => { e.preventDefault(); cb(e) }
