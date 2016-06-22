@@ -26,20 +26,26 @@ const Letters = ({ letters, send_newsletter_post, send_sub_reminder_post }) => (
 
 const generateSubLetters = (subLetters) => (
   <div>
-    <ul className='letter-recipients'>
-      {subLetters.map((letter) =>
-        <li key={letter.id + letter.first_name}>
-          {`${letter.first_name} ${letter.last_name}`}
+    <p className='sub-letters-header'>The following sample letter will be printed out for these recipients</p>
+    <div className='letter-recipients'>
+      <h2>Letter Recipients</h2>
+      <ul>
+        {subLetters.map((letter) =>
+          <li key={letter.id + letter.first_name}>
+            {`${letter.first_name} ${letter.last_name}`}
+          </li>
+        )}
+      </ul>
+    </div>
+    <div className='letter-list-container'>
+      <ul className='letter-list'>
+      {subLetters.map((letter, i) => (
+        <li key={i}>
+          <StandingOrderLetter letter={letter}/>
         </li>
-      )}
-    </ul>
-    <ul className='letter-list'>
-    {subLetters.map((letter, i) => (
-      <li key={i}>
-        <StandingOrderLetter letter={letter}/>
-      </li>
-    ))}
-    </ul>
+      ))}
+      </ul>
+    </div>
   </div>
 )
 

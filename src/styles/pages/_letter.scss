@@ -4,9 +4,22 @@
   }
 }
 
-.letter-recipients {
-  margin-top: 100px;
+.sub-letters-header {
   margin-left: 50px;
+  margin-top: 60px;
+  font-size: 20px;
+  font-style: italic;
+}
+
+.letter-list-container {
+  display: inline-block;
+}
+
+.letter-recipients {
+  margin-top: 40px;
+  margin-left: 50px;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .letter-recipients li {
@@ -58,6 +71,7 @@
   height: 1000px;
   padding: 80px;
   border: solid black 1px;
+  margin: 40px 80px 80px 80px;
 
   h1 {
     font-size: 24px;
