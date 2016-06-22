@@ -35,28 +35,28 @@ const reducer : Reducer<State, Action>
     const new_emails = template => shape =>
       update(emails)(map(template, shape(payload.results)))
     switch (type) {
-    case SEND_SUB_REMINDER:
-      return new_emails(template_subs)(primaries)
-    case SEND_NEWSLETTER:
-      return new_emails(newsletter_alert)(shape_newsletters)
-    case SEND_NEWS_REMINDER:
-      return new_emails(newsletter_reminder)(shape_newsletters)
-    case TOGGLE_LIST:
-      return (over(list_hidden, not, state): State)
-    case TOGGLE_CONTENT:
-      return toggle_show(payload)(state)
-    case SEND_WELCOME:
-      return update(sent)(true)
-    default:
-      return state
+      case SEND_SUB_REMINDER:
+        return new_emails(template_subs)(primaries)
+      case SEND_NEWSLETTER:
+        return new_emails(newsletter_alert)(shape_newsletters)
+      case SEND_NEWS_REMINDER:
+        return new_emails(newsletter_reminder)(shape_newsletters)
+      case TOGGLE_LIST:
+        return (over(list_hidden, not, state): State)
+      case TOGGLE_CONTENT:
+        return toggle_show(payload)(state)
+      case SEND_WELCOME:
+        return update(sent)(true)
+      default:
+        return state
     }
   }
 
 export default reducer
 
-const time_check = pipe([ gte, objOf('overdue'), where ])
+const time_check = pipe([gte, objOf('overdue'), where])
 
-const templating = compose(cond)(zip(map(time_check, [ 60, 90, Infinity ])))
+const templating = compose(cond)(zip(map(time_check, [60, 90, Infinity])))
 
 const placeholder = compose(K)(objOf('content'))
 
@@ -72,7 +72,8 @@ const newsletter_alert = placeholder('1st newsletter email')
 
 const newsletter_reminder = placeholder('2nd newsletter email')
 
-const template_subs = ifElse(propOr(false, 'standing_order')
+const template_subs = ifElse
+  ( propOr(false, 'standing_order')
   , missing_standing_order
   , late_payment
   )

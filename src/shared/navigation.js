@@ -11,7 +11,7 @@ function NavButton (label) {
 }
 
 var UserButtons = function () {
-  return [ 'Account' ]
+  return ['Account']
 }
 
 var AdminButtons = function () {
@@ -43,12 +43,12 @@ var Navigation = React.createClass({
         <li id='nav-logout'>
           <a href='/signout'>Signout</a>
         </li>
-        {(this.props.user === 'Admin' ?
+        { (this.props.user === 'Admin' ?
             AdminButtons() :
          this.props.user === 'User' ?
             UserButtons() :
             UnregisteredButtons())
-            .map(NavButton)}
+            .map(NavButton) }
       </ul>
     )
   }
