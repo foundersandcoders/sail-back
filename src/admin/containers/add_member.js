@@ -7,7 +7,7 @@ const { pick } = require('ramda')
 const MemberFields = require('../dumb_components/member_fields.js')
 const { fields, validate, required } = require('../form_fields/member.js')
 const { create_member } = require('../redux/modules/member.js')
-const { send_welcome } = require('../redux/modules/email.js')
+const { send_welcome } = require('../redux/modules/email/reducer.js')
 
 const buttons = (
   { fields: { id, primary_email }, error, email_handler, email_sent }

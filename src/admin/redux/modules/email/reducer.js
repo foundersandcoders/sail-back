@@ -2,10 +2,13 @@
 const { createAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
 const { lensPath, over, not, indexBy, map, propOr, merge, ifElse, gte,
-  cond, where, objOf, zip, set, lift } =
+  cond, where, objOf, zip, set, lift, assoc } =
       require('ramda')
-const { K, compose, pipe } = require('sanctuary')
+const { compose, pipe } = require('sanctuary')
 
+const { PATH_UPDATE } = require('../route.js')
+const { standing, lates, newsletter_alert, newsletter_reminder } =
+  require('./bodies.js')
 
 const SEND_WELCOME =
   'SEND_WELCOME'
@@ -33,7 +36,7 @@ const reducer : Reducer<State, Action>
     const sent = lensPath([ 'email_sent' ])
     const list_hidden = lensPath([ 'list_hidden' ])
     const new_emails = template => shape =>
-      update(emails)(map(template, shape(payload.results)))
+      update(emails)(map(compose(Email, template), shape(payload.results)))
     switch (type) {
     case SEND_SUB_REMINDER:
       return new_emails(template_subs)(primaries)
@@ -54,23 +57,20 @@ const reducer : Reducer<State, Action>
 
 export default reducer
 
+const Email = content => (
+  { content: content.split('\n')
+  , shown: false
+  }
+)
+
 const time_check = pipe([ gte, objOf('overdue'), where ])
 
-const templating = compose(cond)(zip(map(time_check, [ 60, 90, Infinity ])))
+const templating =
+  compose(cond, zip(map(time_check, [ 60, 90, Infinity ])))
 
-const placeholder = compose(K)(objOf('content'))
+const missing_standing_order = templating(standing)
 
-const missing_standing_order = templating(
-  map(placeholder, [ '30 day SO', '60 day SO', '90 day SO' ])
-)
-
-const late_payment = templating(
-  map(placeholder, [ '30 day late', '60 day late', '90 day late' ])
-)
-
-const newsletter_alert = placeholder('1st newsletter email')
-
-const newsletter_reminder = placeholder('2nd newsletter email')
+const late_payment = templating(lates)
 
 const template_subs = ifElse(propOr(false, 'standing_order')
   , missing_standing_order
@@ -79,8 +79,13 @@ const template_subs = ifElse(propOr(false, 'standing_order')
 
 const indexByProp = compose(indexBy, propOr(''))
 
+const greeting = member => assoc('greeting'
+  , member.first_name || member.title + ' ' + member.last_name
+  , member
+  )
+
 const [ primaries, secondaries ] =
-  map(indexByProp, [ 'primary_email', 'secondary_email' ])
+  map(compose(map(map(greeting)), indexByProp), [ 'primary_email', 'secondary_email' ])
 
 const shape_newsletters = lift(merge)(primaries, secondaries)
 

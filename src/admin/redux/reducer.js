@@ -8,7 +8,7 @@ import charge_form from './modules/charge_form.js'
 import route from './modules/route.js'
 import payment_reports from './modules/payment_reports.js'
 import letter from './modules/letter.js'
-import email from './modules/email.js'
+import email from './modules/email/reducer.js'
 import newsletter_labels from './modules/labels.js'
 import letters from './modules/letters/letters.js'
 
