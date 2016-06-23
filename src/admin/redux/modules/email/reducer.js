@@ -38,20 +38,20 @@ const reducer : Reducer<State, Action>
     const new_emails = template => shape =>
       update(emails)(map(compose(Email, template), shape(payload.results)))
     switch (type) {
-    case SEND_SUB_REMINDER:
-      return new_emails(template_subs)(primaries)
-    case SEND_NEWSLETTER:
-      return new_emails(newsletter_alert)(shape_newsletters)
-    case SEND_NEWS_REMINDER:
-      return new_emails(newsletter_reminder)(shape_newsletters)
-    case TOGGLE_LIST:
-      return (over(list_hidden, not, state): State)
-    case TOGGLE_CONTENT:
-      return toggle_show(payload)(state)
-    case SEND_WELCOME:
-      return update(sent)(true)
-    default:
-      return state
+      case SEND_SUB_REMINDER:
+        return new_emails(template_subs)(primaries)
+      case SEND_NEWSLETTER:
+        return new_emails(newsletter_alert)(shape_newsletters)
+      case SEND_NEWS_REMINDER:
+        return new_emails(newsletter_reminder)(shape_newsletters)
+      case TOGGLE_LIST:
+        return (over(list_hidden, not, state): State)
+      case TOGGLE_CONTENT:
+        return toggle_show(payload)(state)
+      case SEND_WELCOME:
+        return update(sent)(true)
+      default:
+        return state
     }
   }
 
@@ -66,13 +66,14 @@ const Email = content => (
 const time_check = pipe([ gte, objOf('overdue'), where ])
 
 const templating =
-  compose(cond, zip(map(time_check, [ 60, 90, Infinity ])))
+  compose(cond, zip(map(time_check, [60, 90, Infinity])))
 
 const missing_standing_order = templating(standing)
 
 const late_payment = templating(lates)
 
-const template_subs = ifElse(propOr(false, 'standing_order')
+const template_subs = ifElse
+  ( propOr(false, 'standing_order')
   , missing_standing_order
   , late_payment
   )
