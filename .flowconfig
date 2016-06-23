@@ -1,4 +1,5 @@
 [ignore]
+.*/node_modules/fbjs/.*
 .*/node_modules/sails
 .*/react/node_modules
 .*/test/.*json
@@ -11,4 +12,3 @@
 interfaces/
 
 [options]
-module.system=haste
