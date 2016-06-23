@@ -1,8 +1,8 @@
 /* @flow */
-const { createAction, handleAction } = require('redux-actions')
+const { createAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
-const { lensPath, over, not, indexBy, map, propOr, merge, ifElse, flip, gte,
-  cond, assoc, where, objOf, zip, set, lift } =
+const { lensPath, over, not, indexBy, map, propOr, merge, ifElse, gte,
+  cond, where, objOf, zip, set, lift, assoc } =
       require('ramda')
 const { K, compose, pipe } = require('sanctuary')
 
@@ -32,9 +32,9 @@ const initialState = { emails: { } }
 const reducer : Reducer<State, Action>
   = (state = initialState, { type, payload }) => {
     const update = lens => value => (set(lens, value, state) : State)
-    const emails = lensPath(['emails'])
-    const sent = lensPath(['email_sent'])
-    const list_hidden = lensPath(['list_hidden'])
+    const emails = lensPath([ 'emails' ])
+    const sent = lensPath([ 'email_sent' ])
+    const list_hidden = lensPath([ 'list_hidden' ])
     const new_emails = template => shape =>
       update(emails)(map(compose(Email, template), shape(payload.results)))
     switch (type) {
@@ -115,4 +115,3 @@ export const toggle_list =
 
 export const toggle_content =
   createAction(TOGGLE_CONTENT)
-

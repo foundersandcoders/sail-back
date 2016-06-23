@@ -1,8 +1,8 @@
 /* @flow */
 const React = require('react')
 const { connect } = require('react-redux')
-const { pick, keys, toPairs, flip, prop, zip, fromPairs, compose, replace,
-  map, lensPath, set } =
+const { pick, keys, toPairs, flip, prop, zip, compose, replace,
+   map } =
     require('ramda')
 
 import
@@ -82,4 +82,3 @@ export default connect
     , toggle_list
     }
   )(Email)
-
