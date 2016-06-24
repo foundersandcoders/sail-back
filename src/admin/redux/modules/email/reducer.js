@@ -4,7 +4,7 @@ const { get_body, post } = require('app/http')
 const { lensPath, over, not, indexBy, map, propOr, merge, ifElse, gte,
   cond, where, objOf, zip, set, lift, assoc } =
       require('ramda')
-const { K, compose, pipe } = require('sanctuary')
+const { compose, pipe } = require('sanctuary')
 
 const { PATH_UPDATE } = require('../route.js')
 const { standing, lates, newsletter_alert, newsletter_reminder } =
@@ -63,12 +63,10 @@ const Email = content => (
   }
 )
 
-const time_check = pipe([gte, objOf('overdue'), where])
+const time_check = pipe([ gte, objOf('overdue'), where ])
 
 const templating =
   compose(cond, zip(map(time_check, [60, 90, Infinity])))
-
-const placeholder = compose(K)(objOf('content'))
 
 const missing_standing_order = templating(standing)
 
@@ -82,8 +80,7 @@ const template_subs = ifElse
 
 const indexByProp = compose(indexBy, propOr(''))
 
-const greeting = member => assoc
-  ( 'greeting'
+const greeting = member => assoc('greeting'
   , member.first_name || member.title + ' ' + member.last_name
   , member
   )

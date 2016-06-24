@@ -19,28 +19,26 @@ const subsQueryTemplate = (columns, newsType) => (
       and datediff(curdate(), max(payments.date)) > 30;`
 )
 
+const newsletterQueryTemplate = (columns, newsType) => (
+  `select first_name, last_name, title, ${columns}
+  from members
+  where news_type = '${newsType}';`
+)
+
 const postColumns = 'address1, address2, address3, address4, county, postcode'
 
-const emailColumns = 'members.primary_email'
+const emailColumns = 'primary_email, secondary_email'
 
-exports.newsletter =
-  `select members.primary_email, members.secondary_email,
-  members.first_name, members.last_name, members.title
-    from members
-    where members.news_type = 'online';`
+exports.newsletter = newsletterQueryTemplate(emailColumns, 'online')
 
 exports.subscriptions = subsQueryTemplate(emailColumns, 'online')
 
-exports.newsletter_labels =
-  `select title, first_name, last_name, address1, address2, address3, address4,
-  postcode, county from members
-    where members.news_type = 'post'
-      or members.email_bounced = true;`
-
-exports.newstype_post =
-  `select title, first_name, last_name, address1, address2,
-  address3, address4, postcode, county
-    from members
-    where news_type = 'post';`
+exports.newstype_post = newsletterQueryTemplate(postColumns, 'post')
 
 exports.newstype_post_nonzero = subsQueryTemplate(postColumns, 'post')
+
+exports.newsletter_labels =
+`select title, first_name, last_name, address1, address2, address3, address4,
+postcode, county from members
+where members.news_type = 'post'
+or members.email_bounced = true;`
