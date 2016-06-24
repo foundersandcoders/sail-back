@@ -15,24 +15,13 @@ var UserButtons = function () {
 }
 
 var AdminButtons = function () {
-  return (
-    [
-      <li key={0} id='nav-add-member'>
-        <a href='#addmember'>Add Member</a>
-      </li>,
-      <li key={1} id='nav-reports'>
-        <a href='#Reports'>Reports</a>
-      </li>,
-      <li key={2} id='nav-events'>
-        <a href='#addevent'>Add Event</a>
-      </li>,
-      <li key={3} id='nav-emails'>
-        <a href='#emails'>Emails</a>
-      </li>,
-      <li key={4} id='nav-letters'>
-        <a href='#letters'>Letters</a>
-      </li>
-    ]
+  return (  
+      [ 'Add Member'
+      , 'Reports'
+      , 'Labels'
+      , 'Emails'
+      , 'Letters'
+      ]
   )
 }
 

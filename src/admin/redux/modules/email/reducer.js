@@ -61,6 +61,11 @@ const time_check = pipe([gte, objOf('overdue'), where])
 
 const templating = compose(cond)(zip(map(time_check, [60, 90, Infinity])))
 
+const Email = content => (
+  { content: content.split('\n')
+  , shown: false
+  }
+)
 
 const placeholder = compose(K)(objOf('content'))
 
