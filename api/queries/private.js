@@ -29,7 +29,6 @@ const postColumns = 'address1, address2, address3, address4, county, postcode'
 
 const emailColumns = 'primary_email, secondary_email'
 
-
 exports.newsletter = newsletterQueryTemplate(emailColumns, 'online')
 
 exports.subscriptions = subsQueryTemplate(emailColumns, 'online')
