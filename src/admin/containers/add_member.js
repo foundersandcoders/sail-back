@@ -16,9 +16,9 @@ const buttons = (
     { error ? <div className='error'>{error.message}</div> : '' }
     { id.value && !email_sent
       ? <div>
-          { letter_or_email(email_handler, primary_email.value, id.value) }
-          <div id='member-num'>Member ID is: {id.value} </div>
-        </div>
+          {letter_or_email(email_handler, primary_email.value, id.value)}
+        <div id='member-num'>Member ID is: {id.value} </div>
+      </div>
       : email_sent || <button type='submit'>Submit</button>
     }
   </div>
