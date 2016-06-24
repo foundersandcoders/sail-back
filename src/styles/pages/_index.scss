@@ -493,25 +493,23 @@ div.gbp {
   font-size: 1.8em;
 }
 
+.email {
+  width: 80%;
+}
+
 .email-toggle {
-  position: absolute;
+  display: inline-block;
   font-size: 1em;
   width: 8em;
   height: 2.5em;
-  left: 11em;
-  top: -0.8em;
   margin-left: 1em;
   margin-right: 1em;
+  margin-bottom: 1em;
 }
 
 .email-addressee {
-  position: relative;
-  height: 3em;
-}
-
-.email-content {
-  position: absolute;
-  left: 21em;
+  display: inline-block;
+  width: 15em
 }
 
 .email-list-toggle {
