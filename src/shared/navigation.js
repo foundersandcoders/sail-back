@@ -2,12 +2,16 @@
 
 var React = require('react')
 
-var UserButtons = function () {
+function NavButton (label) {
   return (
-    <li>
-      <a href='#/account'>Account</a>
+    <li key={label} id={'nav-' + label.toLowerCase().replace(' ', '-')}>
+      <a href={'#'+label.toLowerCase().replace(' ', '')}>{label}</a>
     </li>
   )
+}
+
+var UserButtons = function () {
+  return ['Account']
 }
 
 var AdminButtons = function () {
@@ -34,13 +38,8 @@ var AdminButtons = function () {
 
 var UnregisteredButtons = function () {
   return (
-    [
-      <li key={0} id='nav-signup'>
-        <a href='#/signup'>Signup</a>
-      </li>,
-      <li key={1}>
-        <a href='#/signin'>Signin</a>
-      </li>
+    [ 'Signup'
+    , 'Signin'
     ]
   )
 }
@@ -55,11 +54,12 @@ var Navigation = React.createClass({
         <li id='nav-logout'>
           <a href='/signout'>Signout</a>
         </li>
-        { this.props.user === 'Admin' ?
+        { (this.props.user === 'Admin' ?
             AdminButtons() :
          this.props.user === 'User' ?
             UserButtons() :
-            UnregisteredButtons() }
+            UnregisteredButtons())
+            .map(NavButton) }
       </ul>
     )
   }
