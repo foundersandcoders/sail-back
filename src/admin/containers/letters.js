@@ -1,12 +1,19 @@
+// TODO put active view or something similar in state
+// TODO style buttons
+
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { send_newsletter_post, send_sub_reminder_post } from '../redux/modules/letters/letters.js'
+import { send_newsletter_post
+       , send_sub_reminder_post
+       , active_view
+       } from '../redux/modules/letters/letters.js'
 
-import StandingOrderLetter from '../dumb_components/standing_order_letter.js'
-import LetterRecipients from '../dumb_components/letter_recipients.js'
+import PostMembersSection from '../dumb_components/letters/post_members_section.js'
+import SubLettersSection from '../dumb_components/letters/sub_letters_section.js'
 
-const Letters = ({ letters, send_newsletter_post, send_sub_reminder_post }) => (
+const Letters = ({ letters, send_newsletter_post, send_sub_reminder_post, active_view }) => {
+  return (
   <div className='top-letter-container'>
     <button onClick={send_newsletter_post}>Show All Post Members</button>
     <button onClick={send_sub_reminder_post}>Print Subscription Reminders</button>
@@ -23,15 +30,27 @@ const Letters = ({ letters, send_newsletter_post, send_sub_reminder_post }) => (
   </div>
 )
 
-const generateSubLetters = (subLetters) => (
+const SubLettersSection = ({ letters, active_view }) => (
+  <div>
+    <button onClick={() => active_view('sub_reminders', !letters.sub_reminders.shown)}>
+      {letters.sub_reminders.shown ? 'Hide Letters' : 'Show Letters'}
+    </button>
+    {letters.sub_reminders.shown
+      ? <SubLetters letters={letters} />
+    : null
+  }
+  </div>
+)
+
+const SubLetters = ({ letters }) => (
   <div>
     <p className='sub-letters-header'>
       The following sample letter will be printed out for these recipients.
     </p>
-    <LetterRecipients letters={subLetters} />
+    <LetterRecipients letters={letters.sub_reminders.reminderLetters} />
     <div className='letter-list-container'>
       <ul className='letter-list'>
-      {subLetters.map((letter, i) => (
+      {letters.sub_reminders.reminderLetters.map((letter, i) => (
         <li key={i}>
           <StandingOrderLetter letter={letter}/>
         </li>
@@ -45,4 +64,5 @@ const mapStateToProps = (state) => {
   return { letters: state.letters }
 }
 
-export default connect(mapStateToProps, { send_newsletter_post, send_sub_reminder_post })(Letters)
+export default
+  connect(mapStateToProps, { send_newsletter_post, send_sub_reminder_post, active_view })(Letters)
