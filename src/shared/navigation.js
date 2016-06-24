@@ -15,13 +15,13 @@ var UserButtons = function () {
 }
 
 var AdminButtons = function () {
-  return (  
-      [ 'Add Member'
-      , 'Reports'
-      , 'Labels'
-      , 'Emails'
-      , 'Letters'
-      ]
+  return (
+    [ 'Add Member'
+    , 'Reports'
+    , 'Labels'
+    , 'Emails'
+    , 'Letters'
+    ]
   )
 }
 

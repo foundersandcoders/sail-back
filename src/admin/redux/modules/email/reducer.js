@@ -57,15 +57,16 @@ const reducer : Reducer<State, Action>
 
 export default reducer
 
-const time_check = pipe([gte, objOf('overdue'), where])
-
-const templating = compose(cond)(zip(map(time_check, [60, 90, Infinity])))
-
 const Email = content => (
   { content: content.split('\n')
   , shown: false
   }
 )
+
+const time_check = pipe([gte, objOf('overdue'), where])
+
+const templating =
+  compose(cond, zip(map(time_check, [60, 90, Infinity])))
 
 const placeholder = compose(K)(objOf('content'))
 
