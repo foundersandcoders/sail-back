@@ -4,7 +4,7 @@ const { get_body, post } = require('app/http')
 const { lensPath, over, not, indexBy, map, propOr, merge, ifElse, gte,
   cond, where, objOf, zip, set, lift, assoc } =
       require('ramda')
-const { compose, pipe } = require('sanctuary')
+const { K, compose, pipe } = require('sanctuary')
 
 const { PATH_UPDATE } = require('../route.js')
 const { standing, lates, newsletter_alert, newsletter_reminder } =
