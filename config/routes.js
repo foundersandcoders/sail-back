@@ -169,7 +169,7 @@ module.exports.routes = {
     action: 'getPostMembers'
   },
 
-  'GET /api/post-sub-reminders': {
+  'GET /api/post_sub_reminders': {
     controller: 'Private',
     action: 'sendSubsReminderPost'
   },

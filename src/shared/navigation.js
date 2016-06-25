@@ -20,6 +20,7 @@ var AdminButtons = function () {
     , 'Reports'
     , 'Labels'
     , 'Emails'
+    , 'Letters'
     ]
   )
 }

@@ -14,51 +14,22 @@ import SubLettersSection from '../dumb_components/letters/sub_letters_section.js
 
 const Letters = ({ letters, send_newsletter_post, send_sub_reminder_post, active_view }) => {
   return (
-  <div className='top-letter-container'>
-    <button onClick={send_newsletter_post}>Show All Post Members</button>
-    <button onClick={send_sub_reminder_post}>Print Subscription Reminders</button>
+    <div className='top-letter-container'>
+      <button onClick={send_newsletter_post}>Post Members</button>
+      <button onClick={send_sub_reminder_post}>Subscription Reminders</button>
       <div>
-        {letters.post_members.length > 0
-          ? <LetterRecipients letters={letters.post_members} />
+        {letters.post_members.members.length > 0
+          ? <PostMembersSection letters={letters} active_view={active_view}/>
           : null
         }
-        {letters.sub_reminders.length > 0
-          ? generateSubLetters(letters.sub_reminders)
+        {letters.sub_reminders.reminderLetters.length > 0
+          ? <SubLettersSection letters={letters} active_view={active_view} />
           : null
         }
       </div>
-  </div>
-)
-
-const SubLettersSection = ({ letters, active_view }) => (
-  <div>
-    <button onClick={() => active_view('sub_reminders', !letters.sub_reminders.shown)}>
-      {letters.sub_reminders.shown ? 'Hide Letters' : 'Show Letters'}
-    </button>
-    {letters.sub_reminders.shown
-      ? <SubLetters letters={letters} />
-    : null
-  }
-  </div>
-)
-
-const SubLetters = ({ letters }) => (
-  <div>
-    <p className='sub-letters-header'>
-      The following sample letter will be printed out for these recipients.
-    </p>
-    <LetterRecipients letters={letters.sub_reminders.reminderLetters} />
-    <div className='letter-list-container'>
-      <ul className='letter-list'>
-      {letters.sub_reminders.reminderLetters.map((letter, i) => (
-        <li key={i}>
-          <StandingOrderLetter letter={letter}/>
-        </li>
-      ))}
-      </ul>
     </div>
-  </div>
-)
+  )
+}
 
 const mapStateToProps = (state) => {
   return { letters: state.letters }
