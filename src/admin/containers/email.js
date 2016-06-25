@@ -61,7 +61,6 @@ const show_list = (emails, toggle) => keys(emails).length > 0 && toggle
 const email = toggle_show => ([ address, { content, shown }]) =>
   <li key={address}>
     <span className='email-addressee'>{address}</span>
-    { address }
     <button
       type='button'
       className='email-toggle'

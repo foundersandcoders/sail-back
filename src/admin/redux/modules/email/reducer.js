@@ -68,6 +68,8 @@ const time_check = pipe([gte, objOf('overdue'), where])
 const templating =
   compose(cond, zip(map(time_check, [60, 90, Infinity])))
 
+const placeholder = compose(K)(objOf('content'))
+
 const missing_standing_order = templating(standing)
 
 const late_payment = templating(lates)
@@ -80,7 +82,8 @@ const template_subs = ifElse
 
 const indexByProp = compose(indexBy, propOr(''))
 
-const greeting = member => assoc( 'greeting'
+const greeting = member => assoc
+  ( 'greeting'
   , member.first_name || member.title + ' ' + member.last_name
   , member
   )
