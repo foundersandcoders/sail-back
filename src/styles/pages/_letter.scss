@@ -4,6 +4,33 @@
   }
 }
 
+.sub-letters-header {
+  margin-left: 50px;
+  margin-top: 60px;
+  font-size: 20px;
+  font-style: italic;
+}
+
+.letter-list-container {
+  display: inline-block;
+}
+
+.letter-recipients {
+  margin-top: 40px;
+  margin-left: 50px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.letter-recipients li {
+  font-size: 21px;
+  margin-bottom: 10px;
+}
+
+.letter-list li:nth-child(n+2) {
+  display: none;
+}
+
 .letter-page {
   .letter, .letter * {
     font-size: larger;
@@ -44,6 +71,7 @@
   height: 1000px;
   padding: 80px;
   border: solid black 1px;
+  margin: 40px 80px 80px 80px;
 
   h1 {
     font-size: 24px;
@@ -110,16 +138,24 @@
     display: none;
   }
 
-  button {
+  .letter-list li:nth-child(n+2) {
+    display: block;
+  }
+
+  .sub-letters-header {
+    display: none;
+  }
+
+  .letter-recipients {
     display: none;
   }
 
   .letter-page {
 
-    margin-top: 100px;
-
+    margin-top: 80px;
     border: none;
     padding: 10px;
+
     h1 {
       font-size: 24px;
     }

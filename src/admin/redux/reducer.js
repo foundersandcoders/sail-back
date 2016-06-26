@@ -10,7 +10,7 @@ import payment_reports from './modules/payment_reports.js'
 import letter from './modules/letter.js'
 import email from './modules/email/reducer.js'
 import newsletter_labels from './modules/labels.js'
-import letters from './modules/letters.js'
+import letters from './modules/letters/letters.js'
 
 const admin_app = combineReducers(
   { payment_defaults

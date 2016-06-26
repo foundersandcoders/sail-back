@@ -1,36 +1,39 @@
-//TODO learn ramda
+// TODO put active view or something similar in state
+// TODO style buttons
 
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { send_newsletter_post, send_sub_reminder_post } from '../redux/modules/letters.js'
+import { send_newsletter_post
+       , send_sub_reminder_post
+       , active_view
+       } from '../redux/modules/letters/letters.js'
 
-import StandingOrderLetter from '../dumb_components/standing_order_letter.js'
+import PostMembersSection from '../dumb_components/letters/post_members_section.js'
+import SubLettersSection from '../dumb_components/letters/sub_letters_section.js'
 
-const Letters = (props) => (
-  <div className='top-letter-container'>
-    <button onClick={props.send_newsletter_post}>Get Members</button>
-    <button onClick={props.send_sub_reminder_post}>Get Outstanding Members</button>
-      {props.letters.post_members.length > 0
-        ? <ul>
-          {props.letters.post_members.map((member, i) => <li key={i}>{member.first_name}</li>)}
-        </ul>
-        : null
-      }
-      {props.letters.sub_reminders.length > 0
-        ? props.letters.sub_reminders.map((letter, i) => ( //eslint-disable-line
-          <li key={i}>
-            <StandingOrderLetter letter={letter}/>
-          </li>
-          ))
-        : null
-      }
-  </div>
-)
-
+const Letters = ({ letters, send_newsletter_post, send_sub_reminder_post, active_view }) => {
+  return (
+    <div className='top-letter-container'>
+      <button onClick={send_newsletter_post}>Post Members</button>
+      <button onClick={send_sub_reminder_post}>Subscription Reminders</button>
+      <div>
+        {letters.post_members.members.length > 0
+          ? <PostMembersSection letters={letters} active_view={active_view}/>
+          : null
+        }
+        {letters.sub_reminders.reminderLetters.length > 0
+          ? <SubLettersSection letters={letters} active_view={active_view} />
+          : null
+        }
+      </div>
+    </div>
+  )
+}
 
 const mapStateToProps = (state) => {
   return { letters: state.letters }
 }
 
-export default connect(mapStateToProps, { send_newsletter_post, send_sub_reminder_post })(Letters)
+export default
+  connect(mapStateToProps, { send_newsletter_post, send_sub_reminder_post, active_view })(Letters)
