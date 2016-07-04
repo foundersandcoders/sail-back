@@ -2,9 +2,9 @@ import React from 'react'
 import LetterRecipients from './letter_recipients.js'
 import StandingOrderLetter from './standing_order_letter.js'
 
-export default ({ letters, active_view }) => (
+export default ({ letters, toggle_recipient_list }) => (
   <div>
-    <button onClick={() => active_view('sub_reminders', !letters.sub_reminders.shown)}>
+    <button onClick={() => toggle_recipient_list('sub_reminders', !letters.sub_reminders.shown)}>
       {letters.sub_reminders.shown ? 'Hide Letters' : 'Show Letters'}
     </button>
     {letters.sub_reminders.shown
