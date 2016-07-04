@@ -109,7 +109,7 @@ exports.payments = function () {
   var payments = [{
     member: module.exports.members()[0].id, // bes
     category: 'subscription',
-    type: module.exports.paymentTypes()[0].code, // join table
+    type: module.exports.paymentTypes()[3].code, // join table
     description: 'Some description',
     amount: 50.5,
     notes: 'This is a note',
@@ -126,7 +126,7 @@ exports.payments = function () {
     {
       member: module.exports.members()[0].id, // bes
       category: 'payment',
-      type: module.exports.paymentTypes()[0].code, // join table
+      type: module.exports.paymentTypes()[3].code, // join table
       description: 'Some description',
       amount: 30.5,
       reference: module.exports.references()[0].code.slice(1), // join table
@@ -136,7 +136,7 @@ exports.payments = function () {
     {
       member: module.exports.members()[0].id, // bes
       category: 'payment',
-      type: module.exports.paymentTypes()[0].code, // join table
+      type: module.exports.paymentTypes()[3].code, // join table
       description: 'Some description',
       amount: 50.5,
       reference: module.exports.references()[0].code, // join table
@@ -163,7 +163,7 @@ exports.payments = function () {
       member: module.exports.members()[2].id,
       category: 'payment',
       amount: 100,
-      type: module.exports.paymentTypes()[0].code,
+      type: module.exports.paymentTypes()[3].code,
       reference: module.exports.references()[0].code.slice(1),
       notes: 'boss',
       date: new Date('2012, 11, 25')
@@ -179,7 +179,7 @@ exports.payments = function () {
       member: module.exports.members()[2].id,
       category: 'payment',
       amount: 175,
-      type: module.exports.paymentTypes()[0].code,
+      type: module.exports.paymentTypes()[3].code,
       reference: module.exports.references()[0].code,
       notes: 'awesome',
       date: new Date('2013, 2, 3')
@@ -258,33 +258,18 @@ exports.membershipTypes = function () {
 exports.paymentTypes = function () {
   var types = [{
     code: 'cheque',
-    description: 'cheque'
   }, {
     code: 'cash',
-    description: 'cash'
   }, {
-    code: 'SOA',
-    description: 'standing order payment advised (by member)'
+    code: 'standing order',
   }, {
-    code: 'SOR',
-    description: 'standing order received (and shown on bank statement)'
+    code: 'bacs',
   }, {
-    code: 'BACSA',
-    description: 'BACS payment advised (by member)'
+    code: 'harbour office',
   }, {
-    code: 'BACSR',
-    description: 'BACS payment received by bank (and shown on bank statement)'
-  }, {
-    code: 'CAFA',
-    description: 'charities aid foundation payment advised by member'
-  }, {
-    code: 'CAFR',
-    description: 'charities aid foundation payment received by bank (shown on bank statement)'
-  }, {
-    code: 'HO',
-    description: 'payment received by Harbour Office along with harbour dues'
+    code: 'CAF',
   }
-  ]
+]
 
   return types
 }
