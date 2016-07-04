@@ -30,7 +30,6 @@ const Email = (
       { map(send_button, zip(email_ids, [sub, news, remind, custom])) }
     </form>
     {/* keys(emails).length > 0 && email_list({ emails, ...list_props }) */}
-    {'false'}
     <CustomEmail />
   </div>
 
@@ -43,7 +42,6 @@ const CustomEmail = (props) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-
           }}
         >
           Submit
