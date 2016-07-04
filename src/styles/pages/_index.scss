@@ -532,3 +532,12 @@ div.gbp {
   vertical-align: top;
 }
 
+@print {
+  .label {
+    font-size: 12pt;
+  }
+  .label-row {
+    height: 80pt;
+  }
+}
+
