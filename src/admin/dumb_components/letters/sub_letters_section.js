@@ -4,7 +4,9 @@ import StandingOrderLetter from './standing_order_letter.js'
 
 export default ({ letters, toggle_recipient_list }) => (
   <div>
-    <button onClick={() => toggle_recipient_list('sub_reminders', !letters.sub_reminders.shown)}>
+    <button
+      className='letters-toggle'
+      onClick={() => toggle_recipient_list('sub_reminders', !letters.sub_reminders.shown)}>
       {letters.sub_reminders.shown ? 'Hide Letters' : 'Show Letters'}
     </button>
     {letters.sub_reminders.shown

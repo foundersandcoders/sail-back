@@ -1,5 +1,3 @@
-// TODO style buttons
-
 import React from 'react'
 import { connect } from 'react-redux'
 
@@ -14,14 +12,26 @@ import SubLettersSection from '../dumb_components/letters/sub_letters_section.js
 const Letters = ({ letters, send_newsletter_post, send_sub_reminder_post, toggle_recipient_list, letters_view }) => {
   return (
     <div className='top-letter-container'>
-      <button onClick={send_newsletter_post}>Post Members</button>
-      <button onClick={send_sub_reminder_post}>Subscription Reminders</button>
+
+      <button
+        className={'letters-tab' + (letters_view ? '' : ' letters-tab-active')}
+        onClick={send_newsletter_post}>
+        Post Members
+      </button>
+
+      <button
+        className={'letters-tab' + (letters_view ? ' letters-tab-active' : '')}
+        onClick={send_sub_reminder_post}>
+        Subscription Reminders
+      </button>
+
       <div>
         {letters_view
-          ? <PostMembersSection letters={letters} toggle_recipient_list={toggle_recipient_list}/>
-          : <SubLettersSection letters={letters} toggle_recipient_list={toggle_recipient_list} />
+          ? <SubLettersSection letters={letters} toggle_recipient_list={toggle_recipient_list} />
+          : <PostMembersSection letters={letters} toggle_recipient_list={toggle_recipient_list}/>
         }
       </div>
+
     </div>
   )
 }

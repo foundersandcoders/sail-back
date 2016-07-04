@@ -3,7 +3,9 @@ import LetterRecipients from './letter_recipients.js'
 
 export default ({ letters, toggle_recipient_list }) => (
   <div>
-    <button onClick={() => toggle_recipient_list('post_members', !letters.post_members.shown)}>
+    <button
+      className='letters-toggle'
+      onClick={() => toggle_recipient_list('post_members', !letters.post_members.shown)}>
       {letters.post_members.shown ? 'Hide Members' : 'Show Members'}
     </button>
     {letters.post_members.shown
