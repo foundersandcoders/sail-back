@@ -11,12 +11,14 @@ import
   , toggle_list
   , send_newsletter
   , send_newsletter_reminder
+  , send_custom
   } from '../redux/modules/email/reducer.js'
 
 const Email = (
   { send_sub_reminder: sub
   , send_newsletter: news
   , send_newsletter_reminder: remind
+  , send_custom: custom
   , emails
   , ...list_props
   }
@@ -25,10 +27,33 @@ const Email = (
     <form
       className='email-controls'
     >
-      { map(send_button, zip(email_ids, [sub, news, remind])) }
+      { map(send_button, zip(email_ids, [sub, news, remind, custom])) }
     </form>
-    { keys(emails).length > 0 && email_list({ emails, ...list_props }) }
+    {/* keys(emails).length > 0 && email_list({ emails, ...list_props }) */}
+    {'false'}
+    <CustomEmail />
   </div>
+
+const CustomEmail = (props) => {
+  return (
+    <div>
+      <p>Dear Richard</p>
+      <form>
+        <textarea />
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+
+          }}
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  )
+}
+
+
 
 const send_button = ([ id, fn ]) =>
   <button
@@ -54,7 +79,7 @@ const email_list = ({ toggle_list, list_hidden, emails, toggle_content }) =>
 const label_from_id =
   compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
 
-const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder']
+const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder', 'custom-email']
 
 const show_list = (emails, toggle) => keys(emails).length > 0 && toggle
 
@@ -80,5 +105,6 @@ export default connect
     , send_newsletter_reminder
     , toggle_content
     , toggle_list
+    , send_custom
     }
   )(Email)
