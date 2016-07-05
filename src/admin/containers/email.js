@@ -4,6 +4,7 @@ const { connect } = require('react-redux')
 const { pick, keys, toPairs, flip, prop, zip, compose, replace,
    map } =
     require('ramda')
+import CustomEmailForm from '../dumb_components/custom_email_form.js'
 
 import
   { send_sub_reminder
@@ -32,31 +33,8 @@ const Email = (
       { map(send_button, zip(email_ids, [sub, news, remind, custom])) }
     </form>
     {/* keys(emails).length > 0 && email_list({ emails, ...list_props }) */}
-    <CustomEmail submit={submit_custom_email}/>
+    <CustomEmailForm submit={submit_custom_email} members={emails}/>
   </div>
-
-class CustomEmail extends React.Component {
-  onSubmit(e) {
-    e.preventDefault()
-    this.props.submit(this.refs.emailBody.value)
-  }
-  render() {
-      return (
-        <div>
-        <p>Dear Richard</p>
-        <form>
-          <textarea ref='emailBody' />
-          <button
-            onClick={(e) => this.onSubmit(e)}
-          >
-            Submit
-          </button>
-        </form>
-      </div>
-    )
-  }
-}
-
 
 
 const send_button = ([ id, fn ]) =>

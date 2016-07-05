@@ -60,7 +60,6 @@ const reducer : Reducer<State, Action>
       case SEND_WELCOME:
         return update(sent)(true)
       case SUBMIT_CUSTOM_EMAIL:
-        console.log(payload)
         return state
       default:
         return state
@@ -132,4 +131,6 @@ export const toggle_content =
   createAction(TOGGLE_CONTENT)
 
 export const submit_custom_email =
-  createAction(SUBMIT_CUSTOM_EMAIL)
+  createAction(SUBMIT_CUSTOM_EMAIL, emails => emails)
+  //TODO post request to send emails
+  //emais = [{primary_email: '', secondary_email: '', email_body: ''}]
