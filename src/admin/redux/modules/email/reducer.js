@@ -24,6 +24,8 @@ const TOGGLE_LIST =
   'TOGGLE_LIST'
 const TOGGLE_CONTENT =
   'TOGGLE_CONTENT'
+const SUBMIT_CUSTOM_EMAIL =
+  'SUBMIT_CUSTOM_EMAIL'
 
 import type { Action, Reducer } from 'redux'
 
@@ -57,6 +59,9 @@ const reducer : Reducer<State, Action>
         return toggle_show(payload)(state)
       case SEND_WELCOME:
         return update(sent)(true)
+      case SUBMIT_CUSTOM_EMAIL:
+        console.log(payload)
+        return state
       default:
         return state
     }
@@ -125,3 +130,6 @@ export const toggle_list =
 
 export const toggle_content =
   createAction(TOGGLE_CONTENT)
+
+export const submit_custom_email =
+  createAction(SUBMIT_CUSTOM_EMAIL)

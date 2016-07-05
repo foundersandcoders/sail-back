@@ -12,6 +12,7 @@ import
   , send_newsletter
   , send_newsletter_reminder
   , send_custom
+  , submit_custom_email
   } from '../redux/modules/email/reducer.js'
 
 const Email = (
@@ -20,6 +21,7 @@ const Email = (
   , send_newsletter_reminder: remind
   , send_custom: custom
   , emails
+  , submit_custom_email
   , ...list_props
   }
 ) =>
@@ -30,25 +32,29 @@ const Email = (
       { map(send_button, zip(email_ids, [sub, news, remind, custom])) }
     </form>
     {/* keys(emails).length > 0 && email_list({ emails, ...list_props }) */}
-    <CustomEmail />
+    <CustomEmail submit={submit_custom_email}/>
   </div>
 
-const CustomEmail = (props) => {
-  return (
-    <div>
-      <p>Dear Richard</p>
-      <form>
-        <textarea />
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-          }}
-        >
-          Submit
-        </button>
-      </form>
-    </div>
-  )
+class CustomEmail extends React.Component {
+  onSubmit(e) {
+    e.preventDefault()
+    this.props.submit(this.refs.emailBody.value)
+  }
+  render() {
+      return (
+        <div>
+        <p>Dear Richard</p>
+        <form>
+          <textarea ref='emailBody' />
+          <button
+            onClick={(e) => this.onSubmit(e)}
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    )
+  }
 }
 
 
@@ -104,5 +110,6 @@ export default connect
     , toggle_content
     , toggle_list
     , send_custom
+    , submit_custom_email
     }
   )(Email)
