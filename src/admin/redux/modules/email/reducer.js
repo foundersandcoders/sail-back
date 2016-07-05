@@ -49,10 +49,7 @@ const reducer : Reducer<State, Action>
       case SEND_NEWS_REMINDER:
         return new_emails(newsletter_reminder)(shape_newsletters)
       case SEND_CUSTOM:
-        //should send down array of objects, should add an opening key:
-        // opening: 'Dear Richard' or opening: 'Dear Mr MacMillen'
-        // then when admin has written an email, create an email_content key and then send off
-        return {emails: payload.results}
+        return {emails: { members: payload.results, custom_email: true }}
       case TOGGLE_LIST:
         return (over(list_hidden, not, state): State)
       case TOGGLE_CONTENT:
@@ -60,7 +57,7 @@ const reducer : Reducer<State, Action>
       case SEND_WELCOME:
         return update(sent)(true)
       case SUBMIT_CUSTOM_EMAIL:
-        return state
+        return state//TODO add to sending endppoint
       default:
         return state
     }

@@ -25,16 +25,16 @@ const Email = (
   , submit_custom_email
   , ...list_props
   }
-) =>
-  <div className='main-container email'>
+) =>{
+  return (<div className='main-container email'>
     <form
       className='email-controls'
     >
       { map(send_button, zip(email_ids, [sub, news, remind, custom])) }
     </form>
-    {/* keys(emails).length > 0 && email_list({ emails, ...list_props }) */}
-    <CustomEmailForm submit={submit_custom_email} members={emails}/>
-  </div>
+    {emails.custom_email ? <CustomEmailForm submit={submit_custom_email} members={emails.members}/>
+     : keys(emails).length > 0 && email_list({ emails, ...list_props })}
+  </div>)}
 
 
 const send_button = ([ id, fn ]) =>
