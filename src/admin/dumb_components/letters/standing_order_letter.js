@@ -7,6 +7,7 @@ import LetterFooter from './letter_footer.js'
 
 export default ({ letter }) => {
   if (!letter) { return <p>No Member Chosen</p> }
+  console.log(letter)
   return (
     <div className='main-container letter-page'>
       <LetterHeader />

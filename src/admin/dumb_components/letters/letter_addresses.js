@@ -1,4 +1,5 @@
 import React from 'react'
+const format_date = require('app/format_date')
 
 export default ({ address }) => {
   return (
@@ -6,7 +7,9 @@ export default ({ address }) => {
       <div className='receiver-address'>
         {address.filter(x => !!x)
           .map((line, i) => <div key={i}>{line}<br /></div>)}
+        <span><p>{format_date(Date.now())}</p></span>
       </div>
+
       <div className='sender-address'>
         Correspondence to: <br />
         Membership Secretary, <br />
