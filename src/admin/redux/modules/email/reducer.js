@@ -49,7 +49,7 @@ const reducer : Reducer<State, Action>
       case SEND_NEWS_REMINDER:
         return new_emails(newsletter_reminder)(shape_newsletters)
       case SEND_CUSTOM:
-        return { ...state, custom_emails: { members: payload.results, shown: true }}
+        return { ...state, custom_emails: { members: payload.results }}
       case TOGGLE_LIST:
         return (over(list_hidden, not, state): State)
       case TOGGLE_CONTENT:
@@ -57,7 +57,6 @@ const reducer : Reducer<State, Action>
       case SEND_WELCOME:
         return update(sent)(true)
       case SUBMIT_CUSTOM_EMAIL:
-      console.log(payload);
         return state//TODO add to sending endppoint
       default:
         return state
