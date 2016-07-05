@@ -1,8 +1,8 @@
 const React = require('react')
-const { map, curry, objOf, zipWith, merge, compose } = require('ramda')
+const { map, objOf, zipWith, merge, compose } = require('ramda')
 
 export default class CustomEmail extends React.Component {
-  onSubmit(e) {
+  onSubmit (e) {
     e.preventDefault()
     const { members } = this.props
     const template = format_message(this.refs.emailBody.value)
@@ -10,9 +10,9 @@ export default class CustomEmail extends React.Component {
     const emails = zipWith(merge, members, emailBodies)
     this.props.submit(emails)
   }
-  render() {
-      return (
-        <div>
+  render () {
+    return (
+      <div>
         <p><i>Write out the email body here.</i></p>
         <form>
           <textarea ref='emailBody' />
