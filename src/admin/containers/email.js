@@ -26,8 +26,8 @@ const Email = (
   , custom_emails
   , ...list_props
   }
-) =>{
-  return (<div className='main-container email'>
+) =>
+  <div className='main-container email'>
     <form
       className='email-controls'
     >
@@ -35,7 +35,7 @@ const Email = (
     </form>
     {custom_emails ? <CustomEmailForm submit={submit_custom_email} members={custom_emails.members}/>
      : keys(emails).length > 0 && email_list({ emails, ...list_props })}
-  </div>)}
+  </div>
 
 
 const send_button = ([ id, fn ]) =>

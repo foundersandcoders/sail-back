@@ -2,7 +2,7 @@
 const { createAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
 const { lensPath, over, not, indexBy, map, propOr, merge, ifElse, gte,
-  cond, where, objOf, zip, set, lift, assoc } =
+  cond, where, objOf, zip, set, lift, assoc, dissoc } =
       require('ramda')
 const { K, compose, pipe } = require('sanctuary')
 
@@ -35,7 +35,8 @@ const initialState = { emails: { } }
 
 const reducer : Reducer<State, Action>
   = (state = initialState, { type, payload }) => {
-    const update = lens => value => (set(lens, value, state) : State)
+    const newState = dissoc('custom_emails', state)
+    const update = lens => value => (set(lens, value, newState) : State)
     const emails = lensPath([ 'emails' ])
     const sent = lensPath([ 'email_sent' ])
     const list_hidden = lensPath([ 'list_hidden' ])
@@ -49,7 +50,7 @@ const reducer : Reducer<State, Action>
       case SEND_NEWS_REMINDER:
         return new_emails(newsletter_reminder)(shape_newsletters)
       case SEND_CUSTOM:
-        return { ...state, custom_emails: { members: payload.results, shown: true }}
+        return { ...state, custom_emails: { members: payload.results }}
       case TOGGLE_LIST:
         return (over(list_hidden, not, state): State)
       case TOGGLE_CONTENT:
@@ -57,7 +58,6 @@ const reducer : Reducer<State, Action>
       case SEND_WELCOME:
         return update(sent)(true)
       case SUBMIT_CUSTOM_EMAIL:
-      console.log(payload);
         return state//TODO add to sending endppoint
       default:
         return state
