@@ -23,6 +23,7 @@ const Email = (
   , send_custom: custom
   , emails
   , submit_custom_email
+  , custom_emails
   , ...list_props
   }
 ) =>{
@@ -32,7 +33,7 @@ const Email = (
     >
       { map(send_button, zip(email_ids, [sub, news, remind, custom])) }
     </form>
-    {emails.custom_email ? <CustomEmailForm submit={submit_custom_email} members={emails.members}/>
+    {custom_emails ? <CustomEmailForm submit={submit_custom_email} members={custom_emails.members}/>
      : keys(emails).length > 0 && email_list({ emails, ...list_props })}
   </div>)}
 
@@ -81,7 +82,7 @@ const email = toggle_show => ([ address, { content, shown }]) =>
 const without_default = cb => e => { e.preventDefault(); cb(e) }
 
 export default connect
-  ( compose(pick(['emails', 'list_hidden']), prop('email'))
+  ( compose(pick(['emails', 'list_hidden', 'custom_emails']), prop('email'))
   , { send_sub_reminder
     , send_newsletter
     , send_newsletter_reminder
