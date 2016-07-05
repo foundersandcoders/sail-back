@@ -18,8 +18,8 @@ const SEND_NEWSLETTER =
   'SEND_NEWSLETTER'
 const SEND_NEWS_REMINDER =
   'SEND_NEWSLETTER_REMINDER'
-const SEND_CUSTOM =
-  'SEND_CUSTOM'
+const COMPOSE_CUSTOM =
+  'COMPOSE_CUSTOM'
 const TOGGLE_LIST =
   'TOGGLE_LIST'
 const TOGGLE_CONTENT =
@@ -49,7 +49,7 @@ const reducer : Reducer<State, Action>
         return new_emails(newsletter_alert)(shape_newsletters)
       case SEND_NEWS_REMINDER:
         return new_emails(newsletter_reminder)(shape_newsletters)
-      case SEND_CUSTOM:
+      case COMPOSE_CUSTOM:
         return { ...state, custom_emails: { members: payload.results }}
       case TOGGLE_LIST:
         return (over(list_hidden, not, state): State)
@@ -58,7 +58,6 @@ const reducer : Reducer<State, Action>
       case SEND_WELCOME:
         return update(sent)(true)
       case SUBMIT_CUSTOM_EMAIL:
-      console.log(payload);
         return state//TODO add to sending endppoint
       default:
         return state
@@ -120,8 +119,8 @@ export const send_newsletter =
 export const send_newsletter_reminder =
   createAction(SEND_NEWS_REMINDER, () => get_body('api/newsletter-alert'))
 
-export const send_custom =
-  createAction(SEND_CUSTOM, () => get_body('api/newsletter-alert'))
+export const compose_custom =
+  createAction(COMPOSE_CUSTOM, () => get_body('api/newsletter-alert'))
 
 export const toggle_list =
   createAction(TOGGLE_LIST)

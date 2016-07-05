@@ -12,7 +12,7 @@ import
   , toggle_list
   , send_newsletter
   , send_newsletter_reminder
-  , send_custom
+  , compose_custom
   , submit_custom_email
   } from '../redux/modules/email/reducer.js'
 
@@ -20,7 +20,7 @@ const Email = (
   { send_sub_reminder: sub
   , send_newsletter: news
   , send_newsletter_reminder: remind
-  , send_custom: custom
+  , compose_custom: custom
   , emails
   , submit_custom_email
   , custom_emails
@@ -88,7 +88,7 @@ export default connect
     , send_newsletter_reminder
     , toggle_content
     , toggle_list
-    , send_custom
+    , compose_custom
     , submit_custom_email
     }
   )(Email)
