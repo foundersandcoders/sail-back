@@ -58,6 +58,7 @@ const reducer : Reducer<State, Action>
       case SEND_WELCOME:
         return update(sent)(true)
       case SUBMIT_CUSTOM_EMAIL:
+      console.log(payload);
         return state//TODO add to sending endppoint
       default:
         return state
