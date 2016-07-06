@@ -3,6 +3,7 @@
 var React = require('react')
 var Table = require('../table')
 var DeletionEntry = require('./deletion_entry')
+const { formatPounds } = require('app/monies')
 
 var make_payments_with_balance = require('app/make_payments_with_balance')
 const { curry } = require('ramda')
@@ -35,10 +36,15 @@ var PaymentsTable = (
       'Reference', 'Notes', 'Delete']
 
   var entries = make_payments_with_balance(payments)
-      .slice(1)
-      .map((payment) =>
-        headers.map(get_entry_for_payment(payment, remove_payment)))
-
+  .slice(1)
+  .map((payment) => {
+    const convertedPayment = {...payment
+                              , amount: formatPounds(payment['amount'] / 100)
+                              , 'balance due': formatPounds(payment['balance due'] / 100)
+                             }
+    console.log(convertedPayment)
+    return headers.map(get_entry_for_payment(convertedPayment, remove_payment))
+  })
   return (
     <Table
       className='payments-table'
