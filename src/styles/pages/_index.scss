@@ -532,6 +532,14 @@ div.gbp {
   vertical-align: top;
 }
 
+.custom-email {
+  height: 400px;
+  width: 60vw;
+  margin: 20px;
+  font-size: 0.9em;
+  color: black;
+}
+
 @print {
   .label {
     font-size: 12pt;
@@ -540,4 +548,3 @@ div.gbp {
     height: 80pt;
   }
 }
-

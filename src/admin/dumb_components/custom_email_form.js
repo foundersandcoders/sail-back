@@ -13,7 +13,7 @@ export default ({ members, submit }) => {
     <div>
       <p><i>Write out the email body here.</i></p>
       <form onSubmit={onSubmit}>
-        <textarea />
+        <textarea className='custom-email' />
         <button
           type='submit'
         >
