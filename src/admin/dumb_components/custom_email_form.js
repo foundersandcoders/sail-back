@@ -10,7 +10,7 @@ export default ({ members, submit }) => {
     submit(emails)
   }
   return (
-    <div>
+    <div className='custom-email-container'>
       <p><i>Write out the email body here.</i></p>
       <form onSubmit={onSubmit}>
         <textarea className='custom-email' />
