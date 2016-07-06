@@ -8,7 +8,7 @@
 module.exports = {
   types: {
     payment_type: function (type) {
-      return type.match(/[cC]ash|[cC]heque|[rR]efund/) || this.reference
+      return type.match(/standing|bacs|harbour/) || this.reference
     },
   },
   attributes: {

@@ -31,7 +31,7 @@ import type { Action, Reducer } from 'redux'
 const initialState = {
   post_members: { members: [], shown: false }
   , sub_reminders: { reminderLetters: [], shown: false }
-  , letters_view: false
+  , active_tab: ''
 }
 
 const reducer: Reducer<State, Action>
@@ -39,13 +39,13 @@ const reducer: Reducer<State, Action>
    switch (type) {
    case SEND_NEWSLETTER_POST:
      const new_post_members = { ...state.post_members, members: payload.results }
-     return { ...state, post_members: new_post_members, letters_view: false}
+     return { ...state, post_members: new_post_members, active_tab: 'members' }
    case SEND_SUB_REMINDER_POST:
      const ids = pick([ 'id', 'first_name', 'last_name' ])
      const emails = compose(objOf('email_content'), bodyPicker)
      const shape = map(liftN(3, unapply(reduce(merge, {})))(emails, addresses, ids))
      const new_sub_reminders = { ...state.sub_reminders, reminderLetters: shape(payload.results) }
-     return { ...state, sub_reminders: new_sub_reminders, letters_view: true}
+     return { ...state, sub_reminders: new_sub_reminders, active_tab: 'letters' }
    case TOGGLE_RECIPIENT_LIST:
      const section = payload.section
      return { ...state, [section]: { ...state[section], shown: payload.shown } }

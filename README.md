@@ -65,8 +65,7 @@ Yes in places it is. It will seem a bit less weird if you look at
 [ramda]: https://github.com/ramda/ramda
 [sanctuary]: https://github.com/sanctuary-js/sanctuary
 
-If you prefer videos, the first few chapters to *The Mostly Adequate Guide*
-can be substituted for [Underscore You're Doing it Wrong][wrong]
+**But perhaps the best place to start is [Underscore You're Doing it Wrong][wrong]**
 
 [wrong]: https://www.youtube.com/watch?v=m3svKOdZijA
 

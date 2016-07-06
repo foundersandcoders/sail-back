@@ -28,10 +28,11 @@ const addresses = (
   { title
   , first_name
   , last_name
+  , initials
   , ...address_lines
   }
 ) => (
-  { addressee: `${title}. ${first_name} ${last_name}`
+  { addressee: `${title}. ${first_name || initials || ''} ${last_name}`
   , ...address_lines
   }
 )

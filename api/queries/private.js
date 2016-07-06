@@ -39,7 +39,8 @@ exports.newstype_post = newsletterQueryTemplate(postColumns, 'post')
 exports.newstype_post_nonzero = subsQueryTemplate(postColumns, 'post')
 
 exports.newsletter_labels =
-`select title, first_name, last_name, address1, address2, address3, address4,
+`select title, first_name, last_name, initials,
+address1, address2, address3, address4,
 postcode, county from members
 where members.news_type = 'post'
 or members.email_bounced = true;`

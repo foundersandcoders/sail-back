@@ -18,7 +18,7 @@ exports.lates = [ 30, 60, 90 ].map(late)
 
 const standing = n => ({ greeting, overdue, due_date }) =>
   `Dear Richard,
- We notice that your Standing Order which is normally paid on ${format_date(due_date)} each year has not been paid this year and £${n} has now been unpaid for over ${overdue} days. We assume that this is probably an administrative error and would be very grateful if you could look into it. If, alternatively, your intention is to cancel your membership of the Friends we’d be grateful if you could email the Membership Secretary on membership@friendsch.org to that effect.
+ We notice that your Standing Order which is normally paid on ${format(due_date)} each year has not been paid this year and £${n} has now been unpaid for over ${overdue} days. We assume that this is probably an administrative error and would be very grateful if you could look into it. If, alternatively, your intention is to cancel your membership of the Friends we’d be grateful if you could email the Membership Secretary on membership@friendsch.org to that effect.
   If you have already sorted the problem out, our apologies and please ignore this email.
   Richard Evans, Treasurer FoCH`
 
