@@ -4,6 +4,7 @@ const { connect } = require('react-redux')
 const { pick, keys, toPairs, flip, prop, zip, compose, replace,
    map } =
     require('ramda')
+import CustomEmailForm from '../dumb_components/custom_email_form.js'
 
 import
   { send_sub_reminder
@@ -11,13 +12,18 @@ import
   , toggle_list
   , send_newsletter
   , send_newsletter_reminder
+  , compose_custom
+  , submit_custom_email
   } from '../redux/modules/email/reducer.js'
 
 const Email = (
   { send_sub_reminder: sub
   , send_newsletter: news
   , send_newsletter_reminder: remind
+  , compose_custom: custom
   , emails
+  , submit_custom_email
+  , custom_emails
   , ...list_props
   }
 ) =>
@@ -25,10 +31,12 @@ const Email = (
     <form
       className='email-controls'
     >
-      { map(send_button, zip(email_ids, [sub, news, remind])) }
+      { map(send_button, zip(email_ids, [sub, news, remind, custom])) }
     </form>
-    { keys(emails).length > 0 && email_list({ emails, ...list_props }) }
+    {custom_emails ? <CustomEmailForm submit={submit_custom_email} members={custom_emails.members}/>
+     : keys(emails).length > 0 && email_list({ emails, ...list_props })}
   </div>
+
 
 const send_button = ([ id, fn ]) =>
   <button
@@ -54,7 +62,7 @@ const email_list = ({ toggle_list, list_hidden, emails, toggle_content }) =>
 const label_from_id =
   compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
 
-const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder']
+const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder', 'custom-email']
 
 const show_list = (emails, toggle) => keys(emails).length > 0 && toggle
 
@@ -74,11 +82,13 @@ const email = toggle_show => ([ address, { content, shown }]) =>
 const without_default = cb => e => { e.preventDefault(); cb(e) }
 
 export default connect
-  ( compose(pick(['emails', 'list_hidden']), prop('email'))
+  ( compose(pick(['emails', 'list_hidden', 'custom_emails']), prop('email'))
   , { send_sub_reminder
     , send_newsletter
     , send_newsletter_reminder
     , toggle_content
     , toggle_list
+    , compose_custom
+    , submit_custom_email
     }
   )(Email)

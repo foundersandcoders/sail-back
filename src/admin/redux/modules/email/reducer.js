@@ -2,7 +2,7 @@
 const { createAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
 const { lensPath, over, not, indexBy, map, propOr, merge, ifElse, gte,
-  cond, where, objOf, zip, set, lift, assoc } =
+  cond, where, objOf, zip, set, lift, assoc, dissoc } =
       require('ramda')
 const { K, compose, pipe } = require('sanctuary')
 
@@ -18,10 +18,14 @@ const SEND_NEWSLETTER =
   'SEND_NEWSLETTER'
 const SEND_NEWS_REMINDER =
   'SEND_NEWSLETTER_REMINDER'
+const COMPOSE_CUSTOM =
+  'COMPOSE_CUSTOM'
 const TOGGLE_LIST =
   'TOGGLE_LIST'
 const TOGGLE_CONTENT =
   'TOGGLE_CONTENT'
+const SUBMIT_CUSTOM_EMAIL =
+  'SUBMIT_CUSTOM_EMAIL'
 
 import type { Action, Reducer } from 'redux'
 
@@ -31,7 +35,8 @@ const initialState = { emails: { } }
 
 const reducer : Reducer<State, Action>
   = (state = initialState, { type, payload }) => {
-    const update = lens => value => (set(lens, value, state) : State)
+    const newState = dissoc('custom_emails', state)
+    const update = lens => value => (set(lens, value, newState) : State)
     const emails = lensPath([ 'emails' ])
     const sent = lensPath([ 'email_sent' ])
     const list_hidden = lensPath([ 'list_hidden' ])
@@ -44,12 +49,16 @@ const reducer : Reducer<State, Action>
         return new_emails(newsletter_alert)(shape_newsletters)
       case SEND_NEWS_REMINDER:
         return new_emails(newsletter_reminder)(shape_newsletters)
+      case COMPOSE_CUSTOM:
+        return { ...state, custom_emails: { members: payload.results }}
       case TOGGLE_LIST:
         return (over(list_hidden, not, state): State)
       case TOGGLE_CONTENT:
         return toggle_show(payload)(state)
       case SEND_WELCOME:
         return update(sent)(true)
+      case SUBMIT_CUSTOM_EMAIL:
+        return state//TODO add to sending endppoint
       default:
         return state
     }
@@ -110,8 +119,16 @@ export const send_newsletter =
 export const send_newsletter_reminder =
   createAction(SEND_NEWS_REMINDER, () => get_body('api/newsletter-alert'))
 
+export const compose_custom =
+  createAction(COMPOSE_CUSTOM, () => get_body('api/newsletter-alert'))
+
 export const toggle_list =
   createAction(TOGGLE_LIST)
 
 export const toggle_content =
   createAction(TOGGLE_CONTENT)
+
+export const submit_custom_email =
+  createAction(SUBMIT_CUSTOM_EMAIL, emails => emails)
+  //TODO post request to send emails
+  //emais = [{primary_email: '', secondary_email: '', email_body: ''}]
