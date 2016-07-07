@@ -14,7 +14,7 @@ import { receive_non_cheque, receive_paying_in }
 
 import Table from '../components/table'
 
-import { formatPounds, trace } from 'app/monies'
+import { formatPounds } from 'app/monies'
 
 const get_fields =
   map(compose(map((defaultTo(0): (x: number) => number)), props(fields)))
@@ -132,7 +132,7 @@ const non_cheque_fields =
 const convert_payment = fn => payment => {
   const moneyKeys = ['balance', 'donation', 'payments', 'subscription']
   const convertKey = key => over(lensProp(key), x => fn(x / 100))
-  return reduce((prev, curr) => indexOf(curr, keysIn(prev)) > -1
+  return reduce((prev, curr) => curr in prev
     ? convertKey(curr)(prev)
     : prev, payment, moneyKeys)
 }
