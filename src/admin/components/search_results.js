@@ -3,15 +3,14 @@
 var React = require('react')
 var format_date = require('app/format_date.js')
 var to_title_case = require('app/to_title_case.js')
+var { formatPounds } = require('app/monies')
 
 var SingleResult = React.createClass({
   last_subscription: function (payments) {
-
     var most_recent_payment = payments
       .filter(is_payment)
       .map(add_date_obj_to_payment)
       .reduce(get_most_recent_payment, {date: {getTime: function () {return 0}}})
-
     return format_payment(most_recent_payment)
   },
   format_membership: function (string) {
@@ -94,7 +93,7 @@ var SearchResults = React.createClass({
 function format_payment (payment) {
   var time = payment.date.getTime()
   if (!time) return ''
-  return format_date(time) + ' - £' + payment.amount }
+  return format_date(time) + ' - ' + formatPounds(payment.amount / 100) }
 
 function add_date_obj_to_payment (payment) {
       var dated_payment = Object.create(payment)

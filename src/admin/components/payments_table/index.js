@@ -42,7 +42,6 @@ var PaymentsTable = (
                               , amount: formatPounds(payment['amount'] / 100)
                               , 'balance due': formatPounds(payment['balance due'] / 100)
                              }
-    console.log(convertedPayment)
     return headers.map(get_entry_for_payment(convertedPayment, remove_payment))
   })
   return (
