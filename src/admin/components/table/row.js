@@ -6,7 +6,6 @@ var TableRow = module.exports = React.createClass({
     var entries = this.props.entries
     var headers = this.props.headers
     var TableEntry = this.props.Entry || Entry
-    debugger
     return (
       <div className='table-row'>
         { entries.map((entry, i) =>
