@@ -9,7 +9,7 @@ import { send_newsletter_post
 import PostMembersSection from '../dumb_components/letters/post_members_section.js'
 import SubLettersSection from '../dumb_components/letters/sub_letters_section.js'
 
-const Letters = ({ letters, send_newsletter_post, send_sub_reminder_post, toggle_recipient_list, active_tab }) => {
+const Letters = ({ send_newsletter_post, send_sub_reminder_post, active_tab, ...other }) => {
   return (
     <div className='top-letter-container'>
 
@@ -28,8 +28,8 @@ const Letters = ({ letters, send_newsletter_post, send_sub_reminder_post, toggle
       <div>
         {active_tab &&
           (active_tab === 'letters'
-            ? <SubLettersSection letters={letters} toggle_recipient_list={toggle_recipient_list} />
-            : <PostMembersSection letters={letters} toggle_recipient_list={toggle_recipient_list}/>)
+           ? <SubLettersSection {...other} />
+           : <PostMembersSection {...other} />)
           }
       </div>
 
@@ -39,7 +39,7 @@ const Letters = ({ letters, send_newsletter_post, send_sub_reminder_post, toggle
 
 const mapStateToProps = (state) => (
   { letters: state.letters
-    , active_tab: state.letters.active_tab
+  , active_tab: state.letters.active_tab
   }
 )
 

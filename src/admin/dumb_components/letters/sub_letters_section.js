@@ -9,10 +9,7 @@ export default ({ letters, toggle_recipient_list }) => (
       onClick={() => toggle_recipient_list('sub_reminders', !letters.sub_reminders.shown)}>
       {letters.sub_reminders.shown ? 'Hide Letters' : 'Show Letters'}
     </button>
-    {letters.sub_reminders.shown
-      ? <SubLetters letters={letters} />
-    : null
-  }
+    {letters.sub_reminders.shown && <SubLetters letters={letters} />}
   </div>
 )
 

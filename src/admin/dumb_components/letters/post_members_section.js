@@ -8,10 +8,7 @@ export default ({ letters, toggle_recipient_list }) => (
       onClick={() => toggle_recipient_list('post_members', !letters.post_members.shown)}>
       {letters.post_members.shown ? 'Hide Members' : 'Show Members'}
     </button>
-    {letters.post_members.shown
-      ? <PostMembers letters={letters.post_members.members} />
-    : null
-    }
+    {letters.post_members.shown && <PostMembers letters={letters.post_members.members} />}
   </div>
 )
 
