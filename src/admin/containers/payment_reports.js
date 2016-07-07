@@ -2,7 +2,7 @@
 import React, { createClass } from 'react'
 import { connect } from 'react-redux'
 const { compose, props, map, append, lensIndex, set, range, apply, lift,
-  defaultTo, lensProp, reduce, over, keysIn, indexOf }
+  defaultTo, lensProp, reduce, over, keysIn, indexOf, identity }
     = require('ramda')
 import { minus, plus } from 'app/money_arith'
 import standardise from 'app/standardise_date'
@@ -13,6 +13,8 @@ import { receive_non_cheque, receive_paying_in }
   from '../redux/modules/payment_reports.js'
 
 import Table from '../components/table'
+
+import { formatPounds, trace } from 'app/monies'
 
 const get_fields =
   map(compose(map((defaultTo(0): (x: number) => number)), props(fields)))
@@ -58,12 +60,14 @@ const add_totals = (totals) =>
       ]
     )
   )
-
-const make_data = ({ totals, payments }) =>
-  [ headers
-  , add_totals(totals)(get_fields(payments))
+//TODO format totals numbers using formatPounds function - We are not sure where.
+const make_data = ({ totals, payments }) => {
+  const formatted_payments = map(convert_payment(formatPounds), payments)
+  const formatted_totals = convert_payment(identity)(totals)
+  return [ headers
+  , add_totals(formatted_totals)(get_fields(formatted_payments))
   ]
-
+}
 
 const PaymentsReport = (
   { receive
@@ -91,7 +95,7 @@ const PaymentsReport = (
       )}
       <input type='submit' />
     </form>
-    { data.payments && <Table data={make_data(format_data(data))} /> }
+    { data.payments && <Table data={make_data(data)} /> }
   </div>
 
 const add_details = fields => get_form_value => props =>
@@ -124,18 +128,13 @@ const non_cheque_fields =
     }
   ]
 
-const convert_payment = payment => {
+
+const convert_payment = fn => payment => {
   const moneyKeys = ['balance', 'donation', 'payments', 'subscription']
-  const convertKey = key => over(lensProp(key), x => x / 100)
+  const convertKey = key => over(lensProp(key), x => fn(x / 100))
   return reduce((prev, curr) => indexOf(curr, keysIn(prev)) > -1
     ? convertKey(curr)(prev)
     : prev, payment, moneyKeys)
-}
-
-const format_data = data => {
-  const payments = map(convert_payment, data.payments)
-  const totals = convert_payment(data.totals)
-  return { payments, totals }
 }
 
 const paying_in_fields = [ { name: 'Reference', id: 'reference' } ]
