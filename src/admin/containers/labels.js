@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react'
 import { connect } from 'react-redux'
-const { prop, props, map, filter, compose, splitEvery, keys }
+const { prop, props, map, filter, compose, splitEvery, keys, merge }
   = require('ramda')
 
 import { newsletter_labels } from '../redux/modules/labels.js'
@@ -29,9 +29,13 @@ const lines =
   , 'county'
   ]
 
+const font_style = text =>
+  ({ style: { fontSize: Math.min(12, 300 / text[0].length) + 'pt' } })
+
 const Label = compose
   ( r('td')({className: 'label' })
-  , map(r('div')({ className: 'label-line' }))
+  , text =>
+    map(r('div')(merge({ className: 'label-line'}, font_style(text))), text)
   , filter(Boolean)
   , props(lines)
   )
