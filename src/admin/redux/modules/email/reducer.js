@@ -138,4 +138,4 @@ export const submit_custom_email =
 //emais = [{primary_email: '', secondary_email: '', email_body: ''}]
 
 export const submit_email =
-  createAction(SUBMIT_EMAIL, post(JSON.stringify({ email: 'email' }), '/api/submit-email'))
+  createAction(SUBMIT_EMAIL, email => post({ email }, '/api/submit-email'))

@@ -115,7 +115,7 @@ module.exports = {
     }
   },
   submit_email: function (req, res) {
-    console.log(req)
+    console.log(req.body.email['riche80@outlook.com'].content)
     res.send('ok')
   }
 }

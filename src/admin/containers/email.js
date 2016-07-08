@@ -55,7 +55,7 @@ const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_e
     <button type='button' onClick={toggle_list} className='email-list-toggle'>
       { (list_hidden ? 'Show' : 'Hide') + ' Emails' }
     </button>
-    <button type='button' onClick={submit_email} className='email-list-toggle'>
+    <button type='button' onClick={() => submit_email(emails)} className='email-list-toggle'>
       Send Emails
     </button>
     <ul>
