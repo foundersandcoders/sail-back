@@ -62,7 +62,6 @@ const reducer : Reducer<State, Action>
       case SUBMIT_CUSTOM_EMAIL:
         return state
       case SUBMIT_EMAIL:
-        console.log('in submint');
         return state
       default:
         return state
