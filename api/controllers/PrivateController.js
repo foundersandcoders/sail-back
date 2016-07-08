@@ -4,7 +4,7 @@
 
 var Is = require('torf')
 var Upload = require('../services/Upload.js')()
-var sendReminder = require('../services/email_mailgun.js').sendReminder
+var mg = require('../services/email_mailgun.js')
 
 var queries = require('../queries/private.js')
 
@@ -115,7 +115,9 @@ module.exports = {
     }
   },
   submit_email: function (req, res) {
-    console.log(req.body.email['riche80@outlook.com'].content)
-    res.send('ok')
+    mg.submitEmail(req.body, function(err, result){
+      if (err) return res.badRequest({ error: err })
+      return res.json( { result } )
+    })
   }
 }
