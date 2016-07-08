@@ -3,6 +3,7 @@
 */
 
 'use strict'
+var R = require('ramda')
 
 var Mailgun = require('mailgun').Mailgun
 var mg = new Mailgun(process.env.MAILGUN)
@@ -76,13 +77,23 @@ module.exports = {
     if (process.env.NODE_ENV === 'testing') {
       return callback(undefined, 'Email sent')
     }
-    mg.sendText('messenger@friendsch.org', 'jmurphy.web@gmail.com', 'Newsletter Email', data.email['jmurphy.web@gmail.com'].content[0], function (error) {
-      if (error) {
-        callback(error, undefined)
-      } else {
-        console.log('in callback from mailgun');
-        callback(undefined, 'Email sent')
-      }
-    })
+
+
+    var addresses = R.map(x => ({address:x}), R.keysIn(data.email))
+
+    var emailArray = R.zipWith(R.merge)(addresses)(R.values(data.email))
+
+
+
+    var sendEmail = (recipientAddress, emailBody, subject) => {
+      mg.sendText('messenger@friendsch.org', recipientAddress, 'Newsletter Email', emailBody, function (error) {
+        if (error) {
+          callback(error, undefined)
+        } else {
+          console.log('in callback from mailgun');
+          callback(undefined, 'Email sent')
+        }
+      })
+    }
   }
 }
