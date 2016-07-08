@@ -173,5 +173,10 @@ module.exports.routes = {
     controller: 'Private',
     action: 'sendSubsReminderPost'
   },
+
+  'POST /api/submit-email': {
+    controller: 'Private',
+    action: 'submit_email'
+  },
 // -------------------------------------------------------------------------
 }

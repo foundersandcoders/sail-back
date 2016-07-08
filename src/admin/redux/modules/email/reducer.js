@@ -26,6 +26,8 @@ const TOGGLE_CONTENT =
   'TOGGLE_CONTENT'
 const SUBMIT_CUSTOM_EMAIL =
   'SUBMIT_CUSTOM_EMAIL'
+const SUBMIT_EMAIL =
+  'SUBMIT_EMAIL'
 
 import type { Action, Reducer } from 'redux'
 
@@ -58,7 +60,10 @@ const reducer : Reducer<State, Action>
       case SEND_WELCOME:
         return update(sent)(true)
       case SUBMIT_CUSTOM_EMAIL:
-        return state//TODO add to sending endppoint
+        return state
+      case SUBMIT_EMAIL:
+        console.log('in submint');
+        return state
       default:
         return state
     }
@@ -130,5 +135,7 @@ export const toggle_content =
 
 export const submit_custom_email =
   createAction(SUBMIT_CUSTOM_EMAIL, emails => emails)
-  //TODO post request to send emails
-  //emais = [{primary_email: '', secondary_email: '', email_body: ''}]
+//emais = [{primary_email: '', secondary_email: '', email_body: ''}]
+
+export const submit_email =
+  createAction(SUBMIT_EMAIL, post(JSON.stringify({ email: 'email' }), '/api/submit-email'))
