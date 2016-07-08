@@ -113,5 +113,9 @@ module.exports = {
     } else {
       return res.badRequest()
     }
+  },
+  submit_email: function (req, res) {
+    console.log(req)
+    res.send('ok')
   }
 }

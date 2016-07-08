@@ -14,6 +14,7 @@ import
   , send_newsletter_reminder
   , compose_custom
   , submit_custom_email
+  , submit_email
   } from '../redux/modules/email/reducer.js'
 
 const Email = (
@@ -48,11 +49,14 @@ const send_button = ([ id, fn ]) =>
     {label_from_id(id)}
   </button>
 
-const email_list = ({ toggle_list, list_hidden, emails, toggle_content }) =>
+const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email }) =>
   <div>
     <h1>The following addresses will receive an email:</h1>
     <button type='button' onClick={toggle_list} className='email-list-toggle'>
       { (list_hidden ? 'Show' : 'Hide') + ' Emails' }
+    </button>
+    <button type='button' onClick={submit_email} className='email-list-toggle'>
+      Send Emails
     </button>
     <ul>
       { list_hidden || map(email(toggle_content), toPairs(emails)) }
@@ -90,5 +94,6 @@ export default connect
     , toggle_list
     , compose_custom
     , submit_custom_email
+    , submit_email
     }
   )(Email)
