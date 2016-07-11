@@ -48,6 +48,7 @@ const reducer : Reducer<State, Action>
       case SEND_SUB_REMINDER:
         return new_emails(template_subs)(primaries)
       case SEND_NEWSLETTER:
+        console.log('shaped results', new_emails(newsletter_alert)(shape_newsletters), 'payload results', payload.results);
         return new_emails(newsletter_alert)(shape_newsletters)
       case SEND_NEWS_REMINDER:
         return new_emails(newsletter_reminder)(shape_newsletters)

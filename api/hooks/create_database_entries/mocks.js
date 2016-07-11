@@ -114,7 +114,8 @@ exports.members = function () {
       activation_status: 'activated',
       gift_aid_signed: false,
       date_joined: new Date(),
-      membership_type: module.exports.membershipTypes()[0].value
+      membership_type: module.exports.membershipTypes()[0].value,
+      news_type: 'online'
     },
     {
       id: '12345',
@@ -129,7 +130,8 @@ exports.members = function () {
       activation_status: 'activated',
       gift_aid_signed: false,
       date_joined: new Date(),
-      membership_type: module.exports.membershipTypes()[0].value
+      membership_type: module.exports.membershipTypes()[0].value,
+      news_type: 'online'
     }]
 
   return members

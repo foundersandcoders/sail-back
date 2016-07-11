@@ -97,7 +97,7 @@ module.exports = {
         }
       })
     }
-    var joinContent = (arr) => arr.map(line => line.trim()).join('\n\n')
+    var joinContent = (arr) => arr.join('\n\n')
     var asyncArray = emailArray.map((recipient) => () => sendEmail(recipient.address, joinContent(recipient.content)))
 
     aSync.parallel(asyncArray, (err) => {
