@@ -8,6 +8,7 @@ import { minus, plus } from 'app/money_arith'
 import standardise from 'app/standardise_date'
 import { fields, headers } from '../form_fields/paying_in.js'
 import Field from '../components/field.js'
+import MoneyRow from '../components/table/money_row.js'
 
 import { receive_non_cheque, receive_paying_in }
   from '../redux/modules/payment_reports.js'
@@ -60,7 +61,7 @@ const add_totals = (totals) =>
       ]
     )
   )
-//TODO format totals numbers using formatPounds function - We are not sure where.
+
 const make_data = ({ totals, payments }) => {
   const formatted_payments = map(convert_payment(formatPounds), payments)
   const formatted_totals = convert_payment(identity)(totals)
@@ -95,7 +96,7 @@ const PaymentsReport = (
       )}
       <input type='submit' />
     </form>
-    { data.payments && <Table data={make_data(data)} /> }
+    { data.payments && <Table Row={MoneyRow} data={make_data(data)} /> }
   </div>
 
 const add_details = fields => get_form_value => props =>
