@@ -3,20 +3,25 @@
 var React = require('react')
 var Table = require('../table')
 var DeletionEntry = require('./deletion_entry')
+const { formatPounds } = require('app/monies')
 
 var make_payments_with_balance = require('app/make_payments_with_balance')
 const { curry } = require('ramda')
 
 var get_entry_for_payment = curry(function (payment, delete_method, header) {
+  const convertedPayment = {...payment
+                            , amount: formatPounds(payment['amount'] / 100)
+                            , 'balance due': formatPounds(payment['balance due'] / 100)
+                           }
   return (header === 'Charges' || header === 'Payments')
-      ? charge_or_payment_amount(payment.category, header, payment.amount)
+      ? charge_or_payment_amount(convertedPayment.category, header, convertedPayment.amount)
   : header === 'Delete'
-      ? <DeletionEntry id={ payment.id } remove_payment={ delete_method } />
+      ? <DeletionEntry id={ convertedPayment.id } remove_payment={ delete_method } />
   : header === 'Date'
-      ? require('app/format_date')(payment.date)
-  : payment.category === 'payment' && header === 'Description'
-      ? get_description(payment)
-  : payment[ header.toLowerCase() ]})
+      ? require('app/format_date')(convertedPayment.date)
+  : convertedPayment.category === 'payment' && header === 'Description'
+      ? get_description(convertedPayment)
+  : convertedPayment[ header.toLowerCase() ]})
 
 function charge_or_payment_amount(category, charge_or_payment, amount) {
   var options = ['Charges', 'Payments']
@@ -35,10 +40,10 @@ var PaymentsTable = (
       'Reference', 'Notes', 'Delete']
 
   var entries = make_payments_with_balance(payments)
-      .slice(1)
-      .map((payment) =>
-        headers.map(get_entry_for_payment(payment, remove_payment)))
-
+  .slice(1)
+  .map((payment) => {
+    return headers.map(get_entry_for_payment(payment, remove_payment))
+  })
   return (
     <Table
       className='payments-table'

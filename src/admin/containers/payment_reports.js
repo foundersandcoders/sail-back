@@ -2,17 +2,20 @@
 import React, { createClass } from 'react'
 import { connect } from 'react-redux'
 const { compose, props, map, append, lensIndex, set, range, apply, lift,
-  defaultTo }
+  defaultTo, lensProp, reduce, over, keysIn, indexOf, identity }
     = require('ramda')
 import { minus, plus } from 'app/money_arith'
 import standardise from 'app/standardise_date'
 import { fields, headers } from '../form_fields/paying_in.js'
 import Field from '../components/field.js'
+import MoneyRow from '../components/table/money_row.js'
 
 import { receive_non_cheque, receive_paying_in }
   from '../redux/modules/payment_reports.js'
 
 import Table from '../components/table'
+
+import { formatPounds } from 'app/monies'
 
 const get_fields =
   map(compose(map((defaultTo(0): (x: number) => number)), props(fields)))
@@ -59,11 +62,13 @@ const add_totals = (totals) =>
     )
   )
 
-const make_data = ({ totals, payments }) =>
-  [ headers
-  , add_totals(totals)(get_fields(payments))
+const make_data = ({ totals, payments }) => {
+  const formatted_payments = map(convert_payment(formatPounds), payments)
+  const formatted_totals = convert_payment(identity)(totals)
+  return [ headers
+  , add_totals(formatted_totals)(get_fields(formatted_payments))
   ]
-
+}
 
 const PaymentsReport = (
   { receive
@@ -91,7 +96,7 @@ const PaymentsReport = (
       )}
       <input type='submit' />
     </form>
-    { data.payments && <Table data={make_data(data)} /> }
+    { data.payments && <Table Row={MoneyRow} data={make_data(data)} /> }
   </div>
 
 const add_details = fields => get_form_value => props =>
@@ -124,6 +129,15 @@ const non_cheque_fields =
     }
   ]
 
+
+const convert_payment = fn => payment => {
+  const moneyKeys = ['balance', 'donation', 'payments', 'subscription']
+  const convertKey = key => over(lensProp(key), x => fn(x / 100))
+  return reduce((prev, curr) => curr in prev
+    ? convertKey(curr)(prev)
+    : prev, payment, moneyKeys)
+}
+
 const paying_in_fields = [ { name: 'Reference', id: 'reference' } ]
 
 const get_non_cheque_value = ({ target }) => (
@@ -149,4 +163,3 @@ export const PayingIn =
     ( ({ paying_in }) => ({ data: paying_in })
     , { receive: receive_paying_in }
     )(add_details(paying_in_fields)(get_paying_in_value))
-

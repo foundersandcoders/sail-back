@@ -111,7 +111,7 @@ exports.payments = function () {
     category: 'subscription',
     type: module.exports.paymentTypes()[3].code, // join table
     description: 'Some description',
-    amount: 50.5,
+    amount: 5050,
     notes: 'This is a note',
     date: new Date('2011')
   },
@@ -119,7 +119,7 @@ exports.payments = function () {
       member: module.exports.members()[0].id, // bes
       category: 'donation',
       description: 'Some description',
-      amount: 20,
+      amount: 2000,
       notes: 'This is a nice donation',
       date: new Date('2012')
     },
@@ -128,7 +128,7 @@ exports.payments = function () {
       category: 'payment',
       type: module.exports.paymentTypes()[3].code, // join table
       description: 'Some description',
-      amount: 30.5,
+      amount: 3050,
       reference: module.exports.references()[0].code.slice(1), // join table
       notes: 'This is a nice payment',
       date: new Date('2013')
@@ -138,7 +138,7 @@ exports.payments = function () {
       category: 'payment',
       type: module.exports.paymentTypes()[3].code, // join table
       description: 'Some description',
-      amount: 50.5,
+      amount: 5050,
       reference: module.exports.references()[0].code, // join table
       notes: 'This is a nice payment',
       date: new Date('2013')
@@ -147,7 +147,7 @@ exports.payments = function () {
       member: module.exports.members()[1].id, // richard
       category: 'subscription',
       description: 'Some description',
-      amount: 15.5,
+      amount: 1550,
       notes: 'This is a note',
       date: new Date('2011')
     },
@@ -155,14 +155,14 @@ exports.payments = function () {
       member: module.exports.members()[2].id, //Ymouse
       category: 'donation',
       description: ':)',
-      amount: 137,
+      amount: 13700,
       notes: 'cool beans',
       date: new Date('2012, 9, 22')
     },
     {
       member: module.exports.members()[2].id,
       category: 'payment',
-      amount: 100,
+      amount: 10000,
       type: module.exports.paymentTypes()[3].code,
       reference: module.exports.references()[0].code.slice(1),
       notes: 'boss',
@@ -171,14 +171,14 @@ exports.payments = function () {
     {
       member: module.exports.members()[2].id,
       category: 'subscription',
-      amount: 175,
+      amount: 17500,
       notes: ':)',
       date: new Date('2013, 1, 1')
     },
     {
       member: module.exports.members()[2].id,
       category: 'payment',
-      amount: 175,
+      amount: 17500,
       type: module.exports.paymentTypes()[3].code,
       reference: module.exports.references()[0].code,
       notes: 'awesome',
@@ -224,31 +224,31 @@ exports.membershipTypes = function () {
   var types = [{
     value: 'annual-single',
     description: 'Annual Single',
-    amount: 10
+    amount: 1000
   }, {
     value: 'annual-double',
     description: 'Annual Double',
-    amount: 15
+    amount: 1500
   }, {
     value: 'annual-family',
     description: 'Annual Family',
-    amount: 20
+    amount: 2000
   }, {
     value: 'life-single',
     description: 'Life Single',
-    amount: 175
+    amount: 17500
   }, {
     value: 'life-double',
     description: 'Life Double',
-    amount: 250
+    amount: 25000
   }, {
     value: 'annual-group',
     description: 'Annual Group',
-    amount: 25
+    amount: 2500
   }, {
     value: 'annual-corporate',
     description: 'Annual Corporate',
-    amount: 150
+    amount: 15000
   }
   ]
 

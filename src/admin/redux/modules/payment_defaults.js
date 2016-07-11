@@ -39,7 +39,7 @@ const payment_defaults : Reducer<Payment, Action>
   = (state = initial_state, {type, payload}) => {
     switch (type) {
       case FETCHED_MEMBER:
-        return {...state, amount: String(payload.subscription_amount) }
+        return {...state, amount: String(payload.subscription_amount / 100) }
       case ADDED_PAYMENT:
         return compose
           ( format
@@ -58,4 +58,3 @@ const payment_defaults : Reducer<Payment, Action>
   }
 
 export default payment_defaults
-
