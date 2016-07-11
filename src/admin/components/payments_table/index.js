@@ -9,15 +9,19 @@ var make_payments_with_balance = require('app/make_payments_with_balance')
 const { curry } = require('ramda')
 
 var get_entry_for_payment = curry(function (payment, delete_method, header) {
+  const convertedPayment = {...payment
+                            , amount: formatPounds(payment['amount'] / 100)
+                            , 'balance due': formatPounds(payment['balance due'] / 100)
+                           }
   return (header === 'Charges' || header === 'Payments')
-      ? charge_or_payment_amount(payment.category, header, payment.amount)
+      ? charge_or_payment_amount(convertedPayment.category, header, convertedPayment.amount)
   : header === 'Delete'
-      ? <DeletionEntry id={ payment.id } remove_payment={ delete_method } />
+      ? <DeletionEntry id={ convertedPayment.id } remove_payment={ delete_method } />
   : header === 'Date'
-      ? require('app/format_date')(payment.date)
-  : payment.category === 'payment' && header === 'Description'
-      ? get_description(payment)
-  : payment[ header.toLowerCase() ]})
+      ? require('app/format_date')(convertedPayment.date)
+  : convertedPayment.category === 'payment' && header === 'Description'
+      ? get_description(convertedPayment)
+  : convertedPayment[ header.toLowerCase() ]})
 
 function charge_or_payment_amount(category, charge_or_payment, amount) {
   var options = ['Charges', 'Payments']
@@ -38,11 +42,7 @@ var PaymentsTable = (
   var entries = make_payments_with_balance(payments)
   .slice(1)
   .map((payment) => {
-    const convertedPayment = {...payment
-                              , amount: formatPounds(payment['amount'] / 100)
-                              , 'balance due': formatPounds(payment['balance due'] / 100)
-                             }
-    return headers.map(get_entry_for_payment(convertedPayment, remove_payment))
+    return headers.map(get_entry_for_payment(payment, remove_payment))
   })
   return (
     <Table
