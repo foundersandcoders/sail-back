@@ -85,7 +85,7 @@ module.exports = {
 
     var cb = (error, result) => {
       if(error) console.log('error in mg callback', error);
-      console.log('success in mg callback', result)
+      else console.log('success in mg callback', result)
     }
 
     var sendEmail = (recipientAddress, emailBody) => {  //TODO add subject
@@ -97,8 +97,8 @@ module.exports = {
         }
       })
     }
-
-    const asyncArray = emailArray.map((recipient) => () => sendEmail(recipient.address, recipient.content[1]))
+    var joinContent = (arr) => arr.map(line => line.trim()).join('\n\n')
+    var asyncArray = emailArray.map((recipient) => () => sendEmail(recipient.address, joinContent(recipient.content)))
 
     aSync.parallel(asyncArray, (err) => {
       if(err) { callback(err, undefined) }
