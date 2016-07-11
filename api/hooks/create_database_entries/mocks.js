@@ -100,6 +100,118 @@ exports.members = function () {
       date_joined: new Date(),
       gift_aid_signed: false,
       membership_type: module.exports.membershipTypes()[3].value
+    }, {
+      id: '331231',
+      title: 'Mr',
+      initials: 'S',
+      postcode: 'E1 0SY',
+      first_name: 'House1',
+      last_name: 'Hat1',
+      primary_email: 'house1@foch.org',
+      secondary_email: 'hat1@foch.org',
+      password: 'secure',
+      privileges: 'member',
+      date_joined: new Date(),
+      gift_aid_signed: false,
+      membership_type: module.exports.membershipTypes()[0].value,
+      news_type: 'post',
+      standing_order: true
+    }, {
+      id: '331232',
+      title: 'Mr',
+      initials: 'S',
+      postcode: 'E1 0SY',
+      first_name: 'House2',
+      last_name: 'Hat2',
+      primary_email: 'house2@foch.org',
+      secondary_email: 'hat2@foch.org',
+      password: 'secure',
+      privileges: 'member',
+      date_joined: new Date(),
+      gift_aid_signed: false,
+      membership_type: module.exports.membershipTypes()[0].value,
+      news_type: 'post',
+      standing_order: true
+    }, {
+      id: '331233',
+      title: 'Mr',
+      initials: 'S',
+      postcode: 'E1 0SY',
+      first_name: 'House3',
+      last_name: 'Hat3',
+      primary_email: 'house3@foch.org',
+      secondary_email: 'hat3@foch.org',
+      password: 'secure',
+      privileges: 'member',
+      date_joined: new Date(),
+      gift_aid_signed: false,
+      membership_type: module.exports.membershipTypes()[0].value,
+      news_type: 'post',
+      standing_order: true
+    }, {
+      id: '331234',
+      title: 'Mr',
+      initials: 'S',
+      postcode: 'E1 0SY',
+      first_name: 'House4',
+      last_name: 'Hat4',
+      primary_email: 'house4@foch.org',
+      secondary_email: 'hat4@foch.org',
+      password: 'secure',
+      privileges: 'member',
+      date_joined: new Date(),
+      gift_aid_signed: false,
+      membership_type: module.exports.membershipTypes()[0].value,
+      news_type: 'post',
+      standing_order: true
+    }, {
+      id: '331235',
+      title: 'Mr',
+      initials: 'S',
+      postcode: 'E1 0SY',
+      first_name: 'House5',
+      last_name: 'Hat5',
+      primary_email: 'house5@foch.org',
+      secondary_email: 'hat5@foch.org',
+      password: 'secure',
+      privileges: 'member',
+      date_joined: new Date(),
+      gift_aid_signed: false,
+      membership_type: module.exports.membershipTypes()[0].value,
+      news_type: 'post',
+      standing_order: true
+    }, {
+      id: '331236',
+      title: 'Mr',
+      initials: 'S',
+      postcode: 'E1 0SY',
+      first_name: 'House6',
+      last_name: 'Hat6',
+      primary_email: 'house6@foch.org',
+      secondary_email: 'hat6@foch.org',
+      password: 'secure',
+      privileges: 'member',
+      date_joined: new Date(),
+      gift_aid_signed: false,
+      membership_type: module.exports.membershipTypes()[0].value,
+      news_type: 'post',
+      standing_order: true
+    }, {
+      id: '331237',
+      title: 'Mr',
+      initials: 'S',
+      postcode: 'E1 0SY',
+      first_name: 'House7',
+      last_name: 'Hat7',
+      primary_email: 'house7@foch.org',
+      secondary_email: 'hat7@foch.org',
+      password: 'secure',
+      privileges: 'member',
+      date_joined: new Date(),
+      gift_aid_signed: false,
+      membership_type: module.exports.membershipTypes()[0].value,
+      news_type: 'post',
+      standing_order: true
     }]
 
   return members
@@ -170,6 +282,48 @@ exports.payments = function () {
     },
     {
       member: module.exports.members()[2].id,
+      category: 'subscription',
+      amount: 17500,
+      notes: ':)',
+      date: new Date('2013, 1, 1')
+    },
+    {
+      member: module.exports.members()[7].id,
+      category: 'subscription',
+      amount: 17500,
+      notes: ':)',
+      date: new Date('2013, 1, 1')
+    },
+    {
+      member: module.exports.members()[8].id,
+      category: 'subscription',
+      amount: 17500,
+      notes: ':)',
+      date: new Date('2013, 1, 1')
+    },
+    {
+      member: module.exports.members()[9].id,
+      category: 'subscription',
+      amount: 17500,
+      notes: ':)',
+      date: new Date('2013, 1, 1')
+    },
+    {
+      member: module.exports.members()[10].id,
+      category: 'subscription',
+      amount: 17500,
+      notes: ':)',
+      date: new Date('2013, 1, 1')
+    },
+    {
+      member: module.exports.members()[11].id,
+      category: 'subscription',
+      amount: 17500,
+      notes: ':)',
+      date: new Date('2013, 1, 1')
+    },
+    {
+      member: module.exports.members()[12].id,
       category: 'subscription',
       amount: 17500,
       notes: ':)',
