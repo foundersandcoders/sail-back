@@ -98,7 +98,13 @@ const greeting = member => assoc
   )
 
 const [ primaries, secondaries ] =
-  map(compose(map(map(greeting)), indexByProp), [ 'primary_email', 'secondary_email' ])
+  map
+    // Here the inner `map` is to map over the array of emails under each key
+    // The outer `map`s are for function's functor instance
+    // -- i.e. are `compose`
+    ( compose(map(map(map(greeting), dissoc('null'))), indexByProp)
+    , [ 'primary_email', 'secondary_email' ]
+    )
 
 const shape_newsletters = lift(merge)(primaries, secondaries)
 
