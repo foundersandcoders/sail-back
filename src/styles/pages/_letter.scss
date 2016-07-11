@@ -83,7 +83,7 @@
 .letter-page {
   width: 80%;
   max-width: 800px;
-  height: 1000px;
+  height: 900px;
   padding: 80px;
   border: solid black 1px;
   margin: 40px 80px 80px 80px;
@@ -138,7 +138,6 @@
 
   .letter-footer {
     margin-top: 50px;
-    page-break-after: always;
   }
 }
 
@@ -152,7 +151,6 @@
   .top-letter-container {
     margin: 0px;
   }
-
 
   button {
     display: none;
@@ -171,10 +169,11 @@
   }
 
   .letter-page {
-
+    height: 891.5px;
     margin-top: 80px;
     border: none;
     padding: 10px;
+
 
     h1 {
       font-size: 24px;
@@ -218,7 +217,7 @@
     }
 
     .letter-footer {
-      page-break-after: always;
+      break-after: always;
     }
   }
 }
