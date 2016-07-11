@@ -57,7 +57,7 @@ test('Signup should create a subscription', function (t) {
             t.end()
           } else {
             t.ok(item.payments[0], 'charge created')
-            t.equals(item.payments[0].amount, 150, 'right amount')
+            t.equals(item.payments[0].amount, 15000, 'right amount')
             t.equals(item.payments[0].category, 'subscription', 'right category')
             t.ok(item, 'member created')
             t.end()
