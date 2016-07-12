@@ -34,7 +34,7 @@ const Email = (
       { map(send_button, zip(email_ids, [sub, news, remind, custom])) }
     </form>
     {custom_emails ? <CustomEmailForm submit={submit_email} members={custom_emails.members}/>
-     : keys(emails).length > 0 && email_list({ emails, ...list_props })}
+  : keys(emails).length > 0 && email_list({ emails, submit_email, ...list_props })}
   </div>
 
 

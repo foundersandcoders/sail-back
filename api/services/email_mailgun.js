@@ -83,29 +83,20 @@ module.exports = {
 
     var emailArray = R.zipWith(R.merge)(addresses)(R.values(data.email))
 
-    var cb = (error, result) => {
-      if(error) console.log('error in mg callback', error);
-      else console.log('success in mg callback', result)
+    var sendEmail = (recipient, cb) => {
+      var { address, content } = recipient
+      var emailBody = content.slice(1).join('\n\n')
+      var subject = content[0]
+      mg.sendText('messenger@friendsch.org', address, subject, emailBody, error =>
+        error ? cb(error, null) : cb(null, address)
+      )
     }
 
-    var sendEmail = (recipientAddress, emailBody, subject) => {
-      mg.sendText('messenger@friendsch.org', recipientAddress, subject, emailBody, function (error) {
-        if (error) {
-          cb(error, undefined)
-        } else {
-          cb(undefined, 'Email sent')
-        }
-      })
-    }
-    
-    var joinContent = (arr) => arr.join('\n\n')
+    var asyncArray = emailArray.map(recipient => cb =>
+      sendEmail(recipient, cb))
 
-    var asyncArray = emailArray.map((recipient) => () =>
-      sendEmail(recipient.address, joinContent(recipient.content.slice(1)), recipient.content[0]))
-
-    aSync.parallel(asyncArray, (err) => {
-      if(err) { callback(err, undefined) }
-      callback(undefined, 'Email sent')
-    })
+    aSync.parallel(asyncArray, (error, results) =>
+      error ? callback(error, null) : callback(null, results)
+    )
   }
 }
