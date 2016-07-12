@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html moznomarginboxes>
     <head>
         {% block head %}
             {% include "../includes/_head.swig" %}
-        {% endblock %}  
+        {% endblock %}
     </head>
     <body>
         <div id="wrap">
