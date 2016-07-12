@@ -1,5 +1,5 @@
 const React = require('react')
-const { map, objOf, zipWith, merge, compose, indexBy, prop } = require('ramda')
+const { map, objOf, zipWith, merge, compose, indexBy, prop, converge, dissoc } = require('ramda')
 
 export default ({ members, submit }) => {
   const onSubmit = (e) => {
@@ -7,7 +7,8 @@ export default ({ members, submit }) => {
     const template = format_message(e.target)
     const emailBodies = map(compose(objOf('content'), template), members)
     const emailsArr = zipWith(merge, members, emailBodies)
-    const shapedEmails = indexBy(prop('primary_email'))(emailsArr)
+    const setEmailKey = map(compose(indexBy, prop), ['primary_email', 'secondary_email'])
+    const shapedEmails = compose(dissoc('null'), converge(merge, setEmailKey))(emailsArr)
     submit(shapedEmails)
   }
   return (
