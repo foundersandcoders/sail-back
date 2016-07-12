@@ -152,12 +152,16 @@
     margin: 0px;
   }
 
+  body {
+    height: auto;
+  }
+
   button {
     display: none;
   }
 
   .letter-list li:nth-child(n+2) {
-    display: block;
+    display: inline-block;
   }
 
   .sub-letters-header {
@@ -173,6 +177,7 @@
     margin-top: 80px;
     border: none;
     padding: 10px;
+    display: inline-block;
 
 
     h1 {
