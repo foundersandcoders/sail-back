@@ -88,8 +88,8 @@ module.exports = {
       else console.log('success in mg callback', result)
     }
 
-    var sendEmail = (recipientAddress, emailBody) => {  //TODO add subject
-      mg.sendText('messenger@friendsch.org', recipientAddress, 'Newsletter Email', emailBody, function (error) {
+    var sendEmail = (recipientAddress, emailBody, subject) => {
+      mg.sendText('messenger@friendsch.org', recipientAddress, subject, emailBody, function (error) {
         if (error) {
           cb(error, undefined)
         } else {
@@ -97,8 +97,11 @@ module.exports = {
         }
       })
     }
+    
     var joinContent = (arr) => arr.join('\n\n')
-    var asyncArray = emailArray.map((recipient) => () => sendEmail(recipient.address, joinContent(recipient.content)))
+
+    var asyncArray = emailArray.map((recipient) => () =>
+      sendEmail(recipient.address, joinContent(recipient.content.slice(1)), recipient.content[0]))
 
     aSync.parallel(asyncArray, (err) => {
       if(err) { callback(err, undefined) }

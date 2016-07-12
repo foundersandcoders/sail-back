@@ -80,8 +80,12 @@ const email = toggle_show => ([ address, { content, shown }]) =>
     >
       { shown ? 'Hide' : 'Show' } email
     </button>
-    { shown && <div>{ content.map(line => <p key={line}>{line}</p>) }</div> }
+    { shown && <div>{ content.map(displayEmail) }</div> }
   </li>
+
+const displayEmail = (line, i) => i === 0
+  ? <p key={line}>Subject: {line}</p> 
+  : <p key={line}>{line}</p>
 
 const without_default = cb => e => { e.preventDefault(); cb(e) }
 
