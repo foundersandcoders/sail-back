@@ -84,9 +84,9 @@ module.exports = {
     var emailArray = R.zipWith(R.merge)(addresses)(R.values(data.email))
 
     var sendEmail = (recipient, cb) => {
-      var { address, content } = recipient
-      var emailBody = content.slice(1).join('\n\n')
-      var subject = content[0]
+      var address = recipient.address
+      var emailBody = recipent.content.slice(1).join('\n\n')
+      var subject = recipent.content[0]
       mg.sendText('messenger@friendsch.org', address, subject, emailBody, error =>
         error ? cb(error, null) : cb(null, address)
       )
