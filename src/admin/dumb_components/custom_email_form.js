@@ -1,19 +1,21 @@
 const React = require('react')
-const { map, objOf, zipWith, merge, compose } = require('ramda')
+const { map, objOf, zipWith, merge, compose, indexBy, prop } = require('ramda')
 
 export default ({ members, submit }) => {
   const onSubmit = (e) => {
     e.preventDefault()
-    const template = format_message(e.target[0].value)
-    const emailBodies = map(compose(objOf('email_body'), template), members)
-    const emails = zipWith(merge, members, emailBodies)
-    submit(emails)
+    const template = format_message(e.target)
+    const emailBodies = map(compose(objOf('content'), template), members)
+    const emailsArr = zipWith(merge, members, emailBodies)
+    const shapedEmails = indexBy(prop('primary_email'))(emailsArr)
+    submit(shapedEmails)
   }
   return (
     <div className='custom-email-container'>
-      <p><i>Write out the email body here.</i></p>
+      <p><i>Write out your custom email.</i></p>
       <form onSubmit={onSubmit}>
-        <textarea className='custom-email' />
+        <input type='text' className='custom-email-subject' placeholder='Subject'></input>
+        <textarea className='custom-email' placeholder='Email body' />
         <button
           type='submit'
         >
@@ -24,7 +26,9 @@ export default ({ members, submit }) => {
   )
 }
 
-const format_message = body => member => (
-  `Dear ${member.first_name || member.title + ' ' + member.last_name},
-  ${body}`
+const format_message = form => member => (
+  [ `${form[0].value}`
+  , `Dear ${member.first_name || member.title} ${member.last_name},`
+  , `${form[1].value}`
+  ]
 )

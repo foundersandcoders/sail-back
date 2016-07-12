@@ -24,8 +24,6 @@ const TOGGLE_LIST =
   'TOGGLE_LIST'
 const TOGGLE_CONTENT =
   'TOGGLE_CONTENT'
-const SUBMIT_CUSTOM_EMAIL =
-  'SUBMIT_CUSTOM_EMAIL'
 const SUBMIT_EMAIL =
   'SUBMIT_EMAIL'
 
@@ -59,10 +57,8 @@ const reducer : Reducer<State, Action>
         return toggle_show(payload)(state)
       case SEND_WELCOME:
         return update(sent)(true)
-      case SUBMIT_CUSTOM_EMAIL:
-        return state
       case SUBMIT_EMAIL:
-        return state
+        return state //TODO use this state to alter button's text to sent...
       default:
         return state
     }
@@ -137,10 +133,6 @@ export const toggle_list =
 
 export const toggle_content =
   createAction(TOGGLE_CONTENT)
-
-export const submit_custom_email =
-  createAction(SUBMIT_CUSTOM_EMAIL, emails => emails)
-//emais = [{primary_email: '', secondary_email: '', email_body: ''}]
 
 export const submit_email =
   createAction(SUBMIT_EMAIL, email => post({ email }, '/api/submit-email'))
