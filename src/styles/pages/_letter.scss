@@ -147,9 +147,17 @@
      size: auto;
      margin: 0mm;
    }
+  /* this border fixes a blank first page printing bug on chrome */
+   * {
+     border: 0.1px solid transparent;
+   }
 
   .top-letter-container {
     margin: 0px;
+  }
+
+  .letter-list-container {
+    display: inline;
   }
 
   body {
