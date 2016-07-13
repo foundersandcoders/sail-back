@@ -24,6 +24,7 @@ const Email = (
   , emails
   , custom_emails
   , submit_email
+  , email_sent
   , ...list_props
   }
 ) =>
@@ -33,8 +34,13 @@ const Email = (
     >
       { map(send_button, zip(email_ids, [sub, news, remind, custom])) }
     </form>
-    {custom_emails ? <CustomEmailForm submit={submit_email} members={custom_emails.members}/>
-  : keys(emails).length > 0 && email_list({ emails, submit_email, ...list_props })}
+    {email_sent
+      ? <h3 className='sent-email-notification'>The emails have been sent</h3>
+      : (custom_emails
+            ? <CustomEmailForm submit={submit_email} members={custom_emails.members} email_sent={email_sent} />
+            : keys(emails).length > 0 && email_list({ emails, submit_email, ...list_props })
+        )
+    }
   </div>
 
 
@@ -54,18 +60,13 @@ const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_e
     <button type='button' onClick={toggle_list} className='email-list-toggle'>
       { (list_hidden ? 'Show' : 'Hide') + ' Emails' }
     </button>
-    {email_sent
-      ? <h3 className='sent-email-notification'>The emails have been sent</h3>
-      : submit_email_button({ emails, submit_email})}
+    <button type='button' onClick={() => submit_email(emails)} className='email-list-toggle'>
+      Send Emails
+    </button>
     <ul>
       { list_hidden || map(email(toggle_content), toPairs(emails)) }
     </ul>
   </div>
-
-const submit_email_button = ({emails, submit_email}) =>
-  <button type='button' onClick={() => submit_email(emails)} className='email-list-toggle'>
-    Send Emails
-  </button>
 
 const label_from_id =
   compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
