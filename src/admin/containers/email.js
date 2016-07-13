@@ -48,19 +48,24 @@ const send_button = ([ id, fn ]) =>
     {label_from_id(id)}
   </button>
 
-const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email }) =>
+const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email, email_sent }) =>
   <div>
     <h1>The following addresses will receive an email:</h1>
     <button type='button' onClick={toggle_list} className='email-list-toggle'>
       { (list_hidden ? 'Show' : 'Hide') + ' Emails' }
     </button>
-    <button type='button' onClick={() => submit_email(emails)} className='email-list-toggle'>
-      Send Emails
-    </button>
+    {email_sent
+      ? <h3 className='sent-email-notification'>The emails have been sent</h3>
+      : submit_email_button({ emails, submit_email})}
     <ul>
       { list_hidden || map(email(toggle_content), toPairs(emails)) }
     </ul>
   </div>
+
+const submit_email_button = ({emails, submit_email}) =>
+  <button type='button' onClick={() => submit_email(emails)} className='email-list-toggle'>
+    Send Emails
+  </button>
 
 const label_from_id =
   compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
@@ -89,7 +94,7 @@ const displayEmail = (line, i) => i === 0
 const without_default = cb => e => { e.preventDefault(); cb(e) }
 
 export default connect
-  ( compose(pick(['emails', 'list_hidden', 'custom_emails']), prop('email'))
+  ( compose(pick(['emails', 'list_hidden', 'custom_emails', 'email_sent']), prop('email'))
   , { send_sub_reminder
     , send_newsletter
     , send_newsletter_reminder

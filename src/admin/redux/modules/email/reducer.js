@@ -58,7 +58,11 @@ const reducer : Reducer<State, Action>
       case SEND_WELCOME:
         return update(sent)(true)
       case SUBMIT_EMAIL:
-        return state //TODO use this state to alter button's text to sent...
+        if (payload.body.result) {
+          return {...state, email_sent: true} //TODO deal with error
+        } else {
+          return {...state}
+        }
       default:
         return state
     }
