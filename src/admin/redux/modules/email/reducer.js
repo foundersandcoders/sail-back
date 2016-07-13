@@ -58,11 +58,7 @@ const reducer : Reducer<State, Action>
       case SEND_WELCOME:
         return update(sent)(true)
       case SUBMIT_EMAIL:
-        if (payload.body.result) {
-          return {...state, email_sent: true} //TODO deal with error
-        } else {
-          return {...state}
-        }
+        return email_response(state)(payload.body)
       default:
         return state
     }
@@ -75,6 +71,10 @@ const Email = content => (
   , shown: false
   }
 )
+
+const email_response = state => resBody => resBody
+  ? { ...state, email_sent: 'success' }
+  : { ...state, email_sent: resBody.error.recipient }
 
 const time_check = pipe([gte, objOf('overdue'), where])
 

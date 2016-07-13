@@ -35,7 +35,7 @@ const Email = (
       { map(send_button, zip(email_ids, [sub, news, remind, custom])) }
     </form>
     {email_sent
-      ? <h3 className='sent-email-notification'>The emails have been sent</h3>
+      ? <EmailNotification email_sent={email_sent}/>
       : (custom_emails
             ? <CustomEmailForm submit={submit_email} members={custom_emails.members} email_sent={email_sent} />
             : keys(emails).length > 0 && email_list({ emails, submit_email, ...list_props })
@@ -43,6 +43,9 @@ const Email = (
     }
   </div>
 
+const EmailNotification = ({email_sent}) => email_sent === 'success'
+  ? <h3 className='sent-email-notification'>The emails have been sent</h3>
+  : <h3 className='sent-email-notification'>There was an error sending to the following email address: {email_sent}</h3>
 
 const send_button = ([ id, fn ]) =>
   <button
