@@ -79,14 +79,14 @@ module.exports = {
       return callback(undefined, 'Email sent')
     }
 
-    var addresses = R.map(x => ({address:x}), R.keysIn(data.email))
+    var addresses = R.map(R.objOf('address'), R.keys(data.email))
 
     var emailArray = R.zipWith(R.merge)(addresses)(R.values(data.email))
 
     var sendEmail = (recipient, cb) => {
       var address = recipient.address
-      var emailBody = recipent.content.slice(1).join('\n\n')
-      var subject = recipent.content[0]
+      var emailBody = recipient.content.slice(1).join('\n\n')
+      var subject = recipient.content[0]
       mg.sendText('messenger@friendsch.org', address, subject, emailBody, error =>
         error ? cb(error, null) : cb(null, address)
       )
