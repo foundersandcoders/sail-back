@@ -78,6 +78,7 @@ module.exports = {
     if (process.env.NODE_ENV === 'testing') {
       return callback(undefined, 'Email sent')
     }
+    //callback(null, ['jmurphy.web@mail.com', 'ivan@foundersandcoders.com'])//TODO delete line
 
     var addresses = R.map(x => ({address:x}), R.keysIn(data.email))
 
@@ -85,10 +86,10 @@ module.exports = {
 
     var sendEmail = (recipient, cb) => {
       var address = recipient.address
-      var emailBody = recipent.content.slice(1).join('\n\n')
-      var subject = recipent.content[0]
+      var emailBody = recipient.content.slice(1).join('\n\n')
+      var subject = recipient.content[0]
       mg.sendText('messenger@friendsch.org', address, subject, emailBody, error =>
-        error ? cb(error, null) : cb(null, address)
+        error ? cb({error: error.toString(), recipient: recipient.address}, null) : cb(null, address)
       )
     }
 

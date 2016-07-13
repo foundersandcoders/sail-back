@@ -125,6 +125,7 @@ exports.members = function () {
       first_name: 'Jack',
       last_name: 'Murphy',
       primary_email: 'jmurphy.web@gmail.com',
+      secondary_email: 'jmm',
       password: 'correct',
       privileges: 'member',
       activation_status: 'activated',
