@@ -26,6 +26,8 @@ const TOGGLE_CONTENT =
   'TOGGLE_CONTENT'
 const SUBMIT_EMAIL =
   'SUBMIT_EMAIL'
+const GET_BOUNCED =
+  'GET_BOUNCED'
 
 import type { Action, Reducer } from 'redux'
 
@@ -59,6 +61,9 @@ const reducer : Reducer<State, Action>
         return update(sent)(true)
       case SUBMIT_EMAIL:
         return email_response(state)(payload.body)
+      case GET_BOUNCED:
+        console.log('in bounced ');
+        return state
       default:
         return state
     }
@@ -103,9 +108,6 @@ const greeting = member => assoc
 
 const [ primaries, secondaries ] =
   map
-    // Here the inner `map` is to map over the array of emails under each key
-    // The outer `map`s are for function's functor instance
-    // -- i.e. are `compose`
     ( compose(map(map(map(greeting), dissoc('null'))), indexByProp)
     , [ 'primary_email', 'secondary_email' ]
     )
@@ -140,3 +142,6 @@ export const toggle_content =
 
 export const submit_email =
   createAction(SUBMIT_EMAIL, email => post({ email }, '/api/submit-email'))
+
+export const get_bounced =
+  createAction(GET_BOUNCED)

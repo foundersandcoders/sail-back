@@ -14,6 +14,7 @@ import
   , send_newsletter_reminder
   , compose_custom
   , submit_email
+  , get_bounced
   } from '../redux/modules/email/reducer.js'
 
 const Email = (
@@ -25,6 +26,7 @@ const Email = (
   , custom_emails
   , submit_email
   , email_sent
+  , get_bounced
   , ...list_props
   }
 ) =>
@@ -32,7 +34,7 @@ const Email = (
     <form
       className='email-controls'
     >
-      { map(send_button, zip(email_ids, [sub, news, remind, custom])) }
+      { map(send_button, zip(email_ids, [sub, news, remind, custom, get_bounced])) }
     </form>
     {email_sent
       ? <EmailNotification email_sent={email_sent}/>
@@ -74,7 +76,7 @@ const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_e
 const label_from_id =
   compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
 
-const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder', 'custom-email']
+const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder', 'custom-email', 'get-bounced']
 
 const show_list = (emails, toggle) => keys(emails).length > 0 && toggle
 
@@ -106,5 +108,6 @@ export default connect
     , toggle_list
     , compose_custom
     , submit_email
+    , get_bounced
     }
   )(Email)
