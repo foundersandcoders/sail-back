@@ -15,6 +15,7 @@ import
   , compose_custom
   , submit_email
   , get_bounced
+  , submit_custom_email
   } from '../redux/modules/email/reducer.js'
 
 const Email = (
@@ -28,6 +29,7 @@ const Email = (
   , email_sent
   , get_bounced
   , bounced
+  , submit_custom_email
   , ...list_props
   }
 ) =>
@@ -42,10 +44,11 @@ const Email = (
       : email_sent
       ? <EmailNotification email_sent={email_sent}/>
       : (custom_emails
-        ? <CustomEmailForm submit={submit_email} members={custom_emails.members} email_sent={email_sent} />
+        ? <CustomEmailForm submit={submit_custom_email} members={custom_emails.members} email_sent={email_sent} />
         : keys(emails).length > 0 && email_list({ emails, submit_email, ...list_props })
       )
     }
+
   </div>
 
 //TODO store active tab in state & map using object
@@ -126,5 +129,6 @@ export default connect
     , compose_custom
     , submit_email
     , get_bounced
+    , submit_custom_email
     }
   )(Email)

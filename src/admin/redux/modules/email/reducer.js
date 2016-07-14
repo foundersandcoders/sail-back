@@ -1,8 +1,10 @@
 /* @flow */
 const { createAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
+
 const { lensPath, over, not, indexBy, map, propOr, merge, ifElse, gte,
-  cond, where, objOf, zip, set, lift, assoc, dissoc, converge, compose: r_compose } =
+  cond, where, objOf, zip, set, lift, assoc, dissoc, prop, zipWith, converge, compose: r_compose } =
+
       require('ramda')
 const { K, pipe, compose } = require('sanctuary')
 
@@ -28,6 +30,8 @@ const SUBMIT_EMAIL =
   'SUBMIT_EMAIL'
 const GET_BOUNCED =
   'GET_BOUNCED'
+const SUBMIT_CUSTOM_EMAIL =
+  'SUBMIT_CUSTOM_EMAIL'
 
 import type { Action, Reducer } from 'redux'
 
@@ -166,3 +170,20 @@ export const submit_email =
 
 export const get_bounced =
   createAction(GET_BOUNCED)
+
+export const submit_custom_email =
+  createAction(SUBMIT_CUSTOM_EMAIL, (members, form) => {
+    const format_message = form => member => (
+      [ `${form[0].value}`
+      , `Dear ${member.first_name || member.title} ${member.last_name},`
+      , `${form[1].value}`
+      ]
+    )
+    const template = format_message(form)
+    const emailBodies = map(compose(objOf('content'), template), members)
+    const emailsArr = zipWith(merge, members, emailBodies)
+    const setEmailKey = map(compose(indexBy, prop), ['primary_email', 'secondary_email'])
+    const shapedEmails = compose(dissoc('null'), converge(merge, setEmailKey))(emailsArr)
+    console.log(shapedEmails);
+    return post({ email: shapedEmails }, '/api/submit-email')
+  })
