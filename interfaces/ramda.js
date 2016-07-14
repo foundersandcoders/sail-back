@@ -163,7 +163,7 @@ declare class RReduce {
 
 type NestedArray<T> = Array<T | NestedArray<T>>
 
-declare class RList<T> {
+declare class RList<T, S, R> {
   // adjust<T>(fn:(a: T) => T, ...rest: Array<void>): (index: number, src: Array<T>) => Array<T>; THIS MESSES UP THE CHECKER
   // Technically at this point the return function can be either of these.
   /*
@@ -276,6 +276,7 @@ declare class RList<T> {
   xprod<T,S>(xs: Array<T>): (ys: Array<S>) => Array<[T,S]>;
   zip<T,S>(xs: Array<T>, ys: Array<S>): Array<[T,S]>;
   zip<T,S>(xs: Array<T>): (ys: Array<S>) => Array<[T,S]>;
+  zipWith: CurriedFunction3<BinaryFn<T, S, R>, Array<T>, Array<S>, Array<R>>;
 }
 
 declare class RObject<s, a> {

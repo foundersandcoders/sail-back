@@ -80,7 +80,7 @@ module.exports = {
     }
     //callback(null, ['jmurphy.web@mail.com', 'ivan@foundersandcoders.com'])//TODO delete line
 
-    var addresses = R.map(x => ({address:x}), R.keysIn(data.email))
+    var addresses = R.map(R.objOf('address'), R.keys(data.email))
 
     var emailArray = R.zipWith(R.merge)(addresses)(R.values(data.email))
 

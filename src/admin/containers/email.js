@@ -14,6 +14,7 @@ import
   , send_newsletter_reminder
   , compose_custom
   , submit_email
+  , submit_custom_email
   } from '../redux/modules/email/reducer.js'
 
 const Email = (
@@ -25,6 +26,7 @@ const Email = (
   , custom_emails
   , submit_email
   , email_sent
+  , submit_custom_email
   , ...list_props
   }
 ) =>
@@ -37,7 +39,7 @@ const Email = (
     {email_sent
       ? <EmailNotification email_sent={email_sent}/>
       : (custom_emails
-            ? <CustomEmailForm submit={submit_email} members={custom_emails.members} email_sent={email_sent} />
+            ? <CustomEmailForm submit={submit_custom_email} members={custom_emails.members} email_sent={email_sent} />
             : keys(emails).length > 0 && email_list({ emails, submit_email, ...list_props })
         )
     }
@@ -106,5 +108,6 @@ export default connect
     , toggle_list
     , compose_custom
     , submit_email
+    , submit_custom_email
     }
   )(Email)
