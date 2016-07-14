@@ -1,5 +1,4 @@
 const React = require('react')
-const { map, objOf, zipWith, merge, compose, indexBy, prop, converge, dissoc } = require('ramda')
 
 export default ({ members, submit }) => {
   const onSubmit = (e) => {
