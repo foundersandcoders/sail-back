@@ -27,6 +27,7 @@ const Email = (
   , submit_email
   , email_sent
   , get_bounced
+  , bounced
   , ...list_props
   }
 ) =>
@@ -36,15 +37,18 @@ const Email = (
     >
       { map(send_button, zip(email_ids, [sub, news, remind, custom, get_bounced])) }
     </form>
-    {email_sent
+    {bounced
+      ? <BouncedEmails bounced={bounced}/>
+      : email_sent
       ? <EmailNotification email_sent={email_sent}/>
       : (custom_emails
-            ? <CustomEmailForm submit={submit_email} members={custom_emails.members} email_sent={email_sent} />
-            : keys(emails).length > 0 && email_list({ emails, submit_email, ...list_props })
-        )
+        ? <CustomEmailForm submit={submit_email} members={custom_emails.members} email_sent={email_sent} />
+        : keys(emails).length > 0 && email_list({ emails, submit_email, ...list_props })
+      )
     }
   </div>
 
+//TODO store active tab in state & map using object
 const EmailNotification = ({email_sent}) => email_sent === 'success'
   ? <h3 className='sent-email-notification'>The emails have been sent</h3>
   : <h3 className='sent-email-notification'>There was an error sending to the following email address: {email_sent}</h3>
@@ -90,17 +94,30 @@ const email = toggle_show => ([ address, { content, shown }]) =>
     >
       { shown ? 'Hide' : 'Show' } email
     </button>
-    { shown && <div>{ content.map(displayEmail) }</div> }
+    { shown && <div>{ content.map(display_email) }</div> }
   </li>
 
-const displayEmail = (line, i) => i === 0
+const display_email = (line, i) => i === 0
   ? <p key={line}>Subject: {line}</p>
   : <p key={line}>{line}</p>
+
+const BouncedEmails = ({bounced}) =>
+  <div className='bounced-container'>
+    {bounced.length > 0
+      ? <ul>{map(bounced_emails, bounced)}</ul>
+      : <h3>There are no bounced emails</h3>}
+  </div>
+
+
+const bounced_emails = email =>
+  <li className='bounced-email' key={email.created_at}>
+    <b>{email.address}</b> bounced on {email.created_at}
+  </li>
 
 const without_default = cb => e => { e.preventDefault(); cb(e) }
 
 export default connect
-  ( compose(pick(['emails', 'list_hidden', 'custom_emails', 'email_sent']), prop('email'))
+  ( compose(pick(['emails', 'list_hidden', 'custom_emails', 'email_sent', 'bounced']), prop('email'))
   , { send_sub_reminder
     , send_newsletter
     , send_newsletter_reminder

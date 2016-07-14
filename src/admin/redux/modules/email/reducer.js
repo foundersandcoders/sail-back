@@ -2,9 +2,9 @@
 const { createAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
 const { lensPath, over, not, indexBy, map, propOr, merge, ifElse, gte,
-  cond, where, objOf, zip, set, lift, assoc, dissoc } =
+  cond, where, objOf, zip, set, lift, assoc, dissoc, converge, compose: r_compose } =
       require('ramda')
-const { K, compose, pipe } = require('sanctuary')
+const { K, pipe, compose } = require('sanctuary')
 
 const { PATH_UPDATE } = require('../route.js')
 const { standing, lates, newsletter_alert, newsletter_reminder } =
@@ -35,9 +35,31 @@ type State = { emails: { [key: string]: { overdue: number } } }
 
 const initialState = { emails: { } }
 
+var res = {
+  "total_count": 1,
+  "items": [
+      {
+          "created_at": "Fri, 21 Oct 2011 11:03:55 GMT",
+          "code": 550,
+          "address": "'baz@example.com",
+          "error": "Message was not accepted -- invalid mailbox.  Local mailbox 'baz@example.com is unavailable: user not found"
+      }, {
+          "created_at": "Fri, 21 Oct 2011 11:04:55 GMT",
+          "code": 550,
+          "address": "'baz@example.com",
+          "error": "Message was not accepted -- invalid mailbox.  Local mailbox 'baz@example.com is unavailable: user not found"
+      }, {
+          "created_at": "Fri, 21 Oct 2011 11:05:55 GMT",
+          "code": 550,
+          "address": "'baz@example.com",
+          "error": "Message was not accepted -- invalid mailbox.  Local mailbox 'baz@example.com is unavailable: user not found"
+      }
+  ]
+}
+
 const reducer : Reducer<State, Action>
   = (state = initialState, { type, payload }) => {
-    const newState = compose(dissoc('custom_emails'), dissoc('email_sent'))(state)
+    const newState = r_compose(dissoc('custom_emails'), dissoc('email_sent'), dissoc('bounced'))(state)
     const update = lens => value => (set(lens, value, newState) : State)
     const emails = lensPath([ 'emails' ])
     const sent = lensPath([ 'email_sent' ])
@@ -62,8 +84,7 @@ const reducer : Reducer<State, Action>
       case SUBMIT_EMAIL:
         return email_response(state)(payload.body)
       case GET_BOUNCED:
-        console.log('in bounced ');
-        return state
+        return { ...newState, bounced: res.items }
       default:
         return state
     }
