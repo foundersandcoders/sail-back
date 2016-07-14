@@ -3,6 +3,8 @@
 */
 
 'use strict'
+var R = require('ramda')
+var aSync = require('async')
 
 var Mailgun = require('mailgun').Mailgun
 var mg = new Mailgun(process.env.MAILGUN)
@@ -71,5 +73,30 @@ module.exports = {
       '</a>'
 
     return link
+  },
+  submitEmail: function (data, callback) {
+    if (process.env.NODE_ENV === 'testing') {
+      return callback(undefined, 'Email sent')
+    }
+
+    var addresses = R.map(R.objOf('address'), R.keys(data.email))
+
+    var emailArray = R.zipWith(R.merge)(addresses)(R.values(data.email))
+
+    var sendEmail = (recipient, cb) => {
+      var address = recipient.address
+      var emailBody = recipient.content.slice(1).join('\n\n')
+      var subject = recipient.content[0]
+      mg.sendText('messenger@friendsch.org', address, subject, emailBody, error =>
+        error ? cb(error, null) : cb(null, address)
+      )
+    }
+
+    var asyncArray = emailArray.map(recipient => cb =>
+      sendEmail(recipient, cb))
+
+    aSync.parallel(asyncArray, (error, results) =>
+      error ? callback(error, null) : callback(null, results)
+    )
   }
 }

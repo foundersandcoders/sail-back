@@ -13,6 +13,7 @@ import
   , send_newsletter
   , send_newsletter_reminder
   , compose_custom
+  , submit_email
   , submit_custom_email
   } from '../redux/modules/email/reducer.js'
 
@@ -22,8 +23,9 @@ const Email = (
   , send_newsletter_reminder: remind
   , compose_custom: custom
   , emails
-  , submit_custom_email
   , custom_emails
+  , submit_email
+  , submit_custom_email
   , ...list_props
   }
 ) =>
@@ -34,7 +36,7 @@ const Email = (
       { map(send_button, zip(email_ids, [sub, news, remind, custom])) }
     </form>
     {custom_emails ? <CustomEmailForm submit={submit_custom_email} members={custom_emails.members}/>
-     : keys(emails).length > 0 && email_list({ emails, ...list_props })}
+  : keys(emails).length > 0 && email_list({ emails, submit_email, ...list_props })}
   </div>
 
 
@@ -48,11 +50,14 @@ const send_button = ([ id, fn ]) =>
     {label_from_id(id)}
   </button>
 
-const email_list = ({ toggle_list, list_hidden, emails, toggle_content }) =>
+const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email }) =>
   <div>
     <h1>The following addresses will receive an email:</h1>
     <button type='button' onClick={toggle_list} className='email-list-toggle'>
       { (list_hidden ? 'Show' : 'Hide') + ' Emails' }
+    </button>
+    <button type='button' onClick={() => submit_email(emails)} className='email-list-toggle'>
+      Send Emails
     </button>
     <ul>
       { list_hidden || map(email(toggle_content), toPairs(emails)) }
@@ -76,8 +81,12 @@ const email = toggle_show => ([ address, { content, shown }]) =>
     >
       { shown ? 'Hide' : 'Show' } email
     </button>
-    { shown && <div>{ content.map(line => <p key={line}>{line}</p>) }</div> }
+    { shown && <div>{ content.map(displayEmail) }</div> }
   </li>
+
+const displayEmail = (line, i) => i === 0
+  ? <p key={line}>Subject: {line}</p>
+  : <p key={line}>{line}</p>
 
 const without_default = cb => e => { e.preventDefault(); cb(e) }
 
@@ -89,6 +98,7 @@ export default connect
     , toggle_content
     , toggle_list
     , compose_custom
+    , submit_email
     , submit_custom_email
     }
   )(Email)

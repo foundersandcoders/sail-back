@@ -1,8 +1,8 @@
 /* @flow */
 const { createAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
-const { lensPath, over, not, indexBy, map, propOr, merge, ifElse, gte,
-  cond, where, objOf, zip, set, lift, assoc, dissoc } =
+const { lensPath, over, not, indexBy, map, propOr, merge, zipWith, ifElse, gte,
+  cond, where, objOf, zip, set, lift, assoc, dissoc, prop, converge } =
       require('ramda')
 const { K, compose, pipe } = require('sanctuary')
 
@@ -24,6 +24,8 @@ const TOGGLE_LIST =
   'TOGGLE_LIST'
 const TOGGLE_CONTENT =
   'TOGGLE_CONTENT'
+const SUBMIT_EMAIL =
+  'SUBMIT_EMAIL'
 const SUBMIT_CUSTOM_EMAIL =
   'SUBMIT_CUSTOM_EMAIL'
 
@@ -50,6 +52,7 @@ const reducer : Reducer<State, Action>
       case SEND_NEWS_REMINDER:
         return new_emails(newsletter_reminder)(shape_newsletters)
       case COMPOSE_CUSTOM:
+
         return { ...state, custom_emails: { members: payload.results }}
       case TOGGLE_LIST:
         return (over(list_hidden, not, state): State)
@@ -57,8 +60,8 @@ const reducer : Reducer<State, Action>
         return toggle_show(payload)(state)
       case SEND_WELCOME:
         return update(sent)(true)
-      case SUBMIT_CUSTOM_EMAIL:
-        return state//TODO add to sending endppoint
+      case SUBMIT_EMAIL:
+        return state //TODO use this state to alter button's text to sent...
       default:
         return state
     }
@@ -134,7 +137,21 @@ export const toggle_list =
 export const toggle_content =
   createAction(TOGGLE_CONTENT)
 
+export const submit_email =
+  createAction(SUBMIT_EMAIL, email => post({ email }, '/api/submit-email'))
+
 export const submit_custom_email =
-  createAction(SUBMIT_CUSTOM_EMAIL, emails => emails)
-  //TODO post request to send emails
-  //emais = [{primary_email: '', secondary_email: '', email_body: ''}]
+  createAction(SUBMIT_CUSTOM_EMAIL, (members, form) => {
+    const format_message = form => member => (
+      [ `${form[0].value}`
+      , `Dear ${member.first_name || member.title} ${member.last_name},`
+      , `${form[1].value}`
+      ]
+    )
+    const template = format_message(form)
+    const emailBodies = map(compose(objOf('content'), template), members)
+    const emailsArr = zipWith(merge, members, emailBodies)
+    const setEmailKey = map(compose(indexBy, prop), ['primary_email', 'secondary_email'])
+    const shapedEmails = compose(dissoc('null'), converge(merge, setEmailKey))(emailsArr)
+    return post({ email: shapedEmails }, '/api/submit-email')
+  })

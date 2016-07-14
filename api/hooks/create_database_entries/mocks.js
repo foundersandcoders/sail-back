@@ -100,6 +100,38 @@ exports.members = function () {
       date_joined: new Date(),
       gift_aid_signed: false,
       membership_type: module.exports.membershipTypes()[3].value
+    },
+    {
+      id: '014030',
+      title: 'Mr',
+      initials: 'IG',
+      postcode: 'E2 0SY',
+      first_name: 'Ivan',
+      last_name: 'Gonzalez',
+      primary_email: 'ivan@foundersandcoders.com',
+      password: 'correct',
+      privileges: 'member',
+      activation_status: 'activated',
+      gift_aid_signed: false,
+      date_joined: new Date(),
+      membership_type: module.exports.membershipTypes()[0].value,
+      news_type: 'online'
+    },
+    {
+      id: '12345',
+      title: 'Mr',
+      initials: 'JM',
+      postcode: 'E1 0SY',
+      first_name: 'Jack',
+      last_name: 'Murphy',
+      primary_email: 'jmurphy.web@gmail.com',
+      password: 'correct',
+      privileges: 'member',
+      activation_status: 'activated',
+      gift_aid_signed: false,
+      date_joined: new Date(),
+      membership_type: module.exports.membershipTypes()[0].value,
+      news_type: 'online'
     }, {
       id: '331231',
       title: 'Mr',
