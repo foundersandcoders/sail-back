@@ -35,7 +35,7 @@ const initialState = { emails: { } }
 
 const reducer : Reducer<State, Action>
   = (state = initialState, { type, payload }) => {
-    const newState = compose(dissoc('custom_emails'), dissoc('email_sent'))(state)
+    const newState = compose(dissoc('custom_emails'))(dissoc('email_sent'))(state)
     const update = lens => value => (set(lens, value, newState) : State)
     const emails = lensPath([ 'emails' ])
     const sent = lensPath([ 'email_sent' ])
