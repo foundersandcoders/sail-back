@@ -31,21 +31,21 @@ const Email = (
 ) =>
   <div className='main-container email'>
     <form className='email-controls' >
-      { map(send_button, zip(email_ids, [sub, news, remind, custom, get_bounced])) }
+    { map(send_button, zip(email_ids, [sub, news, remind, custom, get_bounced])) }
     </form>
 
     {email_sent
       ? <EmailNotification email_sent={email_sent} />
       : active_tab && map_tab({...list_props})[active_tab]()
     }
-  </div>
+    </div>
 
 const map_tab = props => (
-  { send_sub_reminder: () => email_list(props)
-  , send_newsletter: () => email_list(props)
-  , send_news_reminder: () => email_list(props)
-  , compose_custom: () => <CustomEmailForm submit={props.submit_custom_email} members={props.custom_emails.members}/>
-  , get_bounced: () => BouncedEmails(props)
+  { SEND_SUB_REMINDER: () => email_list(props)
+  , SEND_NEWSLETTER: () => email_list(props)
+  , SEND_NEWSLETTER_REMINDER: () => email_list(props)
+  , COMPOSE_CUSTOM: () => <CustomEmailForm submit={props.submit_custom_email} members={props.custom_emails.members}/>
+  , GET_BOUNCED: () => BouncedEmails(props)
   }
 )
 

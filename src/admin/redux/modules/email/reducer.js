@@ -69,16 +69,16 @@ const reducer : Reducer<State, Action>
     const list_hidden = lensPath([ 'list_hidden' ])
     const new_emails = template => shape =>
       update(emails)(map(compose(Email, template), shape(payload.results)))
-    const change_tab = assoc('active_tab')
+    const change_tab = assoc('active_tab', type)
     switch (type) {
       case SEND_SUB_REMINDER:
-        return change_tab('send_sub_reminder')(new_emails(template_subs)(primaries))
+        return change_tab(new_emails(template_subs)(primaries))
       case SEND_NEWSLETTER:
-        return change_tab('send_newsletter')(new_emails(newsletter_alert)(shape_newsletters))
+        return change_tab(new_emails(newsletter_alert)(shape_newsletters))
       case SEND_NEWS_REMINDER:
-        return change_tab('send_news_reminder')(new_emails(newsletter_reminder)(shape_newsletters))
+        return change_tab(new_emails(newsletter_reminder)(shape_newsletters))
       case COMPOSE_CUSTOM:
-        return change_tab('compose_custom')({ ...newState, custom_emails: { members: payload.results }})
+        return change_tab({ ...newState, custom_emails: { members: payload.results }})
       case TOGGLE_LIST:
         return (over(list_hidden, not, state): State)
       case TOGGLE_CONTENT:
@@ -88,7 +88,7 @@ const reducer : Reducer<State, Action>
       case SUBMIT_EMAIL:
         return email_response(state)(payload.body)
       case GET_BOUNCED:
-        return change_tab('get_bounced')({ ...newState, bounced: res.items })
+        return change_tab({ ...newState, bounced: res.items })
       case SUBMIT_CUSTOM_EMAIL:
         return email_response(state)(payload.body)
       default:
