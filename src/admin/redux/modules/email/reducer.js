@@ -2,7 +2,7 @@
 const { createAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
 const { lensPath, over, not, indexBy, map, propOr, merge, zipWith, ifElse, gte,
-  cond, where, objOf, zip, set, lift, assoc, dissoc, prop, converge } =
+  cond, where, objOf, zip, set, lift, assoc, dissoc, prop, converge, omit } =
       require('ramda')
 const { K, compose, pipe } = require('sanctuary')
 
@@ -37,7 +37,7 @@ const initialState = { emails: { } }
 
 const reducer : Reducer<State, Action>
   = (state = initialState, { type, payload }) => {
-    const newState = compose(dissoc('custom_emails'))(dissoc('email_sent'))(state)
+    const newState = omit(['custom_emails', 'email_sent'])(state)
     const update = lens => value => (set(lens, value, newState) : State)
     const emails = lensPath([ 'emails' ])
     const sent = lensPath([ 'email_sent' ])
@@ -61,6 +61,8 @@ const reducer : Reducer<State, Action>
         return update(sent)(true)
       case SUBMIT_EMAIL:
         return email_response(state)(payload.body)
+      case SUBMIT_CUSTOM_EMAIL:
+        return email_response(state)(payload.body)
       default:
         return state
     }
@@ -74,9 +76,11 @@ const Email = content => (
   }
 )
 
-const email_response = state => resBody => resBody
-  ? { ...state, email_sent: 'success' }
-  : { ...state, email_sent: resBody.error.recipient }
+const email_response = state => resBody => (
+  { ...state
+  , email_sent: resBody ? 'success' : resBody.error.recipient
+  }
+)
 
 const time_check = pipe([gte, objOf('overdue'), where])
 

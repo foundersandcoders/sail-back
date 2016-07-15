@@ -45,9 +45,13 @@ const Email = (
     }
   </div>
 
-const EmailNotification = ({email_sent}) => email_sent === 'success'
-  ? <h3 className='sent-email-notification'>The emails have been sent</h3>
-  : <h3 className='sent-email-notification'>There was an error sending to the following email address: {email_sent}</h3>
+const EmailNotification = ({email_sent}) =>
+  <h3 className='sent-email-notification'>
+    { email_sent === 'success'
+      ? 'The emails have been sent'
+      : 'There was an error sending to the following email address: {email_sent}'
+    }
+  </h3>
 
 const send_button = ([ id, fn ]) =>
   <button
