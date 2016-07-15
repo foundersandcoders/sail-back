@@ -38,28 +38,6 @@ type State = { emails: { [key: string]: { overdue: number } } }
 
 const initialState = { emails: { } }
 
-var res = {
-  "total_count": 1,
-  "items": [
-      {
-          "created_at": "Fri, 21 Oct 2011 11:03:55 GMT",
-          "code": 550,
-          "address": "'baz@example.com",
-          "error": "Message was not accepted -- invalid mailbox.  Local mailbox 'baz@example.com is unavailable: user not found"
-      }, {
-          "created_at": "Fri, 21 Oct 2011 11:04:55 GMT",
-          "code": 550,
-          "address": "'baz@example.com",
-          "error": "Message was not accepted -- invalid mailbox.  Local mailbox 'baz@example.com is unavailable: user not found"
-      }, {
-          "created_at": "Fri, 21 Oct 2011 11:05:55 GMT",
-          "code": 550,
-          "address": "'baz@example.com",
-          "error": "Message was not accepted -- invalid mailbox.  Local mailbox 'baz@example.com is unavailable: user not found"
-      }
-  ]
-}
-
 const reducer : Reducer<State, Action>
   = (state = initialState, { type, payload }) => {
     const newState = omit(['custom_emails', 'email_sent', 'bounced'])(state)
@@ -88,7 +66,11 @@ const reducer : Reducer<State, Action>
       case SUBMIT_EMAIL:
         return email_response(state)(payload.body)
       case GET_BOUNCED:
-        return change_tab({ ...newState, bounced: res.items })
+        // response from mailgun in the form that is at bottom of page.
+        // at the moment we do not know registered mailgun domain name.
+        // so now bounced emails will always show as 'no bounced emails'
+        // comment in res.items to see what ui looks like if there is a response from mg.
+        return change_tab({ ...newState, bounced: [] /*res.items*/ })
       case SUBMIT_CUSTOM_EMAIL:
         return email_response(state)(payload.body)
       default:
@@ -190,3 +172,25 @@ export const submit_custom_email =
     const shapedEmails = compose(dissoc('null'), converge(merge, setEmailKey))(emailsArr)
     return post({ email: shapedEmails }, '/api/submit-email')
   })
+
+const res = {
+  "total_count": 1,
+  "items": [
+      {
+          "created_at": "Fri, 21 Oct 2011 11:03:55 GMT",
+          "code": 550,
+          "address": "'baz@example.com",
+          "error": "Message was not accepted -- invalid mailbox.  Local mailbox 'baz@example.com is unavailable: user not found"
+      }, {
+          "created_at": "Fri, 21 Oct 2011 11:04:55 GMT",
+          "code": 550,
+          "address": "'baz@example.com",
+          "error": "Message was not accepted -- invalid mailbox.  Local mailbox 'baz@example.com is unavailable: user not found"
+      }, {
+          "created_at": "Fri, 21 Oct 2011 11:05:55 GMT",
+          "code": 550,
+          "address": "'baz@example.com",
+          "error": "Message was not accepted -- invalid mailbox.  Local mailbox 'baz@example.com is unavailable: user not found"
+      }
+  ]
+}
