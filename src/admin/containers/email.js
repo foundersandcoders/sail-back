@@ -23,46 +23,31 @@ const Email = (
   , send_newsletter: news
   , send_newsletter_reminder: remind
   , compose_custom: custom
-  , emails
-  , submit_email
   , get_bounced
   , active_tab
+  , email_sent
   , ...list_props
   }
-) =>{
-  console.log('active_tab', active_tab);
-  console.log('map opbj', map_tab({...list_props})[active_tab]);
-  return (
+) =>
   <div className='main-container email'>
-    <form
-      className='email-controls'
-    >
+    <form className='email-controls' >
       { map(send_button, zip(email_ids, [sub, news, remind, custom, get_bounced])) }
     </form>
-    {active_tab && map_tab({...list_props})[active_tab]()
-    /*var email_sent = ''
-    bounced
-      ? BouncedEmails(bounced, emails)
-      : email_sent
-      ? <EmailNotification email_sent={email_sent}/>
-      : (custom_emails
-        ? mapper.compose_custom
-        : keys(emails).length > 0 && email_list({ emails, submit_email, ...list_props })
-      )
-    */}
 
-  </div>)}
+    {email_sent
+      ? <EmailNotification email_sent={email_sent} />
+      : active_tab && map_tab({...list_props})[active_tab]()
+    }
+  </div>
 
-const map_tab = props => {
-  console.log(props);
-  return {
-    compose_custom: () => <CustomEmailForm {...props} submit={props.submit_custom_email} members={props.custom_emails.members} email_sent={props.email_sent} />
-  , get_bounced: () => <BouncedEmails bounced={props.bounced} />
+const map_tab = props => (
+  { send_sub_reminder: () => email_list(props)
+  , send_newsletter: () => email_list(props)
+  , send_news_reminder: () => email_list(props)
+  , compose_custom: () => <CustomEmailForm submit={props.submit_custom_email} members={props.custom_emails.members}/>
+  , get_bounced: () => BouncedEmails(props)
   }
-}
-// send_sub_reminder:
-// send_newsletter:
-// send_news_reminder:
+)
 
 const EmailNotification = ({email_sent}) =>
   <h3 className='sent-email-notification'>
@@ -120,18 +105,16 @@ const display_email = (line, i) => i === 0
   ? <p key={line}>Subject: {line}</p>
   : <p key={line}>{line}</p>
 
-const BouncedEmails = ({bounced}) => {
-  console.log('bounced in BouncedEmails', bounced)
-
-  return (<div className='bounced-container'>
+const BouncedEmails = ({ bounced }) =>
+  <div className='bounced-container'>
     {bounced.length > 0
       ? <ul>{map(bounced_email, bounced)}</ul>
-      : <h3>There are no bounced emails</h3>}
-  </div>)}
-
+      : <h3>There are no bounced emails</h3>
+    }
+  </div>
 
 const bounced_email = email =>
-  <li className='bounced-email' key={email.created_at}>
+  <li className='bounced-email' key={email.created_at} >
     <b>{email.address}</b> bounced on {email.created_at}
   </li>
 
