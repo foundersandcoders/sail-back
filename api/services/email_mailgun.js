@@ -88,7 +88,7 @@ module.exports = {
       var emailBody = recipient.content.slice(1).join('\n\n')
       var subject = recipient.content[0]
       mg.sendText('messenger@friendsch.org', address, subject, emailBody, error =>
-        error ? cb(error, null) : cb(null, address)
+        error ? cb({error: error.toString(), recipient: recipient.address}, null) : cb(null, address)
       )
     }
 

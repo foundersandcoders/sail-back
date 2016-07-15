@@ -25,6 +25,7 @@ const Email = (
   , emails
   , custom_emails
   , submit_email
+  , email_sent
   , submit_custom_email
   , ...list_props
   }
@@ -35,10 +36,22 @@ const Email = (
     >
       { map(send_button, zip(email_ids, [sub, news, remind, custom])) }
     </form>
-    {custom_emails ? <CustomEmailForm submit={submit_custom_email} members={custom_emails.members}/>
-  : keys(emails).length > 0 && email_list({ emails, submit_email, ...list_props })}
+    {email_sent
+      ? <EmailNotification email_sent={email_sent}/>
+      : (custom_emails
+            ? <CustomEmailForm submit={submit_custom_email} members={custom_emails.members} email_sent={email_sent} />
+            : keys(emails).length > 0 && email_list({ emails, submit_email, ...list_props })
+        )
+    }
   </div>
 
+const EmailNotification = ({email_sent}) =>
+  <h3 className='sent-email-notification'>
+    { email_sent === 'success'
+      ? 'The emails have been sent'
+      : 'There was an error sending to the following email address: {email_sent}'
+    }
+  </h3>
 
 const send_button = ([ id, fn ]) =>
   <button
@@ -50,7 +63,7 @@ const send_button = ([ id, fn ]) =>
     {label_from_id(id)}
   </button>
 
-const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email }) =>
+const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email, email_sent }) =>
   <div>
     <h1>The following addresses will receive an email:</h1>
     <button type='button' onClick={toggle_list} className='email-list-toggle'>
@@ -91,7 +104,7 @@ const displayEmail = (line, i) => i === 0
 const without_default = cb => e => { e.preventDefault(); cb(e) }
 
 export default connect
-  ( compose(pick(['emails', 'list_hidden', 'custom_emails']), prop('email'))
+  ( compose(pick(['emails', 'list_hidden', 'custom_emails', 'email_sent']), prop('email'))
   , { send_sub_reminder
     , send_newsletter
     , send_newsletter_reminder

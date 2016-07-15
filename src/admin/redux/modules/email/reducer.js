@@ -2,7 +2,7 @@
 const { createAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
 const { lensPath, over, not, indexBy, map, propOr, merge, zipWith, ifElse, gte,
-  cond, where, objOf, zip, set, lift, assoc, dissoc, prop, converge } =
+  cond, where, objOf, zip, set, lift, assoc, dissoc, prop, converge, omit } =
       require('ramda')
 const { K, compose, pipe } = require('sanctuary')
 
@@ -37,7 +37,7 @@ const initialState = { emails: { } }
 
 const reducer : Reducer<State, Action>
   = (state = initialState, { type, payload }) => {
-    const newState = dissoc('custom_emails', state)
+    const newState = omit(['custom_emails', 'email_sent'])(state)
     const update = lens => value => (set(lens, value, newState) : State)
     const emails = lensPath([ 'emails' ])
     const sent = lensPath([ 'email_sent' ])
@@ -52,8 +52,7 @@ const reducer : Reducer<State, Action>
       case SEND_NEWS_REMINDER:
         return new_emails(newsletter_reminder)(shape_newsletters)
       case COMPOSE_CUSTOM:
-
-        return { ...state, custom_emails: { members: payload.results }}
+        return { ...newState, custom_emails: { members: payload.results }}
       case TOGGLE_LIST:
         return (over(list_hidden, not, state): State)
       case TOGGLE_CONTENT:
@@ -61,7 +60,9 @@ const reducer : Reducer<State, Action>
       case SEND_WELCOME:
         return update(sent)(true)
       case SUBMIT_EMAIL:
-        return state //TODO use this state to alter button's text to sent...
+        return email_response(state)(payload.body)
+      case SUBMIT_CUSTOM_EMAIL:
+        return email_response(state)(payload.body)
       default:
         return state
     }
@@ -72,6 +73,12 @@ export default reducer
 const Email = content => (
   { content: content.split('\n')
   , shown: false
+  }
+)
+
+const email_response = state => resBody => (
+  { ...state
+  , email_sent: resBody ? 'success' : resBody.error.recipient
   }
 )
 
