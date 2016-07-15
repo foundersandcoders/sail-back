@@ -2,10 +2,9 @@
 const { createAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
 
-const { lensPath, over, not, indexBy, map, propOr, merge, ifElse, gte,
-  cond, where, objOf, zip, set, lift, assoc, dissoc, prop, zipWith, converge, compose: r_compose } =
-
-      require('ramda')
+const { lensPath, over, not, indexBy, map, propOr, merge, zipWith, ifElse, gte,
+  cond, where, objOf, zip, set, lift, assoc, dissoc, prop, converge, omit } =
+  require('ramda')
 const { K, pipe, compose } = require('sanctuary')
 
 const { PATH_UPDATE } = require('../route.js')
@@ -63,22 +62,23 @@ var res = {
 
 const reducer : Reducer<State, Action>
   = (state = initialState, { type, payload }) => {
-    const newState = r_compose(dissoc('custom_emails'), dissoc('email_sent'), dissoc('bounced'))(state)
+    const newState = omit(['custom_emails', 'email_sent', 'bounced'])(state)
     const update = lens => value => (set(lens, value, newState) : State)
     const emails = lensPath([ 'emails' ])
     const sent = lensPath([ 'email_sent' ])
     const list_hidden = lensPath([ 'list_hidden' ])
     const new_emails = template => shape =>
       update(emails)(map(compose(Email, template), shape(payload.results)))
+    const change_tab = assoc('active_tab')
     switch (type) {
       case SEND_SUB_REMINDER:
-        return new_emails(template_subs)(primaries)
+        return change_tab('send_sub_reminder')(new_emails(template_subs)(primaries))
       case SEND_NEWSLETTER:
-        return new_emails(newsletter_alert)(shape_newsletters)
+        return change_tab('send_newsletter')(new_emails(newsletter_alert)(shape_newsletters))
       case SEND_NEWS_REMINDER:
-        return new_emails(newsletter_reminder)(shape_newsletters)
+        return change_tab('send_news_reminder')(new_emails(newsletter_reminder)(shape_newsletters))
       case COMPOSE_CUSTOM:
-        return { ...newState, custom_emails: { members: payload.results }}
+        return change_tab('compose_custom')({ ...newState, custom_emails: { members: payload.results }})
       case TOGGLE_LIST:
         return (over(list_hidden, not, state): State)
       case TOGGLE_CONTENT:
@@ -88,7 +88,9 @@ const reducer : Reducer<State, Action>
       case SUBMIT_EMAIL:
         return email_response(state)(payload.body)
       case GET_BOUNCED:
-        return { ...newState, bounced: res.items }
+        return change_tab('get_bounced')({ ...newState, bounced: res.items })
+      case SUBMIT_CUSTOM_EMAIL:
+        return email_response(state)(payload.body)
       default:
         return state
     }
@@ -102,9 +104,11 @@ const Email = content => (
   }
 )
 
-const email_response = state => resBody => resBody
-  ? { ...state, email_sent: 'success' }
-  : { ...state, email_sent: resBody.error.recipient }
+const email_response = state => resBody => (
+  { ...state
+  , email_sent: resBody ? 'success' : resBody.error.recipient
+  }
+)
 
 const time_check = pipe([gte, objOf('overdue'), where])
 
@@ -184,6 +188,5 @@ export const submit_custom_email =
     const emailsArr = zipWith(merge, members, emailBodies)
     const setEmailKey = map(compose(indexBy, prop), ['primary_email', 'secondary_email'])
     const shapedEmails = compose(dissoc('null'), converge(merge, setEmailKey))(emailsArr)
-    console.log(shapedEmails);
     return post({ email: shapedEmails }, '/api/submit-email')
   })

@@ -24,37 +24,53 @@ const Email = (
   , send_newsletter_reminder: remind
   , compose_custom: custom
   , emails
-  , custom_emails
   , submit_email
-  , email_sent
   , get_bounced
-  , bounced
-  , submit_custom_email
+  , active_tab
   , ...list_props
   }
-) =>
+) =>{
+  console.log('active_tab', active_tab);
+  console.log('map opbj', map_tab({...list_props})[active_tab]);
+  return (
   <div className='main-container email'>
     <form
       className='email-controls'
     >
       { map(send_button, zip(email_ids, [sub, news, remind, custom, get_bounced])) }
     </form>
-    {bounced
-      ? <BouncedEmails bounced={bounced}/>
+    {active_tab && map_tab({...list_props})[active_tab]()
+    /*var email_sent = ''
+    bounced
+      ? BouncedEmails(bounced, emails)
       : email_sent
       ? <EmailNotification email_sent={email_sent}/>
       : (custom_emails
-        ? <CustomEmailForm submit={submit_custom_email} members={custom_emails.members} email_sent={email_sent} />
+        ? mapper.compose_custom
         : keys(emails).length > 0 && email_list({ emails, submit_email, ...list_props })
       )
+    */}
+
+  </div>)}
+
+const map_tab = props => {
+  console.log(props);
+  return {
+    compose_custom: () => <CustomEmailForm {...props} submit={props.submit_custom_email} members={props.custom_emails.members} email_sent={props.email_sent} />
+  , get_bounced: () => <BouncedEmails bounced={props.bounced} />
+  }
+}
+// send_sub_reminder:
+// send_newsletter:
+// send_news_reminder:
+
+const EmailNotification = ({email_sent}) =>
+  <h3 className='sent-email-notification'>
+    { email_sent === 'success'
+      ? 'The emails have been sent'
+      : 'There was an error sending to the following email address: {email_sent}'
     }
-
-  </div>
-
-//TODO store active tab in state & map using object
-const EmailNotification = ({email_sent}) => email_sent === 'success'
-  ? <h3 className='sent-email-notification'>The emails have been sent</h3>
-  : <h3 className='sent-email-notification'>There was an error sending to the following email address: {email_sent}</h3>
+  </h3>
 
 const send_button = ([ id, fn ]) =>
   <button
@@ -104,15 +120,17 @@ const display_email = (line, i) => i === 0
   ? <p key={line}>Subject: {line}</p>
   : <p key={line}>{line}</p>
 
-const BouncedEmails = ({bounced}) =>
-  <div className='bounced-container'>
+const BouncedEmails = ({bounced}) => {
+  console.log('bounced in BouncedEmails', bounced)
+
+  return (<div className='bounced-container'>
     {bounced.length > 0
-      ? <ul>{map(bounced_emails, bounced)}</ul>
+      ? <ul>{map(bounced_email, bounced)}</ul>
       : <h3>There are no bounced emails</h3>}
-  </div>
+  </div>)}
 
 
-const bounced_emails = email =>
+const bounced_email = email =>
   <li className='bounced-email' key={email.created_at}>
     <b>{email.address}</b> bounced on {email.created_at}
   </li>
@@ -120,7 +138,7 @@ const bounced_emails = email =>
 const without_default = cb => e => { e.preventDefault(); cb(e) }
 
 export default connect
-  ( compose(pick(['emails', 'list_hidden', 'custom_emails', 'email_sent', 'bounced']), prop('email'))
+  ( compose(pick(['emails', 'list_hidden', 'custom_emails', 'email_sent', 'bounced', 'active_tab']), prop('email'))
   , { send_sub_reminder
     , send_newsletter
     , send_newsletter_reminder

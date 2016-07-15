@@ -78,7 +78,6 @@ module.exports = {
     if (process.env.NODE_ENV === 'testing') {
       return callback(undefined, 'Email sent')
     }
-    //callback(null, ['jmurphy.web@mail.com', 'ivan@foundersandcoders.com'])//TODO delete line
 
     var addresses = R.map(R.objOf('address'), R.keys(data.email))
 
