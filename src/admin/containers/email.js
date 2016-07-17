@@ -2,7 +2,7 @@
 const React = require('react')
 const { connect } = require('react-redux')
 const { pick, keys, toPairs, flip, prop, zip, compose, replace,
-   map } =
+   map, ifElse, always, equals } =
     require('ramda')
 import CustomEmailForm from '../dumb_components/custom_email_form.js'
 
@@ -81,8 +81,14 @@ const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_e
     </ul>
   </div>
 
+const replaceNormal = compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
+const replaceGetBounced = always('Get Bounced Emails')
 const label_from_id =
-  compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
+  ifElse(
+    equals('get-bounced'),
+    replaceGetBounced,
+    replaceNormal
+  );
 
 const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder', 'custom-email', 'get-bounced']
 
