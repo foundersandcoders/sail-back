@@ -50,10 +50,10 @@ const map_tab = props => (
 )
 
 const EmailNotification = ({email_sent}) =>
-  <h3 className='sent-email-notification'>
-    { email_sent === 'success'
-      ? 'The emails have been sent'
-      : 'There was an error sending to the following email address: {email_sent}'
+  <h3 className=`sent-email-notification`>
+    { email_sent === `success`
+      ? `The emails have been sent`
+      : `There was an error sending to the following email address: ${email_sent}`
     }
   </h3>
 
