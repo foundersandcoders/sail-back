@@ -39,8 +39,20 @@ exports.newstype_post = newsletterQueryTemplate(postColumns, 'post')
 exports.newstype_post_nonzero = subsQueryTemplate(postColumns, 'post')
 
 exports.newsletter_labels =
-`select title, first_name, last_name, initials,
-address1, address2, address3, address4,
-postcode, county from members
-where members.news_type = 'post'
-or members.email_bounced = true;`
+  `select title, first_name, last_name, initials,
+  address1, address2, address3, address4,
+  postcode, county from members
+  where members.news_type = 'post'
+  or members.email_bounced = true;`
+
+exports.subscription_due =
+  `select title, first_name, last_name, initials,
+  primary_email, secondary_email, due_date, membership_type,
+  membershiptypes.amount from members
+    join membershiptypes on members.membership_type = membershiptypes.value
+      where due_date >= '2016-01-01'
+      and due_date <= '2017-12-12'
+      and news_type = 'online'
+      and standing_order is null
+      and members.membership_type in
+        ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group');`
