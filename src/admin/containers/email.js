@@ -50,7 +50,7 @@ const map_tab = props => (
 )
 
 const EmailNotification = ({email_sent}) =>
-  <h3 className=`sent-email-notification`>
+  <h3 className='sent-email-notification'>
     { email_sent === `success`
       ? `The emails have been sent`
       : `There was an error sending to the following email address: ${email_sent}`
@@ -83,6 +83,7 @@ const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_e
 
 const replaceNormal = compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
 const replaceGetBounced = always('Get Bounced Emails')
+
 const label_from_id =
   ifElse(
     equals('get-bounced'),
