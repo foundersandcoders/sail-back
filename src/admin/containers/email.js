@@ -16,6 +16,7 @@ import
   , submit_email
   , get_bounced
   , submit_custom_email
+  , send_subscription_due
   } from '../redux/modules/email/reducer.js'
 
 
@@ -24,6 +25,7 @@ const Email = (
   , send_newsletter: news
   , send_newsletter_reminder: remind
   , compose_custom: custom
+  , send_subscription_due
   , get_bounced
   , active_tab
   , email_sent
@@ -32,7 +34,7 @@ const Email = (
 ) =>
   <div className='main-container email'>
     <form className='email-controls' >
-    { map(send_button, zip(email_ids, [sub, news, remind, custom, get_bounced])) }
+    { map(send_button, zip(email_ids, [sub, news, remind, send_subscription_due, custom, get_bounced])) }
     </form>
 
     {email_sent
@@ -60,7 +62,7 @@ const send_button = ([ id, fn ]) =>
     {label_from_id(id)}
   </button>
 
-const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email, email_sent }) =>
+const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email, email_sent, ...other }) =>
   <div>
     <h1>The following addresses will receive an email:</h1>
     <button type='button' onClick={toggle_list} className='email-list-toggle'>
@@ -86,6 +88,7 @@ const map_tab =
   { SEND_SUB_REMINDER: email_list
   , SEND_NEWSLETTER: email_list
   , SEND_NEWSLETTER_REMINDER: email_list
+  , SEND_SUBSCRIPTION_DUE: email_list
   , COMPOSE_CUSTOM: props => <CustomEmailForm submit={props.submit_custom_email} members={props.custom_emails.members}/>
   , GET_BOUNCED: BouncedEmails
 }
@@ -101,7 +104,7 @@ const label_from_id =
     replaceNormal
   );
 
-const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder', 'custom-email', 'get-bounced']
+const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder', 'subscription-due', 'custom-email', 'get-bounced']
 
 const show_list = (emails, toggle) => keys(emails).length > 0 && toggle
 
@@ -140,5 +143,6 @@ export default connect
     , submit_email
     , get_bounced
     , submit_custom_email
+    , send_subscription_due
     }
   )(Email)
