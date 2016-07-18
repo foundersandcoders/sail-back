@@ -31,8 +31,8 @@ const GET_BOUNCED =
   'GET_BOUNCED'
 const SUBMIT_CUSTOM_EMAIL =
   'SUBMIT_CUSTOM_EMAIL'
-const SEND_SUBSCRIPTION_DUE =
-  'SEND_SUBSCRIPTION_DUE'
+const SEND_SUBSCRIPTION_DUE_EMAIL =
+  'SEND_SUBSCRIPTION_DUE_EMAIL'
 
 import type { Action, Reducer } from 'redux'
 
@@ -75,7 +75,7 @@ const reducer : Reducer<State, Action>
         return change_tab({ ...newState, bounced: [] /*res.items*/ })
       case SUBMIT_CUSTOM_EMAIL:
         return email_response(state)(payload.body)
-      case SEND_SUBSCRIPTION_DUE:
+      case SEND_SUBSCRIPTION_DUE_EMAIL:
         return change_tab(new_emails(subscription_due)(shape_newsletters))
       default:
         return state
@@ -146,8 +146,8 @@ export const send_newsletter =
 export const send_newsletter_reminder =
   createAction(SEND_NEWS_REMINDER, () => get_body('api/newsletter-alert'))
 
-export const send_subscription_due =
-  createAction(SEND_SUBSCRIPTION_DUE, () => get_body('api/subscription-due'))
+export const send_subscription_due_email =
+  createAction(SEND_SUBSCRIPTION_DUE_EMAIL, () => get_body('api/subscription-due-email'))
 
 export const compose_custom =
   createAction(COMPOSE_CUSTOM, () => get_body('api/newsletter-alert'))

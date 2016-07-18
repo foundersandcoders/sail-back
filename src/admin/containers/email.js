@@ -16,7 +16,7 @@ import
   , submit_email
   , get_bounced
   , submit_custom_email
-  , send_subscription_due
+  , send_subscription_due_email
   } from '../redux/modules/email/reducer.js'
 
 
@@ -25,7 +25,7 @@ const Email = (
   , send_newsletter: news
   , send_newsletter_reminder: remind
   , compose_custom: custom
-  , send_subscription_due
+  , send_subscription_due_email : sub_due
   , get_bounced
   , active_tab
   , email_sent
@@ -34,7 +34,7 @@ const Email = (
 ) =>
   <div className='main-container email'>
     <form className='email-controls' >
-    { map(send_button, zip(email_ids, [sub, news, remind, send_subscription_due, custom, get_bounced])) }
+    { map(send_button, zip(email_ids, [sub, news, remind, sub_due, custom, get_bounced])) }
     </form>
 
     {email_sent
@@ -88,7 +88,7 @@ const map_tab =
   { SEND_SUB_REMINDER: email_list
   , SEND_NEWSLETTER: email_list
   , SEND_NEWSLETTER_REMINDER: email_list
-  , SEND_SUBSCRIPTION_DUE: email_list
+  , SEND_SUBSCRIPTION_DUE_EMAIL: email_list
   , COMPOSE_CUSTOM: props => <CustomEmailForm submit={props.submit_custom_email} members={props.custom_emails.members}/>
   , GET_BOUNCED: BouncedEmails
 }
@@ -143,6 +143,6 @@ export default connect
     , submit_email
     , get_bounced
     , submit_custom_email
-    , send_subscription_due
+    , send_subscription_due_email
     }
   )(Email)

@@ -56,8 +56,14 @@ module.exports = {
       return res.json({ results })
     })
   },
-  sendSubsDue: function (req, res) {
-    Members.query(queries.subscription_due, function (err, results) {
+  sendSubsDueEmail: function (req, res) {
+    Members.query(queries.subscription_due_online, function (err, results) {
+      if (err) return res.badRequest({ error: err })
+      return res.json({ results })
+    })
+  },
+  sendSubsDuePost: function (req, res) {
+    Members.query(queries.subscription_due_post, function (err, results) {
       if (err) return res.badRequest({ error: err })
       return res.json({ results })
     })

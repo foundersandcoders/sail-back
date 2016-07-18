@@ -23,6 +23,8 @@ const SEND_SUB_REMINDER_POST =
   'SEND_SUB_REMINDER_POST'
 const TOGGLE_RECIPIENT_LIST =
   'TOGGLE_RECIPIENT_LIST'
+const SEND_SUBSCRIPTION_DUE_POST =
+  'SEND_SUBSCRIPTION_DUE_POST'
 
 type State = typeof initialState
 
@@ -46,6 +48,9 @@ const reducer: Reducer<State, Action>
      const shape = map(liftN(3, unapply(reduce(merge, {})))(emails, addresses, ids))
      const new_sub_reminders = { ...state.sub_reminders, reminderLetters: shape(payload.results) }
      return { ...state, sub_reminders: new_sub_reminders, active_tab: 'letters' }
+   case SEND_SUBSCRIPTION_DUE_POST:
+     console.log('payload in post reducer', payload);
+     return state
    case TOGGLE_RECIPIENT_LIST:
      const section = payload.section
      return { ...state, [section]: { ...state[section], shown: payload.shown } }
@@ -64,6 +69,10 @@ export const send_sub_reminder_post =
 
 export const toggle_recipient_list =
   createAction(TOGGLE_RECIPIENT_LIST, (section, shown) => ({ section, shown }))
+
+export const send_subscription_due_post =
+  createAction(SEND_SUBSCRIPTION_DUE_POST, () => get_body('api/subscription-due-email'))
+
 
 const addressProps = [ 'address1', 'address2', 'address3', 'address4', 'county', 'postcode' ]
 const addresses = compose(objOf('address'), props(addressProps))

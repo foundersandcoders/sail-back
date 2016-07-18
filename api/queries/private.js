@@ -25,18 +25,36 @@ const newsletterQueryTemplate = (columns, newsType) => (
   where news_type = '${newsType}';`
 )
 
-const postColumns = 'address1, address2, address3, address4, county, postcode'
+//TODO add dynamic dates
+const subscription_due_template = (columns, news_type) =>
+  `select title, first_name, last_name, initials,
+  ${columns}, due_date, membership_type,
+  membershiptypes.amount from members
+    join membershiptypes on members.membership_type = membershiptypes.value
+      where due_date >= '2016-01-01'
+      and due_date <= '2017-12-12'
+      and news_type = ${news_type}
+      and standing_order is null
+      and members.membership_type in
+        ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group');`
 
-const emailColumns = 'primary_email, secondary_email'
+
+const post_columns = 'address1, address2, address3, address4, county, postcode'
+
+const online_columns = 'primary_email, secondary_email'
 
 
-exports.newsletter = newsletterQueryTemplate(emailColumns, 'online')
+exports.newsletter = newsletterQueryTemplate(online_columns, 'online')
 
-exports.subscriptions = subsQueryTemplate(emailColumns, 'online')
+exports.subscriptions = subsQueryTemplate(online_columns, 'online')
 
-exports.newstype_post = newsletterQueryTemplate(postColumns, 'post')
+exports.newstype_post = newsletterQueryTemplate(post_columns, 'post')
 
-exports.newstype_post_nonzero = subsQueryTemplate(postColumns, 'post')
+exports.newstype_post_nonzero = subsQueryTemplate(post_columns, 'post')
+
+exports.subscription_due_post = subscription_due_template(post_columns, `'post'`)
+
+exports.subscription_due_online = subscription_due_template(online_columns, `'online'`)
 
 exports.newsletter_labels =
   `select title, first_name, last_name, initials,
@@ -44,15 +62,3 @@ exports.newsletter_labels =
   postcode, county from members
   where members.news_type = 'post'
   or members.email_bounced = true;`
-
-exports.subscription_due =
-  `select title, first_name, last_name, initials,
-  primary_email, secondary_email, due_date, membership_type,
-  membershiptypes.amount from members
-    join membershiptypes on members.membership_type = membershiptypes.value
-      where due_date >= '2016-01-01'
-      and due_date <= '2017-12-12'
-      and news_type = 'online'
-      and standing_order is null
-      and members.membership_type in
-        ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group');`
