@@ -4,12 +4,13 @@ import { connect } from 'react-redux'
 import { send_newsletter_post
        , send_sub_reminder_post
        , toggle_recipient_list
+       , send_subscription_due_post
        } from '../redux/modules/letters/letters.js'
 
 import PostMembersSection from '../dumb_components/letters/post_members_section.js'
 import SubLettersSection from '../dumb_components/letters/sub_letters_section.js'
 
-const Letters = ({ send_newsletter_post, send_sub_reminder_post, active_tab, ...other }) => {
+const Letters = ({ send_newsletter_post, send_sub_reminder_post, active_tab, send_subscription_due_post, ...other }) => {
   return (
     <div className='top-letter-container'>
 
@@ -25,11 +26,17 @@ const Letters = ({ send_newsletter_post, send_sub_reminder_post, active_tab, ...
         Subscription Reminders
       </button>
 
+      <button
+        className={'letters-tab' + (active_tab === 'subscription_due' ? ' letters-tab-active' : '')}
+        onClick={send_subscription_due_post}>
+        Subscriptions Due
+      </button>
+
       <div>
-        {active_tab &&
+        {active_tab && // TODO map object like in emails
           (active_tab === 'letters'
            ? <SubLettersSection {...other} />
-           : <PostMembersSection {...other} />)
+         : active_tab === 'members' ? <PostMembersSection {...other} /> : <SubLettersSection {...other} />)
           }
       </div>
 
@@ -44,4 +51,4 @@ const mapStateToProps = (state) => (
 )
 
 export default
-  connect(mapStateToProps, { send_newsletter_post, send_sub_reminder_post, toggle_recipient_list })(Letters)
+  connect(mapStateToProps, { send_newsletter_post, send_sub_reminder_post, toggle_recipient_list, send_subscription_due_post })(Letters)

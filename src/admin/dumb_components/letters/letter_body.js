@@ -14,7 +14,7 @@ export default ({ letter }) => {
   return (
     <div className='letter'>
       <h3>Membership Number: {letter.id}</h3>
-        {formatContent(letter.email_content)}
+        {formatContent(letter.letter_content)}
     </div>
   )
 }
