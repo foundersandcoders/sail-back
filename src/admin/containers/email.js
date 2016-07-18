@@ -18,6 +18,7 @@ import
   , submit_custom_email
   } from '../redux/modules/email/reducer.js'
 
+
 const Email = (
   { send_sub_reminder: sub
   , send_newsletter: news
@@ -36,18 +37,10 @@ const Email = (
 
     {email_sent
       ? <EmailNotification email_sent={email_sent} />
-      : active_tab && map_tab({...list_props})[active_tab]()
+      : active_tab && map_tab[active_tab](list_props)
     }
     </div>
 
-const map_tab = props => (
-  { SEND_SUB_REMINDER: () => email_list(props)
-  , SEND_NEWSLETTER: () => email_list(props)
-  , SEND_NEWSLETTER_REMINDER: () => email_list(props)
-  , COMPOSE_CUSTOM: () => <CustomEmailForm submit={props.submit_custom_email} members={props.custom_emails.members}/>
-  , GET_BOUNCED: () => BouncedEmails(props)
-  }
-)
 
 const EmailNotification = ({email_sent}) =>
   <h3 className='sent-email-notification'>
@@ -81,6 +74,23 @@ const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_e
     </ul>
   </div>
 
+const BouncedEmails = ({ bounced }) =>
+  <div className='bounced-container'>
+    {bounced.length > 0
+      ? <ul>{map(bounced_email, bounced)}</ul>
+      : <h3>There are no bounced emails</h3>
+    }
+  </div>
+
+const map_tab =
+  { SEND_SUB_REMINDER: email_list
+  , SEND_NEWSLETTER: email_list
+  , SEND_NEWSLETTER_REMINDER: email_list
+  , COMPOSE_CUSTOM: props => <CustomEmailForm submit={props.submit_custom_email} members={props.custom_emails.members}/>
+  , GET_BOUNCED: BouncedEmails
+}
+
+
 const replaceNormal = compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
 const replaceGetBounced = always('Get Bounced Emails')
 
@@ -111,14 +121,6 @@ const email = toggle_show => ([ address, { content, shown }]) =>
 const display_email = (line, i) => i === 0
   ? <p key={line}>Subject: {line}</p>
   : <p key={line}>{line}</p>
-
-const BouncedEmails = ({ bounced }) =>
-  <div className='bounced-container'>
-    {bounced.length > 0
-      ? <ul>{map(bounced_email, bounced)}</ul>
-      : <h3>There are no bounced emails</h3>
-    }
-  </div>
 
 const bounced_email = email =>
   <li className='bounced-email' key={email.created_at} >
