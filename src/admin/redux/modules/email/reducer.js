@@ -1,10 +1,11 @@
 /* @flow */
 const { createAction } = require('redux-actions')
 const { get_body, post } = require('app/http')
+
 const { lensPath, over, not, indexBy, map, propOr, merge, zipWith, ifElse, gte,
   cond, where, objOf, zip, set, lift, assoc, dissoc, prop, converge, omit } =
-      require('ramda')
-const { K, compose, pipe } = require('sanctuary')
+  require('ramda')
+const { K, pipe, compose } = require('sanctuary')
 
 const { PATH_UPDATE } = require('../route.js')
 const { standing, lates, newsletter_alert, newsletter_reminder } =
@@ -26,6 +27,8 @@ const TOGGLE_CONTENT =
   'TOGGLE_CONTENT'
 const SUBMIT_EMAIL =
   'SUBMIT_EMAIL'
+const GET_BOUNCED =
+  'GET_BOUNCED'
 const SUBMIT_CUSTOM_EMAIL =
   'SUBMIT_CUSTOM_EMAIL'
 
@@ -37,22 +40,23 @@ const initialState = { emails: { } }
 
 const reducer : Reducer<State, Action>
   = (state = initialState, { type, payload }) => {
-    const newState = omit(['custom_emails', 'email_sent'])(state)
+    const newState = omit(['custom_emails', 'email_sent', 'bounced'])(state)
     const update = lens => value => (set(lens, value, newState) : State)
     const emails = lensPath([ 'emails' ])
     const sent = lensPath([ 'email_sent' ])
     const list_hidden = lensPath([ 'list_hidden' ])
     const new_emails = template => shape =>
       update(emails)(map(compose(Email, template), shape(payload.results)))
+    const change_tab = assoc('active_tab', type)
     switch (type) {
       case SEND_SUB_REMINDER:
-        return new_emails(template_subs)(primaries)
+        return change_tab(new_emails(template_subs)(primaries))
       case SEND_NEWSLETTER:
-        return new_emails(newsletter_alert)(shape_newsletters)
+        return change_tab(new_emails(newsletter_alert)(shape_newsletters))
       case SEND_NEWS_REMINDER:
-        return new_emails(newsletter_reminder)(shape_newsletters)
+        return change_tab(new_emails(newsletter_reminder)(shape_newsletters))
       case COMPOSE_CUSTOM:
-        return { ...newState, custom_emails: { members: payload.results }}
+        return change_tab({ ...newState, custom_emails: { members: payload.results }})
       case TOGGLE_LIST:
         return (over(list_hidden, not, state): State)
       case TOGGLE_CONTENT:
@@ -61,6 +65,12 @@ const reducer : Reducer<State, Action>
         return update(sent)(true)
       case SUBMIT_EMAIL:
         return email_response(state)(payload.body)
+      case GET_BOUNCED:
+        // response from mailgun in the form that is at bottom of page.
+        // at the moment we do not know registered mailgun domain name.
+        // so now bounced emails will always show as 'no bounced emails'
+        // comment in res.items to see what ui looks like if there is a response from mg.
+        return change_tab({ ...newState, bounced: [] /*res.items*/ })
       case SUBMIT_CUSTOM_EMAIL:
         return email_response(state)(payload.body)
       default:
@@ -109,9 +119,6 @@ const greeting = member => assoc
 
 const [ primaries, secondaries ] =
   map
-    // Here the inner `map` is to map over the array of emails under each key
-    // The outer `map`s are for function's functor instance
-    // -- i.e. are `compose`
     ( compose(map(map(map(greeting), dissoc('null'))), indexByProp)
     , [ 'primary_email', 'secondary_email' ]
     )
@@ -147,6 +154,9 @@ export const toggle_content =
 export const submit_email =
   createAction(SUBMIT_EMAIL, email => post({ email }, '/api/submit-email'))
 
+export const get_bounced =
+  createAction(GET_BOUNCED)
+
 export const submit_custom_email =
   createAction(SUBMIT_CUSTOM_EMAIL, (members, form) => {
     const format_message = form => member => (
@@ -162,3 +172,25 @@ export const submit_custom_email =
     const shapedEmails = compose(dissoc('null'), converge(merge, setEmailKey))(emailsArr)
     return post({ email: shapedEmails }, '/api/submit-email')
   })
+
+const res = {
+  "total_count": 1,
+  "items": [
+      {
+          "created_at": "Fri, 21 Oct 2011 11:03:55 GMT",
+          "code": 550,
+          "address": "'baz@example.com",
+          "error": "Message was not accepted -- invalid mailbox.  Local mailbox 'baz@example.com is unavailable: user not found"
+      }, {
+          "created_at": "Fri, 21 Oct 2011 11:04:55 GMT",
+          "code": 550,
+          "address": "'baz@example.com",
+          "error": "Message was not accepted -- invalid mailbox.  Local mailbox 'baz@example.com is unavailable: user not found"
+      }, {
+          "created_at": "Fri, 21 Oct 2011 11:05:55 GMT",
+          "code": 550,
+          "address": "'baz@example.com",
+          "error": "Message was not accepted -- invalid mailbox.  Local mailbox 'baz@example.com is unavailable: user not found"
+      }
+  ]
+}
