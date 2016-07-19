@@ -1,5 +1,5 @@
 const { createAction } = require('redux-actions')
-const { get_body } = require('app/http')
+const { get_body, post } = require('app/http')
 const { merge, compose, objOf, map, props, pick, reduce, liftN, unapply, ifElse, prop, assoc, concat, omit }
   = require('ramda')
 
@@ -43,7 +43,7 @@ const reducer: Reducer<State, Action>
    case SEND_SUB_REMINDER_POST:
      return changeTab({ ...state, sub_letters: shape(subReminderBody)(payload.results) })
    case SEND_SUBSCRIPTION_DUE_POST:
-     return { ...state, sub_letters: shape(subscription_due)(payload.results) }
+     return { ...state, sub_letters: shape(subscription_due)(payload.body.results[1]) }
    case SUBSCRIPTION_DUE_POST_TAB:
      return changeTab({...state, sub_letters: []})
    case TOGGLE_RECIPIENT_LIST:
@@ -70,7 +70,7 @@ export const toggle_recipient_list =
   createAction(TOGGLE_RECIPIENT_LIST)
 
 export const send_subscription_due_post =
-  createAction(SEND_SUBSCRIPTION_DUE_POST, () => get_body('api/subscription-due-post'))
+  createAction(SEND_SUBSCRIPTION_DUE_POST, (body) => post(body, 'api/subscription-due-post'))
 
 export const subscription_due_post_tab =
   createAction(SUBSCRIPTION_DUE_POST_TAB)

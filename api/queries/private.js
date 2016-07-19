@@ -25,18 +25,22 @@ const newsletterQueryTemplate = (columns, newsType) => (
   where news_type = '${newsType}';`
 )
 
-//TODO add dynamic dates
-const subscription_due_template = (columns, news_type) =>
-  `select title, first_name, last_name, initials,
-  ${columns}, due_date, membership_type, id,
-  membershiptypes.amount from members
-    join membershiptypes on members.membership_type = membershiptypes.value
-      where due_date >= '2016-01-01'
-      and due_date <= '2017-12-12'
-      and news_type = ${news_type}
-      and standing_order is null
-      and members.membership_type in
-        ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group');`
+exports.update_subscription = dates =>
+  `insert into payments (member, category, amount)
+  select id, 'subscription', amount from members, membershiptypes
+  where members.membership_type = membershiptypes.value
+  and members.membership_type in
+  ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
+  and members.due_date < '${dates.end}' and members.due_date > '${dates.start}';`
+
+const subscription_due_template = news_type => dates =>
+  `select * from members
+  where news_type = ${news_type}
+  and standing_order is null
+  and members.membership_type in
+  ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
+  and members.due_date < '${dates.end}' and members.due_date > '${dates.start}';`
+
 
 
 const post_columns = 'address1, address2, address3, address4, county, postcode'
@@ -52,9 +56,9 @@ exports.newstype_post = newsletterQueryTemplate(post_columns, 'post')
 
 exports.newstype_post_nonzero = subsQueryTemplate(post_columns, 'post')
 
-exports.subscription_due_post = subscription_due_template(post_columns, `'post'`)
+exports.subscription_due_post = subscription_due_template(`'post'`)
 
-exports.subscription_due_online = subscription_due_template(online_columns, `'online'`)
+exports.subscription_due_online = subscription_due_template(`'online'`)
 
 exports.newsletter_labels =
   `select title, first_name, last_name, initials,

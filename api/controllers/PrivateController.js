@@ -5,6 +5,7 @@
 var Is = require('torf')
 var Upload = require('../services/Upload.js')()
 var mg = require('../services/email_mailgun.js')
+var aSync = require('async')
 
 var queries = require('../queries/private.js')
 
@@ -63,10 +64,23 @@ module.exports = {
     })
   },
   sendSubsDuePost: function (req, res) {
-    Members.query(queries.subscription_due_post, function (err, results) {
+    var inject = cb => {
+      Members.query(queries.update_subscription(req.body), (err, results) => {
+        if(err) cb(err, null)
+        else cb(null, results)
+      })
+    }
+    var get_members = cb => {
+      Members.query(queries.subscription_due_post(req.body), (err, results) => {
+        if(err) cb(err, null)
+        else cb(null, results)
+      })
+    }
+    var callback = (err, results) => {
       if (err) return res.badRequest({ error: err })
       return res.json({ results })
-    })
+    }
+    aSync.series([inject, get_members], callback)
   },
   sendNewsletterAlert: function (req, res) {
     Members.query(queries.newsletter, function (err, results) {
