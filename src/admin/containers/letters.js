@@ -49,13 +49,18 @@ const map_tab =
   , [SEND_SUBSCRIPTION_DUE_POST]: other => <SubLettersSection {...other} />
 }
 
+const mapStateToProps = ({ letters }) => {
+  const { sub_letters, post_members, active_tab, shown, shown_letter_index } = letters
+  return (
+    { sub_letters
+    , post_members
+    , active_tab
+    , shown
+    , shown_letter_index
+    }
+  )
+}
 
-const mapStateToProps = (state) => (
-  { letters: state.letters
-  , active_tab: state.letters.active_tab
-  , shown: state.letters.shown
-  }
-)
 
 export default
   connect(mapStateToProps, { send_newsletter_post, send_sub_reminder_post, toggle_recipient_list, send_subscription_due_post, show_letter })(Letters)
