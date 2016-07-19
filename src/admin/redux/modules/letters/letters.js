@@ -1,6 +1,6 @@
 const { createAction } = require('redux-actions')
 const { get_body } = require('app/http')
-const { merge, compose, objOf, map, props, pick, reduce, liftN, unapply, ifElse, prop, assoc }
+const { merge, compose, objOf, map, props, pick, reduce, liftN, unapply, ifElse, prop, assoc, concat }
   = require('ramda')
 
 const { sub_reminder, sub_reminder_SO, subscription_due } = require('./bodies.js')
@@ -32,6 +32,7 @@ const reducer: Reducer<State, Action>
    const injectLetterContent = body => compose(objOf('letter_content'), body)
    const shape = body => map(liftN(3, unapply(reduce(merge, {})))(injectLetterContent(body), addresses, ids))
    const changeTab = assoc('active_tab', type)
+
    switch (type) {
    case SEND_NEWSLETTER_POST:
      const new_post_members = { ...state.post_members, members: payload.results }
@@ -69,8 +70,11 @@ export const toggle_recipient_list =
 export const send_subscription_due_post =
   createAction(SEND_SUBSCRIPTION_DUE_POST, () => get_body('api/subscription-due-post'))
 
-const addressProps = [ 'address1', 'address2', 'address3', 'address4', 'county', 'postcode' ]
 
-const addresses = compose(objOf('address'), props(addressProps))
+const addressProps = [ 'address1', 'address2', 'address3', 'address4', 'county', 'postcode' ]
+const build_address = (member) =>
+  concat([`${member.title} ${member.first_name || member.initials} ${member.last_name}`], props(addressProps)(member))
+
+const addresses = compose(objOf('address'), build_address)
 
 const subReminderBody = ifElse(prop('standing_order'), sub_reminder_SO, sub_reminder)
