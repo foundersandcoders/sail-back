@@ -1,6 +1,6 @@
 const { createAction } = require('redux-actions')
 const { get_body } = require('app/http')
-const { merge, compose, objOf, map, props, pick, reduce, liftN, unapply, ifElse, prop, assoc }
+const { merge, compose, objOf, map, props, pick, reduce, liftN, unapply, ifElse, prop, assoc, omit }
   = require('ramda')
 
 const { sub_reminder, sub_reminder_SO, subscription_due } = require('./bodies.js')
@@ -20,14 +20,20 @@ type State = typeof initialState
 
 import type { Action, Reducer } from 'redux'
 
+// TODO ABSTRACT OUT SHOWN_LETTER_INDEX AND MAKE POST_MEMBERS AND SUB_LETTERS INTO JUST ARRAYS
+
 const initialState =
-  { post_members: { members: [], shown: false }
-  , sub_letters: { reminderLetters: [], shown: false, shown_letter_index: 0 }
+  { post_members: { members: [] }
+  , sub_letters: { reminderLetters: [], shown_letter_index: 0 }
   , active_tab: ''
+  , shown: false
+  , shown_letter_index: 0
   }
 
 const reducer: Reducer<State, Action>
  = (state = initialState, { type, payload }) => {
+  //  const update = omit([ 'post_members', 'sub_letters' ])
+  //  const newState = update(state)
    const ids = pick([ 'id', 'first_name', 'last_name', 'title' ])
    const injectLetterContent = body => compose(objOf('letter_content'), body)
    const shape = body => map(liftN(3, unapply(reduce(merge, {})))(injectLetterContent(body), addresses, ids))
@@ -43,8 +49,10 @@ const reducer: Reducer<State, Action>
      const new_sub_due_letters = { ...state.sub_letters, reminderLetters: shape(subscription_due)(payload.results) }
      return changeTab({ ...state, sub_letters: new_sub_due_letters })
    case TOGGLE_RECIPIENT_LIST:
-     const section = payload.section
-     return { ...state, [section]: { ...state[section], shown: payload.shown } }
+    //  const section = payload.section
+    //  return { ...state, [section]: { ...state[section], shown: payload.shown } }
+    console.log(payload);
+     return { ...state, shown: !state.shown }
    case SHOW_LETTER:
      return { ...state, sub_letters: { ...state.sub_letters, shown_letter_index: payload } }
    default:
@@ -64,7 +72,7 @@ export const send_sub_reminder_post =
   createAction(SEND_SUB_REMINDER_POST, () => get_body('/api/post_sub_reminders'))
 
 export const toggle_recipient_list =
-  createAction(TOGGLE_RECIPIENT_LIST, (section, shown) => ({ section, shown }))
+  createAction(TOGGLE_RECIPIENT_LIST)
 
 export const send_subscription_due_post =
   createAction(SEND_SUBSCRIPTION_DUE_POST, () => get_body('api/subscription-due-post'))

@@ -53,6 +53,7 @@ const map_tab =
 const mapStateToProps = (state) => (
   { letters: state.letters
   , active_tab: state.letters.active_tab
+  , shown: state.letters.shown
   }
 )
 

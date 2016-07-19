@@ -2,16 +2,16 @@ import React from 'react'
 import LetterRecipients from './letter_recipients.js'
 import StandingOrderLetter from './standing_order_letter.js'
 
-export default ({ letters, toggle_recipient_list, ...other }) => {
+export default ({ letters, toggle_recipient_list, shown, ...other }) => {
   const reminders = letters.sub_letters
   return (
     <div>
       <button
         className='letters-toggle'
-        onClick={() => toggle_recipient_list('sub_letters', !reminders.shown)}>
-        {reminders.shown ? 'Hide Letters' : 'Show Letters'}
+        onClick={toggle_recipient_list}>
+        {shown ? 'Hide Letters' : 'Show Letters'}
       </button>
-      {reminders.shown && <SubLetters reminders={reminders} {...other} />}
+      {shown && <SubLetters reminders={reminders} {...other} />}
     </div>
   )
 }
