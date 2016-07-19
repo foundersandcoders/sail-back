@@ -3,8 +3,7 @@ const { get_body } = require('app/http')
 const { merge, compose, objOf, map, props, pick, reduce, liftN, unapply, ifElse, prop }
   = require('ramda')
 
-const { sub_reminder } = require('./bodies.js')
-const { sub_reminder_SO } = require('./bodies.js')
+const { sub_reminder, sub_reminder_SO, subscription_due } = require('./bodies.js')
 
 const SEND_NEWSLETTER_POST =
   'SEND_NEWSLETTER_POST'
@@ -29,19 +28,21 @@ const initialState =
 
 const reducer: Reducer<State, Action>
  = (state = initialState, { type, payload }) => {
+   const ids = pick([ 'id', 'first_name', 'last_name', 'title' ])
+   const injectLetterContent = (body) => compose(objOf('letter_content'), body)
+
+   const shape = body => map(liftN(3, unapply(reduce(merge, {})))(injectLetterContent(body), addresses, ids))
+
    switch (type) {
    case SEND_NEWSLETTER_POST:
      const new_post_members = { ...state.post_members, members: payload.results }
      return { ...state, post_members: new_post_members, active_tab: 'members' }
    case SEND_SUB_REMINDER_POST:
-     const ids = pick([ 'id', 'first_name', 'last_name', 'title' ])
-     const letters = compose(objOf('letter_content'), bodyPicker)
-     const shape = map(liftN(3, unapply(reduce(merge, {})))(letters, addresses, ids))
-     const new_sub_reminders = { ...state.sub_reminders, reminderLetters: shape(payload.results) }
+     const new_sub_reminders = { ...state.sub_reminders, reminderLetters: shape(subReminderBody)(payload.results) }
      return { ...state, sub_reminders: new_sub_reminders, active_tab: 'letters' }
    case SEND_SUBSCRIPTION_DUE_POST:
-     console.log('payload in post reducer', payload);
-     return state
+     const new_sub_due_letters = { ...state.sub_reminders, reminderLetters: shape(subReminderBody)(payload.results) }
+     return { ...state, sub_reminders: new_sub_reminders, active_tab: 'letters' }
    case TOGGLE_RECIPIENT_LIST:
      const section = payload.section
      return { ...state, [section]: { ...state[section], shown: payload.shown } }
@@ -51,6 +52,16 @@ const reducer: Reducer<State, Action>
      return state
    }
  }
+
+// {
+// amount: 1000
+// due_date: "2017-01-01"
+// first_name: "Jack"
+// initials: "JM"
+// last_name: "Murphy"
+// membership_type: "annual-single"
+// primary_email: "jmurphy.web@gmail.com"
+// }
 
 export default reducer
 
@@ -67,9 +78,10 @@ export const toggle_recipient_list =
   createAction(TOGGLE_RECIPIENT_LIST, (section, shown) => ({ section, shown }))
 
 export const send_subscription_due_post =
-  createAction(SEND_SUBSCRIPTION_DUE_POST, () => get_body('api/subscription-due-email'))
+  createAction(SEND_SUBSCRIPTION_DUE_POST, () => get_body('api/subscription-due-post'))
 
 const addressProps = [ 'address1', 'address2', 'address3', 'address4', 'county', 'postcode' ]
+
 const addresses = compose(objOf('address'), props(addressProps))
 
-const bodyPicker = ifElse(prop('standing_order'), sub_reminder_SO, sub_reminder)
+const subReminderBody = ifElse(prop('standing_order'), sub_reminder_SO, sub_reminder)

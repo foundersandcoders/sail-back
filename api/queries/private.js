@@ -28,7 +28,7 @@ const newsletterQueryTemplate = (columns, newsType) => (
 //TODO add dynamic dates
 const subscription_due_template = (columns, news_type) =>
   `select title, first_name, last_name, initials,
-  ${columns}, due_date, membership_type,
+  ${columns}, due_date, membership_type, id,
   membershiptypes.amount from members
     join membershiptypes on members.membership_type = membershiptypes.value
       where due_date >= '2016-01-01'
