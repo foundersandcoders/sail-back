@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { send_newsletter_post
        , send_sub_reminder_post
        , toggle_recipient_list
+       , show_letter
        } from '../redux/modules/letters/letters.js'
 
 import PostMembersSection from '../dumb_components/letters/post_members_section.js'
@@ -44,4 +45,4 @@ const mapStateToProps = (state) => (
 )
 
 export default
-  connect(mapStateToProps, { send_newsletter_post, send_sub_reminder_post, toggle_recipient_list })(Letters)
+  connect(mapStateToProps, { send_newsletter_post, send_sub_reminder_post, toggle_recipient_list, show_letter })(Letters)

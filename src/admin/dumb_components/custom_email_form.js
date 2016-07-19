@@ -1,7 +1,7 @@
 const React = require('react')
 
 export default ({ members, submit }) => {
-  const onSubmit = (e) => {
+  const onSubmit = e => {
     e.preventDefault()
     submit(members, e.target)
   }
