@@ -5,15 +5,15 @@ const { merge, compose, objOf, map, props, pick, reduce, liftN, unapply, ifElse,
 
 const { sub_reminder, sub_reminder_SO, subscription_due } = require('./bodies.js')
 
-const SEND_NEWSLETTER_POST =
+export const SEND_NEWSLETTER_POST =
   'SEND_NEWSLETTER_POST'
-const SEND_SUB_REMINDER_POST =
+export const SEND_SUB_REMINDER_POST =
   'SEND_SUB_REMINDER_POST'
-const TOGGLE_RECIPIENT_LIST =
+export const TOGGLE_RECIPIENT_LIST =
   'TOGGLE_RECIPIENT_LIST'
-const SEND_SUBSCRIPTION_DUE_POST =
+export const SEND_SUBSCRIPTION_DUE_POST =
   'SEND_SUBSCRIPTION_DUE_POST'
-const SHOW_LETTER =
+export const SHOW_LETTER =
   'SHOW_LETTER'
 
 type State = typeof initialState
