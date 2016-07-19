@@ -2,17 +2,23 @@ import React from 'react'
 import SubLettersSection from './sub_letters_section.js'
 
 
-export default ({...props, send_subscription_due_post}) => {
-  console.log('action in sub due section',send_subscription_due_post);
-  return(
-  <div>
-    <form>
-      <input type='text' placeholder='From date' />
-      <input type='text' placeholder='To date' />
-      <button onClick={props.send_subscription_due_post}>{`Submit Subscription's Due`}</button>
-    </form>
+export default ({send_subscription_due_post, ...props}) => {
+  const send_request = (e, form) => {
+    e.preventDefault();
+    send_subscription_due_post()
+  }
 
-    <SubLettersSection {...props}/>
-  </div>
-)
+  return (
+    <div>
+      <form>
+        <input type='text' placeholder='From date' />
+        <input type='text' placeholder='To date' />
+        <button onClick={send_request}>{`Submit Subscription's Due`}</button>
+      </form>
+
+      {props.letters.sub_letters.reminderLetters.length > 0
+        && <SubLettersSection {...props}/> }
+
+    </div>
+  )
 }
