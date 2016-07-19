@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 
 import { send_newsletter_post
        , send_sub_reminder_post
-       , toggle_recipient_list
+       , send_subscription_due_post
        , subscription_due_post_tab
+       , toggle_recipient_list
        , show_letter
        , SEND_NEWSLETTER_POST
        , SEND_SUB_REMINDER_POST
@@ -32,7 +33,7 @@ const Letters = ({ send_newsletter_post, send_sub_reminder_post, active_tab, sub
       </button>
 
       <button
-        className={'letters-tab' + (active_tab ===SUBSCRIPTION_DUE_POST_TAB ? ' letters-tab-active' : '')}
+        className={'letters-tab' + (active_tab === SUBSCRIPTION_DUE_POST_TAB ? ' letters-tab-active' : '')}
         onClick={subscription_due_post_tab}>
         Subscriptions Due
       </button>
@@ -59,4 +60,11 @@ const mapStateToProps = (state) => (
 )
 
 export default
-  connect(mapStateToProps, { send_newsletter_post, send_sub_reminder_post, toggle_recipient_list, subscription_due_post_tab, show_letter })(Letters)
+  connect(mapStateToProps,
+    { send_newsletter_post
+    , send_sub_reminder_post
+    , toggle_recipient_list
+    , subscription_due_post_tab
+    , send_subscription_due_post
+    , show_letter
+  })(Letters)
