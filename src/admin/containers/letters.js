@@ -16,28 +16,28 @@ const Letters = ({ send_newsletter_post, send_sub_reminder_post, active_tab, sen
     <div className='top-letter-container'>
 
       <button
-        className={'letters-tab' + (active_tab === 'members' ? ' letters-tab-active' : '')}
+        className={'letters-tab' + (active_tab === 'SEND_NEWSLETTER_POST' ? ' letters-tab-active' : '')}
         onClick={send_newsletter_post}>
         Post Members
       </button>
 
       <button
-        className={'letters-tab' + (active_tab === 'letters' ? ' letters-tab-active' : '')}
+        className={'letters-tab' + (active_tab === 'SEND_SUB_REMINDER_POST' ? ' letters-tab-active' : '')}
         onClick={send_sub_reminder_post}>
         Subscription Reminders
       </button>
 
       <button
-        className={'letters-tab' + (active_tab === 'subscription_due' ? ' letters-tab-active' : '')}
+        className={'letters-tab' + (active_tab === 'SEND_SUBSCRIPTION_DUE_POST' ? ' letters-tab-active' : '')}
         onClick={send_subscription_due_post}>
         Subscriptions Due
       </button>
 
       <div>
         {active_tab && // TODO map object like in emails
-          (active_tab === 'letters'
+          (active_tab === 'SEND_SUB_REMINDER_POST'
            ? <SubLettersSection {...other} />
-         : active_tab === 'members' ? <PostMembersSection {...other} /> : <SubLettersSection {...other} />)
+         : active_tab === 'SEND_NEWSLETTER_POST' ? <PostMembersSection {...other} /> : <SubLettersSection {...other} />)
           }
       </div>
 
