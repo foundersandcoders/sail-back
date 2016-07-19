@@ -29,7 +29,7 @@ const initialState =
 const reducer: Reducer<State, Action>
  = (state = initialState, { type, payload }) => {
    const ids = pick([ 'id', 'first_name', 'last_name', 'title' ])
-   const injectLetterContent = (body) => compose(objOf('letter_content'), body)
+   const injectLetterContent = body => compose(objOf('letter_content'), body)
    const shape = body => map(liftN(3, unapply(reduce(merge, {})))(injectLetterContent(body), addresses, ids))
    const changeTab = assoc('active_tab', type)
    switch (type) {
@@ -41,7 +41,7 @@ const reducer: Reducer<State, Action>
      return changeTab({ ...state, sub_letters: new_sub_letters })
    case SEND_SUBSCRIPTION_DUE_POST:
      const new_sub_due_letters = { ...state.sub_letters, reminderLetters: shape(subscription_due)(payload.results) }
-     return changeTab({ ...state, sub_letters: new_sub_letters })
+     return changeTab({ ...state, sub_letters: new_sub_due_letters })
    case TOGGLE_RECIPIENT_LIST:
      const section = payload.section
      return { ...state, [section]: { ...state[section], shown: payload.shown } }
@@ -51,16 +51,6 @@ const reducer: Reducer<State, Action>
      return state
    }
  }
-
-// {
-// amount: 1000
-// due_date: "2017-01-01"
-// first_name: "Jack"
-// initials: "JM"
-// last_name: "Murphy"
-// membership_type: "annual-single"
-// primary_email: "jmurphy.web@gmail.com"
-// }
 
 export default reducer
 
