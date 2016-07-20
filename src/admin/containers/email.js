@@ -17,18 +17,24 @@ import
   , get_bounced
   , submit_custom_email
   , send_subscription_due_email
+  , sub_due_tab
+  , SEND_SUB_REMINDER
+  , SEND_NEWSLETTER
+  , SEND_NEWSLETTER_REMINDER
+  , SUB_DUE_TAB
+  , COMPOSE_CUSTOM
+  , GET_BOUNCED
   } from '../redux/modules/email/reducer.js'
-
 
 const Email = (
   { send_sub_reminder: sub
   , send_newsletter: news
   , send_newsletter_reminder: remind
   , compose_custom: custom
-  , send_subscription_due_email : sub_due
   , get_bounced
   , active_tab
   , email_sent
+  , sub_due_tab: sub_due
   , ...list_props
   }
 ) =>
@@ -85,13 +91,36 @@ const BouncedEmails = ({ bounced }) =>
   </div>
 
 const map_tab =
-  { SEND_SUB_REMINDER: email_list
-  , SEND_NEWSLETTER: email_list
-  , SEND_NEWSLETTER_REMINDER: email_list
-  , SEND_SUBSCRIPTION_DUE_EMAIL: email_list
-  , COMPOSE_CUSTOM: props => <CustomEmailForm submit={props.submit_custom_email} members={props.custom_emails.members}/>
-  , GET_BOUNCED: BouncedEmails
+  { [SEND_SUB_REMINDER]: email_list
+  , [SEND_NEWSLETTER]: email_list
+  , [SEND_NEWSLETTER_REMINDER]: email_list
+  , [SUB_DUE_TAB]: props => <SubDueSection fetch_sub_due={props.send_subscription_due_email} />
+  , [COMPOSE_CUSTOM]: props => <CustomEmailForm submit={props.submit_custom_email} members={props.custom_emails.members}/>
+  , [GET_BOUNCED]: BouncedEmails
 }
+
+
+const SubDueSection = ({ fetch_sub_due, ...props }) => {
+  const send_request = (e) => {
+    e.preventDefault();
+    const [ start, end ] = e.target
+    // fetch_sub_due({ start: start.value, end: end.value })
+    fetch_sub_due()
+  }
+
+  return (
+    <div>
+      <form onSubmit={send_request}>
+        <input type='text' placeholder='From date' />
+        <input type='text' placeholder='To date' />
+        <button type='submit'>{`Submit Subscription's Due`}</button>
+      </form>
+      {email_list(props)}
+    </div>
+  )
+}
+
+
 
 
 const replaceNormal = compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
@@ -144,5 +173,6 @@ export default connect
     , get_bounced
     , submit_custom_email
     , send_subscription_due_email
+    , sub_due_tab
     }
   )(Email)

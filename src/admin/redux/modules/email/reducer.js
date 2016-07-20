@@ -11,24 +11,26 @@ const { PATH_UPDATE } = require('../route.js')
 const { standing, lates, newsletter_alert, newsletter_reminder, subscription_due } =
   require('./bodies.js')
 
+export const SEND_SUB_REMINDER =
+  'SEND_SUB_REMINDER'
+export const SEND_NEWSLETTER =
+  'SEND_NEWSLETTER'
+export const SEND_NEWS_REMINDER =
+  'SEND_NEWSLETTER_REMINDER'
+export const COMPOSE_CUSTOM =
+  'COMPOSE_CUSTOM'
+export const GET_BOUNCED =
+  'GET_BOUNCED'
+export const SUB_DUE_TAB =
+  'SUB_DUE_TAB'
 const SEND_WELCOME =
   'SEND_WELCOME'
-const SEND_SUB_REMINDER =
-  'SEND_SUB_REMINDER'
-const SEND_NEWSLETTER =
-  'SEND_NEWSLETTER'
-const SEND_NEWS_REMINDER =
-  'SEND_NEWSLETTER_REMINDER'
-const COMPOSE_CUSTOM =
-  'COMPOSE_CUSTOM'
 const TOGGLE_LIST =
   'TOGGLE_LIST'
 const TOGGLE_CONTENT =
   'TOGGLE_CONTENT'
 const SUBMIT_EMAIL =
   'SUBMIT_EMAIL'
-const GET_BOUNCED =
-  'GET_BOUNCED'
 const SUBMIT_CUSTOM_EMAIL =
   'SUBMIT_CUSTOM_EMAIL'
 const SEND_SUBSCRIPTION_DUE_EMAIL =
@@ -76,7 +78,9 @@ const reducer : Reducer<State, Action>
       case SUBMIT_CUSTOM_EMAIL:
         return email_response(state)(payload.body)
       case SEND_SUBSCRIPTION_DUE_EMAIL:
-        return change_tab(new_emails(subscription_due)(shape_newsletters))
+        return new_emails(subscription_due)(shape_newsletters)
+      case SUB_DUE_TAB:
+        return change_tab(state)
       default:
         return state
     }
@@ -163,6 +167,9 @@ export const submit_email =
 
 export const get_bounced =
   createAction(GET_BOUNCED)
+
+export const sub_due_tab =
+  createAction(SUB_DUE_TAB)
 
 export const submit_custom_email =
   createAction(SUBMIT_CUSTOM_EMAIL, (members, form) => {
