@@ -9,6 +9,11 @@ var aSync = require('async')
 
 var queries = require('../queries/private.js')
 
+var callback = res => (err, results) => {
+  if (err) return res.badRequest({ error: err })
+  return res.json({ results })
+}
+
 module.exports = {
   showAdminHome: function (req, res) {
     res.view('pages/admin', {user: req.session.user})
@@ -52,51 +57,30 @@ module.exports = {
       })
   },
   sendSubsReminder: function (req, res) {
-    Members.query(queries.subscriptions, function (err, results) {
-      if (err) return res.badRequest({ error: err })
-      return res.json({ results })
-    })
+    Members.query(queries.subscriptions, callback(res))
   },
   sendSubsDue: function (req, res) {
+
     var dbCall = queryString => cb => {
-      Members.query(queries[queryString](req.body), (err, results) => {
-        if(err) cb(err, null)
-        else cb(null, results)
-      })
+      Members.query(queries[queryString](req.body), cb)
     }
 
-    var callback = (err, results) => {
-      if (err) return res.badRequest({ error: err })
-      return res.json({ results })
-    }
     aSync.series(
       [ dbCall('update_subscription')
       , dbCall('subscription_due_template')
-      ], callback)
+    ], callback(res))
   },
   sendNewsletterAlert: function (req, res) {
-    Members.query(queries.newsletter, function (err, results) {
-      if (err) return res.badRequest({ error: err })
-      return res.json({ results })
-    })
+    Members.query(queries.newsletter, callback(res))
   },
   getNewsletterLabels: function (req, res) {
-    Members.query(queries.newsletter_labels, function (err, results) {
-      if (err) return res.badRequest({ error: err })
-      return res.json({ results })
-    })
+    Members.query(queries.newsletter_labels, callback(res))
   },
   getPostMembers: function (req, res) {
-    Members.query(queries.newstype_post, function (err, results) {
-      if (err) return res.badRequest({ error: err })
-      return res.json( { results } )
-    })
+    Members.query(queries.newstype_post, callback(res))
   },
   sendSubsReminderPost: function (req, res) {
-    Members.query(queries.newstype_post_nonzero, function (err, results) {
-      if (err) return res.badRequest({ error: err })
-      return res.json( { results } )
-    })
+    Members.query(queries.newstype_post_nonzero, callback(res))
   },
   showMaintenance: function (req, res) {
     res.view('pages/maintenance', {user: req.session.user})
@@ -133,9 +117,6 @@ module.exports = {
     }
   },
   submit_email: function (req, res) {
-    mg.submitEmail(req.body, function(err, result){
-      if (err) return res.badRequest({ error: err })
-      return res.json( { result } )
-    })
+    mg.submitEmail(req.body, callback(res))
   }
 }
