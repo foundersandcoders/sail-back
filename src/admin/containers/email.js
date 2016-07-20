@@ -2,9 +2,10 @@
 const React = require('react')
 const { connect } = require('react-redux')
 const { pick, keys, toPairs, flip, prop, zip, compose, replace,
-   map, ifElse, always, equals } =
+   map, ifElse, always, equals, isEmpty } =
     require('ramda')
 import CustomEmailForm from '../dumb_components/custom_email_form.js'
+import SubDueSection from '../dumb_components/sub_due_section.js'
 
 import
   { send_sub_reminder
@@ -94,32 +95,10 @@ const map_tab =
   { [SEND_SUB_REMINDER]: email_list
   , [SEND_NEWSLETTER]: email_list
   , [SEND_NEWSLETTER_REMINDER]: email_list
-  , [SUB_DUE_TAB]: props => <SubDueSection fetch_sub_due={props.send_subscription_due_email} {...props}/>
+  , [SUB_DUE_TAB]: props => <SubDueSection fetch_sub_due={props.send_subscription_due_email} {...props} component={email_list} checker={!isEmpty(props.emails)}/>
   , [COMPOSE_CUSTOM]: props => <CustomEmailForm submit={props.submit_custom_email} members={props.custom_emails.members}/>
   , [GET_BOUNCED]: BouncedEmails
 }
-
-
-const SubDueSection = ({ fetch_sub_due, ...props }) => {
-  const send_request = (e) => {
-    e.preventDefault();
-    const [ start, end ] = e.target
-    fetch_sub_due({ start: start.value, end: end.value })
-  }
-  return (
-    <div>
-      <form onSubmit={send_request}>
-        <input type='text' placeholder='From date' />
-        <input type='text' placeholder='To date' />
-        <button type='submit'>{`Submit Subscription's Due`}</button>
-      </form>
-        {Object.keys(props.emails).length > 0 && email_list(props)}
-    </div>
-  )
-}
-
-
-
 
 const replaceNormal = compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
 const replaceGetBounced = always('Get Bounced Emails')

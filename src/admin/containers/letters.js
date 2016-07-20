@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { isEmpty } from 'ramda'
 
 import { send_newsletter_post
        , send_sub_reminder_post
@@ -14,7 +15,7 @@ import { send_newsletter_post
 
 import PostMembersSection from '../dumb_components/letters/post_members_section.js'
 import SubLettersSection from '../dumb_components/letters/sub_letters_section.js'
-import SubsDueSection from '../dumb_components/letters/subs_due_section.js'
+import SubDueSection from '../dumb_components/sub_due_section.js'
 
 const Letters = ({ send_newsletter_post, send_sub_reminder_post, active_tab, subscription_due_post_tab, ...other }) => {
   return (
@@ -48,7 +49,7 @@ const Letters = ({ send_newsletter_post, send_sub_reminder_post, active_tab, sub
 const map_tab =
   { [SEND_NEWSLETTER_POST]: props => <PostMembersSection {...props} />
   , [SEND_SUB_REMINDER_POST]: props => <SubLettersSection {...props} />
-  , [SUBSCRIPTION_DUE_POST_TAB]: props => <SubsDueSection {...props} />
+  , [SUBSCRIPTION_DUE_POST_TAB]: props => <SubDueSection {...props} fetch_sub_due={props.send_subscription_due_post} checker={!isEmpty(props.sub_letters)} component={SubLettersSection} />
 }
 
 const mapStateToProps = ({ letters }) => {
@@ -62,7 +63,6 @@ const mapStateToProps = ({ letters }) => {
     }
   )
 }
-
 
 export default
   connect(mapStateToProps,

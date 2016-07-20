@@ -42,6 +42,8 @@ type State = { emails: { [key: string]: { overdue: number } } }
 
 const initialState = { emails: { } }
 
+//TODO RESET VARIOUS BITS OF STATE
+
 const reducer : Reducer<State, Action>
   = (state = initialState, { type, payload }) => {
     const newState = omit(['custom_emails', 'email_sent', 'bounced'])(state)
@@ -80,7 +82,7 @@ const reducer : Reducer<State, Action>
       case SEND_SUBSCRIPTION_DUE_EMAIL:
         return new_emails(subscription_due)(shape_newsletters)(payload.body.results[1])
       case SUB_DUE_TAB:
-        return change_tab(state)
+        return change_tab({...state, emails: {}})
       default:
         return state
     }
