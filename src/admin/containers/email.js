@@ -94,7 +94,7 @@ const map_tab =
   { [SEND_SUB_REMINDER]: email_list
   , [SEND_NEWSLETTER]: email_list
   , [SEND_NEWSLETTER_REMINDER]: email_list
-  , [SUB_DUE_TAB]: props => <SubDueSection fetch_sub_due={props.send_subscription_due_email} />
+  , [SUB_DUE_TAB]: props => <SubDueSection fetch_sub_due={props.send_subscription_due_email} {...props}/>
   , [COMPOSE_CUSTOM]: props => <CustomEmailForm submit={props.submit_custom_email} members={props.custom_emails.members}/>
   , [GET_BOUNCED]: BouncedEmails
 }
@@ -104,10 +104,8 @@ const SubDueSection = ({ fetch_sub_due, ...props }) => {
   const send_request = (e) => {
     e.preventDefault();
     const [ start, end ] = e.target
-    // fetch_sub_due({ start: start.value, end: end.value })
-    fetch_sub_due()
+    fetch_sub_due({ start: start.value, end: end.value })
   }
-
   return (
     <div>
       <form onSubmit={send_request}>
@@ -115,7 +113,7 @@ const SubDueSection = ({ fetch_sub_due, ...props }) => {
         <input type='text' placeholder='To date' />
         <button type='submit'>{`Submit Subscription's Due`}</button>
       </form>
-      {email_list(props)}
+        {Object.keys(props.emails).length > 0 && email_list(props)}
     </div>
   )
 }

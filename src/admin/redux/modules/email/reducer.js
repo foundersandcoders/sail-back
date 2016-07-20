@@ -15,7 +15,7 @@ export const SEND_SUB_REMINDER =
   'SEND_SUB_REMINDER'
 export const SEND_NEWSLETTER =
   'SEND_NEWSLETTER'
-export const SEND_NEWS_REMINDER =
+export const SEND_NEWSLETTER_REMINDER =
   'SEND_NEWSLETTER_REMINDER'
 export const COMPOSE_CUSTOM =
   'COMPOSE_CUSTOM'
@@ -49,16 +49,16 @@ const reducer : Reducer<State, Action>
     const emails = lensPath([ 'emails' ])
     const sent = lensPath([ 'email_sent' ])
     const list_hidden = lensPath([ 'list_hidden' ])
-    const new_emails = template => shape =>
-      update(emails)(map(compose(Email, template), shape(payload.results)))
+    const new_emails = template => shape => results =>
+      update(emails)(map(compose(Email, template), shape(results)))
     const change_tab = assoc('active_tab', type)
     switch (type) {
       case SEND_SUB_REMINDER:
-        return change_tab(new_emails(template_subs)(primaries))
+        return change_tab(new_emails(template_subs)(primaries)(payload.results))
       case SEND_NEWSLETTER:
-        return change_tab(new_emails(newsletter_alert)(shape_newsletters))
-      case SEND_NEWS_REMINDER:
-        return change_tab(new_emails(newsletter_reminder)(shape_newsletters))
+        return change_tab(new_emails(newsletter_alert)(shape_newsletters)(payload.results))
+      case SEND_NEWSLETTER_REMINDER:
+        return change_tab(new_emails(newsletter_reminder)(shape_newsletters)(payload.results))
       case COMPOSE_CUSTOM:
         return change_tab({ ...newState, custom_emails: { members: payload.results }})
       case TOGGLE_LIST:
@@ -78,7 +78,7 @@ const reducer : Reducer<State, Action>
       case SUBMIT_CUSTOM_EMAIL:
         return email_response(state)(payload.body)
       case SEND_SUBSCRIPTION_DUE_EMAIL:
-        return new_emails(subscription_due)(shape_newsletters)
+        return new_emails(subscription_due)(shape_newsletters)(payload.body.results[1])
       case SUB_DUE_TAB:
         return change_tab(state)
       default:
@@ -148,10 +148,10 @@ export const send_newsletter =
   createAction(SEND_NEWSLETTER, () => get_body('api/newsletter-alert'))
 
 export const send_newsletter_reminder =
-  createAction(SEND_NEWS_REMINDER, () => get_body('api/newsletter-alert'))
+  createAction(SEND_NEWSLETTER_REMINDER, () => get_body('api/newsletter-alert'))
 
 export const send_subscription_due_email =
-  createAction(SEND_SUBSCRIPTION_DUE_EMAIL, () => get_body('api/subscription-due-email'))
+  createAction(SEND_SUBSCRIPTION_DUE_EMAIL, body => post(body, 'api/subscription-due-email'))
 
 export const compose_custom =
   createAction(COMPOSE_CUSTOM, () => get_body('api/newsletter-alert'))
