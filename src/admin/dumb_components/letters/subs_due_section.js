@@ -11,7 +11,7 @@ export default ({send_subscription_due_post, ...props}) => {
 
   return (
     <div>
-      <form onSubmit={send_request}>
+      <form className='date-boundaries-post-form' onSubmit={send_request}>
         <input type='text' placeholder='From date' />
         <input type='text' placeholder='To date' />
         <button type='submit'>{`Submit Subscription's Due`}</button>
