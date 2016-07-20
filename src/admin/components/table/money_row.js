@@ -20,5 +20,5 @@ var MoneyRow = module.exports = React.createClass({
 
 var formatTotals = arr => arr.map((money, i) => (i === 0 || money === undefined)
   ? money
-  : formatPounds(money/100)
+  : formatPounds(money)
 )

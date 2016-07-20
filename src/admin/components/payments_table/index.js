@@ -10,8 +10,8 @@ const { curry } = require('ramda')
 
 var get_entry_for_payment = curry(function (payment, delete_method, header) {
   const convertedPayment = {...payment
-                            , amount: formatPounds(payment['amount'] / 100)
-                            , 'balance due': formatPounds(payment['balance due'] / 100)
+                            , amount: formatPounds(payment['amount'])
+                            , 'balance due': formatPounds(payment['balance due'])
                            }
   return (header === 'Charges' || header === 'Payments')
       ? charge_or_payment_amount(convertedPayment.category, header, convertedPayment.amount)
