@@ -54,6 +54,7 @@
     "joi": "6.4.3",
     "lodash.throttle": "^4.0.1",
     "mailgun": "0.5.0",
+    "mailgun-js": "^0.7.11",
     "mysql": "2.7.0",
     "node-sass": "3.4.2",
     "object-assign": "4.0.1",

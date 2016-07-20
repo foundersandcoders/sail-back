@@ -9,6 +9,13 @@ var aSync = require('async')
 var Mailgun = require('mailgun').Mailgun
 var mg = new Mailgun(process.env.MAILGUN)
 
+// TODO change all mailgun to use new npm module
+
+var api_key = process.env.MAILGUN
+var domain = process.env.DOMAIN
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+
+
 module.exports = {
   /**
    * Creates and email and sends it through Mailgun.
@@ -98,5 +105,10 @@ module.exports = {
     aSync.parallel(asyncArray, (error, results) =>
       error ? callback(error, null) : callback(null, results)
     )
+  },
+  getBounced: function (callback) {
+    mailgun.get(`/${domain}/bounces`, {}, function(error, results) {
+      error ? callback(error, null) : callback(null, results)
+    })
   }
 }
