@@ -8,12 +8,14 @@ export default ({ fetch_sub_due, component, checker, ...props }) => {
   }
   return (
     <div>
-      <form onSubmit={send_request}>
-        <input type='text' placeholder='From date' />
-        <input type='text' placeholder='To date' />
-        <button type='submit'>{`Submit Subscription's Due`}</button>
-      </form>
-        {checker && component(props)}
+      {checker
+        ? component(props)
+        : <form className='date-boundaries-form' onSubmit={send_request}>
+            <input type='text' placeholder='From date' />
+            <input type='text' placeholder='To date' />
+            <button type='submit'>{`Submit Subscription's Due`}</button>
+          </form>
+      }
     </div>
   )
 }
