@@ -18,7 +18,6 @@ export default ({ toggle_recipient_list, shown, ...other }) => {
 const SubLetters = ({ sub_letters, shown_letter_index, ...other }) =>
   <div>
     <p className='sub-letters-header'>
-      {'The following sample letter will be printed out for these recipients.'} <br/>
       {'Click on a member\'s name to view the letter that they will receive. Print preview to see all of the letters.'}
     </p>
     <LetterRecipients clickable recipients={sub_letters} {...other}/>

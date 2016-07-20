@@ -35,8 +35,11 @@ exports.update_subscription = body =>
   and members.due_date < '${body.end}' and members.due_date > '${body.start}';`
 
 exports.subscription_due_template = body =>
-  `select * from members
-  where news_type = '${body.news_type}'
+  `select first_name, last_name, title, address1, address2, address3, address4,
+  county, postcode, id, due_date, membership_type, primary_email, secondary_email, amount
+  from members, membershiptypes
+  where members.membership_type = membershiptypes.value
+  and news_type = '${body.news_type}'
   and standing_order is null
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
