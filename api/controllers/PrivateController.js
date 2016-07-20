@@ -57,44 +57,22 @@ module.exports = {
       return res.json({ results })
     })
   },
-  sendSubsDueEmail: function (req, res) {
-    //TODO Refactor subdueemail and subduepost
-    var inject = cb => {
-      Members.query(queries.update_subscription(req.body), (err, results) => {
+  sendSubsDue: function (req, res) {
+    var dbCall = queryString => cb => {
+      Members.query(queries[queryString](req.body), (err, results) => {
         if(err) cb(err, null)
         else cb(null, results)
       })
     }
-    var get_members = cb => {
-      Members.query(queries.subscription_due_online(req.body), (err, results) => {
-        if(err) cb(err, null)
-        else cb(null, results)
-      })
-    }
+
     var callback = (err, results) => {
       if (err) return res.badRequest({ error: err })
       return res.json({ results })
     }
-    aSync.series([inject, get_members], callback)
-  },
-  sendSubsDuePost: function (req, res) {
-    var inject = cb => {
-      Members.query(queries.update_subscription(req.body), (err, results) => {
-        if(err) cb(err, null)
-        else cb(null, results)
-      })
-    }
-    var get_members = cb => {
-      Members.query(queries.subscription_due_post(req.body), (err, results) => {
-        if(err) cb(err, null)
-        else cb(null, results)
-      })
-    }
-    var callback = (err, results) => {
-      if (err) return res.badRequest({ error: err })
-      return res.json({ results })
-    }
-    aSync.series([inject, get_members], callback)
+    aSync.series(
+      [ dbCall('update_subscription')
+      , dbCall('subscription_due_template')
+      ], callback)
   },
   sendNewsletterAlert: function (req, res) {
     Members.query(queries.newsletter, function (err, results) {
