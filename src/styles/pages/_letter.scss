@@ -80,9 +80,10 @@
 
 .letter {
   clear: both;
-  padding-top: 1em;
+  padding-top: 1px;
   text-align: justify;
 }
+
 
 .letter-page {
   width: 80%;
@@ -125,7 +126,7 @@
   }
 
   .letter-greeting {
-    margin-bottom: 25px;
+    margin-bottom: 6px;
   }
 
   .letter span {
@@ -185,12 +186,12 @@
   }
 
   .letter-page {
+    line-height: 19px;
     height: 891.5px;
-    margin-top: 80px;
+    margin-top: 40px;
     border: none;
-    padding: 10px;
+    padding: 0px;
     display: inline-block;
-
 
     h1 {
       font-size: 24px;
@@ -198,7 +199,8 @@
 
     h3 {
       font-size: 12px;
-      margin-top: 2em;
+      margin-top: 15px;
+      margin-bottom: 0px;
     }
 
     .addresses {
@@ -208,10 +210,12 @@
 
     .sender-address, .sender-address * {
       font-size: 12px;
+      line-height: 14px;
     }
 
     .receiver-address, .receiver-address * {
-      font-size: 16px;
+      font-size: 13px;
+      line-height: 14px;
     }
 
     *, .letter.letter * {
@@ -229,8 +233,8 @@
     }
 
     .letter-logo {
-      top: 0em;
-      right: -1em;
+      top: 0px;
+      right: -10px;
     }
 
     .letter-footer {
