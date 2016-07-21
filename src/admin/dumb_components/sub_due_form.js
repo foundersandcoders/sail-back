@@ -1,22 +1,5 @@
 import React from 'react'
 const { reduxForm } = require('redux-form')
-const { check_tests, date } = require('app/validate')
-
-
-const validate = (values) => {
-  const errors = {}
-  if (!values.start) {
-    errors.start = 'start date is required'
-  } else if (values.start < 10) {
-    errors.start = 'start date should be less than ten'
-  }
-  if (!values.end) {
-    errors.end = 'end date is required'
-  } else if (values.end < 10) {
-    errors.end = 'end date should be less than ten'
-  }
-  return errors
-}
 
 
 const sub_due_dates = ({fields: {start, end}, handleSubmit, error}) =>
@@ -28,14 +11,7 @@ const sub_due_dates = ({fields: {start, end}, handleSubmit, error}) =>
     <button type='submit'>{`Submit Subscription's Due`}</button>
   </form>
 
-const fields =
-  [ 'start'
-  , 'end'
-  ]
-
 export default reduxForm(
   { form: 'sub_due_dates'
-  , validate
-  , fields
   }
 )(sub_due_dates)

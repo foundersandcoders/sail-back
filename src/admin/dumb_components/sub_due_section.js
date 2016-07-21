@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { check_tests, date } from 'app/validate'
+const { check_tests, date, exists } = require('app/validate')
 import SubDueForm from './sub_due_form.js'
+import { assoc, reduce, unapply, converge, mergeAll } from 'ramda'
 
 export default ({ fetch_sub_due, component, checker, ...props }) => {
   const send_request = (e) => {
-    console.log('send_request clicked!');
     e.preventDefault();
     const [ start, end ] = e.target
     fetch_sub_due({ start: start.value, end: end.value })
@@ -25,9 +25,26 @@ export default ({ fetch_sub_due, component, checker, ...props }) => {
 }
 
 
+const validate = values => {
+  const date_tests = reduce
+    ( (tests, key) =>
+      assoc(key, date, tests)
+    , {}
+    , fields
+    )
 
-const validate = (values) => {
-  console.log('in validate!');
+  const required_tests = reduce
+    ( (tests, key) =>
+      assoc(key, exists, tests)
+    , {}
+    , fields
+  )
+
+  const arrayOfUnappliedFunctions = [ check_tests('invalid date', date_tests), check_tests('required', required_tests)]
+  // check_tests('invalid date', date_tests)(values)), check_tests('required', required_tests)(values)
+  //console.log(check_tests('required', required_tests)(values))
+  console.log(converge(unapply(mergeAll), arrayOfUnappliedFunctions)(values));
+
   const errors = {}
   if (!values.start) {
     errors.start = 'start date is required'
