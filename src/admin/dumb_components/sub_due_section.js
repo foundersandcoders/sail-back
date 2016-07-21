@@ -1,10 +1,11 @@
 import React from 'react'
 
-import { check_tests, date } from ('app/validate')
-
+import { check_tests, date } from 'app/validate'
+import SubDueForm from './sub_due_form.js'
 
 export default ({ fetch_sub_due, component, checker, ...props }) => {
   const send_request = (e) => {
+    console.log('send_request clicked!');
     e.preventDefault();
     const [ start, end ] = e.target
     fetch_sub_due({ start: start.value, end: end.value })
@@ -13,10 +14,10 @@ export default ({ fetch_sub_due, component, checker, ...props }) => {
     <div>
       {checker
         ? component(props)
-        : <SubDueDates
+        : <SubDueForm
             fields={fields}
             onSubmit={send_request}
-            required={fields}
+            validate={validate}
           />
       }
     </div>
@@ -26,6 +27,7 @@ export default ({ fetch_sub_due, component, checker, ...props }) => {
 
 
 const validate = (values) => {
+  console.log('in validate!');
   const errors = {}
   if (!values.start) {
     errors.start = 'start date is required'
@@ -41,7 +43,7 @@ const validate = (values) => {
 }
 
 
-const SubDueDates = ({fields: {start, end}, handleSubmit, error}) =>
+const sub_due_dates = ({fields: {start, end}, handleSubmit, error}) =>
   <form onSubmit={handleSubmit}>
     map((field) => <input type='text' placeholder={field} />, fields)
     <button type='submit'>{`Submit Subscription's Due`}</button>
@@ -51,11 +53,3 @@ const fields =
   [ 'start'
   , 'end'
   ]
-
-
-const sub_due_dates = reduxForm(
-  { form: 'sub_due_dates'
-  , validate
-  , fields
-  }
-)(sub_due_dates)
