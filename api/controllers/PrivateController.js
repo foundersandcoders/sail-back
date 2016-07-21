@@ -67,7 +67,7 @@ module.exports = {
 
     var callback = (err, results) => {
       if (err) return res.badRequest({ error: err })
-      return res.json({ results })
+      return res.json({ results: results[1] })
     }
     aSync.series(
       [ dbCall('update_subscription')
