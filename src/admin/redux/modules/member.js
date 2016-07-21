@@ -3,11 +3,13 @@ const { createAction, handleAction } = require('redux-actions')
 const { stopSubmit } = require('redux-form')
 const { flip, replace, compose, map, prop, concat, converge, contains
   , mergeAll, unapply, cond, T, identity, is, reject, propOr, chain, keys
-  , path, reduce, assoc, join, values, equals, assocPath, over, lens } =
+  , path, reduce, assoc, join, values, equals, assocPath, over, lens
+  , lensProp } =
     require('ramda')
 
 const { get_body, post } = require('app/http')
 const { format: format_dated, standardise } = require('app/transform_dated')
+const { format_due_date } = require('app/format_date')
 
 import type { Action, Reducer } from 'redux'
 
@@ -94,7 +96,8 @@ const prepare_for_form = (member) =>
 const wrap_values = map((v) => (v && { value: String(v) }))
 
 const to_member = compose
-  ( format_dated
+  ( over(lensProp('due_date'), format_due_date)
+  , format_dated
   , reshape_if_necessary
   , map(null_to_undefined)
   , parse_if_needed
@@ -135,7 +138,7 @@ const errors_or = (on_success) => (dispatch) =>
     ]
   )
 
-const errors_or_to_member = errors_or(to_member)
+const errors_or_to_member = errors_or(compose(to_member, prop('body')))
 
 const error_id = errors_or(id_value)
 

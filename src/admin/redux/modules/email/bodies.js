@@ -1,4 +1,4 @@
-const format = require('app/format_date')
+const format = require('app/format_date').format_due_date
 const { formatPounds } = require('app/monies')
 
 
