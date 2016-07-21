@@ -52,17 +52,14 @@ const map_tab =
   , [SUBSCRIPTION_DUE_POST_TAB]: props => <SubDueSection {...props} fetch_sub_due={props.send_subscription_due_post} checker={!isEmpty(props.sub_letters)} component={SubLettersSection} />
 }
 
-const mapStateToProps = ({ letters }) => {
-  const { sub_letters, post_members, active_tab, shown, shown_letter_index } = letters
-  return (
-    { sub_letters
-    , post_members
-    , active_tab
-    , shown
-    , shown_letter_index
-    }
-  )
-}
+const mapStateToProps = ({ letters: { sub_letters, post_members, active_tab, shown, shown_letter_index } }) => (
+  { sub_letters
+  , post_members
+  , active_tab
+  , shown
+  , shown_letter_index
+  }
+)
 
 export default
   connect(mapStateToProps,

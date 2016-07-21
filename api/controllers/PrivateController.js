@@ -68,11 +68,11 @@ module.exports = {
     var dbCall = queryString => cb => {
       Members.query(queries[queryString](req.body), cb)
     }
-    
+
     aSync.series(
       [ dbCall('update_subscription')
       , dbCall('subscription_due_template')
-    ], callback(res))
+      ], callback)
   },
   sendNewsletterAlert: function (req, res) {
     Members.query(queries.newsletter, callback(res))
