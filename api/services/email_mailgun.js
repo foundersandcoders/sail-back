@@ -11,9 +11,9 @@ var mg = new Mailgun(process.env.MAILGUN)
 
 // TODO change all mailgun to use new npm module
 
-var api_key = process.env.MAILGUN
-var domain = process.env.DOMAIN
-var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+var apiKey = process.env.MAILGUN
+var domain = 'sandboxba3153df65354c40ae1a00b269fecdb5.mailgun.org'
+var mailgun = require('mailgun-js')({ apiKey, domain });
 
 
 module.exports = {
@@ -86,20 +86,27 @@ module.exports = {
       return callback(undefined, 'Email sent')
     }
 
-    var addresses = R.map(R.objOf('address'), R.keys(data.email))
+    var shapeEmailBody = recipient =>
+      recipient.content.slice(1).join('\n\n')
 
-    var emailArray = R.zipWith(R.merge)(addresses)(R.values(data.email))
+    var grabSubjects = recipient =>
+      recipient.content[0]
 
-    var sendEmail = (recipient, cb) => {
-      var address = recipient.address
-      var emailBody = recipient.content.slice(1).join('\n\n')
-      var subject = recipient.content[0]
-      mg.sendText('messenger@friendsch.org', address, subject, emailBody, error =>
-        error ? cb({error: error.toString(), recipient: recipient.address}, null) : cb(null, address)
+    var toKey = R.compose(R.map(R.objOf('to')), R.keys)
+    var textKey = R.compose(R.map(R.objOf('text')), R.values, R.map(shapeEmailBody))
+    var subjectKey = R.compose(R.map(R.objOf('subject')), R.values, R.map(grabSubjects))
+
+    var emailsData = R.converge(R.zipWith(R.merge), [R.converge(R.zipWith(R.merge), [toKey, textKey]), subjectKey])(data.email)
+    var emails = R.map(R.assoc('from', 'messenger@friendsch.org'), emailsData)
+
+    var sendEmail = (email, cb) => {
+      var address = email.to
+      mailgun.messages().send(email, (error, results) =>
+        error ? cb({error: JSON.stringify(error), address}, null) : cb(null, {results: JSON.stringify(results), address})
       )
     }
 
-    var asyncArray = emailArray.map(recipient => cb =>
+    var asyncArray = emails.map(recipient => cb =>
       sendEmail(recipient, cb))
 
     aSync.parallel(asyncArray, (error, results) =>
