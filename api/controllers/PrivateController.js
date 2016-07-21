@@ -60,11 +60,15 @@ module.exports = {
     Members.query(queries.subscriptions, callback(res))
   },
   sendSubsDue: function (req, res) {
+    var callback = (err, results) => {
+      if (err) return res.badRequest({ error: err })
+      return res.json({ results: results[1] })
+    }
 
     var dbCall = queryString => cb => {
       Members.query(queries[queryString](req.body), cb)
     }
-
+    
     aSync.series(
       [ dbCall('update_subscription')
       , dbCall('subscription_due_template')
