@@ -21,13 +21,8 @@ module.exports = {
       return callback(undefined, 'Email sent')
     }
 
-    var text = module.exports._templateEngine(data, 'subscribe')
-    var from = 'messenger@friendsch.org'
-    var to = data.email
-    var subject = 'Welcome to Friends of Chichester Harbour'
-
-    mailgun.messages().send({ text, from, to, subject }, (error, results) =>
-      error ? callback(error, null) : callback(null, 'Email sent')
+    mailgun.messages().send(module.exports._createEmail(data, 'Welcome to Friends of Chichester Harbour', 'subscribe'),
+      (error, results) => error ? callback(error, null) : callback(null, 'Email sent')
     )
   },
   sendPassword: function (data, callback) {
@@ -35,18 +30,14 @@ module.exports = {
       return callback(undefined, 'Email sent')
     }
 
-    var text = module.exports._templateEngine(data, 'forgotPass')
-    var from = 'messenger@friendsch.org'
-    var to = data.email
-    var subject = 'Forgot password'
-
-    mailgun.messages().send({ text, from, to, subject }, (error, results) => {
-      if (error) {
-        sails.log.error('MAILGUN ERROR: ', error)
-        callback(error, undefined)
-      } else {
-        sails.log.info('EMAIL SENT TO: ', data.email)
-        callback(undefined, 'Email sent')
+    mailgun.messages().send(module.exports._createEmail(data, 'Forgot password', 'forgotPass'),
+      (error, results) => {
+        if (error) {
+          sails.log.error('MAILGUN ERROR: ', error)
+          callback(error, undefined)
+        } else {
+          sails.log.info('EMAIL SENT TO: ', data.email)
+          callback(undefined, 'Email sent')
       }
     })
   },
@@ -76,6 +67,14 @@ module.exports = {
       '</a>'
 
     return link
+  },
+  _createEmail: function (data, subject, type) {
+    return {
+      text: module.exports._templateEngine(data, type),
+      from: 'messenger@friendsch.org',
+      to: data.email,
+      subject
+    }
   },
   submitEmail: function (data, callback) {
     if (process.env.NODE_ENV === 'testing') {
