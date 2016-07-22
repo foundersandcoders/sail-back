@@ -87,11 +87,12 @@ module.exports = {
     var grabSubjects = recipient =>
       recipient.content[0]
 
+    var email_values = (v, k) =>
+      [ k, shapeEmailBody(v), grabSubjects(v), 'messenger@friendsch.org' ]
+
     var emails = R.compose(
-      R.map(R.assoc('from', 'messenger@friendsch.org')),
-      R.map(R.zipObj([ 'to', 'text', 'subject'])),
       R.values,
-      R.mapObjIndexed((v, k) => [ k, shapeEmailBody(v), grabSubjects(v) ])
+      R.mapObjIndexed(R.compose(R.zipObj([ 'to', 'text', 'subject', 'from' ]), email_values))
     )(data.email)
 
     var sendEmail = email => cb => {
