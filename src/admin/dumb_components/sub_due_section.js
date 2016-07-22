@@ -1,9 +1,9 @@
 import React from 'react'
 
-const { check_tests, date, exists } = require('app/validate')
+const { check_tests, date_max, exists } = require('app/validate')
 import SubDueForm from './sub_due_form.js'
 import { assoc, reduce, unapply, converge, mergeAll, reverse, split, compose, join, map } from 'ramda'
-
+import { fields } from '../form_fields/sub_due_form.js'
 const format_date = compose(join('-'), reverse, split('/'))
 
 export default ({ fetch_sub_due, component, checker, ...props }) => {
@@ -24,15 +24,11 @@ export default ({ fetch_sub_due, component, checker, ...props }) => {
   )
 }
 
-const fields =
-[ 'start'
-, 'end'
-]
 
 const validate = values => {
   const date_tests = reduce
     ( (tests, key) =>
-      assoc(key, date, tests)
+      assoc(key, date_max, tests)
     , {}
     , fields
     )
