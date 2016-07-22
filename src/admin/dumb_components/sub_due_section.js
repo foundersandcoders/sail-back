@@ -44,16 +44,8 @@ const validate = values => {
     , fields
   )
 
-  const ob = converge(unapply(mergeAll),
+  return converge(unapply(mergeAll),
     [ check_tests('invalid date', date_tests)
     , check_tests('required', required_tests)
     ])(values)
-
-    console.log(ob)
-    // This seems to suggest validation is working as expected although the rendered messages don't correspond, and only seem to reflect the state of the 'start' date.
-    // dates should be of form (02/02/2016) and cannot accept 2017 which will be a problem
-    // shall i change the date test to allow 2017 or should i make a different test?
-    // Also it seems to accept anything from 1,2,3,4,5,...,2016 for the year so i will add in a check that the year is greater than 1900
-
-    return ob
 }
