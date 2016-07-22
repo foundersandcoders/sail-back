@@ -23,19 +23,18 @@ module.exports = {
    * @return {}
    */
   sendSubscribe: function (data, callback) {
-    var text = module.exports._templateEngine(data, 'subscribe')
-
     if (process.env.NODE_ENV === 'testing') {
       return callback(undefined, 'Email sent')
     }
 
-    mg.sendText('messenger@friendsch.org', [data.email], 'Welcome to Friends of Chichester Harbour', text, function (error) {
-      if (error) {
-        callback(error, undefined)
-      } else {
-        callback(undefined, 'Email sent')
-      }
-    })
+    var text = module.exports._templateEngine(data, 'subscribe')
+    var from = 'messenger@friendsch.org'
+    var to = data.email
+    var subject = 'Welcome to Friends of Chichester Harbour'
+
+    mailgun.messages().send({ text, from, to, subject }, (error, results) =>
+      error ? callback(error, null) : callback(null, 'Email sent')
+    )
   },
   sendPassword: function (data, callback) {
     var text = module.exports._templateEngine(data, 'forgotPass')
