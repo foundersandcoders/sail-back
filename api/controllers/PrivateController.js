@@ -122,5 +122,9 @@ module.exports = {
   },
   submit_email: function (req, res) {
     mg.submitEmail(req.body, callback(res))
+
+  },
+  get_bounced: function (req, res) {
+    mg.getBounced(callback(res))
   }
 }

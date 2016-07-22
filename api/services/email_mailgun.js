@@ -6,8 +6,9 @@
 var R = require('ramda')
 var aSync = require('async')
 
-var Mailgun = require('mailgun').Mailgun
-var mg = new Mailgun(process.env.MAILGUN)
+var apiKey = process.env.MAILGUN
+var domain = 'sandboxba3153df65354c40ae1a00b269fecdb5.mailgun.org'
+var mailgun = require('mailgun-js')({ apiKey, domain });
 
 module.exports = {
   /**
@@ -16,34 +17,27 @@ module.exports = {
    * @return {}
    */
   sendSubscribe: function (data, callback) {
-    var text = module.exports._templateEngine(data, 'subscribe')
-
     if (process.env.NODE_ENV === 'testing') {
       return callback(undefined, 'Email sent')
     }
 
-    mg.sendText('messenger@friendsch.org', [data.email], 'Welcome to Friends of Chichester Harbour', text, function (error) {
-      if (error) {
-        callback(error, undefined)
-      } else {
-        callback(undefined, 'Email sent')
-      }
-    })
+    mailgun.messages().send(module.exports._createEmail(data, 'Welcome to Friends of Chichester Harbour', 'subscribe'),
+      (error, results) => error ? callback(error, null) : callback(null, 'Email sent')
+    )
   },
   sendPassword: function (data, callback) {
-    var text = module.exports._templateEngine(data, 'forgotPass')
-
     if (process.env.NODE_ENV === 'testing') {
       return callback(undefined, 'Email sent')
     }
 
-    mg.sendText('messenger@friendsch.org', [data.email], 'Forgot password', text, function (error) {
-      if (error) {
-        sails.log.error('MAILGUN ERROR: ', error)
-        callback(error, undefined)
-      } else {
-        sails.log.info('EMAIL SENT TO: ', data.email)
-        callback(undefined, 'Email sent')
+    mailgun.messages().send(module.exports._createEmail(data, 'Forgot password', 'forgotPass'),
+      (error, results) => {
+        if (error) {
+          sails.log.error('MAILGUN ERROR: ', error)
+          callback(error, undefined)
+        } else {
+          sails.log.info('EMAIL SENT TO: ', data.email)
+          callback(undefined, 'Email sent')
       }
     })
   },
@@ -74,29 +68,47 @@ module.exports = {
 
     return link
   },
+  _createEmail: function (data, subject, type) {
+    return {
+      text: module.exports._templateEngine(data, type),
+      from: 'messenger@friendsch.org',
+      to: data.email,
+      subject
+    }
+  },
   submitEmail: function (data, callback) {
     if (process.env.NODE_ENV === 'testing') {
       return callback(undefined, 'Email sent')
     }
 
-    var addresses = R.map(R.objOf('address'), R.keys(data.email))
+    var shapeEmailBody = recipient =>
+      recipient.content.slice(1).join('\n\n')
 
-    var emailArray = R.zipWith(R.merge)(addresses)(R.values(data.email))
+    var grabSubjects = recipient =>
+      recipient.content[0]
 
-    var sendEmail = (recipient, cb) => {
-      var address = recipient.address
-      var emailBody = recipient.content.slice(1).join('\n\n')
-      var subject = recipient.content[0]
-      mg.sendText('messenger@friendsch.org', address, subject, emailBody, error =>
-        error ? cb({error: error.toString(), recipient: recipient.address}, null) : cb(null, address)
+    var email_values = (v, k) =>
+      [ k, shapeEmailBody(v), grabSubjects(v), 'messenger@friendsch.org' ]
+
+    var emails = R.compose(
+      R.values,
+      R.mapObjIndexed(R.compose(R.zipObj([ 'to', 'text', 'subject', 'from' ]), email_values))
+    )(data.email)
+
+    var sendEmail = email => cb => {
+      var address = email.to
+      mailgun.messages().send(email, (error, results) =>
+        error ? cb({error: JSON.stringify(error), address}, null) : cb(null, {results: JSON.stringify(results), address})
       )
     }
 
-    var asyncArray = emailArray.map(recipient => cb =>
-      sendEmail(recipient, cb))
-
-    aSync.parallel(asyncArray, (error, results) =>
+    aSync.parallel(emails.map(sendEmail), (error, results) =>
       error ? callback(error, null) : callback(null, results)
     )
+  },
+  getBounced: function (callback) {
+    mailgun.get(`/${domain}/bounces`, {}, function(error, results) {
+      error ? callback(error, null) : callback(null, results)
+    })
   }
 }

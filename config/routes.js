@@ -182,5 +182,10 @@ module.exports.routes = {
     controller: 'Private',
     action: 'submit_email'
   },
+
+  'GET /api/get-bounced': {
+    controller: 'Private',
+    action: 'get_bounced'
+  }
 // -------------------------------------------------------------------------
 }

@@ -72,11 +72,7 @@ const reducer : Reducer<State, Action>
       case SUBMIT_EMAIL:
         return email_response(state)(payload)
       case GET_BOUNCED:
-        // response from mailgun in the form that is at bottom of page.
-        // at the moment we do not know registered mailgun domain name.
-        // so now bounced emails will always show as 'no bounced emails'
-        // comment in res.items to see what ui looks like if there is a response from mg.
-        return change_tab({ ...newState, bounced: [] /*res.items*/ })
+        return change_tab({ ...newState, bounced: payload.results.items })
       case SUBMIT_CUSTOM_EMAIL:
         return email_response(state)(payload)
       case SEND_SUBSCRIPTION_DUE_EMAIL:
@@ -168,7 +164,7 @@ export const submit_email =
   createAction(SUBMIT_EMAIL, email => post_body({ email }, '/api/submit-email'))
 
 export const get_bounced =
-  createAction(GET_BOUNCED)
+  createAction(GET_BOUNCED, () => get_body('/api/get-bounced'))
 
 export const sub_due_tab =
   createAction(SUB_DUE_TAB)
