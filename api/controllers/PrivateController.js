@@ -119,5 +119,11 @@ module.exports = {
       if (err) return res.badRequest({ error: err })
       return res.json( { result } )
     })
+  },
+  get_bounced: function (req, res) {
+    mg.getBounced(function(err, results) {
+      if (err) return res.badRequest({ error: err })
+      return res.json( { results } )
+    })
   }
 }
