@@ -87,24 +87,21 @@ module.exports = {
     var grabSubjects = recipient =>
       recipient.content[0]
 
-    var toKey = R.compose(R.map(R.objOf('to')), R.keys)
-    var textKey = R.compose(R.map(R.objOf('text')), R.values, R.map(shapeEmailBody))
-    var subjectKey = R.compose(R.map(R.objOf('subject')), R.values, R.map(grabSubjects))
+    var emails = R.compose(
+      R.map(R.assoc('from', 'messenger@friendsch.org')),
+      R.map(R.zipObj([ 'to', 'text', 'subject'])),
+      R.values,
+      R.mapObjIndexed((v, k) => [ k, shapeEmailBody(v), grabSubjects(v) ])
+    )(data.email)
 
-    var emailsData = R.converge(R.zipWith(R.merge), [R.converge(R.zipWith(R.merge), [toKey, textKey]), subjectKey])(data.email)
-    var emails = R.map(R.assoc('from', 'messenger@friendsch.org'), emailsData)
-
-    var sendEmail = (email, cb) => {
+    var sendEmail = email => cb => {
       var address = email.to
       mailgun.messages().send(email, (error, results) =>
         error ? cb({error: JSON.stringify(error), address}, null) : cb(null, {results: JSON.stringify(results), address})
       )
     }
 
-    var asyncArray = emails.map(recipient => cb =>
-      sendEmail(recipient, cb))
-
-    aSync.parallel(asyncArray, (error, results) =>
+    aSync.parallel(emails.map(sendEmail), (error, results) =>
       error ? callback(error, null) : callback(null, results)
     )
   },
