@@ -4,8 +4,8 @@ const { connect } = require('react-redux')
 const { pick, keys, toPairs, flip, prop, zip, compose, replace,
    map, ifElse, always, equals, isEmpty } =
     require('ramda')
-import CustomEmailForm from '../dumb_components/custom_email_form.js'
-import SubDueSection from '../dumb_components/sub_due_section.js'
+import custom_email_form from '../dumb_components/custom_email_form.js'
+import sub_due_section from '../dumb_components/sub_due_section.js'
 
 import
   { send_sub_reminder
@@ -91,12 +91,20 @@ const BouncedEmails = ({ bounced }) =>
     }
   </div>
 
+const sub_due = (props) => (
+  { ...props
+  , fetch_sub_due: props.send_subscription_due_email
+  , component: email_list
+  , checker: !isEmpty(props.emails)
+  }
+)
+
 const map_tab =
   { [SEND_SUB_REMINDER]: email_list
   , [SEND_NEWSLETTER]: email_list
   , [SEND_NEWSLETTER_REMINDER]: email_list
-  , [SUB_DUE_TAB]: props => <SubDueSection fetch_sub_due={props.send_subscription_due_email} {...props} component={email_list} checker={!isEmpty(props.emails)}/>
-  , [COMPOSE_CUSTOM]: props => <CustomEmailForm submit={props.submit_custom_email} members={props.custom_emails.members}/>
+  , [SUB_DUE_TAB]: compose(sub_due_section, sub_due)
+  , [COMPOSE_CUSTOM]: custom_email_form
   , [GET_BOUNCED]: BouncedEmails
 }
 

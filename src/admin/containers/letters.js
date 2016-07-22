@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { isEmpty } from 'ramda'
+import { isEmpty, compose } from 'ramda'
 
 import { send_newsletter_post
        , send_sub_reminder_post
@@ -57,7 +57,7 @@ const sub_due = props => (
 const map_tab =
   { [SEND_NEWSLETTER_POST]: post_members_section
   , [SEND_SUB_REMINDER_POST]: sub_letters_section
-  , [SUBSCRIPTION_DUE_POST_TAB]: props => sub_due_section(sub_due(props))
+  , [SUBSCRIPTION_DUE_POST_TAB]: compose(sub_due_section, sub_due)
 }
 
 const mapStateToProps = ({ letters: { sub_letters, post_members, active_tab, shown, shown_letter_index } }) => (
