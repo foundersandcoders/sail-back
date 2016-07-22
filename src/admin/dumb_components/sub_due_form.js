@@ -1,18 +1,27 @@
 import React from 'react'
+import Field from '../components/field.js'
 const { reduxForm } = require('redux-form')
 
-const sub_due_dates = ({fields: {start, end}, handleSubmit, error}) =>
-  <form className='date-boundaries-form' onSubmit={handleSubmit}>
-    <div>
-      <input type='text' placeholder='Start date' {...start}/>
-      {start.touched && start.error ? <div>{start.error}</div> : <div></div>}
-    </div>
-    <div>
-      <input type='text' placeholder='End date' {...end}/>
-      {end.touched && end.error ? <div>{end.error}</div> : <div></div>}
-    </div>
-    <button type='submit'>{`Submit Subscription's Due`}</button>
-  </form>
+
+
+const sub_due_dates = ({fields, handleSubmit, error}) =>
+    <form className='date-boundaries-form' onSubmit={handleSubmit}>
+      {fieldList.map(field =>
+        <Field
+          {...fields[field]}
+          id={field}
+          mode='edit'
+          key={field}
+          />
+      )}
+      <button type='submit'>{`Submit Subscription's Due`}</button>
+    </form>
+
+
+const fieldList =
+  [ 'start'
+  , 'end'
+  ]
 
 
 export default reduxForm(

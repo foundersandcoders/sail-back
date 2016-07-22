@@ -188,25 +188,3 @@ export const submit_custom_email =
     const shapedEmails = compose(dissoc('null'), converge(merge, setEmailKey))(emailsArr)
     return post_body({ email: shapedEmails }, '/api/submit-email')
   })
-
-const res = {
-  "total_count": 1,
-  "items": [
-      {
-          "created_at": "Fri, 21 Oct 2011 11:03:55 GMT",
-          "code": 550,
-          "address": "'baz@example.com",
-          "error": "Message was not accepted -- invalid mailbox.  Local mailbox 'baz@example.com is unavailable: user not found"
-      }, {
-          "created_at": "Fri, 21 Oct 2011 11:04:55 GMT",
-          "code": 550,
-          "address": "'baz@example.com",
-          "error": "Message was not accepted -- invalid mailbox.  Local mailbox 'baz@example.com is unavailable: user not found"
-      }, {
-          "created_at": "Fri, 21 Oct 2011 11:05:55 GMT",
-          "code": 550,
-          "address": "'baz@example.com",
-          "error": "Message was not accepted -- invalid mailbox.  Local mailbox 'baz@example.com is unavailable: user not found"
-      }
-  ]
-}

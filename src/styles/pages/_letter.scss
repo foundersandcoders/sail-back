@@ -243,23 +243,15 @@
   }
 }
 
-//TODO delete me
-.date-boundaries-form * {
-  border: solid black 1px;
-}
 
 .date-boundaries-form {
   margin-top: 4em;
 }
 
-.date-boundaries-form div {
-  margin-right: 2em;
-  display: inline-block;
+.date-boundaries-form div span {
+  margin-right: 0.5em;
 }
 
-.date-boundaries-form div div {
-  height: 2em;
-}
 
 .date-boundaries-form button {
   display: block;
