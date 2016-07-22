@@ -13,9 +13,9 @@ import { send_newsletter_post
        , SUBSCRIPTION_DUE_POST_TAB
        } from '../redux/modules/letters/letters.js'
 
-import PostMembersSection from '../dumb_components/letters/post_members_section.js'
-import SubLettersSection from '../dumb_components/letters/sub_letters_section.js'
-import SubDueSection from '../dumb_components/sub_due_section.js'
+import post_members_section from '../dumb_components/letters/post_members_section.js'
+import sub_letters_section from '../dumb_components/letters/sub_letters_section.js'
+import sub_due_section from '../dumb_components/sub_due_section.js'
 
 const Letters = ({ send_newsletter_post, send_sub_reminder_post, active_tab, subscription_due_post_tab, ...other }) => {
   return (
@@ -46,10 +46,18 @@ const Letters = ({ send_newsletter_post, send_sub_reminder_post, active_tab, sub
   )
 }
 
+const sub_due = props => (
+  { ...props
+  , fetch_sub_due: props.send_subscription_due_post
+  , checker: !isEmpty(props.sub_letters)
+  , component: sub_letters_section
+  }
+)
+
 const map_tab =
-  { [SEND_NEWSLETTER_POST]: props => <PostMembersSection {...props} />
-  , [SEND_SUB_REMINDER_POST]: props => <SubLettersSection {...props} />
-  , [SUBSCRIPTION_DUE_POST_TAB]: props => <SubDueSection {...props} fetch_sub_due={props.send_subscription_due_post} checker={!isEmpty(props.sub_letters)} component={SubLettersSection} />
+  { [SEND_NEWSLETTER_POST]: post_members_section
+  , [SEND_SUB_REMINDER_POST]: sub_letters_section
+  , [SUBSCRIPTION_DUE_POST_TAB]: props => sub_due_section(sub_due(props))
 }
 
 const mapStateToProps = ({ letters: { sub_letters, post_members, active_tab, shown, shown_letter_index } }) => (
