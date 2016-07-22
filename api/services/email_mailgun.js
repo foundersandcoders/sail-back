@@ -6,15 +6,9 @@
 var R = require('ramda')
 var aSync = require('async')
 
-var Mailgun = require('mailgun').Mailgun
-var mg = new Mailgun(process.env.MAILGUN)
-
-// TODO change all mailgun to use new npm module
-
 var apiKey = process.env.MAILGUN
 var domain = 'sandboxba3153df65354c40ae1a00b269fecdb5.mailgun.org'
 var mailgun = require('mailgun-js')({ apiKey, domain });
-
 
 module.exports = {
   /**
@@ -37,13 +31,16 @@ module.exports = {
     )
   },
   sendPassword: function (data, callback) {
-    var text = module.exports._templateEngine(data, 'forgotPass')
-
     if (process.env.NODE_ENV === 'testing') {
       return callback(undefined, 'Email sent')
     }
 
-    mg.sendText('messenger@friendsch.org', [data.email], 'Forgot password', text, function (error) {
+    var text = module.exports._templateEngine(data, 'forgotPass')
+    var from = 'messenger@friendsch.org'
+    var to = data.email
+    var subject = 'Forgot password'
+
+    mailgun.messages().send({ text, from, to, subject }, (error, results) => {
       if (error) {
         sails.log.error('MAILGUN ERROR: ', error)
         callback(error, undefined)
