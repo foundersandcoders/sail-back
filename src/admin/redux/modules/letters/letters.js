@@ -1,29 +1,21 @@
 const { createAction } = require('redux-actions')
-const { get_body } = require('app/http')
-const {
-    merge
-  , compose
-  , objOf
-  , map
-  , props
-  , pick
-  , reduce
-  , liftN
-  , unapply
-  , ifElse
-  , prop
-} = require('ramda')
+const { get_body, post, post_body } = require('app/http')
+const { merge, compose, objOf, map, props, pick, reduce, liftN, unapply, ifElse, prop, assoc, concat, omit }
+  = require('ramda')
 
-const { sub_reminder } = require('./bodies.js')
-const { sub_reminder_SO } = require('./bodies.js')
+const { sub_reminder, sub_reminder_SO, subscription_due } = require('./bodies.js')
 
-const SEND_NEWSLETTER_POST =
+export const SEND_NEWSLETTER_POST =
   'SEND_NEWSLETTER_POST'
-const SEND_SUB_REMINDER_POST =
+export const SEND_SUB_REMINDER_POST =
   'SEND_SUB_REMINDER_POST'
-const TOGGLE_RECIPIENT_LIST =
+export const TOGGLE_RECIPIENT_LIST =
   'TOGGLE_RECIPIENT_LIST'
-const SHOW_LETTER =
+export const SUBSCRIPTION_DUE_POST_TAB =
+  'SUBSCRIPTION_DUE_POST_TAB'
+export const SEND_SUBSCRIPTION_DUE_POST =
+  'SEND_SUBSCRIPTION_DUE_POST'
+export const SHOW_LETTER =
   'SHOW_LETTER'
 
 type State = typeof initialState
@@ -31,28 +23,33 @@ type State = typeof initialState
 import type { Action, Reducer } from 'redux'
 
 const initialState =
-  { post_members: { members: [], shown: false }
-  , sub_reminders: { reminderLetters: [], shown: false, shown_letter_index: 0 }
+  { post_members: []
+  , sub_letters: []
   , active_tab: ''
+  , shown: false
+  , shown_letter_index: 0
   }
 
 const reducer: Reducer<State, Action>
  = (state = initialState, { type, payload }) => {
+   const ids = pick([ 'id', 'first_name', 'last_name', 'title' ])
+   const injectLetterContent = body => compose(objOf('letter_content'), body)
+   const shape = body => map(liftN(3, unapply(reduce(merge, {})))(injectLetterContent(body), addresses, ids))
+   const changeTab = compose(assoc('active_tab', type), assoc('shown', false), assoc('shown_letter_index', 0))
+
    switch (type) {
    case SEND_NEWSLETTER_POST:
-     const new_post_members = { ...state.post_members, members: payload.results }
-     return { ...state, post_members: new_post_members, active_tab: 'members' }
+     return changeTab({ ...state, post_members: payload.results })
    case SEND_SUB_REMINDER_POST:
-     const ids = pick([ 'id', 'first_name', 'last_name', 'title' ])
-     const emails = compose(objOf('email_content'), bodyPicker)
-     const shape = map(liftN(3, unapply(reduce(merge, {})))(emails, addresses, ids))
-     const new_sub_reminders = { ...state.sub_reminders, reminderLetters: shape(payload.results) }
-     return { ...state, sub_reminders: new_sub_reminders, active_tab: 'letters' }
+     return changeTab({ ...state, sub_letters: shape(subReminderBody)(payload.results) })
+   case SEND_SUBSCRIPTION_DUE_POST:
+     return { ...state, sub_letters: shape(subscription_due)(payload.results) }
+   case SUBSCRIPTION_DUE_POST_TAB:
+     return changeTab({...state, sub_letters: []})
    case TOGGLE_RECIPIENT_LIST:
-     const section = payload.section
-     return { ...state, [section]: { ...state[section], shown: payload.shown } }
+     return { ...state, shown: !state.shown }
    case SHOW_LETTER:
-     return { ...state, sub_reminders: { ...state.sub_reminders, shown_letter_index: payload } }
+     return { ...state, shown_letter_index: payload }
    default:
      return state
    }
@@ -70,9 +67,24 @@ export const send_sub_reminder_post =
   createAction(SEND_SUB_REMINDER_POST, () => get_body('/api/post_sub_reminders'))
 
 export const toggle_recipient_list =
-  createAction(TOGGLE_RECIPIENT_LIST, (section, shown) => ({ section, shown }))
+  createAction(TOGGLE_RECIPIENT_LIST)
+
+export const send_subscription_due_post =
+  createAction(SEND_SUBSCRIPTION_DUE_POST, body => post_body({...body, news_type: 'post'}, 'api/subscription-due'))
+
+export const subscription_due_post_tab =
+  createAction(SUBSCRIPTION_DUE_POST_TAB)
+
+
 
 const addressProps = [ 'address1', 'address2', 'address3', 'address4', 'county', 'postcode' ]
-const addresses = compose(objOf('address'), props(addressProps))
 
-const bodyPicker = ifElse(prop('standing_order'), sub_reminder_SO, sub_reminder)
+const build_address = (member) =>
+  concat
+    ( [`${member.title} ${member.first_name || member.initials} ${member.last_name}`]
+    , props(addressProps)(member)
+    )
+
+const addresses = compose(objOf('address'), build_address)
+
+const subReminderBody = ifElse(prop('standing_order'), sub_reminder_SO, sub_reminder)

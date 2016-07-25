@@ -93,7 +93,7 @@ var SearchResults = React.createClass({
 function format_payment (payment) {
   var time = payment.date.getTime()
   if (!time) return ''
-  return format_date(time) + ' - ' + formatPounds(payment.amount / 100) }
+  return format_date(time) + ' - ' + formatPounds(payment.amount) }
 
 function add_date_obj_to_payment (payment) {
       var dated_payment = Object.create(payment)

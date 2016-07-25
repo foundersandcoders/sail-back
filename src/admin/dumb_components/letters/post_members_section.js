@@ -1,19 +1,17 @@
 import React from 'react'
 import LetterRecipients from './letter_recipients.js'
 
-export default ({ letters, toggle_recipient_list }) => (
+export default ({ toggle_recipient_list, shown, ...other }) =>
   <div>
     <button
       className='letters-toggle'
-      onClick={() => toggle_recipient_list('post_members', !letters.post_members.shown)}>
-      {letters.post_members.shown ? 'Hide Members' : 'Show Members'}
+      onClick={toggle_recipient_list}>
+      {shown ? 'Hide Members' : 'Show Members'}
     </button>
-    {letters.post_members.shown && <PostMembers letters={letters.post_members.members} />}
+    {shown && <PostMembers {...other} />}
   </div>
-)
 
-const PostMembers = ({ letters }) => (
+const PostMembers = ({ post_members }) =>
   <div>
-    <LetterRecipients letters={letters} />
+    <LetterRecipients recipients={post_members} />
   </div>
-)

@@ -1,6 +1,6 @@
 /* @flow */
 const { createAction } = require('redux-actions')
-const { get_body, post } = require('app/http')
+const { get_body, post, post_body } = require('app/http')
 
 const { lensPath, over, not, indexBy, map, propOr, merge, zipWith, ifElse, gte,
   cond, where, objOf, zip, set, lift, assoc, dissoc, prop, converge, omit } =
@@ -8,29 +8,33 @@ const { lensPath, over, not, indexBy, map, propOr, merge, zipWith, ifElse, gte,
 const { K, pipe, compose } = require('sanctuary')
 
 const { PATH_UPDATE } = require('../route.js')
-const { standing, lates, newsletter_alert, newsletter_reminder } =
+const { standing, lates, newsletter_alert, newsletter_reminder, subscription_due } =
   require('./bodies.js')
 
+export const SEND_SUB_REMINDER =
+  'SEND_SUB_REMINDER'
+export const SEND_NEWSLETTER =
+  'SEND_NEWSLETTER'
+export const SEND_NEWSLETTER_REMINDER =
+  'SEND_NEWSLETTER_REMINDER'
+export const COMPOSE_CUSTOM =
+  'COMPOSE_CUSTOM'
+export const GET_BOUNCED =
+  'GET_BOUNCED'
+export const SUB_DUE_TAB =
+  'SUB_DUE_TAB'
 const SEND_WELCOME =
   'SEND_WELCOME'
-const SEND_SUB_REMINDER =
-  'SEND_SUB_REMINDER'
-const SEND_NEWSLETTER =
-  'SEND_NEWSLETTER'
-const SEND_NEWS_REMINDER =
-  'SEND_NEWSLETTER_REMINDER'
-const COMPOSE_CUSTOM =
-  'COMPOSE_CUSTOM'
 const TOGGLE_LIST =
   'TOGGLE_LIST'
 const TOGGLE_CONTENT =
   'TOGGLE_CONTENT'
 const SUBMIT_EMAIL =
   'SUBMIT_EMAIL'
-const GET_BOUNCED =
-  'GET_BOUNCED'
 const SUBMIT_CUSTOM_EMAIL =
   'SUBMIT_CUSTOM_EMAIL'
+const SEND_SUBSCRIPTION_DUE_EMAIL =
+  'SEND_SUBSCRIPTION_DUE_EMAIL'
 
 import type { Action, Reducer } from 'redux'
 
@@ -53,7 +57,7 @@ const reducer : Reducer<State, Action>
         return change_tab(new_emails(template_subs)(primaries))
       case SEND_NEWSLETTER:
         return change_tab(new_emails(newsletter_alert)(shape_newsletters))
-      case SEND_NEWS_REMINDER:
+      case SEND_NEWSLETTER_REMINDER:
         return change_tab(new_emails(newsletter_reminder)(shape_newsletters))
       case COMPOSE_CUSTOM:
         return change_tab({ ...newState, custom_emails: { members: payload.results }})
@@ -64,11 +68,15 @@ const reducer : Reducer<State, Action>
       case SEND_WELCOME:
         return update(sent)(true)
       case SUBMIT_EMAIL:
-        return email_response(state)(payload.body)
+        return email_response(state)(payload)
       case GET_BOUNCED:
         return change_tab({ ...newState, bounced: payload.results.items })
       case SUBMIT_CUSTOM_EMAIL:
-        return email_response(state)(payload.body)
+        return email_response(state)(payload)
+      case SEND_SUBSCRIPTION_DUE_EMAIL:
+        return new_emails(subscription_due)(shape_newsletters)
+      case SUB_DUE_TAB:
+        return change_tab({...newState, emails: {}})
       default:
         return state
     }
@@ -136,7 +144,10 @@ export const send_newsletter =
   createAction(SEND_NEWSLETTER, () => get_body('api/newsletter-alert'))
 
 export const send_newsletter_reminder =
-  createAction(SEND_NEWS_REMINDER, () => get_body('api/newsletter-alert'))
+  createAction(SEND_NEWSLETTER_REMINDER, () => get_body('api/newsletter-alert'))
+
+export const send_subscription_due_email =
+  createAction(SEND_SUBSCRIPTION_DUE_EMAIL, body => post_body({...body, news_type: 'online'}, 'api/subscription-due'))
 
 export const compose_custom =
   createAction(COMPOSE_CUSTOM, () => get_body('api/newsletter-alert'))
@@ -148,10 +159,13 @@ export const toggle_content =
   createAction(TOGGLE_CONTENT)
 
 export const submit_email =
-  createAction(SUBMIT_EMAIL, email => post({ email }, '/api/submit-email'))
+  createAction(SUBMIT_EMAIL, email => post_body({ email }, '/api/submit-email'))
 
 export const get_bounced =
   createAction(GET_BOUNCED, () => get_body('/api/get-bounced'))
+
+export const sub_due_tab =
+  createAction(SUB_DUE_TAB)
 
 export const submit_custom_email =
   createAction(SUBMIT_CUSTOM_EMAIL, (members, form) => {
@@ -166,5 +180,5 @@ export const submit_custom_email =
     const emailsArr = zipWith(merge, members, emailBodies)
     const setEmailKey = map(compose(indexBy, prop), ['primary_email', 'secondary_email'])
     const shapedEmails = compose(dissoc('null'), converge(merge, setEmailKey))(emailsArr)
-    return post({ email: shapedEmails }, '/api/submit-email')
+    return post_body({ email: shapedEmails }, '/api/submit-email')
   })

@@ -2,9 +2,10 @@
 const React = require('react')
 const { connect } = require('react-redux')
 const { pick, keys, toPairs, flip, prop, zip, compose, replace,
-   map, ifElse, always, equals } =
+   map, ifElse, always, equals, isEmpty } =
     require('ramda')
-import CustomEmailForm from '../dumb_components/custom_email_form.js'
+import custom_email_form from '../dumb_components/custom_email_form.js'
+import sub_due_section from '../dumb_components/sub_due_section.js'
 
 import
   { send_sub_reminder
@@ -16,8 +17,15 @@ import
   , submit_email
   , get_bounced
   , submit_custom_email
+  , send_subscription_due_email
+  , sub_due_tab
+  , SEND_SUB_REMINDER
+  , SEND_NEWSLETTER
+  , SEND_NEWSLETTER_REMINDER
+  , SUB_DUE_TAB
+  , COMPOSE_CUSTOM
+  , GET_BOUNCED
   } from '../redux/modules/email/reducer.js'
-
 
 const Email = (
   { send_sub_reminder: sub
@@ -27,12 +35,13 @@ const Email = (
   , get_bounced
   , active_tab
   , email_sent
+  , sub_due_tab: sub_due
   , ...list_props
   }
 ) =>
   <div className='main-container email'>
     <form className='email-controls' >
-    { map(send_button, zip(email_ids, [sub, news, remind, custom, get_bounced])) }
+    { map(send_button, zip(email_ids, [sub, news, remind, sub_due, custom, get_bounced])) }
     </form>
 
     {email_sent
@@ -60,7 +69,7 @@ const send_button = ([ id, fn ]) =>
     {label_from_id(id)}
   </button>
 
-const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email, email_sent }) =>
+const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email, email_sent, ...other }) =>
   <div>
     <h1>The following addresses will receive an email:</h1>
     <button type='button' onClick={toggle_list} className='email-list-toggle'>
@@ -82,14 +91,22 @@ const BouncedEmails = ({ bounced }) =>
     }
   </div>
 
-const map_tab =
-  { SEND_SUB_REMINDER: email_list
-  , SEND_NEWSLETTER: email_list
-  , SEND_NEWSLETTER_REMINDER: email_list
-  , COMPOSE_CUSTOM: props => <CustomEmailForm submit={props.submit_custom_email} members={props.custom_emails.members}/>
-  , GET_BOUNCED: BouncedEmails
-}
+const sub_due = (props) => (
+  { ...props
+  , fetch_sub_due: props.send_subscription_due_email
+  , component: email_list
+  , checker: !isEmpty(props.emails)
+  }
+)
 
+const map_tab =
+  { [SEND_SUB_REMINDER]: email_list
+  , [SEND_NEWSLETTER]: email_list
+  , [SEND_NEWSLETTER_REMINDER]: email_list
+  , [SUB_DUE_TAB]: compose(sub_due_section, sub_due)
+  , [COMPOSE_CUSTOM]: custom_email_form
+  , [GET_BOUNCED]: BouncedEmails
+}
 
 const replaceNormal = compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
 const replaceGetBounced = always('Get Bounced Emails')
@@ -101,7 +118,7 @@ const label_from_id =
     replaceNormal
   );
 
-const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder', 'custom-email', 'get-bounced']
+const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder', 'subscription-due', 'custom-email', 'get-bounced']
 
 const show_list = (emails, toggle) => keys(emails).length > 0 && toggle
 
@@ -140,5 +157,7 @@ export default connect
     , submit_email
     , get_bounced
     , submit_custom_email
+    , send_subscription_due_email
+    , sub_due_tab
     }
   )(Email)

@@ -1,9 +1,9 @@
 const React = require('react')
 
-export default ({ members, submit }) => {
+export default ({custom_emails: { members }, submit_custom_email }) => {
   const onSubmit = e => {
     e.preventDefault()
-    submit(members, e.target)
+    submit_custom_email(members, e.target)
   }
   return (
     <div className='custom-email-container'>
