@@ -42,8 +42,6 @@ type State = { emails: { [key: string]: { overdue: number } } }
 
 const initialState = { emails: { } }
 
-//TODO RESET VARIOUS BITS OF STATE
-
 const reducer : Reducer<State, Action>
   = (state = initialState, { type, payload }) => {
     const newState = omit(['custom_emails', 'email_sent', 'bounced'])(state)
