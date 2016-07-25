@@ -568,18 +568,18 @@ div.gbp {
   vertical-align: top; }
 
 @media print {
-
   .label-row {
     height: 80pt;
   }
   .label {
-    padding: 2mm;
+    padding: 2mm; //Add padding to individual labels
     width: 70mm;
     border: solid 1px transparent;
-    height: 40mm; }
+    height: 40mm; //change height of labels
+  }
   .labels-tables {
     border: solid 2px transparent;
-    padding: 5mm 2mm;
+    padding: 5mm 2mm; //add vertical padding if labels start too high or low
     page-break-after: always;
   }
 }
