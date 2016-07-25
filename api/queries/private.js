@@ -26,8 +26,8 @@ const newsletterQueryTemplate = (columns, news_type) => (
 )
 
 exports.update_subscription = body =>
-  `insert into payments (member, category, amount)
-  select id, 'subscription', amount from members, membershiptypes
+  `insert into payments (member, category, amount, createdAt)
+  select id, 'subscription', amount, now() from members, membershiptypes
   where members.membership_type = membershiptypes.value
   and news_type = '${body.news_type}'
   and members.membership_type in
