@@ -1,11 +1,14 @@
 /* @flow */
 import React from 'react'
 import { connect } from 'react-redux'
-const { prop, props, map, filter, compose, splitEvery, keys, merge }
+const { prop, props, map, filter, compose, splitEvery, keys, merge, length}
   = require('ramda')
+const trace = require('app/trace')
 
 import { newsletter_labels } from '../redux/modules/labels.js'
 import r from 'app/r'
+
+
 
 const Labels = (
   { addresses
@@ -14,10 +17,28 @@ const Labels = (
 ) =>
   <div>
     <button onClick={newsletter_labels}>Newsletter Labels</button>
-    <table>
-      { r('tbody')()(compose(map(LabelRow), splitEvery(3))(addresses)) }
-    </table>
+    {compose(map(table_builder), splitEvery(21))(topped_up(addresses))}
   </div>
+
+  const dummy_ob =
+    { addressee: ' '
+    , address1: ' '
+    , address2: ' '
+    , address3: ' '
+    , address4: ' '
+    , postcode: ' '
+    , county: ' '
+    }
+
+const topped_up = arr => {
+  console.log('length of arr', length(arr))
+  return length(arr) % 3 > 0 ? topped_up(arr.concat(dummy_ob)) : arr
+}
+
+const table_builder = address_block =>
+  <table className='labels-tables' key={address_block[0].addressee}>
+    { r('tbody')()(compose(map(LabelRow), splitEvery(3))(address_block)) }
+  </table>
 
 const lines =
   [ 'addressee'
@@ -45,4 +66,3 @@ const LabelRow
 
 export default
   connect(prop('newsletter_labels'), { newsletter_labels })(Labels)
-

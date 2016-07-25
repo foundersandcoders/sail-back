@@ -522,16 +522,6 @@ div.gbp {
   height: 2.5em;
 }
 
-.label {
-  font-size: 1.5em;
-  padding: 1em;
-}
-
-.label-row {
-  height: 10em;
-  vertical-align: top;
-}
-
 .custom-email {
   height: 400px;
   width: 60vw;
@@ -568,8 +558,28 @@ div.gbp {
   margin: 2em 2em;
 }
 
-@print {
+
+.label {
+  font-size: 1.5em;
+  padding: 1em; }
+
+.label-row {
+  height: 10em;
+  vertical-align: top; }
+
+@media print {
+
   .label-row {
     height: 80pt;
+  }
+  .label {
+    padding: 2mm;
+    width: 70mm;
+    border: solid 1px transparent;
+    height: 40mm; }
+  .labels-tables {
+    border: solid 2px transparent;
+    padding: 5mm 2mm;
+    page-break-after: always;
   }
 }
