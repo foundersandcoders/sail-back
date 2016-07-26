@@ -33,7 +33,6 @@ const lines =
   , 'address3'
   , 'address4'
   , 'postcode'
-  , 'county'
   ]
 
 
@@ -61,5 +60,4 @@ const dummy_ob =
   , address3: ' '
   , address4: ' '
   , postcode: ' '
-  , county: ' '
   }
