@@ -66,7 +66,7 @@ const send_button = ([ id, fn ]) =>
     className='send-button'
     onClick={without_default(fn)}
   >
-    {label_from_id(id)}
+    {label_from_id[id]}
   </button>
 
 const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email, email_sent, ...other }) =>
@@ -111,12 +111,13 @@ const map_tab =
 const replaceNormal = compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
 const replaceGetBounced = always('Get Bounced Emails')
 
-const label_from_id =
-  ifElse(
-    equals('get-bounced'),
-    replaceGetBounced,
-    replaceNormal
-  );
+const label_from_id = { 'reminder-email': 'Balance Overdue Email'
+                      , 'newsletter-email': 'Newsletter Email (1)'
+                      , 'newsletter-reminder': 'Newsletter Email (2)'
+                      , 'subscription-due': 'Subscription Due Email'
+                      , 'custom-email': 'Email All Members'
+                      , 'get-bounced': 'List Emails Bounced'
+                      }
 
 const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder', 'subscription-due', 'custom-email', 'get-bounced']
 
