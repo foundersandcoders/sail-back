@@ -216,10 +216,6 @@ module.exports = {
       collection: 'BookingRecords',
       via: 'head_member'
     },
-    test: {
-      type: 'BOOLEAN',
-      defaultsTo: false
-    },
     // ------------------------------------------------------------
     // Methods
     // ------------------------------------------------------------

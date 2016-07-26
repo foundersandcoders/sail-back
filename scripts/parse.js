@@ -6,7 +6,7 @@ var normalize = require('path').normalize
 
 var source = process.argv[2]
 var type = source.split('-')[0]
-var path = normalize(__dirname + '/../../foch-data/' + type + '.csv')
+var path = normalize(__dirname + '/../../foch-data/' + source + '.csv')
 var csv = fs.readFileSync(path)
 
 var result = { type: type, result: csv.toString() }
