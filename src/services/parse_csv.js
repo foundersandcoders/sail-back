@@ -56,7 +56,6 @@ function _stamp (index, data, stamppattern){
 
   if (index === 0 && (data.length !== stampkeys.length)) {
 
-
     throw new Error("Blueprint does not match with file csv columns");
   }
 
@@ -66,7 +65,8 @@ function _stamp (index, data, stamppattern){
 
       if(keystamp === "membership_type") {
 
-        stampedobj.membership_type = _membershipTypeMap(data[index]);
+        stampedobj.membership_type = _membershipTypeMap(data[index].trim());
+
       } else {
 
         stampedobj[keystamp] = _transform(data[index], stamppattern[keystamp].type);
@@ -91,6 +91,8 @@ function _transform (value, type) {
       encode(value) :
   type === "number" ?
       Number(comma_safe(value)) :
+  type === "currency" ?
+      Number(comma_safe(value)) * 100 :
   type === "date" ?
       _dateconvert(value) :
   type === "boolean" ?

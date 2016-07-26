@@ -136,7 +136,8 @@ module.exports = function () {
             count += 1
             if (err) {
               problems.push({member: member, error: err})
-            } else if (count === members.length) {
+            }
+            if (count === members.length) {
               return cb(null, {
                 problems: problems,
                 problem_count: problems.length,
