@@ -4,7 +4,7 @@ const { connect } = require('react-redux')
 const { pick, keys, toPairs, flip, prop, zip, compose, replace,
    map, ifElse, always, equals, isEmpty } =
     require('ramda')
-import custom_email_form from '../dumb_components/custom_email_form.js'
+import custom_email_section from '../dumb_components/custom_email_section.js'
 import sub_due_section from '../dumb_components/sub_due_section.js'
 
 import
@@ -106,7 +106,7 @@ const map_tab =
   , [SEND_NEWSLETTER]: email_list
   , [SEND_NEWSLETTER_REMINDER]: email_list
   , [SUB_DUE_TAB]: compose(sub_due_section, sub_due)
-  , [COMPOSE_CUSTOM]: custom_email_form
+  , [COMPOSE_CUSTOM]: custom_email_section
   , [GET_BOUNCED]: BouncedEmails
 }
 

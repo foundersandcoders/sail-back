@@ -98,7 +98,7 @@ module.exports = {
     var sendEmail = email => cb => {
       var address = email.to
       mailgun.messages().send(email, (error, results) =>
-        error ? cb({ address }, null) : cb(null, { results: JSON.stringify(results), address })
+        error ? cb({ address, message: error.message }, null) : cb(null, { results: JSON.stringify(results), address })
       )
     }
 
