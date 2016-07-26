@@ -576,26 +576,52 @@ div.gbp {
 
 
 .label {
-  font-size: 1.5em;
+  font-size: 1em;
   padding: 1em; }
 
-.label-row {
-  height: 10em;
-  vertical-align: top; }
+
+.labels-tables {
+  margin: 2em 2em; }
 
 @media print {
+  body {
+    margin-top: 0 !important;
+  }
+
   .label-row {
-    height: 80pt;
+    vertical-align: top;
+    line-height: 4mm;
+    min-height: 30mm;
+    max-height: 30mm;
   }
+
+  .label-row td {
+    min-height: 39mm;
+    max-height: 39mm;
+    height: 39mm;
+  }
+
   .label {
-    padding: 2mm; //Add padding to individual labels
+    padding: 4mm 1mm 4mm 3mm;
     width: 70mm;
-    border: solid 1px transparent;
-    height: 40mm; //change height of labels
+    border: solid transparent;
   }
+
   .labels-tables {
-    border: solid 2px transparent;
-    padding: 5mm 2mm; //add vertical padding if labels start too high or low
+    margin: 0mm 2mm;
+    padding: 6mm 2mm 0mm 2mm;
+    border: solid transparent;
     page-break-after: always;
+    height: 28cm;
+  }
+
+  .labels-tables td div span {
+    font-size: 9pt;
+    line-height: 1mm;
+  }
+
+  .labels-tables td div {
+    font-size: 9pt;
+    line-height: 3mm;
   }
 }
