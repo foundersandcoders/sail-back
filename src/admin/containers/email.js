@@ -41,7 +41,7 @@ const Email = (
 ) =>
   <div className='main-container email'>
     <form className='email-controls' >
-    { map(send_button, zip(email_ids, [sub, news, remind, sub_due, custom, get_bounced])) }
+    { map(send_button, zip(email_ids, [sub_due, sub, news, remind, custom, get_bounced])) }
     </form>
 
     {email_sent
@@ -73,7 +73,7 @@ const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_e
   <div>
     <h1>The following addresses will receive an email:</h1>
     <button type='button' onClick={toggle_list} className='email-list-toggle'>
-      { (list_hidden ? 'Show' : 'Hide') + ' Emails' }
+      { (list_hidden ? 'Show' : 'Hide') + ' Recipients' }
     </button>
     <button type='button' onClick={() => submit_email(emails)} className='email-list-toggle'>
       Send Emails
@@ -116,7 +116,7 @@ const label_from_id = { 'reminder-email': 'Balance Overdue Email'
                       , 'get-bounced': 'List Emails Bounced'
                       }
 
-const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder', 'subscription-due', 'custom-email', 'get-bounced']
+const email_ids = ['subscription-due', 'reminder-email', 'newsletter-email', 'newsletter-reminder', 'custom-email', 'get-bounced']
 
 const show_list = (emails, toggle) => keys(emails).length > 0 && toggle
 
