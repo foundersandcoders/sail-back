@@ -19,6 +19,8 @@ import
   , submit_custom_email
   , send_subscription_due_email
   , sub_due_tab
+  , preview_custom
+  , edit_custom
   , SEND_SUB_REMINDER
   , SEND_NEWSLETTER
   , SEND_NEWSLETTER_REMINDER
@@ -159,5 +161,7 @@ export default connect
     , submit_custom_email
     , send_subscription_due_email
     , sub_due_tab
+    , preview_custom
+    , edit_custom
     }
   )(Email)

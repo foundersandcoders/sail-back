@@ -35,6 +35,10 @@ const SUBMIT_CUSTOM_EMAIL =
   'SUBMIT_CUSTOM_EMAIL'
 const SEND_SUBSCRIPTION_DUE_EMAIL =
   'SEND_SUBSCRIPTION_DUE_EMAIL'
+const PREVIEW_CUSTOM =
+  'PREVIEW_CUSTOM'
+const EDIT_CUSTOM =
+  'EDIT_CUSTOM'
 
 import type { Action, Reducer } from 'redux'
 
@@ -60,7 +64,7 @@ const reducer : Reducer<State, Action>
       case SEND_NEWSLETTER_REMINDER:
         return change_tab(new_emails(newsletter_reminder)(shape_newsletters))
       case COMPOSE_CUSTOM:
-        return change_tab({ ...newState, custom_emails: { members: payload.results }})
+        return change_tab({ ...newState, custom_emails: { members: payload.results } })
       case TOGGLE_LIST:
         return (over(list_hidden, not, state): State)
       case TOGGLE_CONTENT:
@@ -77,6 +81,10 @@ const reducer : Reducer<State, Action>
         return new_emails(subscription_due)(shape_newsletters)
       case SUB_DUE_TAB:
         return change_tab({...newState, emails: {}})
+      case PREVIEW_CUSTOM:
+          return { ...state, custom_emails : { ...state.custom_emails, preview: payload, mode: type } }
+      case EDIT_CUSTOM:
+        return { ...state, custom_emails: { ...state.custom_emails, mode: type }}
       default:
         return state
     }
@@ -90,9 +98,9 @@ const Email = content => (
   }
 )
 
-const email_response = state => resBody => (
+const email_response = state => res => (
   { ...state
-  , email_sent: resBody ? 'success' : resBody.error.recipient
+  , email_sent: res.results ? 'success' : res.error.address
   }
 )
 
@@ -167,12 +175,18 @@ export const get_bounced =
 export const sub_due_tab =
   createAction(SUB_DUE_TAB)
 
+export const preview_custom =
+  createAction(PREVIEW_CUSTOM)
+
+export const edit_custom =
+  createAction(EDIT_CUSTOM)
+
 export const submit_custom_email =
   createAction(SUBMIT_CUSTOM_EMAIL, (members, form) => {
     const format_message = form => member => (
-      [ `${form[0].value}`
+      [ form[0]
       , `Dear ${member.first_name || member.title} ${member.last_name},`
-      , `${form[1].value}`
+      , form[1]
       ]
     )
     const template = format_message(form)
