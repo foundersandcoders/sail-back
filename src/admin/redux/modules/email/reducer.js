@@ -42,9 +42,13 @@ const EDIT_CUSTOM =
 
 import type { Action, Reducer } from 'redux'
 
-type State = { emails: { [key: string]: { overdue: number } } }
+type State = { emails: { [key: string]: { overdue: number } }
+             , custom_emails: { }
+             }
 
-const initialState = { emails: { } }
+const initialState = { emails: { }
+                     , custom_emails: { }
+                     }
 
 const reducer : Reducer<State, Action>
   = (state = initialState, { type, payload }) => {
@@ -84,7 +88,7 @@ const reducer : Reducer<State, Action>
       case PREVIEW_CUSTOM:
           return { ...state, custom_emails : { ...state.custom_emails, preview: payload, mode: type } }
       case EDIT_CUSTOM:
-        return { ...state, custom_emails: { ...state.custom_emails, mode: type }}
+        return { ...state, custom_emails: { ...state.custom_emails, mode: type } }
       default:
         return state
     }
