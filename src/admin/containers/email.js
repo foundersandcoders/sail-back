@@ -108,9 +108,6 @@ const map_tab =
   , [GET_BOUNCED]: BouncedEmails
 }
 
-const replaceNormal = compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
-const replaceGetBounced = always('Get Bounced Emails')
-
 const label_from_id = { 'reminder-email': 'Balance Overdue Email'
                       , 'newsletter-email': 'Newsletter Email (1)'
                       , 'newsletter-reminder': 'Newsletter Email (2)'
@@ -124,7 +121,7 @@ const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder', 
 const show_list = (emails, toggle) => keys(emails).length > 0 && toggle
 
 const email = toggle_show => ([ address, { content, shown }]) =>
-  <li key={address}>
+  <li className='listed-email-addressee' key={address}>
     <span className='email-addressee'>{address}</span>
     <button
       type='button'
