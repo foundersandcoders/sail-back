@@ -29,6 +29,6 @@ export default ({members, preview, props: { submit_custom_email, edit_custom }})
           </div>
         )
       }
-      <button className='custom-email-button' onClick={() => submit_custom_email(members, preview)}>Submit Email</button>
-      <button className='custom-email-button' onClick={() => edit_custom(preview)}>Edit</button>
+      <button className='custom-email-button' onClick={() => submit_custom_email(members, preview)}>Send Email</button>
+      <button className='custom-email-button' onClick={() => edit_custom(preview)}>Edit Email</button>
     </div>

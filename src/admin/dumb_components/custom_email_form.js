@@ -6,6 +6,6 @@ export default (email, submit) =>
     <form onSubmit={submit}>
       <input type='text' className='custom-email-subject' placeholder='Subject' defaultValue={email ? email[0] : ''} />
       <textarea className='custom-email' placeholder='Email body' defaultValue={email ? email[1] : ''}></textarea>
-      <button type='submit'>Preview</button>
+      <button type='submit'>Preview Email</button>
     </form>
   </div>
