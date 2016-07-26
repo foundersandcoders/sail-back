@@ -1,4 +1,4 @@
-var date = require('./date_helpers.js').today('heroku-test')
+var date = require('./date_helpers.js').today(process.env.NODE_ENV)
 var due_date = require('./date_helpers.js').due_dates
 
 const subsQueryTemplate = (columns, news_type) => (
