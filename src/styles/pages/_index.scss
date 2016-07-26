@@ -548,10 +548,26 @@ div.gbp {
   }
 }
 
+.custom-email-preview {
+  margin: 2em 1em;
+}
+
+.custom-email-button {
+  margin: 0.5em 1em 0 0;
+}
+
 .bounced-email {
   text-decoration: none;
   font-size: 1.2em;
   margin-bottom: 0.8em;
+}
+
+.email-recipient {
+  list-style: none;
+}
+
+.email-recipients {
+  margin: 0.5em 0.5em 1.5em 0;
 }
 
 .bounced-container {

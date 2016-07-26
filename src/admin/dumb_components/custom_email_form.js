@@ -1,18 +1,11 @@
-const React = require('react')
+import React from 'react'
 
-export default ({custom_emails: { members }, submit_custom_email }) => {
-  const onSubmit = e => {
-    e.preventDefault()
-    submit_custom_email(members, e.target)
-  }
-  return (
-    <div className='custom-email-container'>
-      <p><i>Write out your custom email.</i></p>
-      <form onSubmit={onSubmit}>
-        <input type='text' className='custom-email-subject' placeholder='Subject'></input>
-        <textarea className='custom-email' placeholder='Email body' />
-        <button type='submit'>Submit</button>
-      </form>
-    </div>
-  )
-}
+export default (email, submit) =>
+  <div className='custom-email-container'>
+    <p><i>Write out your custom email.</i></p>
+    <form onSubmit={submit}>
+      <input type='text' className='custom-email-subject' placeholder='Subject' defaultValue={email ? email[0] : ''} />
+      <textarea className='custom-email' placeholder='Email body' defaultValue={email ? email[1] : ''}></textarea>
+      <button type='submit'>Preview</button>
+    </form>
+  </div>
