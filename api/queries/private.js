@@ -9,6 +9,7 @@ const subsQueryTemplate = (columns, news_type) => (
     from members right outer join payments
     on members.id = payments.member
     where members.news_type = '${news_type}'
+    and members.test = false
     and members.membership_type in
     ('annual-single', 'annual-double', 'annual-family')
     group by members.id
@@ -22,7 +23,8 @@ const subsQueryTemplate = (columns, news_type) => (
 const newsletterQueryTemplate = (columns, news_type) => (
   `select first_name, last_name, title, ${columns}
   from members
-  where news_type = '${news_type}';`
+  where news_type = '${news_type}'
+  and test=false;`
 )
 
 exports.update_subscription = body =>
@@ -64,5 +66,6 @@ exports.newsletter_labels =
   `select title, first_name, last_name, initials,
   address1, address2, address3, address4,
   postcode, county from members
-  where members.news_type = 'post'
+  where members.test=false
+  and members.news_type = 'post'
   or members.email_bounced = true;`

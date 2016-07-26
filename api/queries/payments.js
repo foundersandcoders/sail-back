@@ -7,6 +7,7 @@ exports.paying_in =
           AND p2.date >= p.date
     )
     AND p.member = m.id
+    AND m.test = false
     order by
       case
         when p.reference = ? then 0
@@ -24,6 +25,7 @@ exports.non_cheque =
            AND p2.date >= p.date
      )
      AND p.member = m.id
+     AND m.test = false
      order by p.date
      , field(p.category, 'donation', 'event', 'subscription', 'payment');`
 
