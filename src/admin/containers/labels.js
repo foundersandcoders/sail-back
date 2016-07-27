@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react'
 import { connect } from 'react-redux'
-const { prop, props, map, filter, compose, splitEvery, keys, merge, length}
+const { prop, props, map, filter, compose, splitEvery, keys, merge, length, over, lensIndex, defaultTo }
   = require('ramda')
 
 import { newsletter_labels } from '../redux/modules/labels.js'
@@ -40,10 +40,7 @@ const font_style = text =>
   ({ style: { fontSize: Math.min(12, 300 / text[0].length) + 'pt' } })
 
 
-const add_deliverer = arr =>
-[ ...arr.slice(0,-1)
-  , arr.slice(-1)[0] || 'POST'
-]
+const add_deliverer = arr => over(lensIndex(arr.length - 1), defaultTo('POST'), arr)
 
 const Label = compose
   ( r('td')({className: 'label' })
