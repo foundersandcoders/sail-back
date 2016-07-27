@@ -8,7 +8,7 @@ export default ({ toggle_recipient_list, shown, ...other }) => {
       <button
         className='letters-toggle'
         onClick={toggle_recipient_list}>
-        {shown ? 'Hide Letters' : 'Show Letters'}
+        {shown ? 'Hide Recipients' : 'Show Recipients'}
       </button>
       {shown && <SubLetters {...other} />}
     </div>

@@ -12,7 +12,7 @@ const sub_due_dates = ({fields, handleSubmit, error}) =>
           key={field}
           />
       )}
-      <button type='submit'>{`Submit Subscriptions Due`}</button>
+      <button type='submit'>Show Recipients</button>
     </form>
 
 

@@ -43,7 +43,7 @@ const Email = (
 ) =>
   <div className='main-container email'>
     <form className='email-controls' >
-    { map(send_button, zip(email_ids, [sub, news, remind, sub_due, custom, get_bounced])) }
+    { map(send_button, zip(email_ids, [sub_due, sub, news, remind, custom, get_bounced])) }
     </form>
 
     {email_sent
@@ -68,14 +68,14 @@ const send_button = ([ id, fn ]) =>
     className='send-button'
     onClick={without_default(fn)}
   >
-    {label_from_id(id)}
+    {label_from_id[id]}
   </button>
 
 const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email, email_sent, ...other }) =>
   <div>
     <h1>The following addresses will receive an email:</h1>
     <button type='button' onClick={toggle_list} className='email-list-toggle'>
-      { (list_hidden ? 'Show' : 'Hide') + ' Emails' }
+      { (list_hidden ? 'Show' : 'Hide') + ' Recipients' }
     </button>
     <button type='button' onClick={() => submit_email(emails)} className='email-list-toggle'>
       Send Emails
@@ -110,22 +110,20 @@ const map_tab =
   , [GET_BOUNCED]: BouncedEmails
 }
 
-const replaceNormal = compose(flip(replace('$EMAIL-TYPE'))('Send $EMAIL-TYPEs'), replace('-')(' '))
-const replaceGetBounced = always('Get Bounced Emails')
+const label_from_id = { 'reminder-email': 'Balance Overdue Email'
+                      , 'newsletter-email': 'Newsletter Email (1)'
+                      , 'newsletter-reminder': 'Newsletter Email (2)'
+                      , 'subscription-due': 'Subscription Due Email'
+                      , 'custom-email': 'Email All Members'
+                      , 'get-bounced': 'List Emails Bounced'
+                      }
 
-const label_from_id =
-  ifElse(
-    equals('get-bounced'),
-    replaceGetBounced,
-    replaceNormal
-  );
-
-const email_ids = ['reminder-email', 'newsletter-email', 'newsletter-reminder', 'subscription-due', 'custom-email', 'get-bounced']
+const email_ids = ['subscription-due', 'reminder-email', 'newsletter-email', 'newsletter-reminder', 'custom-email', 'get-bounced']
 
 const show_list = (emails, toggle) => keys(emails).length > 0 && toggle
 
 const email = toggle_show => ([ address, { content, shown }]) =>
-  <li key={address}>
+  <li className='listed-email-addressee' key={address}>
     <span className='email-addressee'>{address}</span>
     <button
       type='button'
