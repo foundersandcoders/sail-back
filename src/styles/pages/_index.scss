@@ -581,11 +581,17 @@ div.gbp {
 
 .label {
   font-size: 1em;
-  padding: 1em; }
+  padding: 1em;
+}
 
+.label-line:nth-last-child(1) {
+  float: right;
+  width: 4em;
+}
 
 .labels-tables {
-  margin: 2em 2em; }
+  margin: 2em 2em;
+}
 
 @media print {
   body {

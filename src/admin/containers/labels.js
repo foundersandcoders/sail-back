@@ -3,7 +3,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 const { prop, props, map, filter, compose, splitEvery, keys, merge, length}
   = require('ramda')
-const trace = require('app/trace')
 
 import { newsletter_labels } from '../redux/modules/labels.js'
 import r from 'app/r'
@@ -33,17 +32,25 @@ const lines =
   , 'address3'
   , 'address4'
   , 'postcode'
+  , 'deliverer'
   ]
 
 
 const font_style = text =>
   ({ style: { fontSize: Math.min(12, 300 / text[0].length) + 'pt' } })
 
+
+const add_deliverer = arr =>
+[ ...arr.slice(0,-1)
+  , arr.slice(-1)[0] || 'POST'
+]
+
 const Label = compose
   ( r('td')({className: 'label' })
   , text =>
     map(r('div')(merge({ className: 'label-line'}, font_style(text))), text)
   , filter(Boolean)
+  , add_deliverer
   , props(lines)
   )
 
@@ -60,4 +67,5 @@ const dummy_ob =
   , address3: ' '
   , address4: ' '
   , postcode: ' '
+  , deliverer: ' '
   }
