@@ -1,24 +1,40 @@
-'use strict'
+import React from 'react'
+import { Router, Route, Redirect, browserHistory, hashHistory }  from 'react-router'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+// import store from './redux/store.js'
+// import reducers from './redux/reducer.js'
+import { routerReducer, syncHistoryWithStore } from 'react-router-redux'
 
-var React = require('react')
-var routerModule  = require('react-router')
+import App from './user_app.js'
+import UserHome from './pages/home.js'
 
-var App = require('../shared/app.js')
-var UserHome = require('./pages/home.js')
 
-var Router = routerModule.Router
-var Route = routerModule.Route
-var Redirect = routerModule.Redirect
 
-module.exports = function (h, onUpdate) {
 
-  onUpdate = onUpdate || function noop () {}
+import account_details from './redux/modules/account_details.js'
+import payments from './redux/modules/payments.js'
 
-  return (
-    <Router history={h} onUpdate={onUpdate}>
+
+
+
+const reducers = combineReducers(
+  { account_details
+  , payments
+  }
+)
+
+const reducersTwo = combineReducers({routing: routerReducer, ...reducers})
+const store = createStore(reducersTwo)
+
+
+const history = syncHistoryWithStore(hashHistory, store)
+
+module.exports = () =>
+  <Provider store={store} >
+    <Router history={history}>
       <Route component={App}>
         <Route path='/' component={UserHome} />
       </Route>
     </Router>
-  )
-}
+  </Provider>

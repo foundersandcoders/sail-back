@@ -8,6 +8,7 @@ module.exports = React.createClass({
   render: function () {
     return (
       <div>
-        <Navigation user='User'/>
         <h1>Welcome User!</h1>
-      </div>)}})
+      </div>
+    )}
+  })
