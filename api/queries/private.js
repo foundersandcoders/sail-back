@@ -1,6 +1,9 @@
+var date = require('./date_helpers.js').today(process.env.NODE_ENV)
+var due_date = require('./date_helpers.js').due_dates
+
 const subsQueryTemplate = (columns, news_type) => (
   `select first_name, last_name, title, ${columns},
-  datediff(curdate(), max(payments.date)) as overdue,
+  datediff(${date}, max(payments.date)) as overdue,
   members.standing_order, members.due_date, members.id,
   sum(case payments.category
     when 'payment' then -payments.amount
@@ -16,7 +19,7 @@ const subsQueryTemplate = (columns, news_type) => (
       when 'payment' then -payments.amount
       else                 payments.amount
       end) > 0
-      and datediff(curdate(), max(payments.date)) > 30;`
+      and datediff(${date}, max(payments.date)) > 30;`
 )
 
 const newsletterQueryTemplate = (columns, news_type) => (
@@ -27,12 +30,12 @@ const newsletterQueryTemplate = (columns, news_type) => (
 
 exports.update_subscription = body =>
   `insert into payments (member, category, amount, date, createdAt)
-  select id, 'subscription', amount, curdate(), now() from members, membershiptypes
+  select id, 'subscription', amount, ${date}, now() from members, membershiptypes
   where members.membership_type = membershiptypes.value
   and news_type = '${body.news_type}'
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
-  and members.due_date < '${body.end}' and members.due_date > '${body.start}';`
+  and ${due_date(body.start)(body.end)('members.due_date')};`
 
 exports.subscription_due_template = body =>
   `select first_name, last_name, title, address1, address2, address3, address4,
@@ -40,10 +43,10 @@ exports.subscription_due_template = body =>
   from members, membershiptypes
   where members.membership_type = membershiptypes.value
   and news_type = '${body.news_type}'
-  and standing_order is null
+  and standing_order in (null, false)
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
-  and members.due_date < '${body.end}' and members.due_date > '${body.start}';`
+  and ${due_date(body.start)(body.end)('members.due_date')};`
 
 
 
