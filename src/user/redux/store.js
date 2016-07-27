@@ -1,8 +1,14 @@
 /* @flow */
 import { createStore, applyMiddleware } from 'redux'
-import reducer from './reducer.js'
-import future from 'redux-future'
-import heartbeat from './middleware/heartbeat.js'
 
-export default createStore(reducer)
-  // applyMiddleware(heartbeat, future)(createStore)(reducer)
+//middleware
+import heartbeat from './middleware/heartbeat.js'
+import future from 'redux-future'
+
+//root reducer
+import reducers from './reducer.js'
+
+
+const storeWithMiddleware = applyMiddleware(heartbeat, future)(createStore)(reducers)
+
+export default storeWithMiddleware
