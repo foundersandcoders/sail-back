@@ -1,5 +1,5 @@
 exports.today = env =>
-  env === 'heroku-test' ? "'2016-08-05'" : "curdate()"
+  env === 'heroku-test' ? "'2016-08-15'" : "curdate()"
 
 exports.due_dates = start => end => compare => {
   var wrap =
