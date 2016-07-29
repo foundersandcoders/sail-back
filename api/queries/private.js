@@ -11,7 +11,7 @@ const subsQueryTemplate = (columns, news_type) => (
     end) as amount
     from members right outer join payments
     on members.id = payments.member
-    where members.news_type = '${news_type}'
+    where members.primary_email is${news_type === 'online' ? ' not' : ''} null
     and members.membership_type in
     ('annual-single', 'annual-double', 'annual-family')
     group by members.id
@@ -57,9 +57,9 @@ const online_columns = 'primary_email, secondary_email'
 
 exports.newsletter = newsletterQueryTemplate(online_columns, 'online')
 
-exports.subscriptions = subsQueryTemplate(online_columns, 'online')
-
 exports.newstype_post = newsletterQueryTemplate(post_columns, 'post')
+
+exports.subscriptions = subsQueryTemplate(online_columns, 'online')
 
 exports.newstype_post_nonzero = subsQueryTemplate(post_columns, 'post')
 

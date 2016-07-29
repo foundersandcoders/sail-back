@@ -57,7 +57,7 @@ export const show_letter =
   createAction(SHOW_LETTER)
 
 export const send_sub_reminder_post =
-  createAction(SEND_SUB_REMINDER_POST, () => get_body('/api/post_sub_reminders'))
+  createAction(SEND_SUB_REMINDER_POST, () => get_body('/api/post-sub-reminders'))
 
 export const toggle_recipient_list =
   createAction(TOGGLE_RECIPIENT_LIST)

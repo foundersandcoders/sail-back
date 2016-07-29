@@ -56,9 +56,6 @@ module.exports = {
         }
       })
   },
-  sendSubsReminder: function (req, res) {
-    Members.query(queries.subscriptions, callback(res))
-  },
   sendSubsDue: function (req, res) {
     var callback = (err, results) => {
       if (err) return res.badRequest({ error: err })
@@ -85,6 +82,9 @@ module.exports = {
   },
   getPostMembers: function (req, res) {
     Members.query(queries.newstype_post, callback(res))
+  },
+  sendSubsReminder: function (req, res) {
+    Members.query(queries.subscriptions, callback(res))
   },
   sendSubsReminderPost: function (req, res) {
     Members.query(queries.newstype_post_nonzero, callback(res))

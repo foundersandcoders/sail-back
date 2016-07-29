@@ -133,10 +133,6 @@ module.exports.routes = {
     controller: 'Members', //to change
     action: 'welcome'
   },
-  'GET /api/reminders': {
-    controller: 'Private',
-    action: 'sendSubsReminder'
-  },
   'POST /api/subscription-due': {
     controller: 'Private',
     action: 'sendSubsDue'
@@ -177,7 +173,12 @@ module.exports.routes = {
     action: 'getPostMembers'
   },
 
-  'GET /api/post_sub_reminders': {
+  'GET /api/reminders': {
+    controller: 'Private',
+    action: 'sendSubsReminder'
+  },
+
+  'GET /api/post-sub-reminders': {
     controller: 'Private',
     action: 'sendSubsReminderPost'
   },
