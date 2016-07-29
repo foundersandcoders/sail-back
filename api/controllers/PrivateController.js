@@ -77,6 +77,9 @@ module.exports = {
   sendNewsletterAlert: function (req, res) {
     Members.query(queries.newsletter, callback(res))
   },
+  sendCustomEmail: function (req, res) {
+    Members.query(queries.custom_email, callback(res))
+  },
   getNewsletterLabels: function (req, res) {
     Members.query(queries.newsletter_labels, callback(res))
   },

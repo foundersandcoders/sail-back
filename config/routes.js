@@ -145,6 +145,10 @@ module.exports.routes = {
     controller: 'Private',
     action: 'sendNewsletterAlert'
   },
+  'GET /api/custom-email': {
+    controller: 'Private',
+    action: 'sendCustomEmail'
+  },
   'GET /api/newsletter-labels': {
     controller: 'Private',
     action: 'getNewsletterLabels'

@@ -63,6 +63,11 @@ exports.newstype_post = newsletterQueryTemplate(post_columns, 'post')
 
 exports.newstype_post_nonzero = subsQueryTemplate(post_columns, 'post')
 
+exports.custom_email =
+  `select first_name, last_name, title, primary_email, secondary_email
+  from members
+  where primary_email is not null;`
+
 exports.newsletter_labels =
   `select title, first_name, last_name, initials,
   address1, address2, address3, address4,

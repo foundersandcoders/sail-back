@@ -162,7 +162,7 @@ export const send_subscription_due_email =
   createAction(SEND_SUBSCRIPTION_DUE_EMAIL, body => post_body({...body, news_type: 'online'}, 'api/subscription-due'))
 
 export const compose_custom =
-  createAction(COMPOSE_CUSTOM, () => get_body('api/newsletter-alert'))
+  createAction(COMPOSE_CUSTOM, () => get_body('api/custom-email'))
 
 export const toggle_list =
   createAction(TOGGLE_LIST)
