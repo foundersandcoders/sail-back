@@ -13,7 +13,6 @@ export default (state = initialState, { type, payload }) => {
     case CHANGE_TAB:
       return { ...state, active_tab: payload }
     case FETCH_USER_DETAILS:
-      console.log('payload', payload);
       return { ...state, user_details: payload }
     default:
       return state

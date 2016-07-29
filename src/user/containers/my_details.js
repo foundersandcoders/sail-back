@@ -1,19 +1,28 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { change_tab } from '../redux/modules/my_details.js'
-
+import { fetch_user_details, change_tab } from '../redux/modules/my_details.js'
 
 import TabBar from '../components/my_details/tab_bar.js'
 
+class MyDetails extends React.Component {
 
-const MyDetails = (props) =>
-  <div>
-    {TabBar(props)}
-  </div>
+  componentDidMount () {
+    this.props.fetch_user_details()
+  }
 
-const mapStateToProps = ({ my_details: { active_tab }}) => (
-  { active_tab }
+  render () {
+    return (
+      <div>
+        {TabBar(this.props)}
+      </div>
+    )
+  }
+}
+const mapStateToProps = ({ my_details: { active_tab, user_details }}) => (
+  { active_tab
+  , user_details
+  }
 )
 
-export default connect(mapStateToProps, { change_tab })(MyDetails)
+export default connect(mapStateToProps, { fetch_user_details, change_tab })(MyDetails)
