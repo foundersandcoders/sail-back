@@ -189,6 +189,7 @@ export const submit_custom_email =
   createAction(SUBMIT_CUSTOM_EMAIL, (members, form) => {
     const format_message = form => member => (
       [ form[0]
+      , 'Friends of Chichester Harbour'
       , `Dear ${member.first_name || member.title} ${member.last_name},`
       , form[1]
       ]
