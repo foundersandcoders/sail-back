@@ -8,7 +8,7 @@ export default class UserApp extends React.Component {
     const add_details = this.add_details || id
     return (
       <div>
-        {NavBar()}
+        <NavBar />
         {React.Children.map(this.props.children, add_details)}
       </div>
   )}
