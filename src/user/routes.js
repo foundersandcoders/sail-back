@@ -9,7 +9,8 @@ import store from './redux/store.js'
 import App from './user_app.js'
 //Container components
 import UserHome from './pages/home.js'
-
+import Statements from './containers/statements.js'
+import MakePayment from './containers/make_payment.js'
 
 
 const history = syncHistoryWithStore(hashHistory, store)
@@ -19,6 +20,8 @@ module.exports = () =>
     <Router history={history}>
       <Route component={App}>
         <Route path='/' component={UserHome} />
+        <Route path='/statements' component={Statements} />
+        <Route path='/make-payment' component={MakePayment} />
       </Route>
     </Router>
   </Provider>

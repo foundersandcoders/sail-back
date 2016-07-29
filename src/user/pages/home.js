@@ -8,7 +8,7 @@ module.exports = React.createClass({
   render: function () {
     return (
       <div>
-        <h1>Welcome User!</h1>
+        <h1> My details view </h1>
       </div>
     )}
   })
