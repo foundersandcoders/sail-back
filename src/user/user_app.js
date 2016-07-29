@@ -4,26 +4,22 @@ import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 import App from '../shared/app.js'
 
 export default class UserApp extends React.Component {
+
   render () {
+    const add_details = this.add_details || id
     return (
       <div>
         {NavbarInstance()}
-        <App
-          user='User'
-          add_details={this.add_details}
-          children={this.props.children}
-        />
+        {React.Children.map(this.props.children, add_details)}
       </div>
   )}
 }
 
+function id (arg) { return arg }
+
 const NavbarInstance = () => (
   <Navbar>
-    <Navbar.Header>
-      <div className='navigationbar'>
-        <Navbar.Toggle />
-      </div>
-    </Navbar.Header>
+    <Navbar.Toggle />
     <Navbar.Collapse>
       <Nav>
         <NavItem eventKey={2} href="#">My Details</NavItem>
