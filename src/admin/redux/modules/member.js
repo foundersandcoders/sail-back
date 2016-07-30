@@ -4,12 +4,11 @@ const { stopSubmit } = require('redux-form')
 const { flip, replace, compose, map, prop, concat, converge, contains
   , mergeAll, unapply, cond, T, identity, is, reject, propOr, chain, keys
   , path, reduce, assoc, join, values, equals, assocPath, over, lens
-  , lensProp } =
+  , lensProp, slice, ifElse, not } =
     require('ramda')
 
 const { get_body, post } = require('app/http')
 const { format: format_dated, standardise } = require('app/transform_dated')
-const { format_due_date } = require('app/format_date')
 
 import type { Action, Reducer } from 'redux'
 
@@ -96,7 +95,7 @@ const prepare_for_form = (member) =>
 const wrap_values = map((v) => (v && { value: String(v) }))
 
 const to_member = compose
-  ( over(lensProp('due_date'), format_due_date)
+  ( over(lensProp('due_date'), ifElse(not, identity, slice(0, -'/YYYY'.length)))
   , format_dated
   , reshape_if_necessary
   , map(null_to_undefined)

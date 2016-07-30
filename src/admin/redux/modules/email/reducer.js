@@ -161,7 +161,7 @@ export const send_subscription_due_email =
   createAction(SEND_SUBSCRIPTION_DUE_EMAIL, body => post_body({...body, news_type: 'online'}, 'api/subscription-due'))
 
 export const compose_custom =
-  createAction(COMPOSE_CUSTOM, () => get_body('api/newsletter-alert'))
+  createAction(COMPOSE_CUSTOM, () => get_body('api/custom-email'))
 
 export const toggle_list =
   createAction(TOGGLE_LIST)
@@ -188,6 +188,7 @@ export const submit_custom_email =
   createAction(SUBMIT_CUSTOM_EMAIL, (members, form) => {
     const format_message = form => member => (
       [ form[0]
+      , 'Friends of Chichester Harbour'
       , `Dear ${member.first_name || member.title} ${member.last_name},`
       , form[1]
       ]
