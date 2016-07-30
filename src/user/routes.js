@@ -11,7 +11,7 @@ import MyDetails from './containers/my_details.js'
 import Statements from './containers/statements.js'
 import MakePayment from './containers/make_payment.js'
 
-import { pathDidUpdate } from './redux/modules/route.js'
+import { pathDidUpdate } from '../shared/redux/modules/route.js'
 
 hashHistory.listen((path) => store.dispatch(pathDidUpdate(path)))
 

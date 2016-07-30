@@ -2,7 +2,7 @@
 const { createAction } = require('redux-actions')
 
 const { ADDED_PAYMENT } = require('./payments.js')
-const { PATH_UPDATE } = require('./route.js')
+const { PATH_UPDATE } = require('../../../shared/redux/modules/route.js')
 const SWITCHED_CHARGE_TYPE = 'SWITCHED_CHARGE_TYPE'
 
 import type { Action, Reducer } from 'redux'
@@ -24,4 +24,3 @@ const reducer : Reducer<string, Action>
 export const switch_charge_type = createAction(SWITCHED_CHARGE_TYPE)
 
 export default reducer
-
