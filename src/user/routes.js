@@ -1,24 +1,28 @@
-'use strict'
+import React from 'react'
+import { Provider } from 'react-redux'
+import { Router, Route, hashHistory }  from 'react-router'
 
-var React = require('react')
-var routerModule  = require('react-router')
+import store from './redux/store.js'
 
-var App = require('../shared/app.js')
-var UserHome = require('./pages/home.js')
+//Parent component
+import App from './user_app.js'
+//Container components
+import MyDetails from './containers/my_details.js'
+import Statements from './containers/statements.js'
+import MakePayment from './containers/make_payment.js'
 
-var Router = routerModule.Router
-var Route = routerModule.Route
-var Redirect = routerModule.Redirect
+import { pathDidUpdate } from '../shared/redux/modules/route.js'
 
-module.exports = function (h, onUpdate) {
+hashHistory.listen((path) => store.dispatch(pathDidUpdate(path)))
 
-  onUpdate = onUpdate || function noop () {}
 
-  return (
-    <Router history={h} onUpdate={onUpdate}>
+module.exports = () =>
+  <Provider store={store} >
+    <Router history={hashHistory}>
       <Route component={App}>
-        <Route path='/' component={UserHome} />
+        <Route path='/' component={MyDetails} />
+        <Route path='/statements' component={Statements} />
+        <Route path='/make-payment' component={MakePayment} />
       </Route>
     </Router>
-  )
-}
+  </Provider>

@@ -7,7 +7,6 @@ const { lensPath, over, not, indexBy, map, propOr, merge, zipWith, ifElse, gte,
   require('ramda')
 const { K, pipe, compose } = require('sanctuary')
 
-const { PATH_UPDATE } = require('../route.js')
 const { standing, lates, newsletter_alert, newsletter_reminder, subscription_due } =
   require('./bodies.js')
 
