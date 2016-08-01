@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html moznomarginboxes>
     <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
         {% block head %}
             {% include "../includes/_head.swig" %}
         {% endblock %}
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
     </head>
     <body>
         <div id="wrap">
