@@ -43,7 +43,7 @@ const font_style = text =>
 const add_deliverer = arr => over(lensIndex(arr.length - 1), defaultTo('POST'), arr)
 
 const Label = compose
-  ( r('td')({className: 'label' })
+  ( r('td')({className: 'news-label' })
   , text =>
     map(r('div')(merge({ className: 'label-line'}, font_style(text))), text)
   , filter(Boolean)
