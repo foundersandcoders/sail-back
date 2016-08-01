@@ -1,6 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetch_user_details, change_tab } from '../redux/modules/my_details.js'
+import
+  { fetch_user_details
+  , submit_user_details
+  , change_tab
+  } from '../redux/modules/my_details.js'
 
 import { prop } from 'ramda'
 
@@ -20,4 +24,8 @@ class MyDetails extends React.Component {
   }
 }
 
-export default connect(prop('my_details'), { fetch_user_details, change_tab })(MyDetails)
+export default connect(prop('my_details'),
+  { fetch_user_details
+  , change_tab
+  , submit_user_details
+  })(MyDetails)
