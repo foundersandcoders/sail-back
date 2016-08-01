@@ -106,6 +106,10 @@ module.exports.routes = {
     controller: 'Payments',
     action: 'makePaypalPayment'
   },
+  'POST /newsletter_online': {
+    controller: 'User',
+    action: 'newsletterToOnline'
+  },
   // -------------------------------------------------------------------------
   // Private
   // -------------------------------------------------------------------------
