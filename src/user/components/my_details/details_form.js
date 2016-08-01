@@ -2,7 +2,8 @@ import React from 'react'
 import { reduxForm } from 'redux-form';
 import Field from '../../../admin/components/field.js'
 
-const my_details_form = ({fields, handleSubmit, error}) => {
+const my_details_form = ({...props, editMode, fields, handleSubmit, error}) => {
+  console.log('props', props);
   return (
     <form onSubmit={handleSubmit}>
       {fieldList.map(field =>
@@ -11,12 +12,24 @@ const my_details_form = ({fields, handleSubmit, error}) => {
           id={field}
           mode='edit'
           key={field}
+          readOnly={!editMode}
           />
       )}
-      <button type='submit'>Update Details</button>
+      {editMode ? edit_mode_buttons(props.toggle_edit_mode) : edit_button(props.toggle_edit_mode)}
     </form>
   )
 }
+
+const edit_mode_buttons = (toggle) => (
+  <div>
+    <button type='submit'>Submit</button>
+    <button onClick={toggle}>Cancel</button>
+  </div>
+)
+
+const edit_button = (toggle) => (
+  <button onClick={toggle}>Edit</button>
+)
 
 const fieldList =
 [ 'title'

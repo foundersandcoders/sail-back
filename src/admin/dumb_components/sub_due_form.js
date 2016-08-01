@@ -10,7 +10,7 @@ const sub_due_dates = ({fields, handleSubmit, error}) =>
           id={field}
           mode='edit'
           key={field}
-          />
+        />
       )}
       <button type='submit'>Show Recipients</button>
     </form>

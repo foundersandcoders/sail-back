@@ -2,9 +2,9 @@ import React from 'react'
 
 import MyDetailsForm from './details_form.js'
 
-export default ({ submit_user_details }) =>
+export default ({ submit_user_details, edit_mode, ...props }) =>
   <div>
-    <MyDetailsForm fields={fields} onSubmit={submit_user_details} />
+    <MyDetailsForm editMode={edit_mode} fields={fields} onSubmit={submit_user_details} {...props} />
   </div>
 
 const fields =

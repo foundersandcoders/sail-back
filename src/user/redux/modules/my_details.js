@@ -7,10 +7,15 @@ const FETCH_USER_DETAILS =
   'FETCH_USER_DETAILS'
 const SUBMIT_USER_DETAILS =
   'SUBMIT_USER_DETAILS'
+const TOGGLE_EDIT_MODE =
+  'TOGGLE_EDIT_MODE'
 
 //TODO edit/read mode±
 
-const initialState = { active_tab: 'contact_details' }
+const initialState =
+  { active_tab: 'contact_details'
+  , edit_mode: false
+  }
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
@@ -21,6 +26,8 @@ export default (state = initialState, { type, payload }) => {
     case SUBMIT_USER_DETAILS:
     //TODO change state of form to 'read mode'
       return state
+    case TOGGLE_EDIT_MODE:
+      return { ...state, edit_mode: !state.edit_mode }
     default:
       return state
   }
@@ -34,3 +41,6 @@ export const fetch_user_details =
 
 export const submit_user_details =
   createAction(SUBMIT_USER_DETAILS) //TODO make api call to update databas
+
+export const toggle_edit_mode =
+  createAction(TOGGLE_EDIT_MODE)
