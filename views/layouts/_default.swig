@@ -20,8 +20,5 @@
             {% include "../includes/_footer.swig" %}
         {% endblock %}
 
-        {% block scripts %}
-            {% include "../includes/_scripts.swig" %}
-        {% endblock %}
     </body>
 </html>
