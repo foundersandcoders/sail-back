@@ -16,6 +16,10 @@ module.exports.policies = {
     'updateAccountInfo': 'isAuthenticated'
   },
 
+  UserController: {
+    '*': 'isAuthenticated'
+  },
+
   PaymentsController: {
     '*': ['isAuthenticated', 'isAdmin'],
     'clientToken': 'isAuthenticated',

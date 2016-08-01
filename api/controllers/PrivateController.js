@@ -8,11 +8,7 @@ var mg = require('../services/email_mailgun.js')
 var aSync = require('async')
 
 var queries = require('../queries/private.js')
-
-var callback = res => (err, results) => {
-  if (err) return res.badRequest({ error: err })
-  return res.json({ results })
-}
+var callback = require('./helpers.js').sql_response
 
 module.exports = {
   showAdminHome: function (req, res) {
