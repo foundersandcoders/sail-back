@@ -10,22 +10,21 @@ const SUBMIT_USER_DETAILS =
 const TOGGLE_EDIT_MODE =
   'TOGGLE_EDIT_MODE'
 
-//TODO edit/read mode±
-
 const initialState =
   { active_tab: 'contact_details'
   , edit_mode: false
   }
 
+// TODO: disable tabs when on editmode
+
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case CHANGE_TAB:
-      return { ...state, active_tab: payload }
+      return { ...state, active_tab: payload } 
     case FETCH_USER_DETAILS:
       return { ...state, user_details: payload }
     case SUBMIT_USER_DETAILS:
-    //TODO change state of form to 'read mode'
-      return state
+      return {...state, edit_mode: false }
     case TOGGLE_EDIT_MODE:
       return { ...state, edit_mode: !state.edit_mode }
     default:
