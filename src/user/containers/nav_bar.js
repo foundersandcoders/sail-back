@@ -22,6 +22,6 @@ const item = ([route, text]) =>
 
 
 const routes = [ '#', '#statements', '#make-payment', '/signout' ]
-const text = [ 'My Details', 'My Statements', 'make a Payment', 'Sign Out' ]
+const text = [ 'My Details', 'My Statements', 'Make a Payment', 'Sign Out' ]
 
 export default connect(null, { fetch_user_details })(NavBar)
