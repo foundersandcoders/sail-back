@@ -15,7 +15,7 @@
     "test:laws": "browserify test/laws/* > foo.js && node foo.js; rm foo.js",
     "test:server": "tape test/backend/runner.js",
     "test:wserver": "nodemon --delay 15 test/backend/runner.js",
-    "build": "browserify src/admin/main.js > .tmp/public/js/admin.min.js & browserify src/user/main.js > .tmp/public/js/user.min.js & browserify src/open/main.js > .tmp/public/js/open.min.js",
+    "build": "browserify src/admin/main.js > .tmp/public/js/admin.min.js & browserify src/user/main.js > .tmp/public/js/user.min.js & browserify src/open/main.js > .tmp/public/js/open.min.js & node-sass src/styles/main.scss .tmp/public/styles/main.css",
     "build:w": "watchify src/admin/main.js src/user/main.js src/open/main.js -p [ factor-bundle -o .tmp/public/js/admin.min.js -o .tmp/public/js/user.min.js -o .tmp/public/js/open.min.js ] -o .tmp/public/js/common.min.js -p [ parcelify -wo .tmp/public/styles/main.css -t sass-css-stream -d src/styles/* ] -v"
   },
   "standard": {
