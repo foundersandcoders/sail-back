@@ -22,8 +22,6 @@ const my_details_form = ({ toggle_edit_mode, edit_mode, resetForm, fields, handl
   )
 }
 
-
-
 const submit_cancel_buttons = (reset, toggle) => (
   <div>
     <button type='submit'>Submit</button>
