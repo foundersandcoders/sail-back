@@ -5,13 +5,11 @@ import { membership_fields, read_only } from '../../../shared/form_fields/user_m
 import MyDetailsForm from './details_form.js'
 
 
-export default ({ submit_user_details, edit_mode, user_details, ...props }) =>
+export default ({ submit_user_details, user_details, ...props }) =>
   <div>
       <MyDetailsForm
-        editMode={edit_mode}
         initialValues={user_details}
         fields={membership_fields}
-        fieldList={membership_fields}
         onSubmit={submit_user_details}
         readOnlyFields={read_only}
         {...props}
