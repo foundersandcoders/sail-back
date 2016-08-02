@@ -3,8 +3,7 @@ import { map, contains, keysIn } from 'ramda'
 import { reduxForm } from 'redux-form';
 import Field from '../../../admin/components/field.js'
 
-const my_details_form = ({ ...props, read_only, edit_mode, resetForm, fields, handleSubmit, error, readOnlyFields }) => {
-  console.log(props, edit_mode);
+const my_details_form = ({ toggle_edit_mode, edit_mode, resetForm, fields, handleSubmit, error, readOnlyFields }) => {
   const field_creator = field =>
     <Field
       {...fields[field]}
@@ -15,10 +14,10 @@ const my_details_form = ({ ...props, read_only, edit_mode, resetForm, fields, ha
       readOnly={!edit_mode || contains(field, readOnlyFields)}
     />
 
-  return(
+  return (
     <form onSubmit={handleSubmit}>
       { map(field_creator)(keysIn(fields)) }
-      { edit_mode ? submit_cancel_buttons(resetForm, props.toggle_edit_mode) : edit_button(props.toggle_edit_mode) }
+      { edit_mode ? submit_cancel_buttons(resetForm, toggle_edit_mode) : edit_button(toggle_edit_mode) }
     </form>
   )
 }

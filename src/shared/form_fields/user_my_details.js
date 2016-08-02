@@ -19,7 +19,8 @@ export const contact_fields =
 ]
 
 export const membership_fields =
-[ 'membership_type'
+[ 'id'
+, 'membership_type'
 , 'due_date'
 , 'notes'
 , 'news_type'
@@ -35,5 +36,5 @@ export const account_fields =
 
 export const read_only =
 [ 'id'
-, 'due_date'  
+, 'due_date'
 ]
