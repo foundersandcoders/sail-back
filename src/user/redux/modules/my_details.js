@@ -27,7 +27,7 @@ export default (state = initialState, { type, payload }) => {
     case FETCH_USER_DETAILS:
       return { ...state, user_details: shapedPayload(payload) }
     case SUBMIT_USER_DETAILS:
-      return { ...state, edit_mode: false, user_details: shapedPayload(payload) } //TODO input response from db into form
+      return { ...state, edit_mode: false, user_details: shapedPayload(payload) } 
     case TOGGLE_EDIT_MODE:
       return { ...state, edit_mode: !state.edit_mode }
     default:

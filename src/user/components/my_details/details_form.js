@@ -4,7 +4,6 @@ import { reduxForm } from 'redux-form';
 import Field from '../../../admin/components/field.js'
 
 const my_details_form = ({ ...props, read_only, edit_mode, resetForm, fields, handleSubmit, error, readOnlyFields }) => {
-  console.log(props, edit_mode);
   const field_creator = field =>
     <Field
       {...fields[field]}
