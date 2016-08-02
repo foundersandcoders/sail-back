@@ -1,7 +1,13 @@
 import React from 'react'
-import { map, contains, keysIn } from 'ramda'
+import { map, contains, keysIn, compose } from 'ramda'
 import { reduxForm } from 'redux-form';
 import Field from '../../../admin/components/field.js'
+import { options } from '../../../shared/form_fields/user_my_details.js'
+import to_title_case from 'app/to_title_case.js'
+
+const label_from_id = (id) =>
+  id[0].toUpperCase()
+  + id.slice(1).replace(/_/g, ' ')
 
 const my_details_form = ({ toggle_edit_mode, edit_mode, resetForm, fields, handleSubmit, error, readOnlyFields }) => {
   const field_creator = field =>
@@ -11,6 +17,8 @@ const my_details_form = ({ toggle_edit_mode, edit_mode, resetForm, fields, handl
       id={field}
       key={field}
       mode='edit'
+      name={compose(to_title_case, label_from_id)(field)}
+      options={options[field]}
       readOnly={!edit_mode || contains(field, readOnlyFields)}
     />
 
