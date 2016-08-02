@@ -2,10 +2,17 @@ import React from 'react'
 
 import MyDetailsForm from './details_form.js'
 
-export default ({ submit_user_details, edit_mode, ...props }) =>
+export default ({ submit_user_details, edit_mode, user_details, ...props }) =>
   <div>
-    <MyDetailsForm editMode={edit_mode} fields={fields} onSubmit={submit_user_details} {...props} />
+    <MyDetailsForm
+      editMode={edit_mode}
+      initialValues={user_details}
+      fields={fields}
+      fieldList={fields}
+      onSubmit={submit_user_details}
+      {...props} />
   </div>
+
 
 const fields =
 [ 'title'
@@ -25,7 +32,3 @@ const fields =
 , 'work_phone'
 , 'mobile_phone'
 ]
-
-
-
-const submit = (data) => console.log(data);
