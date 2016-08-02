@@ -1,5 +1,6 @@
 import { createAction } from 'redux-actions'
 import { get_body, put_body } from 'app/http'
+import { lensProp, over, toString } from 'ramda'
 
 const CHANGE_TAB =
   'CHANGE_TAB'
@@ -22,7 +23,9 @@ export default (state = initialState, { type, payload }) => {
     case CHANGE_TAB:
       return { ...state, active_tab: payload }
     case FETCH_USER_DETAILS:
-      return { ...state, user_details: payload }
+      const idLens = lensProp('id')
+      const shapedPayload = over(idLens, toString, payload)
+      return { ...state, user_details: shapedPayload }
     case SUBMIT_USER_DETAILS:
       return {...state, edit_mode: false }
     case TOGGLE_EDIT_MODE:
@@ -32,37 +35,46 @@ export default (state = initialState, { type, payload }) => {
   }
 }
 
+
 const newBody = {
-  "payments": [],
+  "payments": [
+    {
+      "member": 12345,
+      "category": "subscription",
+      "type": null,
+      "description": null,
+      "amount": 17500,
+      "reference": null,
+      "notes": ":)",
+      "date": "2013-01-01T00:00:00.000Z",
+      "id": 9,
+      "createdAt": "2016-08-02T10:18:20.000Z",
+      "updatedAt": "2016-08-02T10:18:20.000Z"
+    }
+  ],
   "events_booked": [],
   "membership_type": {
     "description": "Annual Single",
     "value": "annual-single",
     "amount": 1000,
-    "createdAt": "2016-08-02T09:45:51.000Z",
-    "updatedAt": "2016-08-02T09:45:51.000Z"
+    "createdAt": "2016-08-02T10:18:20.000Z",
+    "updatedAt": "2016-08-02T10:18:20.000Z"
   },
-  "id": 14030,
+  "id": 12345,
   "title": "Mr",
-  "initials": "IG",
-  "last_name": "Gonzalez",
-  "first_name": "Juan",
+  "initials": "JM",
+  "first_name": "Jo",
   "address1": "XYZ",
   "address2": "XYZ",
   "address3": "XYZ",
   "address4": "XYZ",
   "county": "XYZ",
-  "postcode": "E2 0SY",
-  "deliverer": null,
+  "postcode": "E1 0SY",
   "home_phone": null,
   "mobile_phone": null,
   "work_phone": null,
-  "primary_email": "ivan@foundersandcoders.com",
+  "primary_email": "jmurphy.web@gmail.com",
   "secondary_email": null,
-  "email_bounced": false,
-  "date_joined": "2016-08-01T23:00:00.000Z",
-  "date_membership_type_changed": null,
-  "life_payment_date": null,
   "notes": null,
   "gift_aid_signed": false,
   "date_gift_aid_signed": null,
@@ -72,14 +84,9 @@ const newBody = {
   "activation_status": "activated",
   "news_type": "online",
   "due_date": "2017-01-01T00:00:00.000Z",
-  "registered": "unregistered",
   "deletion_date": null,
-  "privileges": "member",
-  "activation_date": null,
-  "createdAt": "2016-08-02T09:45:57.000Z",
-  "updatedAt": "2016-08-02T09:45:57.000Z",
-  "full_name": "Ivan Gonzalez"
 }
+
 
 export const change_tab =
   createAction(CHANGE_TAB)

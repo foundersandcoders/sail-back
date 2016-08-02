@@ -1,22 +1,24 @@
 import React from 'react'
+import { contains } from 'ramda'
 import { reduxForm } from 'redux-form';
 import Field from '../../../admin/components/field.js'
 
-const my_details_form = ({...props, editMode, fields, fieldList, handleSubmit, error}) => (
+const my_details_form = ({...props, editMode, fields, fieldList, handleSubmit, error, readOnlyFields}) => {
+  return(
   <form onSubmit={handleSubmit}>
     {fieldList.map(field =>
       <Field
         {...fields[field]}
-        className={editMode ? 'user-input-editable' : 'user-input-read-only'}
+        className={!editMode || contains(field, readOnlyFields) ? 'user-input-read-only' : 'user-input-editable'}
         id={field}
-        mode='edit'
         key={field}
-        readOnly={!editMode}
-        />
+        mode='edit'
+        readOnly={!editMode || contains(field, readOnlyFields)}
+      />
     )}
     {editMode ? edit_mode_buttons(props.toggle_edit_mode) : edit_button(props.toggle_edit_mode)}
   </form>
-)
+)}
 
 const edit_mode_buttons = (toggle) => (
   <div>
