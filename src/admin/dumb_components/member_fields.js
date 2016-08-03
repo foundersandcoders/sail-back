@@ -1,6 +1,5 @@
-const { reduxForm } = require('redux-form')
-const { prop } = require('ramda')
 const React = require('react')
+const { prop } = require('ramda')
 const Field = require('../../shared/dumb_components/field.js')
 const { options, field_order, fieldStructure, read_only, validate
   , is_required } =

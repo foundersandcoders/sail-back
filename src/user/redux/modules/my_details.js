@@ -2,7 +2,7 @@ import { createAction } from 'redux-actions'
 import { get_body, put_body } from 'app/http'
 import format_date from 'app/format_date'
 import standardise from 'app/standardise_date'
-import { lensProp, over, toString, compose } from 'ramda'
+import { lensProp, over, toString, compose, map } from 'ramda'
 
 const CHANGE_TAB =
   'CHANGE_TAB'
@@ -24,7 +24,8 @@ export default (state = initialState, { type, payload }) => {
     case CHANGE_TAB:
       return { ...state, active_tab: payload }
     case FETCH_USER_DETAILS:
-      return { ...state, user_details: update_data(toString)(format_date)(payload) }
+      return prepare_for_form(payload)
+      //return { ...state, user_details: update_data(toString)(format_date)(payload) }
     case SUBMIT_USER_DETAILS:
       return { ...state, edit_mode: false, user_details: update_data(toString)(format_date)(payload) } //TODO input response from db into form
     case TOGGLE_EDIT_MODE:
@@ -35,6 +36,16 @@ export default (state = initialState, { type, payload }) => {
 }
 
 const update = lens => fn => over(lens, fn)
+
+const prepare_for_form = (member) =>
+  ({ ...wrap_values(member)
+  , other:
+    { subscription_amount: member.subscription_amount
+    , payments: member.payments
+    }
+  })
+
+const wrap_values = map((v) => (v && { value: String(v) }))
 
 const update_data = id_transform => date_transform =>
   compose(update(lensProp('id'))(id_transform), update(lensProp('due_date'))(date_transform))
