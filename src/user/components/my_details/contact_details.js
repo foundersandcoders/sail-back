@@ -1,15 +1,22 @@
 import React from 'react'
+import MemberFields from '../../../admin/dumb_components/member_fields.js'
+import { reduxForm } from 'redux-form'
+import { validate, fields, fieldStructure } from '../../../admin/form_fields/member.js'
 
-import MyDetailsForm from './details_form.js'
-import { contact_fields, read_only } from '../../../shared/form_fields/user_my_details.js'
+export default (props) =>
+  <ViewMember
+    {...props}
+    fields={fieldStructure.personal.concat(fieldStructure.address)}
+    Buttons={button}
+    mode='view'
+    onSubmit={() => console.log('clicked')}
+  />
 
-export default ({ submit_user_details, user_details, ...props }) => <div></div>
-  // <div>
-  //   <MyDetailsForm
-  //     initialValues={user_details}
-  //     fields={contact_fields}
-  //     onSubmit={submit_user_details}
-  //     readOnlyFields={read_only}
-  //     {...props}
-  //   />
-  // </div>
+  const ViewMember = reduxForm(
+    { form: 'user'
+    , validate
+    , fields: []
+    }
+  )(MemberFields)
+
+const button = () => <button>Click</button>

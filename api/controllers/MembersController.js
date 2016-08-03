@@ -19,7 +19,7 @@ module.exports = {
   accountInfo: function (req, res) {
     Members
       .findOne(req.session.user.id)
-      .populate('payments')
+      .populateAll()
       .exec(function (error, item) {
         if (error) {
           return res.notFound()

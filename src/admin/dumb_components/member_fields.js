@@ -19,7 +19,7 @@ const PersonalFields = (
   , error
   }
 ) => {
-  const fs = (fields.membership_type.value || '').match('life')
+  const fs = ((fields.membership_type && fields.membership_type.value) || '').match('life')
     ? fields
     : dissoc('life_payment_date', fields)
 
