@@ -8,7 +8,7 @@ import MembershipDetails from './membership_details.js'
 import AccountDetails from './account_details.js'
 
 
-export default ({...props, active_tab, change_tab }) => {
+export default ({ ...props, active_tab, change_tab }) => {
   const tab = ([ key, component ]) =>
     <Tab eventKey={key} key={key} title={title_from_key(key)}>
       {component(props)}
@@ -16,11 +16,10 @@ export default ({...props, active_tab, change_tab }) => {
 
   return (
     <Tabs activeKey={active_tab} onSelect={change_tab} >
-      {map(tab, zip(keys, components) )}
+      {map(tab, zip(keys, components))}
     </Tabs>
   )
 }
-
 
 const keys = [ 'contact_details', 'membership_details', 'account_details' ]
 const components = [ ContactDetails, MembershipDetails, AccountDetails ]

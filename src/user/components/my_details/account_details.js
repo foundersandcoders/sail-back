@@ -3,15 +3,11 @@ import MemberFields from '../../../admin/dumb_components/member_fields.js'
 import { reduxForm } from 'redux-form'
 import { validate, fields, fieldStructure, required } from '../../../admin/form_fields/member.js'
 
-export default (props) =>
-  <ViewMember
-    {...props}
-    fields={fields}
-    Buttons={button}
-    mode={props.mode}
-    onSubmit={props.toggle_member_mode}
-    required={required}
-  />
+export default (props) => {
+  return (
+    <div></div>
+  )
+}
 
 const ViewMember = reduxForm(
   { form: 'user'
