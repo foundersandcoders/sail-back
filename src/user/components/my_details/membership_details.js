@@ -8,8 +8,8 @@ export default (props) =>
     {...props}
     fields={fieldStructure.membership}
     Buttons={button}
-    mode='edit'
-    onSubmit={() => console.log('clicked')}
+    mode={props.mode}
+    onSubmit={props.toggle_member_mode}
     required={required}
   />
 
