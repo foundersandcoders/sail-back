@@ -1,6 +1,6 @@
 /* @flow */
 const { createAction, handleAction } = require('redux-actions')
-const { UPDATED_MEMBER } = require('./member.js')
+const { UPDATED_MEMBER } = require('../../../admin/redux/modules/member.js')
 
 const TOGGLE_MEMBER_MODE = 'TOGGLE_MEMBER_MODE'
 
