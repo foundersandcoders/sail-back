@@ -1,18 +1,19 @@
 /* @flow */
-const { createAction } = require('redux-actions')
-const { stopSubmit } = require('redux-form')
+import { createAction } from 'redux-actions'
+import { stopSubmit } from 'redux-form'
 const { flip, replace, compose, map, prop
   , cond, T, identity, is, keys
   , path, reduce, assoc, join, values, assocPath, over, lens
-  , lensProp, slice, ifElse, not } =
-    require('ramda')
+  , lensProp, slice, ifElse, not, mapObjIndexed }
+= require('ramda')
 
-const { get_body, post } = require('app/http')
 const { format: format_dated, standardise } = require('app/transform_dated')
+import { get_body, post, put } from 'app/http'
 
 import type { Action, Reducer } from 'redux'
 
-import { TOGGLE_MEMBER_MODE } from './mode.js'
+import { TOGGLE_MEMBER_MODE }
+  from './mode.js'
 export const FETCHED_MEMBER =
   'MEMBER_FETCHED'
 const DEACTIVATED_MEMBER =
@@ -28,8 +29,7 @@ const reducer: Reducer<{}, Action> =
   (member = { }, { type, payload }) => {
     switch (type) {
       case FETCHED_MEMBER:
-        const user = prepare_for_form(payload)
-        return { ...user, initial_values: user }
+        return prepare_for_form(payload)
       case DEACTIVATED_MEMBER:
         return (
           { ...member
@@ -48,7 +48,6 @@ const reducer: Reducer<{}, Action> =
       case UPDATED_MEMBER:
         return (
           { ...member
-          , initial_values: prepare_for_form(payload)
           , ...prepare_for_form(payload)
           })
       case CREATED_MEMBER:
@@ -56,7 +55,7 @@ const reducer: Reducer<{}, Action> =
           ? { ...member, id: { value: payload } }
           : member
       case TOGGLE_MEMBER_MODE:
-        return { ...member, ...member.initial_values}
+        return reset_values(member)
       default:
         return member
     }
@@ -95,7 +94,9 @@ const prepare_for_form = (member) =>
     }
   })
 
-const wrap_values = map((v) => (v && { value: String(v) }))
+const wrap_values = map((v) => (v && { initial_value: String(v), value: String(v) }))
+
+const reset_values = mapObjIndexed((v) => (v && { ...v, value: v.initial_value }))
 
 const to_member = compose
   ( over(lensProp('due_date'), ifElse(not, identity, slice(0, -'/YYYY'.length)))
@@ -164,7 +165,7 @@ export const update_member_user = createAction
   ( UPDATED_MEMBER
   , (member, dispatch) => compose
     ( map(errors_or_to_member(dispatch))
-    , compose(post, null_empty, standardise)(member)
+    , compose(put, null_empty, standardise)(member)
     )('/api/account')
   )
 

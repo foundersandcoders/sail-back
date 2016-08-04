@@ -90,7 +90,7 @@ module.exports.routes = {
     controller: 'Members',
     action: 'accountInfo'
   },
-  'POST /api/account': {
+  'PUT /api/account': {
     controller: 'Members',
     action: 'updateAccountInfo'
   },
