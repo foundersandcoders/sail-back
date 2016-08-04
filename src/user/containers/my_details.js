@@ -16,7 +16,7 @@ class MyDetails extends React.Component {
 
   render () {
     return (
-        <TabBar {...this.props} />
+      <TabBar {...this.props} />
     )
   }
 }

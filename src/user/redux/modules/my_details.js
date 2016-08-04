@@ -4,6 +4,7 @@ import format_date from 'app/format_date'
 import standardise from 'app/standardise_date'
 import { lensProp, over, toString, compose, map } from 'ramda'
 
+import { TOGGLE_MEMBER_MODE } from '../../../shared/redux/modules/mode.js'
 const FETCH_USER_DETAILS =
   'FETCH_USER_DETAILS'
 const SUBMIT_USER_DETAILS =
@@ -15,9 +16,11 @@ export default (state = initialState, { type, payload }) => {
   switch (type) {
     case FETCH_USER_DETAILS:
       const user = prepare_for_form(payload)
-      return {...state, ...user}
+      return {...state, ...user, initial_values: {...user}}
     case SUBMIT_USER_DETAILS:
       return { ...state, user_details: update_data(toString)(format_date)(payload) } //TODO input response from db into form
+    case TOGGLE_MEMBER_MODE:
+      return { ...state, ...state.initial_values }
     default:
       return state
   }

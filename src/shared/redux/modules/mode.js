@@ -2,7 +2,7 @@
 const { createAction, handleAction } = require('redux-actions')
 const { UPDATED_MEMBER } = require('../../../admin/redux/modules/member.js')
 
-const TOGGLE_MEMBER_MODE = 'TOGGLE_MEMBER_MODE'
+export const TOGGLE_MEMBER_MODE = 'TOGGLE_MEMBER_MODE'
 
 import type { Action, Reducer } from 'redux'
 
