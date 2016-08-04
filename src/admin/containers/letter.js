@@ -4,7 +4,7 @@ const React = require('react')
 const { connect } = require('react-redux')
 
 const Field = require('../../shared/dumb_components/field.js')
-const { fetch_member } = require('../redux/modules/member.js')
+const { fetch_member } = require('../../shared/redux/modules/member.js')
 
 const Letter = React.createClass({
   initialState: {},

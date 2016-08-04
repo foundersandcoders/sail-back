@@ -4,7 +4,6 @@ import { reduxForm } from 'redux-form'
 import { validate, fieldStructure, required } from '../../../admin/form_fields/member.js'
 import buttons from '../my_details/buttons.js'
 
-// TODO: USE BUTTON_PROPS PROPERTY?
 
 export default (props) => <div>some tab</div>
 //   <ViewMember

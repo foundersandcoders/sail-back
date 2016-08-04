@@ -7,7 +7,6 @@ import payments from './modules/payments.js'
 import mode from '../../shared/redux/modules/mode.js'
 import active_tab from './modules/active_tab.js'
 
-//TODO split mydetails reducer functionality
 
 const root_reducer = combineReducers(
     { payments

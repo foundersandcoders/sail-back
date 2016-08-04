@@ -4,11 +4,7 @@ import { reduxForm } from 'redux-form'
 import { validate, fieldStructure, required } from '../../../admin/form_fields/member.js'
 import buttons from '../my_details/buttons.js'
 
-// TODO: CANCEL MEMBER RESET FORM
-// TODO: FIX ADMIN CANCEL BUTTON
-// TODO: WHEN SUBMITTING, MAKE SURE FORM DISPLAYS CORRECT VALUES AND INITIAL VALUES ARE UPDATED
-
-export default ({ toggle_member_mode, mode, ...props }) =>
+export default ({ toggle_member_mode, mode, update_member_user, ...props }) =>
   <ViewMember
     {...props}
     fields={fieldStructure.personal.concat(fieldStructure.address)}
@@ -20,7 +16,7 @@ export default ({ toggle_member_mode, mode, ...props }) =>
       }
     }
     mode={mode}
-    onSubmit={() => console.log('send api call && toggle mode')}
+    onSubmit={update_member_user}
     required={required}
   />
 

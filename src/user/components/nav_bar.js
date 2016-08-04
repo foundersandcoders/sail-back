@@ -1,12 +1,8 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { fetch_user_details } from '../redux/modules/my_details.js'
-
 import { map, zip } from 'ramda'
+import { Navbar, Nav, NavItem } from 'react-bootstrap'
 
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
-
-const NavBar = () =>
+export default () =>
   <Navbar>
     <Navbar.Toggle />
     <Navbar.Collapse>
@@ -23,5 +19,3 @@ const item = ([route, text]) =>
 
 const routes = [ '#', '#statements', '#make-payment', '/signout' ]
 const text = [ 'My Details', 'My Statements', 'Make a Payment', 'Sign Out' ]
-
-export default connect(null, { fetch_user_details })(NavBar)
