@@ -7,8 +7,7 @@ import buttons from '../my_details/buttons.js'
 import { reject, contains, concat, __ } from 'ramda'
 
 export default ({ toggle_member_mode, mode, update_member_user, active_tab, ...props }) =>
-{ console.log(filter_fields(removed));
-  return(  <ViewMember
+  <ViewMember
     {...props}
     fields={filter_fields(removed)(field_mapper[active_tab])}
     Buttons={buttons}
@@ -21,7 +20,7 @@ export default ({ toggle_member_mode, mode, update_member_user, active_tab, ...p
     mode={mode}
     onSubmit={update_member_user}
     required={required}
-  />)}
+  />
 
 const ViewMember = reduxForm(
   { form: 'user'

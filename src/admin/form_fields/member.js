@@ -48,6 +48,7 @@ const fieldStructure =
     ]
   }
 
+
 const field_order =
   [ "personal"
   , "address"
@@ -105,6 +106,23 @@ const required =
   , 'news_type'
   ]
 
+const read_only_user =
+  [ 'id'
+  , 'registered'
+  , 'activation_status'
+  ]
+
+const removed =
+  [ 'deliverer'
+  , 'life_payment_date'
+  , 'date_membership_type_changed'
+  , 'date_gift_aid_signed'
+  , 'standing_order'
+  , 'registered'
+  , 'email_bounced'
+  , 'activation_status'
+  ]
+
 const new_required = required.concat('date_joined')
 
 const validate = (values) => {
@@ -155,4 +173,6 @@ module.exports =
   , validate
   , normalise
   , required
+  , removed
+  , read_only_user
   }
