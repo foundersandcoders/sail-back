@@ -1,11 +1,10 @@
 import React from 'react'
-import MemberFields from '../../../shared/dumb_components/member_fields.js'
 import { reduxForm } from 'redux-form'
-import { validate, fieldStructure, required, removed, read_only_user }
-  from '../../../shared/form_fields/member.js'
-import buttons from '../my_details/buttons.js'
-
 import { reject, contains, concat, __ } from 'ramda'
+
+import MemberFields from '../../../shared/dumb_components/member_fields.js'
+import { validate, fieldStructure, required, removed, read_only_user } from '../../../shared/form_fields/member.js'
+import buttons from '../my_details/buttons.js'
 
 export default ({ toggle_member_mode, mode, update_member_user, active_tab, ...props }) =>
   <ViewMember
@@ -22,6 +21,8 @@ export default ({ toggle_member_mode, mode, update_member_user, active_tab, ...p
     onSubmit={update_member_user}
     required={required}
     read_only={read_only_user}
+    description={description}
+    inputClassName='user-form-inputs'
   />
 
 const ViewMember = reduxForm(
@@ -38,3 +39,5 @@ const field_mapper =
   , membership_details: concat(['id'], fieldStructure.membership)
   , account_details: concat(['id'], fieldStructure.edit)
   }
+
+const description = 'Currently Newsletters are posted (or hand delivered) to you three times a year. The Newsletters are also available for you to read Online on the Friends website.  It would help us reduce postage and printing cost if you opted to read Newsletters Online instead. If you would like to take that option please click on the ‘News Online’ button. We will send you an email reminder whenever a new Newsletter is put up on the website so you won’t miss anything.'
