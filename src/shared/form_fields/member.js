@@ -1,6 +1,4 @@
-const { prop, keys, assoc, reduce, contains, converge, merge, unapply,
-  mergeAll } =
-    require('ramda')
+const { assoc, reduce, converge, unapply, mergeAll } = require('ramda')
 const validate_email = require('email-validator').validate
 const valid_email = (field) => (values) =>
   !values[field] || validate_email(values[field])
@@ -50,9 +48,9 @@ const fieldStructure =
 
 
 const field_order =
-  [ "personal"
-  , "address"
-  , "membership"
+  [ 'personal'
+  , 'address'
+  , 'membership'
   ]
 
 const fields = field_order.reduce((fields, list) =>
@@ -110,6 +108,7 @@ const read_only_user =
   [ 'id'
   , 'registered'
   , 'activation_status'
+  , 'due_date'
   ]
 
 const removed =

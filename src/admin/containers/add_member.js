@@ -4,8 +4,8 @@ const { connect } = require('react-redux')
 const { reduxForm } = require('redux-form')
 const { pick } = require('ramda')
 
-const MemberFields = require('../dumb_components/member_fields.js')
-const { fields, validate, required } = require('../form_fields/member.js')
+const MemberFields = require('../../shared/dumb_components/member_fields.js')
+const { fields, validate, required, read_only } = require('../../shared/form_fields/member.js')
 const { create_member } = require('../../shared/redux/modules/member.js')
 const { send_welcome } = require('../redux/modules/email/reducer.js')
 
@@ -59,6 +59,7 @@ const NewMember = (
         onSubmit={create_member}
         required={required}
         mode='edit'
+        read_only={read_only}
       />
       <a href='#/' className='flex-button'>
         <button className='button-primary'>Home</button>
