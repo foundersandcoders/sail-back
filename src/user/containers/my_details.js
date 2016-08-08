@@ -18,7 +18,7 @@ class MyDetails extends React.Component {
   }
 }
 
-export default connect(pick(['active_tab', 'mode']),
+export default connect(pick(['active_tab', 'mode', 'my_details']),
   { fetch_member_user
   , update_member_user
   , change_tab
