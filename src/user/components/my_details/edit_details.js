@@ -36,5 +36,4 @@ const filter_fields = to_be_removed => reject(contains(__, to_be_removed))
 const field_mapper =
   { contact_details: concat(fieldStructure.address, fieldStructure.personal)
   , membership_details: concat(['id'], fieldStructure.membership)
-  , account_details: concat(['id'], fieldStructure.edit)
   }
