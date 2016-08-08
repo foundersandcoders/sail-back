@@ -2,7 +2,7 @@
 
 const React = require('react')
 const to_title_case = require('app/to_title_case.js')
-const { assoc, curry } = require('ramda')
+const { assoc } = require('ramda')
 
 var Field = (props) =>
   props.value && props.mode !== 'edit'
@@ -11,19 +11,23 @@ var Field = (props) =>
   ? <Input {...props} />
   : <div></div>
 
-var Display = ({name, id, value}) =>
+var Display = ({ name, id, value, description }) =>
   <p>
+    {description && name === 'News type: ' && <span><br /><i>{description}</i><br /></span>}
+    <br />
     <span className='info'>{name}</span>
     <span id={'view-member-' + id}>
       {caser(id, value)}
     </span>
   </p>
 
-var Input = ({ className, name, options, touched, error, ...rest}) => {
+var Input = ({ className, name, options, touched, error, description, ...rest }) => {
   const display_error = touched && error
   const props = display_error ? assoc('error', true, rest) : rest
   return (
     <div className={className}>
+      {description && name === 'News type*: ' && <span><br /><i>{description}</i><br /></span>}
+      <br />
       <span className='info'>{name}</span>
       { display_error && <span>{error}</span> }
       { options ? make_select(props, options) : make_input(name, props) }
@@ -39,7 +43,7 @@ Field.propTypes =
   , id: React.PropTypes.string
   }
 
-var make_input = (name, props)  =>
+var make_input = (name, props) =>
   <input
     {...props}
     placeholder={make_placeholder(name)}

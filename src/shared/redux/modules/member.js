@@ -1,11 +1,11 @@
 /* @flow */
 import { createAction } from 'redux-actions'
 import { stopSubmit } from 'redux-form'
-const { flip, replace, compose, map, prop
-  , cond, T, identity, is, keys
+const
+  { flip, replace, compose, map, prop, cond, T, identity, is, keys
   , path, reduce, assoc, join, values, assocPath, over, lens
-  , lensProp, slice, ifElse, not, mapObjIndexed }
-= require('ramda')
+  , lensProp, slice, ifElse, not, mapObjIndexed
+  } = require('ramda')
 
 const { format: format_dated, standardise } = require('app/transform_dated')
 import { get_body, post, put } from 'app/http'
@@ -126,8 +126,6 @@ const to_errors = (dispatch) => ({ body: { invalidAttributes } }) => {
 }
 
 const id_value = compose(String, path(['body', 'id']))
-
-// TODO: WE CHANGED THIS TO TRIPLE EQUALS, IS THAT GOOD?
 
 const null_empty = map((v) => v === '' ? null : v)
 
