@@ -28,6 +28,11 @@ nav {
   display: inline-block;
 }
 
-.user-form-inputs {
-  border: 1px solid green;
+.member-view-edit-buttons {
+  display: flex;
+  margin-top: 1em;
+}
+
+.member-view-save-button {
+  margin-right: 1em;
 }

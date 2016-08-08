@@ -1,6 +1,6 @@
 const React = require('react')
 const Field = require('../../shared/dumb_components/field.js')
-const { options, field_order, fieldStructure } = require('../../shared/form_fields/member.js')
+const { options, field_order, fieldStructure, user_field_structure } = require('../../shared/form_fields/member.js')
 const { array_only_keys } = require('app/sort')
 const { contains, merge, dissoc } = require('ramda')
 
@@ -17,6 +17,8 @@ const PersonalFields = (
   , read_only
   , description
   , inputClassName
+  , memberView
+  , active_tab: member_fields
   }
 ) => {
   const fs = ((fields.membership_type && fields.membership_type.value) || '').match('life')
@@ -35,12 +37,12 @@ const PersonalFields = (
     + (mode === 'edit' && contains(id, required) ? '*' : '')
     + ': '
 
-  const make_fieldset = (field_list) =>
+  const make_fieldset = field_structure => field_list =>
     <fieldset
       key={field_list}
       className={'member-column-' + field_list}
     >
-      { array_only_keys(fieldStructure[field_list], fs)
+      { array_only_keys(field_structure[field_list], fs)
         .map((field) =>
           <Field
             {...fs[field]}
@@ -65,7 +67,7 @@ const PersonalFields = (
         { fs.deletion_reason ? make_fieldset('edit') : '' }
       </div>
       <div className={className}>
-        { field_order.map(make_fieldset) }
+        { memberView ? make_fieldset(user_field_structure)(member_fields) : field_order.map(make_fieldset(fieldStructure)) }
       </div>
       { buttons_first ? '' : buttons }
     </form>

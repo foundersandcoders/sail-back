@@ -20,7 +20,7 @@ const ViewButton = (
   }
 ) =>
   <button
-    className='member-info-edit-button'
+    className='member-view-edit-button'
     onClick={edit_member_click}
     type='button'
   >
@@ -32,16 +32,16 @@ const EditButtons = (
   }
 ) =>
   <div
-    className='member-edit-buttons'
+    className='member-view-edit-buttons'
   >
     <button
-      className='member-save-button'
+      className='member-view-save-button'
       type='submit'
     >
       Save
     </button>
     <button
-      className='member-cancel-button'
+      className='member-view-cancel-button'
       type='button'
       onClick={cancel_member_click}
     >
