@@ -2,10 +2,12 @@
 const { createAction } = require('redux-actions')
 const { get_body, post, post_body } = require('app/http')
 
-const { lensPath, over, not, indexBy, map, propOr, merge, zipWith, ifElse, gte,
-  cond, where, objOf, zip, set, lift, assoc, dissoc, prop, converge, omit } =
-  require('ramda')
-const { K, pipe, compose } = require('sanctuary')
+const
+  { lensPath, over, not, indexBy, map, propOr, merge, zipWith, ifElse, gte
+  , cond, where, objOf, zip, set, lift, assoc, dissoc, prop, converge, omit
+  , sortBy, lensProp, reverse, compose: r_compose }
+  = require('ramda')
+const { pipe, compose } = require('sanctuary')
 
 const { standing, lates, newsletter_alert, newsletter_reminder, subscription_due } =
   require('./bodies.js')
@@ -77,7 +79,7 @@ const reducer : Reducer<State, Action>
       case SUBMIT_EMAIL:
         return email_response(state)(payload)
       case GET_BOUNCED:
-        return change_tab({ ...newState, bounced: payload.results.items })
+        return change_tab({ ...newState, bounced: sort_by_date(payload.results.items) })
       case SUBMIT_CUSTOM_EMAIL:
         return email_response(state)(payload)
       case SEND_SUBSCRIPTION_DUE_EMAIL:
@@ -85,7 +87,7 @@ const reducer : Reducer<State, Action>
       case SUB_DUE_TAB:
         return change_tab({...newState, emails: {}})
       case PREVIEW_CUSTOM:
-          return { ...state, custom_emails : { ...state.custom_emails, preview: payload, mode: type } }
+          return { ...state, custom_emails: { ...state.custom_emails, preview: payload, mode: type } }
       case EDIT_CUSTOM:
         return { ...state, custom_emails: { ...state.custom_emails, mode: type } }
       default:
@@ -94,6 +96,8 @@ const reducer : Reducer<State, Action>
   }
 
 export default reducer
+
+const sort_by_date = r_compose(reverse, sortBy(prop('created_at')), map(over(lensProp('created_at'), Date.parse)))
 
 const Email = content => (
   { content: content.split('\n')
@@ -111,8 +115,6 @@ const time_check = pipe([gte, objOf('overdue'), where])
 
 const templating =
   compose(cond, zip(map(time_check, [60, 90, Infinity])))
-
-const placeholder = compose(K)(objOf('content'))
 
 const missing_standing_order = templating(standing)
 
