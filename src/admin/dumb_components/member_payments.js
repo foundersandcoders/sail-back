@@ -2,7 +2,7 @@ const React = require('react')
 const { compose, curry, map, dissoc } = require('ramda')
 const { types, type_order } = require('../form_fields/charge_form.js')
 
-var PaymentsTable = require('../components/payments_table')
+const PaymentsTable = require('../components/payments_table')
 const ChargeForm = require('./charge_form.js')
 
 var MemberPayments = (

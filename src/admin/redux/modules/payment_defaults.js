@@ -1,13 +1,10 @@
 /* @flow */
-const { createAction } = require('redux-actions')
-
 const { FETCHED_MEMBER } = require('../../../shared/redux/modules/member.js')
 const { ADDED_PAYMENT } = require('./payments.js')
 const { format } = require('app/transform_dated.js')
 const { reduce, keys, compose } = require('ramda')
 
 import type { Action, Reducer } from 'redux'
-
 
 type Category = 'payment' | 'subscription' | 'donation' | 'event' | ''
 

@@ -1,7 +1,7 @@
 /* @flow */
 const { createAction } = require('redux-actions')
 const { post, del } = require('app/http')
-const { compose, flip, replace, concat, map, propOr, filter, sortBy } =
+const { compose, flip, concat, map, propOr, filter, sortBy } =
   require('ramda')
 const { standardise } = require('app/transform_dated')
 

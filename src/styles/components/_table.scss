@@ -37,3 +37,34 @@ div.table {
   .chosen {
     background-color: #888; }
 }
+
+@media (max-width: 400px) {
+  div.table {
+
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    clear: both;
+
+    .table-body {
+      overflow-y: hidden;
+      overflow-x: hidden;
+      margin-top: 0.5em;
+    }
+
+    .table-row {
+
+      display: flex;
+      flex-direction: row;
+
+      .table-entry {
+        width: 1.5em;
+        padding: 1%;
+        flex: 1;
+        p {
+          font-size: 95%;
+        }
+      }
+    }
+  }
+}
