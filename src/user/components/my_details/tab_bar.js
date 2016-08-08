@@ -5,6 +5,7 @@ import { Tabs, Tab } from 'react-bootstrap'
 
 import EditDetails from './edit_details.js'
 import AccountDetails from './account_details.js'
+import MembershipDetails from './membership_details.js'
 
 
 export default ({ ...props, change_tab }) => {
@@ -21,7 +22,7 @@ export default ({ ...props, change_tab }) => {
 }
 
 const keys = [ 'contact_details', 'membership_details', 'account_details' ]
-const components = [ EditDetails, EditDetails, AccountDetails ]
+const components = [ EditDetails, MembershipDetails, AccountDetails ]
 
 const first_to_upper =
   compose(join(''), over(lensIndex(0), toUpper))
