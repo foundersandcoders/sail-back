@@ -1,7 +1,6 @@
 const React = require('react')
 const Field = require('../../shared/dumb_components/field.js')
-const { options, field_order, fieldStructure } =
-  require('../../shared/form_fields/member.js')
+const { options, field_order, fieldStructure } = require('../../shared/form_fields/member.js')
 const { array_only_keys } = require('app/sort')
 const { contains, merge, dissoc } = require('ramda')
 
@@ -16,6 +15,8 @@ const PersonalFields = (
   , buttons_first
   , error
   , read_only
+  , description
+  , inputClassName
   }
 ) => {
   const fs = ((fields.membership_type && fields.membership_type.value) || '').match('life')
@@ -48,6 +49,8 @@ const PersonalFields = (
             options={options[field]}
             mode={contains(field, read_only) ? 'view' : mode}
             key={field}
+            description={description}
+            className={inputClassName}
           />
         )
       }
