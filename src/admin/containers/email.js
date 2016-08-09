@@ -1,9 +1,9 @@
 /* @flow */
 const React = require('react')
 const { connect } = require('react-redux')
-const { pick, keys, toPairs, flip, prop, zip, compose, replace,
-   map, ifElse, always, equals, isEmpty } =
-    require('ramda')
+const { pick, toPairs, prop, zip, compose, map, isEmpty } = require('ramda')
+import format_date from 'app/format_date'
+
 import custom_email_section from '../dumb_components/custom_email_section.js'
 import sub_due_section from '../dumb_components/sub_due_section.js'
 
@@ -50,13 +50,13 @@ const Email = (
       ? <EmailNotification email_sent={email_sent} />
       : active_tab && map_tab[active_tab](list_props)
     }
-    </div>
+  </div>
 
 
 const EmailNotification = ({email_sent}) =>
   <h3 className='sent-email-notification'>
-    { email_sent === `success`
-      ? `The emails have been sent`
+    { email_sent === 'success'
+      ? 'The emails have been sent'
       : `There was an error sending to the following email address: ${email_sent}`
     }
   </h3>
@@ -71,7 +71,7 @@ const send_button = ([ id, fn ]) =>
     {label_from_id[id]}
   </button>
 
-const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email, email_sent, ...other }) =>
+const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email }) =>
   <div>
     <h1>The following addresses will receive an email:</h1>
     <button type='button' onClick={toggle_list} className='email-list-toggle'>
@@ -87,6 +87,7 @@ const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_e
 
 const BouncedEmails = ({ bounced }) =>
   <div className='bounced-container'>
+    <h3 className='bounced-heading'>Bounced emails may take up to a day to appear on this list.</h3>
     {bounced.length > 0
       ? <ul>{map(bounced_email, bounced)}</ul>
       : <h3>There are no bounced emails</h3>
@@ -120,8 +121,6 @@ const label_from_id = { 'reminder-email': 'Balance Overdue Email'
 
 const email_ids = ['subscription-due', 'reminder-email', 'newsletter-email', 'newsletter-reminder', 'custom-email', 'get-bounced']
 
-const show_list = (emails, toggle) => keys(emails).length > 0 && toggle
-
 const email = toggle_show => ([ address, { content, shown }]) =>
   <li className='listed-email-addressee' key={address}>
     <span className='email-addressee'>{address}</span>
@@ -140,8 +139,8 @@ const display_email = (line, i) => i === 0
   : <p key={line}>{line}</p>
 
 const bounced_email = email =>
-  <li className='bounced-email' key={email.created_at} >
-    <b>{email.address}</b> bounced on {email.created_at}
+  <li className='bounced-email' key={email.created_at + email.address} >
+    <b>{email.address}</b> bounced on {format_date(email.created_at)}
   </li>
 
 const without_default = cb => e => { e.preventDefault(); cb(e) }

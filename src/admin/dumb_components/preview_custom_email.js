@@ -17,7 +17,8 @@ export default ({members, preview, props: { submit_custom_email, edit_custom }})
       </div>
       <h2>Subject: {preview[0]}</h2>
       <br />
-      <h3>Dear Member,</h3>
+      <h4>Freinds of Chichester Harbour</h4>
+      <h4>Dear Member,</h4>
       <br />
       {preview[1]
         .split('\n')
