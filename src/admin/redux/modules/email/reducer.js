@@ -5,7 +5,7 @@ const { get_body, post, post_body } = require('app/http')
 const
   { lensPath, over, not, indexBy, map, propOr, merge, zipWith, ifElse, gte
   , cond, where, objOf, zip, set, lift, assoc, dissoc, prop, converge, omit
-  , sortBy, lensProp, reverse, compose: r_compose }
+  , sortBy, lensProp, reverse}
   = require('ramda')
 const { pipe, compose } = require('sanctuary')
 
