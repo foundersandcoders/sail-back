@@ -17,14 +17,11 @@ export default (props) => {
   )
 }
 
-
-
 const EndMembershipLoader = (props) => {
   return (
     <EndMembership
       {...props}
       fields={['activation_status', 'deletion_reason', 'notes', 'deletion_date']}
-      initialValues={{activation_status: props.my_details.activation_status.initial_value}}
     />
   )
 }
