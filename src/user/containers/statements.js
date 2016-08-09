@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { pick } from 'ramda'
 
-const PaymentsTable = require('../../admin/components/payments_table')
+const PaymentsTable = require('../../shared/components/payments_table')
 
 const MemberPaymentsTable = ({payments}) =>
   <div>
