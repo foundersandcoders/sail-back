@@ -4,7 +4,7 @@ import { stopSubmit } from 'redux-form'
 const
   { flip, replace, compose, map, prop, cond, T, identity, is, keys
   , path, reduce, assoc, join, values, assocPath, over, lens
-  , lensProp, slice, ifElse, not, mapObjIndexed
+  , lensProp, slice, ifElse, not, mapObjIndexed, concat
   } = require('ramda')
 
 const { format: format_dated, standardise } = require('app/transform_dated')
@@ -164,12 +164,18 @@ export const fetch_member_user = createAction
   , () => compose(map(to_member), get_body)('/api/account')
   )
 
+const preppend_notes_if_there = mapObjIndexed((val, key, mem) =>
+  key === 'notes' && mem.user_notes
+    ? concat(val, '\nDeactivation reason given: '+mem.user_notes)
+    : val
+  )
+
 export const update_member_user = createAction
   ( UPDATED_MEMBER
   , (member, dispatch) => compose
     ( map(errors_or_to_member(dispatch))
-    , compose(put, null_empty, standardise)(member)
-    )('/api/account')
+    , compose(put, null_empty, preppend_notes_if_there, standardise)(member)
+  )('/api/account')
   )
 
 export const deactivate_member = createAction(DEACTIVATED_MEMBER)
