@@ -1,6 +1,6 @@
 /* @flow */
 const { FETCHED_MEMBER } = require('../../../shared/redux/modules/member.js')
-const { ADDED_PAYMENT } = require('./payments.js')
+const { ADDED_PAYMENT } = require('../../../shared/redux/modules/payments.js')
 const { format } = require('app/transform_dated.js')
 const { reduce, keys, compose } = require('ramda')
 
