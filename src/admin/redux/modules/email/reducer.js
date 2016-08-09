@@ -97,7 +97,7 @@ const reducer : Reducer<State, Action>
 
 export default reducer
 
-const sort_by_date = r_compose(reverse, sortBy(prop('created_at')), map(over(lensProp('created_at'), Date.parse)))
+const sort_by_date = pipe([map(over(lensProp('created_at'), Date.parse)), sortBy(prop('created_at')), reverse])
 
 const Email = content => (
   { content: content.split('\n')
