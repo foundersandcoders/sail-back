@@ -33,14 +33,14 @@ const reducer: Reducer<{}, Action> =
       case DEACTIVATED_MEMBER:
         return (
           { ...member
-          , activation_status: { value: 'deactivated', initial_value: 'activated' }
+          , activation_status: { value: 'deactivated', initial_value: member.activation_status.initial_value }
           , deletion_date: { value: new Date().toISOString() }
           }
         )
       case REACTIVATED_MEMBER:
         return (
           { ...member
-          , activation_status: { value: 'activated', initial_value: 'activated' } 
+          , activation_status: { value: 'activated', initial_value: member.activation_status.initial_value }
           , deletion_date: {}
           , deletion_reason: { value: null }
           }

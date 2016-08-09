@@ -1,9 +1,9 @@
 import React from 'react'
 
 
-export default ({fields, reactivate_member, ...props}) => {
+export default ({fields, handleSubmit, reactivate_member, update_member_user, ...props}) => {
   return (
-    <form>
+    <form onSubmit={handleSubmit(update_member_user)}>
       { fields.activation_status.value === 'activated'
           ? <button type='button' onClick={props.deactivate_member}>
               End Membership
@@ -13,7 +13,7 @@ export default ({fields, reactivate_member, ...props}) => {
                 We are sorry to see you go. Please let us know why you are leaving.
               </p>
               <textarea></textarea>
-              <button type='button' onClick={() => {console.log('submit the form')} }>
+              <button type='submit' >
                 Confirm
               </button>
               <button type='button' onClick={reactivate_member}>
