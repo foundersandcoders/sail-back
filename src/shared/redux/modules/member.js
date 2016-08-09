@@ -40,7 +40,7 @@ const reducer: Reducer<{}, Action> =
       case REACTIVATED_MEMBER:
         return (
           { ...member
-          , activation_status: { value: 'activated', initial_value: 'deactivated' }
+          , activation_status: { value: 'activated', initial_value: 'activated' } 
           , deletion_date: {}
           , deletion_reason: { value: null }
           }
