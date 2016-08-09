@@ -25,11 +25,16 @@ export const UPDATED_MEMBER =
 const CREATED_MEMBER =
   'CREATED_MEMBER'
 
-const reducer: Reducer<{}, Action> =
-  (member = { }, { type, payload }) => {
+
+const initialState = { activation_status: {} }
+
+type State = typeof initialState
+
+const reducer: Reducer<State, Action> =
+  (member = initialState, { type, payload }) => {
     switch (type) {
       case FETCHED_MEMBER:
-        return prepare_for_form(payload)
+        return (prepare_for_form(payload): State)
       case DEACTIVATED_MEMBER:
         return (
           { ...member
