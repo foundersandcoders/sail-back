@@ -19,7 +19,7 @@
 var bcrypt = require('bcryptjs')
 var is = require('torf')
 
-var hashPassword = (member, cb) => {
+var hash_password = (member, cb) => {
   if (is.ok(member.password)) {
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(member.password, salt, (err, hash) => {
@@ -249,6 +249,6 @@ module.exports = {
     }
   // ------------------------------------------------------------
     },
-    beforeCreate: hashPassword,
-    beforeUpdate: hashPassword
+    beforeCreate: hash_password,
+    beforeUpdate: hash_password
 }
