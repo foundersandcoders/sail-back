@@ -1,8 +1,8 @@
 const React = require('react')
 const Field = require('../../shared/dumb_components/field.js')
-const { options, field_order, fieldStructure } = require('../../shared/form_fields/member.js')
+const { options, field_order, fieldStructure, user_field_structure } = require('../form_fields/member.js')
 const { array_only_keys } = require('app/sort')
-const { contains, merge, dissoc, isEmpty } = require('ramda')
+const { contains, merge, dissoc } = require('ramda')
 
 const PersonalFields = (
   { fields
@@ -17,6 +17,8 @@ const PersonalFields = (
   , read_only
   , description
   , inputClassName
+  , memberView
+  , active_tab: member_fields
   }
 ) => {
   const fs = ((fields.membership_type && fields.membership_type.value) || '').match('life')
@@ -35,27 +37,26 @@ const PersonalFields = (
     + (mode === 'edit' && contains(id, required) ? '*' : '')
     + ': '
 
-  const make_fieldset = (field_list) =>
-    !isEmpty(array_only_keys(fieldStructure[field_list], fs)) &&
-      <fieldset
-        key={field_list}
-        className={'member-column-' + field_list}
-      >
-        { array_only_keys(fieldStructure[field_list], fs)
-          .map((field) =>
-            <Field
-              {...fs[field]}
-              id={field}
-              name={label_from_id(field)}
-              options={options[field]}
-              mode={contains(field, read_only) ? 'view' : mode}
-              key={field}
-              description={description}
-              className={inputClassName}
-            />
-          )
-        }
-      </fieldset>
+  const make_fieldset = field_structure => field_list =>
+    <fieldset
+      key={field_list}
+      className={'member-column-' + field_list}
+    >
+      { array_only_keys(field_structure[field_list], fs)
+        .map((field) =>
+          <Field
+            {...fs[field]}
+            id={field}
+            name={label_from_id(field)}
+            options={options[field]}
+            mode={contains(field, read_only) ? 'view' : mode}
+            key={field}
+            description={description}
+            className={inputClassName}
+          />
+        )
+      }
+    </fieldset>
 
   return (
     <form
@@ -66,7 +67,7 @@ const PersonalFields = (
         { fs.deletion_reason ? make_fieldset('edit') : '' }
       </div>
       <div className={className}>
-        { field_order.map(make_fieldset) }
+        { memberView ? make_fieldset(user_field_structure)(member_fields) : field_order.map(make_fieldset(fieldStructure)) }
       </div>
       { buttons_first ? '' : buttons }
     </form>

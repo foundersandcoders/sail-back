@@ -1,11 +1,10 @@
 /* @flow */
 import { createAction } from 'redux-actions'
 import { stopSubmit } from 'redux-form'
-const
+import
   { flip, replace, compose, map, prop, cond, T, identity, is, keys
   , path, reduce, assoc, join, values, assocPath, over, lens
-  , lensProp, slice, ifElse, not, mapObjIndexed, concat
-  } = require('ramda')
+  , lensProp, slice, ifElse, not, mapObjIndexed, concat } from 'ramda'
 
 const { format: format_dated, standardise } = require('app/transform_dated')
 import { get_body, post, put } from 'app/http'
@@ -166,7 +165,7 @@ export const fetch_member_user = createAction
 
 const preppend_notes_if_there = mapObjIndexed((val, key, mem) =>
   key === 'notes' && mem.user_notes
-    ? concat(val, '\nDeactivation reason given: '+mem.user_notes)
+    ? concat(val || '', ` Deactivation reason given: ${mem.user_notes}. `)
     : val
   )
 

@@ -21,15 +21,8 @@ export default ({ ...props, change_tab }) => {
   )
 }
 
-const keys =
-  [ 'contact_details'
-  , 'membership_details'
-  ]
-  
-const components =
-  [ EditDetails
-  , MembershipDetails
-  ]
+const keys = [ 'contact_details', 'membership_details' ]
+const components = [ EditDetails, MembershipDetails ]
 
 const first_to_upper =
   compose(join(''), over(lensIndex(0), toUpper))
