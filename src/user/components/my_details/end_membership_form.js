@@ -19,12 +19,16 @@ export default ({fields, handleSubmit, reactivate_member, update_member_user, my
                   payload='Enter comment here'
                   mode='edit'
                   />
-              <button type='submit' >
-                Confirm
-              </button>
-              <button type='button' onClick={reactivate_member}>
-                Cancel
-              </button>
+                  <div
+                    className='member-view-edit-buttons'
+                  >
+                    <button className='member-view-save-button' type='submit' >
+                      Confirm
+                    </button>
+                    <button className='member-view-cancel-button' type='button' onClick={reactivate_member}>
+                      Cancel
+                    </button>
+                  </div>
           </div>
       }
     </form>

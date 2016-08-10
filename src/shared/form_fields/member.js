@@ -68,7 +68,6 @@ const user_field_structure =
     ]
     , membership_details:
     [ 'id'
-    , 'date_joined'
     , 'membership_type'
     , 'life_payment_date'
     , 'date_membership_type_changed'

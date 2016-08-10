@@ -7,12 +7,12 @@ import EditDetails from './edit_details.js'
 export default (props) => {
   return (
     <div>
+      <EditDetails {...props} />
       <div className='end-membership'>
         {props.my_details.activation_status && props.my_details.activation_status.initial_value !== 'deactivated'
           ? <EndMembershipLoader {...props} />
-          : <p>Please contact us if you would like to reinstate your membership.</p>}
+        : <p>Please contact us if you would like to reinstate your membership.</p>}
       </div>
-      <EditDetails {...props} />
     </div>
   )
 }

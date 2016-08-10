@@ -1,10 +1,10 @@
 /* @flow */
 import { createAction } from 'redux-actions'
 import { stopSubmit } from 'redux-form'
-import
+const
   { flip, replace, compose, map, prop, cond, T, identity, is, keys
   , path, reduce, assoc, join, values, assocPath, over, lens
-  , lensProp, slice, ifElse, not, mapObjIndexed, concat } from 'ramda'
+  , lensProp, slice, ifElse, not, mapObjIndexed, concat } = require('ramda')
 
 const { format: format_dated, standardise } = require('app/transform_dated')
 import { get_body, post, put } from 'app/http'
