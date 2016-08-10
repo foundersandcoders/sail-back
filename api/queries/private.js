@@ -14,6 +14,7 @@ const subsQueryTemplate = (columns, news_type) => (
     where members.primary_email is${news_type === 'online' ? ' not' : ''} null
     and members.membership_type in
     ('annual-single', 'annual-double', 'annual-family')
+    and activation_status='activated'
     group by members.id
     having sum(case payments.category
       when 'payment' then -payments.amount
@@ -25,7 +26,8 @@ const subsQueryTemplate = (columns, news_type) => (
 const newsletterQueryTemplate = (columns, news_type) => (
   `select first_name, last_name, title, ${columns}
   from members
-  where news_type = '${news_type}';`
+  where news_type = '${news_type}'
+  and activation_status='activated';`
 )
 
 exports.update_subscription = body =>
@@ -35,7 +37,8 @@ exports.update_subscription = body =>
   and news_type = '${body.news_type}'
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
-  and ${due_date(body.start)(body.end)('members.due_date')};`
+  and ${due_date(body.start)(body.end)('members.due_date')}
+  and activation_status='activated';`
 
 exports.subscription_due_template = body =>
   `select first_name, last_name, title, address1, address2, address3, address4,
@@ -46,7 +49,8 @@ exports.subscription_due_template = body =>
   and standing_order in (null, false)
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
-  and ${due_date(body.start)(body.end)('members.due_date')};`
+  and ${due_date(body.start)(body.end)('members.due_date')}
+  and activation_status='activated';`
 
 
 
@@ -66,11 +70,13 @@ exports.newstype_post_nonzero = subsQueryTemplate(post_columns, 'post')
 exports.custom_email =
   `select first_name, last_name, title, primary_email, secondary_email
   from members
-  where primary_email is not null;`
+  where primary_email is not null
+  and activation_status='activated';`
 
 exports.newsletter_labels =
   `select title, first_name, last_name, initials,
   address1, address2, address3, address4,
   postcode, deliverer from members
   where members.news_type = 'post'
-  or members.email_bounced = true;`
+  or members.email_bounced = true
+  and activation_status='activated';`
