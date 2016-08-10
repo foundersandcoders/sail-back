@@ -1,8 +1,11 @@
 var date = require('./date_helpers.js').today(process.env.NODE_ENV)
 var due_date = require('./date_helpers.js').due_dates
 
-const subsQueryTemplate = (columns, news_type) => (
-  `select first_name, last_name, title, ${columns},
+const post_columns = 'address1, address2, address3, address4, county, postcode'
+const online_columns = 'primary_email, secondary_email'
+
+const subsQueryTemplate = (columns, delivery_method) => (
+  `select first_name, last_name, title, ${post_columns}, ${online_columns},
   datediff(${date}, max(payments.date)) as overdue,
   members.standing_order, members.due_date, members.id,
   sum(case payments.category
@@ -11,8 +14,11 @@ const subsQueryTemplate = (columns, news_type) => (
     end) as amount
     from members right outer join payments
     on members.id = payments.member
-    where members.primary_email is${news_type === 'online' ? ' not' : ''} null
-    and members.membership_type in
+    where
+    ${delivery_method === 'online'
+      ? ' members.primary_email is not null and '
+      : ' members.primary_email is null and members.secondary_email is null and '}
+    members.membership_type in
     ('annual-single', 'annual-double', 'annual-family')
     and activation_status='activated'
     group by members.id
@@ -22,6 +28,10 @@ const subsQueryTemplate = (columns, news_type) => (
       end) > 0
       and datediff(${date}, max(payments.date)) > 30;`
 )
+
+//   ? ' members.primary_email is not null or members.secondary_email is not null and '
+//   : ' members.primary_email is null and members.secondary_email is null and '}
+//   nb need to fix the rendering of secondary email address if we want a null primary but non-null secondary to be emailed.
 
 const newsletterQueryTemplate = (columns, news_type) => (
   `select first_name, last_name, title, ${columns}
@@ -54,9 +64,6 @@ exports.subscription_due_template = body =>
 
 
 
-const post_columns = 'address1, address2, address3, address4, county, postcode'
-
-const online_columns = 'primary_email, secondary_email'
 
 
 exports.newsletter = newsletterQueryTemplate(online_columns, 'online')
