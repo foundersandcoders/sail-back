@@ -74,7 +74,6 @@ const user_field_structure =
     , 'date_membership_type_changed'
     , 'date_gift_aid_signed'
     , 'standing_order'
-    , 'notes'
     , 'registered'
     , 'due_date'
     , 'news_type'
