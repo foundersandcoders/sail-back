@@ -1,22 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { update_member_user } from '../../shared/redux/modules/member.js'
+import ChangePassword from '../components/change_password.js'
 
-const ChangePassword = ({ update_member_user }) => {
-  const submit = (e) => {
-    e.preventDefault()
-    console.log(e.target[0].value);
-    update_member_user({password: e.target[0].value, id: 471800})
-  }
-
+const ChangePasswordContainer = ({update_member_user}) => {
   return (
-    <div>
-      <form onSubmit={submit}>
-        <input name='password'></input>
-        <button type='submit'>Submit</button>
-      </form>
-    </div>
+    <ChangePassword update_member_user={update_member_user} />
   )
 }
-
-export default connect(null, { update_member_user })(ChangePassword)
+export default connect(null, {update_member_user})(ChangePasswordContainer)

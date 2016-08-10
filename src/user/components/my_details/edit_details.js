@@ -3,7 +3,7 @@ import { reduxForm } from 'redux-form'
 import { reject, contains, __ } from 'ramda'
 
 import { validate, required, removed, read_only_user, user_field_structure }
-from '../../../shared/form_fields/member.js'
+  from '../../../shared/form_fields/member.js'
 import buttons from '../my_details/buttons.js'
 import MemberFields from '../../../shared/dumb_components/member_fields.js'
 
