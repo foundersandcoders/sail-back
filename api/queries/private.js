@@ -38,7 +38,10 @@ exports.update_subscription = body =>
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
   and
     date_sub(${date}, interval 1 year)
-    < (select max(payments.date) from payments where members.id = payments.member)
+    > (select max(date) from payments
+      where members.id = payments.member
+      and payments.category = 'subscription'
+    )
   and ${due_date(body.start)(body.end)('members.due_date')}
   and activation_status='activated';`
 
@@ -52,7 +55,10 @@ exports.subscription_due_template = body =>
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
   and
     date_sub(${date}, interval 1 year)
-    < (select max(payments.date) from payments where members.id = payments.member)
+    > (select max(date) from payments
+      where members.id = payments.member
+      and payments.category = 'subscription'
+    )
   and ${due_date(body.start)(body.end)('members.due_date')}
   and activation_status='activated';`
 
