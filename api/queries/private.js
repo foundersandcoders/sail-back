@@ -34,9 +34,11 @@ exports.update_subscription = body =>
   `insert into payments (member, category, amount, date, createdAt)
   select id, 'subscription', amount, ${date}, now() from members, membershiptypes
   where members.membership_type = membershiptypes.value
-  and news_type = '${body.news_type}'
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
+  and
+    date_sub(${date}, interval 1 year)
+    < (select max(payments.date) from payments where members.id = payments.member)
   and ${due_date(body.start)(body.end)('members.due_date')}
   and activation_status='activated';`
 
@@ -45,10 +47,12 @@ exports.subscription_due_template = body =>
   county, postcode, id, due_date, membership_type, primary_email, secondary_email, amount
   from members, membershiptypes
   where members.membership_type = membershiptypes.value
-  and news_type = '${body.news_type}'
-  and standing_order in (null, false)
+  and (standing_order is null or standing_order=false)
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
+  and
+    date_sub(${date}, interval 1 year)
+    < (select max(payments.date) from payments where members.id = payments.member)
   and ${due_date(body.start)(body.end)('members.due_date')}
   and activation_status='activated';`
 
