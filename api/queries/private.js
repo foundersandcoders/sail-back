@@ -1,5 +1,6 @@
-var date = require('./date_helpers.js').today(process.env.NODE_ENV)
-var due_date = require('./date_helpers.js').due_dates
+var d = require('./date_helpers.js')
+var date = d.today(process.env.NODE_ENV)
+var set_current = d.set_current(process.env.NODE_ENV)
 
 const subsQueryTemplate = (columns, news_type) => (
   `select first_name, last_name, title, ${post_columns}, ${online_columns},
@@ -32,7 +33,7 @@ const newsletterQueryTemplate = (columns, news_type) => (
 
 exports.update_subscription = body =>
   `insert into payments (member, category, amount, date, createdAt)
-  select id, 'subscription', amount, ${date}, now() from members, membershiptypes
+  select id, 'subscription', amount, ${set_current('due_date')}, now() from members, membershiptypes
   where members.membership_type = membershiptypes.value
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
@@ -42,7 +43,7 @@ exports.update_subscription = body =>
       where members.id = payments.member
       and payments.category = 'subscription'
     )
-  and ${due_date(body.start)(body.end)('members.due_date')}
+  and ${d.due_date(body.start)(body.end)('members.due_date')}
   and activation_status='activated';`
 
 exports.subscription_due_template = body =>
@@ -59,7 +60,7 @@ exports.subscription_due_template = body =>
       where members.id = payments.member
       and payments.category = 'subscription'
     )
-  and ${due_date(body.start)(body.end)('members.due_date')}
+  and ${d.due_date(body.start)(body.end)('members.due_date')}
   and activation_status='activated';`
 
 
