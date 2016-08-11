@@ -8,7 +8,9 @@ var mg = require('../services/email_mailgun.js')
 var aSync = require('async')
 
 var queries = require('../queries/private.js')
-var { sql_callback, change_view } = require('./helpers.js')
+var helpers = require('./helpers.js')
+var sql_callback = helpers.sql_callback
+var change_view = helpers.change_view
 
 var membersQuery = function(query, type) {
   return function (req, res) {
