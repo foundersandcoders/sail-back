@@ -1,5 +1,7 @@
+const { B } = require('sanctuary')
+
 exports.today = env =>
-  env === 'heroku-test' ? "'2016-08-15'" : "curdate()"
+  env === 'heroku-test' ? "'2017-08-15'" : "curdate()"
 
 exports.due_dates = start => end => compare => {
   var wrap =
@@ -10,7 +12,16 @@ exports.due_dates = start => end => compare => {
     and ${set_2000(`'${end}'`)}`)
 }
 
-var set_2000 = date => `date_format(${date}, '2000-%m-%d')`
+var set_year = year => date => `date_format(${date}, '${year}-%m-%d')`
+
+var set_2000 = set_year('2000')
+
+var current_year = env =>
+  process.env.NODE_ENV === 'heroku-test'
+  ? '2017'
+  : JSON.stringify((new Date).getFullYear())
+
+exports.set_current = B(set_year, current_year)
 
 var month_and_day = date_string => date_string.split('-').slice(1).join()
 
