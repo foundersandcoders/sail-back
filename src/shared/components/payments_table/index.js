@@ -36,8 +36,9 @@ var PaymentsTable = (
   , payments = []
   }
 ) => {
-  var headers = ['Date', 'Description', 'Charges', 'Payments', 'Balance Due',
-      'Reference', 'Notes', 'Delete']
+  var headers = [ 'Date', 'Description', 'Charges', 'Payments', 'Balance Due' ]
+    .concat(remove_payment ? [ 'Reference', 'Notes', 'Delete' ] : [])
+
 
   var entries = make_payments_with_balance(payments)
   .slice(1)

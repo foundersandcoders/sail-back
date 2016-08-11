@@ -2,18 +2,17 @@
 const { createAction } = require('redux-actions')
 const { get_body } = require('app/http')
 const { format } = require('app/transform_dated')
-const { compose, concat, reduce, map, add, negate, lensPath, flip, over, prop,
+const { compose, concat, reduce, map, negate, lensPath, flip, over, prop,
   view, set, append, identity, objOf, propOr, mergeAll, converge, unapply,
   assoc, pick, cond, equals, T, sortBy } =
     require('ramda')
 const { plus, plus2 } = require('app/money_arith')
 const { S } = require('sanctuary')
-const { payments: fields } = require('../../form_fields/paying_in.js')
 
 const RECEIVED = 'RECEIVED_REPORT_DATA'
 
 import type { Action, Reducer } from 'redux'
-import type { Payment } from './payment_defaults'
+import type { Payment } from '../modules/payment_defaults.js'
 
 type State = {}
 type Check = (x: any) => (p: Payment) => boolean
