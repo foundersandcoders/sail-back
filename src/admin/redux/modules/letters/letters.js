@@ -68,8 +68,6 @@ export const send_subscription_due_post =
 export const subscription_due_post_tab =
   createAction(SUBSCRIPTION_DUE_POST_TAB)
 
-
-
 const addressProps = [ 'address1', 'address2', 'address3', 'address4', 'county', 'postcode' ]
 
 const build_address = (member) =>
