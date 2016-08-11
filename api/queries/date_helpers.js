@@ -1,4 +1,4 @@
-const { B } = require('sanctuary')
+var B = require('sanctuary').B
 
 exports.today = env =>
   env === 'heroku-test' ? "'2017-08-15'" : "curdate()"
