@@ -1,23 +1,26 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetch_user_details, change_tab } from '../redux/modules/my_details.js'
-
-import { prop } from 'ramda'
-
-
+import { fetch_member_user, update_member_user } from '../../shared/redux/modules/member.js'
+import { toggle_member_mode } from '../../shared/redux/modules/mode.js'
+import { change_tab } from '../redux/modules/active_tab.js'
+import { pick } from 'ramda'
 import TabBar from '../components/my_details/tab_bar.js'
 
 class MyDetails extends React.Component {
-
   componentDidMount () {
-    this.props.fetch_user_details()
+    this.props.fetch_member_user()
   }
 
   render () {
     return (
-        <TabBar {...this.props} />
+      <TabBar {...this.props} />
     )
   }
 }
 
-export default connect(prop('my_details'), { fetch_user_details, change_tab })(MyDetails)
+export default connect(pick(['active_tab', 'mode']),
+  { fetch_member_user
+  , update_member_user
+  , change_tab
+  , toggle_member_mode
+  })(MyDetails)

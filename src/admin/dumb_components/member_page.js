@@ -2,13 +2,8 @@ const React = require('react')
 
 const MemberPayments = require('./member_payments.js')
 const MemberInformation = require('./view_member.js')
-const { fields, fieldStructure } = require('../form_fields/member.js')
+const { fields } = require('../../shared/form_fields/member.js')
 const Buttons = require('./edit_member_buttons.js')
-
-const correct_fields = (fields, mode) =>
-  mode === 'deactivated'
-    ? fields.concat(['deletion_reason', 'deletion_date'])
-    : fields
 
 var ViewMember = (
   { deactivate_member_click
@@ -20,7 +15,6 @@ var ViewMember = (
   , member_payments
   , add_payment
   , remove_payment
-  , subscription_amount
   , switch_charge_type
   , charge_type
   , payments

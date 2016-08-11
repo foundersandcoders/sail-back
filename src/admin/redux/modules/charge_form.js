@@ -1,7 +1,7 @@
 /* @flow */
 const { createAction } = require('redux-actions')
 
-const { ADDED_PAYMENT } = require('./payments.js')
+const { ADDED_PAYMENT } = require('../../../shared/redux/modules/payments.js')
 const { PATH_UPDATE } = require('../../../shared/redux/modules/route.js')
 const SWITCHED_CHARGE_TYPE = 'SWITCHED_CHARGE_TYPE'
 

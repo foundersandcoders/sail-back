@@ -1,8 +1,8 @@
 /* @flow */
 const { reducer: form } = require('redux-form')
-import  member_reducer from './modules/member.js'
+import member_reducer from '../../shared/redux/modules/member.js'
 import charge_form from './modules/charge_form.js'
-import { normalise as member } from '../form_fields/member.js'
+import { normalise as member } from '../../shared/form_fields/member.js'
 
 export default form.plugin(
   { member: member_reducer

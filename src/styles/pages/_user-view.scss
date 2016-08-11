@@ -10,3 +10,29 @@ nav {
     margin-left: 0;
   }
 }
+
+.user-content {
+  width: 90%;
+  margin-left: 20px;
+}
+
+.user-input-edit input {
+  border: solid 1px black;
+  height: 2.5em;
+}
+
+.user-input-read-only input {
+  border: none;
+  height: 2.5em;
+  width: 70%;
+  display: inline-block;
+}
+
+.member-view-edit-buttons {
+  display: flex;
+  margin-top: 1em;
+}
+
+.member-view-save-button {
+  margin-right: 1em;
+}
