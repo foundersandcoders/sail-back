@@ -1,31 +1,35 @@
 import React from 'react'
 import { reduxForm } from 'redux-form'
-import { reject, contains, __ } from 'ramda'
+import { reject, contains, filter, __ } from 'ramda'
 
-import { validate, required, removed, read_only_user, user_field_structure }
+import { validate, required, read_only_user, user_field_structure }
   from '../../../shared/form_fields/member.js'
 import buttons from '../my_details/buttons.js'
 import MemberFields from '../../../shared/dumb_components/member_fields.js'
 
-export default ({ toggle_member_mode, mode, update_member_user, ...props }) =>
-  <ViewMember
-    {...props}
-    fields={filter_fields(removed)(user_field_structure[props.active_tab])}
-    Buttons={buttons}
-    button_props={
-      { edit_member_click: toggle_member_mode
-      , cancel_member_click: toggle_member_mode
-      , mode
+export default ({ toggle_member_mode, mode, update_member_user, my_details, ...props }) => {
+  return (
+    <ViewMember
+      {...props}
+      fields={filter_news(my_details.news_type)(user_field_structure[props.active_tab])}
+      Buttons={buttons}
+      button_props={
+        { edit_member_click: toggle_member_mode
+        , cancel_member_click: toggle_member_mode
+        , mode
+        }
       }
-    }
-    mode={mode}
-    onSubmit={update_member_user}
-    required={required}
-    read_only={read_only_user}
-    description={description}
-    inputClassName='user-form-inputs'
-    memberView
-  />
+      mode={mode}
+      onSubmit={update_member_user}
+      required={required}
+      read_only={read_only_user}
+      description={description}
+      inputClassName='user-form-inputs'
+      memberView
+    />
+  )
+}
+
 
 const ViewMember = reduxForm(
   { form: 'user'
@@ -34,7 +38,10 @@ const ViewMember = reduxForm(
   }
   )(MemberFields)
 
-const filter_fields = to_be_removed => reject(contains(__, to_be_removed))
+const filter_news = type => filter(
+  field =>
+    field !== 'news_type' || type.initial_value === 'post'
+  )
 
 const description =
   `Currently Newsletters are posted (or hand delivered) to you three times a year.

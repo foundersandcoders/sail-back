@@ -61,7 +61,6 @@ const user_field_structure =
     , 'address4'
     , 'county'
     , 'postcode'
-    , 'deliverer'
     , 'home_phone'
     , 'work_phone'
     , 'mobile_phone'
@@ -69,15 +68,9 @@ const user_field_structure =
     , membership_details:
     [ 'id'
     , 'membership_type'
-    , 'life_payment_date'
-    , 'date_membership_type_changed'
-    , 'date_gift_aid_signed'
     , 'standing_order'
-    , 'registered'
     , 'due_date'
     , 'news_type'
-    , 'email_bounced'
-    , 'activation_status'
     ]
   }
 
@@ -145,16 +138,7 @@ const read_only_user =
   , 'due_date'
   ]
 
-const removed =
-  [ 'deliverer'
-  , 'life_payment_date'
-  , 'date_membership_type_changed'
-  , 'date_gift_aid_signed'
-  , 'standing_order'
-  , 'registered'
-  , 'email_bounced'
-  , 'activation_status'
-  ]
+
 
 const new_required = required.concat('date_joined')
 
@@ -206,7 +190,6 @@ module.exports =
   , validate
   , normalise
   , required
-  , removed
   , read_only_user
   , user_field_structure
   }
