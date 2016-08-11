@@ -16,18 +16,6 @@ nav {
   margin-left: 20px;
 }
 
-.user-input-edit input {
-  border: solid 1px black;
-  height: 2.5em;
-}
-
-.user-input-read-only input {
-  border: none;
-  height: 2.5em;
-  width: 70%;
-  display: inline-block;
-}
-
 .member-view-edit-buttons {
   display: flex;
   margin-top: 1em;
@@ -35,4 +23,16 @@ nav {
 
 .member-view-save-button {
   margin-right: 1em;
+}
+
+.error-message {
+  margin: 0.5em 0;
+}
+
+.input-title {
+  margin: 0.5em 0;
+}
+
+.change-password-inputs {
+  margin: 0.5em 0;
 }
