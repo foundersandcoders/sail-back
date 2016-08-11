@@ -2,7 +2,7 @@ var date = require('./date_helpers.js').today(process.env.NODE_ENV)
 var due_date = require('./date_helpers.js').due_dates
 
 const subsQueryTemplate = (columns, news_type) => (
-  `select first_name, last_name, title, ${columns},
+  `select first_name, last_name, title, ${post_columns}, ${online_columns},
   datediff(${date}, max(payments.date)) as overdue,
   members.standing_order, members.due_date, members.id,
   sum(case payments.category
