@@ -1,6 +1,6 @@
 import React from 'react'
 import { reduxForm } from 'redux-form'
-import { filter } from 'ramda'
+import { filter, cond, equals, T } from 'ramda'
 
 import { validate, required, read_only_user, user_field_structure }
   from '../../../shared/form_fields/member.js'
@@ -10,7 +10,7 @@ import MemberFields from '../../../shared/dumb_components/member_fields.js'
 export default ({ toggle_member_mode, mode, update_member_user, my_details, ...props }) =>
   <ViewMember
     {...props}
-    fields={filter_news(my_details.news_type)(user_field_structure[props.active_tab])}
+    fields={filter_fields(my_details)(user_field_structure[props.active_tab])}
     Buttons={buttons}
     button_props={
       { edit_member_click: toggle_member_mode
@@ -28,7 +28,6 @@ export default ({ toggle_member_mode, mode, update_member_user, my_details, ...p
   />
 
 
-
 const ViewMember = reduxForm(
   { form: 'user'
   , validate
@@ -36,9 +35,15 @@ const ViewMember = reduxForm(
   }
   )(MemberFields)
 
-const filter_news = type => filter(
-  field =>
-    field !== 'news_type' || type.initial_value === 'post'
+
+const filter_fields = details =>
+  filter (
+    cond (
+      [ [equals('news_type'), () => details.news_type.initial_value === 'post']
+      , [equals('standing_order'), () => details.standing_order && details.standing_order.initial_value]
+      , [T, T]
+      ]
+    )
   )
 
 const description =
