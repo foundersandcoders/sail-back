@@ -8,8 +8,6 @@ export default ({update_member_user}) =>
     onSubmit={update_member_user}
   />
 
-// TODO: add validation and possibly change name of form from 'user'
-
 const validate = values => {
   const errors = {}
   if (!values.password) {
@@ -23,7 +21,7 @@ const validate = values => {
   return errors
 }
 const ChangePasswordReduxForm = reduxForm(
-  { form: 'user'
+  { form: 'change-password'
   , validate
   , fields: ['password', 'confirm_password']
   }
