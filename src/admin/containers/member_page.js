@@ -1,18 +1,16 @@
 /* @flow */
 const React = require('react')
 const { connect } = require('react-redux')
-const { pick, compose, propOr, merge } = require('ramda')
+const { compose, merge } = require('ramda')
 const title_case = require('app/to_title_case')
 const { convertPounds } = require('app/monies')
 const { fetch_member, deactivate_member, reactivate_member, update_member } =
   require('../../shared/redux/modules/member.js')
 const { toggle_member_mode } = require('../../shared/redux/modules/mode.js')
 const { switch_charge_type } = require('../redux/modules/charge_form.js')
-const { add_payment, remove_payment } = require('../redux/modules/payments.js')
+const { add_payment, remove_payment } = require('../../shared/redux/modules/payments.js')
 
 const MemberPage = require('../dumb_components/member_page.js')
-
-
 
 const ViewMember = React.createClass({
 
