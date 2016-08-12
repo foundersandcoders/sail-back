@@ -2,7 +2,7 @@
 import { combineReducers } from 'redux'
 import form from './form_reducer.js'
 import payment_defaults from './modules/payment_defaults.js'
-import mode from './modules/mode.js'
+import mode from '../../shared/redux/modules/mode.js'
 import payments from './modules/payments.js'
 import charge_form from './modules/charge_form.js'
 import route from '../../shared/redux/modules/route.js'
