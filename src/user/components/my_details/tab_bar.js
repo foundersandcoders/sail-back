@@ -4,6 +4,7 @@ import { map, compose, join, over, lensIndex, toUpper, head, split, zip } from '
 import { Tabs, Tab } from 'react-bootstrap'
 
 import EditDetails from './edit_details.js'
+
 import MembershipDetails from './membership_details.js'
 
 
