@@ -140,32 +140,37 @@ const errors_or_to_member = errors_or(compose(to_member, prop('body')))
 
 const error_id = errors_or(id_value)
 
-export const fetch_member = createAction
+const fetch_member_action = dispatch => createAction
   ( FETCHED_MEMBER
-  , compose(map(to_member), get_body, make_user_url(get_user_url))
+    , dispatch
   )
 
-export const update_member = createAction
+const fetch_member_dispatch = compose(map(to_member), get_body, make_user_url(get_user_url))
+
+const fetch_member_user_dispatch = () => compose(map(to_member), get_body)('/api/account')
+
+export const fetch_member = fetch_member_action(fetch_member_dispatch)
+
+export const fetch_member_user = fetch_member_action(fetch_member_user_dispatch)
+
+const update_member_action = dispatch => createAction
   ( UPDATED_MEMBER
-  , (member, dispatch) => compose
-    ( map(errors_or_to_member(dispatch))
-    , compose(post, null_empty, standardise)(member)
-    , make_user_url(post_user_url)
-    )(member.id)
+    , dispatch
   )
+const update_member_dispatch = (member, dispatch) => compose
+  ( map(errors_or_to_member(dispatch))
+  , compose(post, null_empty, standardise)(member)
+  , make_user_url(post_user_url)
+  )(member.id)
 
-export const fetch_member_user = createAction
-  ( FETCHED_MEMBER
-  , () => compose(map(to_member), get_body)('/api/account')
-  )
+const update_member_user_dispatch = (member, dispatch) => compose
+  ( map(errors_or_to_member(dispatch))
+  , compose(put, null_empty, standardise)(member)
+  )('/api/account')
 
-export const update_member_user = createAction
-  ( UPDATED_MEMBER
-  , (member, dispatch) => compose
-    ( map(errors_or_to_member(dispatch))
-    , compose(put, null_empty, standardise)(member)
-    )('/api/account')
-  )
+export const update_member = update_member_action(update_member_dispatch)
+
+export const update_member_user = update_member_action(update_member_user_dispatch)
 
 export const deactivate_member = createAction(DEACTIVATED_MEMBER)
 
