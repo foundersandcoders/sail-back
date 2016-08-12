@@ -12,7 +12,7 @@ const { S } = require('sanctuary')
 const RECEIVED = 'RECEIVED_REPORT_DATA'
 
 import type { Action, Reducer } from 'redux'
-import type { Payment } from '../modules/payment_defaults.js'
+import type { Payment } from './payment_defaults.js'
 
 type State = {}
 type Check = (x: any) => (p: Payment) => boolean
