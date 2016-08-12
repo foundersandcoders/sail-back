@@ -55,7 +55,7 @@ module.exports = {
   sendSubsDue: function (req, res) {
     var callback = (err, results) => {
       if (err) return res.badRequest({ error: err })
-      return res.json({ results: results[1] })
+      return res.json({ results: results[0] })
     }
 
     var dbCall = queryString => cb => {
@@ -63,8 +63,8 @@ module.exports = {
     }
 
     aSync.series(
-      [ dbCall('update_subscription')
-      , dbCall('subscription_due_template')
+      [ dbCall('subscription_due_template')
+      , dbCall('update_subscription')
       ], callback)
   },
   sendNewsletterAlert: function (req, res) {
