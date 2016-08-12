@@ -1,5 +1,5 @@
 /* @flow */
-import { FETCHED_MEMBER } from './member.js'
+import { FETCHED_MEMBER } from '../../../shared/redux/modules/member.js'
 import { mergeAll, converge, unapply, compose, objOf, prop } from 'ramda'
 
 import type { Action, Reducer } from 'redux'

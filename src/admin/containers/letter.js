@@ -3,8 +3,8 @@
 const React = require('react')
 const { connect } = require('react-redux')
 
-const Field = require('../components/field.js')
-const { fetch_member } = require('../redux/modules/member.js')
+const Field = require('../../shared/dumb_components/field.js')
+const { fetch_member } = require('../../shared/redux/modules/member.js')
 
 const Letter = React.createClass({
   initialState: {},
@@ -67,4 +67,3 @@ const Letter = React.createClass({
 Letter.displayName = 'LetterPage'
 
 export default connect(({ letter }) => ({ letter }), { fetch_member })(Letter)
-

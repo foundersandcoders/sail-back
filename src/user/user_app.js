@@ -1,10 +1,12 @@
 import React from 'react'
 
-import NavBar from './containers/nav_bar.js'
+import NavBar from './components/nav_bar.js'
 
 export default (props) => (
   <div>
     <NavBar />
-    {props.children}
+    <div className='user-content'>
+      {props.children}
+    </div>
   </div>
 )

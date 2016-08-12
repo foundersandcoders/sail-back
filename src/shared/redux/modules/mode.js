@@ -1,8 +1,8 @@
 /* @flow */
-const { createAction, handleAction } = require('redux-actions')
-const { UPDATED_MEMBER } = require('./member.js')
+import { createAction } from 'redux-actions'
+import { UPDATED_MEMBER } from './member.js'
 
-const TOGGLE_MEMBER_MODE = 'TOGGLE_MEMBER_MODE'
+export const TOGGLE_MEMBER_MODE = 'TOGGLE_MEMBER_MODE'
 
 import type { Action, Reducer } from 'redux'
 

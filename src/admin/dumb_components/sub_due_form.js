@@ -1,5 +1,5 @@
 import React from 'react'
-import Field from '../components/field.js'
+import Field from '../../shared/dumb_components/field.js'
 const { reduxForm } = require('redux-form')
 
 const sub_due_dates = ({fields, handleSubmit, error}) =>
@@ -10,7 +10,7 @@ const sub_due_dates = ({fields, handleSubmit, error}) =>
           id={field}
           mode='edit'
           key={field}
-          />
+        />
       )}
       <button type='submit'>Show Recipients</button>
     </form>

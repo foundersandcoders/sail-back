@@ -7,7 +7,7 @@ const { compose, props, map, append, lensIndex, set, range, apply, lift,
 import { minus, plus } from 'app/money_arith'
 import standardise from 'app/standardise_date'
 import { fields, headers } from '../form_fields/paying_in.js'
-import Field from '../components/field.js'
+import Field from '../../shared/dumb_components/field.js'
 import MoneyRow from '../components/table/money_row.js'
 
 import { receive_non_cheque, receive_paying_in }

@@ -5,7 +5,7 @@ const { compose, flip, replace, concat, map, propOr, filter, sortBy } =
   require('ramda')
 const { standardise } = require('app/transform_dated')
 
-const { FETCHED_MEMBER } = require('./member.js')
+const { FETCHED_MEMBER } = require('../../../shared/redux/modules/member.js')
 export const ADDED_PAYMENT = 'ADDED_PAYMENT'
 const REMOVED_PAYMENT = 'REMOVED_PAYMENT'
 
