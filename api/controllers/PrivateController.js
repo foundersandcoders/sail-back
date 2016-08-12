@@ -23,7 +23,6 @@ module.exports = {
   showUserHome:  change_view('pages/user'),
   showMemberForm: change_view('pages/new-member'),
   showMaintenance: change_view('pages/maintenance'),
-
   sendNewsletterAlert: membersQuery('newsletterQueryTemplate', 'online'),
   sendCustomEmail: membersQuery('custom_email'),
   getNewsletterLabels: membersQuery('newsletter_labels'),
@@ -73,7 +72,7 @@ module.exports = {
   sendSubsDue: function (req, res) {
     var sql_callback = (err, results) => {
       if (err) return res.badRequest({ error: err })
-      return res.json({ results: results[1] })
+      return res.json({ results: results[0] })
     }
 
     var dbCall = queryString => cb => {

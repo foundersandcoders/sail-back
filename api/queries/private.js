@@ -1,5 +1,6 @@
-var date = require('./date_helpers.js').today(process.env.NODE_ENV)
-var due_date = require('./date_helpers.js').due_dates
+var d = require('./date_helpers.js')
+var date = d.today(process.env.NODE_ENV)
+var set_current = d.set_current(process.env.NODE_ENV)
 
 const columns = `first_name, last_name, title, address1, address2,
   address3, address4, county, postcode, primary_email, secondary_email`
@@ -35,23 +36,35 @@ exports.newsletterQueryTemplate = news_type => (
 
 exports.update_subscription = body =>
   `insert into payments (member, category, amount, date, createdAt)
-  select id, 'subscription', amount, ${date}, now() from members, membershiptypes
+  select id, 'subscription', amount, ${set_current('due_date')}, now() from members, membershiptypes
   where members.membership_type = membershiptypes.value
-  and news_type = '${body.news_type}'
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
-  and ${due_date(body.start)(body.end)('members.due_date')}
+  and members.primary_email is${body.news_type === 'online' ? ' not' : ''} null
+  and
+    date_sub(${date}, interval 1 year)
+    > (select max(date) from payments
+      where members.id = payments.member
+      and payments.category = 'subscription'
+    )
+  and ${d.due_dates(body.start)(body.end)('members.due_date')}
   and activation_status='activated';`
 
 exports.subscription_due_template = body =>
   `select ${columns}, id, due_date, membership_type, amount
   from members, membershiptypes
   where members.membership_type = membershiptypes.value
-  and news_type = '${body.news_type}'
-  and standing_order in (null, false)
+  and (standing_order is null or standing_order=false)
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
-  and ${due_date(body.start)(body.end)('members.due_date')}
+  and members.primary_email is${body.news_type === 'online' ? ' not' : ''} null
+  and
+    date_sub(${date}, interval 1 year)
+    > (select max(date) from payments
+      where members.id = payments.member
+      and payments.category = 'subscription'
+    )
+  and ${d.due_dates(body.start)(body.end)('members.due_date')}
   and activation_status='activated';`
 
 exports.custom_email = () =>
