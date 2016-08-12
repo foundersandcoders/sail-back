@@ -1,6 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { Router, Route, hashHistory }  from 'react-router'
+import { Router, Route, hashHistory } from 'react-router'
 
 import store from './redux/store.js'
 
@@ -10,6 +10,7 @@ import App from './user_app.js'
 import MyDetails from './containers/my_details.js'
 import Statements from './containers/statements.js'
 import MakePayment from './containers/make_payment.js'
+import ChangePassword from './containers/change_password.js'
 
 import { pathDidUpdate } from '../shared/redux/modules/route.js'
 
@@ -23,6 +24,7 @@ module.exports = () =>
         <Route path='/' component={MyDetails} />
         <Route path='/statements' component={Statements} />
         <Route path='/make-payment' component={MakePayment} />
+        <Route path='/change-password' component={ChangePassword} />
       </Route>
     </Router>
   </Provider>

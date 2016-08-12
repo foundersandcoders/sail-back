@@ -1,6 +1,4 @@
-const { prop, keys, assoc, reduce, contains, converge, merge, unapply,
-  mergeAll } =
-    require('ramda')
+const { assoc, reduce, converge, unapply, mergeAll } = require('ramda')
 const validate_email = require('email-validator').validate
 const valid_email = (field) => (values) =>
   !values[field] || validate_email(values[field])
@@ -48,10 +46,45 @@ const fieldStructure =
     ]
   }
 
+const user_field_structure =
+  { contact_details:
+    [ 'id'
+    , 'title'
+    , 'initials'
+    , 'first_name'
+    , 'last_name'
+    , 'primary_email'
+    , 'secondary_email'
+    , 'address1'
+    , 'address2'
+    , 'address3'
+    , 'address4'
+    , 'county'
+    , 'postcode'
+    , 'deliverer'
+    , 'home_phone'
+    , 'work_phone'
+    , 'mobile_phone'
+    ]
+    , membership_details:
+    [ 'id'
+    , 'membership_type'
+    , 'life_payment_date'
+    , 'date_membership_type_changed'
+    , 'date_gift_aid_signed'
+    , 'standing_order'
+    , 'registered'
+    , 'due_date'
+    , 'news_type'
+    , 'email_bounced'
+    , 'activation_status'
+    ]
+  }
+
 const field_order =
-  [ "personal"
-  , "address"
-  , "membership"
+  [ 'personal'
+  , 'address'
+  , 'membership'
   ]
 
 const fields = field_order.reduce((fields, list) =>
@@ -105,6 +138,24 @@ const required =
   , 'news_type'
   ]
 
+const read_only_user =
+  [ 'id'
+  , 'registered'
+  , 'activation_status'
+  , 'due_date'
+  ]
+
+const removed =
+  [ 'deliverer'
+  , 'life_payment_date'
+  , 'date_membership_type_changed'
+  , 'date_gift_aid_signed'
+  , 'standing_order'
+  , 'registered'
+  , 'email_bounced'
+  , 'activation_status'
+  ]
+
 const new_required = required.concat('date_joined')
 
 const validate = (values) => {
@@ -155,4 +206,7 @@ module.exports =
   , validate
   , normalise
   , required
+  , removed
+  , read_only_user
+  , user_field_structure
   }
