@@ -37,13 +37,14 @@ exports.update_subscription = body =>
   where members.membership_type = membershiptypes.value
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
+  and members.primary_email is${body.news_type === 'online' ? ' not' : ''} null
   and
     date_sub(${date}, interval 1 year)
     > (select max(date) from payments
       where members.id = payments.member
       and payments.category = 'subscription'
     )
-  and ${d.due_date(body.start)(body.end)('members.due_date')}
+  and ${d.due_dates(body.start)(body.end)('members.due_date')}
   and activation_status='activated';`
 
 exports.subscription_due_template = body =>
@@ -54,13 +55,14 @@ exports.subscription_due_template = body =>
   and (standing_order is null or standing_order=false)
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
+  and members.primary_email is${body.news_type === 'online' ? ' not' : ''} null
   and
     date_sub(${date}, interval 1 year)
     > (select max(date) from payments
       where members.id = payments.member
       and payments.category = 'subscription'
     )
-  and ${d.due_date(body.start)(body.end)('members.due_date')}
+  and ${d.due_dates(body.start)(body.end)('members.due_date')}
   and activation_status='activated';`
 
 
