@@ -8,8 +8,8 @@ exports.due_dates = start => end => compare => {
     month_and_day(start) < month_and_day(end) ? x => x : x => `not(${x})`
 
   return wrap(`${set_2000(compare)}
-    between ${set_2000(`'${start}'`)}
-    and ${set_2000(`'${end}'`)}`)
+    between ${set_2000(`'${new Date(start).toISOString()}'`)}
+    and ${set_2000(`'${new Date(end).toISOString()}'`)}`)
 }
 
 var set_year = year => date => `date_format(${date}, '${year}-%m-%d')`
