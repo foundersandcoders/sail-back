@@ -20,23 +20,20 @@ var bcrypt = require('bcryptjs')
 var is = require('torf')
 
 var hash_password = key => (member, cb) => {
-  if (is.ok(member[key])) {
-    bcrypt.genSalt(10, (err, salt) => {
-      if (err) return cb(err)
-      bcrypt.hash(member[key], salt, (error, hash) => {
-        if (error) {
-          sails.log.error(error)
-          cb(err)
-        } else {
-          delete member.new_password
-          member.password = hash
-          cb(null, member)
-        }
-      })
+  if (!is.ok(member[key])) return cb(null, member)
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) return cb(err)
+    bcrypt.hash(member[key], salt, (error, hash) => {
+      if (error) {
+        sails.log.error(error)
+        cb(err)
+      } else {
+        delete member.new_password
+        member.password = hash
+        cb(null, member)
+      }
     })
-  } else {
-    cb(null, member)
-  }
+  })
 }
 
 module.exports = {
