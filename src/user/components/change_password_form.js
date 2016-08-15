@@ -2,14 +2,15 @@ import React from 'react'
 
 const form_fields = [ 'new_password', 'confirm_password' ]
 
-export default ({fields, handleSubmit}) =>
-  <form onSubmit={handleSubmit}>
-    <div className='change-password-inputs'>
-      {form_fields.map(input_maker(fields))}
-    </div>
-    <button className='change-password-button' type='submit'>Submit</button>
-  </form>
-
+export default ({ fields, handleSubmit, changedPassword }) =>
+  Date.now() - changedPassword > 10000 ?
+    <form onSubmit={handleSubmit}>
+      <div className='change-password-inputs'>
+        {form_fields.map(input_maker(fields))}
+      </div>
+      <button className='change-password-button' type='submit'>Submit</button>
+    </form>
+  : <div>Password Changed!</div>
 
 const input_maker = fields => field =>
   <div key={field}>
