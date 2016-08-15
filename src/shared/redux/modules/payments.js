@@ -1,7 +1,7 @@
 /* @flow */
 const { createAction } = require('redux-actions')
 const { post, del } = require('app/http')
-const { compose, flip, replace, concat, map, propOr, filter, sortBy } =
+const { compose, flip, concat, map, propOr, filter, sortBy } =
   require('ramda')
 const { standardise } = require('app/transform_dated')
 
@@ -9,7 +9,7 @@ const { FETCHED_MEMBER } = require('../../../shared/redux/modules/member.js')
 export const ADDED_PAYMENT = 'ADDED_PAYMENT'
 const REMOVED_PAYMENT = 'REMOVED_PAYMENT'
 
-import type { Payment } from './payment_defaults'
+import type { Payment } from '../../../admin/redux/modules/payment_defaults'
 import type { Action, Reducer } from 'redux'
 
 const reducer: Reducer<Payment[], Action>
@@ -55,4 +55,3 @@ export const remove_payment = createAction
     , make_deletion_url
     )
   )
-

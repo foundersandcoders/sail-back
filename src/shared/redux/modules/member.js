@@ -4,8 +4,7 @@ import { stopSubmit } from 'redux-form'
 const
   { flip, replace, compose, map, prop, cond, T, identity, is, keys
   , path, reduce, assoc, join, values, assocPath, over, lens
-  , lensProp, slice, ifElse, not, mapObjIndexed
-  } = require('ramda')
+  , lensProp, slice, ifElse, not, mapObjIndexed, concat } = require('ramda')
 
 const { format: format_dated, standardise } = require('app/transform_dated')
 import { get_body, post, put } from 'app/http'
@@ -25,22 +24,27 @@ export const UPDATED_MEMBER =
 const CREATED_MEMBER =
   'CREATED_MEMBER'
 
-const reducer: Reducer<{}, Action> =
-  (member = { }, { type, payload }) => {
+
+const initialState = { activation_status: {} }
+
+type State = typeof initialState
+
+const reducer: Reducer<State, Action> =
+  (member = initialState, { type, payload }) => {
     switch (type) {
       case FETCHED_MEMBER:
-        return prepare_for_form(payload)
+        return (prepare_for_form(payload): State)
       case DEACTIVATED_MEMBER:
         return (
           { ...member
-          , activation_status: { value: 'deactivated' }
+          , activation_status: { value: 'deactivated', initial_value: member.activation_status.initial_value }
           , deletion_date: { value: new Date().toISOString() }
           }
         )
       case REACTIVATED_MEMBER:
         return (
           { ...member
-          , activation_status: { value: 'activated' }
+          , activation_status: { value: 'activated', initial_value: member.activation_status.initial_value }
           , deletion_date: {}
           , deletion_reason: { value: null }
           }
@@ -145,11 +149,11 @@ const fetch_member_action = make_url => createAction
   , compose(map(to_member), get_body, make_url)
   )
 
-const update_member_action = method => make_url => createAction
+const update_member_action = method => shape_data => make_url => createAction
   ( UPDATED_MEMBER
     , (member, dispatch) => compose
     ( map(errors_or_to_member(dispatch))
-    , compose(method, null_empty, standardise)(member)
+    , compose(method, null_empty, shape_data, standardise)(member)
     , make_url
   )(member)
   )
@@ -158,13 +162,19 @@ const fetch_user_url = () => '/api/account'
 
 const post_member_url = compose(make_user_url(post_user_url), prop('id'))
 
+const preppend_notes_if_there = mapObjIndexed((val, key, mem) =>
+  key === 'notes' && mem.user_notes
+    ? concat(val || '', ` Deactivation reason given: ${mem.user_notes}. `)
+    : val
+  )
+
 export const fetch_member = fetch_member_action(make_user_url(get_user_url))
 
 export const fetch_member_user = fetch_member_action(fetch_user_url)
 
-export const update_member = update_member_action(post)(post_member_url)
+export const update_member = update_member_action(post)(identity)(post_member_url)
 
-export const update_member_user = update_member_action(put)(fetch_user_url)
+export const update_member_user = update_member_action(put)(preppend_notes_if_there)(fetch_user_url)
 
 export const deactivate_member = createAction(DEACTIVATED_MEMBER)
 

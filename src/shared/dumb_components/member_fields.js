@@ -1,6 +1,6 @@
 const React = require('react')
 const Field = require('../../shared/dumb_components/field.js')
-const { options, field_order, fieldStructure, user_field_structure } = require('../../shared/form_fields/member.js')
+const { options, field_order, fieldStructure, user_field_structure } = require('../form_fields/member.js')
 const { array_only_keys } = require('app/sort')
 const { contains, merge, dissoc } = require('ramda')
 
