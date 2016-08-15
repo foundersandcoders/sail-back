@@ -3,7 +3,7 @@ import { reduxForm } from 'redux-form'
 
 import ChangePasswordForm from '../components/change_password_form.js'
 
-export default ({ update_member_user, changed_password, update_password }) =>
+export default ({ changed_password, update_password }) =>
   <ChangePasswordReduxForm
     onSubmit={update_password}
     changedPassword={changed_password}
