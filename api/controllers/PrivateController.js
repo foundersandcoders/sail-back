@@ -80,8 +80,8 @@ module.exports = {
     }
 
     aSync.series(
-      [ dbCall('update_subscription')
-      , dbCall('subscription_due_template')
+      [ dbCall('subscription_due_template')
+      , dbCall('update_subscription')
       ], sql_callback
     )
   },
