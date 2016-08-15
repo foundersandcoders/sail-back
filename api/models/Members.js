@@ -265,8 +265,9 @@ module.exports = {
           })
         })
       } else {
-        delete member.password
-        cb(null, member)
+        // delete member.password
+        // cb(null, member)
+        cb(null, null)
       }
     }
   }
