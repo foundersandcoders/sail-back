@@ -10,12 +10,12 @@ export default ({update_member_user}) =>
 
 const validate = values => {
   const errors = {}
-  if (!values.password) {
-   errors.password = 'Required'
- } else if (values.password.length < 6) {
-   errors.password = 'Must be at least 6 characters'
+  if (!values.new_password) {
+   errors.new_password = 'Required'
+ } else if (values.new_password.length < 6) {
+   errors.new_password = 'Must be at least 6 characters'
  }
-  if (values.password !== values.confirm_password) {
+  if (values.new_password !== values.confirm_password) {
     errors.confirm_password = 'Passwords do not match'
   }
   return errors
@@ -23,6 +23,6 @@ const validate = values => {
 const ChangePasswordReduxForm = reduxForm(
   { form: 'change-password'
   , validate
-  , fields: ['password', 'confirm_password']
+  , fields: ['new_password', 'confirm_password']
   }
 )(ChangePasswordForm)
