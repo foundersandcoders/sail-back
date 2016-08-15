@@ -8,18 +8,35 @@ var mg = require('../services/email_mailgun.js')
 var aSync = require('async')
 
 var queries = require('../queries/private.js')
-var callback = require('./helpers.js').sql_response
+var helpers = require('./helpers.js')
+var sql_callback = helpers.sql_callback
+var change_view = helpers.change_view
+
+var membersQuery = function(query, type) {
+  return function (req, res) {
+    Members.query(queries[query](type), sql_callback(res))
+  }
+}
 
 module.exports = {
-  showAdminHome: function (req, res) {
-    res.view('pages/admin', {user: req.session.user})
+  showAdminHome: change_view('pages/admin'),
+  showUserHome:  change_view('pages/user'),
+  showMemberForm: change_view('pages/new-member'),
+  showMaintenance: change_view('pages/maintenance'),
+  sendNewsletterAlert: membersQuery('newsletterQueryTemplate', 'online'),
+  sendCustomEmail: membersQuery('custom_email'),
+  getNewsletterLabels: membersQuery('newsletter_labels'),
+  getPostMembers: membersQuery('newsletterQueryTemplate', 'post'),
+  sendSubsReminder: membersQuery('subsQueryTemplate', 'online'),
+  sendSubsReminderPost: membersQuery('subsQueryTemplate', 'post'),
+
+  submit_email: function (req, res) {
+    mg.submitEmail(req.body, sql_callback(res))
   },
-  showUserHome: function (req, res) {
-    res.view('pages/user', {user: req.session.user})
+  get_bounced: function (req, res) {
+    mg.getBounced(sql_callback(res))
   },
-  showMemberForm: function (req, res) {
-    res.view('pages/new-member', {user: req.session.user})
-  },
+
   addmember: function (req, res) {
     var member = req.allParams()
     member.date_joined = (Is.ok(member.date_joined) ? member.date_joined : null)
@@ -53,7 +70,7 @@ module.exports = {
       })
   },
   sendSubsDue: function (req, res) {
-    var callback = (err, results) => {
+    var sql_callback = (err, results) => {
       if (err) return res.badRequest({ error: err })
       return res.json({ results: results[0] })
     }
@@ -65,28 +82,8 @@ module.exports = {
     aSync.series(
       [ dbCall('subscription_due_template')
       , dbCall('update_subscription')
-      ], callback)
-  },
-  sendNewsletterAlert: function (req, res) {
-    Members.query(queries.newsletter, callback(res))
-  },
-  sendCustomEmail: function (req, res) {
-    Members.query(queries.custom_email, callback(res))
-  },
-  getNewsletterLabels: function (req, res) {
-    Members.query(queries.newsletter_labels, callback(res))
-  },
-  getPostMembers: function (req, res) {
-    Members.query(queries.newstype_post, callback(res))
-  },
-  sendSubsReminder: function (req, res) {
-    Members.query(queries.subscriptions, callback(res))
-  },
-  sendSubsReminderPost: function (req, res) {
-    Members.query(queries.newstype_post_nonzero, callback(res))
-  },
-  showMaintenance: function (req, res) {
-    res.view('pages/maintenance', {user: req.session.user})
+      ], sql_callback
+    )
   },
   Upload: function (req, res) {
     /**
@@ -118,12 +115,6 @@ module.exports = {
     } else {
       return res.badRequest()
     }
-  },
-  submit_email: function (req, res) {
-    mg.submitEmail(req.body, callback(res))
-
-  },
-  get_bounced: function (req, res) {
-    mg.getBounced(callback(res))
   }
+
 }
