@@ -19,7 +19,11 @@ module.exports = {
   accountInfo: function (req, res) {
     Members
       .findOne(req.session.user.id)
-      .populateAll()
+      .populate('events_booked')
+      .populate('membership_type')
+      .populate('payments', {
+        where: { date: { '>': new Date(Date.now() - 2 * 365 * 24 * 60 * 60 * 1000) }}
+      })
       .exec(function (error, item) {
         if (error) {
           return res.notFound()
@@ -35,21 +39,23 @@ module.exports = {
       }, req.body)
       .exec(function (error, items) {
         if (error) {
-          return res.serverError({error: error})
+          return res.serverError(error)
         } else {
           return res.send(items[0])
         }
       })
   },
   showMyEvents: function (req, res) {
-    res.view('pages/myEvents', {user: req.session.user})},
+    res.view('pages/myEvents', {user: req.session.user})
+  },
 
   getMyEvents: function (req, res) {
-    get_user_events(respond_with_event_data(res),
-        req.session.user.id)},
+    get_user_events(respond_with_event_data(res), req.session.user.id)
+  },
 
   admin_get_user_events: function (req, res) {
-    get_user_events(respond_with_event_data(res), req.param('id'))},
+    get_user_events(respond_with_event_data(res), req.param('id'))
+  },
 
   get_user_events: get_user_events,
 
@@ -61,7 +67,6 @@ module.exports = {
   }
 }
 
-
 function get_user_events (cb, id) {
   BookingRecords
     .find({head_member: id})
@@ -69,5 +74,6 @@ function get_user_events (cb, id) {
     .exec(cb) }
 
 var respond_with_event_data = R.curry(function (res, err, data) {
-  if (err) res.serverError({error: error})
-  else res.send(R.pluck('event_id', data))})
+  if (err) res.serverError({error: err})
+  else res.send(R.pluck('event_id', data))
+})
