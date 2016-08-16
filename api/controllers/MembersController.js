@@ -39,7 +39,7 @@ module.exports = {
       }, req.body)
       .exec(function (error, items) {
         if (error) {
-          return res.serverError({error: error})
+          return res.serverError(error)
         } else {
           return res.send(items[0])
         }
@@ -66,7 +66,6 @@ module.exports = {
     })
   }
 }
-
 
 function get_user_events (cb, id) {
   BookingRecords
