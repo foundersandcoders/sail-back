@@ -26,3 +26,10 @@ nav {
 .member-view-save-button {
   margin-right: 1em;
 }
+
+
+@media (min-width: 768px) {
+  .navbar-toggle.navbar-toggle {
+      display: none;
+  }
+}
