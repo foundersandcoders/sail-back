@@ -22,7 +22,7 @@ module.exports = {
       .populate('events_booked')
       .populate('membership_type')
       .populate('payments', {
-        where: { date: { '>': new Date(Date.now() - 47340000000) }}
+        where: { date: { '>': new Date(Date.now() - 2 * 365 * 24 * 60 * 60 * 1000) }}
       })
       .exec(function (error, item) {
         if (error) {
