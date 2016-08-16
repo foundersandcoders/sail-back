@@ -15,11 +15,10 @@ export default ({fields, handleSubmit, reactivate_member, update_member_user, de
       <Field
         {...fields.user_notes}
         name='Departing notes'
-        payload='Enter comment here'
         mode='edit'
       />
       <div className='member-view-edit-buttons'>
-        <button className='member-view-save-button' type='submit' >
+        <button className='member-view-save-button' type='submit'>
           Confirm
         </button>
         <button className='member-view-cancel-button' type='button' onClick={reactivate_member}>
