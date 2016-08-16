@@ -21,12 +21,12 @@ const EndMembershipLoader = (props) => {
   return (
     <EndMembership
       {...props}
-      fields={['activation_status','notes', 'user_notes', 'deletion_date']}
+      fields={['activation_status', 'notes', 'user_notes', 'deletion_date']}
     />
   )
 }
 
 const EndMembership = reduxForm(
-  { form: 'user'
+  { form: 'member'
   , fields: []
 })(EndMembershipForm)
