@@ -19,7 +19,11 @@ module.exports = {
   accountInfo: function (req, res) {
     Members
       .findOne(req.session.user.id)
-      .populateAll()
+      .populate('events_booked')
+      .populate('membership_type')
+      .populate('payments', {
+        where: { date: { '>': new Date(Date.now() - 2 * 365 * 24 * 60 * 60 * 1000) }}
+      })
       .exec(function (error, item) {
         if (error) {
           return res.notFound()
