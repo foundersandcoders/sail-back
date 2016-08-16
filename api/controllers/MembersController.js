@@ -35,7 +35,7 @@ module.exports = {
       }, req.body)
       .exec(function (error, items) {
         if (error) {
-          return res.serverError({error: error})
+          return res.serverError(error)
         } else {
           return res.send(items[0])
         }
