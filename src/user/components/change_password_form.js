@@ -5,7 +5,7 @@ import { contains } from 'ramda'
 const form_fields = [ 'new_password', 'confirm_password' ]
 const required = form_fields
 
-export default ({fields, handleSubmit}) => {
+export default ({ fields, handleSubmit, changedPassword }) => {
   const mode = 'edit'
   const label_from_id = (id) =>
     id[0].toUpperCase()
@@ -13,7 +13,7 @@ export default ({fields, handleSubmit}) => {
     + (mode === 'edit' && contains(id, required) ? '*' : '')
     + ': '
 
-  return (
+  const form = () =>
     <form onSubmit={handleSubmit}>
       <div className='change-password-inputs'>
         {form_fields.map(field =>
@@ -25,11 +25,13 @@ export default ({fields, handleSubmit}) => {
             key={field}
             type='password'
           />
-      )}
+        )}
       </div>
       <button className='change-password-button' type='submit'>Submit</button>
     </form>
-  )
-}
 
-// TODO: show succesful response to changing password
+  const success = () =>
+    <div>You have changed your password.</div>
+
+  return changedPassword ? success() : form()
+}
