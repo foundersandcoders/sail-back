@@ -695,7 +695,7 @@ exports.payments = function () {
       amount: 5050,
       reference: module.exports.references()[0].code,
       notes: 'This is a nice payment',
-      date: new Date('2013')
+      date: new Date('2016')
     }
   ]
 
