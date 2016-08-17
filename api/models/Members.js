@@ -36,6 +36,17 @@ var hash_password = key => (member, cb) => {
   })
 }
 
+var update_date = member => {
+  if (member.membership_type && member.date_membership_type_changed) return member
+  member.date_membership_type_changed = new Date()
+  return member
+}
+
+var update_member = (member, cb) => {
+  var updated_member = update_date(member)
+  hash_password('new_password')(updated_member, cb)
+}
+
 module.exports = {
   attributes: {
     // ------------------------------------------------------------
@@ -247,13 +258,7 @@ module.exports = {
       return obj
     }
   // ------------------------------------------------------------
-    },
-    beforeCreate: hash_password('password'),
-    // beforeUpdate: hash_password('new_password')
-    beforeUpdate: (member, cb) => {
-      console.log('beforeupdate member: ', member);
-      if (!member.membership_type) return cb(null, member)
-      member.date_membership_type_changed = new Date(Date.now())
-      cb(null, member)
-    }
-  }
+  },
+  beforeCreate: hash_password('password'),
+  beforeUpdate: update_member
+}
