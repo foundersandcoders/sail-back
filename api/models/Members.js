@@ -249,5 +249,11 @@ module.exports = {
   // ------------------------------------------------------------
     },
     beforeCreate: hash_password('password'),
-    beforeUpdate: hash_password('new_password')
+    // beforeUpdate: hash_password('new_password')
+    beforeUpdate: (member, cb) => {
+      console.log('beforeupdate member: ', member);
+      if (!member.membership_type) return cb(null, member)
+      member.date_membership_type_changed = new Date(Date.now())
+      cb(null, member)
+    }
   }

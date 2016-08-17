@@ -33,7 +33,6 @@ const reducer: Reducer<State, Action> =
   (member = initialState, { type, payload }) => {
     switch (type) {
       case FETCHED_MEMBER:
-        console.log('fetched member state: ', prepare_for_form(payload))
         return (prepare_for_form(payload): State)
       case DEACTIVATED_MEMBER:
         return (
@@ -51,10 +50,6 @@ const reducer: Reducer<State, Action> =
           }
         )
       case UPDATED_MEMBER:
-      const updatedmemberstate = { ...member
-      , ...prepare_for_form(payload)
-      }
-      console.log('state updated member: ', updatedmemberstate)
         return (
           { ...member
           , ...prepare_for_form(payload)
