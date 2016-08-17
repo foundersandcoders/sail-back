@@ -32,19 +32,45 @@ module.exports = {
         }
       })
   },
+
   updateAccountInfo: function (req, res) {
     Members
-      .update({
-        primary_email: req.session.user.primary_email
-      }, req.body)
-      .exec(function (error, items) {
-        if (error) {
-          return res.serverError(error)
+      .findOne(req.session.user.id)
+      .exec(function (error, item) {
+        if (req.body.membership_type) {
+          if (item.membership_type === req.body.membership_type) res.send(item)
+          const updated_member = req.body
+          updated_member.date_membership_type_changed = new Date()
+          (updated_member.membership_type.indexOf('life') > -1)
+            ? updated_member.life_payment_date = new Date()
+            : updated_member.life_payment_date = null
+          Members
+          .update({
+            primary_email: req.session.user.primary_email
+          }, updated_member)
+          .exec(function (error, items) {
+            if (error) {
+              return res.serverError(error)
+            } else {
+              return res.send(items[0])
+            }
+          })
         } else {
-          return res.send(items[0])
+          Members
+          .update({
+            primary_email: req.session.user.primary_email
+          }, req.body)
+          .exec(function (error, items) {
+            if (error) {
+              return res.serverError(error)
+            } else {
+              return res.send(items[0])
+            }
+          })
         }
       })
   },
+
   showMyEvents: function (req, res) {
     res.view('pages/myEvents', {user: req.session.user})
   },
