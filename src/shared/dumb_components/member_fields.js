@@ -53,6 +53,7 @@ const PersonalFields = (
             key={field}
             description={description}
             className={inputClassName}
+            memberView={memberView}
           />
         )
       }

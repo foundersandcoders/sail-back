@@ -11,23 +11,23 @@ var Field = (props) =>
   ? <Input {...props} />
   : <div></div>
 
-var Display = ({ name, id, value, description }) =>
+var Display = ({ name, id, value, description, memberView }) =>
   <p>
     {description && name === 'News type: ' && <span><br /><i>{description}</i><br /></span>}
-    <br />
+    {memberView && <br />}
     <span className='info'>{name}</span>
     <span id={'view-member-' + id}>
       {caser(id, value)}
     </span>
   </p>
 
-var Input = ({ className, name, options, touched, error, description, ...rest }) => {
+var Input = ({ className, name, options, touched, error, description, memberView, ...rest }) => {
   const display_error = touched && error
   const props = display_error ? assoc('error', true, rest) : rest
   return (
     <div className={className}>
       {description && name === 'News type*: ' && <span><br /><i>{description}</i><br /></span>}
-      <br />
+      {memberView && <br />}
       <span className='info'>{name}</span>
       { display_error && <span>{error}</span> }
       { options ? make_select(props, options) : make_input(name, props) }
