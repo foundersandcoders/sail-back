@@ -45,29 +45,9 @@ module.exports = {
           updated_member.life_payment_date = updated_member.membership_type.indexOf('life') > -1
             ? new Date()
             : null
-          Members
-            .update({
-              primary_email: req.session.user.primary_email
-            }, updated_member)
-            .exec(function (error, items) {
-              if (error) {
-                return res.serverError(error)
-              } else {
-                return res.send(items[0])
-              }
-            })
+          update_member(req, res)(updated_member)
         } else {
-          Members
-          .update({
-            primary_email: req.session.user.primary_email
-          }, req.body)
-          .exec(function (error, items) {
-            if (error) {
-              return res.serverError(error)
-            } else {
-              return res.send(items[0])
-            }
-          })
+          update_member(req, res)(req.body)
         }
       })
   },
@@ -93,6 +73,19 @@ module.exports = {
     })
   }
 }
+
+var update_member = (req, res) => member =>
+  Members
+    .update({
+      primary_email: req.session.user.primary_email
+    }, member)
+    .exec(function (error, items) {
+      if (error) {
+        return res.serverError(error)
+      } else {
+        return res.send(items[0])
+      }
+    })
 
 function get_user_events (cb, id) {
   BookingRecords
