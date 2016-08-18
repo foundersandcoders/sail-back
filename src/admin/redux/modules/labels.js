@@ -32,7 +32,7 @@ const addresses = (
   , ...address_lines
   }
 ) => (
-  { addressee: `${title}. ${first_name || initials || ''} ${last_name}`
+  { addressee: `${title || ''} ${first_name || initials || ''} ${last_name}`
   , ...address_lines
   }
 )
@@ -42,4 +42,3 @@ const NEWSLETTER_LABELS =
 
 export const newsletter_labels =
   createAction(NEWSLETTER_LABELS, () => get_body('/api/newsletter-labels'))
-
