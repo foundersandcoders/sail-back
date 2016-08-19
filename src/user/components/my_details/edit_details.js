@@ -7,7 +7,7 @@ import { validate, required, read_only_user, user_field_structure }
 import buttons from '../my_details/buttons.js'
 import MemberFields from '../../../shared/dumb_components/member_fields.js'
 
-export default ({ toggle_member_mode, mode, update_member_user, my_details, ...props }) =>
+export default ({ toggle_member_mode, mode, update_member_user, my_details, update_membership_type_click, ...props }) =>
   <ViewMember
     {...props}
     fields={filter_fields(my_details)(user_field_structure[props.active_tab])}
@@ -16,6 +16,7 @@ export default ({ toggle_member_mode, mode, update_member_user, my_details, ...p
       { edit_member_click: toggle_member_mode
       , cancel_member_click: toggle_member_mode
       , mode
+      , update_membership_type: update_membership_type_click
       }
     }
     mode={mode}
@@ -25,6 +26,7 @@ export default ({ toggle_member_mode, mode, update_member_user, my_details, ...p
     description={description}
     inputClassName='user-form-inputs'
     memberView
+    update_membership_type={update_membership_type_click}
   />
 
 
@@ -39,8 +41,8 @@ const ViewMember = reduxForm(
 const filter_fields = details =>
   filter (
     cond (
-      [ [equals('news_type'), () => details.news_type.initial_value === 'post']
-      , [equals('standing_order'), () => details.standing_order && details.standing_order.initial_value]
+      [ [equals('news_type'), () => details.news_type.initialValue === 'post']
+      , [equals('standing_order'), () => details.standing_order && details.standing_order.initialValue]
       , [T, T]
       ]
     )

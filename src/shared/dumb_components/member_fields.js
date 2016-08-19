@@ -2,7 +2,7 @@ const React = require('react')
 const Field = require('../../shared/dumb_components/field.js')
 const { options, field_order, fieldStructure, user_field_structure } = require('../form_fields/member.js')
 const { array_only_keys } = require('app/sort')
-const { contains, merge, dissoc } = require('ramda')
+const { contains, merge, dissoc, assocPath } = require('ramda')
 
 const PersonalFields = (
   { fields
@@ -19,11 +19,17 @@ const PersonalFields = (
   , inputClassName
   , memberView
   , active_tab: member_fields
+  , update_membership_type
   }
 ) => {
-  const fs = ((fields.membership_type && fields.membership_type.value) || '').match('life')
+  let fs = ((fields.membership_type && fields.membership_type.value) || '').match('life')
     ? fields
     : dissoc('life_payment_date', fields)
+
+  fs = assocPath(['membership_type', 'onChange'], update_membership_type, fs)
+
+  fs = memberView ? assocPath(['life_payment_date', 'display'], 'hide', fs) : fs
+  fs = memberView ? assocPath(['date_membership_type_changed', 'display'], 'hide', fs) : fs
 
   const buttons =
     <Buttons
@@ -64,7 +70,7 @@ const PersonalFields = (
     >
       <div className='member-info-controls'>
         { buttons_first ? buttons : '' }
-        { fs.deletion_reason ? make_fieldset('edit') : '' }
+        { (!memberView && fs.deletion_reason) ? make_fieldset(fieldStructure)('edit') : '' }
       </div>
       <div className={className}>
         { memberView ? make_fieldset(user_field_structure)(member_fields) : field_order.map(make_fieldset(fieldStructure)) }

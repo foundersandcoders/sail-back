@@ -71,6 +71,8 @@ const user_field_structure =
     , 'standing_order'
     , 'due_date'
     , 'news_type'
+    , 'life_payment_date'
+    , 'date_membership_type_changed'
     ]
   }
 
@@ -137,8 +139,6 @@ const read_only_user =
   , 'activation_status'
   , 'due_date'
   ]
-
-
 
 const new_required = required.concat('date_joined')
 
