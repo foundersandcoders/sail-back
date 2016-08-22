@@ -1,8 +1,10 @@
 .navbar-toggle.navbar-toggle {
-  border: none;
+  display: flex;
   max-width: 3em;
   float: left;
-  margin-left: 1em;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
 
 nav {
@@ -25,14 +27,9 @@ nav {
   margin-right: 1em;
 }
 
-.error-message {
-  margin: 0.5em 0;
-}
 
-.input-title {
-  margin: 0.5em 0;
-}
-
-.change-password-inputs {
-  margin: 0.5em 0;
+@media (min-width: 768px) {
+  .navbar-toggle.navbar-toggle {
+      display: none;
+  }
 }

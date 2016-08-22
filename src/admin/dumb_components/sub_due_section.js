@@ -4,11 +4,11 @@ const { check_tests, date_max, exists } = require('app/validate')
 import SubDueForm from './sub_due_form.js'
 import { assoc, reduce, unapply, converge, mergeAll, reverse, split, compose, join, map } from 'ramda'
 import { fields } from '../form_fields/sub_due_form.js'
-const format_date = compose(join('-'), reverse, split('/'))
+const standardise_date = require('app/standardise_date')
 
 export default ({ fetch_sub_due, component, checker, ...props }) => {
   const send_request = (data) => {
-    fetch_sub_due(map(format_date, data))
+    fetch_sub_due(map(standardise_date, data))
   }
   return (
     <div>

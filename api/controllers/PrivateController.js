@@ -12,7 +12,7 @@ var helpers = require('./helpers.js')
 var sql_callback = helpers.sql_callback
 var change_view = helpers.change_view
 
-var membersQuery = function(query, type) {
+var membersQuery = function (query, type) {
   return function (req, res) {
     Members.query(queries[query](type), sql_callback(res))
   }
@@ -20,7 +20,7 @@ var membersQuery = function(query, type) {
 
 module.exports = {
   showAdminHome: change_view('pages/admin'),
-  showUserHome:  change_view('pages/user'),
+  showUserHome: change_view('pages/user'),
   showMemberForm: change_view('pages/new-member'),
   showMaintenance: change_view('pages/maintenance'),
   sendNewsletterAlert: membersQuery('newsletterQueryTemplate', 'online'),
@@ -60,7 +60,11 @@ module.exports = {
     /* TODO: redo so it uses applicative functor pattern to simultaneously get events */
     Members
       .findOne(req.param('id'))
-      .populateAll()
+      .populate('events_booked')
+      .populate('membership_type')
+      .populate('payments', {
+        where: { date: { '>': new Date(Date.now() - 2 * 365 * 24 * 60 * 60 * 1000) }}
+      })
       .exec(function (err, item) {
         if (Is.ok(err) || !Is.ok(item)) {
           return res.notFound()
@@ -116,5 +120,4 @@ module.exports = {
       return res.badRequest()
     }
   }
-
 }
