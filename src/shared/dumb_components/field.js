@@ -11,22 +11,22 @@ var Field = (props) =>
   ? <Input {...props} />
   : <div></div>
 
-var Display = ({ name, value, description, userViewClass }) =>
-  <div className={userViewClass}>
+var Display = ({ name, value, description, className }) =>
+  <div className={className}>
     {description && name === 'News type: ' && <p className='description'><i>{description}</i></p>}
     <p>
       <span className='info'>{name}</span>
       <span>
-        {caser(value)}
+        {caser(name, value)}
       </span>
     </p>
   </div>
 
-var Input = ({ userViewClass, name, options, touched, error, description, ...rest }) => {
+var Input = ({ className, name, options, touched, error, description, ...rest }) => {
   const display_error = touched && error
   const props = display_error ? assoc('error', true, rest) : rest
   return (
-    <div className={userViewClass}>
+    <div className={className}>
       {description && name === 'News type*: ' && <p className='description'><i>{description}</i></p>}
       <span className='info'>{name}</span>
       { display_error && <span>{error}</span> }
@@ -69,7 +69,7 @@ var make_select = (props, options) =>
 var make_placeholder = (name) =>
   name.match(/[dD]ate/) ? name.match(/[dD]ue/) ? 'dd/mm' : 'dd/mm/yyyy' : name
 
-var caser = value =>
-  value.match('@') ? value: to_title_case(value.replace(/-/g, ' '))
+var caser = (name, value) =>
+  name.match('email') ? value: to_title_case(value.replace(/-/g, ' '))
 
 module.exports = Field

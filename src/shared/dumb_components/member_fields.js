@@ -52,7 +52,7 @@ const PersonalFields = (
             mode={contains(field, read_only) ? 'view' : mode}
             key={field}
             description={description}
-            userViewClass={userViewClass}
+            className={userViewClass}
           />
         )
       }
