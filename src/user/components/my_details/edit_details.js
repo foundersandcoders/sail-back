@@ -23,7 +23,7 @@ export default ({ toggle_member_mode, mode, update_member_user, my_details, ...p
     required={required}
     read_only={read_only_user}
     description={description}
-    inputClassName='user-form-inputs'
+    userViewClass='user-view-form'
     memberView
   />
 

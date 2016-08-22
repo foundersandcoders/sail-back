@@ -155,7 +155,7 @@ exports.members = function () {
       gift_aid_signed: false,
       date_joined: new Date(),
       membership_type: module.exports.membershipTypes()[0].value,
-      news_type: 'online'
+      news_type: 'post'
     },
     {
       id: '12345',

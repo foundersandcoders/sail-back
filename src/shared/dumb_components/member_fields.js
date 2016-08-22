@@ -16,7 +16,7 @@ const PersonalFields = (
   , error
   , read_only
   , description
-  , inputClassName
+  , userViewClass
   , memberView
   , active_tab: member_fields
   }
@@ -52,7 +52,7 @@ const PersonalFields = (
             mode={contains(field, read_only) ? 'view' : mode}
             key={field}
             description={description}
-            className={inputClassName}
+            className={userViewClass}
           />
         )
       }
