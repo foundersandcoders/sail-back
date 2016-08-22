@@ -64,7 +64,7 @@ const PersonalFields = (
     >
       <div className='member-info-controls'>
         { buttons_first ? buttons : '' }
-        { fs.deletion_reason ? make_fieldset('edit') : '' }
+        { fs.deletion_reason ? make_fieldset(fieldStructure)('edit') : '' }
       </div>
       <div className={className}>
         { memberView ? make_fieldset(user_field_structure)(member_fields) : field_order.map(make_fieldset(fieldStructure)) }
