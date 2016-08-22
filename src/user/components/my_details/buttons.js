@@ -1,9 +1,9 @@
 const React = require('react')
 
-const Buttons = ({ mode, ...props }) =>
+const Buttons = ({ mode, edit_member_click, cancel_member_click }) =>
   mode === 'view'
-    ? <ViewButton {...props}/>
-    : <EditButtons {...props}/>
+    ? <ViewButton edit_member_click={edit_member_click}/>
+    : <EditButtons cancel_member_click={cancel_member_click}/>
 
 const ViewButton = ({ edit_member_click }) =>
   <button
