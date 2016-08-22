@@ -33,12 +33,10 @@ nav {
   p {
     margin: 0;
   }
+  .description {
+    padding-bottom: 1em;
+  }
 }
-
-.description {
-  padding-bottom: 1em;
-}
-
 
 @media (min-width: 768px) {
   .navbar-toggle.navbar-toggle {
