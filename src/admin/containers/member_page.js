@@ -49,20 +49,22 @@ const ViewMember = React.createClass({
       , remove_payment
       , payment_defaults
       } = this.props
-    return <MemberPage
-      deactivate_member_click={this.deactivate_member_click}
-      reactivate_member_click={reactivate_member}
-      edit_member_click={toggle_member_mode}
-      cancel_member_click={toggle_member_mode}
-      save_member_click={update_member}
-      switch_charge_type={switch_charge_type}
-      charge_type={charge_type}
-      member_edit_mode={mode}
-      payments={payments}
-      add_payment={this.add_payment}
-      remove_payment={remove_payment}
-      payment_defaults={payment_defaults}
-    />
+    return (
+      <MemberPage
+        deactivate_member_click={this.deactivate_member_click}
+        reactivate_member_click={reactivate_member}
+        edit_member_click={toggle_member_mode}
+        cancel_member_click={toggle_member_mode}
+        save_member_click={update_member}
+        switch_charge_type={switch_charge_type}
+        charge_type={charge_type}
+        member_edit_mode={mode}
+        payments={payments}
+        add_payment={this.add_payment}
+        remove_payment={remove_payment}
+        payment_defaults={payment_defaults}
+      />
+    )
   }
 })
 

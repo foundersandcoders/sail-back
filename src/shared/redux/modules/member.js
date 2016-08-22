@@ -162,7 +162,7 @@ const fetch_user_url = () => '/api/account'
 
 const post_member_url = compose(make_user_url(post_user_url), prop('id'))
 
-const preppend_notes_if_there = mapObjIndexed((val, key, mem) =>
+const prepend_notes_if_there = mapObjIndexed((val, key, mem) =>
   key === 'notes' && mem.user_notes
     ? concat(val || '', ` Deactivation reason given: ${mem.user_notes}. `)
     : val
@@ -174,7 +174,7 @@ export const fetch_member_user = fetch_member_action(fetch_user_url)
 
 export const update_member = update_member_action(post)(identity)(post_member_url)
 
-export const update_member_user = update_member_action(put)(preppend_notes_if_there)(fetch_user_url)
+export const update_member_user = update_member_action(put)(prepend_notes_if_there)(fetch_user_url)
 
 export const deactivate_member = createAction(DEACTIVATED_MEMBER)
 
