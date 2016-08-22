@@ -36,7 +36,7 @@ exports.newsletterQueryTemplate = news_type => (
 
 exports.update_subscription = body =>
   `insert into payments (member, category, description, amount, date, createdAt)
-  select id, 'subscription', 'subscription', amount, ${set_current('due_date')}, now()
+  select id, 'subscription', 'Subscription', amount, ${set_current('due_date')}, now()
   from members, membershiptypes
   where members.membership_type = membershiptypes.value
   and members.membership_type in
