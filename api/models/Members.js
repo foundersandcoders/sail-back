@@ -1,5 +1,5 @@
 /*global
-  sails
+  sails, Members
 */
 
 /**
@@ -34,6 +34,25 @@ var hash_password = key => (member, cb) => {
       }
     })
   })
+}
+
+var update_dates = (member, cb) => {
+  Members
+    .findOne(member.id)
+    .exec(function (error, item) {
+      if (error) {
+        return sails.log.error(error)
+      } else if (member.membership_type && (member.membership_type !== item.membership_type)) {
+        const updated_member = member
+        updated_member.date_membership_type_changed = new Date()
+        updated_member.life_payment_date = updated_member.membership_type.indexOf('life') > -1
+          ? new Date()
+          : null
+        hash_password('new_password')(updated_member, cb)
+      } else {
+        hash_password('new_password')(member, cb)
+      }
+    })
 }
 
 module.exports = {
@@ -247,7 +266,7 @@ module.exports = {
       return obj
     }
   // ------------------------------------------------------------
-    },
-    beforeCreate: hash_password('password'),
-    beforeUpdate: hash_password('new_password')
-  }
+  },
+  beforeCreate: hash_password('password'),
+  beforeUpdate: update_dates
+}

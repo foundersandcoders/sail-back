@@ -33,10 +33,12 @@ module.exports = {
       })
   },
   updateAccountInfo: function (req, res) {
+    const member = req.body
+    member.id = req.session.user.id
     Members
       .update({
-        primary_email: req.session.user.primary_email
-      }, req.body)
+        id: req.session.user.id
+      }, member)
       .exec(function (error, items) {
         if (error) {
           return res.serverError(error)
