@@ -7,6 +7,8 @@ const
   , lensProp, slice, ifElse, not, mapObjIndexed, concat } = require('ramda')
 
 const { format: format_dated, standardise } = require('app/transform_dated')
+const format_date = require('app/format_date')
+
 import { get_body, post, put } from 'app/http'
 
 import type { Action, Reducer } from 'redux'
@@ -23,7 +25,8 @@ export const UPDATED_MEMBER =
   'UPDATED_MEMBER'
 const CREATED_MEMBER =
   'CREATED_MEMBER'
-
+const UPDATED_MEMBERSHIP_TYPE =
+  'UPDATED_MEMBERSHIP_TYPE'
 
 const initialState = { activation_status: {} }
 
@@ -37,18 +40,30 @@ const reducer: Reducer<State, Action> =
       case DEACTIVATED_MEMBER:
         return (
           { ...member
-          , activation_status: { value: 'deactivated', initial_value: member.activation_status.initial_value }
+          , activation_status: { value: 'deactivated', initialValue: member.activation_status.initialValue }
           , deletion_date: { value: new Date().toISOString() }
           }
         )
       case REACTIVATED_MEMBER:
         return (
           { ...member
-          , activation_status: { value: 'activated', initial_value: member.activation_status.initial_value }
+          , activation_status: { value: 'activated', initialValue: member.activation_status.initialValue }
           , deletion_date: {}
           , deletion_reason: { value: null }
           }
         )
+      case UPDATED_MEMBERSHIP_TYPE:
+        const newState =
+          { ...member
+          , membership_type: { ...member.membership_type, value: payload }
+          , date_membership_type_changed: payload !== member.membership_type.initialValue
+            ? { value: format_date(new Date()), initialValue: (member.date_membership_type_changed && member.date_membership_type_changed.initialValue) || null }
+            : { ...member.date_membership_type_changed, value: (member.date_membership_type_changed && member.date_membership_type_changed.initialValue) || null }
+          , life_payment_date: ((payload !== member.membership_type.initialValue) && payload.indexOf('life') > -1)
+            ? { value: format_date(new Date()), initialValue: (member.life_payment_date && member.life_payment_date.initialValue) || null }
+            : { ...member.life_payment_date, value: null }
+          }
+        return newState
       case UPDATED_MEMBER:
         return (
           { ...member
@@ -98,9 +113,9 @@ const prepare_for_form = (member) =>
     }
   })
 
-const wrap_values = map((v) => (v && { initial_value: String(v), value: String(v) }))
+const wrap_values = map((v) => (v && { initialValue: String(v), value: String(v) }))
 
-const reset_values = mapObjIndexed((v) => (v && { ...v, value: v.initial_value }))
+const reset_values = mapObjIndexed((v) => (v && { ...v, value: v.initialValue }))
 
 const to_member = compose
   ( over(lensProp('due_date'), ifElse(not, identity, slice(0, -'/YYYY'.length)))
@@ -179,6 +194,8 @@ export const update_member_user = update_member_action(put)(preppend_notes_if_th
 export const deactivate_member = createAction(DEACTIVATED_MEMBER)
 
 export const reactivate_member = createAction(REACTIVATED_MEMBER)
+
+export const update_membership_type = createAction(UPDATED_MEMBERSHIP_TYPE)
 
 export const create_member = createAction
   ( CREATED_MEMBER

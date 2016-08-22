@@ -11,8 +11,8 @@ var Field = (props) =>
   ? <Input {...props} />
   : <div></div>
 
-var Display = ({ name, id, value, description }) =>
-  <p>
+var Display = ({ name, id, value, description, display }) =>
+  <p className={display}>
     {description && name === 'News type: ' && <span><br /><i>{description}</i><br /></span>}
     <br />
     <span className='info'>{name}</span>
@@ -21,11 +21,11 @@ var Display = ({ name, id, value, description }) =>
     </span>
   </p>
 
-var Input = ({ className, name, options, touched, error, description, ...rest }) => {
+var Input = ({ className, name, options, touched, error, description, display, ...rest }) => {
   const display_error = touched && error
   const props = display_error ? assoc('error', true, rest) : rest
   return (
-    <div className={className}>
+    <div className={`${className} ${display}`}>
       {description && name === 'News type*: ' && <span><br /><i>{description}</i><br /></span>}
       <br />
       <span className='info'>{name}</span>

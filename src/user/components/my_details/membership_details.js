@@ -9,7 +9,7 @@ export default (props) => {
     <div>
       <EditDetails {...props} />
       <div className='end-membership'>
-        {props.my_details.activation_status && props.my_details.activation_status.initial_value !== 'deactivated'
+        {props.my_details.activation_status && props.my_details.activation_status.initialValue !== 'deactivated'
           ? <EndMembershipLoader {...props} />
         : <p>Please contact us if you would like to reinstate your membership.</p>}
       </div>
