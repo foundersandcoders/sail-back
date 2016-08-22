@@ -175,7 +175,9 @@ exports.members = function () {
       activation_status: 'activated',
       gift_aid_signed: false,
       date_joined: new Date(),
-      membership_type: module.exports.membershipTypes()[0].value,
+      membership_type: module.exports.membershipTypes()[3].value,
+      life_payment_date: '2015-02-02',
+      date_membership_type_changed: '2015-01-01',
       news_type: 'online'
     }, {
       id: '331231',

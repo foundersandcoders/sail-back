@@ -36,7 +36,7 @@ var hash_password = key => (member, cb) => {
   })
 }
 
-var update_dates = (member, cb) => {
+var update_membership = (member, cb) => {
   Members
     .findOne(member.id)
     .exec(function (error, item) {
@@ -268,5 +268,5 @@ module.exports = {
   // ------------------------------------------------------------
   },
   beforeCreate: hash_password('password'),
-  beforeUpdate: update_dates
+  beforeUpdate: update_membership
 }

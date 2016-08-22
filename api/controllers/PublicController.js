@@ -59,7 +59,7 @@ module.exports = {
           throw new Error('Email not recognised.')
         } else {
           randomString = ForgotPass.randomString()
-          return Members.update({ id: member.id }, { new_password: randomString })
+          return Members.update({ id: member.id }, { new_password: randomString, id: member.id })
         }
       })
       .then(function (memberUpdated) {
