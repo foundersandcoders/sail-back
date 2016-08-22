@@ -27,6 +27,18 @@ nav {
   margin-right: 1em;
 }
 
+.user-view-form {
+  padding: 0.5em 0;
+
+  p {
+    margin: 0;
+  }
+}
+
+.description {
+  padding-bottom: 1em;
+}
+
 
 @media (min-width: 768px) {
   .navbar-toggle.navbar-toggle {
