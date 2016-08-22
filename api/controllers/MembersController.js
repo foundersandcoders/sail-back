@@ -32,19 +32,26 @@ module.exports = {
         }
       })
   },
+
   updateAccountInfo: function (req, res) {
     Members
-      .update({
-        primary_email: req.session.user.primary_email
-      }, req.body)
-      .exec(function (error, items) {
+      .findOne(req.session.user.id)
+      .exec(function (error, item) {
         if (error) {
           return res.serverError(error)
+        } else if (req.body.membership_type && (item.membership_type !== req.body.membership_type)) {
+          const updated_member = req.body
+          updated_member.date_membership_type_changed = new Date()
+          updated_member.life_payment_date = updated_member.membership_type.indexOf('life') > -1
+            ? new Date()
+            : null
+          update_member(req, res)(updated_member)
         } else {
-          return res.send(items[0])
+          update_member(req, res)(req.body)
         }
       })
   },
+
   showMyEvents: function (req, res) {
     res.view('pages/myEvents', {user: req.session.user})
   },
@@ -66,6 +73,19 @@ module.exports = {
     })
   }
 }
+
+var update_member = (req, res) => member =>
+  Members
+    .update({
+      primary_email: req.session.user.primary_email
+    }, member)
+    .exec(function (error, items) {
+      if (error) {
+        return res.serverError(error)
+      } else {
+        return res.send(items[0])
+      }
+    })
 
 function get_user_events (cb, id) {
   BookingRecords

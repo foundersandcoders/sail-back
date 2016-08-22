@@ -247,7 +247,7 @@ module.exports = {
       return obj
     }
   // ------------------------------------------------------------
-    },
-    beforeCreate: hash_password('password'),
-    beforeUpdate: hash_password('new_password')
-  }
+  },
+  beforeCreate: hash_password('password'),
+  beforeUpdate: hash_password('new_password')
+}

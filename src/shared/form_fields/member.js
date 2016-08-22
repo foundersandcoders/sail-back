@@ -131,14 +131,7 @@ const required =
   , 'news_type'
   ]
 
-const read_only_user =
-  [ 'id'
-  , 'registered'
-  , 'activation_status'
-  , 'due_date'
-  ]
-
-
+const read_only_user = read_only.concat('due_date')
 
 const new_required = required.concat('date_joined')
 
@@ -149,12 +142,13 @@ const validate = (values) => {
   const add_test = (tests, key) =>
     assoc(key, options[key] ? selected : exists, tests)
 
-  const req = id ? required :
-    new_required.concat(
+  const req = (id ? required : new_required)
+    .concat(
       membership_type && membership_type.match(/life/) ? ['life_payment_date']: []
     )
 
   const required_tests = reduce(add_test, {}, req)
+
   const email_tests =
     { primary_email: valid_email
     , secondary_email: valid_email
@@ -179,7 +173,6 @@ const normalise =
   { last_name: to_title
   , first_name: to_title
   }
-
 
 module.exports =
   { fields
