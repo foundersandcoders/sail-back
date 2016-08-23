@@ -131,14 +131,7 @@ const required =
   , 'news_type'
   ]
 
-const read_only_user =
-  [ 'id'
-  , 'registered'
-  , 'activation_status'
-  , 'due_date'
-  ]
-
-
+const read_only_user = read_only.concat('due_date')
 
 const new_required = required.concat('date_joined')
 
@@ -179,7 +172,6 @@ const normalise =
   { last_name: to_title
   , first_name: to_title
   }
-
 
 module.exports =
   { fields
