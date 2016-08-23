@@ -36,24 +36,16 @@ var hash_password = key => (member, cb) => {
   })
 }
 
-var update_membership = (member, cb) => {
+var handle_membership_change = callback => (member, cb) =>
   Members
     .findOne(member.id)
     .exec(function (error, item) {
-      if (error) {
-        return sails.log.error(error)
-      } else if (member.membership_type && (member.membership_type !== item.membership_type)) {
-        const updated_member = member
-        updated_member.date_membership_type_changed = new Date()
-        updated_member.life_payment_date = updated_member.membership_type.indexOf('life') > -1
-          ? new Date()
-          : null
-        hash_password('new_password')(updated_member, cb)
-      } else {
-        hash_password('new_password')(member, cb)
-      }
+      if (error) return sails.log.error(error)
+      if (!member.membership_type || member.membership_type === item.membership_type) return callback(member, cb)
+      member.date_membership_type_changed = new Date()
+      member.life_payment_date = member.membership_type.match('life') ? new Date() : null
+      callback(member, cb)
     })
-}
 
 module.exports = {
   attributes: {
@@ -268,5 +260,5 @@ module.exports = {
   // ------------------------------------------------------------
   },
   beforeCreate: hash_password('password'),
-  beforeUpdate: update_membership
+  beforeUpdate: handle_membership_change(hash_password('new_password'))
 }
