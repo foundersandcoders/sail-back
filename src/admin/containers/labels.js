@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react'
 import { connect } from 'react-redux'
-const { prop, props, map, filter, compose, splitEvery, keys, merge, length, over, lensIndex, defaultTo }
+const { prop, props, map, filter, compose, splitEvery, merge, length, over, lensIndex, defaultTo }
   = require('ramda')
 
 import { newsletter_labels } from '../redux/modules/labels.js'
