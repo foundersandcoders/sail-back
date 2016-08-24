@@ -597,8 +597,10 @@ div.gbp {
 }
 
 .label-row td {
-    width: 20em;
-    height: 14em;
+  width: 20em;
+  height: 14em;
+  max-width: 20em;
+  max-height: 14em;
   }
 
 @media print {
@@ -618,7 +620,9 @@ div.gbp {
 
   .label-row td {
     width: 63mm;
+    max-width: 63mm;
     height: 39mm;
+    max-height: 39mm;
   }
 
   .labels-tables td div span {
