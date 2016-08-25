@@ -6,7 +6,7 @@ const { compose, props, map, append, lensIndex, set, range, apply, lift,
     = require('ramda')
 import { minus, plus } from 'app/money_arith'
 import standardise from 'app/standardise_date'
-import { fields, headers } from '../form_fields/paying_in.js'
+import { fields, headers, payments } from '../form_fields/paying_in.js'
 import Field from '../../shared/dumb_components/field.js'
 import MoneyRow from '../../shared/components/table/money_row.js'
 
@@ -130,13 +130,10 @@ const non_cheque_fields =
   ]
 
 
-const convert_payment = fn => payment => {
-  const moneyKeys = ['balance', 'donation', 'payments', 'subscription']
-  const convertKey = key => over(lensProp(key), x => fn(x / 100))
-  return reduce((prev, curr) => curr in prev
-    ? convertKey(curr)(prev)
-    : prev, payment, moneyKeys)
-}
+const convert_payment = f => payment =>
+ reduce((prev, curr) => curr in prev
+   ? over(lensProp(curr), f, prev)
+   : prev, payment, payments)
 
 const paying_in_fields = [ { name: 'Reference', id: 'reference' } ]
 
