@@ -7,7 +7,13 @@ export default class GiftAidButton extends React.Component {
   }
 
   cancel () {
-    this.props.update_member_user({ gift_aid_signed: false, gift_aid_cancelled: true })
+    this.props.update_member_user(
+      { gift_aid_cancelled: true
+      , date_gift_aid_cancelled: new Date().toISOString()
+      , gift_aid_signed: false
+      , date_gift_aid_signed: null
+      }
+    )
   }
 
   attempt_cancel () {
@@ -29,7 +35,7 @@ export default class GiftAidButton extends React.Component {
   render () {
     return (
       <div>
-        <p><b>Would you like to cancel your Gift Aid?</b></p>
+        <p><b>Would you like to revoke your Gift Aid declaration?</b></p>
         <button onClick={this.which_cancel()} className={this.state.confirmation ? 'red' : ''}>
           {this.which_text()}
         </button>
