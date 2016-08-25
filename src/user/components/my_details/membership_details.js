@@ -3,6 +3,7 @@ import { reduxForm } from 'redux-form'
 
 import EndMembershipForm from './end_membership_form.js'
 import EditDetails from './edit_details.js'
+import GiftAidButton from './cancel_gift_aid_button.js'
 
 export default (props) =>
   <div>
@@ -13,6 +14,7 @@ export default (props) =>
         : <p>Please contact us if you would like to reinstate your membership.</p>
       }
     </div>
+    <GiftAidButton update_member_user={props.update_member_user} />
   </div>
 
 
