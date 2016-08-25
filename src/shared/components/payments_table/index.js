@@ -16,7 +16,7 @@ var get_entry_for_payment = curry(function (payment, delete_method, header) {
   return (header === 'Charges' || header === 'Payments')
       ? charge_or_payment_amount(convertedPayment.category, header, convertedPayment.amount)
   : header === 'Delete'
-      ? <DeletionEntry id={ convertedPayment.id } remove_payment={ delete_method } />
+      ? <DeletionEntry id={ convertedPayment.id } remove_payment={ delete_method } payment />
   : header === 'Date'
       ? require('app/format_date')(convertedPayment.date)
   : convertedPayment.category === 'payment' && header === 'Description'

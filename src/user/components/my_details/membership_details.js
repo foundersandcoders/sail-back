@@ -3,7 +3,9 @@ import { reduxForm } from 'redux-form'
 
 import EndMembershipForm from './end_membership_form.js'
 import EditDetails from './edit_details.js'
-import GiftAidButton from './cancel_gift_aid_button.js'
+// import GiftAidButton from './cancel_gift_aid_button.js'
+
+const GiftAidButton = require('../../../shared/components/payments_table/deletion_entry.js')
 
 export default (props) =>
   <div>
