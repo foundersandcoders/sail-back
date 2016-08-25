@@ -42,31 +42,6 @@ module.exports = React.createClass({
       , which_delete: this.which_delete
       , reset: this.reset
       }
-    return this.props.payment
-      ? payment_button(props)
-      : gift_aid_buttons(props)
+    return this.props.buttons(props)
   }
 })
-
-const payment_button = ({ confirmation, which_text, which_delete }) => {
-  return (
-    <button
-      className={'small-button ' + (confirmation ? 'red' : '') }
-      onClick={which_delete()}
-    >
-      {which_text()}
-    </button>
-  )
-}
-
-const gift_aid_buttons = ({ confirmation, which_text, which_delete, reset }) => {
-  return (
-    <div>
-      <p><b>Would you like to revoke your Gift Aid declaration?</b></p>
-      <button onClick={which_delete()} className={confirmation ? 'red' : ''}>
-        {which_text()}
-      </button>
-      {confirmation && <button onClick={reset} className='green' >Keep Gift Aid</button>}
-    </div>
-  )
-}
