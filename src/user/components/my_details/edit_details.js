@@ -13,8 +13,7 @@ export default ({ toggle_member_mode, mode, update_member_user, my_details, ...p
     fields={filter_fields(my_details)(user_field_structure[props.active_tab])}
     Buttons={buttons}
     button_props={
-      { edit_member_click: toggle_member_mode
-      , cancel_member_click: toggle_member_mode
+      { toggle_member_mode
       , mode
       }
     }

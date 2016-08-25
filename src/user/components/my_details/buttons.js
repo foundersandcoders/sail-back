@@ -1,25 +1,25 @@
 const React = require('react')
 
-const Buttons = ({ mode, edit_member_click, cancel_member_click }) =>
+const Buttons = ({ mode, toggle_member_mode }) =>
   mode === 'view'
-    ? <ViewButton edit_member_click={edit_member_click}/>
-    : <EditButtons cancel_member_click={cancel_member_click}/>
+    ? <ViewButton toggle_member_mode={toggle_member_mode}/>
+    : <EditButtons toggle_member_mode={toggle_member_mode}/>
 
-const ViewButton = ({ edit_member_click }) =>
+const ViewButton = ({ toggle_member_mode }) =>
   <button
     className='member-view-edit-button'
-    onClick={edit_member_click}
+    onClick={toggle_member_mode}
     type='button'
   >
     Edit
   </button>
 
-const EditButtons = ({ cancel_member_click }) =>
+const EditButtons = ({ toggle_member_mode }) =>
   <div className='member-view-edit-buttons'>
     <button className='member-view-save-button' type='submit'>
       Save
     </button>
-    <button className='member-view-cancel-button' type='button' onClick={cancel_member_click}>
+    <button className='member-view-cancel-button' type='button' onClick={toggle_member_mode}>
       Cancel
     </button>
   </div>
