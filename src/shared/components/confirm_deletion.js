@@ -9,7 +9,7 @@ module.exports = React.createClass({
     const update_fn = this.props.payment
       ? () => this.props.remove_payment(this.props.id)
       : () => this.props.update_member_user(
-        { gift_aid_cancelled: true
+        { gift_aid_signed: false
         , date_gift_aid_cancelled: new Date().toISOString()
         }
       )

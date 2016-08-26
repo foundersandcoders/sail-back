@@ -11,6 +11,7 @@ import MyDetails from './containers/my_details.js'
 import Statements from './containers/statements.js'
 import MakePayment from './containers/make_payment.js'
 import ChangePassword from './containers/change_password.js'
+import GiftAidForm from './components/gift_aid_form.js'
 
 import { pathDidUpdate } from '../shared/redux/modules/route.js'
 
@@ -25,6 +26,7 @@ module.exports = () =>
         <Route path='/statements' component={Statements} />
         <Route path='/make-payment' component={MakePayment} />
         <Route path='/change-password' component={ChangePassword} />
+        <Route path='/gift-aid-form' component={GiftAidForm} />
       </Route>
     </Router>
   </Provider>
