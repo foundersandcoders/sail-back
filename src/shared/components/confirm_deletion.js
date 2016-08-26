@@ -11,8 +11,6 @@ module.exports = React.createClass({
       : () => this.props.update_member_user(
         { gift_aid_cancelled: true
         , date_gift_aid_cancelled: new Date().toISOString()
-        , gift_aid_signed: false
-        , date_gift_aid_signed: null
         }
       )
     update_fn()
