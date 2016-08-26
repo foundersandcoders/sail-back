@@ -16,7 +16,7 @@ export default (props) =>
         : <p>Please contact us if you would like to reinstate your membership.</p>
       }
     </div>
-    {!props.my_details.gift_aid_cancelled && <ConfirmGiftAid update_member_user={props.update_member_user} buttons={GiftAidButtons} />}
+    {!props.my_details.gift_aid_cancelled && <ConfirmGiftAid cancel_gift_aid={props.cancel_gift_aid} buttons={GiftAidButtons} />}
   </div>
 
 

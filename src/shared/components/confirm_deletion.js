@@ -8,11 +8,7 @@ module.exports = React.createClass({
   delete: function () {
     const update_fn = this.props.payment
       ? () => this.props.remove_payment(this.props.id)
-      : () => this.props.update_member_user(
-        { gift_aid_cancelled: true
-        , date_gift_aid_cancelled: new Date().toISOString()
-        }
-      )
+      : this.props.cancel_gift_aid
     update_fn()
     this.setState({ confirmation: false })
   },
