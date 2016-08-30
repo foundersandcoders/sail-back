@@ -584,7 +584,7 @@ div.gbp {
 
 .news-label {
   font-size: 1em;
-  padding: 1em;
+  padding: 1em 1em 1em 3em;
 }
 
 .label-line:nth-last-child(1) {
@@ -592,8 +592,9 @@ div.gbp {
   width: 4em;
 }
 
-.labels-tables {
-  margin: 2em 2em;
+.label-row td {
+  width: 20em;
+  height: 14em;
 }
 
 @media print {
@@ -601,31 +602,29 @@ div.gbp {
     margin-top: 0 !important;
   }
 
+  .labels-tables {
+    margin-left: 8mm;
+    max-width: 195mm;
+    min-width: 195mm;
+    max-height: 280mm;
+    min-height: 280mm;
+    page-break-after: always;
+
+    tr:first-child {
+      margin-top: 14mm;
+    }
+  }
+
   .label-row {
-    vertical-align: top;
-    line-height: 4mm;
-    min-height: 30mm;
-    max-height: 30mm;
+    display: flex;
+    justify-content: space-around;
   }
 
   .label-row td {
-    min-height: 39mm;
+    max-width: 63mm;
+    min-width: 63mm;
     max-height: 39mm;
-    height: 39mm;
-  }
-
-  .news-label {
-    padding: 4mm 1mm 4mm 3mm;
-    width: 70mm;
-    border: solid transparent;
-  }
-
-  .labels-tables {
-    margin: 0mm 2mm;
-    padding: 6mm 2mm 0mm 2mm;
-    border: solid transparent;
-    page-break-after: always;
-    height: 28cm;
+    min-height: 39mm;
   }
 
   .labels-tables td div span {
