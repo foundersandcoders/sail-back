@@ -16,14 +16,13 @@ exports.sub_reminder_SO = (member) => (
 
 exports.sub_reminder = (member) => (
   `Dear ${member.first_name || member.title + ' ' + member.last_name },
-  We would be very grateful for payment of the amount of ${formatPounds(member.amount)} which has now been outstanding for over ${getOverdue(member.overdue)} days.
-  Payment can be made by logging in online to friendsch.org where you can pay by Credit Card, Debit Card or PayPal.
-  Or you can pay by direct bank transfer to Friends of Chichester Harbour, Account No: 87037440,  Sort Code 52-41-20 quoting your membership number ${member.id}.
+  We would be very grateful for payment of your annual subscription of ${formatPounds(member.amount)} which has now been outstanding for over ${getOverdue(member.overdue)} days.
+  Payment can be made by direct bank transfer to Friends of Chichester Harbour, Account No: 87037440,  Sort Code 52-41-20 quoting your membership number ${member.id}.
   Or you can send a cheque, quoting your membership number ${member.id} to Pam Marrs, Membership Secretary FOCH, 42 Bracklesham Road, Hayling Island PO11 9SJ.
   If you have already paid, our apologies and please ignore this letter.`
 )
 
 exports.subscription_due = (member) => (
   `Dear ${member.first_name || member.title + ' ' + member.last_name },
-  Your annual subscription of ${formatPounds(member.amount)} becomes due on ${formatDate(member.due_date)} and we do hope that you will renew your membership of the Friends of Chichester Harbour. To renew your membership log in online to friendsch.org where you can pay by Credit Card, Debit Card or PayPal. Or you can pay by direct bank transfer to Friends of Chichester Harbour, Account No: 87037440, Sort Code 52-41-20 quoting your membership number ${member.id}. Or you can send a cheque, quoting your membership number ${member.id} to Pam Marrs, Membership Secretary FOCH, 42 Bracklesham Road, Hayling Island PO11 9SJ. If you have already paid, our apologies and please ignore this email.`
+  Your annual subscription of ${formatPounds(member.amount)} becomes due on ${formatDate(member.due_date)} and we do hope that you will renew your membership of the Friends of Chichester Harbour. To renew your membership log in online to friendsch.org where you can pay by Credit Card, Debit Card or PayPal. Payment can be made by direct bank transfer to Friends of Chichester Harbour, Account No: 87037440, Sort Code 52-41-20 quoting your membership number ${member.id}. Or you can send a cheque, quoting your membership number ${member.id} to Pam Marrs, Membership Secretary FOCH, 42 Bracklesham Road, Hayling Island PO11 9SJ. If you have already paid, our apologies and please ignore this email.`
 )
