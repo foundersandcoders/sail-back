@@ -5,7 +5,7 @@ const { formatPounds } = require('app/monies')
 exports.newsletter_alert = ({ greeting }) =>
 `Friends of Chichester Harbour
 Dear ${greeting},
-You'll be pleased to hear that a new edition of the Newsletter for the Friends of Chichester Harbour has just been put up on the Friends website.  Please do go online to friendsch.org to read it.
+You'll be pleased to hear that a new edition of the Newsletter for the Friends of Chichester Harbour has just been put up on the Friends website. Please do go online to friendsch.org to read it.
 Sarah Newman, Editor, FOCH`
 
 exports.newsletter_reminder = ({ greeting }) =>
@@ -17,7 +17,7 @@ Sarah Newman, Editor, FOCH`
 const late = n => ({ greeting, amount, id }) =>
 `Friends of Chichester Harbour
 Dear ${greeting},
-We would be very grateful for payment of the amount of ${formatPounds(amount)} which has now been outstanding for over ${n} days.  Payment can be made by logging in online to friendsch.org where you can pay by Credit Card, Debit Card or PayPal. Or you can pay by direct bank transfer to Friends of Chichester Harbour, Account No: 87037440,  Sort Code 52-41-20 quoting your membership number ${id}. Or you can send a cheque, quoting your membership number ${id} to Pam Marrs, Membership Secretary FOCH, 42 Bracklesham Road, Hayling Island PO11 9SJ.  If you have already paid, our apologies and please ignore this email.
+We would be very grateful for payment of your annual subscription of ${formatPounds(amount)} which has now been outstanding for over ${n} days. Payment can be made by direct bank transfer to Friends of Chichester Harbour, Account No: 87037440, Sort Code 52-41-20 quoting your membership number ${id}. Or you can send a cheque, quoting your membership number ${id} to Pam Marrs, Membership Secretary FOCH, 42 Bracklesham Road, Hayling Island PO11 9SJ. If you have already paid, our apologies and please ignore this email.
 Richard Evans, Treasurer FoCH`
 
 exports.lates = [ 30, 60, 90 ].map(late)
@@ -34,5 +34,5 @@ exports.standing = [ 30, 60, 90 ].map(standing)
 exports.subscription_due = ({ greeting, amount, due_date, id}) =>
 `Friends of Chichester Harbour
 Dear ${greeting},
-Your annual  subscription of ${formatPounds(amount)} becomes due on ${format(due_date)} and we do hope that you will renew your membership of the Friends of Chichester Harbour.  To renew your membership log in online to friendsch.org where you can pay by Credit Card, Debit Card or PayPal. Or you can pay by direct bank transfer to Friends of Chichester Harbour, Account No: 87037440, Sort Code 52-41-20 quoting your membership number ${id}. Or you can send a cheque, quoting your membership number ${id} to Pam Marrs, Membership Secretary FOCH, 42 Bracklesham Road, Hayling Island PO11 9SJ.  If you have already paid, our apologies and please ignore this email.
+Your annual subscription of ${formatPounds(amount)} becomes due on ${format(due_date)} and we do hope that you will renew your membership of the Friends of Chichester Harbour. To renew your membership log in online to friendsch.org where you can pay by Credit Card, Debit Card or PayPal. Payment can be made by direct bank transfer to Friends of Chichester Harbour, Account No: 87037440, Sort Code 52-41-20 quoting your membership number ${id}. Or you can send a cheque, quoting your membership number ${id} to Pam Marrs, Membership Secretary FOCH, 42 Bracklesham Road, Hayling Island PO11 9SJ. If you have already paid, our apologies and please ignore this email.
 Richard Evans, Treasurer FoCH`
