@@ -2,10 +2,8 @@
 
 var React = require('react')
 
-var Navigation = require('../../shared/navigation.js')
 var SearchBox = require('../components/search_box.js')
 var SearchResults = require('../components/search_results.js')
-var request = require('xhr')
 var connect = require('react-redux').connect
 
 var AdminHome = React.createClass({
