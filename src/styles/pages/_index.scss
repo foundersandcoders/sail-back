@@ -592,14 +592,10 @@ div.gbp {
   width: 4em;
 }
 
-.labels-tables {
-  margin: 2em;
-}
-
 .label-row td {
-    width: 20em;
-    height: 14em;
-  }
+  width: 20em;
+  height: 14em;
+}
 
 @media print {
   body {
@@ -607,8 +603,16 @@ div.gbp {
   }
 
   .labels-tables {
-    width: 195mm;
-    height: 290mm;
+    margin-left: 8mm;
+    max-width: 195mm;
+    min-width: 195mm;
+    max-height: 280mm;
+    min-height: 280mm;
+    page-break-after: always;
+
+    tr:first-child {
+      margin-top: 14mm;
+    }
   }
 
   .label-row {
@@ -617,8 +621,10 @@ div.gbp {
   }
 
   .label-row td {
-    width: 63mm;
-    height: 39mm;
+    max-width: 63mm;
+    min-width: 63mm;
+    max-height: 39mm;
+    min-height: 39mm;
   }
 
   .labels-tables td div span {
