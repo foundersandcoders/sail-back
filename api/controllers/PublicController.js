@@ -59,7 +59,7 @@ module.exports = {
           throw new Error('Email not recognised.')
         } else {
           randomString = ForgotPass.randomString()
-          // the udpating object needs to include the id value
+          // the updating object needs to include the id value
           // this values needs to be supplied to the beforeUpdate lifecycle method in Members model
           return Members.update({ id: member.id }, { new_password: randomString, id: member.id })
         }

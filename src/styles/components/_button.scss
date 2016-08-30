@@ -83,7 +83,14 @@ button {
 	background-color: #ffe5e5;
 	&:active, &:focus {
 		background-color: #ffe5e5;
-	}	
+	}
+}
+
+.green {
+	background-color: #a7dc95;
+	&:active, &:focus, &:hover {
+		background-color: #a7dc95;
+	}
 }
 
 .small-button {
