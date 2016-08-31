@@ -78,6 +78,6 @@ exports.newsletter_labels = () =>
   `select title, first_name, last_name, initials,
   address1, address2, address3, address4,
   postcode, deliverer from members
-  where members.news_type = 'post'
-  and activation_status='activated'
-  or members.email_bounced = true;`
+  where (members.news_type = 'post'
+  or members.email_bounced = true)
+  and activation_status='activated';`
