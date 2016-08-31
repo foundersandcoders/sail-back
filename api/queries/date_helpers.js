@@ -1,5 +1,5 @@
 var B = require('sanctuary').B
-var format_date = require('app/format_date').format_date_SQL
+var date_string = require('app/format_date').date_string
 
 exports.today = env =>
   env === 'heroku-test' ? "'2017-08-15'" : "curdate()"
@@ -9,8 +9,8 @@ exports.due_dates = start => end => compare => {
     month_and_day(start) < month_and_day(end) ? x => x : x => `not(${x})`
 
   return wrap(`${set_2000(compare)}
-    between ${set_2000(`'${format_date(start)}'`)}
-    and ${set_2000(`'${format_date(end)}'`)}`)
+    between ${set_2000(`'${date_string(start)}'`)}
+    and ${set_2000(`'${date_string(end)}'`)}`)
 }
 
 var set_year = year => date => `date_format(${date}, '${year}-%m-%d')`
