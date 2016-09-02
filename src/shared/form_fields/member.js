@@ -32,6 +32,7 @@ const fieldStructure =
     , 'membership_type'
     , 'life_payment_date'
     , 'date_membership_type_changed'
+    , 'gift_aid_signed'
     , 'date_gift_aid_signed'
     , 'standing_order'
     , 'notes'
@@ -109,6 +110,10 @@ const options =
   , news_type:
     [ 'post'
     , 'online'
+    ]
+  , gift_aid_signed:
+    [ 'false'
+    , 'true'
     ]
   , email_bounced:
     [ 'false'
