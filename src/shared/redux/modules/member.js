@@ -104,7 +104,7 @@ const prepare_for_form = (member) =>
     }
   })
 
-const wrap_values = map((v) => (v && { initial_value: String(v), value: String(v) }))
+const wrap_values = map((v) => (v != null && { initial_value: String(v), value: String(v) }))
 
 const reset_values = mapObjIndexed((v) => (v && { ...v, value: v.initial_value }))
 
