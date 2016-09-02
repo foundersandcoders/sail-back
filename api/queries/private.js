@@ -39,6 +39,7 @@ exports.update_subscription = body =>
   select id, 'subscription', 'Subscription', amount, ${set_current('due_date')}, now()
   from members, membershiptypes
   where members.membership_type = membershiptypes.value
+  and (standing_order is null or standing_order=false)
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
   and members.primary_email is${body.news_type === 'online' ? ' not' : ''} null
