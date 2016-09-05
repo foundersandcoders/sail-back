@@ -1,9 +1,5 @@
 /* @flow */
 const { FETCHED_MEMBER } = require('../../../shared/redux/modules/member.js')
-const { ADDED_PAYMENT } = require('../../../shared/redux/modules/payments.js')
-const { format } = require('app/transform_dated.js')
-const { reduce, keys, compose } = require('ramda')
-
 import type { Action, Reducer } from 'redux'
 
 type Category = 'payment' | 'subscription' | 'donation' | 'event' | ''
@@ -37,18 +33,6 @@ const payment_defaults : Reducer<Payment, Action>
     switch (type) {
       case FETCHED_MEMBER:
         return {...state, amount: String(payload.subscription_amount / 100) }
-      case ADDED_PAYMENT:
-        return compose
-          ( format
-          , reduce
-            ( (state, field) =>
-                field.match(/^date|reference|type$/)
-                ? { ...state, [field]: payload[field] }
-                : state
-            , state
-            )
-          , keys
-          )(payload)
       default:
         return state
     }

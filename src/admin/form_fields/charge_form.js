@@ -1,5 +1,4 @@
-const { concat, contains, prop, equals, not, propOr, compose, test, curry
-  , keys, assoc, converge, merge, complement, defaultTo } =
+const { concat, prop, compose, test, converge, merge, defaultTo } =
     require('ramda')
 const { exists, selected, check_tests, date } = require('app/validate')
 
