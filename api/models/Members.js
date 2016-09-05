@@ -47,6 +47,22 @@ var handle_membership_change = (member, cb) =>
       cb(member)
     })
 
+var handle_gift_aid_change = (member, cb) =>
+  Members
+    .findOne(member.id)
+    .exec(function (error, item) {
+      if (error) return sails.log.error(error)
+      if (member.gift_aid_signed === item.gift_aid_signed) return cb(member)
+      if (member.gift_aid_signed) {
+        member.date_gift_aid_signed = new Date()
+        member.date_gift_aid_cancelled = null
+        return cb(member)
+      }
+      member.date_gift_aid_cancelled = new Date()
+      member.date_gift_aid_signed = null
+      return cb(member)
+    })
+
 module.exports = {
   attributes: {
     // ------------------------------------------------------------
@@ -257,5 +273,5 @@ module.exports = {
   // ------------------------------------------------------------
   },
   beforeCreate: hash_password('password'),
-  beforeUpdate: (member, cb) => handle_membership_change(member, member => hash_password('new_password')(member, cb))
+  beforeUpdate: (member, cb) => handle_membership_change(member, member => handle_gift_aid_change(member, member => hash_password('new_password')(member, cb)))
 }

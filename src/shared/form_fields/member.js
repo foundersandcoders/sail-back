@@ -33,6 +33,7 @@ const fieldStructure =
     , 'date_membership_type_changed'
     , 'gift_aid_signed'
     , 'date_gift_aid_signed'
+    , 'date_gift_aid_cancelled'
     , 'standing_order'
     , 'notes'
     , 'registered'
