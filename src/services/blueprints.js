@@ -17,6 +17,7 @@ module.exports = {
     deliverer:                    {remove:false, type: "string"},
     home_phone:                   {remove:false, type: "string"},
     mobile_phone:                 {remove:false, type: "string"},
+    work_phone:                   {remove:true, type: "string"},
     birthday:                     {remove:true,  type: "date"},   // birthday
     age:                          {remove:true,  type: "number"}, // age
     primary_email:                {remove:false, type: "string"},
