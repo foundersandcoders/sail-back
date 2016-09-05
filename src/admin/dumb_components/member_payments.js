@@ -1,5 +1,5 @@
 const React = require('react')
-const { map, dissoc } = require('ramda')
+const { map, assoc } = require('ramda')
 const { types, type_order } = require('../form_fields/charge_form.js')
 
 const PaymentsTable = require('../../shared/components/payments_table')
@@ -47,6 +47,6 @@ var MemberPayments = (
     </div>
   </div>
 
-const with_amount = (type, defaults) => type === 'subscription' ? defaults : dissoc('amount', defaults)
+const with_amount = (type, defaults) => type === 'subscription' ? defaults : assoc('amount', '', defaults)
 
 module.exports = MemberPayments
