@@ -34,7 +34,6 @@ function members () {
       deliverer: list[11],
       home_phone: list[12],
       mobile_phone: list[13],
-      work_phone: list[14],
       date_of_birth: list[15],
       age: list[16],
       primary_email: list[17],

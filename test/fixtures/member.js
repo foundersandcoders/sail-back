@@ -17,7 +17,6 @@ module.exports = {
   county: 'Whisk Yortshore',
   postcode: '123 80e',
   home_phone: '12384',
-  work_phone: '184391',
   mobile_phone: 'a9134',
   date_gift_aid_signed: new Date(),
   notes: 'I am green',
