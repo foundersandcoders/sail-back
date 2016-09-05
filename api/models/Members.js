@@ -19,7 +19,7 @@
 var bcrypt = require('bcryptjs')
 var is = require('torf')
 
-var hash_password = key => (member, cb) => {
+var hash_password = key => cb => member => {
   if (!is.ok(member[key])) return cb(null, member)
   bcrypt.genSalt(10, (err, salt) => {
     if (err) return cb(err)
@@ -36,7 +36,7 @@ var hash_password = key => (member, cb) => {
   })
 }
 
-var handle_membership_change = (member, cb) =>
+var handle_membership_change = cb => member =>
   Members
     .findOne(member.id)
     .exec(function (error, item) {
@@ -47,7 +47,7 @@ var handle_membership_change = (member, cb) =>
       cb(member)
     })
 
-var handle_gift_aid_change = (member, cb) =>
+var handle_gift_aid_change = cb => member =>
   Members
     .findOne(member.id)
     .exec(function (error, item) {
@@ -272,6 +272,7 @@ module.exports = {
     }
   // ------------------------------------------------------------
   },
-  beforeCreate: hash_password('password'),
-  beforeUpdate: (member, cb) => handle_membership_change(member, member => handle_gift_aid_change(member, member => hash_password('new_password')(member, cb)))
+  beforeCreate: (member, cb) => hash_password('password')(cb)(member),
+  // beforeUpdate: (member, cb) => handle_membership_change(member, member => handle_gift_aid_change(member, member => hash_password('new_password')(member, cb)))
+  beforeUpdate: (member, cb) => handle_membership_change(handle_gift_aid_change(hash_password('new_password')(cb)))(member)
 }
