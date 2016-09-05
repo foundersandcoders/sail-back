@@ -36,8 +36,12 @@ const getAddress = (
   , postcode
   }
 ) =>
-  [ `${title} ${first_name[0] || ''} ${last_name}`, address1, address2,
-    address3, address4, county, postcode ]
+  [ `${title} ${(first_name && first_name[0]) || ''} ${last_name}`
+  , address1
+  , address2
+  , address3
+  , address4
+  , county
+  , postcode ]
 
 export default reducer
-
