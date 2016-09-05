@@ -24,7 +24,6 @@ const fieldStructure =
     , 'postcode'
     , 'deliverer'
     , 'home_phone'
-    , 'work_phone'
     , 'mobile_phone'
     ]
   , membership:
@@ -63,7 +62,6 @@ const user_field_structure =
     , 'county'
     , 'postcode'
     , 'home_phone'
-    , 'work_phone'
     , 'mobile_phone'
     ]
     , membership_details:

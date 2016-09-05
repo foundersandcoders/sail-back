@@ -101,9 +101,6 @@ module.exports = {
     mobile_phone: {
       type: 'STRING'
     },
-    work_phone: {
-      type: 'STRING'
-    },
     /* NOT Required */
     primary_email: {
       type: 'STRING',
