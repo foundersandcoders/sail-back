@@ -71,6 +71,7 @@ const user_field_structure =
     , 'standing_order'
     , 'due_date'
     , 'news_type'
+    , 'date_gift_aid_signed'
     ]
   }
 
@@ -135,7 +136,7 @@ const required =
   , 'news_type'
   ]
 
-const read_only_user = read_only.concat('due_date')
+const read_only_user = read_only.concat('due_date', 'date_gift_aid_signed')
 
 const new_required = required.concat('date_joined')
 

@@ -10,14 +10,14 @@ import GiftAidButtons from './gift_aid_buttons.js'
 export default (props) =>
   <div>
     <EditDetails {...props} />
+    {propOr('false', 'value')(props.my_details.gift_aid_signed) === 'true'
+    && <ConfirmGiftAid cancel_gift_aid={props.cancel_gift_aid} buttons={GiftAidButtons}/>}
     <div className='end-membership'>
       {props.my_details.activation_status && props.my_details.activation_status.initial_value !== 'deactivated'
         ? <EndMembershipLoader {...props} />
         : <p>Please contact us if you would like to reinstate your membership.</p>
       }
     </div>
-    {propOr('false', 'value')(props.my_details.gift_aid_signed) === 'true'
-    && <ConfirmGiftAid cancel_gift_aid={props.cancel_gift_aid} buttons={GiftAidButtons}/>}
   </div>
 
 const EndMembershipLoader = (props) =>
