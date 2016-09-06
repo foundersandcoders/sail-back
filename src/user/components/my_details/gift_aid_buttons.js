@@ -2,6 +2,7 @@ import React from 'react'
 
 export default ({ confirmation, which_text, which_delete, reset }) =>
   <div>
+    <p><b>You have made a Gift Aid Declaration.</b></p>
     <p>
       <i>
         If you no longer pay an amount of UK Income Tax and/or Capital Gains Tax

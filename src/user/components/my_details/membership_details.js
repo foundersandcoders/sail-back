@@ -11,7 +11,9 @@ export default (props) =>
   <div>
     <EditDetails {...props} />
     {propOr('false', 'value')(props.my_details.gift_aid_signed) === 'true'
-    && <ConfirmGiftAid cancel_gift_aid={props.cancel_gift_aid} buttons={GiftAidButtons}/>}
+      ? <ConfirmGiftAid cancel_gift_aid={props.cancel_gift_aid} buttons={GiftAidButtons}/>
+      : <p><b>You have not made a Gift Aid Declaration.</b></p>
+    }
     <div className='end-membership'>
       {props.my_details.activation_status && props.my_details.activation_status.initial_value !== 'deactivated'
         ? <EndMembershipLoader {...props} />
