@@ -19,7 +19,7 @@
 var bcrypt = require('bcryptjs')
 var is = require('torf')
 
-var hash_password = key => (member, cb) => {
+var hash_password = key => cb => member => {
   if (!is.ok(member[key])) return cb(null, member)
   bcrypt.genSalt(10, (err, salt) => {
     if (err) return cb(err)
@@ -36,7 +36,7 @@ var hash_password = key => (member, cb) => {
   })
 }
 
-var handle_membership_change = (member, cb) =>
+var handle_membership_change = cb => member =>
   Members
     .findOne(member.id)
     .exec(function (error, item) {
@@ -45,6 +45,22 @@ var handle_membership_change = (member, cb) =>
       member.date_membership_type_changed = new Date()
       member.life_payment_date = member.membership_type.match('life') ? new Date() : null
       cb(member)
+    })
+
+var handle_gift_aid_change = cb => member =>
+  Members
+    .findOne(member.id)
+    .exec(function (error, item) {
+      if (error) return sails.log.error(error)
+      if (member.gift_aid_signed === item.gift_aid_signed) return cb(member)
+      if (member.gift_aid_signed) {
+        member.date_gift_aid_signed = new Date()
+        member.date_gift_aid_cancelled = null
+        return cb(member)
+      }
+      member.date_gift_aid_cancelled = new Date()
+      member.date_gift_aid_signed = null
+      return cb(member)
     })
 
 module.exports = {
@@ -143,10 +159,6 @@ module.exports = {
     },
     date_gift_aid_signed: {
       type: 'DATE'
-    },
-    gift_aid_cancelled: {
-      type: 'BOOLEAN',
-      defaultsTo: false
     },
     date_gift_aid_cancelled: {
       type: 'DATE'
@@ -256,6 +268,6 @@ module.exports = {
     }
   // ------------------------------------------------------------
   },
-  beforeCreate: hash_password('password'),
-  beforeUpdate: (member, cb) => handle_membership_change(member, member => hash_password('new_password')(member, cb))
+  beforeCreate: (member, cb) => hash_password('password')(cb)(member),
+  beforeUpdate: (member, cb) => handle_membership_change(handle_gift_aid_change(hash_password('new_password')(cb)))(member)
 }

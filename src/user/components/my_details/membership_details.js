@@ -1,24 +1,26 @@
 import React from 'react'
 import { reduxForm } from 'redux-form'
+import { propOr } from 'ramda'
 
 import EndMembershipForm from './end_membership_form.js'
 import EditDetails from './edit_details.js'
 import ConfirmGiftAid from '../../../shared/components/confirm_deletion.js'
 import GiftAidButtons from './gift_aid_buttons.js'
 
-
 export default (props) =>
   <div>
     <EditDetails {...props} />
+    {propOr('false', 'value')(props.my_details.gift_aid_signed) === 'true'
+      ? <ConfirmGiftAid cancel_gift_aid={props.cancel_gift_aid} buttons={GiftAidButtons}/>
+      : <p><b>You have not made a Gift Aid Declaration.</b></p>
+    }
     <div className='end-membership'>
       {props.my_details.activation_status && props.my_details.activation_status.initial_value !== 'deactivated'
         ? <EndMembershipLoader {...props} />
         : <p>Please contact us if you would like to reinstate your membership.</p>
       }
     </div>
-    {!props.my_details.gift_aid_cancelled && <ConfirmGiftAid cancel_gift_aid={props.cancel_gift_aid} buttons={GiftAidButtons} />}
   </div>
-
 
 const EndMembershipLoader = (props) =>
   <EndMembership
