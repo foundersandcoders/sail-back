@@ -43,7 +43,7 @@ exports.update_subscription = body =>
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
   and members.primary_email is${body.news_type === 'online' ? ' not' : ''} null
   and
-    date_sub(${date}, interval 1 year)
+    date_sub(${date}, interval 11 month)
     > (select max(date) from payments
       where members.id = payments.member
       and payments.category = 'subscription'
@@ -60,7 +60,7 @@ exports.subscription_due_template = body =>
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
   and members.primary_email is${body.news_type === 'online' ? ' not' : ''} null
   and
-    date_sub(${date}, interval 1 year)
+    date_sub(${date}, interval 11 month)
     > (select max(date) from payments
       where members.id = payments.member
       and payments.category = 'subscription'
@@ -78,6 +78,6 @@ exports.newsletter_labels = () =>
   `select title, first_name, last_name, initials,
   address1, address2, address3, address4,
   postcode, deliverer from members
-  where members.news_type = 'post'
-  or members.email_bounced = true
+  where (members.news_type = 'post'
+  or members.email_bounced = true)
   and activation_status='activated';`

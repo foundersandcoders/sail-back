@@ -61,7 +61,7 @@ module.exports = {
           randomString = ForgotPass.randomString()
           // the updating object needs to include the id value
           // this values needs to be supplied to the beforeUpdate lifecycle method in Members model
-          return Members.update({ id: member.id }, { new_password: randomString, id: member.id })
+          return Members.update({ id: member.id }, { new_password: randomString, id: member.id, registered: 'registered' })
         }
       })
       .then(function (memberUpdated) {

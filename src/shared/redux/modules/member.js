@@ -64,7 +64,7 @@ const reducer: Reducer<State, Action> =
       case CANCEL_GIFT_AID:
         return (
           { ...member
-            , ...prepare_for_form(payload)
+          , ...prepare_for_form(payload)
           })
       default:
         return member
@@ -76,8 +76,6 @@ const post_user_url = '/api/members/{ID}'
 const get_user_url = '/members/{ID}'
 
 const make_user_url = url => flip(replace('{ID}'))(url)
-
-const null_to_undefined = val => val === null ? undefined : val
 
 const parse_if_needed = cond(
   [ [is(String), JSON.parse]
@@ -104,7 +102,9 @@ const prepare_for_form = (member) =>
     }
   })
 
-const wrap_values = map((v) => (v && { initial_value: String(v), value: String(v) }))
+const wrap_values = map((v) => {
+  return (v != null ? { initial_value: String(v), value: String(v) } : { initial_value: null, value: null })
+})
 
 const reset_values = mapObjIndexed((v) => (v && { ...v, value: v.initial_value }))
 
@@ -112,7 +112,6 @@ const to_member = compose
   ( over(lensProp('due_date'), ifElse(not, identity, slice(0, -'/YYYY'.length)))
   , format_dated
   , reshape_if_necessary
-  , map(null_to_undefined)
   , parse_if_needed
   )
 
@@ -196,10 +195,7 @@ export const cancel_gift_aid = createAction
   ( CANCEL_GIFT_AID
   , (_, dispatch) => compose
     ( map(errors_or_to_member(dispatch))
-    , put(
-      { gift_aid_cancelled: true
-      , date_gift_aid_cancelled: new Date().toISOString()
-      })
+    , put({ gift_aid_signed: false })
     , fetch_user_url
     )(_)
   )

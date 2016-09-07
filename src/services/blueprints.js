@@ -17,7 +17,7 @@ module.exports = {
     deliverer:                    {remove:false, type: "string"},
     home_phone:                   {remove:false, type: "string"},
     mobile_phone:                 {remove:false, type: "string"},
-    work_phone:                   {remove:false, type: "string"},
+    work_phone:                   {remove:true, type: "string"},
     birthday:                     {remove:true,  type: "date"},   // birthday
     age:                          {remove:true,  type: "number"}, // age
     primary_email:                {remove:false, type: "string"},
@@ -30,7 +30,7 @@ module.exports = {
     notes:                        {remove:false, type: "string"},
     gift_aid_signed:              {remove:false, type: "boolean"},
     date_gift_aid_signed:         {remove:false, type: "date"},
-    date_gift_aid_cancelled:      {remove:false, type: "date"},
+    date_gift_aid_cancelled:      {remove:true, type: "date"},
     standing_order:               {remove:false, type: "boolean"},
     activation_status:            {remove:false, type: "custom"},
     deletion_date:                {remove:false, type: "date"},

@@ -2,7 +2,16 @@ import React from 'react'
 
 export default ({ confirmation, which_text, which_delete, reset }) =>
   <div>
-    <p><b>Would you like to revoke your Gift Aid declaration?</b></p>
+    <p><b>You have made a Gift Aid Declaration.</b></p>
+    <p>
+      <i>
+        If you no longer pay an amount of UK Income Tax and/or Capital Gains Tax
+        at least equal to your gifts this year to the Friends of Chichester Harbour
+        plus your gifts this year to other charities for whom you have made a Gift
+        Aid Declaration then you should cancel your Gift Aid Declaration since you
+        become responsible for paying any difference.
+      </i>
+    </p>
     <button onClick={which_delete()} className={confirmation ? 'red' : ''}>
       {which_text()}
     </button>

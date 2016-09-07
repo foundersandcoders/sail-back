@@ -24,7 +24,6 @@ const fieldStructure =
     , 'postcode'
     , 'deliverer'
     , 'home_phone'
-    , 'work_phone'
     , 'mobile_phone'
     ]
   , membership:
@@ -32,7 +31,9 @@ const fieldStructure =
     , 'membership_type'
     , 'life_payment_date'
     , 'date_membership_type_changed'
+    , 'gift_aid_signed'
     , 'date_gift_aid_signed'
+    , 'date_gift_aid_cancelled'
     , 'standing_order'
     , 'notes'
     , 'registered'
@@ -62,7 +63,6 @@ const user_field_structure =
     , 'county'
     , 'postcode'
     , 'home_phone'
-    , 'work_phone'
     , 'mobile_phone'
     ]
     , membership_details:
@@ -71,6 +71,8 @@ const user_field_structure =
     , 'standing_order'
     , 'due_date'
     , 'news_type'
+    , 'date_gift_aid_signed'
+    , 'date_gift_aid_cancelled'
     ]
   }
 
@@ -110,6 +112,10 @@ const options =
     [ 'post'
     , 'online'
     ]
+  , gift_aid_signed:
+    [ 'false'
+    , 'true'
+    ]
   , email_bounced:
     [ 'false'
     , 'true'
@@ -131,7 +137,7 @@ const required =
   , 'news_type'
   ]
 
-const read_only_user = read_only.concat('due_date')
+const read_only_user = read_only.concat('due_date', 'date_gift_aid_signed', 'date_gift_aid_cancelled')
 
 const new_required = required.concat('date_joined')
 
