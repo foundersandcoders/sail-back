@@ -195,6 +195,11 @@ module.exports.routes = {
   'GET /api/get-bounced': {
     controller: 'Private',
     action: 'get_bounced'
+  },
+
+  'GET /api/reset-subscription-payments': {
+    controller: 'Private',
+    action: 'reset_subscription_payments'
   }
 // -------------------------------------------------------------------------
 }

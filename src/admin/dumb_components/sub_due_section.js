@@ -2,7 +2,7 @@ import React from 'react'
 
 const { check_tests, date_max, exists } = require('app/validate')
 import SubDueForm from './sub_due_form.js'
-import { assoc, reduce, unapply, converge, mergeAll, reverse, split, compose, join, map } from 'ramda'
+import { assoc, reduce, unapply, converge, mergeAll, map } from 'ramda'
 import { fields } from '../form_fields/sub_due_form.js'
 const standardise_date = require('app/standardise_date')
 

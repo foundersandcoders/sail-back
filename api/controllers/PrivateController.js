@@ -1,5 +1,5 @@
 /*global
-  Members, sails
+  Members, sails, Payments
 */
 
 var Is = require('torf')
@@ -35,6 +35,10 @@ module.exports = {
   },
   get_bounced: function (req, res) {
     mg.getBounced(sql_callback(res))
+  },
+
+  reset_subscription_payments: function (req, res) {
+    Payments.query(queries.reset_subscription_payments, sql_callback(res))
   },
 
   addmember: function (req, res) {
