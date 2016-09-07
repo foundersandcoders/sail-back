@@ -44,9 +44,9 @@ exports.update_subscription = body =>
   and members.primary_email is${body.news_type === 'online' ? ' not' : ''} null
   and
     date_sub(${date}, interval 11 month)
-    > (select max(date) from payments
+    > (ifnull((select max(date) from payments
       where members.id = payments.member
-      and payments.category = 'subscription'
+      and payments.category = 'subscription'), '1970-01-01')
     )
   and ${d.due_dates(body.start)(body.end)('members.due_date')}
   and activation_status='activated';`
@@ -61,9 +61,9 @@ exports.subscription_due_template = body =>
   and members.primary_email is${body.news_type === 'online' ? ' not' : ''} null
   and
     date_sub(${date}, interval 11 month)
-    > (select max(date) from payments
+    > (ifnull((select max(date) from payments
       where members.id = payments.member
-      and payments.category = 'subscription'
+      and payments.category = 'subscription'), '1970-01-01')
     )
   and ${d.due_dates(body.start)(body.end)('members.due_date')}
   and activation_status='activated';`
