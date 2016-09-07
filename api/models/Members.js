@@ -160,10 +160,6 @@ module.exports = {
     date_gift_aid_signed: {
       type: 'DATE'
     },
-    gift_aid_cancelled: {
-      type: 'BOOLEAN',
-      defaultsTo: false
-    },
     date_gift_aid_cancelled: {
       type: 'DATE'
     },
@@ -273,6 +269,5 @@ module.exports = {
   // ------------------------------------------------------------
   },
   beforeCreate: (member, cb) => hash_password('password')(cb)(member),
-  // beforeUpdate: (member, cb) => handle_membership_change(member, member => handle_gift_aid_change(member, member => hash_password('new_password')(member, cb)))
   beforeUpdate: (member, cb) => handle_membership_change(handle_gift_aid_change(hash_password('new_password')(cb)))(member)
 }
