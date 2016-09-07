@@ -1,7 +1,7 @@
 /* @flow */
 import { createAction } from 'redux-actions'
 import type { Action, Reducer } from 'redux'
-import { get_body } from 'app/http'
+import { del } from 'app/http'
 
 const RESET_SUBSCRIPTION_PAYMENTS =
   'RESET_SUBSCRIPTION_PAYMENTS'
@@ -21,6 +21,6 @@ const reducer: Reducer<State, Action> =
   }
 
 export const reset_subscription_payments =
-  createAction(RESET_SUBSCRIPTION_PAYMENTS, () => get_body('/api/reset-subscription-payments'))
+  createAction(RESET_SUBSCRIPTION_PAYMENTS, () => del('/api/reset-subscription-payments'))
 
 export default reducer

@@ -197,7 +197,7 @@ module.exports.routes = {
     action: 'get_bounced'
   },
 
-  'GET /api/reset-subscription-payments': {
+  'DELETE /api/reset-subscription-payments': {
     controller: 'Private',
     action: 'reset_subscription_payments'
   }
