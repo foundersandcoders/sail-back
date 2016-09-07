@@ -552,8 +552,17 @@ div.gbp {
   }
 }
 
-.custom-email-preview {
+.custom-email-page {
   margin: 2em 1em;
+  display: flex;
+}
+
+.email-recipients {
+  flex: 1;
+}
+
+.custom-email-preview {
+  flex: 2;
 }
 
 .custom-email-button {
@@ -570,9 +579,6 @@ div.gbp {
   list-style: none;
 }
 
-.email-recipients {
-  margin: 0.5em 0.5em 1.5em 0;
-}
 
 .bounced-container {
   margin: 2em 2em;
