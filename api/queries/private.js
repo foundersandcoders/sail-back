@@ -82,7 +82,7 @@ exports.newsletter_labels = () =>
   or members.email_bounced = true)
   and activation_status='activated';`
 
-exports.reset_subscription_payments = () =>
+exports.reset_subscription_payments =
   `delete from payments
   where createdAt >= date_sub(curdate(), interval 2 day)
   and category='subscription';`

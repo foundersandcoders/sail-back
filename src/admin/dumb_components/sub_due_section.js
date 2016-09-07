@@ -20,6 +20,7 @@ export default ({ fetch_sub_due, component, checker, ...props }) => {
             validate={validate}
           />
       }
+      <button onClick={props.reset_subscription_payments}>Reset Subscription Payments</button>
     </div>
   )
 }

@@ -29,6 +29,8 @@ import
   , GET_BOUNCED
   } from '../redux/modules/email/reducer.js'
 
+import { reset_subscription_payments } from '../redux/modules/reset_payments.js'
+
 const Email = (
   { send_sub_reminder: sub
   , send_newsletter: news
@@ -160,5 +162,6 @@ export default connect
     , sub_due_tab
     , preview_custom
     , edit_custom
+    , reset_subscription_payments
     }
   )(Email)
