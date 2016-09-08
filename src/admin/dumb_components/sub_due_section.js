@@ -19,7 +19,7 @@ export default ({ fetch_sub_due, component, checker, reset_payments, reset_subsc
       }
       {reset_payments
         ? <h2>Subscription payments have been reset.</h2>
-        : <ConfirmResetPayments delete={reset_subscription_payments} buttons={reset_payment_button} type='reset'/>
+        : <ConfirmResetPayments delete={reset_subscription_payments} buttons={reset_payment_button} text='Reset'/>
       }
     </div>
   )
