@@ -1,10 +1,11 @@
 import React from 'react'
-
-const { check_tests, date_max, exists } = require('app/validate')
-import SubDueForm from './sub_due_form.js'
 import { assoc, reduce, unapply, converge, mergeAll, map } from 'ramda'
-import { fields } from '../form_fields/sub_due_form.js'
+const { check_tests, date_max, exists } = require('app/validate')
 const standardise_date = require('app/standardise_date')
+
+import SubDueForm from './sub_due_form.js'
+import { fields } from '../form_fields/sub_due_form.js'
+import ConfirmResetPayments from '../../shared/components/confirm_deletion.js'
 
 export default ({ fetch_sub_due, component, checker, reset_payments, reset_subscription_payments, ...props }) => {
   const send_request = (data) => {
@@ -18,16 +19,19 @@ export default ({ fetch_sub_due, component, checker, reset_payments, reset_subsc
       }
       {reset_payments
         ? <h2>Subscription payments have been reset.</h2>
-        : reset_payment_button(reset_subscription_payments)
+        : <ConfirmResetPayments delete={reset_subscription_payments} buttons={reset_payment_button} type='reset'/>
       }
     </div>
   )
 }
 
-const reset_payment_button = (reset) =>
+const reset_payment_button = ({ confirmation, which_text, which_delete, reset }) =>
   <div>
     <h2>Would you like to reset all subscription payments made within the last 48 hours?</h2>
-    <button onClick={reset}>Reset Payments</button>
+      <button onClick={which_delete()} className={confirmation ? 'red' : ''}>
+        {which_text()}
+      </button>
+      {confirmation && <button onClick={reset} className='green'>Cancel</button>}
   </div>
 
 const validate = values => {

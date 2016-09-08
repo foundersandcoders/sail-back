@@ -11,7 +11,7 @@ export default (props) =>
   <div>
     <EditDetails {...props} />
     {propOr('false', 'value')(props.my_details.gift_aid_signed) === 'true'
-      ? <ConfirmGiftAid cancel_gift_aid={props.cancel_gift_aid} buttons={GiftAidButtons}/>
+      ? <ConfirmGiftAid delete={props.cancel_gift_aid} buttons={GiftAidButtons} type='revoke'/>
       : <p><b>You have not made a Gift Aid Declaration.</b></p>
     }
     <div className='end-membership'>
