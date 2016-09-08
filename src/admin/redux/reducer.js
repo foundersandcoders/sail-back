@@ -11,6 +11,7 @@ import letter from './modules/letter.js'
 import email from './modules/email/reducer.js'
 import newsletter_labels from './modules/labels.js'
 import letters from './modules/letters/letters.js'
+import reset_payments from './modules/reset_payments.js'
 
 const admin_app = combineReducers(
   { payment_defaults
@@ -25,6 +26,7 @@ const admin_app = combineReducers(
   , email
   , newsletter_labels
   , letters
+  , reset_payments
   }
 )
 
