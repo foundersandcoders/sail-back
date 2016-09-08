@@ -1,6 +1,6 @@
 const { createAction } = require('redux-actions')
-const { get_body, post, post_body } = require('app/http')
-const { merge, compose, objOf, map, props, pick, reduce, liftN, unapply, ifElse, prop, assoc, concat, omit }
+const { get_body, post_body } = require('app/http')
+const { merge, compose, objOf, map, props, pick, reduce, liftN, unapply, ifElse, prop, assoc, concat }
   = require('ramda')
 
 const { sub_reminder, sub_reminder_SO, subscription_due } = require('./bodies.js')

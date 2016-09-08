@@ -81,3 +81,8 @@ exports.newsletter_labels = () =>
   where (members.news_type = 'post'
   or members.email_bounced = true)
   and activation_status='activated';`
+
+exports.reset_subscription_payments =
+  `delete from payments
+  where createdAt >= date_sub(curdate(), interval 2 day)
+  and category='subscription';`

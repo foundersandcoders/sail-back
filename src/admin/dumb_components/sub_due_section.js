@@ -1,12 +1,13 @@
 import React from 'react'
-
+import { assoc, reduce, unapply, converge, mergeAll, map } from 'ramda'
 const { check_tests, date_max, exists } = require('app/validate')
-import SubDueForm from './sub_due_form.js'
-import { assoc, reduce, unapply, converge, mergeAll, reverse, split, compose, join, map } from 'ramda'
-import { fields } from '../form_fields/sub_due_form.js'
 const standardise_date = require('app/standardise_date')
 
-export default ({ fetch_sub_due, component, checker, ...props }) => {
+import SubDueForm from './sub_due_form.js'
+import { fields } from '../form_fields/sub_due_form.js'
+import ConfirmResetPayments from '../../shared/components/confirm_deletion.js'
+
+export default ({ fetch_sub_due, component, checker, reset_payments, reset_subscription_payments, ...props }) => {
   const send_request = (data) => {
     fetch_sub_due(map(standardise_date, data))
   }
@@ -14,16 +15,24 @@ export default ({ fetch_sub_due, component, checker, ...props }) => {
     <div>
       {checker
         ? component(props)
-        : <SubDueForm
-            fields={fields}
-            onSubmit={send_request}
-            validate={validate}
-          />
+        : <SubDueForm fields={fields} onSubmit={send_request} validate={validate}/>
+      }
+      {reset_payments
+        ? <h2>Subscription payments have been reset.</h2>
+        : <ConfirmResetPayments delete={reset_subscription_payments} buttons={reset_payment_button} text='Reset'/>
       }
     </div>
   )
 }
 
+const reset_payment_button = ({ confirmation, which_text, which_delete, reset }) =>
+  <div>
+    <h2>Would you like to reset all subscription payments made within the last 48 hours?</h2>
+      <button onClick={which_delete()} className={confirmation ? 'red' : ''}>
+        {which_text()}
+      </button>
+      {confirmation && <button onClick={reset} className='green'>Cancel</button>}
+  </div>
 
 const validate = values => {
   const date_tests = reduce
