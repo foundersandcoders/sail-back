@@ -64,7 +64,7 @@ const reducer: Reducer<State, Action> =
       case CANCEL_GIFT_AID:
         return (
           { ...member
-            , ...prepare_for_form(payload)
+          , ...prepare_for_form(payload)
           })
       default:
         return member
@@ -195,10 +195,7 @@ export const cancel_gift_aid = createAction
   ( CANCEL_GIFT_AID
   , (_, dispatch) => compose
     ( map(errors_or_to_member(dispatch))
-    , put(
-      { gift_aid_cancelled: true
-      , date_gift_aid_cancelled: new Date().toISOString()
-      })
+    , put({ gift_aid_signed: false })
     , fetch_user_url
     )(_)
   )

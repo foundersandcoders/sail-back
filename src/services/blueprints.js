@@ -30,7 +30,7 @@ module.exports = {
     notes:                        {remove:false, type: "string"},
     gift_aid_signed:              {remove:false, type: "boolean"},
     date_gift_aid_signed:         {remove:false, type: "date"},
-    date_gift_aid_cancelled:      {remove:false, type: "date"},
+    date_gift_aid_cancelled:      {remove:true, type: "date"},
     standing_order:               {remove:false, type: "boolean"},
     activation_status:            {remove:false, type: "custom"},
     deletion_date:                {remove:false, type: "date"},
