@@ -190,4 +190,5 @@ module.exports =
   , required
   , read_only_user
   , user_field_structure
+  , new_required
   }
