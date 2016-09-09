@@ -26,7 +26,7 @@ module.exports = {
 
       if ((err) || (!member)) {
         res.status(401).end()
-      } else  {
+      } else {
         req.session.user = member
         req.session.authenticated = true
         req.member = member
@@ -61,7 +61,14 @@ module.exports = {
           randomString = ForgotPass.randomString()
           // the updating object needs to include the id value
           // this values needs to be supplied to the beforeUpdate lifecycle method in Members model
-          return Members.update({ id: member.id }, { new_password: randomString, id: member.id, registered: 'registered' })
+          return Members.update(
+            { id: member.id },
+            { new_password: randomString
+            , id: member.id
+            , registered: 'registered'
+            , activation_status: 'activated'
+            }
+          )
         }
       })
       .then(function (memberUpdated) {

@@ -18,6 +18,7 @@
 
 var bcrypt = require('bcryptjs')
 var is = require('torf')
+var ForgotPass = require('../services/ForgotPass.js')
 
 var hash_password = key => cb => member => {
   if (!is.ok(member[key])) return cb(null, member)
@@ -52,7 +53,7 @@ var handle_gift_aid_change = cb => member =>
     .findOne(member.id)
     .exec(function (error, item) {
       if (error) return sails.log.error(error)
-      if (member.gift_aid_signed === item.gift_aid_signed) return cb(member)
+      if (!('gift_aid_signed' in member) || (member.gift_aid_signed === item.gift_aid_signed)) return cb(member)
       if (member.gift_aid_signed) {
         member.date_gift_aid_signed = new Date()
         member.date_gift_aid_cancelled = null
@@ -60,8 +61,14 @@ var handle_gift_aid_change = cb => member =>
       }
       member.date_gift_aid_cancelled = new Date()
       member.date_gift_aid_signed = null
-      return cb(member)
+      cb(member)
     })
+
+var handle_deactivation = cb => member => {
+  if (member.activation_status !== 'deactivated') return cb(member)
+  member.password = ForgotPass.randomString()
+  cb(member)
+}
 
 module.exports = {
   attributes: {
@@ -269,5 +276,5 @@ module.exports = {
   // ------------------------------------------------------------
   },
   beforeCreate: (member, cb) => hash_password('password')(cb)(member),
-  beforeUpdate: (member, cb) => handle_membership_change(handle_gift_aid_change(hash_password('new_password')(cb)))(member)
+  beforeUpdate: (member, cb) => handle_deactivation(handle_membership_change(handle_gift_aid_change(hash_password('new_password')(cb))))(member)
 }
