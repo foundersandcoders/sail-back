@@ -8,7 +8,7 @@ var aSync = require('async')
 
 var apiKey = process.env.MAILGUN
 var domain = 'sandboxba3153df65354c40ae1a00b269fecdb5.mailgun.org'
-var mailgun = require('mailgun-js')({ apiKey, domain });
+var mailgun = require('mailgun-js')({ apiKey, domain })
 
 module.exports = {
   /**
@@ -22,7 +22,7 @@ module.exports = {
     }
 
     mailgun.messages().send(module.exports._createEmail(data, 'Welcome to Friends of Chichester Harbour', 'subscribe'),
-      (error, results) => error ? callback(error, null) : callback(null, 'Email sent')
+      error => error ? callback(error, null) : callback(null, 'Email sent')
     )
   },
   sendPassword: function (data, callback) {
@@ -31,7 +31,7 @@ module.exports = {
     }
 
     mailgun.messages().send(module.exports._createEmail(data, 'Forgot password', 'forgotPass'),
-      (error, results) => {
+      (error) => {
         if (error) {
           sails.log.error('MAILGUN ERROR: ', error)
           callback(error, undefined)
@@ -45,28 +45,35 @@ module.exports = {
     var html
 
     if (type === 'subscribe') {
-      html = [
-        'Welcome to Friends of Chichester Harbour.'
-      ].join('')
+      html = [ 'We are delighted that you have decided to become a member of the Friends '
+             + 'of Chichester Harbour and would like to extend a warm welcome. You’ll find '
+             + 'lots more information about us on our website www.friendsch.org. The Friends '
+             + 'are run entirely by volunteers and we will always try to answer any query '
+             + 'directed to one of the contacts listed below. Please do not respond to '
+             + 'messenger@friendsch.org which is an automated system.'
+             , 'chairman@friendsch.org'
+             , 'editor@friendsch.org'
+             , 'events@friendsch.org'
+             , 'membership@friendsch.org'
+             , 'secretary@friendsch.org'
+             , 'treasurer@friendsch.org'
+             , 'I hope that we’ll get a chance to meet in person at our AGM or one of '
+             + 'our social events (or maybe on a Work Party if you are feeling energetic?)'
+             , 'Mark Stanton'
+             , 'Chair'
+             , 'Friends of Chichester Harbour'
+           ].join('\n\n')
     } else if (type === 'forgotPass') {
-      html = [
-        'We have received a forgot password request.',
-        'This is the new password: ' + data.password
-      ].join('')
+      html = [ 'From Friends of Chichester Harbour'
+             , 'We have received a request saying that you have forgotten your password. '
+             + 'Your new password is: ' + data.password + '. Once you have signed in using it you can '
+             + 'change it to a more memorable one if you wish by clicking Change Password. '
+             , 'Please do not reply to messenger@friendsch.org which is an automated address – '
+             + 'if you have any query please contact membership@friendsch.org.'
+             ].join('\n\n')
     }
 
     return html
-  },
-  _createLink: function (data) {
-    var link = '<a '
-    'mc:disable-tracking ' +
-      'href="' + process.env.NODE_URL + '/activate' +
-      '?code=' + data.code + '">' +
-      process.env.NODE_URL + '/activate' +
-      '?code=' + data.code +
-      '</a>'
-
-    return link
   },
   _createEmail: function (data, subject, type) {
     return {
@@ -107,7 +114,7 @@ module.exports = {
     )
   },
   getBounced: function (callback) {
-    mailgun.get(`/${domain}/bounces`, {}, function(error, results) {
+    mailgun.get(`/${domain}/bounces`, {}, function (error, results) {
       error ? callback(error, null) : callback(null, results)
     })
   }

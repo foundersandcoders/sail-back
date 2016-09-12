@@ -21,6 +21,7 @@ const buttons = (
       </div>
       : email_sent || <button type='submit'>Submit</button>
     }
+    { email_sent && <h3>Email Sent</h3>}
   </div>
 
 const letter_or_email = (email_handler, email, id) =>
