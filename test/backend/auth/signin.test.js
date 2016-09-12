@@ -10,8 +10,7 @@ var sails
 test('"Sign up" connection: ', function (t) {
   server(function (err, serverStarted) {
     if (err) {
-      console.log('ERROR: ', err)
-      t.end()
+      t.end(err)
     } else {
       sails = serverStarted
       t.ok(serverStarted, '..connection ok')
@@ -105,7 +104,6 @@ test('api#auth#signin => a deactivated member cannot sign in: ', function (t) {
     t.ok(res.statusCode === 401, 'member cannot sign in when deactivated')
     t.end()
   }).catch(function (err) {
-    console.log('ERROR', err)
-    t.end()
+    t.end(err)
   })
 })
