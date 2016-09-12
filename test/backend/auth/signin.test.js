@@ -10,7 +10,8 @@ var sails
 test('"Sign up" connection: ', function (t) {
   server(function (err, serverStarted) {
     if (err) {
-      throw err
+      console.log('ERROR: ', err)
+      t.end()
     } else {
       sails = serverStarted
       t.ok(serverStarted, '..connection ok')
@@ -44,7 +45,7 @@ test('api#auth#signin => non existing user: ', function (t) {
     })
 })
 
-test('Signup member: ', function (t) {
+test('api#auth#signin => a deactivated member cannot sign in: ', function (t) {
   var cookieSignIn
   var user = {
     primary_email: 'ivan@email.com',
@@ -75,7 +76,7 @@ test('Signup member: ', function (t) {
     )
   }).then(function (res) {
     cookieSignIn = res.headers['set-cookie'].pop().split(';')[0]
-    t.ok(res.statusCode === 200, 'signup succesful')
+    t.ok(res.statusCode === 200, 'signin succesful')
     return requestPromise(
       { simple: false
       , headers: { cookie: cookieSignIn }
@@ -87,7 +88,7 @@ test('Signup member: ', function (t) {
       }
     )
   }).then(function (res) {
-    t.ok(res.statusCode === 200, 'succesfully deactivate member')
+    t.ok(res.statusCode === 200, 'member has been deactivated')
     return requestPromise(
       { simple: false
       , resolveWithFullResponse: true
@@ -101,7 +102,7 @@ test('Signup member: ', function (t) {
       }
     )
   }).then(function (res) {
-    t.ok(res.statusCode === 401, 'cannot sign in if deactivated')
+    t.ok(res.statusCode === 401, 'member cannot sign in when deactivated')
     t.end()
   }).catch(function (err) {
     console.log('ERROR', err)
