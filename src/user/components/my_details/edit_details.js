@@ -46,8 +46,7 @@ const filter_fields = details =>
   )
 
 const description =
-  `Currently Newsletters are posted (or hand delivered) to you three times a year.
-   The Newsletters are also available for you to read Online on the Friends website.
-   It would help us reduce postage and printing cost if you opted to read Newsletters Online instead.
-   If you would like to take that option please click on the ‘News Online’ button.
-   We will send you an email reminder whenever a new Newsletter is put up on the website so you won’t miss anything.`
+  `Currently Newsletters are posted (or hand delivered) to you three times a year –
+  and it’s also available for you to read Online on the Friends website. If you opted
+  to read it online it would help us reduce postage and printing costs. If you would
+  like to take that option please select Online instead of Post.`
