@@ -12,6 +12,7 @@ const { pipe, compose } = require('sanctuary')
 const { standing, lates, newsletter_alert, newsletter_reminder, subscription_due } =
   require('./bodies.js')
 
+import { PATH_UPDATE } from '../../../../shared/redux/modules/route.js'
 export const SEND_SUB_REMINDER =
   'SEND_SUB_REMINDER'
 export const SEND_NEWSLETTER =
@@ -45,15 +46,19 @@ import type { Action, Reducer } from 'redux'
 
 type State = { emails: { [key: string]: { overdue: number } }
              , custom_emails: { }
+             , email_sent: boolean
+             , bounced: [ ]
              }
 
 const initialState = { emails: { }
                      , custom_emails: { }
+                     , email_sent: false
+                     , bounced: [ ]
                      }
 
 const reducer : Reducer<State, Action>
   = (state = initialState, { type, payload }) => {
-    const newState = omit(['custom_emails', 'email_sent', 'bounced'])(state)
+    const newState = omit(['custom_emails', 'email_sent' ])(state)
     const update = lens => value => (set(lens, value, newState) : State)
     const emails = lensPath([ 'emails' ])
     const sent = lensPath([ 'email_sent' ])
@@ -90,6 +95,8 @@ const reducer : Reducer<State, Action>
           return { ...state, custom_emails: { ...state.custom_emails, preview: payload, mode: type } }
       case EDIT_CUSTOM:
         return { ...state, custom_emails: { ...state.custom_emails, mode: type } }
+      case PATH_UPDATE:
+        return update(sent)(false)
       default:
         return state
     }
@@ -107,7 +114,7 @@ const Email = content => (
 
 const email_response = state => res => (
   { ...state
-  , email_sent: res.results ? 'success' : res.error.address
+  , email_sent: res.results ? true : false
   }
 )
 
