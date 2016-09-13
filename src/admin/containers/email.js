@@ -1,7 +1,7 @@
 /* @flow */
 const React = require('react')
 const { connect } = require('react-redux')
-const { pick, toPairs, prop, zip, compose, map, isEmpty } = require('ramda')
+const { pick, toPairs, prop, zip, compose, map, isEmpty, converge, merge } = require('ramda')
 import format_date from 'app/format_date'
 
 import custom_email_section from '../dumb_components/custom_email_section.js'
@@ -28,6 +28,8 @@ import
   , COMPOSE_CUSTOM
   , GET_BOUNCED
   } from '../redux/modules/email/reducer.js'
+
+import { reset_subscription_payments } from '../redux/modules/reset_payments.js'
 
 const Email = (
   { send_sub_reminder: sub
@@ -146,7 +148,14 @@ const bounced_email = email =>
 const without_default = cb => e => { e.preventDefault(); cb(e) }
 
 export default connect
-  ( compose(pick(['emails', 'list_hidden', 'custom_emails', 'email_sent', 'bounced', 'active_tab']), prop('email'))
+  ( converge(merge, [compose(pick(
+    [ 'emails'
+    , 'list_hidden'
+    , 'custom_emails'
+    , 'email_sent'
+    , 'bounced'
+    , 'active_tab'
+    ]), prop('email')), pick([ 'reset_payments' ])])
   , { send_sub_reminder
     , send_newsletter
     , send_newsletter_reminder
@@ -160,5 +169,6 @@ export default connect
     , sub_due_tab
     , preview_custom
     , edit_custom
+    , reset_subscription_payments
     }
   )(Email)

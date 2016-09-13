@@ -22,11 +22,10 @@ module.exports = {
   },
 
   ServiceSignIn: function (req, res) {
-    passport.authenticate('local', function (err, member, info) {
-
-      if ((err) || (!member)) {
+    passport.authenticate('local', function (err, member) {
+      if ((err) || (!member) || member.activation_status === 'deactivated') {
         res.status(401).end()
-      } else  {
+      } else {
         req.session.user = member
         req.session.authenticated = true
         req.member = member

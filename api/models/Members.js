@@ -52,7 +52,7 @@ var handle_gift_aid_change = cb => member =>
     .findOne(member.id)
     .exec(function (error, item) {
       if (error) return sails.log.error(error)
-      if (member.gift_aid_signed === item.gift_aid_signed) return cb(member)
+      if (!('gift_aid_signed' in member) || member.gift_aid_signed === item.gift_aid_signed) return cb(member)
       if (member.gift_aid_signed) {
         member.date_gift_aid_signed = new Date()
         member.date_gift_aid_cancelled = null

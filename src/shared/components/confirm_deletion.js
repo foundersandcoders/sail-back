@@ -6,10 +6,7 @@ module.exports = React.createClass({
   },
 
   delete: function () {
-    const update_fn = this.props.payment
-      ? () => this.props.remove_payment(this.props.id)
-      : this.props.cancel_gift_aid
-    update_fn()
+    this.props.delete(this.props.id)
     this.setState({ confirmation: false })
   },
 
@@ -26,7 +23,7 @@ module.exports = React.createClass({
   },
 
   which_text: function () {
-    return this.state.confirmation ? 'Confirm' : `${this.props.payment ? 'X' : 'Revoke Gift Aid' }`
+    return this.state.confirmation ? 'Confirm' : this.props.text
   },
 
   render: function () {
