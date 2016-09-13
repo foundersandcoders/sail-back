@@ -10,7 +10,7 @@ export default ({fields, handleSubmit, reactivate_member, update_member_user, de
   const end_membership_fields = () =>
     <div>
       <p>
-        Sorry to say goodbye.  It would help us if you could let us know why you are leaving.
+        <i>Sorry to say goodbye. It would help us if you could let us know why you are leaving.</i>
       </p>
       <Field
         {...fields.user_notes}
