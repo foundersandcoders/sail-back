@@ -9,23 +9,22 @@ const { fields, validate, new_required, read_only } = require('../../shared/form
 const { create_member } = require('../../shared/redux/modules/member.js')
 const { send_welcome } = require('../redux/modules/email/reducer.js')
 
-const buttons = (
-  { fields: { id, primary_email }, error, email_handler, email_sent }
-) =>
+const buttons = ({ fields: { id, primary_email }, error, email_handler, email_sent }) =>
   <div>
     { error ? <div className='error'>{error.message}</div> : '' }
     { id.value && !email_sent
       ? <div>
           {letter_or_email(email_handler, primary_email.value, id.value)}
-        <div id='member-num'>Member ID is: {id.value} </div>
-      </div>
+          <div id='member-num'>Member ID is: {id.value} </div>
+        </div>
       : email_sent || <button type='submit'>Submit</button>
     }
+    { email_sent && <h2 className='email-sent'>Email Sent</h2> }
   </div>
 
 const letter_or_email = (email_handler, email, id) =>
   email
-  ? <button onClick={() => email_handler(email)} type="button">
+  ? <button onClick={() => email_handler(email)} type='button'>
       Send Welcome Email
     </button>
   : <a href={'#/letter/' + id}>
