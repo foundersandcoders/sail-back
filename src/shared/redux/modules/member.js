@@ -23,8 +23,8 @@ export const UPDATED_MEMBER =
   'UPDATED_MEMBER'
 const CREATED_MEMBER =
   'CREATED_MEMBER'
-const CANCEL_GIFT_AID =
-  'CANCEL_GIFT_AID'
+const TOGGLE_GIFT_AID =
+  'TOGGLE_GIFT_AID'
 
 const initialState = { activation_status: {} }
 
@@ -61,7 +61,7 @@ const reducer: Reducer<State, Action> =
           : member
       case TOGGLE_MEMBER_MODE:
         return reset_values(member)
-      case CANCEL_GIFT_AID:
+      case TOGGLE_GIFT_AID:
         return (
           { ...member
           , ...prepare_for_form(payload)
@@ -191,13 +191,12 @@ export const create_member = createAction
     compose(map(error_id(dispatch)), flip(post)('addmember'), standardise)(member)
   )
 
-export const cancel_gift_aid = createAction
-  ( CANCEL_GIFT_AID
-  , (_, dispatch) => compose
+export const toggle_gift_aid = createAction
+  ( TOGGLE_GIFT_AID
+  , (bool, dispatch) => compose
     ( map(errors_or_to_member(dispatch))
-    , put({ gift_aid_signed: false })
+    , put({ gift_aid_signed: bool })
     , fetch_user_url
-    )(_)
+    )()
   )
-
 export default reducer

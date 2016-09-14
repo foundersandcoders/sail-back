@@ -6,7 +6,7 @@ module.exports = React.createClass({
   },
 
   delete: function () {
-    this.props.delete(this.props.id)
+    this.props.delete()
     this.setState({ confirmation: false })
   },
 
