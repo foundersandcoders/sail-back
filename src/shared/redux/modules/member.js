@@ -25,6 +25,8 @@ const CREATED_MEMBER =
   'CREATED_MEMBER'
 const TOGGLE_GIFT_AID =
   'TOGGLE_GIFT_AID'
+const CANCEL_STANDING_ORDER =
+  'CANCEL_STANDING_ORDER'
 
 const initialState = { activation_status: {} }
 
@@ -62,6 +64,11 @@ const reducer: Reducer<State, Action> =
       case TOGGLE_MEMBER_MODE:
         return reset_values(member)
       case TOGGLE_GIFT_AID:
+        return (
+          { ...member
+          , ...prepare_for_form(payload)
+          })
+      case CANCEL_STANDING_ORDER:
         return (
           { ...member
           , ...prepare_for_form(payload)
@@ -198,5 +205,14 @@ export const toggle_gift_aid = createAction
     , put({ gift_aid_signed: bool })
     , fetch_user_url
     )()
+  )
+
+export const cancel_standing_order = createAction
+  ( CANCEL_STANDING_ORDER
+  , (_, dispatch) => compose
+    ( map(errors_or_to_member(dispatch))
+    , put({ standing_order: false })
+    , fetch_user_url
+    )(_)
   )
 export default reducer
