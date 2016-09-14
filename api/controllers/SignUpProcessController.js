@@ -42,6 +42,8 @@ module.exports = {
         return res.badRequest({error: error})
       }
 
+// TODO: take account membership type into account when adding chargeSubscription
+
       Members
         .findOne({primary_email: newMember.primary_email})
         .then(function (memberFind) {
