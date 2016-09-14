@@ -68,7 +68,6 @@ const user_field_structure =
     , membership_details:
     [ 'id'
     , 'membership_type'
-    , 'standing_order'
     , 'due_date'
     , 'news_type'
     , 'date_gift_aid_signed'

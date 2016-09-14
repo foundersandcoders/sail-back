@@ -39,7 +39,6 @@ const filter_fields = details =>
   filter (
     cond (
       [ [equals('news_type'), () => details.news_type.initial_value === 'post']
-      , [equals('standing_order'), () => details.standing_order && details.standing_order.initial_value]
       , [T, T]
       ]
     )

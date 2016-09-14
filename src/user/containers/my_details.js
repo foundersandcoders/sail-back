@@ -1,6 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetch_member_user, update_member_user, deactivate_member, reactivate_member, toggle_gift_aid } from '../../shared/redux/modules/member.js'
+import
+  { fetch_member_user
+  , update_member_user
+  , deactivate_member
+  , reactivate_member
+  , toggle_gift_aid
+  , cancel_standing_order
+  } from '../../shared/redux/modules/member.js'
 import { toggle_member_mode } from '../../shared/redux/modules/mode.js'
 import { change_tab } from '../redux/modules/active_tab.js'
 import { pick } from 'ramda'
@@ -26,4 +33,5 @@ export default connect(pick(['active_tab', 'mode', 'my_details']),
   , deactivate_member
   , reactivate_member
   , toggle_gift_aid
+  , cancel_standing_order
   })(MyDetails)
