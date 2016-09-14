@@ -7,7 +7,7 @@ export default ({toggle_gift_aid}) => {
   }
   return (
     <div>
-      <h4>You have not made a Gift Aid Declaration</h4>
+      <h3>You have not made a Gift Aid Declaration</h3>
       <p>
         <i>
           You can boost the value of your subscription/donation to the Friends by 25p of
