@@ -131,6 +131,8 @@ function _dateconvert (str) {
   };
 }
 
+// TODO: add membershiptype accounts
+
 function _membershipTypeMap (membership_type) {
 
   var type = {

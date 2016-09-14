@@ -154,7 +154,6 @@ exports.members = function () {
       activation_status: 'activated',
       gift_aid_signed: true,
       date_gift_aid_signed: '2015-02-02',
-      gift_aid_cancelled: false,
       date_joined: new Date(),
       membership_type: module.exports.membershipTypes()[0].value,
       news_type: 'post'
@@ -168,7 +167,6 @@ exports.members = function () {
       address3: 'XYZ',
       gift_aid_signed: false,
       date_gift_aid_cancelled: '2015-02-02',
-      gift_aid_cancelled: true,
       address4: 'XYZ',
       county: 'XYZ',
       postcode: 'E1 0SY',
@@ -1159,6 +1157,10 @@ exports.membershipTypes = function () {
     value: 'annual-corporate',
     description: 'Annual Corporate',
     amount: 15000
+  }, {
+    value: 'accounts',
+    description: 'Accounts',
+    amount: null
   }
   ]
 
