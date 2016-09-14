@@ -17,7 +17,7 @@ exports.subsQueryTemplate = news_type => (
     on members.id = payments.member
     where members.primary_email is${news_type === 'online' ? ' not' : ''} null
     and members.membership_type in
-    ('annual-single', 'annual-double', 'annual-family')
+    ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
     and activation_status='activated'
     group by members.id
     having sum(case payments.category
@@ -31,7 +31,8 @@ exports.newsletterQueryTemplate = news_type => (
   `select ${columns}
   from members
   where news_type = '${news_type}'
-  and activation_status='activated';`
+  and activation_status='activated'
+  and membership_type != 'accounts';`
 )
 
 exports.update_subscription = body =>
@@ -72,7 +73,8 @@ exports.custom_email = () =>
   `select first_name, last_name, title, primary_email, secondary_email
   from members
   where primary_email is not null
-  and activation_status='activated';`
+  and activation_status='activated'
+  and membership_type != 'accounts';`
 
 exports.newsletter_labels = () =>
   `select title, first_name, last_name, initials,
@@ -80,7 +82,8 @@ exports.newsletter_labels = () =>
   postcode, deliverer from members
   where (members.news_type = 'post'
   or members.email_bounced = true)
-  and activation_status='activated';`
+  and activation_status='activated'
+  and membership_type != 'accounts';`
 
 exports.reset_subscription_payments =
   `delete from payments
