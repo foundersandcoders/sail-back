@@ -106,6 +106,7 @@ const options =
     , 'annual-corporate'
     , 'life-single'
     , 'life-double'
+    , 'accounts'
     ]
   , news_type:
     [ 'post'
