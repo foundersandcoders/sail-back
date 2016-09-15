@@ -36,7 +36,7 @@ module.exports = {
   },
 
   ServiceSignOut: function (req, res) {
-    req.session.destroy(function (err) {
+    req.session.destroy(function () {
       res.redirect('/')
     })
   },
@@ -47,8 +47,8 @@ module.exports = {
     var randomString = ''
 
     var query = [
-      {primary_email: req.body['email']},
-      {secondary_email: req.body['email']}
+      {primary_email: req.body.email},
+      {secondary_email: req.body.email}
     ]
 
     Members
@@ -63,11 +63,11 @@ module.exports = {
           return Members.update({ id: member.id }, { new_password: randomString, id: member.id, registered: 'registered' })
         }
       })
-      .then(function (memberUpdated) {
+      .then(function () {
         Mailgun.sendPassword({
           password: randomString,
-          email: req.body['email']
-        }, function (error, result) {
+          email: req.body.email
+        }, function (error) {
           if (is.ok(error)) {
             res.serverError({emailSent: false, error: error})
           }
@@ -79,7 +79,7 @@ module.exports = {
           }
         })
       })
-      .catch(function (error) {
+      .catch(function () {
         res.badRequest({emailSent: false, error: 'Email not recognised'})
       })
   }

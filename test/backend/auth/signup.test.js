@@ -1,3 +1,7 @@
+/*global
+  Members
+*/
+
 'use strict'
 
 var test = require('tape')
@@ -9,8 +13,7 @@ var sails
 test('"Sign up" connection: ', function (t) {
   server(function (err, serverStarted) {
     if (err) {
-      throw err
-      t.end()
+      t.end(err)
     } else {
       sails = serverStarted
       t.ok(serverStarted, '..connection ok')
