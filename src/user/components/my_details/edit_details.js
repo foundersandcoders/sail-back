@@ -24,6 +24,7 @@ export default ({ toggle_member_mode, mode, update_member_user, my_details, ...p
     description={description}
     userViewClass='user-view-form'
     memberView
+    className='form-container'
   />
 
 
