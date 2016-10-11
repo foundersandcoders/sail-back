@@ -19,9 +19,9 @@ var queries = require('../queries/payments.js')
 // ATTENTION: sandbox credentials: need real credentials and must be kept PRIVATE
 var BraintreeGateway = braintree.connect({
   environment: braintree.Environment.Sandbox,
-  merchantId: 'rk34hgxrsz8z28y9', // process.env.BRAINTREE_MERCHANT_ID
-  publicKey: 'nhxtvjg55pd84txj', // process.env.BRAINTREE_PUBLIC_KEY
-  privateKey: 'f96014be14f9b260c692e46a4d8ea1ca' // process.env.BRAINTREE_PRIVATE_KEY
+  merchantId: 'hbjzcsxhcgkxmcdb', // process.env.BRAINTREE_MERCHANT_ID
+  publicKey: 'td75qh4v93n9rq8q', // process.env.BRAINTREE_PUBLIC_KEY
+  privateKey: '08960cdddfd8cfa7be506377a155680b' // process.env.BRAINTREE_PRIVATE_KEY
 })
 
 module.exports = {
