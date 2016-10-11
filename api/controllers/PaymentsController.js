@@ -25,6 +25,11 @@ var BraintreeGateway = braintree.connect({
 })
 
 module.exports = {
+  creditCardPayment: function (req, res) {
+    console.log('request credit card:', req)
+    res.send({ hey: 'yo' })
+  },
+
   charge: function (req, res) {
     var payment = req.body
     payment.date = new Date()

@@ -106,6 +106,10 @@ module.exports.routes = {
     controller: 'Payments',
     action: 'makePaypalPayment'
   },
+  'POST /credit_card_payment': {
+    controller: 'Payments',
+    action: 'creditCardPayment'
+  },
   'POST /newsletter_online': {
     controller: 'User',
     action: 'newsletterToOnline'
