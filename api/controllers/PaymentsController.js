@@ -17,7 +17,7 @@ var Validation = require('../services/validate.js')
 var queries = require('../queries/payments.js')
 
 // ATTENTION: sandbox credentials: need real credentials and must be kept PRIVATE
-var BraintreeGateway = braintree.connect({
+var gateway = braintree.connect({
   environment: braintree.Environment.Sandbox,
   merchantId: 'hbjzcsxhcgkxmcdb', // process.env.BRAINTREE_MERCHANT_ID
   publicKey: 'td75qh4v93n9rq8q', // process.env.BRAINTREE_PUBLIC_KEY
@@ -26,8 +26,18 @@ var BraintreeGateway = braintree.connect({
 
 module.exports = {
   creditCardPayment: function (req, res) {
-    console.log('request credit card:', req)
-    res.send({ hey: 'yo' })
+    var nonceFromTheClient = req.body.nonce
+
+    gateway.transaction.sale({
+      amount: "10.00",
+      paymentMethodNonce: nonceFromTheClient,
+      options: {
+        submitForSettlement: true
+      }
+    }, function (err, result) {
+      if (err) { console.log(err); res.send({error: err}); }
+      res.send({ result })
+    });
   },
 
   charge: function (req, res) {
@@ -52,10 +62,10 @@ module.exports = {
     })
   },
   clientToken: function (req, res) {
-    BraintreeGateway
+    gateway
       .clientToken
       .generate({
-        merchantAccountId: 'rk34hgxrsz8z28y9'
+        merchantAccountId: 'hbjzcsxhcgkxmcdb'
       }, function (err, response) {
         if (err) {
           res.badRequest({error: err})
@@ -76,7 +86,7 @@ module.exports = {
         return res.badRequest({error: errorValidation})
       }
 
-      BraintreeGateway
+      gateway
         .transaction
         .sale({
           amount: req.body.amount || '0',

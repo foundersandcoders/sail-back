@@ -123,6 +123,7 @@ lib-cov
 *.log
 *.out
 *.pid
+
 npm-debug.log
 
 

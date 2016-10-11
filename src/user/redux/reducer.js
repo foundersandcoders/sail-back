@@ -8,6 +8,7 @@ import mode from '../../shared/redux/modules/mode.js'
 import active_tab from './modules/active_tab.js'
 import member_reducer from '../../shared/redux/modules/member.js'
 import changed_password from '../redux/modules/change_password.js'
+import braintree from './modules/braintree.js'
 
 
 const root_reducer = combineReducers(
@@ -17,6 +18,7 @@ const root_reducer = combineReducers(
     , active_tab
     , my_details: member_reducer
     , changed_password
+    , braintree
     }
   )
 
