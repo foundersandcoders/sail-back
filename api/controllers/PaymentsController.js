@@ -29,14 +29,24 @@ module.exports = {
     var nonceFromTheClient = req.body.nonce
 
     gateway.transaction.sale({
-      amount: "10.00",
+      amount: '10.00',
       paymentMethodNonce: nonceFromTheClient,
       options: {
         submitForSettlement: true
       }
     }, function (err, result) {
-      if (err) { console.log(err); res.send({error: err}); }
-      res.send({ result })
+      if (err) {
+        console.log('Braintree Error: ', error);
+        res.badRequest({ error });
+      } else {
+        if (result.success) {
+          // if successful payment, update the db
+          var formattedPayment = formatPaymentForDB(req, result.transaction)
+          addPaymentToDB(req, res, formattedPayment)
+        } else {
+          res.send({result})
+        }
+      }
     });
   },
 
@@ -146,4 +156,32 @@ module.exports = {
         }
       )
   }
+}
+
+function formatPaymentForDB (req, transaction) {
+  // use monies.js
+  var amount = parseFloat(transaction.amount) * 100
+  var date = new Date()
+  var category = 'payment'
+  var member = req.session.user.id
+  return {amount, date, category, member}
+}
+
+function addPaymentToDB (req, res, payment) {
+  Validation('payment', payment, function (errorValidation) {
+    if (errorValidation) {
+      return res.badRequest({error: errorValidation})
+    }
+
+    Payments
+      .create(payment)
+      .exec(function (error, item) {
+        if (error) {
+          return res.badRequest({error: error})
+        } else {
+          console.log('successsfulll', item);
+          return res.send(item)
+        }
+      })
+  })
 }
