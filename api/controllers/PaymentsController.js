@@ -115,23 +115,6 @@ module.exports = {
           })
         }
       })
-
-// TODO: Question: Why did Bes go into Members to get the id if he has the id from req.session.user.id?
-// Members
-//   .findOne(req.session.user.id)
-//   .then(function (member) {
-//     // console.log("RESULT", result)
-//     var paymentRecord = formatPaymentForDB(req, result.transaction, 'paypal')
-//     return Payments.create(paymentRecord)
-//   }).then(function (payment) {
-//   // console.log("PAYMENT", payment)
-//
-//   return res.redirect('/')
-// }).catch(function (err) {
-//   // console.log("ERROR", err)
-//
-//   return res.badRequest({error: err})
-// })
   },
 
   payingInReport: function (req, res) {
