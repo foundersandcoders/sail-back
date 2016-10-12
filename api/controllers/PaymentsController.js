@@ -26,26 +26,21 @@ var gateway = braintree.connect({
 
 module.exports = {
   creditCardPayment: function (req, res) {
-    var nonceFromTheClient = req.body.nonce
-
     gateway.transaction.sale({
       amount: req.body.amount,
-      paymentMethodNonce: nonceFromTheClient,
+      paymentMethodNonce: req.body.nonce,
       options: {
         submitForSettlement: true
       }
-    }, function (err, result) {
-      if (err) {
+    }, function (error, result) {
+      if (error) {
         console.log('Braintree Error: ', error)
         res.badRequest({ error })
+      } else if (result.success) {
+        // if successful payment, update the db
+        addPaymentToDB(req, res, formatPaymentForDB(result.transaction, req.sesssion.user.id))
       } else {
-        if (result.success) {
-          // if successful payment, update the db
-          var formattedPayment = formatPaymentForDB(req, result.transaction)
-          addPaymentToDB(req, res, formattedPayment)
-        } else {
-          res.send({result})
-        }
+        res.send({ result })
       }
     })
   },
@@ -158,13 +153,15 @@ module.exports = {
   }
 }
 
-function formatPaymentForDB (req, transaction) {
-  // use monies.js
-  var amount = parseFloat(transaction.amount) * 100
-  var date = new Date()
-  var category = 'payment'
-  var member = req.session.user.id
-  return {amount, date, category, member}
+function formatPaymentForDB (transaction, member_id) {
+  //TODO: use monies.js
+  var payment = {}
+  payment.amount = parseFloat(transaction.amount) * 100
+  payment.date = new Date()
+  payment.category = 'payment'
+  payment.type = 'credit card'
+  payment.member = member_id
+  return payment
 }
 
 function addPaymentToDB (req, res, payment) {
