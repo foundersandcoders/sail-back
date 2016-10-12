@@ -38,7 +38,7 @@ module.exports = {
         res.badRequest({ error })
       } else if (result.success) {
         // if successful payment, update the db
-        addPaymentToDB(req, res, formatPaymentForDB(result.transaction, req.sesssion.user.id))
+        addPaymentToDB(req, res, formatPaymentForDB(result.transaction, req.session.user.id))
       } else {
         res.send({ result })
       }
