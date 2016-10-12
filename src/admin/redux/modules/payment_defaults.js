@@ -17,6 +17,7 @@ type Type
   | 'caf'
   | 'refund'
   | 'paypal'
+  | 'credit card'
   | ''
 
 export type Payment = typeof initial_state

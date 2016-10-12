@@ -33,6 +33,7 @@ module.exports = {
         , 'caf'
         , 'refund'
         , 'paypal'
+        , 'credit card'
         ]
     },
     description: {
