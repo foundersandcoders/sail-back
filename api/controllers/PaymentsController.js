@@ -29,15 +29,15 @@ module.exports = {
     var nonceFromTheClient = req.body.nonce
 
     gateway.transaction.sale({
-      amount: "10.00",
+      amount: req.body.amount,
       paymentMethodNonce: nonceFromTheClient,
       options: {
         submitForSettlement: true
       }
     }, function (err, result) {
-      if (err) { console.log(err); res.send({error: err}); }
+      if (err) { console.log(err); res.send({error: err}) }
       res.send({ result })
-    });
+    })
   },
 
   charge: function (req, res) {
