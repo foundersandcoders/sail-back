@@ -38,6 +38,7 @@ module.exports = {
         res.badRequest({ error })
       } else if (result.success) {
         // if successful payment, update the db
+        console.log('braintree result: ', result)
         addPaymentToDB(req, res, formatPaymentForDB(result.transaction, req.session.user.id))
       } else {
         res.send({ result })
@@ -161,6 +162,7 @@ function formatPaymentForDB (transaction, member_id) {
   payment.category = 'payment'
   payment.type = 'credit card'
   payment.member = member_id
+  payment.reference = transaction.id
   return payment
 }
 
