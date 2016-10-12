@@ -25,52 +25,6 @@ var gateway = braintree.connect({
 })
 
 module.exports = {
-  creditCardPayment: function (req, res) {
-    var nonceFromTheClient = req.body.nonce
-
-    gateway.transaction.sale({
-      amount: '10.00',
-      paymentMethodNonce: nonceFromTheClient,
-      options: {
-        submitForSettlement: true
-      }
-    }, function (err, result) {
-      if (err) {
-        console.log('Braintree Error: ', error);
-        res.badRequest({ error });
-      } else {
-        if (result.success) {
-          // if successful payment, update the db
-          var formattedPayment = formatPaymentForDB(req, result.transaction)
-          addPaymentToDB(req, res, formattedPayment)
-        } else {
-          res.send({result})
-        }
-      }
-    });
-  },
-
-  charge: function (req, res) {
-    var payment = req.body
-    payment.date = new Date()
-    payment.member = req.session.user.id
-
-    Validation('payment', payment, function (errorValidation) {
-      if (errorValidation) {
-        return res.badRequest({error: errorValidation})
-      }
-
-      Payments
-        .create(payment)
-        .exec(function (error, item) {
-          if (error) {
-            return res.badRequest({error: error})
-          } else {
-            return res.send(item)
-          }
-        })
-    })
-  },
   clientToken: function (req, res) {
     gateway
       .clientToken
@@ -90,49 +44,94 @@ module.exports = {
    *
    *
   **/
-  makePaypalPayment: function (req, res) {
-    Validation('payment', req.body, function (errorValidation) {
-      if (errorValidation) {
-        return res.badRequest({error: errorValidation})
-      }
+  creditCardPayment: function (req, res) {
+    var nonceFromTheClient = req.body.nonce
 
-      gateway
-        .transaction
-        .sale({
-          amount: req.body.amount || '0',
-          paymentMethodNonce: req.body.payment_method_nonce
-        }, function (err, result) {
-          if (err) {
-            res.badRequest({error: err})
-          } else {
-            Members
-              .findOne(req.session.user.id)
-              .then(function (member) {
-                // console.log("RESULT", result)
+    gateway
+      .transaction
+      .sale({
+        amount: '10.00',
+        paymentMethodNonce: nonceFromTheClient,
+        options: {
+          submitForSettlement: true
+        }
+      }, function (err, result) {
+        if (err) {
+          console.log('Braintree Error: ', error);
+          res.badRequest({ error });
+        } else if (result.success) {
+          // if successful payment, update the db
+          var formattedPayment = formatPaymentForDB(req, result.transaction, 'bacs') // TODO: Change to credit card once merged
+          Validation('payment', formattedPayment, function (errorValidation) {
+            if (errorValidation) {
+              return res.badRequest({error: errorValidation})
+            }
 
-                var paymentRecord = {
-                  category: 'payment',
-                  description: 'Payment by ' + result.transaction.paymentInstrumentType,
-                  type: 'paypal',
-                  amount: result.transaction.amount,
-                  member: member.id,
-                  reference: req.body.reference,
-                  date: new Date()
+            Payments
+              .create(formattedPayment)
+              .exec(function (error, item) {
+                if (error) {
+                  return res.badRequest({error: error})
+                } else {
+                  return res.send(item)
                 }
+              })
+          })
+        } else {
+          res.send(result)
+        }
+      });
+  },
+  // This controller is exactly the same as crediCardPayment controller except for the payment `type` passed into formatPaymentForDB()
+  makePaypalPayment: function (req, res) {
+    var nonceFromTheClient = req.body.nonce
 
-                return Payments.create(paymentRecord)
-              }).then(function (payment) {
-              // console.log("PAYMENT", payment)
+    gateway
+      .transaction
+      .sale({
+        amount: req.body.amount || '0',   // TODO: Why default to zero?
+        paymentMethodNonce: nonceFromTheClient
+      }, function (err, result) {
+        if (err) {
+          res.badRequest({error: err})
+        } else {
+          var formattedPayment = formatPaymentForDB(req, result.transaction, 'paypal')
 
-              return res.redirect('/')
-            }).catch(function (err) {
-              // console.log("ERROR", err)
+          Validation('payment', formattedPayment, function (errorValidation) {
+            if (errorValidation) {
+              return res.badRequest({error: errorValidation})
+            }
+          // add payment to db
+          Payments
+            .create(formattedPayment)
+            .exec(function (error, item) {
+              if (error) {
+                return res.badRequest({ error })
+              } else {
 
-              return res.badRequest({error: err})
+                return res.send(item)
+              }
             })
-          }
-        })
-    })
+          })
+        }
+      })
+
+// TODO: Question: Why did Bes go into Members to get the id if he has the id from req.session.user.id?
+// Members
+//   .findOne(req.session.user.id)
+//   .then(function (member) {
+//     // console.log("RESULT", result)
+//     var paymentRecord = formatPaymentForDB(req, result.transaction, 'paypal')
+//     return Payments.create(paymentRecord)
+//   }).then(function (payment) {
+//   // console.log("PAYMENT", payment)
+//
+//   return res.redirect('/')
+// }).catch(function (err) {
+//   // console.log("ERROR", err)
+//
+//   return res.badRequest({error: err})
+// })
   },
 
   payingInReport: function (req, res) {
@@ -158,30 +157,14 @@ module.exports = {
   }
 }
 
-function formatPaymentForDB (req, transaction) {
-  // use monies.js
-  var amount = parseFloat(transaction.amount) * 100
-  var date = new Date()
-  var category = 'payment'
-  var member = req.session.user.id
-  return {amount, date, category, member}
-}
-
-function addPaymentToDB (req, res, payment) {
-  Validation('payment', payment, function (errorValidation) {
-    if (errorValidation) {
-      return res.badRequest({error: errorValidation})
-    }
-
-    Payments
-      .create(payment)
-      .exec(function (error, item) {
-        if (error) {
-          return res.badRequest({error: error})
-        } else {
-          console.log('successsfulll', item);
-          return res.send(item)
-        }
-      })
-  })
+function formatPaymentForDB (req, transaction, type) {
+  return {
+    category: 'payment',
+    description: 'Payment by ' + transaction.paymentInstrumentType.split('_').join(' '),
+    type: type,
+    amount: parseFloat(transaction.amount) * 100,
+    member: req.session.user.id,
+    reference: transaction.id,
+    date: new Date()
+  }
 }
