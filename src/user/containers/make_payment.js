@@ -6,7 +6,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 
 import {credit_card_payment} from '../redux/modules/braintree.js'
-
+import Paypal from '../components/paypal.js'
 class PaymentForm extends React.Component {
 
   componentDidMount () {
@@ -31,6 +31,7 @@ class PaymentForm extends React.Component {
   render () {
     return (
       <div className='make-payment'>
+        <Paypal></Paypal>
         <form action='/credit_card_payment' method='post' id='cardForm' ref='payment_form'>
           <label className='hosted-fields--label' htmlFor='card-number'>Card Number</label>
           <div id='card-number' className='hosted-field'></div>

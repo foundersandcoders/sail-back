@@ -29,9 +29,11 @@ module.exports = {
     gateway
       .clientToken
       .generate({
-        merchantAccountId: 'hbjzcsxhcgkxmcdb'
+        merchantAccountId: 'friendsofchichesterharbour'
+        // https://developers.braintreepayments.com/reference/request/client-token/generate/node#merchant_account_id
       }, function (err, response) {
         if (err) {
+          console.log('err');
           res.badRequest({error: err})
         } else {
           res.send({token: response.clientToken})
@@ -89,14 +91,13 @@ module.exports = {
     gateway
       .transaction
       .sale({
-        amount: req.body.amount || '0',   // TODO: Why default to zero?
+        amount: req.body.amount || '1',   // TODO: Remove
         paymentMethodNonce: nonceFromTheClient
       }, function (err, result) {
         if (err) {
           res.badRequest({error: err})
         } else {
           var formattedPayment = formatPaymentForDB(req, result.transaction, 'paypal')
-
           Validation('payment', formattedPayment, function (errorValidation) {
             if (errorValidation) {
               return res.badRequest({error: errorValidation})
@@ -108,7 +109,6 @@ module.exports = {
               if (error) {
                 return res.badRequest({ error })
               } else {
-
                 return res.send(item)
               }
             })
