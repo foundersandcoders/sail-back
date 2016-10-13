@@ -5,18 +5,18 @@ import type { Action, Reducer } from 'redux'
 import { post_body } from 'app/http'
 const { flip } = require('ramda')
 
-export const CREDIT_CARD_PAYMENT =
-  'CREDIT_CARD_PAYMENT'
 import { PATH_UPDATE } from '../../../shared/redux/modules/route.js'
+const MAKE_PAYMENT =
+  'MAKE_PAYMENT'
 const PAYMENT_AMOUNT =
   'PAYMENT_AMOUNT'
-const PAYMENT_METHOD =
-  'PAYMENT_METHOD'
+const PAYMENT_TYPE =
+  'PAYMENT_TYPE'
 
 const initialState =
   { payment_sent: false
   , amount_entered: ''
-  , payment_method: ''
+  , payment_type: ''
   }
 
 type State = typeof initialState
@@ -24,12 +24,12 @@ type State = typeof initialState
 const reducer: Reducer<State, Action> =
   (state = initialState, { type, payload }) => {
     switch (type) {
-      case CREDIT_CARD_PAYMENT:
+      case MAKE_PAYMENT:
         return { ...state, payment_sent: true }
       case PAYMENT_AMOUNT:
-        return { ...state, amount_entered: payload, payment_method: CREDIT_CARD_PAYMENT }
-      case PAYMENT_METHOD:
-        return { ...state, payment_method: payload }
+        return { ...state, amount_entered: payload, payment_type: 'CREDIT_CARD_PAYMENT' }
+      case PAYMENT_TYPE:
+        return { ...state, payment_type: payload }
       case PATH_UPDATE:
         return initialState
       default:
@@ -37,13 +37,13 @@ const reducer: Reducer<State, Action> =
     }
   }
 
-export const credit_card_payment = createAction
-  (CREDIT_CARD_PAYMENT, flip(post_body)('/credit_card_payment'))
+export const make_payment = createAction
+  (MAKE_PAYMENT, flip(post_body)('/make_payment'))
 
 export const payment_amount = createAction
   (PAYMENT_AMOUNT)
 
-export const payment_method = createAction
-  (PAYMENT_METHOD)
+export const payment_type = createAction
+  (PAYMENT_TYPE)
 
 export default reducer

@@ -2,21 +2,23 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { pick } from 'ramda'
 
-import { credit_card_payment, payment_amount, payment_method } from '../redux/modules/user_payments.js'
 import CreditCardForm from '../components/credit_card_payment.js'
+import Paypal from '../components/paypal.js'
 
-import { CREDIT_CARD_PAYMENT } from '../redux/modules/user_payments.js'
+import { make_payment, payment_amount, payment_type } from '../redux/modules/user_payments.js'
+
+const CREDIT_CARD_PAYMENT = 'CREDIT_CARD_PAYMENT'
 const BANK_PAYMENT = 'BANK_PAYMENT'
 const HARBOUR_PAYMENT = 'HARBOUR_PAYMENT'
 
 const PaymentForm = (props) => {
-  const { user_payments: { payment_method } } = props
-  return payment_method
-    ? component_mapper[payment_method](props)
+  const { user_payments: { payment_type } } = props
+  return payment_type
+    ? component_mapper[payment_type](props)
     : <PaymentAmount {...props}/>
 }
 
-const PaymentAmount = ({ payment_amount, payment_method }) => {
+const PaymentAmount = ({ payment_amount, payment_type }) => {
   return (
     <div className='payment-amount-container'>
       <form onSubmit={on_form_submit(payment_amount)}>
@@ -25,8 +27,8 @@ const PaymentAmount = ({ payment_amount, payment_method }) => {
         <h3>How would you like to pay?</h3>
         <div>
           <button type='submit'>Paypal or Credit Card</button>
-          <button onClick={() => payment_method(BANK_PAYMENT)}>Bank Transfer</button>
-          <button onClick={() => payment_method(HARBOUR_PAYMENT)}>Annual Harbour Dues</button>
+          <button onClick={() => payment_type(BANK_PAYMENT)}>Bank Transfer</button>
+          <button onClick={() => payment_type(HARBOUR_PAYMENT)}>Annual Harbour Dues</button>
         </div>
       </form>
     </div>
@@ -53,4 +55,4 @@ const component_mapper =
   , [HARBOUR_PAYMENT]: HarbourPayment
   }
 
-export default connect(pick(['user_payments']), { credit_card_payment, payment_amount, payment_method })(PaymentForm)
+export default connect(pick(['user_payments']), { make_payment, payment_amount, payment_type })(PaymentForm)
