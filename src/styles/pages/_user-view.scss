@@ -42,6 +42,17 @@ nav {
   margin: 0;
 }
 
+.payment-amount-container {
+  button {
+    margin-top: 0.7em;
+  }
+  
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .make-payment {
 
   label:before {

@@ -28,7 +28,7 @@ class PaymentForm extends React.Component {
   render () {
     return (
       <div className='make-payment'>
-        <form action='/credit_card_payment' method='post' id='cardForm' ref='payment_form'>
+        <form method='post' id='cardForm' ref='payment_form'>
           <label className='hosted-fields--label' htmlFor='card-number'>Card Number</label>
           <div id='card-number' className='hosted-field'></div>
 
