@@ -6,7 +6,7 @@ import axios from 'axios'
 class PaymentForm extends React.Component {
 
   componentDidMount () {
-    var credit_card_payment = this.props.credit_card_payment
+    var make_payment = this.props.make_payment
     var form = ReactDOM.findDOMNode(this.refs.payment_form)
     var amount = this.props.user_payments.amount_entered
     axios.get('/client_token')
@@ -19,7 +19,7 @@ class PaymentForm extends React.Component {
             console.error(err)
             return
           }
-          createHostedFields(clientInstance, form, credit_card_payment, amount)
+          createHostedFields(clientInstance, form, make_payment, amount)
         })
       })
       .catch(err => console.log(err))
@@ -50,7 +50,7 @@ class PaymentForm extends React.Component {
   }
 }
 
-function createHostedFields (clientInstance, form, credit_card_payment, amount) {
+function createHostedFields (clientInstance, form, make_payment, amount) {
   braintree.hostedFields.create({
     client: clientInstance,
     styles: {
@@ -106,7 +106,7 @@ function createHostedFields (clientInstance, form, credit_card_payment, amount) 
         // If this was a real integration, this is where you would
         // send the nonce to your server.
         console.log('Got a nonce: ' + payload.nonce)
-        credit_card_payment({ amount, nonce: payload.nonce })
+        make_payment({ amount, nonce: payload.nonce, type: 'credit card' })
 
       })
     }, false)

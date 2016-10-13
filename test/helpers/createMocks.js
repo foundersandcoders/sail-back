@@ -29,7 +29,6 @@ function member (id) {
     payment({
       memberId: member.id,
       category: 'donation',
-      type: 'CHQ',
       date: '08-11-12'
     }),
     payment({
@@ -40,7 +39,7 @@ function member (id) {
     payment({
       memberId: member.id,
       category: 'subscription',
-      type: 'BACSA',
+      type: 'bacs',
       date: '10-11-11'
     }),
     payment({

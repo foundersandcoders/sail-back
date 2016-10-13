@@ -6,7 +6,7 @@ import axios from 'axios'
 export default class Paypal extends React.Component {
   componentDidMount () {
     var button = ReactDOM.findDOMNode(this.refs.paypal_button)
-
+    var amount = this.props.user_payments.amount_entered
     axios.get('/client_token')
       .then(data => data.data.token)
       .then(token => {
@@ -17,7 +17,7 @@ export default class Paypal extends React.Component {
             console.error(err)
             return
           }
-          setUpPaypal(clientInstance, button)
+          setUpPaypal(clientInstance, button, amount)
         })
       })
       .catch(err => console.log(err))
@@ -32,7 +32,7 @@ export default class Paypal extends React.Component {
 
 }
 
-function setUpPaypal (clientInstance, paypalButton) {
+function setUpPaypal (clientInstance, paypalButton, amount) {
 
   braintree.paypal.create({
   client: clientInstance
@@ -50,7 +50,7 @@ function setUpPaypal (clientInstance, paypalButton) {
         // Tokenize here!
         paypalInstance.tokenize({
           flow: 'checkout',
-          amount: '10.00',
+          amount: amount,
           currency: 'EUR'
         }, function (tokenizeErr, payload) {
 

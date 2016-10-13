@@ -25,6 +25,7 @@ var gateway = braintree.connect({
 })
 
 module.exports = {
+
   clientToken: function (req, res) {
     gateway
       .clientToken
@@ -46,14 +47,12 @@ module.exports = {
    *
    *
   **/
-  creditCardPayment: function (req, res) {
-    var nonceFromTheClient = req.body.nonce
-
+  makePayment: function (req, res) {
     gateway
       .transaction
       .sale({
         amount: req.body.amount,
-        paymentMethodNonce: nonceFromTheClient,
+        paymentMethodNonce: req.body.nonce,
         options: {
           submitForSettlement: true
         }
@@ -63,7 +62,7 @@ module.exports = {
           res.badRequest({ error });
         } else if (result.success) {
           // if successful payment, update the db
-          var formattedPayment = formatPaymentForDB(req, result.transaction, 'bacs') // TODO: Change to credit card once merged
+          var formattedPayment = formatPaymentForDB(req, result.transaction, req.body.type)
           Validation('payment', formattedPayment, function (errorValidation) {
             if (errorValidation) {
               return res.badRequest({error: errorValidation})
@@ -85,37 +84,35 @@ module.exports = {
       });
   },
   // This controller is exactly the same as crediCardPayment controller except for the payment `type` passed into formatPaymentForDB()
-  makePaypalPayment: function (req, res) {
-    var nonceFromTheClient = req.body.nonce
-
-    gateway
-      .transaction
-      .sale({
-        amount: req.body.amount,
-        paymentMethodNonce: nonceFromTheClient
-      }, function (err, result) {
-        if (err) {
-          res.badRequest({error: err})
-        } else {
-          var formattedPayment = formatPaymentForDB(req, result.transaction, 'paypal')
-          Validation('payment', formattedPayment, function (errorValidation) {
-            if (errorValidation) {
-              return res.badRequest({error: errorValidation})
-            }
-          // add payment to db
-          Payments
-            .create(formattedPayment)
-            .exec(function (error, item) {
-              if (error) {
-                return res.badRequest({ error })
-              } else {
-                return res.send(item)
-              }
-            })
-          })
-        }
-      })
-  },
+  // makePaypalPayment: function (req, res) {
+  //   gateway
+  //     .transaction
+  //     .sale({
+  //       amount: req.body.amount,
+  //       paymentMethodNonce: req.body.nonce
+  //     }, function (err, result) {
+  //       if (err) {
+  //         res.badRequest({error: err})
+  //       } else {
+  //         var formattedPayment = formatPaymentForDB(req, result.transaction, 'paypal')
+  //         Validation('payment', formattedPayment, function (errorValidation) {
+  //           if (errorValidation) {
+  //             return res.badRequest({error: errorValidation})
+  //           }
+  //         // add payment to db
+  //         Payments
+  //           .create(formattedPayment)
+  //           .exec(function (error, item) {
+  //             if (error) {
+  //               return res.badRequest({ error })
+  //             } else {
+  //               return res.send(item)
+  //             }
+  //           })
+  //         })
+  //       }
+  //     })
+  // },
 
   payingInReport: function (req, res) {
     Payments.query
@@ -140,10 +137,11 @@ module.exports = {
   }
 }
 
+
 function formatPaymentForDB (req, transaction, type) {
   return {
     category: 'payment',
-    description: 'Payment by ' + transaction.paymentInstrumentType.split('_').join(' '),
+    description: 'Payment by ' + type,
     type: type,
     amount: parseFloat(transaction.amount) * 100,
     member: req.session.user.id,

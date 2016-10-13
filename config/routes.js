@@ -102,13 +102,13 @@ module.exports.routes = {
     controller: 'Payments',
     action: 'clientToken'
   },
-  'POST /paypal_payment': {
+  // 'POST /paypal_payment': {
+  //   controller: 'Payments',
+  //   action: 'makePaypalPayment'
+  // },
+  'POST /make_payment': {
     controller: 'Payments',
-    action: 'makePaypalPayment'
-  },
-  'POST /credit_card_payment': {
-    controller: 'Payments',
-    action: 'creditCardPayment'
+    action: 'makePayment'
   },
   'POST /newsletter_online': {
     controller: 'User',
