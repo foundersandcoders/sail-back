@@ -55,7 +55,7 @@ function payment (object, callback) {
     category: Joi.any().valid(['donation', 'event', 'subscription', 'payment']).required(),
     member: Joi.any().required(),
     amount: Joi.number().required(),
-    type: Joi.any().valid(payment_types).required()
+    type: Joi.any().valid(payment_types)
     // date:     Joi.date().required()
   })
 

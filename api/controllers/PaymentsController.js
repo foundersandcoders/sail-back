@@ -34,7 +34,7 @@ module.exports = {
         // https://developers.braintreepayments.com/reference/request/client-token/generate/node#merchant_account_id
       }, function (err, response) {
         if (err) {
-          console.log('err');
+          console.log('err')
           res.badRequest({error: err})
         } else {
           res.send({token: response.clientToken})
@@ -56,10 +56,10 @@ module.exports = {
         options: {
           submitForSettlement: true
         }
-      }, function (err, result) {
-        if (err) {
-          console.log('Braintree Error: ', error);
-          res.badRequest({ error });
+      }, function (error, result) {
+        if (error) {
+          console.log('Braintree Error: ', error)
+          res.badRequest({ error })
         } else if (result.success) {
           // if successful payment, update the db
           var formattedPayment = formatPaymentForDB(req, result.transaction, req.body.type)
@@ -81,9 +81,9 @@ module.exports = {
         } else {
           res.send(result)
         }
-      });
+      })
   },
-  // This controller is exactly the same as crediCardPayment controller except for the payment `type` passed into formatPaymentForDB()
+  // This action is exactly the same as crediCardPayment action except for the payment `type` passed into formatPaymentForDB()
   // makePaypalPayment: function (req, res) {
   //   gateway
   //     .transaction
