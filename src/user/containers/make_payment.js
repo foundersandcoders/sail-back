@@ -43,16 +43,22 @@ const on_form_submit = payment_amount => e => {
 const CreditCardPayment = (props) =>
   <CreditCardForm {...props} />
 
-const BankPayment = () =>
-  <div>In Bank Payment</div>
+const bank_payment_msg =
+  `We’ll look forward to receiving your payment by bank transfer to FOCH Account No:
+  87037440 Sort Code 52-41-20. Please remember to quote your membership number as the reference.`
 
-const HarbourPayment = () =>
-  <div>In Harbour Payment</div>
+const harbour_payment_msg =
+  'We’ll look forward to receiving your payment with your Harbour Dues paid to the Harbour Office.'
+
+const Payment = message => () =>
+  <div>
+    <h2>{message}</h2>
+  </div>
 
 const component_mapper =
-  { [BANK_PAYMENT]: BankPayment
+  { [BANK_PAYMENT]: Payment(bank_payment_msg)
   , [CREDIT_CARD_PAYMENT]: CreditCardPayment
-  , [HARBOUR_PAYMENT]: HarbourPayment
+  , [HARBOUR_PAYMENT]: Payment(harbour_payment_msg)
   }
 
 export default connect(pick(['user_payments']), { make_payment, payment_amount, payment_type })(PaymentForm)
