@@ -91,7 +91,7 @@ function createHostedFields (clientInstance, form, make_payment, amount) {
       console.error(hostedFieldsErr)
       return
     }
-
+    // TODO: uncommenct out following line
     // submit.removeAttribute('disabled');
 
     form.addEventListener('submit', function (event) {
@@ -102,12 +102,7 @@ function createHostedFields (clientInstance, form, make_payment, amount) {
           console.error(tokenizeErr)
           return
         }
-
-        // If this was a real integration, this is where you would
-        // send the nonce to your server.
-        console.log('Got a nonce: ' + payload.nonce)
         make_payment({ amount, nonce: payload.nonce, type: 'credit card' })
-
       })
     }, false)
   })
