@@ -1,3 +1,7 @@
+/* global
+   Members, BookingRecords
+*/
+
 'use strict'
 
 var test = require('tape')
@@ -11,8 +15,7 @@ var MEMBER
 test('"Payments" connection: ', function (t) {
   server(function (err, serverStarted) {
     if (err) {
-      throw err
-      t.end()
+      t.end(err)
     } else {
       sails = serverStarted
       t.ok(serverStarted, '..connection ok')
@@ -88,19 +91,20 @@ test('Make a payment', function (t) {
   t.test('make payment', function (st) {
     var fakePayment = {
       amount: 20,
-      payment_method_nonce: 'fake-valid-nonce',
+      nonce: 'fake-valid-nonce',
       category: 'payment',
       reference: '11',
-      member: MEMBER.id
+      member: MEMBER.id,
+      type: 'paypal'
     }
 
-    var req = request(sails.hooks.http.app).post('/paypal_payment')
+    var req = request(sails.hooks.http.app).post('/make_payment')
     req.cookies = Cookies
 
     req
       .send(fakePayment)
       .end(function (error, res) {
-        st.equals(res.statusCode, 302, 'status code 302')
+        st.equals(res.statusCode, 200, 'status code 200')
 
         Members
           .findOne({primary_email: 'payment@email.com'})
@@ -110,7 +114,7 @@ test('Make a payment', function (t) {
 
             var lastPayment = item.payments[item.payments.length - 1]
             t.equals(lastPayment.category, 'payment', 'right category')
-            t.equals(lastPayment.amount, fakePayment.amount, 'right amount')
+            t.equals((lastPayment.amount / 100), fakePayment.amount, 'right amount')
             st.end()
           })
       })
