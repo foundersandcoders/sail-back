@@ -1180,6 +1180,8 @@ exports.paymentTypes = function () {
     code: 'harbour office',
   }, {
     code: 'CAF',
+  }, {
+    code: 'credit card',
   }
 ]
 

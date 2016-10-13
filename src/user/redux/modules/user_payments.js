@@ -8,7 +8,13 @@ const { flip } = require('ramda')
 const CREDIT_CARD_PAYMENT =
   'CREDIT_CARD_PAYMENT'
 
-const initialState = false
+const PAYMENT_AMOUNT =
+  'PAYMENT_AMOUNT'
+
+const initialState =
+  { payment_sent: false
+  , amount_entered: ''
+  }
 
 type State = typeof initialState
 
@@ -16,8 +22,9 @@ const reducer: Reducer<State, Action> =
   (state = initialState, { type, payload }) => {
     switch (type) {
       case CREDIT_CARD_PAYMENT:
-        console.log(payload);
-        return false
+        return { ...state, payment_sent: true }
+      case PAYMENT_AMOUNT:
+        return { ...state, amount_entered: payload }
       default:
         return state
     }
@@ -25,5 +32,8 @@ const reducer: Reducer<State, Action> =
 
 export const credit_card_payment = createAction
   (CREDIT_CARD_PAYMENT, flip(post_body)('/credit_card_payment'))
+
+export const payment_amount = createAction
+  (PAYMENT_AMOUNT)
 
 export default reducer

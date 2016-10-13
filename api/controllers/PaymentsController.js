@@ -52,7 +52,7 @@ module.exports = {
     gateway
       .transaction
       .sale({
-        amount: '10.00',
+        amount: req.body.amount,
         paymentMethodNonce: nonceFromTheClient,
         options: {
           submitForSettlement: true
@@ -91,7 +91,7 @@ module.exports = {
     gateway
       .transaction
       .sale({
-        amount: req.body.amount || '1',   // TODO: Remove
+        amount: req.body.amount,
         paymentMethodNonce: nonceFromTheClient
       }, function (err, result) {
         if (err) {
