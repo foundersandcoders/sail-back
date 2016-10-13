@@ -5,6 +5,7 @@ import axios from 'axios'
 
 export default class Paypal extends React.Component {
   componentDidMount () {
+    var make_payment = this.props.make_payment
     var button = ReactDOM.findDOMNode(this.refs.paypal_button)
     var amount = this.props.user_payments.amount_entered
     axios.get('/client_token')
@@ -17,7 +18,7 @@ export default class Paypal extends React.Component {
             console.error(err)
             return
           }
-          setUpPaypal(clientInstance, button, amount)
+          setUpPaypal(clientInstance, button, amount, make_payment)
         })
       })
       .catch(err => console.log(err))
@@ -70,7 +71,7 @@ function setUpPaypal (clientInstance, paypalButton, amount) {
               console.error('Error at tokenizing!', tokenizeErr);
           }
         } else {
-          axios.post('/paypal_payment', {amount: '10.00', nonce: payload.nonce })
+          make_payment({amount, nonce: payload.nonce, type: 'paypal' })
           .then(res => console.log(res))
         }
         });
