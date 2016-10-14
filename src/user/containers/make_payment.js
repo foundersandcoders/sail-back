@@ -33,14 +33,18 @@ const PaymentAmount = ({ amount_change, payment_type }) => {
           onChange={amount_change}
           />
         <h3>How would you like to pay?</h3>
-        <div> 
-          <button onClick={() => payment_type(CREDIT_CARD_PAYMENT)}>Paypal or Credit Card</button>
-          <button onClick={() => payment_type(BANK_PAYMENT)}>Bank Transfer</button>
-          <button onClick={() => payment_type(HARBOUR_PAYMENT)}>Annual Harbour Dues</button>
+        <div>
+          <button onClick={no_default(payment_type)(CREDIT_CARD_PAYMENT)}>Paypal or Credit Card</button>
+          <button onClick={no_default(payment_type)(BANK_PAYMENT)}>Bank Transfer</button>
+          <button onClick={no_default(payment_type)(HARBOUR_PAYMENT)}>Annual Harbour Dues</button>
         </div>
       </form>
     </div>
   )
+}
+const no_default = (action) => type => e => {
+  e.preventDefault();
+  action(type)
 }
 
 const CreditCardPayment = (props) =>
