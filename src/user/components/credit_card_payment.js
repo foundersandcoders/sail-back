@@ -26,6 +26,18 @@ class PaymentForm extends React.Component {
   }
 
   render () {
+    if (this.props.user_payments.payment_sent) {
+      return (
+        <div className='make-payment'>
+          <h1 className='title'>
+            Successful Payment
+          </h1>
+          <h3 className='subtitle'>
+            Thank you for your payment of £{this.props.user_payments.amount_entered}.  Your reference for that payment is {this.props.user_payments.payment_sent.reference}
+          </h3>
+        </div>
+      )
+    }
     return (
       <div className='make-payment'>
         <h1 className='title'>Make a payment</h1>

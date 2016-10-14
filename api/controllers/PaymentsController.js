@@ -74,7 +74,8 @@ module.exports = {
                 if (error) {
                   return res.badRequest({error: error})
                 } else {
-                  return res.send(item)
+                  var formatted = Object.assign({}, item, {success: true})
+                  return res.send(formatted)
                 }
               })
           })

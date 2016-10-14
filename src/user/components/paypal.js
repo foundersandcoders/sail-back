@@ -33,7 +33,7 @@ export default class Paypal extends React.Component {
 
 }
 
-function setUpPaypal (clientInstance, paypalButton, amount) {
+function setUpPaypal (clientInstance, paypalButton, amount, make_payment) {
 
   braintree.paypal.create({
   client: clientInstance

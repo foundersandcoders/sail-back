@@ -18,12 +18,14 @@ const PaymentForm = (props) => {
     : <PaymentAmount {...props}/>
 }
 
-const PaymentAmount = ({ amount_change, payment_type }) => {
+const PaymentAmount = ({ user_payments, amount_change, payment_type }) => {
   return (
     <div className='payment-amount-container'>
       <form>
+        <h1 className='title'>Please choose an amount and method of payment</h1>
         <h3>Payment Amount</h3>
         <input
+          value={user_payments.amount_entered}
           name='amount'
           placeholder='£10'
           type='number'
@@ -32,9 +34,9 @@ const PaymentAmount = ({ amount_change, payment_type }) => {
           required
           onChange={amount_change}
           />
-        <h3>How would you like to pay?</h3>
+        <h3 className='subtitle'>How would you like to pay?</h3>
         <div>
-          <button onClick={no_default(payment_type)(CREDIT_CARD_PAYMENT)}>Paypal or Credit Card</button>
+          <button disabled={user_payments.amount_entered === 0} onClick={no_default(payment_type)(CREDIT_CARD_PAYMENT)}>Paypal or Credit Card</button>
           <button onClick={no_default(payment_type)(BANK_PAYMENT)}>Bank Transfer</button>
           <button onClick={no_default(payment_type)(HARBOUR_PAYMENT)}>Annual Harbour Dues</button>
         </div>
