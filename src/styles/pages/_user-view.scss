@@ -46,7 +46,7 @@ nav {
   button {
     margin-top: 0.7em;
   }
-  
+
   div {
     display: flex;
     flex-direction: column;
@@ -54,6 +54,9 @@ nav {
 }
 
 .make-payment {
+  max-width: 50.75em;
+  margin: 0 auto;
+  padding: 1.875em;
 
   label:before {
     content: none;
@@ -137,13 +140,31 @@ nav {
 
   .braintree-hosted-fields-valid {
   }
+}
 
-  #cardForm {
-    max-width: 50.75em;
+/*Paypal*/
+
+.paypal {
+
+  .paypal_button {
+    background-color: #0070ba;
+    color: white;
+    border-radius: 5px;
     margin: 0 auto;
-    padding: 1.875em;
+    margin-bottom: 2em;
   }
 }
+
+.title {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.subtitle {
+  margin-bottom: 1em;
+}
+
+
 
 @media (min-width: 768px) {
   .navbar-toggle.navbar-toggle {

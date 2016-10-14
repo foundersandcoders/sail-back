@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import braintree from 'braintree-web'
 import axios from 'axios'
-
+import Paypal from './paypal.js'
 class PaymentForm extends React.Component {
 
   componentDidMount () {
@@ -28,6 +28,12 @@ class PaymentForm extends React.Component {
   render () {
     return (
       <div className='make-payment'>
+        <h1 className='title'>Make a payment</h1>
+
+        <h3 className='subtitle'>If you would prefer to pay by PayPal</h3>
+        <Paypal {...this.props}></Paypal>
+
+        <h3 className='subtitle'>Alternatively pay by card</h3>
         <form method='post' id='cardForm' ref='payment_form'>
           <label className='hosted-fields--label' htmlFor='card-number'>Card Number</label>
           <div id='card-number' className='hosted-field'></div>

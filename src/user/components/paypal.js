@@ -25,8 +25,8 @@ export default class Paypal extends React.Component {
   }
   render () {
     return (
-      <div>
-        <input type='button' value='paypal' id='submit' ref='paypal_button'/>
+      <div className='paypal'>
+        <input className='paypal_button' type='button' value='PayPal' id='submit' ref='paypal_button'/>
       </div>
     )
   }
