@@ -84,36 +84,6 @@ module.exports = {
         }
       })
   },
-  // This action is exactly the same as crediCardPayment action except for the payment `type` passed into formatPaymentForDB()
-  // makePaypalPayment: function (req, res) {
-  //   gateway
-  //     .transaction
-  //     .sale({
-  //       amount: req.body.amount,
-  //       paymentMethodNonce: req.body.nonce
-  //     }, function (err, result) {
-  //       if (err) {
-  //         res.badRequest({error: err})
-  //       } else {
-  //         var formattedPayment = formatPaymentForDB(req, result.transaction, 'paypal')
-  //         Validation('payment', formattedPayment, function (errorValidation) {
-  //           if (errorValidation) {
-  //             return res.badRequest({error: errorValidation})
-  //           }
-  //         // add payment to db
-  //         Payments
-  //           .create(formattedPayment)
-  //           .exec(function (error, item) {
-  //             if (error) {
-  //               return res.badRequest({ error })
-  //             } else {
-  //               return res.send(item)
-  //             }
-  //           })
-  //         })
-  //       }
-  //     })
-  // },
 
   payingInReport: function (req, res) {
     Payments.query
@@ -137,7 +107,6 @@ module.exports = {
       )
   }
 }
-
 
 function formatPaymentForDB (req, transaction, type) {
   return {

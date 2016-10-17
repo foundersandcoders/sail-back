@@ -25,7 +25,6 @@ const reducer: Reducer<State, Action> =
   (state = initialState, { type, payload }) => {
     switch (type) {
       case MAKE_PAYMENT:
-      console.log('response from server: ', payload)
         return payload.success // If payment was successful
           ? { ...state, payment_sent: payload }
           : { ...state, payment_error: payload.message }

@@ -23,10 +23,8 @@ module.exports.policies = {
   PaymentsController: {
     '*': ['isAuthenticated', 'isAdmin'],
     'clientToken': 'isAuthenticated',
-    // 'makePaypalPayment': 'isAuthenticated',
     'charge': 'isAuthenticated',
     'payingInReport': 'isAdmin',
-    // 'creditCardPayment': 'isAuthenticated'
     'makePayment': 'isAuthenticated'
   },
 
