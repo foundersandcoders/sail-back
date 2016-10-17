@@ -34,7 +34,7 @@ module.exports = {
         // https://developers.braintreepayments.com/reference/request/client-token/generate/node#merchant_account_id
       }, function (err, response) {
         if (err) {
-          console.log('err')
+          console.log('err', err)
           res.badRequest({error: err})
         } else {
           res.send({token: response.clientToken})
