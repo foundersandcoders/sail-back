@@ -28,7 +28,7 @@ const reducer: Reducer<State, Action> =
       console.log('response from server: ', payload)
         return payload.success // If payment was successful
           ? { ...state, payment_sent: payload }
-          : { ...state, payment_error: payload }
+          : { ...state, payment_error: payload.message }
       case PAYMENT_TYPE:
         return { ...state, payment_type: payload }
       case PATH_UPDATE:

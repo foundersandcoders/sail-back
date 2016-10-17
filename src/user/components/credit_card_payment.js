@@ -16,7 +16,7 @@ class PaymentForm extends React.Component {
           authorization: token
         }, function (err, clientInstance) {
           if (err) {
-            console.error(err)
+            console.error('token err', err)
             return
           }
           createHostedFields(clientInstance, form, make_payment, amount)
@@ -43,9 +43,10 @@ class PaymentForm extends React.Component {
         <h1 className='title'>Make a payment</h1>
 
         <h3 className='subtitle'>If you would prefer to pay by PayPal</h3>
-        <Paypal {...this.props}></Paypal>
+        <Paypal {...this.props} />
 
         <h3 className='subtitle'>Alternatively pay by card</h3>
+
         <form method='post' id='cardForm' ref='payment_form'>
           <label className='hosted-fields--label' htmlFor='card-number'>Card Number</label>
           <div id='card-number' className='hosted-field'></div>
@@ -58,6 +59,9 @@ class PaymentForm extends React.Component {
 
           <label className='hosted-fields--label' htmlFor='postal-code'>Postal Code</label>
           <div id='postal-code' className='hosted-field'></div>
+
+          {this.props.user_payments.payment_error && <h3 className='subtitle subtitle-error'>Oops... Something went wrong</h3>}
+          <h3 className='subtitle subtitle-error'>{this.props.user_payments.payment_error}</h3>
 
           <div className='button-container'>
             <input type='submit' className='button button--small button--green' value={`Confirm £${this.props.user_payments.amount_entered} Payment`} id='submit'/>
@@ -117,7 +121,8 @@ function createHostedFields (clientInstance, form, make_payment, amount) {
 
       hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
         if (tokenizeErr) {
-          console.error(tokenizeErr)
+          // TODO: put error message in redux (this error is shown if card details are wrong)
+          console.error('token err', tokenizeErr)
           return
         }
         make_payment({ amount, nonce: payload.nonce, type: 'credit card' })
