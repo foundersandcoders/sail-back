@@ -25,17 +25,16 @@ const reducer: Reducer<State, Action> =
   (state = initialState, { type, payload }) => {
     switch (type) {
       case MAKE_PAYMENT:
-      console.log('response from server: ', payload);
+      console.log('response from server: ', payload)
         return payload.success // If payment was successful
           ? { ...state, payment_sent: payload }
-          : { ...state, payment_error: payload}
+          : { ...state, payment_error: payload }
       case PAYMENT_TYPE:
         return { ...state, payment_type: payload }
       case PATH_UPDATE:
         return initialState
       case AMOUNT_CHANGE:
-        var amount_entered = +payload.target.value.split('e').join('')
-        return { ...state, amount_entered }
+        return { ...state, amount_entered: payload.target.value }
       default:
         return state
     }
