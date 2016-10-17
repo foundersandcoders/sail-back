@@ -42,9 +42,9 @@ function setUpPaypal (clientInstance, paypalButton, amount, make_payment) {
 
     if (createErr) {
       if (createErr.code === 'PAYPAL_BROWSER_NOT_SUPPORTED') {
-        console.error('This browser is not supported.');
+        console.error('This browser is not supported.')
       } else {
-        console.error('Error creating paypal instance!', createErr);
+        console.error('Error creating paypal instance!', createErr)
       }
     } else {
       paypalButton.addEventListener('click', function () {
@@ -59,23 +59,22 @@ function setUpPaypal (clientInstance, paypalButton, amount, make_payment) {
         // Handle tokenization errors or premature flow closure
           switch (tokenizeErr.code) {
             case 'PAYPAL_POPUP_CLOSED':
-              console.error('Customer closed PayPal popup.');
-              break;
+              console.error('Customer closed PayPal popup.')
+              break
             case 'PAYPAL_ACCOUNT_TOKENIZATION_FAILED':
-              console.error('PayPal tokenization failed. See details:', tokenizeErr.details);
-              break;
+              console.error('PayPal tokenization failed. See details:', tokenizeErr.details)
+              break
             case 'PAYPAL_FLOW_FAILED':
-              console.error('Unable to initialize PayPal flow. Are your options correct?', tokenizeErr.details);
-              break;
+              console.error('Unable to initialize PayPal flow. Are your options correct?', tokenizeErr.details)
+              break
             default:
-              console.error('Error at tokenizing!', tokenizeErr);
+              console.error('Error at tokenizing!', tokenizeErr)
           }
         } else {
           make_payment({amount, nonce: payload.nonce, type: 'paypal' })
-          .then(res => console.log(res))
         }
-        });
-      });
+        })
+      })
     }
   })
 }

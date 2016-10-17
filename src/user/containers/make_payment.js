@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import { pick } from 'ramda'
 
 import CreditCardForm from '../components/credit_card_payment.js'
-import Paypal from '../components/paypal.js'
-
 import { amount_change, make_payment, payment_type } from '../redux/modules/user_payments.js'
 
 const CREDIT_CARD_PAYMENT = 'CREDIT_CARD_PAYMENT'
@@ -33,10 +31,10 @@ const PaymentAmount = ({ user_payments, amount_change, payment_type }) => {
           max='1000'
           required
           onChange={amount_change}
-          />
+        />
         <h3 className='subtitle'>How would you like to pay?</h3>
         <div>
-          <button disabled={user_payments.amount_entered === 0} onClick={no_default(payment_type)(CREDIT_CARD_PAYMENT)}>Paypal or Credit Card</button>
+          <button disabled={user_payments.amount_entered === ''} onClick={no_default(payment_type)(CREDIT_CARD_PAYMENT)}>Paypal or Credit Card</button>
           <button onClick={no_default(payment_type)(BANK_PAYMENT)}>Bank Transfer</button>
           <button onClick={no_default(payment_type)(HARBOUR_PAYMENT)}>Annual Harbour Dues</button>
         </div>
@@ -45,23 +43,29 @@ const PaymentAmount = ({ user_payments, amount_change, payment_type }) => {
   )
 }
 const no_default = (action) => type => e => {
-  e.preventDefault();
+  e.preventDefault()
   action(type)
 }
 
 const CreditCardPayment = (props) =>
   <CreditCardForm {...props} />
 
-const BankPayment = () =>
-  <div>In Bank Payment</div>
+const bank_payment_msg =
+  `We’ll look forward to receiving your payment by bank transfer to FOCH Account No:
+  87037440 Sort Code 52-41-20. Please remember to quote your membership number as the reference.`
 
-const HarbourPayment = () =>
-  <div>In Harbour Payment</div>
+const harbour_payment_msg =
+  'We’ll look forward to receiving your payment with your Harbour Dues paid to the Harbour Office.'
+
+const Payment = message => () =>
+  <div>
+    <h2>{message}</h2>
+  </div>
 
 const component_mapper =
-  { [BANK_PAYMENT]: BankPayment
+  { [BANK_PAYMENT]: Payment(bank_payment_msg)
   , [CREDIT_CARD_PAYMENT]: CreditCardPayment
-  , [HARBOUR_PAYMENT]: HarbourPayment
+  , [HARBOUR_PAYMENT]: Payment(harbour_payment_msg)
   }
 
 export default connect(pick(['user_payments']),
