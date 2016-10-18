@@ -9,6 +9,7 @@ class PaymentForm extends React.Component {
     var make_payment = this.props.make_payment
     var form = ReactDOM.findDOMNode(this.refs.payment_form)
     var amount = this.props.user_payments.amount_entered
+    var submit = ReactDOM.findDOMNode(this.refs.payment_form_submit)
     axios.get('/client_token')
       .then(data => data.data.token)
       .then(token => {
@@ -19,7 +20,7 @@ class PaymentForm extends React.Component {
             console.error('token err', err)
             return
           }
-          createHostedFields(clientInstance, form, make_payment, amount)
+          createHostedFields(clientInstance, form, make_payment, amount, submit)
         })
       })
       .catch(err => console.log(err))
@@ -64,7 +65,14 @@ class PaymentForm extends React.Component {
           <h3 className='subtitle subtitle-error'>{this.props.user_payments.payment_error}</h3>
 
           <div className='button-container'>
-            <input type='submit' className='button button--small button--green' value={`Confirm £${this.props.user_payments.amount_entered} Payment`} id='submit'/>
+            <input
+              type='submit'
+              className='button button--small button--green'
+              value={`Confirm £${this.props.user_payments.amount_entered} Payment`}
+              id='submit'
+              ref='payment_form_submit'
+              disabled
+            />
           </div>
         </form>
       </div>
@@ -72,7 +80,7 @@ class PaymentForm extends React.Component {
   }
 }
 
-function createHostedFields (clientInstance, form, make_payment, amount) {
+function createHostedFields (clientInstance, form, make_payment, amount, submit) {
   braintree.hostedFields.create({
     client: clientInstance,
     styles: {
@@ -113,8 +121,8 @@ function createHostedFields (clientInstance, form, make_payment, amount) {
       console.error(hostedFieldsErr)
       return
     }
-    // TODO: uncommenct out following line
-    // submit.removeAttribute('disabled');
+
+    submit.removeAttribute('disabled')
 
     form.addEventListener('submit', function (event) {
       event.preventDefault()
