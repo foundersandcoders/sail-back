@@ -4,6 +4,7 @@ import braintree from 'braintree-web'
 import axios from 'axios'
 
 export default class Paypal extends React.Component {
+
   componentDidMount () {
     var make_payment = this.props.make_payment
     var button = ReactDOM.findDOMNode(this.refs.paypal_button)
@@ -23,14 +24,21 @@ export default class Paypal extends React.Component {
       })
       .catch(err => console.log(err))
   }
+
   render () {
     return (
       <div className='paypal'>
-        <input className='paypal_button' type='button' value='PayPal' id='submit' ref='paypal_button'/>
+        <input
+          className='paypal_button'
+          type='button'
+          value='PayPal'
+          id='submit'
+          ref='paypal_button'
+          disabled
+        />
       </div>
     )
   }
-
 }
 
 function setUpPaypal (clientInstance, paypalButton, amount, make_payment) {
@@ -39,7 +47,6 @@ function setUpPaypal (clientInstance, paypalButton, amount, make_payment) {
   client: clientInstance
   }, function (createErr, paypalInstance) {
 
-
     if (createErr) {
       if (createErr.code === 'PAYPAL_BROWSER_NOT_SUPPORTED') {
         console.error('This browser is not supported.')
@@ -47,6 +54,7 @@ function setUpPaypal (clientInstance, paypalButton, amount, make_payment) {
         console.error('Error creating paypal instance!', createErr)
       }
     } else {
+      paypalButton.removeAttribute('disabled')
       paypalButton.addEventListener('click', function () {
         // Tokenize here!
         paypalInstance.tokenize({

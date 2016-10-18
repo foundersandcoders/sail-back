@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { pick } from 'ramda'
 
-import CreditCardForm from '../components/credit_card_payment.js'
 import { amount_change, make_payment, payment_type } from '../redux/modules/user_payments.js'
+import OnlinePayments from '../components/online_payments.js'
 
 const CREDIT_CARD_PAYMENT = 'CREDIT_CARD_PAYMENT'
 const BANK_PAYMENT = 'BANK_PAYMENT'
@@ -47,9 +47,6 @@ const no_default = (action) => type => e => {
   action(type)
 }
 
-const CreditCardPayment = (props) =>
-  <CreditCardForm {...props} />
-
 const bank_payment_msg =
   `We’ll look forward to receiving your payment by bank transfer to FOCH Account No:
   87037440 Sort Code 52-41-20. Please remember to quote your membership number as the reference.`
@@ -64,7 +61,7 @@ const Payment = message => () =>
 
 const component_mapper =
   { [BANK_PAYMENT]: Payment(bank_payment_msg)
-  , [CREDIT_CARD_PAYMENT]: CreditCardPayment
+  , [CREDIT_CARD_PAYMENT]: OnlinePayments
   , [HARBOUR_PAYMENT]: Payment(harbour_payment_msg)
   }
 

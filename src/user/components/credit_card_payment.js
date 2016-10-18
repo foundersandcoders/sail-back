@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import braintree from 'braintree-web'
 import axios from 'axios'
-import Paypal from './paypal.js'
+
 class PaymentForm extends React.Component {
 
   componentDidMount () {
@@ -27,55 +27,34 @@ class PaymentForm extends React.Component {
   }
 
   render () {
-    if (this.props.user_payments.payment_sent) {
-      return (
-        <div className='make-payment'>
-          <h1 className='title'>
-            Successful Payment
-          </h1>
-          <h3 className='subtitle'>
-            Thank you for your payment of £{this.props.user_payments.amount_entered}.  Your reference for that payment is {this.props.user_payments.payment_sent.reference}
-          </h3>
-        </div>
-      )
-    }
     return (
-      <div className='make-payment'>
-        <h1 className='title'>Make a payment</h1>
+      <form method='post' id='cardForm' ref='payment_form'>
+        <label className='hosted-fields--label' htmlFor='card-number'>Card Number</label>
+        <div id='card-number' className='hosted-field'></div>
 
-        <h3 className='subtitle'>If you would prefer to pay by PayPal</h3>
-        <Paypal {...this.props} />
+        <label className='hosted-fields--label' htmlFor='expiration-date'>Expiration Date</label>
+        <div id='expiration-date' className='hosted-field'></div>
 
-        <h3 className='subtitle'>Alternatively pay by card</h3>
+        <label className='hosted-fields--label' htmlFor='cvv'>CVV</label>
+        <div id='cvv' className='hosted-field'></div>
 
-        <form method='post' id='cardForm' ref='payment_form'>
-          <label className='hosted-fields--label' htmlFor='card-number'>Card Number</label>
-          <div id='card-number' className='hosted-field'></div>
+        <label className='hosted-fields--label' htmlFor='postal-code'>Postal Code</label>
+        <div id='postal-code' className='hosted-field'></div>
 
-          <label className='hosted-fields--label' htmlFor='expiration-date'>Expiration Date</label>
-          <div id='expiration-date' className='hosted-field'></div>
+        {this.props.user_payments.payment_error && <h3 className='subtitle subtitle-error'>Oops... Something went wrong</h3>}
+        <h3 className='subtitle subtitle-error'>{this.props.user_payments.payment_error}</h3>
 
-          <label className='hosted-fields--label' htmlFor='cvv'>CVV</label>
-          <div id='cvv' className='hosted-field'></div>
-
-          <label className='hosted-fields--label' htmlFor='postal-code'>Postal Code</label>
-          <div id='postal-code' className='hosted-field'></div>
-
-          {this.props.user_payments.payment_error && <h3 className='subtitle subtitle-error'>Oops... Something went wrong</h3>}
-          <h3 className='subtitle subtitle-error'>{this.props.user_payments.payment_error}</h3>
-
-          <div className='button-container'>
-            <input
-              type='submit'
-              className='button button--small button--green'
-              value={`Confirm £${this.props.user_payments.amount_entered} Payment`}
-              id='submit'
-              ref='payment_form_submit'
-              disabled
-            />
-          </div>
-        </form>
-      </div>
+        <div className='button-container'>
+          <input
+            type='submit'
+            className='button button--small button--green'
+            value={`Confirm £${this.props.user_payments.amount_entered} Payment`}
+            id='submit'
+            ref='payment_form_submit'
+            disabled
+          />
+        </div>
+      </form>
     )
   }
 }
