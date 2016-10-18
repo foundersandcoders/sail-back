@@ -10,7 +10,7 @@ export default (props) =>
 
 const PaymentOptions = (props) =>
   <div className='make-payment'>
-    <h1 className='title'>Make a payment</h1>
+    <h1 className='title'>Online Payment</h1>
     <h3 className='subtitle'>If you would prefer to pay by PayPal</h3>
     <Paypal {...props} />
     <h3 className='subtitle'>Alternatively pay by card</h3>

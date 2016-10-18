@@ -3,12 +3,11 @@ import ReactDOM from 'react-dom'
 import braintree from 'braintree-web'
 import axios from 'axios'
 
-class PaymentForm extends React.Component {
+export default class PaymentForm extends React.Component {
 
   componentDidMount () {
-    var make_payment = this.props.make_payment
+    var { make_payment, payment_error, user_payments: { amount_entered } } = this.props
     var form = ReactDOM.findDOMNode(this.refs.payment_form)
-    var amount = this.props.user_payments.amount_entered
     var submit = ReactDOM.findDOMNode(this.refs.payment_form_submit)
     axios.get('/client_token')
       .then(data => data.data.token)
@@ -20,7 +19,7 @@ class PaymentForm extends React.Component {
             console.error('token err', err)
             return
           }
-          createHostedFields(clientInstance, form, make_payment, amount, submit)
+          createHostedFields(clientInstance, form, make_payment, payment_error, amount_entered, submit)
         })
       })
       .catch(err => console.log(err))
@@ -41,8 +40,12 @@ class PaymentForm extends React.Component {
         <label className='hosted-fields--label' htmlFor='postal-code'>Postal Code</label>
         <div id='postal-code' className='hosted-field'></div>
 
-        {this.props.user_payments.payment_error && <h3 className='subtitle subtitle-error'>Oops... Something went wrong</h3>}
-        <h3 className='subtitle subtitle-error'>{this.props.user_payments.payment_error}</h3>
+        {this.props.user_payments.payment_error &&
+          <div>
+            <h3 className='subtitle subtitle-error'>Oops... Something went wrong.</h3>
+            <h3 className='subtitle subtitle-error'>{this.props.user_payments.payment_error.message}</h3>
+          </div>
+        }
 
         <div className='button-container'>
           <input
@@ -59,7 +62,9 @@ class PaymentForm extends React.Component {
   }
 }
 
-function createHostedFields (clientInstance, form, make_payment, amount, submit) {
+// TODO: make field errors pretty
+
+function createHostedFields (clientInstance, form, make_payment, payment_error, amount, submit) {
   braintree.hostedFields.create({
     client: clientInstance,
     styles: {
@@ -97,7 +102,7 @@ function createHostedFields (clientInstance, form, make_payment, amount, submit)
   }, function (hostedFieldsErr, hostedFieldsInstance) {
 
     if (hostedFieldsErr) {
-      console.error(hostedFieldsErr)
+      console.error('hostedfieldserr', hostedFieldsErr)
       return
     }
 
@@ -108,14 +113,17 @@ function createHostedFields (clientInstance, form, make_payment, amount, submit)
 
       hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
         if (tokenizeErr) {
-          // TODO: put error message in redux (this error is shown if card details are wrong)
-          console.error('token err', tokenizeErr)
-          return
+          switch (tokenizeErr.code) {
+            case 'HOSTED_FIELDS_FIELDS_EMPTY':
+              return payment_error('All fields are empty! Please fill out the form.')
+            case 'HOSTED_FIELDS_FIELDS_INVALID':
+              return payment_error(`Some fields are invalid: ${tokenizeErr.details.invalidFieldKeys.join(', ')}`)
+            default:
+              return payment_error('Please refresh and try again.')
+          }
         }
         make_payment({ amount, nonce: payload.nonce, type: 'credit card' })
       })
     }, false)
   })
 }
-
-export default PaymentForm

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { pick } from 'ramda'
 
-import { amount_change, make_payment, payment_type } from '../redux/modules/user_payments.js'
+import { amount_change, make_payment, payment_type, payment_error } from '../redux/modules/user_payments.js'
 import OnlinePayments from '../components/online_payments.js'
 
 const CREDIT_CARD_PAYMENT = 'CREDIT_CARD_PAYMENT'
@@ -16,25 +16,20 @@ const PaymentForm = (props) => {
     : <PaymentAmount {...props}/>
 }
 
-const PaymentAmount = ({ user_payments, amount_change, payment_type }) => {
+const PaymentAmount = ({ user_payments: { amount_entered }, amount_change, payment_type }) => {
   return (
     <div className='payment-amount-container'>
       <form>
-        <h1 className='title'>Please choose an amount and method of payment</h1>
+        <h2>Please choose an amount and method of payment.</h2>
         <h3>Payment Amount</h3>
         <input
-          value={user_payments.amount_entered}
-          name='amount'
           placeholder='£10'
           type='number'
-          min='1'
-          max='1000'
-          required
           onChange={amount_change}
         />
         <h3 className='subtitle'>How would you like to pay?</h3>
         <div>
-          <button disabled={user_payments.amount_entered === ''} onClick={no_default(payment_type)(CREDIT_CARD_PAYMENT)}>Paypal or Credit Card</button>
+          <button disabled={amount_entered === '' || amount_entered <= 0} onClick={no_default(payment_type)(CREDIT_CARD_PAYMENT)}>Paypal or Credit Card</button>
           <button onClick={no_default(payment_type)(BANK_PAYMENT)}>Bank Transfer</button>
           <button onClick={no_default(payment_type)(HARBOUR_PAYMENT)}>Annual Harbour Dues</button>
         </div>
@@ -42,7 +37,8 @@ const PaymentAmount = ({ user_payments, amount_change, payment_type }) => {
     </div>
   )
 }
-const no_default = (action) => type => e => {
+
+const no_default = action => type => e => {
   e.preventDefault()
   action(type)
 }
@@ -66,5 +62,5 @@ const component_mapper =
   }
 
 export default connect(pick(['user_payments']),
-  { make_payment, payment_type, amount_change })
+  { make_payment, payment_type, amount_change, payment_error })
   (PaymentForm)

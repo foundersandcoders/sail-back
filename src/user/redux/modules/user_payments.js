@@ -12,6 +12,8 @@ const PAYMENT_TYPE =
   'PAYMENT_TYPE'
 const AMOUNT_CHANGE =
   'AMOUNT_CHANGE'
+const PAYMENT_ERROR =
+  'PAYMENT_ERROR'
 
 const initialState =
   { payment_sent: false
@@ -25,15 +27,17 @@ const reducer: Reducer<State, Action> =
   (state = initialState, { type, payload }) => {
     switch (type) {
       case MAKE_PAYMENT:
-        return payload.success // If payment was successful
-          ? { ...state, payment_sent: payload }
-          : { ...state, payment_error: payload.message }
+        return payload.success
+            ? { ...state, payment_sent: payload }
+            : { ...state, payment_error: { message: payload.message } }
       case PAYMENT_TYPE:
         return { ...state, payment_type: payload }
       case PATH_UPDATE:
         return initialState
       case AMOUNT_CHANGE:
         return { ...state, amount_entered: payload.target.value }
+      case PAYMENT_ERROR:
+        return { ...state, payment_error: { message: payload } }
       default:
         return state
     }
@@ -47,5 +51,8 @@ export const payment_type = createAction
 
 export const amount_change = createAction
   (AMOUNT_CHANGE)
+
+export const payment_error = createAction
+  (PAYMENT_ERROR)
 
 export default reducer
