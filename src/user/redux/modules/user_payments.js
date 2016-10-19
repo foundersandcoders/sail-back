@@ -3,7 +3,7 @@
 import { createAction } from 'redux-actions'
 import type { Action, Reducer } from 'redux'
 import { post_body } from 'app/http'
-const { flip } = require('ramda')
+const { flip, propOr } = require('ramda')
 
 import { PATH_UPDATE } from '../../../shared/redux/modules/route.js'
 const MAKE_PAYMENT =
@@ -14,11 +14,14 @@ const AMOUNT_CHANGE =
   'AMOUNT_CHANGE'
 const PAYMENT_ERROR =
   'PAYMENT_ERROR'
+const BRAINTREE_ERROR =
+  'BRAINTREE_ERROR'
 
 const initialState =
   { payment_sent: false
   , amount_entered: ''
   , payment_type: ''
+  , braintree_error: false
   }
 
 type State = typeof initialState
@@ -29,7 +32,14 @@ const reducer: Reducer<State, Action> =
       case MAKE_PAYMENT:
         return payload.success
             ? { ...state, payment_sent: payload }
-            : { ...state, payment_error: { message: payload.message } }
+            : { ...state
+              , braintree_error: Boolean(payload.braintree_error)
+              , payment_error:
+                { message: propOr('', 0)(payload.transaction.processorResponseCode) === '2'
+                  ? 'Payment Declined'
+                  : payload.message
+                }
+              }
       case PAYMENT_TYPE:
         return { ...state, payment_type: payload }
       case PATH_UPDATE:
@@ -38,6 +48,8 @@ const reducer: Reducer<State, Action> =
         return { ...state, amount_entered: payload.target.value }
       case PAYMENT_ERROR:
         return { ...state, payment_error: { message: payload } }
+      case BRAINTREE_ERROR:
+        return { ...state, braintree_error: true }
       default:
         return state
     }
@@ -54,5 +66,8 @@ export const amount_change = createAction
 
 export const payment_error = createAction
   (PAYMENT_ERROR)
+
+export const braintree_error = createAction
+  (BRAINTREE_ERROR)
 
 export default reducer

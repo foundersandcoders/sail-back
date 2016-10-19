@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { pick } from 'ramda'
 
-import { amount_change, make_payment, payment_type, payment_error } from '../redux/modules/user_payments.js'
+import { amount_change, make_payment, payment_type, payment_error, braintree_error } from '../redux/modules/user_payments.js'
 import OnlinePayments from '../components/online_payments.js'
 
 const CREDIT_CARD_PAYMENT = 'CREDIT_CARD_PAYMENT'
@@ -62,5 +62,5 @@ const component_mapper =
   }
 
 export default connect(pick(['user_payments']),
-  { make_payment, payment_type, amount_change, payment_error })
+  { make_payment, payment_type, amount_change, payment_error, braintree_error })
   (PaymentForm)

@@ -4,9 +4,8 @@ import braintree from 'braintree-web'
 import axios from 'axios'
 
 export default class PaymentForm extends React.Component {
-
   componentDidMount () {
-    var { make_payment, payment_error, user_payments: { amount_entered } } = this.props
+    var props = this.props
     var form = ReactDOM.findDOMNode(this.refs.payment_form)
     var submit = ReactDOM.findDOMNode(this.refs.payment_form_submit)
     axios.get('/client_token')
@@ -16,18 +15,21 @@ export default class PaymentForm extends React.Component {
           authorization: token
         }, function (err, clientInstance) {
           if (err) {
-            console.error('token err', err)
-            return
+            // console.error('client create err', err)
+            return props.braintree_error()
           }
-          createHostedFields(clientInstance, form, make_payment, payment_error, amount_entered, submit)
+          createHostedFields(clientInstance, form, submit, props)
         })
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        // console.log('catch error credit card', err)
+        return props.braintree_error()
+      })
   }
 
   render () {
     return (
-      <form method='post' id='cardForm' ref='payment_form'>
+      <form method='post' id='cardForm' ref='payment_form' autoComplete='off'>
         <label className='hosted-fields--label' htmlFor='card-number'>Card Number</label>
         <div id='card-number' className='hosted-field'></div>
 
@@ -64,7 +66,10 @@ export default class PaymentForm extends React.Component {
 
 // TODO: make field errors pretty
 
-function createHostedFields (clientInstance, form, make_payment, payment_error, amount, submit) {
+function createHostedFields (clientInstance, form, submit, props) {
+
+  var { make_payment, payment_error, braintree_error, user_payments: { amount_entered } } = props
+
   braintree.hostedFields.create({
     client: clientInstance,
     styles: {
@@ -100,10 +105,9 @@ function createHostedFields (clientInstance, form, make_payment, payment_error, 
       }
     }
   }, function (hostedFieldsErr, hostedFieldsInstance) {
-
     if (hostedFieldsErr) {
-      console.error('hostedfieldserr', hostedFieldsErr)
-      return
+      // console.error('hostedfieldserr', hostedFieldsErr)
+      return braintree_error()
     }
 
     submit.removeAttribute('disabled')
@@ -122,7 +126,7 @@ function createHostedFields (clientInstance, form, make_payment, payment_error, 
               return payment_error('Please refresh and try again.')
           }
         }
-        make_payment({ amount, nonce: payload.nonce, type: 'credit card' })
+        make_payment({ amount: amount_entered, nonce: payload.nonce, type: 'credit card' })
       })
     }, false)
   })
