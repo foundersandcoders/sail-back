@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import braintree from 'braintree-web'
 import axios from 'axios'
+import convert_camel_case from 'app/convert_camel_case'
+import { map } from 'ramda'
 
 export default class PaymentForm extends React.Component {
 
@@ -27,7 +29,7 @@ export default class PaymentForm extends React.Component {
 
   render () {
     return (
-      <form method='post' id='cardForm' ref='payment_form'>
+      <form id='cardForm' ref='payment_form' className='initialising'>
         <label className='hosted-fields--label' htmlFor='card-number'>Card Number</label>
         <div id='card-number' className='hosted-field'></div>
 
@@ -62,8 +64,6 @@ export default class PaymentForm extends React.Component {
   }
 }
 
-// TODO: make field errors pretty
-
 function createHostedFields (clientInstance, form, make_payment, payment_error, amount, submit) {
   braintree.hostedFields.create({
     client: clientInstance,
@@ -96,7 +96,7 @@ function createHostedFields (clientInstance, form, make_payment, payment_error, 
       },
       postalCode: {
         selector: '#postal-code',
-        placeholder: '11111'
+        placeholder: 'N5 2TB'
       }
     }
   }, function (hostedFieldsErr, hostedFieldsInstance) {
@@ -107,6 +107,7 @@ function createHostedFields (clientInstance, form, make_payment, payment_error, 
     }
 
     submit.removeAttribute('disabled')
+    form.className = form.className.replace('initialising', '')
 
     form.addEventListener('submit', function (event) {
       event.preventDefault()
@@ -117,7 +118,7 @@ function createHostedFields (clientInstance, form, make_payment, payment_error, 
             case 'HOSTED_FIELDS_FIELDS_EMPTY':
               return payment_error('All fields are empty! Please fill out the form.')
             case 'HOSTED_FIELDS_FIELDS_INVALID':
-              return payment_error(`Some fields are invalid: ${tokenizeErr.details.invalidFieldKeys.join(', ')}`)
+              return payment_error(`Some fields are invalid: ${map(convert_camel_case, tokenizeErr.details.invalidFieldKeys).join(', ')}`)
             default:
               return payment_error('Please refresh and try again.')
           }

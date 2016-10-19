@@ -28,7 +28,7 @@ export default class Paypal extends React.Component {
     return (
       <div className='paypal'>
         <input
-          className='paypal_button'
+          className='paypal_button initialising'
           type='button'
           value='PayPal'
           id='submit'
@@ -56,6 +56,8 @@ function setUpPaypal (clientInstance, paypalButton, amount, make_payment, paymen
     }
 
     paypalButton.removeAttribute('disabled')
+    paypalButton.className = paypalButton.className.replace('initialising', '')
+
     paypalButton.addEventListener('click', function () {
       paypalInstance.tokenize({
         flow: 'checkout',
