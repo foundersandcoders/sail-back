@@ -3,10 +3,14 @@ import React from 'react'
 import CreaditCardPayment from './credit_card_payment.js'
 import Paypal from './paypal.js'
 
-export default (props) =>
-  props.user_payments.payment_sent
+export default (props) => {
+  return props.user_payments.payment_sent
     ? SuccessfulPayment(props)
-    : PaymentOptions(props)
+    : (props.user_payments.braintree_error ? Error() : PaymentOptions(props))
+  }
+
+const Error = () =>
+  <div>There has been a network error. Please refresh the browser.</div>
 
 const PaymentOptions = (props) =>
   <div className='make-payment'>
