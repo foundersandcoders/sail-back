@@ -142,8 +142,6 @@ nav {
   }
 }
 
-/*Paypal*/
-
 .paypal {
 
   .paypal_button {
@@ -166,6 +164,10 @@ nav {
 
 .subtitle-error {
   color: red;
+}
+
+.initialising {
+  opacity: 0.2;
 }
 
 @media (min-width: 768px) {

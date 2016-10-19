@@ -29,7 +29,7 @@ export default class PaymentForm extends React.Component {
 
   render () {
     return (
-      <form method='post' id='cardForm' ref='payment_form'>
+      <form id='cardForm' ref='payment_form' className='initialising'>
         <label className='hosted-fields--label' htmlFor='card-number'>Card Number</label>
         <div id='card-number' className='hosted-field'></div>
 
@@ -63,8 +63,6 @@ export default class PaymentForm extends React.Component {
     )
   }
 }
-
-// TODO: make field errors pretty
 
 function createHostedFields (clientInstance, form, make_payment, payment_error, amount, submit) {
   braintree.hostedFields.create({
@@ -109,6 +107,7 @@ function createHostedFields (clientInstance, form, make_payment, payment_error, 
     }
 
     submit.removeAttribute('disabled')
+    form.className = form.className.replace('initialising', '')
 
     form.addEventListener('submit', function (event) {
       event.preventDefault()
