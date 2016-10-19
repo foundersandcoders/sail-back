@@ -80,7 +80,7 @@ const PaymentsReport = (
   <div className='main-container'>
     <form
       onSubmit={compose(receive, get_form_value, prev_def)}
-      className="search-options flex"
+      className='search-options flex'
     >
       { fields.map(({ id, ...field_props }) =>
         <Field
@@ -119,6 +119,8 @@ const non_cheque_fields =
       , 'harbour office'
       , 'credit card'
       , 'paypal'
+      , 'cash'
+      , 'refund'
       ]
     }
   , { name: 'Start Date'

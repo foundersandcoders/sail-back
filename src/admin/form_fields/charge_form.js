@@ -15,6 +15,7 @@ const payment_category_options =
   , 'BACS'
   , 'CAF'
   , 'Refund'
+  , 'Credit Card'
   ]
 
 const types =

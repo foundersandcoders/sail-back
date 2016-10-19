@@ -40,11 +40,23 @@ function member (object, callback) {
 }
 
 function payment (object, callback) {
+  var payment_types =
+    [ 'harbour office'
+    , 'standing order'
+    , 'bacs'
+    , 'cash'
+    , 'cheque'
+    , 'caf'
+    , 'refund'
+    , 'paypal'
+    , 'credit card'
+    ]
   var schema = Joi.object().keys({
     category: Joi.any().valid(['donation', 'event', 'subscription', 'payment']).required(),
     member: Joi.any().required(),
     amount: Joi.number().required(),
-  // date:     Joi.date().required()
+    type: Joi.any().valid(payment_types)
+    // date:     Joi.date().required()
   })
 
   return validateCall(object, schema, callback)

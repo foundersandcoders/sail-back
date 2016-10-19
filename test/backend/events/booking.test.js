@@ -97,7 +97,7 @@ test('Book an event', function (t) {
     })
 })
 
-test("Check in 'myEvents'", function (t) {
+test('Check in \'myEvents\'', function (t) {
   var req = request(sails.hooks.http.app).get('/api/my_events')
   req.cookies = Cookies
 

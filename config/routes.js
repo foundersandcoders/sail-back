@@ -94,17 +94,13 @@ module.exports.routes = {
     controller: 'Members',
     action: 'updateAccountInfo'
   },
-  'POST /charge': {
-    controller: 'Payments',
-    action: 'charge'
-  },
   'GET /client_token': {
     controller: 'Payments',
     action: 'clientToken'
   },
-  'POST /paypal_payment': {
+  'POST /make_payment': {
     controller: 'Payments',
-    action: 'makePaypalPayment'
+    action: 'makePayment'
   },
   'POST /newsletter_online': {
     controller: 'User',
