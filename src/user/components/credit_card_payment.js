@@ -96,7 +96,7 @@ function createHostedFields (clientInstance, form, make_payment, payment_error, 
       },
       postalCode: {
         selector: '#postal-code',
-        placeholder: '11111'
+        placeholder: 'N5 2TB'
       }
     }
   }, function (hostedFieldsErr, hostedFieldsInstance) {
