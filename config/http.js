@@ -30,10 +30,10 @@ module.exports.http = {
   },
 
   // broken dependency doesn't update the cookie timeout
-  refreshSessionCookie: function(req, res, next) {
-    req.session._garbage = Date();
-    req.session.touch();
-    return next();
+  refreshSessionCookie: function (req, res, next) {
+    req.session._garbage = Date()
+    req.session.touch()
+    return next()
   },
 
   middleware: {
@@ -45,6 +45,7 @@ module.exports.http = {
     ***************************************************************************/
 
     order: [
+      'https',
       'startRequestTimer',
       'cookieParser',
       'session',
@@ -65,6 +66,10 @@ module.exports.http = {
       '500'
     ],
 
+    https: function (req, res, next) {
+      if (process.env.NODE_ENV !== 'heroku' || req.headers['x-forwarded-proto'] === 'https') return next()
+      return res.redirect('https://' + req.headers.host + req.url)
+    },
     /****************************************************************************
     *                                                                           *
     * Example custom middleware; logs each request to the console.              *
@@ -85,10 +90,7 @@ module.exports.http = {
     *                                                                          *
     ***************************************************************************/
 
-    bodyParser: (function() {
-      var opts = {limit: '50mb'}
-      var fn = require('skipper')
-      return fn(opts) }()),
+    bodyParser: require('skipper')({ limit: '50mb' }),
 
     assets: require('serve-static')(path.dirname(__filename) + '/../assets')
 
@@ -106,4 +108,3 @@ module.exports.http = {
 
 // cache: 31557600000
 }
-

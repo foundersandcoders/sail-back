@@ -6,7 +6,7 @@ import axios from 'axios'
 export default class Paypal extends React.Component {
 
   componentDidMount () {
-    var { make_payment, payment_error, user_payments: { amount_entered } } = this.props
+    var props = this.props
     var button = ReactDOM.findDOMNode(this.refs.paypal_button)
     axios.get('/client_token')
       .then(data => data.data.token)
@@ -15,20 +15,23 @@ export default class Paypal extends React.Component {
           authorization: token
         }, function (err, clientInstance) {
           if (err) {
-            console.error(err)
-            return
+            // console.error('client create paypal error', err)
+            return props.braintree_error()
           }
-          setUpPaypal(clientInstance, button, amount_entered, make_payment, payment_error)
+          setUpPaypal(clientInstance, button, props)
         })
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        // console.log('catch error paypal', err)
+        return props.braintree_error()
+      })
   }
 
   render () {
     return (
       <div className='paypal'>
         <input
-          className='paypal_button'
+          className='paypal_button initialising'
           type='button'
           value='PayPal'
           id='submit'
@@ -40,33 +43,33 @@ export default class Paypal extends React.Component {
   }
 }
 
-// TODO: get rid of braintree console logs before production
+function setUpPaypal (clientInstance, paypalButton, props) {
 
-function setUpPaypal (clientInstance, paypalButton, amount, make_payment, payment_error) {
+  var { make_payment, payment_error, braintree_error, user_payments: { amount_entered } } = props
 
-  braintree.paypal.create({
-  client: clientInstance
-  }, function (createErr, paypalInstance) {
-
+  braintree.paypal.create({ client: clientInstance }, function (createErr, paypalInstance) {
     if (createErr) {
-      if (createErr.code === 'PAYPAL_BROWSER_NOT_SUPPORTED') {
-        return console.error('This browser is not supported.')
-      }
-      return console.error('Error creating paypal instance!', createErr)
+      // if (createErr.code === 'PAYPAL_BROWSER_NOT_SUPPORTED') {
+      //   return console.error('This browser is not supported.')
+      // }
+      // return console.error('Error creating paypal instance!', createErr)
+      return braintree_error()
     }
 
     paypalButton.removeAttribute('disabled')
+    paypalButton.className = paypalButton.className.replace('initialising', '')
+
     paypalButton.addEventListener('click', function () {
       paypalInstance.tokenize({
         flow: 'checkout',
-        amount: amount,
+        amount: amount_entered,
         currency: 'GBP'
       }, function (tokenizeErr, payload) {
         if (tokenizeErr) {
-          console.error('token err', tokenizeErr)
+          // console.error('token err paypal', tokenizeErr)
           return payment_error('Please refresh and try again.')
         }
-        make_payment({amount, nonce: payload.nonce, type: 'paypal' })
+        make_payment({amount: amount_entered, nonce: payload.nonce, type: 'paypal' })
       })
     })
   })

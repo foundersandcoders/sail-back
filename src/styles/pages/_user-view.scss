@@ -142,8 +142,6 @@ nav {
   }
 }
 
-/*Paypal*/
-
 .paypal {
 
   .paypal_button {
@@ -166,6 +164,27 @@ nav {
 
 .subtitle-error {
   color: red;
+}
+
+.initialising {
+  &.paypal_button {
+    color: transparent;
+    transition: 0.3s ease;
+    background-image: url(https://leetcode.com/static/images/loading.gif);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: white;
+  }
+
+  .hosted-field {
+    transition: 0.3s ease;
+    background-image: url(http://static.onemansblog.com/wp-content/uploads/2016/05/Octopus-Loading.gif);
+    background-size: 37%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: #00aeef;
+  }
 }
 
 @media (min-width: 768px) {

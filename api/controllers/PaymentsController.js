@@ -18,10 +18,10 @@ var queries = require('../queries/payments.js')
 
 // ATTENTION: sandbox credentials: need real credentials and must be kept PRIVATE
 var gateway = braintree.connect({
-  environment: braintree.Environment.Sandbox,
-  merchantId: 'hbjzcsxhcgkxmcdb', // process.env.BRAINTREE_MERCHANT_ID
-  publicKey: 'td75qh4v93n9rq8q', // process.env.BRAINTREE_PUBLIC_KEY
-  privateKey: '08960cdddfd8cfa7be506377a155680b' // process.env.BRAINTREE_PRIVATE_KEY
+  environment: braintree.Environment[process.env.BRAINTREE_ENV || 'Sandbox'],
+  merchantId: process.env.BRAINTREE_MERCHANT_ID || 'hbjzcsxhcgkxmcdb',
+  publicKey: process.env.BRAINTREE_PUBLIC_KEY || 'td75qh4v93n9rq8q',
+  privateKey: process.env.BRAINTREE_PRIVATE_KEY || '08960cdddfd8cfa7be506377a155680b'
 })
 
 module.exports = {
@@ -30,11 +30,11 @@ module.exports = {
     gateway
       .clientToken
       .generate({
-        merchantAccountId: 'friendsofchichesterharbour'
+        merchantAccountId: process.env.BRAINTREE_MERCHANT_ACCOUNT_ID || 'friendsofchichesterharbour'
         // https://developers.braintreepayments.com/reference/request/client-token/generate/node#merchant_account_id
       }, function (err, response) {
         if (err) {
-          console.log('err', err)
+          console.log('token err', err)
           res.badRequest({error: err})
         } else {
           res.send({token: response.clientToken})
@@ -55,16 +55,22 @@ module.exports = {
         paymentMethodNonce: req.body.nonce,
         options: {
           submitForSettlement: true
+        },
+        descriptor: {
+          name: 'fch*friendsch.org',
+          phone: '01243512301',
+          url: 'friendsch.org'
         }
       }, function (error, result) {
         if (error) {
-          console.log('Braintree Error: ', error)
-          res.badRequest({ error })
+          console.log('braintree transaction error: ', error)
+          res.send({ braintree_error: error })
         } else if (result.success) {
           // if successful payment, update the db
           var formattedPayment = formatPaymentForDB(req, result.transaction, req.body.type)
           Validation('payment', formattedPayment, function (errorValidation) {
             if (errorValidation) {
+              console.log('validation error: ', errorValidation)
               return res.badRequest({error: errorValidation})
             }
 
@@ -72,6 +78,7 @@ module.exports = {
               .create(formattedPayment)
               .exec(function (error, item) {
                 if (error) {
+                  console.log('database entry error: ', error)
                   return res.badRequest({error: error})
                 } else {
                   var formatted = Object.assign({}, item, {success: true})
@@ -80,6 +87,7 @@ module.exports = {
               })
           })
         } else {
+          console.log('transaction not succesful: ', result)
           res.send(result)
         }
       })
