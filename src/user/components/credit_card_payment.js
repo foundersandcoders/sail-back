@@ -89,15 +89,15 @@ function createHostedFields (clientInstance, form, submit, props) {
     fields: {
       number: {
         selector: '#card-number',
-        placeholder: '4111 1111 1111 1111'
+        placeholder: '4111 5555 2222 1111'
       },
       cvv: {
         selector: '#cvv',
-        placeholder: '123'
+        placeholder: '007'
       },
       expirationDate: {
         selector: '#expiration-date',
-        placeholder: 'MM/YYYY'
+        placeholder: 'MM/YY'
       },
       postalCode: {
         selector: '#postal-code',

@@ -18,7 +18,7 @@ var queries = require('../queries/payments.js')
 
 // ATTENTION: sandbox credentials: need real credentials and must be kept PRIVATE
 var gateway = braintree.connect({
-  environment: braintree.Environment.Sandbox,
+  environment: braintree.Environment[process.env.BRAINTREE_ENV || 'Sandbox'],
   merchantId: process.env.BRAINTREE_MERCHANT_ID || 'hbjzcsxhcgkxmcdb',
   publicKey: process.env.BRAINTREE_PUBLIC_KEY || 'td75qh4v93n9rq8q',
   privateKey: process.env.BRAINTREE_PRIVATE_KEY || '08960cdddfd8cfa7be506377a155680b'
@@ -55,6 +55,11 @@ module.exports = {
         paymentMethodNonce: req.body.nonce,
         options: {
           submitForSettlement: true
+        },
+        descriptor: {
+          name: 'fch*friendsch.org',
+          phone: '01243512301',
+          url: 'friendsch.org'
         }
       }, function (error, result) {
         if (error) {
