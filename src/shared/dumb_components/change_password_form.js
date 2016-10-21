@@ -1,5 +1,5 @@
 import React from 'react'
-import Field from '../../shared/dumb_components/field.js'
+import Field from './field.js'
 import { contains } from 'ramda'
 
 const form_fields = [ 'new_password', 'confirm_password' ]
