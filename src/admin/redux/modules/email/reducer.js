@@ -5,7 +5,7 @@ const { get_body, post, post_body } = require('app/http')
 const
   { lensPath, over, not, indexBy, map, propOr, merge, zipWith, ifElse, gte
   , cond, where, objOf, zip, set, lift, assoc, dissoc, prop, converge, omit
-  , sortBy, lensProp, reverse}
+  , sortBy, lensProp, reverse, filter }
   = require('ramda')
 const { pipe, compose } = require('sanctuary')
 
@@ -48,12 +48,14 @@ type State = { emails: { [key: string]: { overdue: number } }
              , custom_emails: { }
              , email_sent: boolean
              , bounced: [ ]
+             , invalid_emails: [ ]
              }
 
 const initialState = { emails: { }
                      , custom_emails: { }
                      , email_sent: false
                      , bounced: [ ]
+                     , invalid_emails: [ ]
                      }
 
 const reducer : Reducer<State, Action>
@@ -96,7 +98,7 @@ const reducer : Reducer<State, Action>
       case EDIT_CUSTOM:
         return { ...state, custom_emails: { ...state.custom_emails, mode: type } }
       case PATH_UPDATE:
-        return update(sent)(false)
+        return initialState
       default:
         return state
     }
@@ -114,7 +116,8 @@ const Email = content => (
 
 const email_response = state => res => (
   { ...state
-  , email_sent: res.results ? true : false
+  , email_sent: Boolean(res.results)
+  , invalid_emails: compose(map(prop('address')), filter(result => result.error))(res.results)
   }
 )
 

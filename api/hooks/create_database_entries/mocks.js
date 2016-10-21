@@ -148,7 +148,7 @@ exports.members = function () {
       postcode: 'E2 0SY',
       first_name: 'Ivan',
       last_name: 'Gonzalez',
-      primary_email: 'ivan@foundersandcoders.com',
+      primary_email: 'ivan @foundersandcoders.com',
       password: 'correct',
       privileges: 'member',
       activation_status: 'activated',
