@@ -49,9 +49,23 @@ const Email = (
     </form>
 
     {email_sent
-      ? <h3 className='sent-email-notification'>The emails have been sent.</h3>
+      ? EmailSent(list_props)
       : active_tab && map_tab[active_tab](list_props)
     }
+  </div>
+
+const EmailSent = ({ invalid_emails }) =>
+  <div className='sent-email-container'>
+    <h2>The email has been sent to the members.</h2>
+    {invalid_emails && InvalidEmails(invalid_emails)}
+  </div>
+
+const InvalidEmails = (invalid_emails) =>
+  <div>
+    <h3>However it could not be sent to the following addresses. Please check whether they are correct.</h3>
+    <ul>
+      {invalid_emails.map(email => <li className='listed-email' key={email}>{email}</li>)}
+    </ul>
   </div>
 
 const send_button = ([ id, fn ]) =>
@@ -132,7 +146,7 @@ const display_email = (line, i) => i === 0
   : <p key={line}>{line}</p>
 
 const bounced_email = email =>
-  <li className='bounced-email' key={email.created_at + email.address} >
+  <li className='listed-email' key={email.created_at + email.address} >
     <b>{email.address}</b> bounced on {format_date(email.created_at)}
   </li>
 
@@ -146,6 +160,7 @@ export default connect
     , 'email_sent'
     , 'bounced'
     , 'active_tab'
+    , 'invalid_emails'
     ]), prop('email')), pick([ 'reset_payments' ])])
   , { send_sub_reminder
     , send_newsletter

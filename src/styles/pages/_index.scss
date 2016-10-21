@@ -540,9 +540,8 @@ div.gbp {
   color: black;
 }
 
-.sent-email-notification {
-  font-size: 1.5em;
-  margin: 3em 0 0 1em;
+.sent-email-container {
+  margin: 1em;
 }
 
 .custom-email-container {
@@ -570,10 +569,10 @@ div.gbp {
   margin: 0.5em 1em 0 0;
 }
 
-.bounced-email {
+.listed-email {
   text-decoration: none;
   font-size: 1.2em;
-  margin-bottom: 0.8em;
+  margin: 1em;
 }
 
 .email-recipient {
