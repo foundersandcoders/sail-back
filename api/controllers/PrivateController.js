@@ -9,12 +9,12 @@ var aSync = require('async')
 
 var queries = require('../queries/private.js')
 var helpers = require('./helpers.js')
-var sql_callback = helpers.sql_callback
+var response_callback = helpers.response_callback
 var change_view = helpers.change_view
 
 var membersQuery = function (query, type) {
   return function (req, res) {
-    Members.query(queries[query](type), sql_callback(res))
+    Members.query(queries[query](type), response_callback(res))
   }
 }
 
@@ -31,14 +31,14 @@ module.exports = {
   sendSubsReminderPost: membersQuery('subsQueryTemplate', 'post'),
 
   submit_email: function (req, res) {
-    mg.submitEmail(req.body, sql_callback(res))
+    mg.submitEmail(req.body, response_callback(res))
   },
   get_bounced: function (req, res) {
-    mg.getBounced(sql_callback(res))
+    mg.getBounced(response_callback(res))
   },
 
   reset_subscription_payments: function (req, res) {
-    Payments.query(queries.reset_subscription_payments, sql_callback(res))
+    Payments.query(queries.reset_subscription_payments, response_callback(res))
   },
 
   addmember: function (req, res) {
@@ -79,7 +79,7 @@ module.exports = {
       })
   },
   sendSubsDue: function (req, res) {
-    var sql_callback = (err, results) => {
+    var response_callback = (err, results) => {
       if (err) return res.badRequest({ error: err })
       return res.json({ results: results[0] })
     }
@@ -91,7 +91,7 @@ module.exports = {
     aSync.series(
       [ dbCall('subscription_due_template')
       , dbCall('update_subscription')
-      ], sql_callback
+      ], response_callback
     )
   },
   Upload: function (req, res) {
@@ -124,5 +124,15 @@ module.exports = {
     } else {
       return res.badRequest()
     }
+  },
+
+  // Analysis Endpoint Logic
+  // ---------------------------------------------------------------------------
+  list_gift_aid: function (req, res) {
+    Members
+      .find({ gift_aid_signed: true })
+      .exec(function (err, items) {
+        console.log('gift aid members', items)
+      })
   }
 }

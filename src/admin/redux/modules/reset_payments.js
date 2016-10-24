@@ -17,7 +17,7 @@ const reducer: Reducer<State, Action> =
     case RESET_SUBSCRIPTION_PAYMENTS:
       return prop('statusCode')(payload) === 200
     case PATH_UPDATE:
-      return false
+      return initialState
     default:
       return state
     }

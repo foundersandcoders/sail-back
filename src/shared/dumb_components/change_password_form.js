@@ -34,7 +34,9 @@ export default ({ fields, handleSubmit, changedPassword }) => {
     </div>
 
   const success = () =>
-    <div className='change-password-success'>You have changed your password.</div>
+    <div className='change-password-success'>
+      <h2>You have succesfully changed your password.</h2>
+    </div>
 
   return changedPassword ? success() : form()
 }
