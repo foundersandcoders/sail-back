@@ -5,7 +5,7 @@ const { get_body, post, post_body } = require('app/http')
 const
   { lensPath, over, not, indexBy, map, propOr, merge, zipWith, ifElse, gte
   , cond, where, objOf, zip, set, lift, assoc, dissoc, prop, converge, omit
-  , sortBy, lensProp, reverse, filter }
+  , sortBy, lensProp, reverse, filter, compose: R_compose }
   = require('ramda')
 const { pipe, compose } = require('sanctuary')
 
@@ -117,7 +117,7 @@ const Email = content => (
 const email_response = state => res => (
   { ...state
   , email_sent: Boolean(res.results)
-  , invalid_emails: compose(map(prop('address')), filter(result => result.error))(res.results)
+  , invalid_emails: R_compose(map(prop('address')), filter(result => result.error))(res.results)
   }
 )
 
