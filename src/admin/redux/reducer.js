@@ -12,6 +12,8 @@ import email from './modules/email/reducer.js'
 import newsletter_labels from './modules/labels.js'
 import letters from './modules/letters/letters.js'
 import reset_payments from './modules/reset_payments.js'
+import changed_password from '../../shared/redux/modules/change_password.js'
+
 
 const admin_app = combineReducers(
   { payment_defaults
@@ -27,6 +29,7 @@ const admin_app = combineReducers(
   , newsletter_labels
   , letters
   , reset_payments
+  , changed_password
   }
 )
 
