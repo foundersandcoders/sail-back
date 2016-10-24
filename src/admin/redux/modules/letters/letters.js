@@ -5,6 +5,7 @@ const { merge, compose, objOf, map, props, pick, reduce, liftN, unapply, ifElse,
 
 const { sub_reminder, sub_reminder_SO, subscription_due } = require('./bodies.js')
 
+import { PATH_UPDATE } from '../../../../shared/redux/modules/route.js'
 export const SEND_SUB_REMINDER_POST =
   'SEND_SUB_REMINDER_POST'
 export const TOGGLE_RECIPIENT_LIST =
@@ -46,6 +47,8 @@ const reducer: Reducer<State, Action>
      return { ...state, shown: !state.shown }
    case SHOW_LETTER:
      return { ...state, shown_letter_index: payload }
+   case PATH_UPDATE:
+     return initialState
    default:
      return state
    }

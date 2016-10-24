@@ -102,10 +102,16 @@ module.exports = {
       R.mapObjIndexed(R.compose(R.zipObj([ 'to', 'text', 'subject', 'from' ]), email_values))
     )(data.email)
 
+    // If there is an error the following callback (cb) is meant to be called with the error
+    // as the first argument. However this makes the whole async.parallel process so no
+    // emails are sent. Therefore cb will always be called as if there were no errors, but
+    // when there is an error the object passed to cb will have the key 'error' rather than
+    // 'result'.
+
     var sendEmail = email => cb => {
       var address = email.to
       mailgun.messages().send(email, (error, results) =>
-        error ? cb({ address, message: error.message }, null) : cb(null, { results: JSON.stringify(results), address })
+        error ? cb(null, { address, error: error.message }) : cb(null, { results: JSON.stringify(results), address })
       )
     }
 
@@ -115,7 +121,7 @@ module.exports = {
   },
   getBounced: function (callback) {
     mailgun.get(`/${domain}/bounces`, {}, function (error, results) {
-      error ? callback(error, null) : callback(null, results)
+      return error ? callback(error, null) : callback(null, results)
     })
   }
 }
