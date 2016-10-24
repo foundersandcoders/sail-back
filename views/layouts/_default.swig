@@ -15,10 +15,5 @@
                 {% endblock %}
             </div>
         </div>
-
-        {% block footer %}
-            {% include "../includes/_footer.swig" %}
-        {% endblock %}
-
     </body>
 </html>
