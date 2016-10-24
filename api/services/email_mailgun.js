@@ -33,7 +33,7 @@ module.exports = {
     mailgun.messages().send(module.exports._createEmail(data, 'Forgot password', 'forgotPass'),
       (error) => {
         if (error) {
-          console.error('ERROR: ', error)
+          console.error('MAILGUN ERROR: ', error)
           return callback(error, undefined)
         } else {
           console.error('EMAIL SENT TO: ', data.email)
