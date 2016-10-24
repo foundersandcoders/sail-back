@@ -33,11 +33,11 @@ module.exports = {
     mailgun.messages().send(module.exports._createEmail(data, 'Forgot password', 'forgotPass'),
       (error) => {
         if (error) {
-          sails.log.error('MAILGUN ERROR: ', error)
-          callback(error, undefined)
+          console.error('MAILGUN ERROR: ', error)
+          return callback(error, undefined)
         } else {
-          sails.log.info('EMAIL SENT TO: ', data.email)
-          callback(undefined, 'Email sent')
+          console.error('EMAIL SENT TO: ', data.email)
+          return callback(undefined, 'Email sent')
       }
     })
   },
