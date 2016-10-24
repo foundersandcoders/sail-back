@@ -69,18 +69,18 @@ module.exports = {
           email: req.body.email
         }, function (error) {
           if (is.ok(error)) {
-            res.serverError({emailSent: false, error: error})
+            return res.serverError({emailSent: false, error: error})
           }
 
           if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'testing') {
-            res.send({emailSent: true, error: undefined, password: randomString})
+            return res.send({emailSent: true, error: undefined, password: randomString})
           } else {
-            res.send({emailSent: true, error: undefined})
+            return res.send({emailSent: true, error: undefined})
           }
         })
       })
       .catch(function () {
-        res.badRequest({emailSent: false, error: 'Email not recognised'})
+        return res.badRequest({emailSent: false, error: 'Email not recognised'})
       })
   }
 }
