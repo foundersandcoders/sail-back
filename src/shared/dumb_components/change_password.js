@@ -1,7 +1,7 @@
 import React from 'react'
 import { reduxForm } from 'redux-form'
 
-import ChangePasswordForm from '../components/change_password_form.js'
+import ChangePasswordForm from './change_password_form.js'
 
 export default ({ changed_password, update_password }) =>
   <ChangePasswordReduxForm

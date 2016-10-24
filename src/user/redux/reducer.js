@@ -7,7 +7,7 @@ import payments from '../../shared/redux/modules/payments.js'
 import mode from '../../shared/redux/modules/mode.js'
 import active_tab from './modules/active_tab.js'
 import member_reducer from '../../shared/redux/modules/member.js'
-import changed_password from '../redux/modules/change_password.js'
+import changed_password from '../../shared/redux/modules/change_password.js'
 import user_payments from './modules/user_payments.js'
 
 

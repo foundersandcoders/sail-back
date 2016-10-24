@@ -534,7 +534,7 @@ exports.members = function () {
       privileges: 'member',
       news_type: 'post',
     }, {
-      id: '938745454',
+      id: '93872354',
       title: 'Mr',
       initials: 'S',
       address1: 'XYZ',

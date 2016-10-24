@@ -10,7 +10,7 @@ import App from './user_app.js'
 import MyDetails from './containers/my_details.js'
 import Statements from './containers/statements.js'
 import MakePayment from './containers/make_payment.js'
-import ChangePassword from './containers/change_password.js'
+import ChangePassword from '../shared/components/change_password.js'
 
 import { pathDidUpdate } from '../shared/redux/modules/route.js'
 
