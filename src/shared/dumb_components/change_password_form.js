@@ -14,21 +14,24 @@ export default ({ fields, handleSubmit, changedPassword }) => {
     + ': '
 
   const form = () =>
-    <form onSubmit={handleSubmit}>
-      <div className='change-password-inputs'>
-        {form_fields.map(field =>
-          <Field
-            {...fields[field]}
-            id={field}
-            mode={mode}
-            name={label_from_id(field)}
-            key={field}
-            type='password'
-          />
-        )}
-      </div>
-      <button className='change-password-button' type='submit'>Submit</button>
-    </form>
+    <div className='change-password-form'>
+      <form onSubmit={handleSubmit}>
+        <div>
+          {form_fields.map(field =>
+            <Field
+              {...fields[field]}
+              id={field}
+              mode={mode}
+              name={label_from_id(field)}
+              key={field}
+              type='password'
+              className='change-password-input'
+            />
+          )}
+        </div>
+        <button className='change-password-button' type='submit'>Submit</button>
+      </form>
+    </div>
 
   const success = () =>
     <div>You have changed your password.</div>

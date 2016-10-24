@@ -16,8 +16,6 @@ const reducer: Reducer<State, Action> =
   (state = initialState, { type, payload }) => {
     switch (type) {
       case UPDATE_PASSWORD:
-      console.log(payload);
-      console.log('in update_password reducer: ', !isEmpty(payload));
         return !isEmpty(payload)
       default:
         return state
