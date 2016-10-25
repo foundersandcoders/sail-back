@@ -1,7 +1,7 @@
 /* @flow */
 import { createAction } from 'redux-actions'
 import type { Action, Reducer } from 'redux'
-import { get } from 'app/http'
+import { get_body } from 'app/http'
 import { prop } from 'ramda'
 
 import { PATH_UPDATE } from '../../../shared/redux/modules/route.js'
@@ -25,6 +25,6 @@ const reducer: Reducer<State, Action> =
   }
 
 export const list_gift_aid =
-  createAction(LIST_GIFT_AID, () => get('/api/list-gift-aid'))
+  createAction(LIST_GIFT_AID, () => get_body('/api/list-gift-aid'))
 
 export default reducer

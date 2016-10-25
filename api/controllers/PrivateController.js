@@ -132,7 +132,7 @@ module.exports = {
     Members
       .find({ gift_aid_signed: true })
       .exec(function (err, items) {
-        console.log('gift aid members', items)
+        return err ? res.json(err) :res.json(items)
       })
   }
 }

@@ -40,7 +40,6 @@ var SingleResult = React.createClass({
   }
 })
 
-
 var SearchResults = function (props) {
   var data = JSON.parse(props.results)
   var results = data.map(function (result, i) {
