@@ -9,6 +9,8 @@ export const LIST_GIFT_AID =
   'LIST_GIFT_AID'
 export const LIST_BY_DELIVERER =
   'LIST_BY_DELIVERER'
+export const LIST_DELIVERERS =
+  'LIST_DELIVERERS'
 
 const initialState = { gift_aid_members: []
                      , members_by_deliverer: []
@@ -27,8 +29,11 @@ const reducer: Reducer<State, Action> =
     switch (type) {
     case LIST_GIFT_AID:
       return active_tab(update(gift_aid_members)(payload))
+    case LIST_DELIVERERS:
+      // return active_tab(update(members_by_deliverer)(payload))
+      console.log('list deliverers payload: ', payload)
+      return state
     case LIST_BY_DELIVERER:
-      console.log(payload)
       return active_tab(update(members_by_deliverer)(payload))
     case PATH_UPDATE:
       return initialState
@@ -39,6 +44,9 @@ const reducer: Reducer<State, Action> =
 
 export const list_gift_aid =
   createAction(LIST_GIFT_AID, () => get_body('/api/list-gift-aid'))
+
+export const list_deliverers =
+  createAction(LIST_DELIVERERS, () => get_body('/api/list-deliverers'))
 
 export const list_by_deliverer =
   createAction(LIST_BY_DELIVERER, deliverer => get_body(`/api/list-by-deliverer/${deliverer}`))

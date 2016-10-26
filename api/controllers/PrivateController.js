@@ -136,6 +136,8 @@ module.exports = {
       })
   },
 
+  list_deliverers: membersQuery('list_deliverers'),
+
   list_by_deliverer: function (req, res) {
     Members
       .find({ deliverer: req.param('deliverer') })

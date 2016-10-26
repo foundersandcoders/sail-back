@@ -207,6 +207,11 @@ module.exports.routes = {
     action: 'list_gift_aid'
   },
 
+  'GET /api/list-deliverers': {
+    controller: 'Private',
+    action: 'list_deliverers'
+  },
+
   'GET /api/list-by-deliverer/:deliverer': {
     controller: 'Private',
     action: 'list_by_deliverer'
