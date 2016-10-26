@@ -132,7 +132,15 @@ module.exports = {
     Members
       .find({ gift_aid_signed: true })
       .exec(function (err, items) {
-        return err ? res.json(err) :res.json(items)
+        return err ? res.json(err) : res.json(items)
+      })
+  },
+
+  list_by_deliverer: function (req, res) {
+    Members
+      .find({ deliverer: req.param('deliverer') })
+      .exec(function (err, items) {
+        return err ? res.json(err) : res.json(items)
       })
   }
 }
