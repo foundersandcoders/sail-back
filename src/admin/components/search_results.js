@@ -24,7 +24,7 @@ var SingleResult = React.createClass({
   },
 
   render: function () {
-    var member = JSON.parse(this.props.member)
+    var member = this.props.member
     return (
       <a id='member-tag' href={'#/members/' + member.id}>
         <div className='row member-row'>
@@ -33,7 +33,7 @@ var SingleResult = React.createClass({
           <div className='col-3'><p>{member.title}</p></div>
           <div className='col-4'><p>{member.initials}</p></div>
           <div className='col-5'><p>{this.format_membership(member.membership_type)}</p></div>
-          <div className='col-6'><p>{this.last_subscription(member.payments)}</p></div>
+          {this.props.homepage && <div className='col-6'><p>{this.last_subscription(member.payments)}</p></div>}
         </div>
       </a>
     )
@@ -41,22 +41,25 @@ var SingleResult = React.createClass({
 })
 
 var SearchResults = function (props) {
-  var data = JSON.parse(props.results)
+  if (!props.results) return
+  var data = typeof props.results === 'string' ? JSON.parse(props.results) : props.results
   var results = data.map(function (result, i) {
-    return <SingleResult key={i} member={JSON.stringify(result)} />
+    return (
+      <SingleResult key={i} member={result} homepage={props.homepage} />
+    )
   })
 
   return (
     <div id='search-result'>
       <div className='search-table-section-member'>
-      { props.error ? <div className='search-error'>No results</div> : '' }
+      {props.error && <div className='search-error'>No results</div>}
         <div className='search-table-section-member-header'>
           <div className='col-1'><p>ID</p></div>
           <div className='col-2'><p>Name</p></div>
           <div className='col-3'><p>Title</p></div>
           <div className='col-4'><p>Initials</p></div>
           <div className='col-5'><p>Subscription</p></div>
-          <div className='col-6'><p>Payment</p></div>
+          {props.homepage && <div className='col-6'><p>Payment</p></div>}
         </div>
         <div className='search-table-section-member-rows'>
           {results}
@@ -79,9 +82,9 @@ function add_date_obj_to_payment (payment) {
 }
 
 function get_most_recent_payment (most_recent, payment) {
-  return payment.date.getTime() > most_recent.date.getTime() ?
-    payment :
-    most_recent
+  return payment.date.getTime() > most_recent.date.getTime()
+    ? payment
+    : most_recent
 }
 
 function is_payment (payment) { return payment.category === 'payment' }

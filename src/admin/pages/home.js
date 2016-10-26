@@ -44,6 +44,7 @@ var AdminHome = React.createClass({
               <SearchResults
                 results={this.state.results}
                 error={this.state.none_found}
+                homepage
               />
             </div>
           </div>
