@@ -1,15 +1,10 @@
-# Sail back
+# Sail Back
 
 [![Build Status](https://travis-ci.org/foundersandcoders/sail-back.svg?branch=reactify)](https://travis-ci.org/foundersandcoders/sail-back)
 
 Membership management system for Friends of Chichester Harbour.
 
-![Logo](http://www.friendsch.org/images/headings/heading01.jpg)
-
-## Table of Contents
-
-- [Run](#run)
-- [Q&A](#Q\ &\ A)
+<img src='http://friendsch.org/foch/wp-content/uploads/2015/11/friends-logo-title3.jpg'>
 
 ## Run
 
@@ -24,7 +19,7 @@ npm install
 npm run dev
 ```
 
-## file structure
+## File Structure
 
 ```
 /
@@ -65,16 +60,6 @@ Yes in places it is. It will seem a bit less weird if you look at
 [ramda]: https://github.com/ramda/ramda
 [sanctuary]: https://github.com/sanctuary-js/sanctuary
 
-**But perhaps the best place to start is [Underscore You're Doing it Wrong][wrong]**
+But perhaps the best place to start is [Underscore You're Doing it Wrong][wrong]
 
 [wrong]: https://www.youtube.com/watch?v=m3svKOdZijA
-
-### What do I need to know that isn't here yet?
-
-#### Upload
-* Sails config
-* Scripts
-* foch_data folder
-
-#### What is Sails doing for me?
-
