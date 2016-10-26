@@ -4,7 +4,7 @@
 
 Membership management system for Friends of Chichester Harbour.
 
-<img src='http://friendsch.org/foch/wp-content/uploads/2015/11/friends-logo-title3.jpg'>
+<a href="http://friendsch.org/"><img src='http://friendsch.org/foch/wp-content/uploads/2015/11/friends-logo-title3.jpg'></a>
 
 ## Run
 
