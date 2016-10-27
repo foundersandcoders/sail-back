@@ -10,9 +10,12 @@ const { plus, plus2 } = require('app/money_arith')
 const { S } = require('sanctuary')
 
 const RECEIVED = 'RECEIVED_REPORT_DATA'
+const { PATH_UPDATE } = require('../../../shared/redux/modules/route.js')
 
 import type { Action, Reducer } from 'redux'
 import type { Payment } from './payment_defaults.js'
+
+const initialState = {}
 
 type State = {}
 type Check = (x: any) => (p: Payment) => boolean
@@ -23,6 +26,8 @@ const reducer
     switch (type) {
       case RECEIVED:
         return payload
+      case PATH_UPDATE:
+        return initialState
       default:
         return state
     }
@@ -41,7 +46,7 @@ const name = lensPath(['surname'])
 const balance = lensPath(['balance'])
 
 const make_balances = (check) => (balances, charge) => {
-  const { amount, category, member, date, reference, last_name } = charge
+  const { amount, category, member, date, last_name } = charge
   const curr = lensPath([member])
   const curr_val = compose
     ( curr

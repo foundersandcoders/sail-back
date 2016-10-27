@@ -830,7 +830,7 @@ exports.members = function () {
       address3: 'XYZ',
       address4: 'XYZ',
       county: 'XYZ',
-      postcode: 'E1 0SY',
+      postcode: 'E1 2015',
       first_name: 'JJ',
       last_name: 'Abrams',
       membership_type: module.exports.membershipTypes()[0].value,
@@ -866,7 +866,7 @@ exports.members = function () {
       first_name: 'Hodfse1',
       last_name: 'Hat1',
       membership_type: module.exports.membershipTypes()[0].value,
-      password: 'secure',
+      password: '2015',
       privileges: 'member',
       news_type: 'post',
     }, {
@@ -942,7 +942,7 @@ exports.payments = function () {
     description: 'Some description',
     amount: 5050,
     notes: 'This is a note',
-    date: new Date('2011')
+    date: new Date('2015')
   },
     {
       member: module.exports.members()[0].id,
@@ -950,7 +950,7 @@ exports.payments = function () {
       description: 'Some description',
       amount: 2000,
       notes: 'This is a nice donation',
-      date: new Date('2012')
+      date: new Date('2015')
     },
     {
       member: module.exports.members()[0].id,
@@ -960,7 +960,7 @@ exports.payments = function () {
       amount: 3050,
       reference: module.exports.references()[0].code.slice(1), // join table
       notes: 'This is a nice payment',
-      date: new Date('2013')
+      date: new Date('2015')
     },
     {
       member: module.exports.members()[0].id,
@@ -970,7 +970,7 @@ exports.payments = function () {
       amount: 5050,
       reference: module.exports.references()[0].code, // join table
       notes: 'This is a nice payment',
-      date: new Date('2013')
+      date: new Date('2015')
     },
     {
       member: module.exports.members()[1].id, // richard
@@ -978,7 +978,7 @@ exports.payments = function () {
       description: 'Some description',
       amount: 1550,
       notes: 'This is a note',
-      date: new Date('2011')
+      date: new Date('2015')
     },
     {
       member: module.exports.members()[2].id, //Ymouse
@@ -986,7 +986,7 @@ exports.payments = function () {
       description: ':)',
       amount: 13700,
       notes: 'cool beans',
-      date: new Date('2012, 9, 22')
+      date: new Date('2015, 9, 22')
     },
     {
       member: module.exports.members()[2].id,
@@ -995,56 +995,56 @@ exports.payments = function () {
       type: module.exports.paymentTypes()[3].code,
       reference: module.exports.references()[0].code.slice(1),
       notes: 'boss',
-      date: new Date('2012, 11, 25')
+      date: new Date('2015, 11, 25')
     },
     {
       member: module.exports.members()[2].id,
       category: 'subscription',
       amount: 17500,
       notes: ':)',
-      date: new Date('2013, 1, 1')
+      date: new Date('2015, 1, 1')
     },
     {
       member: module.exports.members()[7].id,
       category: 'subscription',
       amount: 17500,
       notes: ':)',
-      date: new Date('2013, 1, 1')
+      date: new Date('2015, 1, 1')
     },
     {
       member: module.exports.members()[8].id,
       category: 'subscription',
       amount: 17500,
       notes: ':)',
-      date: new Date('2013, 1, 1')
+      date: new Date('2015, 1, 1')
     },
     {
       member: module.exports.members()[9].id,
       category: 'subscription',
       amount: 17500,
       notes: ':)',
-      date: new Date('2013, 1, 1')
+      date: new Date('2015, 1, 1')
     },
     {
       member: module.exports.members()[10].id,
       category: 'subscription',
       amount: 17500,
       notes: ':)',
-      date: new Date('2013, 1, 1')
+      date: new Date('2015, 1, 1')
     },
     {
       member: module.exports.members()[11].id,
       category: 'subscription',
       amount: 17500,
       notes: ':)',
-      date: new Date('2013, 1, 1')
+      date: new Date('2015, 1, 1')
     },
     {
       member: module.exports.members()[12].id,
       category: 'subscription',
       amount: 17500,
       notes: ':)',
-      date: new Date('2013, 1, 1')
+      date: new Date('2015, 1, 1')
     },
     {
       member: module.exports.members()[2].id,
@@ -1053,7 +1053,7 @@ exports.payments = function () {
       type: module.exports.paymentTypes()[3].code,
       reference: module.exports.references()[0].code,
       notes: 'awesome',
-      date: new Date('2013, 2, 3')
+      date: new Date('2015, 2, 3')
     },
     {
       member: module.exports.members()[6].id,
@@ -1062,7 +1062,7 @@ exports.payments = function () {
       description: 'Some description',
       amount: 5050,
       notes: 'This is a note',
-      date: new Date('2011')
+      date: new Date('2015')
     },
     {
       member: module.exports.members()[6].id,
@@ -1070,7 +1070,7 @@ exports.payments = function () {
       description: 'Some description',
       amount: 2000,
       notes: 'This is a nice donation',
-      date: new Date('2012')
+      date: new Date('2015')
     },
     {
       member: module.exports.members()[6].id,
@@ -1080,7 +1080,7 @@ exports.payments = function () {
       amount: 3050,
       reference: module.exports.references()[0].code.slice(1),
       notes: 'This is a nice payment',
-      date: new Date('2013')
+      date: new Date('2015')
     },
     {
       member: module.exports.members()[6].id,
