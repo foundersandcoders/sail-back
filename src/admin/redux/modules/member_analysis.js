@@ -2,7 +2,7 @@
 import { createAction } from 'redux-actions'
 import type { Action, Reducer } from 'redux'
 import { get_body } from 'app/http'
-import { set, assoc, lensPath, map, isEmpty } from 'ramda'
+const { set, assoc, lensPath, map, isEmpty } = require('ramda')
 
 import { PATH_UPDATE } from '../../../shared/redux/modules/route.js'
 export const GIFT_AID_TAB =
@@ -24,7 +24,7 @@ type State = typeof initialState
 
 const reducer: Reducer<State, Action> =
   (state = initialState, { type, payload }) => {
-    const update = state => lens => value => set(lens, value, state)
+    const update = state => lens => value => (set(lens, value, state): State)
     const active_tab = assoc('active_tab', type)
     const members_by_gift_aid_status = lensPath([ 'members_by_gift_aid_status' ])
     const members_by_deliverer = lensPath([ 'members_by_deliverer' ])
