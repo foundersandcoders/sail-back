@@ -41,7 +41,6 @@ var SingleResult = React.createClass({
 })
 
 var SearchResults = function (props) {
-  if (!props.results) return
   var data = typeof props.results === 'string' ? JSON.parse(props.results) : props.results
   var results = data.map(function (result, i) {
     return (
@@ -52,7 +51,6 @@ var SearchResults = function (props) {
   return (
     <div id='search-result'>
       <div className='search-table-section-member'>
-      {props.error && <div className='search-error'>No results</div>}
         <div className='search-table-section-member-header'>
           <div className='col-1'><p>ID</p></div>
           <div className='col-2'><p>Name</p></div>
@@ -61,6 +59,7 @@ var SearchResults = function (props) {
           <div className='col-5'><p>Subscription</p></div>
           {props.homepage && <div className='col-6'><p>Payment</p></div>}
         </div>
+        {props.error && <div className='search-error'>No results</div>}
         <div className='search-table-section-member-rows'>
           {results}
         </div>

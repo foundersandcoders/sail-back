@@ -202,7 +202,7 @@ module.exports.routes = {
 // Analyses
 // ------------------------------------------------------------------------
 
-  'GET /api/list-gift-aid': {
+  'GET /api/list-gift-aid/:status': {
     controller: 'Private',
     action: 'list_gift_aid'
   },

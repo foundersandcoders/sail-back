@@ -129,8 +129,9 @@ module.exports = {
   // Analysis Endpoint Logic
   // ---------------------------------------------------------------------------
   list_gift_aid: function (req, res) {
+    var status_mapper = { true: true, false: false, null: null }
     Members
-      .find({ gift_aid_signed: true })
+      .find({ gift_aid_signed: status_mapper[req.param('status')] })
       .exec(function (err, items) {
         return err ? res.json(err) : res.json(items)
       })
@@ -139,8 +140,9 @@ module.exports = {
   list_deliverers: membersQuery('list_deliverers'),
 
   list_by_deliverer: function (req, res) {
+    var deliverer = req.param('deliverer') === 'null' ? null : req.param('deliverer')
     Members
-      .find({ deliverer: req.param('deliverer') })
+      .find({ deliverer })
       .exec(function (err, items) {
         return err ? res.json(err) : res.json(items)
       })

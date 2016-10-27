@@ -2,39 +2,43 @@
 import { createAction } from 'redux-actions'
 import type { Action, Reducer } from 'redux'
 import { get_body } from 'app/http'
-import { set, assoc, lensPath } from 'ramda'
+import { set, assoc, lensPath, map, isEmpty } from 'ramda'
 
 import { PATH_UPDATE } from '../../../shared/redux/modules/route.js'
-export const LIST_GIFT_AID =
-  'LIST_GIFT_AID'
-export const LIST_BY_DELIVERER =
+export const GIFT_AID_TAB =
+  'GIFT_AID_TAB'
+const LIST_BY_GIFT_AID_STATUS =
+  'LIST_BY_GIFT_AID_STATUS'
+export const DELIVERERS_TAB =
+  'DELIVERERS_TAB'
+const LIST_BY_DELIVERER =
   'LIST_BY_DELIVERER'
-export const LIST_DELIVERERS =
-  'LIST_DELIVERERS'
 
-const initialState = { gift_aid_members: []
+const initialState = { members_by_gift_aid_status: []
                      , members_by_deliverer: []
+                     , deliverers: []
+                     , no_matches: false
                      }
 
 type State = typeof initialState
 
-// TODO: make change tab actions
-
 const reducer: Reducer<State, Action> =
   (state = initialState, { type, payload }) => {
-    const update = lens => value => (set(lens, value, state))
+    const update = state => lens => value => set(lens, value, state)
     const active_tab = assoc('active_tab', type)
-    const gift_aid_members = lensPath([ 'gift_aid_members' ])
+    const members_by_gift_aid_status = lensPath([ 'members_by_gift_aid_status' ])
     const members_by_deliverer = lensPath([ 'members_by_deliverer' ])
+    const deliverers = lensPath([ 'deliverers' ])
+    const no_matches = lensPath([ 'no_matches' ])
     switch (type) {
-    case LIST_GIFT_AID:
-      return active_tab(update(gift_aid_members)(payload))
-    case LIST_DELIVERERS:
-      // return active_tab(update(members_by_deliverer)(payload))
-      console.log('list deliverers payload: ', payload)
-      return state
+    case GIFT_AID_TAB:
+      return active_tab(initialState)
+    case DELIVERERS_TAB:
+      return active_tab(update(initialState)(deliverers)(extract_deliverers(payload.results)))
     case LIST_BY_DELIVERER:
-      return active_tab(update(members_by_deliverer)(payload))
+      return isEmpty(payload) ? update(state)(no_matches)(true) : update(state)(members_by_deliverer)(payload)
+    case LIST_BY_GIFT_AID_STATUS:
+      return isEmpty(payload) ? update(state)(no_matches)(true) : update(state)(members_by_gift_aid_status)(payload)
     case PATH_UPDATE:
       return initialState
     default:
@@ -42,11 +46,16 @@ const reducer: Reducer<State, Action> =
     }
   }
 
-export const list_gift_aid =
-  createAction(LIST_GIFT_AID, () => get_body('/api/list-gift-aid'))
+const extract_deliverers = map(v => v.deliverer === null ? 'No Deliverer' : v.deliverer)
 
-export const list_deliverers =
-  createAction(LIST_DELIVERERS, () => get_body('/api/list-deliverers'))
+export const gift_aid_tab =
+  createAction(GIFT_AID_TAB)
+
+export const list_by_gift_aid_status =
+  createAction(LIST_BY_GIFT_AID_STATUS, status => get_body(`/api/list-gift-aid/${status}`))
+
+export const deliverers_tab =
+  createAction(DELIVERERS_TAB, () => get_body('/api/list-deliverers'))
 
 export const list_by_deliverer =
   createAction(LIST_BY_DELIVERER, deliverer => get_body(`/api/list-by-deliverer/${deliverer}`))
