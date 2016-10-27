@@ -89,3 +89,7 @@ exports.reset_subscription_payments =
   `delete from payments
   where createdAt >= date_sub(curdate(), interval 2 day)
   and category='subscription';`
+
+exports.list_deliverers = () =>
+  `select deliverer from members
+    group by deliverer;`

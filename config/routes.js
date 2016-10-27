@@ -196,6 +196,26 @@ module.exports.routes = {
   'DELETE /api/reset-subscription-payments': {
     controller: 'Private',
     action: 'reset_subscription_payments'
+  },
+
+// ------------------------------------------------------------------------
+// Analyses
+// ------------------------------------------------------------------------
+
+  'GET /api/list-gift-aid/:status': {
+    controller: 'Private',
+    action: 'list_gift_aid'
+  },
+
+  'GET /api/list-deliverers': {
+    controller: 'Private',
+    action: 'list_deliverers'
+  },
+
+  'GET /api/list-by-deliverer/:deliverer': {
+    controller: 'Private',
+    action: 'list_by_deliverer'
   }
+
 // -------------------------------------------------------------------------
 }

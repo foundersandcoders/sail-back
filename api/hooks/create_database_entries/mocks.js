@@ -133,6 +133,7 @@ exports.members = function () {
       password: 'secure',
       privileges: 'member',
       date_joined: new Date(),
+      deliverer: 'jonny',
       gift_aid_signed: false,
       membership_type: module.exports.membershipTypes()[3].value
     },
@@ -155,6 +156,7 @@ exports.members = function () {
       gift_aid_signed: true,
       date_gift_aid_signed: '2015-02-02',
       date_joined: new Date(),
+      deliverer: 'jonny',
       membership_type: module.exports.membershipTypes()[0].value,
       news_type: 'post'
     },
@@ -165,7 +167,7 @@ exports.members = function () {
       address1: 'XYZ',
       address2: 'XYZ',
       address3: 'XYZ',
-      gift_aid_signed: false,
+      gift_aid_signed: true,
       date_gift_aid_cancelled: '2015-02-02',
       address4: 'XYZ',
       county: 'XYZ',
@@ -177,6 +179,7 @@ exports.members = function () {
       privileges: 'member',
       activation_status: 'activated',
       date_joined: new Date(),
+      deliverer: 'jonny',
       membership_type: module.exports.membershipTypes()[3].value,
       life_payment_date: '2015-02-02',
       date_membership_type_changed: '2015-01-01',
@@ -198,7 +201,8 @@ exports.members = function () {
       password: 'secure',
       privileges: 'member',
       date_joined: new Date(),
-      gift_aid_signed: false,
+      deliverer: 'jonny',
+      gift_aid_signed: true,
       membership_type: module.exports.membershipTypes()[0].value,
       news_type: 'post',
       standing_order: true
@@ -219,7 +223,8 @@ exports.members = function () {
       password: 'secure',
       privileges: 'member',
       date_joined: new Date(),
-      gift_aid_signed: false,
+      deliverer: 'jonny',
+      gift_aid_signed: true,
       membership_type: module.exports.membershipTypes()[0].value,
       news_type: 'post',
       standing_order: true
@@ -240,7 +245,8 @@ exports.members = function () {
       password: 'secure',
       privileges: 'member',
       date_joined: new Date(),
-      gift_aid_signed: false,
+      deliverer: 'jonny',
+      gift_aid_signed: true,
       membership_type: module.exports.membershipTypes()[0].value,
       news_type: 'post',
       standing_order: true
@@ -261,7 +267,7 @@ exports.members = function () {
       password: 'secure',
       privileges: 'member',
       date_joined: new Date(),
-      gift_aid_signed: false,
+      gift_aid_signed: true,
       membership_type: module.exports.membershipTypes()[0].value,
       news_type: 'post',
       standing_order: true
@@ -282,7 +288,7 @@ exports.members = function () {
       password: 'secure',
       privileges: 'member',
       date_joined: new Date(),
-      gift_aid_signed: false,
+      gift_aid_signed: true,
       membership_type: module.exports.membershipTypes()[0].value,
       news_type: 'post',
       standing_order: true
@@ -303,7 +309,7 @@ exports.members = function () {
       password: 'secure',
       privileges: 'member',
       date_joined: new Date(),
-      gift_aid_signed: false,
+      gift_aid_signed: true,
       membership_type: module.exports.membershipTypes()[0].value,
       news_type: 'post',
       standing_order: true
@@ -324,7 +330,7 @@ exports.members = function () {
       password: 'secure',
       privileges: 'member',
       date_joined: new Date(),
-      gift_aid_signed: false,
+      gift_aid_signed: true,
       membership_type: module.exports.membershipTypes()[0].value,
       news_type: 'post',
       standing_order: true
@@ -345,7 +351,7 @@ exports.members = function () {
       password: 'secure',
       privileges: 'member',
       date_joined: new Date(),
-      gift_aid_signed: false,
+      gift_aid_signed: true,
       membership_type: module.exports.membershipTypes()[0].value,
       news_type: 'post',
       standing_order: true

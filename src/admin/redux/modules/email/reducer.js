@@ -49,6 +49,7 @@ type State = { emails: { [key: string]: { overdue: number } }
              , email_sent: boolean
              , bounced: [ ]
              , invalid_emails: [ ]
+             , active_tab: ''
              }
 
 const initialState = { emails: { }
@@ -56,6 +57,7 @@ const initialState = { emails: { }
                      , email_sent: false
                      , bounced: [ ]
                      , invalid_emails: [ ]
+                     , active_tab: ''
                      }
 
 const reducer : Reducer<State, Action>
