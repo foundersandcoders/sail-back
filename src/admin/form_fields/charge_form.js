@@ -16,6 +16,7 @@ const payment_category_options =
   , 'CAF'
   , 'Refund'
   , 'Credit Card'
+  , 'Paypal'
   ]
 
 const types =
