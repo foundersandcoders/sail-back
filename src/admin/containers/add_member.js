@@ -60,9 +60,11 @@ const NewMember = (
         mode='edit'
         read_only={read_only}
       />
-      <a href='#/' className='flex-button'>
-        <button className='button-primary'>Home</button>
-      </a>
+      <div className='add-member-home-button-container'>
+        <a href='#/' className='flex-button'>
+          <button className='button-primary'>Home</button>
+        </a>
+      </div>
     </div>
   </div>
 )
