@@ -26,9 +26,12 @@ const MemberAnalysis = (props) => {
 
 const GiftAidSection = (props) => {
   const { member_analysis: { members_by_gift_aid_status, no_matches } } = props
-  return !isEmpty(members_by_gift_aid_status) || no_matches
-    ? <SearchResults results={members_by_gift_aid_status} error={no_matches}/>
-    : GiftAidForm(props)
+  return (
+    <div>
+      {GiftAidForm(props)}
+      <SearchResults results={members_by_gift_aid_status} error={no_matches}/>
+    </div>
+  )
 }
 
 const GiftAidForm = ({ list_by_gift_aid_status }) =>
@@ -49,12 +52,13 @@ const GiftAidForm = ({ list_by_gift_aid_status }) =>
 
 const DelivererSection = (props) => {
   const { member_analysis: { members_by_deliverer, no_matches } } = props
-  return !isEmpty(members_by_deliverer) || no_matches
-    ? <SearchResults results={members_by_deliverer} error={no_matches}/>
-    : DelivererForm(props)
+  return (
+    <div>
+      {DelivererForm(props)}
+      <SearchResults results={members_by_deliverer} error={no_matches}/>
+    </div>
+  )
 }
-
-// TODO: possibly use queryselector rather than e.target.value
 
 const DelivererForm = ({ list_by_deliverer, member_analysis: { deliverers } }) =>
   <div className='member-analysis-form-container'>

@@ -2,7 +2,7 @@
 import { createAction } from 'redux-actions'
 import type { Action, Reducer } from 'redux'
 import { get_body } from 'app/http'
-const { set, assoc, lensPath, map, isEmpty } = require('ramda')
+const { set, assoc, lensPath, map, isEmpty, compose } = require('ramda')
 
 import { PATH_UPDATE } from '../../../shared/redux/modules/route.js'
 export const GIFT_AID_TAB =
@@ -24,7 +24,7 @@ type State = typeof initialState
 
 const reducer: Reducer<State, Action> =
   (state = initialState, { type, payload }) => {
-    const update = state => lens => value => (set(lens, value, state): State)
+    const update = lens => value => state => (set(lens, value, state): State)
     const active_tab = assoc('active_tab', type)
     const members_by_gift_aid_status = lensPath([ 'members_by_gift_aid_status' ])
     const members_by_deliverer = lensPath([ 'members_by_deliverer' ])
@@ -34,11 +34,15 @@ const reducer: Reducer<State, Action> =
     case GIFT_AID_TAB:
       return active_tab(initialState)
     case DELIVERERS_TAB:
-      return active_tab(update(initialState)(deliverers)(extract_deliverers(payload.results)))
+      return active_tab(update(deliverers)(extract_deliverers(payload.results))(initialState))
     case LIST_BY_DELIVERER:
-      return isEmpty(payload) ? update(state)(no_matches)(true) : update(state)(members_by_deliverer)(payload)
+      return isEmpty(payload)
+        ? compose(update(no_matches)(true), update(members_by_deliverer)([]))(state)
+        : compose(update(no_matches)(false), update(members_by_deliverer)(payload))(state)
     case LIST_BY_GIFT_AID_STATUS:
-      return isEmpty(payload) ? update(state)(no_matches)(true) : update(state)(members_by_gift_aid_status)(payload)
+      return isEmpty(payload)
+        ? compose(update(no_matches)(true), update(members_by_gift_aid_status)([]))(state)
+        : compose(update(no_matches)(false), update(members_by_gift_aid_status)(payload))(state)
     case PATH_UPDATE:
       return initialState
     default:
