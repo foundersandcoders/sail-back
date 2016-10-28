@@ -24,5 +24,5 @@ exports.sub_reminder = (member) => (
 
 exports.subscription_due = (member) => (
   `Dear ${member.first_name || member.title + ' ' + member.last_name },
-  Your annual subscription of ${formatPounds(member.amount)} becomes due on ${formatDate(member.due_date)} and we do hope that you will renew your membership of the Friends of Chichester Harbour. Payment can be made by direct bank transfer to Friends of Chichester Harbour, Account No: 87037440, Sort Code 52-41-20 quoting your membership number ${member.id}. Or you can send a cheque, quoting your membership number ${member.id} to Pam Marrs, Membership Secretary FOCH, 42 Bracklesham Road, Hayling Island PO11 9SJ. If you have already paid, our apologies and please ignore this email.`
+  Your annual subscription of ${formatPounds(member.amount)} becomes due on ${formatDate(member.due_date)} and we do hope that you will renew your membership of the Friends of Chichester Harbour. Payment can be made by direct bank transfer to Friends of Chichester Harbour, Account No: 87037440, Sort Code 52-41-20 quoting your membership number ${member.id}. Or you can send a cheque, quoting your membership number ${member.id} to Pam Marrs, Membership Secretary FOCH, 42 Bracklesham Road, Hayling Island PO11 9SJ. If you have already paid, our apologies and please ignore this letter.`
 )
