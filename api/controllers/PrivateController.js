@@ -6,6 +6,7 @@ var Is = require('torf')
 var Upload = require('../services/Upload.js')()
 var mg = require('../services/email_mailgun.js')
 var aSync = require('async')
+var R = require('ramda')
 
 var queries = require('../queries/private.js')
 var helpers = require('./helpers.js')
@@ -43,16 +44,23 @@ module.exports = {
 
   addmember: function (req, res) {
     var member = req.allParams()
-    member.date_joined = (Is.ok(member.date_joined) ? member.date_joined : null)
-    member.life_payment_date = (Is.ok(member.life_payment_date) ? member.life_payment_date : null)
-    member.due_date = (Is.ok(member.due_date) ? member.due_date : null)
-    member.date_gift_aid_signed = (Is.ok(member.date_gift_aid_signed) ? member.date_gift_aid_signed : null)
-    member.date_membership_type_changed = (Is.ok(member.date_membership_type_changed) ? member.date_membership_type_changed : null)
-    member.date_gift_aid_cancelled = (Is.ok(member.date_gift_aid_cancelled) ? member.date_gift_aid_cancelled : null)
-    member.primary_email = (Is.ok(member.primary_email) ? member.primary_email : null)
+
+    var deleteKey = function (key) {
+      if (!Is.ok(member[key])) delete member[key]
+    }
+
+    R.forEach(deleteKey, R.keys(member))
+
+    // TODO: the following is a temporary fix until a better solution is found. Solves the problem of the following fields being
+    // focused on, but their value not being changed (on add member form in admin view).
+    // This means that the value '-- select an option --' gets sent up
+
+    member.gift_aid_signed = member.gift_aid_signed === '-- select an option --' ? false : member.gift_aid_signed
+    member.email_bounced = member.email_bounced === '-- select an option --' ? false : member.email_bounced
+    member.standing_order = member.standing_order === '-- select an option --' ? false : member.standing_order
 
     Members
-      .create(req.allParams())
+      .create(member)
       .exec(function (err, item) {
         if (err) {
           res.json(err)
