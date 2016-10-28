@@ -164,7 +164,8 @@ module.exports = {
       type: 'DATE'
     },
     standing_order: {
-      type: 'BOOLEAN'
+      type: 'BOOLEAN',
+      defaultsTo: false
     },
     activation_status: {
       type: 'STRING',

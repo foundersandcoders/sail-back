@@ -24,6 +24,7 @@
 	button {
 		max-width: 250px;
 		height: 60px;
+		margin-left: 0.6em;
 		// margin-top: 40px;
 	}
 	.checkbox {
@@ -43,4 +44,9 @@
 
 .topSectionDividor {
 	margin-bottom: 20px;
+}
+
+.add-member-home-button-container {
+	margin-left: -0.24em;
+	margin-top: 1em;
 }
