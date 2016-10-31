@@ -41,23 +41,21 @@ const PREVIEW_CUSTOM =
   'PREVIEW_CUSTOM'
 const EDIT_CUSTOM =
   'EDIT_CUSTOM'
+const DISABLE_BUTTON =
+  'DISABLE_BUTTON'
 
 import type { Action, Reducer } from 'redux'
 
-type State = { emails: { [key: string]: { overdue: number } }
-             , custom_emails: { }
-             , email_sent: boolean
-             , bounced: [ ]
-             , invalid_emails: [ ]
-             , active_tab: ''
-             }
+type State = typeof initialState
 
-const initialState = { emails: { }
-                     , custom_emails: { }
+const initialState = { emails: {}
+                     , custom_emails: {}
                      , email_sent: false
-                     , bounced: [ ]
-                     , invalid_emails: [ ]
+                     , bounced: []
+                     , invalid_emails: []
                      , active_tab: ''
+                     , button_disabled: false
+                     , list_hidden: false
                      }
 
 const reducer : Reducer<State, Action>
@@ -69,7 +67,7 @@ const reducer : Reducer<State, Action>
     const list_hidden = lensPath([ 'list_hidden' ])
     const new_emails = template => shape =>
       update(emails)(map(compose(Email, template), shape(payload.results)))
-    const change_tab = assoc('active_tab', type)
+    const change_tab = R_compose(assoc('active_tab', type), assoc('invalid_emails', []), assoc('button_disabled', false))
     switch (type) {
       case SEND_SUB_REMINDER:
         return change_tab(new_emails(template_subs)(primaries))
@@ -101,6 +99,8 @@ const reducer : Reducer<State, Action>
         return { ...state, custom_emails: { ...state.custom_emails, mode: type } }
       case PATH_UPDATE:
         return initialState
+      case DISABLE_BUTTON:
+        return { ...state, button_disabled: true }
       default:
         return state
     }
@@ -214,3 +214,6 @@ export const submit_custom_email =
     const shapedEmails = compose(dissoc('null'), converge(merge, setEmailKey))(emailsArr)
     return post_body({ email: shapedEmails }, '/api/submit-email')
   })
+
+export const disable_button =
+  createAction(DISABLE_BUTTON)
