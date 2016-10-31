@@ -69,7 +69,7 @@ const reducer : Reducer<State, Action>
     const list_hidden = lensPath([ 'list_hidden' ])
     const new_emails = template => shape =>
       update(emails)(map(compose(Email, template), shape(payload.results)))
-    const change_tab = assoc('active_tab', type)
+    const change_tab = R_compose(assoc('active_tab', type), assoc('invalid_emails', []))
     switch (type) {
       case SEND_SUB_REMINDER:
         return change_tab(new_emails(template_subs)(primaries))

@@ -57,7 +57,7 @@ const Email = (
 const EmailSent = ({ invalid_emails }) =>
   <div className='sent-email-container'>
     <h2>The email has been sent to the members.</h2>
-    {invalid_emails && InvalidEmails(invalid_emails)}
+    {!isEmpty(invalid_emails) && InvalidEmails(invalid_emails)}
   </div>
 
 const InvalidEmails = (invalid_emails) =>
