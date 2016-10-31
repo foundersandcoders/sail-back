@@ -6,7 +6,9 @@
 var R = require('ramda')
 var aSync = require('async')
 
-var apiKey = process.env.MAILGUN
+// Set the folowing to randomString so app doesn't crash in environments where
+// mailgun api key is not provided, for example testing and travis.
+var apiKey = process.env.MAILGUN || 'randomString'
 var domain = 'sandboxba3153df65354c40ae1a00b269fecdb5.mailgun.org'
 var mailgun = require('mailgun-js')({ apiKey, domain })
 
