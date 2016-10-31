@@ -20,3 +20,14 @@
   font-size: 1.1em;
   margin: 0.5em;
 }
+
+.charge_form_buttons {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 0.5em;
+}
+
+.charge-field-button  {
+  max-width: 10em;
+  margin-left: 0.5em;
+}
