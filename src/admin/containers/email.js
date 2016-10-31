@@ -91,7 +91,7 @@ const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_e
       className={`email-list-toggle ${button_disabled ? 'email-button-disabled' : ''}`}
       disabled={button_disabled}
     >
-      Send Emails
+      {button_disabled ? 'Sending Emails...' : 'Send Emails'}
     </button>
     <ul>
       { list_hidden || map(email(toggle_content), toPairs(emails)) }

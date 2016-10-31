@@ -35,7 +35,7 @@ export default ({members, preview, props: { submit_custom_email, edit_custom, bu
         className={`custom-email-button ${button_disabled ? 'email-button-disabled' : ''}`}
         onClick={() => {disable_button(); submit_custom_email(members, preview)}}
       >
-        Send Email
+        {button_disabled ? 'Sending Emails...' : 'Send Emails'}
       </button>
       <button className='custom-email-button' onClick={() => edit_custom(preview)}>Edit Email</button>
     </div>
