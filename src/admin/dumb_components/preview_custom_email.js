@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default ({members, preview, props: { submit_custom_email, edit_custom }}) =>
+export default ({members, preview, props: { submit_custom_email, edit_custom, button_disabled, disable_button }}) =>
   <div className='custom-email-page'>
     <div className='email-recipients'>
       <h2>Email Recipients</h2>
@@ -31,7 +31,12 @@ export default ({members, preview, props: { submit_custom_email, edit_custom }})
           </div>
         )
       }
-      <button className='custom-email-button' onClick={() => submit_custom_email(members, preview)}>Send Email</button>
+      <button
+        className={`custom-email-button ${button_disabled ? 'email-button-disabled' : ''}`}
+        onClick={() => {disable_button(); submit_custom_email(members, preview)}}
+      >
+        Send Email
+      </button>
       <button className='custom-email-button' onClick={() => edit_custom(preview)}>Edit Email</button>
     </div>
   </div>
