@@ -1,6 +1,6 @@
 /* @flow */
 const { createAction } = require('redux-actions')
-const { get_body, post, post_body } = require('app/http')
+const { get_body, post_body, post } = require('app/http')
 
 const
   { lensPath, over, not, indexBy, map, propOr, merge, zipWith, ifElse, gte
@@ -41,23 +41,22 @@ const PREVIEW_CUSTOM =
   'PREVIEW_CUSTOM'
 const EDIT_CUSTOM =
   'EDIT_CUSTOM'
+const DISABLE_BUTTON =
+  'DISABLE_BUTTON'
 
 import type { Action, Reducer } from 'redux'
 
-type State = { emails: { [key: string]: { overdue: number } }
-             , custom_emails: { }
-             , email_sent: boolean
-             , bounced: [ ]
-             , invalid_emails: [ ]
-             , active_tab: ''
-             }
+type State = typeof initialState
 
-const initialState = { emails: { }
-                     , custom_emails: { }
+const initialState = { emails: {}
+                     , custom_emails: {}
                      , email_sent: false
-                     , bounced: [ ]
-                     , invalid_emails: [ ]
+                     , bounced: []
+                     , invalid_emails: []
                      , active_tab: ''
+                     , button_disabled: false
+                     , list_hidden: false
+                     , sending_error: false
                      }
 
 const reducer : Reducer<State, Action>
@@ -67,9 +66,10 @@ const reducer : Reducer<State, Action>
     const emails = lensPath([ 'emails' ])
     const sent = lensPath([ 'email_sent' ])
     const list_hidden = lensPath([ 'list_hidden' ])
+    const sending_error = lensPath([ 'sending_error' ])
     const new_emails = template => shape =>
       update(emails)(map(compose(Email, template), shape(payload.results)))
-    const change_tab = assoc('active_tab', type)
+    const change_tab = R_compose(assoc('active_tab', type), assoc('invalid_emails', []), assoc('button_disabled', false))
     switch (type) {
       case SEND_SUB_REMINDER:
         return change_tab(new_emails(template_subs)(primaries))
@@ -84,7 +84,7 @@ const reducer : Reducer<State, Action>
       case TOGGLE_CONTENT:
         return toggle_show(payload)(state)
       case SEND_WELCOME:
-        return update(sent)(true)
+        return payload.statusCode === 200 ? update(sent)(true) : update(sending_error)(true)
       case SUBMIT_EMAIL:
         return email_response(state)(payload)
       case GET_BOUNCED:
@@ -101,6 +101,8 @@ const reducer : Reducer<State, Action>
         return { ...state, custom_emails: { ...state.custom_emails, mode: type } }
       case PATH_UPDATE:
         return initialState
+      case DISABLE_BUTTON:
+        return { ...state, button_disabled: true }
       default:
         return state
     }
@@ -160,7 +162,7 @@ const toggle_show = (address: string) => (state: State): State => {
 }
 
 export const send_welcome =
-  createAction(SEND_WELCOME, email => post({ email }, '/api/members/welcome'))
+  createAction(SEND_WELCOME, data => post(data, '/api/members/welcome'))
 
 export const send_sub_reminder =
   createAction(SEND_SUB_REMINDER, () => get_body('api/reminders'))
@@ -214,3 +216,6 @@ export const submit_custom_email =
     const shapedEmails = compose(dissoc('null'), converge(merge, setEmailKey))(emailsArr)
     return post_body({ email: shapedEmails }, '/api/submit-email')
   })
+
+export const disable_button =
+  createAction(DISABLE_BUTTON)

@@ -521,6 +521,10 @@ div.gbp {
   margin: 0 1em 1.7em 0;
 }
 
+.email-button-disabled {
+  opacity: 0.4;
+}
+
 .listed-email-addressee {
   list-style: none;
 }
@@ -650,5 +654,6 @@ div.gbp {
 
 .email-sent {
   position: relative;
-  top: -1em;
+  top: -2.2em;
+  margin-left: 0.5em;
 }

@@ -63,7 +63,7 @@ module.exports = {
 
   welcome: function (req, res) {
     sendSubscribe(req.body, function (err, data) {
-      if (err) return res.status(err).end()
+      if (err) return res.badRequest(err)
       return res.json(data)
     })
   }

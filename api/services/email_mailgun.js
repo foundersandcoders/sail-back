@@ -6,7 +6,9 @@
 var R = require('ramda')
 var aSync = require('async')
 
-var apiKey = process.env.MAILGUN
+// Set the folowing to randomString so app doesn't crash in environments where
+// mailgun api key is not provided, for example testing and travis.
+var apiKey = process.env.MAILGUN || 'randomString'
 var domain = 'sandboxba3153df65354c40ae1a00b269fecdb5.mailgun.org'
 var mailgun = require('mailgun-js')({ apiKey, domain })
 
@@ -45,12 +47,15 @@ module.exports = {
     var html
 
     if (type === 'subscribe') {
-      html = [ 'We are delighted that you have decided to become a member of the Friends '
-             + 'of Chichester Harbour and would like to extend a warm welcome. You’ll find '
-             + 'lots more information about us on our website www.friendsch.org. The Friends '
-             + 'are run entirely by volunteers and we will always try to answer any query '
-             + 'directed to one of the contacts listed below. Please do not respond to '
-             + 'messenger@friendsch.org which is an automated system.'
+      html = [ 'We are delighted that you have decided to become a member of the '
+               + 'Friends of Chichester Harbour and would like to extend a warm welcome. '
+               + 'Your Membership Number is ' + data.id + '. If you are paying by bank transfer, '
+               + 'standing order or cheque, booking an Event or have a query, please help us '
+               + 'by quoting your Membership Number as a reference You’ll find lots more '
+               + 'information about us on our website www.friendsch.org. The Friends are run '
+               + 'entirely by volunteers and we will always try to answer any query directed '
+               + 'to one of the contacts listed below. Please do not respond to messenger@friendsch.org '
+               + 'which is an automated system.'
              , 'chairman@friendsch.org'
              , 'editor@friendsch.org'
              , 'events@friendsch.org'
@@ -59,7 +64,7 @@ module.exports = {
              , 'treasurer@friendsch.org'
              , 'I hope that we’ll get a chance to meet in person at our AGM or one of '
              + 'our social events (or maybe on a Work Party if you are feeling energetic?)'
-             , 'Mark Stanton'
+             , 'Oliver Chipperfield'
              , 'Chair'
              , 'Friends of Chichester Harbour'
            ].join('\n\n')

@@ -21,6 +21,7 @@ import
   , sub_due_tab
   , preview_custom
   , edit_custom
+  , disable_button
   , SEND_SUB_REMINDER
   , SEND_NEWSLETTER
   , SEND_NEWSLETTER_REMINDER
@@ -57,7 +58,7 @@ const Email = (
 const EmailSent = ({ invalid_emails }) =>
   <div className='sent-email-container'>
     <h2>The email has been sent to the members.</h2>
-    {invalid_emails && InvalidEmails(invalid_emails)}
+    {!isEmpty(invalid_emails) && InvalidEmails(invalid_emails)}
   </div>
 
 const InvalidEmails = (invalid_emails) =>
@@ -78,14 +79,19 @@ const send_button = ([ id, fn ]) =>
     {label_from_id[id]}
   </button>
 
-const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email }) =>
+const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email, disable_button, button_disabled }) =>
   <div>
     <h1>The following addresses will receive an email:</h1>
     <button type='button' onClick={toggle_list} className='email-list-toggle'>
       { (list_hidden ? 'Show' : 'Hide') + ' Recipients' }
     </button>
-    <button type='button' onClick={() => submit_email(emails)} className='email-list-toggle'>
-      Send Emails
+    <button
+      type='button'
+      onClick={() => {disable_button(); submit_email(emails)}}
+      className={`email-list-toggle ${button_disabled ? 'email-button-disabled' : ''}`}
+      disabled={button_disabled}
+    >
+      {button_disabled ? 'Sending Emails...' : 'Send Emails'}
     </button>
     <ul>
       { list_hidden || map(email(toggle_content), toPairs(emails)) }
@@ -161,6 +167,7 @@ export default connect
     , 'bounced'
     , 'active_tab'
     , 'invalid_emails'
+    , 'button_disabled'
     ]), prop('email')), pick([ 'reset_payments' ])])
   , { send_sub_reminder
     , send_newsletter
@@ -176,5 +183,6 @@ export default connect
     , preview_custom
     , edit_custom
     , reset_subscription_payments
+    , disable_button
     }
   )(Email)
