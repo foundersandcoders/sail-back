@@ -55,7 +55,7 @@ const Letter = React.createClass({
 
           <p>Yours sincerely</p>
 
-          Mark Stanton <br />
+          Oliver Chipperfield <br />
           Chairman, <br />
           Friends of Chichester Harbour <br />
         </div>

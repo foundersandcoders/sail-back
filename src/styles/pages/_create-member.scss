@@ -36,10 +36,17 @@
 			margin-bottom: 0;
 		}
 	}
+	.sending-error {
+		margin-left: 0.5em;
+		margin-top: -0.2em;
+	}
 }
 
-#member-num {
-  font-size: 1.5em;
+.member-num {
+	font-size: 1.5em;
+	margin-top: -1.5em;
+	margin-bottom: 0.6em;
+	margin-left: 0.9em;
 }
 
 .topSectionDividor {
