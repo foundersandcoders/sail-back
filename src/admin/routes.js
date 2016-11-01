@@ -6,12 +6,10 @@ var { Provider } = require('react-redux')
 import store from './redux/store.js'
 
 var App = require('./admin_app.js')
-var AdminHome = require('./pages/home.js')
+var AdminHome = require('./containers/home.js')
 import ViewMember from './containers/member_page.js'
 import AddMember from './containers/add_member.js'
 import Reports from './pages/available_reports.js'
-import { PayingIn } from './containers/payment_reports.js'
-import { NonCheque } from './containers/payment_reports.js'
 import Letter from './containers/letter.js'
 import Emails from './containers/email.js'
 import Labels from './containers/labels.js'
@@ -32,8 +30,6 @@ module.exports = function () {
           <Route path='/members/:id' component={ViewMember} />
           <Route path='/addmember' component={AddMember} />
           <Route path='/reports' component={Reports} />
-            <Route path='/reports/paying_in' component={PayingIn} />
-            <Route path='/reports/non_cheque' component={NonCheque} />
           <Route path='/letters' component={Letters} />
           <Route path='/emails' component={Emails} />
           <Route path='/labels' component={Labels} />
