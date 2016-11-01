@@ -1,6 +1,6 @@
 /* @flow */
 const { createAction } = require('redux-actions')
-const { get_body, post, post_body } = require('app/http')
+const { get_body, post_body, post } = require('app/http')
 
 const
   { lensPath, over, not, indexBy, map, propOr, merge, zipWith, ifElse, gte
@@ -56,6 +56,7 @@ const initialState = { emails: {}
                      , active_tab: ''
                      , button_disabled: false
                      , list_hidden: false
+                     , sending_error: false
                      }
 
 const reducer : Reducer<State, Action>
@@ -65,6 +66,7 @@ const reducer : Reducer<State, Action>
     const emails = lensPath([ 'emails' ])
     const sent = lensPath([ 'email_sent' ])
     const list_hidden = lensPath([ 'list_hidden' ])
+    const sending_error = lensPath([ 'sending_error' ])
     const new_emails = template => shape =>
       update(emails)(map(compose(Email, template), shape(payload.results)))
     const change_tab = R_compose(assoc('active_tab', type), assoc('invalid_emails', []), assoc('button_disabled', false))
@@ -82,7 +84,7 @@ const reducer : Reducer<State, Action>
       case TOGGLE_CONTENT:
         return toggle_show(payload)(state)
       case SEND_WELCOME:
-        return update(sent)(true)
+        return payload.statusCode === 200 ? update(sent)(true) : update(sending_error)(true)
       case SUBMIT_EMAIL:
         return email_response(state)(payload)
       case GET_BOUNCED:
@@ -160,7 +162,7 @@ const toggle_show = (address: string) => (state: State): State => {
 }
 
 export const send_welcome =
-  createAction(SEND_WELCOME, email => post({ email }, '/api/members/welcome'))
+  createAction(SEND_WELCOME, data => post(data, '/api/members/welcome'))
 
 export const send_sub_reminder =
   createAction(SEND_SUB_REMINDER, () => get_body('api/reminders'))
