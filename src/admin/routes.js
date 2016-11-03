@@ -9,7 +9,7 @@ var App = require('./admin_app.js')
 var AdminHome = require('./containers/home.js')
 import ViewMember from './containers/member_page.js'
 import AddMember from './containers/add_member.js'
-import Reports from './pages/available_reports.js'
+import Reports from './containers/reports.js'
 import Letter from './containers/letter.js'
 import Emails from './containers/email.js'
 import Labels from './containers/labels.js'

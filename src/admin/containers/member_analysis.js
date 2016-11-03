@@ -82,5 +82,11 @@ const map_tab =
   , [DELIVERERS_TAB]: DelivererSection
   }
 
-export default connect(pick(['member_analysis']),
-  { gift_aid_tab, list_by_deliverer, deliverers_tab, list_by_gift_aid_status })(MemberAnalysis)
+// export default connect(pick(['member_analysis']),
+//   { gift_aid_tab, list_by_deliverer, deliverers_tab, list_by_gift_aid_status })(MemberAnalysis)
+
+export const GiftAidReport =
+  connect(pick([ 'member_analysis' ]), { list_by_gift_aid_status })(GiftAidSection)
+
+export const DelivererReport =
+  connect(pick([ 'member_analysis' ]), { list_by_deliverer })(DelivererSection)
