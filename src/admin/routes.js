@@ -14,7 +14,6 @@ import Letter from './containers/letter.js'
 import Emails from './containers/email.js'
 import Labels from './containers/labels.js'
 import Letters from './containers/letters.js'
-import MemberAnalysis from './containers/member_analysis.js'
 import ChangePassword from '../shared/components/change_password.js'
 
 var { pathDidUpdate } = require('../shared/redux/modules/route.js')
@@ -34,7 +33,6 @@ module.exports = function () {
           <Route path='/emails' component={Emails} />
           <Route path='/labels' component={Labels} />
           <Route path='/letter/:id' component={Letter} />
-          <Route path='/memberanalysis' component={MemberAnalysis} />
           <Route path='/changepassword' component={ChangePassword} />
         </Route>
       </Router>
