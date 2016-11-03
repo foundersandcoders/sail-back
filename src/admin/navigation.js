@@ -21,7 +21,6 @@ var AdminButtons = function () {
     , 'Labels'
     , 'Emails'
     , 'Letters'
-    , 'Member Analysis'
     , 'Change Password'
     ]
   )
