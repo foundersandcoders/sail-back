@@ -32,28 +32,28 @@
 	font-family: $font-family;
 }
 
-html, body{
+body,
+html {
 	font-family: $font-family;
-	// background: #f4f4f7;
 	color: #444;
 	margin: 0;
 	height: 100%;
 }
 
 input::-webkit-input-placeholder {
-		font-family: 'Sorts Mill Goudy', serif;
+	font-family: 'Sorts Mill Goudy', serif;
 }
 
 input:-ms-input-placeholder {
-		font-family: 'Sorts Mill Goudy', serif;
+	font-family: 'Sorts Mill Goudy', serif;
 }
 
 input:-moz-placeholder {
-		font-family: 'Sorts Mill Goudy', serif;
+	font-family: 'Sorts Mill Goudy', serif;
 }
 
 input::-moz-placeholder {
-		font-family: 'Sorts Mill Goudy', serif;
+	font-family: 'Sorts Mill Goudy', serif;
 }
 
 .admin-wrapper {

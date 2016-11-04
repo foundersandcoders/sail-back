@@ -11,10 +11,12 @@
 .parent-float {
 	display: block;
 	overflow: auto;
+
 	.left {
 		display: inline;
 		float: left;
 	}
+
 	.right {
 		display: inline;
 		float: right;
@@ -29,7 +31,7 @@
 }
 
 .no-border {
-	border: 0px;
+	border: 0;
 }
 
 .select-signup {

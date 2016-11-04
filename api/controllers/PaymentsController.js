@@ -125,7 +125,6 @@ module.exports = {
   },
 
   addDonation: function (req, res) {
-    console.log('in here ', req.body)
     Payments
       .create({
         member: req.session.user.id,
