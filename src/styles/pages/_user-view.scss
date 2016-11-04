@@ -209,6 +209,11 @@ nav {
     display: flex;
     justify-content: center;
   }
+
+  .no-payment-records {
+    text-align: center;
+    margin: 2em 0;
+  }
 }
 @media (min-width: 768px) {
   .navbar-toggle.navbar-toggle {
