@@ -106,6 +106,10 @@ module.exports.routes = {
     controller: 'User',
     action: 'newsletterToOnline'
   },
+  'POST /api/add_donation': {
+    controller: 'Payments',
+    action: 'addDonation'
+  },
   // -------------------------------------------------------------------------
   // Private
   // -------------------------------------------------------------------------
