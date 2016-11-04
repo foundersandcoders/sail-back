@@ -6,6 +6,7 @@ const { compose, flip, concat, map, propOr, filter, sortBy } =
 const { standardise } = require('app/transform_dated')
 
 const { FETCHED_MEMBER } = require('../../../shared/redux/modules/member.js')
+const { PATH_UPDATE } = require('./route.js')
 export const ADDED_PAYMENT = 'ADDED_PAYMENT'
 const REMOVED_PAYMENT = 'REMOVED_PAYMENT'
 
@@ -21,6 +22,8 @@ const reducer: Reducer<Payment[], Action>
         return sort_dated(concat(payments, [payload]))
       case REMOVED_PAYMENT:
         return filter(({id}) => id !== payload, payments)
+      case PATH_UPDATE:
+        return []
       default:
         return payments
     }

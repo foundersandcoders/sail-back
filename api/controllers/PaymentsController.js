@@ -10,7 +10,7 @@
  *      - client side (https://developers.braintreepayments.com/javascript+ruby/start/hello-client)
  *      - server side (https://developers.braintreepayments.com/ios+node/start/hello-server)
  *
-**/
+ **/
 
 var braintree = require('braintree')
 var Validation = require('../services/validate.js')
@@ -31,22 +31,21 @@ module.exports = {
       .clientToken
       .generate({
         merchantAccountId: process.env.BRAINTREE_MERCHANT_ACCOUNT_ID || 'friendsofchichesterharbour'
-        // https://developers.braintreepayments.com/reference/request/client-token/generate/node#merchant_account_id
+          // https://developers.braintreepayments.com/reference/request/client-token/generate/node#merchant_account_id
       }, function (err, response) {
         if (err) {
           console.log('token err', err)
-          res.badRequest({error: err})
+          res.badRequest({
+            error: err
+          })
         } else {
-          res.send({token: response.clientToken})
+          res.send({
+            token: response.clientToken
+          })
         }
       })
   },
-  /**
-   *  Payment
-   *
-   *
-   *
-  **/
+
   makePayment: function (req, res) {
     gateway
       .transaction
@@ -64,14 +63,18 @@ module.exports = {
       }, function (error, result) {
         if (error) {
           console.log('braintree transaction error: ', error)
-          res.send({ braintree_error: error })
+          res.send({
+            braintree_error: error
+          })
         } else if (result.success) {
           // if successful payment, update the db
           var formattedPayment = formatPaymentForDB(req, result.transaction, req.body.type)
           Validation('payment', formattedPayment, function (errorValidation) {
             if (errorValidation) {
               console.log('validation error: ', errorValidation)
-              return res.badRequest({error: errorValidation})
+              return res.badRequest({
+                error: errorValidation
+              })
             }
 
             Payments
@@ -79,40 +82,62 @@ module.exports = {
               .exec(function (error, item) {
                 if (error) {
                   console.log('database entry error: ', error)
-                  return res.badRequest({error: error})
+                  return res.badRequest({
+                    error: error
+                  })
                 } else {
-                  var formatted = Object.assign({}, item, {success: true})
+                  var formatted = Object.assign({}, item, {
+                    success: true
+                  })
                   return res.send(formatted)
                 }
               })
           })
         } else {
-          console.log('transaction not succesful: ', result)
+          console.log('transaction not successful: ', result)
           res.send(result)
         }
       })
   },
 
   payingInReport: function (req, res) {
-    Payments.query
-      ( queries.paying_in
-      , [req.params.ref, req.params.ref]
-      , function (err, results) {
-          if (err) res.badRequest({ error: err })
-          else res.send(results)
-        }
-      )
+    Payments.query(queries.paying_in, [req.params.ref, req.params.ref], function (err, results) {
+      if (err) {
+        res.badRequest({
+          error: err
+        })
+      } else {
+        res.send(results)
+      }
+    })
   },
 
   nonChequeReport: function (req, res) {
-    Payments.query
-      ( queries.non_cheque
-      , [req.query.after, req.query.before, req.params.type]
-      , function (err, results) {
-          if (err) res.badRequest({ error: err })
-          else res.send(results)
-        }
-      )
+    Payments.query(queries.non_cheque, [req.query.after, req.query.before, req.params.type], function (err, results) {
+      if (err) {
+        res.badRequest({
+          error: err
+        })
+      } else {
+        res.send(results)
+      }
+    })
+  },
+
+  addDonation: function (req, res) {
+    console.log('in here ', req.body)
+    Payments
+      .create({
+        member: req.session.user.id,
+        description: 'Donation made on website',
+        amount: parseFloat(req.body.amount) * 100,
+        date: new Date(),
+        category: 'donation'
+      })
+      .exec(function (err, success) {
+        if (err) return res.badRequest(err)
+        return res.send(success)
+      })
   }
 }
 
