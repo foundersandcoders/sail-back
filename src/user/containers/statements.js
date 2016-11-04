@@ -12,11 +12,15 @@ class MemberPaymentsTable extends React.Component {
     this.props.fetch_member_user()
   }
 
+  componentDidUpdate () {
+    this.props.fetch_member_user()
+  }
+
   render () {
     return (
       <div className='donation-section'>
         {isEmpty(this.props.payments) ? NoRecords() : <PaymentsTable payments={this.props.payments} />}
-        {this.props.user_payments.donation_made ? SuccessfulDonation(this.props.fetch_member_user) : DonationForm(this.props.add_donation)}
+        {this.props.user_payments.donation_made ? SuccessfulDonation() : DonationForm(this.props.add_donation)}
       </div>
     )
   }
@@ -42,10 +46,7 @@ const DonationForm = (add_donation) => {
   )
 }
 
-// TODO: think of somehwere else to fire off this action
-
-const SuccessfulDonation = (fetch_member_user) => {
-  fetch_member_user()
+const SuccessfulDonation = () => {
   return (
     <div className='successful-donation'>
       <h3>Your records have been updated</h3>
