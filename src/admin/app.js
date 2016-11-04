@@ -8,7 +8,7 @@ var App = React.createClass({
   render: function () {
     var add_details = this.props.add_details || id
     return (
-      <div>
+      <div className='admin-wrapper'>
         <Navigation user={this.props.user}/>
         { React.Children.map(this.props.children, add_details) }
       </div>

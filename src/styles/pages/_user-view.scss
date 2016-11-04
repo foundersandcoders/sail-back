@@ -15,7 +15,9 @@ nav {
 
 .user-content {
   width: 90%;
-  margin-left: 20px;
+  margin-left: 1em;
+  margin-bottom: 3em;
+  max-width: 1200px;
 }
 
 .member-view-edit-buttons {
@@ -184,6 +186,22 @@ nav {
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-color: #00aeef;
+  }
+}
+
+.donation-section {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+
+  h4 {
+    width: 550px;
+    margin: 1em 0.2em;
+  }
+  input {
+    margin-bottom: 0.5em;
   }
 }
 
