@@ -15,9 +15,26 @@ class MemberPaymentsTable extends React.Component {
     return (
       <div>
         <PaymentsTable payments={this.props.payments} />
+        <DonationSection />
       </div>
     )
   }
+}
+
+const DonationSection = () => {
+  return (
+    <div className='donation-section'>
+      <h4>
+        In order to make membership of the Friends available to as many people
+        as possible we try to keep our annual subscription rates down. Perhaps
+        you would like to help by making a donation.
+      </h4>
+      <form>
+        <input type='number' placeholder='£10' />
+        <button type='submit'>Add donation to my account</button>
+      </form>
+    </div>
+  )
 }
 
 export default connect(pick(['payments']), { fetch_member_user })(MemberPaymentsTable)
