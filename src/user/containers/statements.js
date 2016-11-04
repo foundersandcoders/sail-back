@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { pick } from 'ramda'
+import { pick, isEmpty } from 'ramda'
 
 import { fetch_member_user } from '../../shared/redux/modules/member.js'
 import { add_donation } from '../redux/modules/user_payments.js'
@@ -15,7 +15,7 @@ class MemberPaymentsTable extends React.Component {
   render () {
     return (
       <div className='donation-section'>
-        <PaymentsTable payments={this.props.payments} />
+        {isEmpty(this.props.payments) ? NoRecords() : <PaymentsTable payments={this.props.payments} />}
         {this.props.user_payments.donation_made ? SuccessfulDonation(this.props.fetch_member_user) : DonationForm(this.props.add_donation)}
       </div>
     )
@@ -52,4 +52,13 @@ const SuccessfulDonation = (fetch_member_user) => {
     </div>
   )
 }
+
+const NoRecords = () => {
+  return (
+    <div className='no-payment-records'>
+      <h3>No payments have been recorded in your account</h3>
+    </div>
+  )
+}
+
 export default connect(pick(['payments', 'user_payments']), { fetch_member_user, add_donation })(MemberPaymentsTable)
