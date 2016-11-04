@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { pick, isEmpty } from 'ramda'
+import { pick, isEmpty, length } from 'ramda'
 
 import { fetch_member_user } from '../../shared/redux/modules/member.js'
 import { add_donation } from '../redux/modules/user_payments.js'
@@ -10,6 +10,12 @@ const PaymentsTable = require('../../shared/components/payments_table')
 class MemberPaymentsTable extends React.Component {
   componentDidMount () {
     this.props.fetch_member_user()
+  }
+
+  shouldComponentUpdate ({ user_payments: { donation_made }, payments }) {
+    return (
+      (this.props.user_payments.donation_made !== donation_made) || (length(this.props.payments) !== length(payments))
+    )
   }
 
   componentDidUpdate () {
