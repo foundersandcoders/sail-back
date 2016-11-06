@@ -39,17 +39,22 @@ const payment_defaults : Reducer<Payment, Action>
       case FETCHED_MEMBER:
         return {...state, amount: String(payload.subscription_amount / 100) }
       case ADDED_PAYMENT:
-        return compose
-          ( format
-          , reduce
-            ( (state, field) =>
-                field.match(/^date|reference|type$/)
-                ? { ...state, [field]: payload[field] }
-                : state
-            , state
-            )
-          , keys
-          )(payload)
+        // return compose
+        //   ( format
+        //   , reduce
+        //     ( (state, field) =>
+        //         field.match(/^date|reference|type$/)
+        //         ? { ...state, [field]: payload[field] }
+        //         : state
+        //     , state
+        //     )
+        //   , keys
+        //   )(payload)
+        // I cannot see why we need to do the above functionality.
+        // The action with type ADDED_PAYMENT is created in shared/redux/modules/payments.js
+        // It is only called after the form has been validated front end, and a response from the server has been received
+        // I have asked Richard if he requested the functionality.
+        return initial_state
       default:
         return state
     }
