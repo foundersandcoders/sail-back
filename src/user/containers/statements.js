@@ -37,16 +37,17 @@ const DonationForm = (add_donation) => {
     <div className='donation-form'>
       <h4>
         In order to make membership of the Friends available to as many people
-        as possible we try to keep our annual subscription rates down. Perhaps
-        you would like to help by making a donation.
+        as possible we try to keep our annual subscription rates down.
+        If you would like to add a donation please enter the amount in the box
+        and click Make Donation. Otherwise select the Make a Payment tab above.
       </h4>
       <form onSubmit={(e) => {
           e.preventDefault()
           add_donation({ amount: e.target[0].value })
       }}
       >
-        <input type='number' placeholder='£10' />
-        <button type='submit'>Add donation to my account</button>
+        <input type='number'/>
+        <button type='submit'>Make Donation</button>
       </form>
     </div>
   )
