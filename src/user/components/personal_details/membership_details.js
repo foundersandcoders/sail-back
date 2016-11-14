@@ -12,15 +12,15 @@ import StandingOrderButtons from './standing_order_buttons.js'
 export default (props) =>
   <div>
     <EditDetails {...props} />
-    {propOr('false', 'value')(props.my_details.standing_order) === 'true'
+    {propOr('false', 'value')(props.personal_details.standing_order) === 'true'
       && <ConfirmDeletion delete={props.cancel_standing_order} buttons={StandingOrderButtons} text='Cancel Standing Order' />
     }
-    {propOr('false', 'value')(props.my_details.gift_aid_signed) === 'true'
+    {propOr('false', 'value')(props.personal_details.gift_aid_signed) === 'true'
       ? <ConfirmDeletion delete={props.toggle_gift_aid.bind(null, false)} buttons={GiftAidButtons} text='Revoke Gift Aid'/>
       : <GiftAidSection toggle_gift_aid={props.toggle_gift_aid.bind(null, true)}/>
     }
     <div className='end-membership'>
-      {props.my_details.activation_status && props.my_details.activation_status.initial_value !== 'deactivated'
+      {props.personal_details.activation_status && props.personal_details.activation_status.initial_value !== 'deactivated'
         ? <EndMembershipLoader {...props} />
         : <p>Please contact us if you would like to reinstate your membership.</p>
       }
