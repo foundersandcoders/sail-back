@@ -34,7 +34,6 @@ module.exports = function (sails) {
                   sails.log.error('Hooks - error', err)
                 } else {
                   sails.log.info('Hooks - database entries completed!')
-                // sails.log.info("Hooks - database entries completed:", results)
                 }
               })
             }
