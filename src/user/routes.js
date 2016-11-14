@@ -7,7 +7,8 @@ import store from './redux/store.js'
 //Parent component
 import App from './user_app.js'
 //Container components
-import MyDetails from './containers/my_details.js'
+import ContactDetails from './containers/contact_details.js'
+import Membership from './containers/membership.js'
 import Statements from './containers/statements.js'
 import MakePayment from './containers/make_payment.js'
 import ChangePassword from '../shared/components/change_password.js'
@@ -21,7 +22,8 @@ module.exports = () =>
   <Provider store={store} >
     <Router history={hashHistory}>
       <Route component={App}>
-        <Route path='/' component={MyDetails} />
+        <Route path='/' component={ContactDetails} />
+        <Route path='/membership' component={Membership} />
         <Route path='/statements' component={Statements} />
         <Route path='/make-payment' component={MakePayment} />
         <Route path='/change-password' component={ChangePassword} />
