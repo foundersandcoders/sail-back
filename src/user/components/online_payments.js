@@ -15,12 +15,12 @@ const Error = () =>
 const PaymentOptions = (props) =>
   <div className='make-payment'>
     <h1 className='title'>Online Payment</h1>
-    <h3 className='subtitle'>If you would prefer to pay by PayPal</h3>
+    <h3 className='subtitle'>Pay using PayPal</h3>
+    <Paypal {...props} />
     <h3 className='subtitle'>Alternatively pay by card</h3>
     <CreaditCardPayment {...props} />
   </div>
 
-  // <Paypal {...props} />
 
 const SuccessfulPayment = ({ user_payments }) =>
   <div className='make-payment'>
