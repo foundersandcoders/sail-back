@@ -184,7 +184,7 @@ exports.members = function () {
     activation_status: 'activated',
     date_joined: new Date(),
     deliverer: 'Jen',
-    membership_type: module.exports.membershipTypes()[0].value,
+    membership_type: module.exports.membershipTypes()[2].value,
     news_type: 'online'
   }, {
     id: '1004',
@@ -206,7 +206,7 @@ exports.members = function () {
     activation_status: 'activated',
     date_joined: new Date(),
     deliverer: 'Buddha',
-    membership_type: module.exports.membershipTypes()[0].value,
+    membership_type: module.exports.membershipTypes()[1].value,
     news_type: 'online'
   }, {
     id: '331231',
