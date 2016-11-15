@@ -141,7 +141,8 @@ exports.members = function () {
     date_joined: new Date(),
     deliverer: 'jonny',
     membership_type: module.exports.membershipTypes()[0].value,
-    news_type: 'post'
+    news_type: 'post',
+    standing_order: true
   }, {
     id: '1002',
     title: 'Mr',

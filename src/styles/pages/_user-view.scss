@@ -56,6 +56,10 @@ nav {
   }
 }
 
+.end-membership {
+  padding-top: 1em;
+}
+
 .make-payment {
   max-width: 50.75em;
   margin: 0 auto;
@@ -188,7 +192,8 @@ nav {
 }
 
 .donation-section {
-  .donation-form {
+  .form-container {
+    margin-top: 1em;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -201,6 +206,10 @@ nav {
     }
 
     input {
+      margin-bottom: 0.5em;
+    }
+
+    select {
       margin-bottom: 0.5em;
     }
   }
