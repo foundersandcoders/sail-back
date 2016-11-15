@@ -9,6 +9,7 @@ import
   , reactivate_member
   , toggle_gift_aid
   , cancel_standing_order
+  , switch_to_online_news
   } from '../../shared/redux/modules/member.js'
 
 import { toggle_member_mode } from '../../shared/redux/modules/mode.js'
@@ -22,7 +23,7 @@ class MyDetails extends React.Component {
 
   render () {
     return (
-      <MembershipDetails active_tab='membership_details' {...this.props} />
+      <MembershipDetails member_view_fields='membership' {...this.props} />
     )
   }
 }
@@ -35,4 +36,5 @@ export default connect(pick(['mode', 'personal_details']),
   , reactivate_member
   , toggle_gift_aid
   , cancel_standing_order
+  , switch_to_online_news
   })(MyDetails)

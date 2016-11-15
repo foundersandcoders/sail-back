@@ -22,7 +22,7 @@ class ContactDetails extends React.Component {
 
   render () {
     return (
-      <EditDetails active_tab='contact_details' {...this.props} />
+      <EditDetails member_view_fields='contact' {...this.props} />
     )
   }
 }

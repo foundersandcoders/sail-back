@@ -48,7 +48,7 @@ const fieldStructure =
   }
 
 const user_field_structure =
-  { contact_details:
+  { contact:
     [ 'id'
     , 'title'
     , 'initials'
@@ -65,11 +65,9 @@ const user_field_structure =
     , 'home_phone'
     , 'mobile_phone'
     ]
-    , membership_details:
+    , membership:
     [ 'id'
-    , 'membership_type'
     , 'due_date'
-    , 'news_type'
     , 'date_gift_aid_signed'
     , 'date_gift_aid_cancelled'
     ]

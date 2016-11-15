@@ -11,10 +11,10 @@ import user_payments from './modules/user_payments.js'
 
 
 const root_reducer = combineReducers(
-    { payments
-    , form: personal_details_form
-    , mode
+    { form: personal_details_form
     , personal_details: member_reducer
+    , payments
+    , mode
     , changed_password
     , user_payments
     }

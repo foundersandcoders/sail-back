@@ -20,6 +20,6 @@ function start (callback) {
       return callback.apply(null, arguments)
     })
   } else {
-    return callback.apply(null, [null, sailsInstance])
+    return callback(null, sailsInstance)
   }
 }

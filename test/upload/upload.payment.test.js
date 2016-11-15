@@ -2,9 +2,7 @@
 
 var test = require('tape')
 var request = require('request')
-var fs = require('fs')
 var through = require('through2')
-var req = require('hyperquest')
 
 var mockPayments = require('./mocks.js').payments
 var payments = []

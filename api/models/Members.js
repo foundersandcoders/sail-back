@@ -1,5 +1,5 @@
 /*global
-  sails, Members
+  sails, Members, Payments, MembershipTypes
 */
 
 /**
@@ -36,31 +36,129 @@ var hash_password = key => cb => member => {
   })
 }
 
-var handle_membership_change = cb => member =>
+var handle_membership_change = cb => updated_member =>
   Members
-    .findOne(member.id)
-    .exec(function (error, item) {
+    .findOne(updated_member.id)
+    .populate('payments', {
+      where: {
+        category: [ 'subscription', 'payment' ],
+        date: { '>': new Date(Date.now() - 365 * 24 * 60 * 60 * 1000) }
+      }
+    })
+    .exec(function (error, stored_member) {
       if (error) return sails.log.error(error)
-      if (!member.membership_type || member.membership_type === item.membership_type) return cb(member)
-      member.date_membership_type_changed = new Date()
-      member.life_payment_date = member.membership_type.match('life') ? new Date() : null
-      cb(member)
+      if (!updated_member.membership_type || updated_member.membership_type === stored_member.membership_type) return cb(updated_member)
+      return MembershipTypes
+        .find()
+        .exec(function (error, membership_types) {
+          if (error) return console.error(error)
+          var membership_prices = membership_types.reduce(function (prices, membership_type) {
+            prices[membership_type.value] = membership_type.amount
+            return prices
+          }, {})
+
+          if (stored_member.membership_type.match('annual') && updated_member.membership_type.match('life')) {
+            return Payments
+              .create({
+                member: stored_member.id,
+                description: 'Life subscription £' + membership_prices[updated_member.membership_type]/100,
+                amount: membership_prices[updated_member.membership_type],
+                date: new Date(),
+                category: 'subscription'
+              })
+              .exec(function (error, payment) { // eslint-disable-line
+                if (error) return console.error(error)
+                updated_member.date_membership_type_changed = new Date()
+                updated_member.life_payment_date = new Date()
+                updated_member.due_date = null
+                return cb(updated_member)
+              })
+          }
+
+          var upgrade_single_double = stored_member.membership_type === 'annual-single' && updated_member.membership_type === 'annual-double'
+          var upgrade_single_family = stored_member.membership_type === 'annual-single' && updated_member.membership_type === 'annual-family'
+          var upgrade_double_family = stored_member.membership_type === 'annual-double' && updated_member.membership_type === 'annual-family'
+
+          var downgrade_double_single = stored_member.membership_type === 'annual-double' && updated_member.membership_type === 'annual-single'
+          var downgrade_family_single = stored_member.membership_type === 'annual-family' && updated_member.membership_type === 'annual-single'
+          var downgrade_family_double = stored_member.membership_type === 'annual-family' && updated_member.membership_type === 'annual-double'
+
+          var subscription_balance = stored_member.payments.reduce(function (sum, payment) {
+            if (payment.category === 'subscription') return sum + payment.amount
+            if (payment.category === 'payment') return sum - payment.amount
+            return sum
+          }, 0)
+
+          if ((upgrade_single_double || upgrade_single_family || upgrade_double_family) && subscription_balance > 0) {
+            var upgrade_amount = membership_prices[updated_member.membership_type] - membership_prices[stored_member.membership_type]
+            return Payments
+              .create({
+                member: stored_member.id,
+                description: 'Upgrade annual subscription £' + upgrade_amount/100,
+                amount: upgrade_amount,
+                date: new Date(),
+                category: 'subscription'
+              })
+              .exec(function (error, payment) { // eslint-disable-line
+                if (error) return console.error(error)
+                updated_member.date_membership_type_changed = new Date()
+                updated_member.life_payment_date = null
+                updated_member.due_date = new Date()
+                return cb(updated_member)
+              })
+          }
+
+          if ((downgrade_double_single || downgrade_family_single || downgrade_family_double) && subscription_balance > 0) {
+            var downgrade_amount = membership_prices[stored_member.membership_type] - membership_prices[updated_member.membership_type]
+            return Payments
+              .create({
+                member: stored_member.id,
+                description: 'Reduced annual subscription -£' + downgrade_amount/100,
+                amount: -downgrade_amount,
+                date: new Date(),
+                category: 'subscription'
+              })
+              .exec(function (error, payment) { // eslint-disable-line
+                if (error) return console.error(error)
+                updated_member.date_membership_type_changed = new Date()
+                updated_member.life_payment_date = null
+                updated_member.due_date = new Date()
+                return cb(updated_member)
+              })
+          }
+
+          return Payments
+            .create({
+              member: stored_member.id,
+              description: 'New subscription rate',
+              amount: membership_prices[updated_member.membership_type],
+              date: new Date(),
+              category: 'subscription'
+            })
+            .exec(function (error, payment) { //eslint-disable-line
+              if (error) return console.error(error)
+              updated_member.date_membership_type_changed = new Date()
+              updated_member.life_payment_date = updated_member.membership_type.match('life') ? new Date() : null
+              updated_member.due_date = new Date()
+              return cb(updated_member)
+            })
+        })
     })
 
-var handle_gift_aid_change = cb => member =>
+var handle_gift_aid_change = cb => updated_member =>
   Members
-    .findOne(member.id)
-    .exec(function (error, item) {
+    .findOne(updated_member.id)
+    .exec(function (error, stored_member) {
       if (error) return sails.log.error(error)
-      if (!('gift_aid_signed' in member) || member.gift_aid_signed === item.gift_aid_signed) return cb(member)
-      if (member.gift_aid_signed) {
-        member.date_gift_aid_signed = new Date()
-        member.date_gift_aid_cancelled = null
-        return cb(member)
+      if (!('gift_aid_signed' in updated_member) || updated_member.gift_aid_signed === stored_member.gift_aid_signed) return cb(updated_member)
+      if (updated_member.gift_aid_signed) {
+        updated_member.date_gift_aid_signed = new Date()
+        updated_member.date_gift_aid_cancelled = null
+        return cb(updated_member)
       }
-      member.date_gift_aid_cancelled = new Date()
-      member.date_gift_aid_signed = null
-      return cb(member)
+      updated_member.date_gift_aid_cancelled = new Date()
+      updated_member.date_gift_aid_signed = null
+      return cb(updated_member)
     })
 
 module.exports = {

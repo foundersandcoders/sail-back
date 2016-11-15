@@ -6,5 +6,5 @@ export default ({ confirmation, which_text, which_delete, reset }) =>
     <button onClick={which_delete()} className={confirmation ? 'green' : ''}>
       {which_text()}
     </button>
-    {confirmation && <button onClick={reset} className='red'>Keep Standing Order</button>}
+    {confirmation && <button onClick={reset} className='red'>Cancel</button>}
   </div>
