@@ -61,7 +61,7 @@ var handle_membership_change = cb => updated_member =>
             return Payments
               .create({
                 member: stored_member.id,
-                description: 'Life subscription £' + membership_prices[updated_member.membership_type],
+                description: 'Life subscription £' + membership_prices[updated_member.membership_type]/100,
                 amount: membership_prices[updated_member.membership_type],
                 date: new Date(),
                 category: 'subscription'

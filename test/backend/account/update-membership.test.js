@@ -117,12 +117,8 @@ test('api#update-membership-type => annual-single to annual-double (balance due 
     })
   }).then(function (res) {
     var today = new Date()
-    var last_payment = r.last(res.body.payments)
     t.ok(res.body.membership_type.amount === membership_prices['annual-double'], 'membership subscription amount correct')
-    t.ok(
-      last_payment.date !== (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(),
-      'No subscription updgrade surcharge added'
-    )
+    t.ok(res.body.due_date === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(), 'Due date set to today')
     t.end()
   }).catch(function (err) {
     t.end(err)
@@ -227,12 +223,8 @@ test('api#update-membership-type => annual-double to annual-family (no balance d
     })
   }).then(function (res) {
     var today = new Date()
-    var last_payment = r.last(res.body.payments)
     t.ok(res.body.membership_type.amount === membership_prices['annual-family'], 'membership subscription amount correct')
-    t.ok(
-      last_payment.date !== (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(),
-      'No subscription updgrade surcharge added'
-    )
+    t.ok(res.body.due_date === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(), 'Due date set to today')
     t.end()
   }).catch(function (err) {
     t.end(err)
