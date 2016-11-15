@@ -18,7 +18,7 @@ const PersonalFields = (
   , description
   , userViewClass
   , memberView
-  , active_tab: member_fields
+  , member_view_fields
   }
 ) => {
   const fs = ((fields.membership_type && fields.membership_type.value) || '').match('life')
@@ -67,7 +67,7 @@ const PersonalFields = (
         { fs.deletion_reason ? make_fieldset(fieldStructure)('edit') : '' }
       </div>
       <div className={className}>
-        { memberView ? make_fieldset(user_field_structure)(member_fields) : field_order.map(make_fieldset(fieldStructure)) }
+        { memberView ? make_fieldset(user_field_structure)(member_view_fields) : field_order.map(make_fieldset(fieldStructure)) }
       </div>
       { buttons_first ? '' : buttons }
     </form>

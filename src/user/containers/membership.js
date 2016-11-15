@@ -22,7 +22,7 @@ class MyDetails extends React.Component {
 
   render () {
     return (
-      <MembershipDetails active_tab='membership_details' {...this.props} />
+      <MembershipDetails member_view_fields='membership' {...this.props} />
     )
   }
 }
