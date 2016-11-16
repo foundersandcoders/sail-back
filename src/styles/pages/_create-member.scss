@@ -1,6 +1,5 @@
 .new-member-container {
 	border-bottom: 1px solid #dbdbdb;
-	// box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
 	background-color: #fff;
 	width: 70%;
 	margin: auto;
@@ -19,13 +18,11 @@
 		margin-bottom: -34px;
 	}
 	input, textarea, select {
- 		margin-bottom: 15px;
+ 		margin-bottom: 0.4em;
 	}
 	button {
-		max-width: 250px;
+		max-width: 320px;
 		height: 60px;
-		margin-left: 0.6em;
-		// margin-top: 40px;
 	}
 	.checkbox {
 		margin-left: 1px;
@@ -56,4 +53,8 @@
 .add-member-home-button-container {
 	margin-left: -0.24em;
 	margin-top: 1em;
+
+	button {
+		margin-left: 0.1em;
+	}
 }

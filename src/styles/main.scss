@@ -41,19 +41,19 @@ html {
 }
 
 input::-webkit-input-placeholder {
-	font-family: 'Sorts Mill Goudy', serif;
+	font-family: $font-family;
 }
 
 input:-ms-input-placeholder {
-	font-family: 'Sorts Mill Goudy', serif;
+	font-family: $font-family;
 }
 
 input:-moz-placeholder {
-	font-family: 'Sorts Mill Goudy', serif;
+	font-family: $font-family;
 }
 
 input::-moz-placeholder {
-	font-family: 'Sorts Mill Goudy', serif;
+	font-family: $font-family;
 }
 
 .admin-wrapper {
