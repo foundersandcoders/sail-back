@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { pick, isEmpty, length, compose, join, map, split, toUpper, adjust, pipe } from 'ramda'
+import { pick, isEmpty, length, compose, join, map, split, toUpper, adjust, pipe, propOr } from 'ramda'
 
 import { fetch_member_user, update_member_user } from '../../shared/redux/modules/member.js'
 import { add_donation } from '../redux/modules/user_payments.js'
@@ -14,6 +14,7 @@ class MemberPaymentsTable extends React.Component {
       membership_changed: false
     }
   }
+
   componentDidMount () {
     this.props.fetch_member_user()
   }
@@ -21,7 +22,7 @@ class MemberPaymentsTable extends React.Component {
   shouldComponentUpdate ({ user_payments: { donation_made }, payments, personal_details }) {
     var donation_added = this.props.user_payments.donation_made !== donation_made
     var payments_updated = length(this.props.payments) !== length(payments)
-    var membership_changed = this.props.personal_details.membership_type.value !== personal_details.membership_type.value
+    var membership_changed = propOr('annual-single', 'value')(this.props.personal_details.membership_type) !== personal_details.membership_type.value
 
     membership_changed && this.setState({ membership_changed: true })
 
@@ -37,8 +38,8 @@ class MemberPaymentsTable extends React.Component {
       <div className='donation-section'>
         {isEmpty(this.props.payments) ? NoRecords() : <PaymentsTable payments={this.props.payments} />}
         {this.state.membership_changed
-          ? SuccessfulMembershipChange(this.props.personal_details.membership_type.value)
-          : ChangeMembershipForm (this.props.update_member_user, this.props.personal_details.membership_type.value)
+          ? SuccessfulMembershipChange(propOr('annual-single', 'value')(this.props.personal_details.membership_type))
+          : ChangeMembershipForm (this.props.update_member_user, propOr('annual-single', 'value')(this.props.personal_details.membership_type))
         }
         {this.props.user_payments.donation_made ? SuccessfulDonation() : DonationForm(this.props.add_donation)}
       </div>
