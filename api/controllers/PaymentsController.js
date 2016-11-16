@@ -34,7 +34,7 @@ module.exports = {
           // https://developers.braintreepayments.com/reference/request/client-token/generate/node#merchant_account_id
       }, function (err, response) {
         if (err) {
-          console.log('token err', err)
+          console.error('Error creating braintree token.')
           res.badRequest({
             error: err
           })
@@ -62,7 +62,7 @@ module.exports = {
         }
       }, function (error, result) {
         if (error) {
-          console.log('braintree transaction error: ', error)
+          console.error('Braintree transaction error')
           res.send({
             braintree_error: error
           })
@@ -71,7 +71,7 @@ module.exports = {
           var formattedPayment = formatPaymentForDB(req, result.transaction, req.body.type)
           Validation('payment', formattedPayment, function (errorValidation) {
             if (errorValidation) {
-              console.log('validation error: ', errorValidation)
+              console.error('DB validation error')
               return res.badRequest({
                 error: errorValidation
               })
@@ -81,7 +81,7 @@ module.exports = {
               .create(formattedPayment)
               .exec(function (error, item) {
                 if (error) {
-                  console.log('database entry error: ', error)
+                  console.error('Payment database entry error')
                   return res.badRequest({
                     error: error
                   })
@@ -94,7 +94,7 @@ module.exports = {
               })
           })
         } else {
-          console.log('transaction not successful: ', result)
+          console.error('Braintree transaction not successful')
           res.send(result)
         }
       })
