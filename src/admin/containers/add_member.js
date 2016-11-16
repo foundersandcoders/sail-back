@@ -14,10 +14,10 @@ const buttons = ({ fields: { id, primary_email }, error, email_handler, email_se
     { error ? <div className='error'>{error.message}</div> : '' }
     { id.value && !email_sent
       ? <div>
-          <div className='member-num'>Member ID is: {id.value} </div>
-          {letter_or_email(email_handler, primary_email.value, id.value, sending_error)}
-        </div>
-      : email_sent || <button type='submit'>Submit</button>
+        <div className='member-num'>Member ID is: {id.value} </div>
+        {letter_or_email(email_handler, primary_email.value, id.value, sending_error)}
+      </div>
+      : email_sent || <button type='submit'>Add Member</button>
     }
     { email_sent && <h2 className='email-sent'>The email has been sent.</h2> }
     { sending_error && <h2 className='sending-error'>There was a problem sending the email.</h2> }
@@ -45,7 +45,7 @@ const NewMember = (
 ) => (
   <div>
     <div className='new-member-container'>
-      <h1>New Member Form</h1>
+      <h1>Add New Member</h1>
       <AddMember
         fields={fields}
         Buttons={buttons}
