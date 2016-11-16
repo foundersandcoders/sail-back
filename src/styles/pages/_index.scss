@@ -538,15 +538,22 @@ div.gbp {
 
 .email {
   width: 80%;
+
+  ul {
+    padding-left: 0;
+  }
+}
+
+.email-preview {
+  margin-bottom: 2em;
 }
 
 .email-toggle {
   display: inline-block;
   font-size: 1em;
   width: 8em;
-  height: 2.5em;
-  margin-left: 1em;
-  margin-right: 1em;
+  height: 2.8em;
+  margin-left: 1.8em;
   margin-bottom: 1em;
 }
 
@@ -591,11 +598,11 @@ div.gbp {
 }
 
 .custom-email-container {
-  margin: 4em 1em;
+  margin-top: 2em;
+  margin-left: 0.6em;
 
-  p {
-    margin: 1.5em 0;
-    font-size: 1.3em;
+  h3 {
+    margin-bottom: 1em;
   }
 }
 

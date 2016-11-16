@@ -46,7 +46,7 @@ const Email = (
 ) =>
   <div className='main-container email'>
     <form className='email-controls' >
-    { map(send_button, zip(email_ids, [sub_due, sub, news, remind, custom, get_bounced])) }
+      { map(send_button, zip(email_ids, [sub_due, sub, news, remind, custom, get_bounced])) }
     </form>
 
     {email_sent
@@ -87,7 +87,7 @@ const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_e
     </button>
     <button
       type='button'
-      onClick={() => {disable_button(); submit_email(emails)}}
+      onClick={() => { disable_button(); submit_email(emails) }}
       className={`email-list-toggle ${button_disabled ? 'email-button-disabled' : ''}`}
       disabled={button_disabled}
     >
@@ -142,9 +142,9 @@ const email = toggle_show => ([ address, { content, shown }]) =>
       className='email-toggle'
       onClick={() => toggle_show(address)}
     >
-      { shown ? 'Hide' : 'Show' } email
+      { shown ? 'Hide email' : 'Show email' }
     </button>
-    { shown && <div>{ content.map(display_email) }</div> }
+    { shown && <div className='email-preview'>{ content.map(display_email) }</div> }
   </li>
 
 const display_email = (line, i) => i === 0
@@ -156,7 +156,10 @@ const bounced_email = email =>
     <b>{email.address}</b> bounced on {format_date(email.created_at)}
   </li>
 
-const without_default = cb => e => { e.preventDefault(); cb(e) }
+const without_default = cb => e => {
+  e.preventDefault()
+  cb(e)
+}
 
 export default connect
   ( converge(merge, [compose(pick(
