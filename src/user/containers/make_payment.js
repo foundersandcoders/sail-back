@@ -2,32 +2,39 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { pick } from 'ramda'
 
-import { amount_change, make_payment, payment_type, payment_error, braintree_error } from '../redux/modules/user_payments.js'
+import { amount_change, make_payment, payment_type, payment_error, braintree_error, get_balance_due } from '../redux/modules/user_payments.js'
 import OnlinePayments from '../components/online_payments.js'
 
 const CREDIT_CARD_PAYMENT = 'CREDIT_CARD_PAYMENT'
 const BANK_PAYMENT = 'BANK_PAYMENT'
 const HARBOUR_PAYMENT = 'HARBOUR_PAYMENT'
 
-const PaymentForm = (props) => {
-  const { user_payments: { payment_type } } = props
-  return payment_type
-    ? component_mapper[payment_type](props)
-    : <PaymentAmount {...props}/>
+class PaymentForm extends React.Component {
+
+  componentDidMount () {
+    this.props.get_balance_due()
+  }
+
+  render () {
+    const { user_payments: { payment_type } } = this.props
+    return payment_type
+      ? component_mapper[payment_type](this.props)
+      : <PaymentAmount {...this.props}/>
+  }
 }
 
-const PaymentAmount = ({ user_payments: { amount_entered }, amount_change, payment_type }) => {
+const PaymentAmount = ({ user_payments: { amount_entered, balance_due }, amount_change, payment_type }) => {
   return (
     <div className='payment-amount-container'>
       <form>
-        <h2>Please choose an amount and method of payment.</h2>
+        <h2>Please enter an amount and choose a method of payment</h2>
         <h3>Payment Amount</h3>
         <input
-          placeholder='£10'
+          placeholder={'£' + balance_due}
           type='number'
           onChange={amount_change}
         />
-        <h3 className='subtitle'>How would you like to pay?</h3>
+        <h3 className='subtitle'>Choose a payment method</h3>
         <div>
           <button disabled={amount_entered === '' || amount_entered <= 0} onClick={no_default(payment_type)(CREDIT_CARD_PAYMENT)}>Paypal or Credit Card</button>
           <button onClick={no_default(payment_type)(BANK_PAYMENT)}>Bank Transfer</button>
@@ -62,5 +69,5 @@ const component_mapper =
   }
 
 export default connect(pick(['user_payments']),
-  { make_payment, payment_type, amount_change, payment_error, braintree_error })
+  { make_payment, payment_type, amount_change, payment_error, braintree_error, get_balance_due })
   (PaymentForm)

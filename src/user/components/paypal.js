@@ -21,7 +21,7 @@ export default class Paypal extends React.Component {
           setUpPaypal(clientInstance, button, props)
         })
       })
-      .catch(err => {
+      .catch(err => { // eslint-disable-line
         // console.log('catch error paypal', err)
         return props.braintree_error()
       })

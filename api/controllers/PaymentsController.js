@@ -137,6 +137,19 @@ module.exports = {
         if (err) return res.badRequest(err)
         return res.send(success)
       })
+  },
+
+  getBalanceDue: function (req, res) {
+    Members
+      .findOne(req.session.user.id)
+      .populate('payments')
+      .exec(function (error, member) {
+        var balance_due = member.payments.reduce(function (sum, payment) {
+          if (payment.category === 'payment') return sum - payment.amount
+          return sum + payment.amount
+        }, 0)
+        res.send({ balance_due: balance_due/100 })
+      })
   }
 }
 
