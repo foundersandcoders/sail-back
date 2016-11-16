@@ -67,6 +67,7 @@ const user_field_structure =
     ]
     , membership:
     [ 'id'
+    , 'membership_type'
     , 'due_date'
     , 'date_gift_aid_signed'
     , 'date_gift_aid_cancelled'
@@ -135,7 +136,7 @@ const required =
   , 'news_type'
   ]
 
-const read_only_user = read_only.concat('due_date', 'date_gift_aid_signed', 'date_gift_aid_cancelled')
+const read_only_user = read_only.concat('due_date', 'date_gift_aid_signed', 'date_gift_aid_cancelled', 'membership_type')
 
 const new_required = required.concat('date_joined')
 
