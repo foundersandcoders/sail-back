@@ -1,97 +1,69 @@
 //----------------------------------
 //	FONTS
 //----------------------------------
-$font-family: 'Sorts Mill Goudy', serif;
-
-
-
+$font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 //----------------------------------
 //	BREAKPOINTS
 //----------------------------------
-
 $tablet: 720px;
 $mobile: 480px;
-
 //----------------------------------
 //	FOOTER
 //----------------------------------
-
 $footer-heigth: 30px;
-
 //----------------------------------
 //	COLORS
 //----------------------------------
-
 $general-yellow: #cccc00;
 $general-grey: #ccc;
 $general-line-color: #eee;
 $color-999: #999;
 $color-666: #666;
 $color-333: #333;
-
 //----------------------------------
 //	H1
 //----------------------------------
-
 $h1-font-size-desktop: 42px;
 $h1-font-line-height-desktop: 120%;
-
 $h1-font-size-tablet: 36px;
 $h1-font-line-height-tablet: 120%;
-
 $h1-font-size-mobile: 30px;
 $h1-font-line-height-mobile: 100%;
-
 //----------------------------------
 //	H2
 //----------------------------------
-
 $h2-font-size-desktop: 28px;
 $h2-font-line-height-desktop: 120%;
-
 $h2-font-size-tablet: 26px;
 $h2-font-line-height-tablet: 100%;
-
 $h2-font-size-mobile: 24px;
 $h2-font-line-height-mobile: 100%;
-
 //----------------------------------
 //	H3
 //----------------------------------
-
 $h3-font-size-desktop: 24px;
 $h3-font-line-height-desktop: 120%;
-
 $h3-font-size-tablet: 22px;
 $h3-font-line-height-tablet: 100%;
-
 $h3-font-size-mobile: 20px;
 $h3-font-line-height-mobile: 100%;
-
 //----------------------------------
 //	H4
 //----------------------------------
-
 $h4-font-size-desktop: 20px;
 $h4-font-line-height-desktop: 120%;
-
 $h4-font-size-tablet: 18px;
 $h4-font-line-height-tablet: 100%;
-
 $h4-font-size-mobile: 18px;
 $h4-font-line-height-mobile: 100%;
-
 //----------------------------------
 //	p
 //----------------------------------
-
 $p-font-family: 'Crimson Text', Georgia, serif;
 $p-font-color: #666;
 $p-font-size-desktop: 24px;
 $p-font-line-height-desktop: 150%;
-
 $p-font-size-tablet: 22px;
 $p-font-line-height-tablet: 130%;
-
 $p-font-size-mobile: 20px;
 $p-font-line-height-mobile: 120%;
