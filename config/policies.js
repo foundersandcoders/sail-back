@@ -26,7 +26,8 @@ module.exports.policies = {
     charge: 'isAuthenticated',
     payingInReport: 'isAdmin',
     makePayment: 'isAuthenticated',
-    addDonation: 'isAuthenticated'
+    addDonation: 'isAuthenticated',
+    getBalanceDue: 'isAuthenticated'
   },
 
   EventsController: {
