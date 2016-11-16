@@ -44,15 +44,17 @@ const Email = (
   , ...list_props
   }
 ) =>
-  <div className='main-container email'>
-    <form className='email-controls' >
+  <div className='email'>
+    <div className='email-controls'>
       { map(send_button, zip(email_ids, [sub_due, sub, news, remind, custom, get_bounced])) }
-    </form>
+    </div>
 
-    {email_sent
-      ? EmailSent(list_props)
-      : active_tab && map_tab[active_tab](list_props)
-    }
+    <div className='email-components'>
+      {email_sent
+        ? EmailSent(list_props)
+        : active_tab && map_tab[active_tab](list_props)
+      }
+    </div>
   </div>
 
 const EmailSent = ({ invalid_emails }) =>
@@ -73,7 +75,7 @@ const send_button = ([ id, fn ]) =>
   <button
     id={id}
     key={id}
-    className='send-button'
+    className='tabs'
     onClick={without_default(fn)}
   >
     {label_from_id[id]}
@@ -81,7 +83,7 @@ const send_button = ([ id, fn ]) =>
 
 const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_email, disable_button, button_disabled }) =>
   <div>
-    <h1>The following addresses will receive an email:</h1>
+    <h3>The following addresses will receive an email:</h3>
     <button type='button' onClick={toggle_list} className='email-list-toggle'>
       { (list_hidden ? 'Show' : 'Hide') + ' Recipients' }
     </button>

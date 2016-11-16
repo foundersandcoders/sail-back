@@ -237,8 +237,8 @@ p {
     .search-table-section-member-header {
       width: 100%;
       display: flex;
-      height: 60px;
       text-align: center;
+      margin-bottom: 1.5em;
 
       .col-1 {
         flex: 1.5;
@@ -266,6 +266,7 @@ p {
 
       p {
         font-weight: bold;
+        margin: 0;
       }
     }
 
@@ -282,6 +283,7 @@ p {
         height: 50px;
         line-height: 35px;
         text-align: center;
+        align-items: center;
 
         p {
           font-size: 15px;
@@ -537,7 +539,7 @@ div.gbp {
 }
 
 .email {
-  width: 80%;
+  max-width: 1300px;
 
   ul {
     padding-left: 0;
@@ -634,7 +636,7 @@ div.gbp {
 }
 
 .bounced-container {
-  margin: 2em;
+  margin-top: 2em;
 }
 
 .bounced-heading {
@@ -704,4 +706,34 @@ div.gbp {
 
 .edit-mode-info {
   margin-bottom: 0.3em;
+  font-weight: bold;
+}
+
+.tabs {
+  margin: 0.4em 0 0 1em;
+}
+
+.tabs-active {
+  background-color: #999;
+  color: #fff;
+}
+
+.email-components {
+  margin-left: 1.7em;
+
+  h3 {
+    margin: 1em 0;
+  }
+
+  .reset-payments {
+    margin-top: 2em;
+
+    h2 {
+      margin-bottom: 0.6em;
+    }
+  }
+}
+
+.button-container {
+  max-width: 1300px;
 }

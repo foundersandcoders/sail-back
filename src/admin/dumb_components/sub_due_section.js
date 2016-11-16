@@ -26,12 +26,12 @@ export default ({ fetch_sub_due, component, checker, reset_payments, reset_subsc
 }
 
 const reset_payment_button = ({ confirmation, which_text, which_delete, reset }) =>
-  <div>
+  <div className='reset-payments'>
     <h2>Would you like to reset all subscription payments made within the last 48 hours?</h2>
-      <button onClick={which_delete()} className={confirmation ? 'green' : ''}>
-        {which_text()}
-      </button>
-      {confirmation && <button onClick={reset} className='red'>Cancel</button>}
+    <button onClick={which_delete()} className={confirmation ? 'green' : ''}>
+      {which_text()}
+    </button>
+    {confirmation && <button onClick={reset} className='red'>Cancel</button>}
   </div>
 
 const validate = values => {

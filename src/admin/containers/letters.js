@@ -20,20 +20,20 @@ const Letters = ({ send_sub_reminder_post, active_tab, subscription_due_post_tab
   <div className='top-letter-container'>
 
     <button
-      className={'letters-tab' + (active_tab === SUBSCRIPTION_DUE_POST_TAB ? ' letters-tab-active' : '')}
+      className={'tabs' + (active_tab === SUBSCRIPTION_DUE_POST_TAB ? ' tabs-active' : '')}
       onClick={subscription_due_post_tab}
     >
       Subscription Due Letter
     </button>
 
     <button
-      className={'letters-tab' + (active_tab === SEND_SUB_REMINDER_POST ? ' letters-tab-active' : '')}
+      className={'tabs' + (active_tab === SEND_SUB_REMINDER_POST ? ' tabs-active' : '')}
       onClick={send_sub_reminder_post}
     >
       Balance Overdue Letter
     </button>
 
-    <div>
+    <div className='letter-components'>
       {active_tab && map_tab[active_tab]({...other})}
     </div>
   </div>

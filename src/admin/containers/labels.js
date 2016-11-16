@@ -13,7 +13,7 @@ const Labels = (
   }
 ) =>
   <div>
-    <button onClick={newsletter_labels}>Newsletter Labels</button>
+    <button className='tabs' onClick={newsletter_labels}>Newsletter Labels</button>
     {compose(map(table_builder), splitEvery(21), top_up)(addresses)}
   </div>
 

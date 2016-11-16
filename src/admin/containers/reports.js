@@ -24,10 +24,12 @@ class Reports extends React.Component {
     const ActiveComponent = tab_mapper[this.state.active_tab]
     return (
       <div className='reports-container'>
-        <button className='member-analysis-tab' onClick={() => { this.props.gift_aid_tab(); this.setState({ active_tab: 'GiftAidReport' }) }}>Members by Gift Aid Status</button>
-        <button className='member-analysis-tab' onClick={() => { this.props.deliverers_tab(); this.setState({ active_tab: 'DelivererReport' }) }}>Members by Deliverer</button>
-        <button className='member-analysis-tab' onClick={() => this.setState({ active_tab: 'NonCheque' })}>Non Cheque Payments</button>
-        <button className='member-analysis-tab' onClick={() => this.setState({ active_tab: 'PayingIn' })}>Paying In Slips</button>
+        <div className='button-container'>
+          <button className='tabs' onClick={() => { this.props.gift_aid_tab(); this.setState({ active_tab: 'GiftAidReport' }) }}>Members by Gift Aid Status</button>
+          <button className='tabs' onClick={() => { this.props.deliverers_tab(); this.setState({ active_tab: 'DelivererReport' }) }}>Members by Deliverer</button>
+          <button className='tabs' onClick={() => this.setState({ active_tab: 'NonCheque' })}>Non Cheque Payments</button>
+          <button className='tabs' onClick={() => this.setState({ active_tab: 'PayingIn' })}>Paying In Slips</button>
+        </div>
         {this.state.active_tab && <ActiveComponent />}
       </div>
     )
