@@ -35,6 +35,6 @@ const item = ([route, text]) =>
   <NavItem key={route} href={route}>{text}</NavItem>
 
 const routes = [ '#', '#membership', '#statements', '#make-payment', '#change-password', '/signout' ]
-const text = [ 'Contact Details', 'Membership', 'Accounts', 'Make a Payment', 'Change Password', 'Sign Out' ]
+const text = [ 'Contact Details', 'Membership', 'My Account', 'Make a Payment', 'Change Password', 'Sign Out' ]
 
 export default NavigationBar

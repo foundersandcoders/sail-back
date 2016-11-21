@@ -46,7 +46,7 @@ const PersonalFields = (
           <Field
             {...fs[field]}
             id={field}
-            name={label_from_id(field)}
+            name={field === 'id' ? 'Membership Number: ' : label_from_id(field)}
             options={options[field]}
             mode={contains(field, read_only) ? 'view' : mode}
             key={field}

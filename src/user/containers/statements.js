@@ -91,7 +91,7 @@ const DonationForm = (add_donation) => {
         In order to make membership of the Friends available to as many people
         as possible we try to keep our annual subscription rates down.
         If you would like to add a donation please enter the amount in the box
-        and click Make Donation. Otherwise select the Make a Payment tab above.
+        and click 'Make Donation'. Otherwise select the 'Make a Payment' tab above.
       </h4>
       <form onSubmit={(e) => {
           e.preventDefault()

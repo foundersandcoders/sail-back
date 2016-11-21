@@ -6,10 +6,10 @@ const { assoc } = require('ramda')
 
 var Field = (props) =>
   props.value && props.mode !== 'edit'
-  ? <Display {...props} />
-  : props.mode === 'edit'
-  ? <Input {...props} />
-  : <div></div> //eslint-disable-line
+    ? <Display {...props} />
+    : props.mode === 'edit'
+      ? <Input {...props} />
+      : <div></div>
 
 var Display = ({ name, value, className }) =>
   <div className={className}>
