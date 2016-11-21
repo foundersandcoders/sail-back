@@ -1,6 +1,7 @@
-@import "variables";
-@import "mixins";
+@import "_variables";
+@import "_mixins";
 @import "base/_fonts";
+@import "_animations";
 @import "components/_button";
 @import "components/_charge-field";
 @import "components/_input";
