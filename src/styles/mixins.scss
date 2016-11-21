@@ -1,6 +1,12 @@
 @mixin red {
 	background-color: #ffe5e5;
+
 	&:active {
-		background-color: #ffe5e5;	
-	}	
+		background-color: #ffe5e5;
+	}
+}
+
+@mixin page-fade {
+	animation: fadeIn 0.7s ease;
+	animation-fill-mode: forwards;
 }
