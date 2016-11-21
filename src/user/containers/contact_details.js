@@ -22,7 +22,9 @@ class ContactDetails extends React.Component {
 
   render () {
     return (
-      <EditDetails member_view_fields='contact' {...this.props} />
+      <div className='contact-details-section'>
+        <EditDetails member_view_fields='contact' {...this.props} />
+      </div>
     )
   }
 }

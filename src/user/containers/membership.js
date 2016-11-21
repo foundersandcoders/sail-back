@@ -23,7 +23,9 @@ class MyDetails extends React.Component {
 
   render () {
     return (
-      <MembershipDetails member_view_fields='membership' {...this.props} />
+      <div className='membership-section'>
+        <MembershipDetails member_view_fields='membership' {...this.props} />
+      </div>
     )
   }
 }

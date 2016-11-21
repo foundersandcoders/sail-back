@@ -46,6 +46,9 @@ nav {
 }
 
 .payment-amount-container {
+  
+  @include page-fade;
+
   button {
     margin-top: 0.7em;
   }
@@ -192,6 +195,9 @@ nav {
 }
 
 .donation-section {
+
+  @include page-fade;
+
   .form-container {
     margin-top: 1em;
     display: flex;
@@ -228,4 +234,12 @@ nav {
   .navbar-toggle.navbar-toggle {
     display: none;
   }
+}
+
+.contact-details-section {
+  @include page-fade;
+}
+
+.membership-section {
+  @include page-fade;
 }
