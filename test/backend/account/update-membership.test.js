@@ -10,6 +10,7 @@ var membership_prices = membership_types.reduce(function (prices, membership_typ
   prices[membership_type.value] = membership_type.amount
   return prices
 }, {})
+var today = new Date()
 
 test('Update membership connection: ', function (t) {
   server(function (err, server_started) {
@@ -50,6 +51,9 @@ test('api#update-membership-type => annual-single to annual-double (balance due 
     })
   }).then(function (res) {
     t.ok(res.body.membership_type === 'annual-double', 'membership changed from single to double')
+    t.ok(res.body.due_date === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(), 'due date changed correctly')
+    t.ok(res.body.date_membership_type_changed === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(), 'date membership type changed correct')
+    t.ok(res.body.life_payment_date === null, 'life payment date null as annual subscription')
     return request({
       simple: false,
       headers: {
@@ -61,7 +65,6 @@ test('api#update-membership-type => annual-single to annual-double (balance due 
       method: 'GET'
     })
   }).then(function (res) {
-    var today = new Date()
     var last_payment = r.last(res.body.payments)
     t.ok(
       last_payment.date === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(),
@@ -105,6 +108,9 @@ test('api#update-membership-type => annual-single to annual-double (balance due 
     })
   }).then(function (res) {
     t.ok(res.body.membership_type === 'annual-double', 'membership changed from single to double')
+    t.ok(res.body.due_date === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(), 'due date changed correctly')
+    t.ok(res.body.date_membership_type_changed === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(), 'date membership type changed correct')
+    t.ok(res.body.life_payment_date === null, 'life payment date null as annual subscription')
     return request({
       simple: false,
       headers: {
@@ -116,7 +122,6 @@ test('api#update-membership-type => annual-single to annual-double (balance due 
       method: 'GET'
     })
   }).then(function (res) {
-    var today = new Date()
     t.ok(res.body.membership_type.amount === membership_prices['annual-double'], 'membership subscription amount correct')
     t.ok(res.body.due_date === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(), 'Due date set to today')
     t.end()
@@ -156,6 +161,9 @@ test('api#update-membership-type => annual-family to annual-single (balance due 
     })
   }).then(function (res) {
     t.ok(res.body.membership_type === 'annual-single', 'membership changed from family to single')
+    t.ok(res.body.due_date === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(), 'due date changed correctly')
+    t.ok(res.body.date_membership_type_changed === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(), 'date membership type changed correct')
+    t.ok(res.body.life_payment_date === null, 'life payment date null as annual subscription')
     return request({
       simple: false,
       headers: {
@@ -167,7 +175,6 @@ test('api#update-membership-type => annual-family to annual-single (balance due 
       method: 'GET'
     })
   }).then(function (res) {
-    var today = new Date()
     var last_payment = r.last(res.body.payments)
     t.ok(
       last_payment.date === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(),
@@ -211,6 +218,9 @@ test('api#update-membership-type => annual-double to annual-family (no balance d
     })
   }).then(function (res) {
     t.ok(res.body.membership_type === 'annual-family', 'membership changed from single to double')
+    t.ok(res.body.due_date === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(), 'due date changed correctly')
+    t.ok(res.body.date_membership_type_changed === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(), 'date membership type changed correct')
+    t.ok(res.body.life_payment_date === null, 'life payment date null as annual subscription')
     return request({
       simple: false,
       headers: {
@@ -222,9 +232,66 @@ test('api#update-membership-type => annual-double to annual-family (no balance d
       method: 'GET'
     })
   }).then(function (res) {
-    var today = new Date()
     t.ok(res.body.membership_type.amount === membership_prices['annual-family'], 'membership subscription amount correct')
     t.ok(res.body.due_date === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(), 'Due date set to today')
+    t.end()
+  }).catch(function (err) {
+    t.end(err)
+  })
+})
+
+test('api#update-membership-type => annual-single to annual-family (no balance due but payments made before subscription)', function (t) {
+  var cookies
+
+  request({
+      simple: false,
+      resolveWithFullResponse: true,
+      json: true,
+      uri: 'http://localhost:3333/signin',
+      method: 'POST',
+      body: {
+        username: 'siddharta@nirvana.com',
+        password: 'correct'
+      }
+  }).then(function (res) {
+    cookies = res.headers['set-cookie'].pop().split(';')[0]
+    t.ok(res.statusCode === 200, 'signin succesful')
+    return request({
+      simple: false,
+      headers: {
+        cookie: cookies
+      },
+      resolveWithFullResponse: true,
+      json: true,
+      uri: 'http://localhost:3333/api/account',
+      method: 'PUT',
+      body: {
+        membership_type: 'annual-family'
+      }
+    })
+  }).then(function (res) {
+    t.ok(res.body.membership_type === 'annual-family', 'membership changed from single to family')
+    t.ok(res.body.due_date === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(), 'due date changed correctly')
+    t.ok(res.body.date_membership_type_changed === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(), 'date membership type changed correct')
+    t.ok(res.body.life_payment_date === null, 'life payment date null as annual subscription')
+    return request({
+      simple: false,
+      headers: {
+        cookie: cookies
+      },
+      resolveWithFullResponse: true,
+      json: true,
+      uri: 'http://localhost:3333/api/account',
+      method: 'GET'
+    })
+  }).then(function (res) {
+    var last_payment = r.last(res.body.payments)
+    t.ok(
+      last_payment.date === (new Date(today.getFullYear(), today.getMonth(), today.getDate())).toISOString(),
+      'Upgraded subscription charge added today'
+    )
+    t.ok(last_payment.amount === (membership_prices['annual-family'] - membership_prices['annual-single']), 'Upgraded subscription charge amount correct')
+    t.ok(last_payment.category === 'subscription', 'added charge has correct category')
     t.end()
   }).catch(function (err) {
     t.end(err)

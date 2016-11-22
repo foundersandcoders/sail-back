@@ -16,6 +16,7 @@
  *	requirements.
  */
 
+var R = require('ramda')
 var bcrypt = require('bcryptjs')
 var is = require('torf')
 
@@ -83,11 +84,14 @@ var handle_membership_change = cb => updated_member =>
           var downgrade_family_single = stored_member.membership_type === 'annual-family' && updated_member.membership_type === 'annual-single'
           var downgrade_family_double = stored_member.membership_type === 'annual-family' && updated_member.membership_type === 'annual-double'
 
-          var subscription_balance = stored_member.payments.reduce(function (sum, payment) {
+          var payments_by_date = R.pipe(R.map(R.over(R.lensProp('date'), Date.parse)), R.sortBy(R.prop('date')))(stored_member.payments)
+          var payments_since_last_subscription = R.slice(R.findIndex(R.propEq('category', 'subscription'))(payments_by_date), Infinity)(payments_by_date)
+          var subscription_balance = payments_since_last_subscription.reduce(function (sum, payment) {
             if (payment.category === 'subscription') return sum + payment.amount
             if (payment.category === 'payment') return sum - payment.amount
             return sum
           }, 0)
+
 
           if ((upgrade_single_double || upgrade_single_family || upgrade_double_family) && subscription_balance > 0) {
             var upgrade_amount = membership_prices[updated_member.membership_type] - membership_prices[stored_member.membership_type]
