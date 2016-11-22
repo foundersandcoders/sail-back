@@ -9,15 +9,19 @@ var async = require('async')
 
 module.exports = createEntries
 
+var mock_env = process.env.NODE_ENV === 'testing'
+  ? require('../../../test/helpers/test_mocks.js')
+  : require('./mocks.js')
+
 var mocks = {
-  members: require('./mocks.js').members(),
-  membershipTypes: require('./mocks.js').membershipTypes(),
-  payments: require('./mocks.js').payments(),
-  paymentTypes: require('./mocks.js').paymentTypes(),
-  references: require('./mocks.js').references(),
-  deletionReasons: require('./mocks.js').deletionReasons(),
-  events: require('./mocks.js').events(),
-  bookings: require('./mocks.js').bookings()
+  members: mock_env.members(),
+  membershipTypes: mock_env.membershipTypes(),
+  payments: mock_env.payments(),
+  paymentTypes: mock_env.paymentTypes(),
+  references: mock_env.references(),
+  deletionReasons: mock_env.deletionReasons(),
+  events: mock_env.events(),
+  bookings: mock_env.bookings()
 }
 
 /* istanbul ignore next */

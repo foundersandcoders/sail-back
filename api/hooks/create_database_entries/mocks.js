@@ -1,7 +1,3 @@
-// IMPORTANT!!!!
-// Tests depend on order of test mock members and payments. If you need new
-// test members do not alter existing ones, just add ones to the end.
-
 exports.members = function () {
   var members = [{
     id: '471800',
