@@ -121,7 +121,7 @@ const Email = content => (
 const email_response = state => res => (
   { ...state
   , email_sent: Boolean(res.results)
-  , invalid_emails: R_compose(map(prop('address')), filter(result => result.error))(res.results)
+  , invalid_emails: R_compose(map(prop('address')), filter(result => result.error === '\'to\' parameter is not a valid address. please check documentation'))(res.results)
   }
 )
 
