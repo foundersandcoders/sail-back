@@ -27,6 +27,8 @@ const TOGGLE_GIFT_AID =
   'TOGGLE_GIFT_AID'
 const CANCEL_STANDING_ORDER =
   'CANCEL_STANDING_ORDER'
+const SWITCH_TO_ONLINE_NEWS =
+  'SWITCH_TO_ONLINE_NEWS'
 
 const initialState = { activation_status: {} }
 
@@ -69,6 +71,11 @@ const reducer: Reducer<State, Action> =
           , ...prepare_for_form(payload)
           })
       case CANCEL_STANDING_ORDER:
+        return (
+          { ...member
+          , ...prepare_for_form(payload)
+          })
+      case SWITCH_TO_ONLINE_NEWS:
         return (
           { ...member
           , ...prepare_for_form(payload)
@@ -212,6 +219,15 @@ export const cancel_standing_order = createAction
   , (_, dispatch) => compose
     ( map(errors_or_to_member(dispatch))
     , put({ standing_order: false })
+    , fetch_user_url
+    )(_)
+  )
+
+export const switch_to_online_news = createAction
+  ( SWITCH_TO_ONLINE_NEWS
+  , (_, dispatch) => compose
+    ( map(errors_or_to_member(dispatch))
+    , put({ news_type: 'online' })
     , fetch_user_url
     )(_)
   )

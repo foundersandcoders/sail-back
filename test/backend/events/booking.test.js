@@ -1,19 +1,20 @@
+/*global
+  sails, Members, Payments, MembershipTypes, Events
+*/
+
 'use strict'
 
 var test = require('tape')
 var request = require('supertest')
 var server = require('../_bootstrap/startServer.js')
-var mocks = require('../../../api/hooks/create_database_entries/mocks.js')
 
 var sails
 var Cookies
-var MEMBER
 
 test('Start server: ', function (t) {
   server(function (err, serverStarted) {
     if (err) {
-      throw err
-      t.end()
+      t.end(err)
     } else {
       sails = serverStarted
       t.ok(serverStarted, '..server started')

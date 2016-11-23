@@ -9,11 +9,11 @@
 .desktop-tablet-only {
   display: none;
 }
-
-@media(max-width: $mobile){
+@media(max-width: $mobile) {
   footer {
     margin-top: 70px;
   }
+
   .meta {
     font-size: 18px;
   }
@@ -35,14 +35,15 @@
 .inner-section-divider-medium {
   margin-bottom: 45px;
 }
-
-@media(max-width: $mobile){
+@media(max-width: $mobile) {
   .main-container {
     margin-top: 20px;
   }
+
   .inner-section-divider-small {
     margin-bottom: 15px;
   }
+
   .inner-section-divider-medium {
     margin-bottom: 35px;
   }
@@ -67,7 +68,6 @@
 
 .flex {
   display: flex;
-
   align-items: flex-end;
   justify-content: space-between;
 }
@@ -87,10 +87,9 @@
 
 fieldset {
   border: 0;
-  padding: 1em;
+  padding: 1em 1em 1em 0;
 }
-
-@media(max-width: 2000px){
+@media(max-width: 2000px) {
   .small-font {
     font-size: 10px;
   }

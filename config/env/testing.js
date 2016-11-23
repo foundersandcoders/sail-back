@@ -1,4 +1,4 @@
-console.log('Testing')
+console.log('Testing Environment!')
 
 module.exports = {
   connections: {
@@ -21,5 +21,5 @@ module.exports = {
       maxAge: 14 * 24 * 60 * 60 * 1000,
     },
   },
-  port: process.env.PORT || 1337
+  port: process.env.PORT || 3333
 }

@@ -1,3 +1,5 @@
+console.log('In Development!')
+
 module.exports = {
   connections: {
     localMySql: {

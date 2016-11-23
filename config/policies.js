@@ -3,17 +3,17 @@ module.exports.policies = {
 
   PrivateController: {
     '*': ['isAuthenticated', 'isAdmin'],
-    'showAdminHome': 'isAdmin',
-    'showUserHome': 'isAuthenticated'
+    showAdminHome: 'isAdmin',
+    showUserHome: 'isAuthenticated'
   },
 
   MembersController: {
     '*': ['isAuthenticated', 'isAdmin'],
-    'accountPage': 'isAuthenticated',
-    'accountInfo': 'isAuthenticated',
-    'showMyEvents': 'isAuthenticated',
-    'getMyEvents': 'isAuthenticated',
-    'updateAccountInfo': 'isAuthenticated'
+    accountPage: 'isAuthenticated',
+    accountInfo: 'isAuthenticated',
+    showMyEvents: 'isAuthenticated',
+    getMyEvents: 'isAuthenticated',
+    updateAccountInfo: 'isAuthenticated'
   },
 
   UserController: {
@@ -22,24 +22,26 @@ module.exports.policies = {
 
   PaymentsController: {
     '*': ['isAuthenticated', 'isAdmin'],
-    'clientToken': 'isAuthenticated',
-    'charge': 'isAuthenticated',
-    'payingInReport': 'isAdmin',
-    'makePayment': 'isAuthenticated'
+    clientToken: 'isAuthenticated',
+    charge: 'isAuthenticated',
+    payingInReport: 'isAdmin',
+    makePayment: 'isAuthenticated',
+    addDonation: 'isAuthenticated',
+    getBalanceDue: 'isAuthenticated'
   },
 
   EventsController: {
     '*': ['isAuthenticated', 'isAdmin'],
-    'showView': true,
-    'getCurrentEvents': true,
-    'singleEventInfo': true,
-    'showViewEvent': true
+    showView: true,
+    getCurrentEvents: true,
+    singleEventInfo: true,
+    showViewEvent: true
   },
 
   BookingRecordsController: {
     '*': ['isAuthenticated', 'isAdmin'],
-    'book': 'isAuthenticated',
-    'testTransaction': true
+    book: 'isAuthenticated',
+    testTransaction: true
   },
 
   PublicController: {

@@ -8,21 +8,6 @@
  *
  */
 module.exports = function (req, res, next) {
-  // if(process.env.NODE_ENV === 'testing' && req.headers['test-mode'] === 'testing') {
-
-  // 	if(req.session.user) {			
-  // 		req.session.user = {
-  // 			first_name: 'Tester',
-  // 			last_name: 'Super',
-  // 			primary_email: 'tester@super.bes',
-  // 			activation_status: 'activated',
-  // 			privileges: 'admin',
-  // 			id: 9999
-  // 		}
-  // 	}
-  // 	return next()
-  // }
-
   if (req.session.user && req.session.user.privileges === 'admin') {
     return next()
   } else {

@@ -33,7 +33,6 @@ $color: #ededed;
 
 #member-info {
   border-bottom: 1px solid #dbdbdb;
-  // box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
   flex: 1;
   background-color: #fff;
@@ -50,12 +49,15 @@ p {
   margin-bottom: 5px;
   margin-top: 5px;
 }
+
 .col-1 {
   flex: 1;
 }
+
 .col-2 {
   flex: 1;
 }
+
 .col-3 {
   flex: 1;
 }
@@ -70,17 +72,21 @@ p {
   text-align: left;
   padding: 20px;
   overflow: scroll;
+
   p {
     font-size: 15px;
     margin-bottom: 5px;
     margin-top: 5px;
   }
+
   .col-1 {
     flex: 1;
   }
+
   .col-2 {
     flex: 1;
   }
+
   .col-3 {
     flex: 1;
   }
@@ -108,10 +114,10 @@ p {
   @include red;
 }
 
-.member-column-personal
-, .member-column-address
-, .member-column-membership {
-  flex: 1
+.member-column-address,
+.member-column-membership,
+.member-column-personal {
+  flex: 1;
 }
 
 .member-info-content {
@@ -124,8 +130,7 @@ p {
   width: 100%;
   flex: 1;
   background-color: #fff;
-  margin: 10px;
-  margin-top: 0;
+  margin: 0 10px 10px;
   padding: 10px;
   border-bottom: 1px solid #dbdbdb;
   // box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
@@ -134,66 +139,84 @@ p {
     width: 100%;
     // height: 60px;
     text-align: center;
+
     p {
       font-size: 16px;
       font-weight: bold;
     }
+
     .col-1 {
       flex: 3;
     }
+
     .col-2 {
       flex: 4;
     }
+
     .col-3 {
       flex: 2;
     }
+
     .col-4 {
       flex: 2;
     }
+
     .col-5 {
       flex: 2;
     }
+
     .col-6 {
       flex: 3;
     }
+
     .col-7 {
       flex: 1;
     }
   }
+
   .table-section-individual-rows {
     // height: 25em;
     // overflow: scroll;
     .selected {
       background-color: #FFE5E5;
     }
+
     .row {
       display: flex;
       width: 100%;
       height: 50px;
       line-height: 45px;
+
       p {
         font-size: 13px;
         padding: 5px;
         text-align: center;
       }
+
       .col-1 {
         flex: 3;
       }
+
       .col-2 {
         flex: 4;
       }
+
       .col-3 {
         flex: 2;
       }
+
       .col-4 {
         flex: 2;
       }
+
       .col-5 {
         flex: 2;
       }
+
       .col-6 {
         flex: 3;
       }
+
       .col-7 {
         flex: 1;
         cursor: pointer;
@@ -205,82 +228,98 @@ p {
 #search-result {
   max-width: 1000px;
   margin: auto;
+
   .search-table-section-member {
     width: 100%;
     background-color: #fff;
     padding: 10px;
-    border-bottom: 1px solid #dbdbdb;
-    // box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+
     .search-table-section-member-header {
       width: 100%;
       display: flex;
-      height: 60px;
       text-align: center;
+      margin-bottom: 1.5em;
+
       .col-1 {
         flex: 1.5;
       }
+
       .col-2 {
         flex: 3;
       }
+
       .col-3 {
         flex: 1;
       }
+
       .col-4 {
         flex: 1;
       }
+
       .col-5 {
         flex: 2;
       }
+
       .col-6 {
         flex: 2;
       }
+
       p {
         font-weight: bold;
+        margin: 0;
       }
     }
+
     .search-table-section-member-rows {
-      // max-height: 300px;
-      // overflow-y: scroll;
       a {
         text-decoration: none;
         color: inherit;
       }
+
       .row {
         width: 100%;
         margin: 0;
         display: flex;
-        height: 35px;
+        height: 50px;
         line-height: 35px;
         text-align: center;
+        align-items: center;
+
         p {
           font-size: 15px;
         }
+
         .col-1 {
           flex: 1.5;
         }
+
         .col-2 {
           flex: 3;
         }
+
         .col-3 {
           flex: 1;
         }
+
         .col-4 {
           flex: 1;
         }
+
         .col-5 {
           flex: 2;
         }
+
         .col-6 {
           flex: 2;
         }
       }
+
       .row:hover {
         background-color: #eee;
       }
     }
   }
 }
-
 
 .actions-container {
   width: 20%;
@@ -294,8 +333,7 @@ p {
   background-color: #fff;
   width: 100%;
   height: 15%;
-  margin: 5px;
-  margin-top: 10px;
+  margin: 10px 5px 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -325,18 +363,18 @@ p {
 
 .refund-section {
   border-bottom: 1px solid #dbdbdb;
-  // box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   width: 100%;
-  margin: 5px;
-  margin-top: 10px;
+  margin: 10px 5px 5px;
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+
   .container-1 {
     width: 80%;
   }
+
   .container-2 {
     overflow: hidden;
     width: 100%;
@@ -346,21 +384,22 @@ p {
 
 .add-donation-section {
   border-bottom: 1px solid #dbdbdb;
-  // box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   width: 100%;
-  margin: 5px;
-  margin-bottom: 10px;
+  margin: 5px 5px 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+
   .container-1 {
     width: 80%;
   }
+
   .container-2 {
     margin: auto;
     width: 80%;
   }
+
   p {
     margin-bottom: 10px;
   }
@@ -368,7 +407,6 @@ p {
 
 .enter-payment-section {
   border-bottom: 1px solid #dbdbdb;
-  // box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   width: 100%;
   flex: 2;
@@ -378,11 +416,13 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
+
   .container-1 {
     display: flex;
     flex-direction: column;
     width: 80%;
     margin: auto;
+
     input {
       width: 100%;
       margin-bottom: 10px;
@@ -406,19 +446,16 @@ p {
   width: 100%;
   margin-bottom: 9px;
 }
-
 @media (max-width: 1110px) {
   .input-three {
     width: 78%;
   }
 }
-
 @media (max-width: 960px) {
   .input-three {
     width: 75%;
   }
 }
-
 @media (max-width: 840px) {
   .input-three {
     width: 60%;
@@ -426,7 +463,7 @@ p {
 }
 
 div.gbp {
-    width: 100%;
+  width: 100%;
 }
 
 .input-four {
@@ -459,11 +496,13 @@ div.gbp {
   display: flex;
   flex-direction: column;
   flex: 1;
+
   .member-type-section {
     flex: 1;
     display: flex;
     flex-direction: column;
   }
+
   .delete-section {
     flex: 1;
   }
@@ -485,7 +524,8 @@ div.gbp {
   width: 100%;
 }
 
-.search-error, .login-error {
+.login-error,
+.search-error {
   text-align: center;
   margin: 1em;
 }
@@ -499,22 +539,29 @@ div.gbp {
 }
 
 .email {
-  width: 80%;
+  max-width: 1200px;
+
+  ul {
+    padding-left: 0;
+  }
+}
+
+.email-preview {
+  margin-bottom: 2em;
 }
 
 .email-toggle {
   display: inline-block;
   font-size: 1em;
   width: 8em;
-  height: 2.5em;
-  margin-left: 1em;
-  margin-right: 1em;
+  height: 2.8em;
+  margin-left: 1.8em;
   margin-bottom: 1em;
 }
 
 .email-addressee {
   display: inline-block;
-  width: 15em
+  width: 15em;
 }
 
 .email-list-toggle {
@@ -553,10 +600,11 @@ div.gbp {
 }
 
 .custom-email-container {
-  margin: 4em 1em;
-  p {
-    margin: 1.5em 0;
-    font-size: 1.3em;
+  margin-top: 2em;
+  margin-left: 0.6em;
+
+  h3 {
+    margin-bottom: 1em;
   }
 }
 
@@ -587,9 +635,8 @@ div.gbp {
   list-style: none;
 }
 
-
 .bounced-container {
-  margin: 2em 2em;
+  margin-top: 2em;
 }
 
 .bounced-heading {
@@ -610,7 +657,6 @@ div.gbp {
   width: 20em;
   height: 14em;
 }
-
 @media print {
   body {
     margin-top: 0 !important;
@@ -656,4 +702,38 @@ div.gbp {
   position: relative;
   top: -2.2em;
   margin-left: 0.5em;
+}
+
+.edit-mode-info {
+  margin-bottom: 0.3em;
+  font-weight: bold;
+}
+
+.tabs {
+  margin: 0.4em 0 0 1em;
+}
+
+.tabs-active {
+  background-color: #999;
+  color: #fff;
+}
+
+.email-components {
+  margin-left: 1.7em;
+
+  h3 {
+    margin: 1em 0;
+  }
+
+  .reset-payments {
+    margin-top: 2em;
+
+    h2 {
+      margin-bottom: 0.6em;
+    }
+  }
+}
+
+.button-container {
+  max-width: 1200px;
 }

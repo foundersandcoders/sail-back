@@ -34,6 +34,7 @@ var SingleResult = React.createClass({
           <div className='col-4'><p>{member.initials}</p></div>
           <div className='col-5'><p>{this.format_membership(member.membership_type)}</p></div>
           {this.props.homepage && <div className='col-6'><p>{this.last_subscription(member.payments)}</p></div>}
+          {this.props.homepage || <div className='col-6'><p>{member.postcode}</p></div>}
         </div>
       </a>
     )
@@ -58,6 +59,7 @@ var SearchResults = function (props) {
           <div className='col-4'><p>Initials</p></div>
           <div className='col-5'><p>Subscription</p></div>
           {props.homepage && <div className='col-6'><p>Payment</p></div>}
+          {props.homepage || <div className='col-6'><p>Postcode</p></div>}
         </div>
         {props.error && <div className='search-error'>No results</div>}
         <div className='search-table-section-member-rows'>

@@ -23,7 +23,7 @@ export default class PaymentForm extends React.Component {
           createHostedFields(clientInstance, form, submit, props)
         })
       })
-      .catch(err => {
+      .catch(err => { // eslint-disable-line
         // console.log('catch error credit card', err)
         return props.braintree_error()
       })
@@ -75,7 +75,6 @@ function createHostedFields (clientInstance, form, submit, props) {
     styles: {
       input: {
         'font-size': '16px',
-        'font-family': 'courier, monospace',
         'font-weight': 'lighter',
         color: '#ccc'
       },

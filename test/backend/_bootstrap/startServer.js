@@ -10,16 +10,17 @@ module.exports = start
 
 function start (callback) {
   if (!sailsInstance) {
-    Sails.lift({
+    return Sails.lift({
       log: {
         level: 'error'
       },
       port: 3333
     }, function (err, instance) {
+      if (err) return console.error('Sails lifting error: ', err)
       sailsInstance = instance
       return callback.apply(null, arguments)
     })
   } else {
-    return callback.apply(null, [null, sailsInstance])
+    return callback(null, sailsInstance)
   }
 }

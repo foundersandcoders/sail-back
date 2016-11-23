@@ -24,4 +24,7 @@ const EditButtons = ({ toggle_member_mode }) =>
     </button>
   </div>
 
-module.exports = Buttons
+const NoButtons = () =>
+  <div></div> //eslint-disable-line
+
+module.exports = { Buttons, NoButtons }

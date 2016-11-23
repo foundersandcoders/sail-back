@@ -21,7 +21,6 @@ var AdminButtons = function () {
     , 'Labels'
     , 'Emails'
     , 'Letters'
-    , 'Member Analysis'
     , 'Change Password'
     ]
   )
@@ -42,15 +41,17 @@ var Navigation = React.createClass({
         <li id='nav-home'>
           <a href='#/'>Home</a>
         </li>
+        {
+          (this.props.user === 'Admin'
+            ? AdminButtons()
+            : this.props.user === 'User'
+              ? UserButtons()
+              : UnregisteredButtons()
+          ).map(NavButton)
+        }
         <li id='nav-logout'>
           <a href='/signout'>Signout</a>
         </li>
-        { (this.props.user === 'Admin' ?
-            AdminButtons() :
-         this.props.user === 'User' ?
-            UserButtons() :
-            UnregisteredButtons())
-            .map(NavButton) }
       </ul>
     )
   }

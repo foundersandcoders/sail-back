@@ -1,6 +1,7 @@
-@import "variables";
-@import "mixins";
+@import "_variables";
+@import "_mixins";
 @import "base/_fonts";
+@import "_animations";
 @import "components/_button";
 @import "components/_charge-field";
 @import "components/_input";
@@ -28,32 +29,34 @@
 @import "pages/_member-analysis.scss";
 
 * {
-	margin: -1px;
-	padding: 0px;
 	box-sizing: border-box;
 	font-family: $font-family;
 }
 
-html, body{
+body,
+html {
 	font-family: $font-family;
-	// background: #f4f4f7;
 	color: #444;
 	margin: 0;
 	height: 100%;
 }
 
 input::-webkit-input-placeholder {
-		font-family: 'Sorts Mill Goudy', serif;
+	font-family: $font-family;
 }
 
 input:-ms-input-placeholder {
-		font-family: 'Sorts Mill Goudy', serif;
+	font-family: $font-family;
 }
 
 input:-moz-placeholder {
-		font-family: 'Sorts Mill Goudy', serif;
+	font-family: $font-family;
 }
 
 input::-moz-placeholder {
-		font-family: 'Sorts Mill Goudy', serif;
+	font-family: $font-family;
+}
+
+.admin-wrapper {
+	margin: 0 0 2em 1em;
 }

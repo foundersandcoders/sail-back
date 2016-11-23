@@ -6,14 +6,13 @@ const { assoc } = require('ramda')
 
 var Field = (props) =>
   props.value && props.mode !== 'edit'
-  ? <Display {...props} />
-  : props.mode === 'edit'
-  ? <Input {...props} />
-  : <div></div>
+    ? <Display {...props} />
+    : props.mode === 'edit'
+      ? <Input {...props} />
+      : <div></div>
 
-var Display = ({ name, value, description, className }) =>
+var Display = ({ name, value, className }) =>
   <div className={className}>
-    {description && name === 'News type: ' && <p className='description'><i>{description}</i></p>}
     <p>
       <span className='info'>{name}</span>
       <span>
@@ -22,13 +21,12 @@ var Display = ({ name, value, description, className }) =>
     </p>
   </div>
 
-var Input = ({ className, name, options, touched, error, description, ...rest }) => {
+var Input = ({ className, name, options, touched, error, ...rest }) => {
   const display_error = touched && error
   const props = display_error ? assoc('error', true, rest) : rest
   return (
     <div className={className}>
-      {description && name === 'News type*: ' && <p className='description'><i>{description}</i></p>}
-      <span className='info'>{name}</span>
+      <div className='edit-mode-info'>{name}</div>
       { display_error && <span>{error}</span> }
       { options ? make_select(props, options) : make_input(name, props) }
     </div>
@@ -70,6 +68,6 @@ var make_placeholder = (name) =>
   name.match(/[dD]ate/) ? name.match(/[dD]ue/) ? 'dd/mm' : 'dd/mm/yyyy' : name
 
 var caser = (name, value) =>
-  name.match('email') ? value: to_title_case(value.replace(/-/g, ' '))
+  name.match('email') ? value : to_title_case(value.replace(/-/g, ' '))
 
 module.exports = Field

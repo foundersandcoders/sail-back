@@ -94,7 +94,7 @@ const PaymentsReport = (
           }
         />
       )}
-      <input type='submit' />
+      <button className='payment-reports-button' type='submit'>Submit</button>
     </form>
     { data.payments && <Table Row={MoneyRow} data={make_data(data)} /> }
   </div>

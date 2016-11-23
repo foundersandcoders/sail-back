@@ -106,9 +106,19 @@ module.exports.routes = {
     controller: 'User',
     action: 'newsletterToOnline'
   },
+  'POST /api/add_donation': {
+    controller: 'Payments',
+    action: 'addDonation'
+  },
+  'GET /api/get_balance_due': {
+    controller: 'Payments',
+    action: 'getBalanceDue'
+  },
+
   // -------------------------------------------------------------------------
   // Private
   // -------------------------------------------------------------------------
+
   'GET /admin': {
     controller: 'Private',
     action: 'showAdminHome'

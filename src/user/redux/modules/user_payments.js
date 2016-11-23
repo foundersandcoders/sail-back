@@ -2,7 +2,7 @@
 
 import { createAction } from 'redux-actions'
 import type { Action, Reducer } from 'redux'
-import { post_body } from 'app/http'
+import { get_body, post_body, post } from 'app/http'
 const { flip, propOr } = require('ramda')
 
 import { PATH_UPDATE } from '../../../shared/redux/modules/route.js'
@@ -16,12 +16,18 @@ const PAYMENT_ERROR =
   'PAYMENT_ERROR'
 const BRAINTREE_ERROR =
   'BRAINTREE_ERROR'
+const ADD_DONATION =
+  'ADD_DONATION'
+const GET_BALANCE_DUE =
+  'GET_BALANCE_DUE'
 
 const initialState =
   { payment_sent: false
   , amount_entered: ''
   , payment_type: ''
   , braintree_error: false
+  , donation_made: false
+  , balance_due: 0
   }
 
 type State = typeof initialState
@@ -50,6 +56,10 @@ const reducer: Reducer<State, Action> =
         return { ...state, payment_error: { message: payload } }
       case BRAINTREE_ERROR:
         return { ...state, braintree_error: true }
+      case ADD_DONATION:
+        return { ...state, donation_made: true }
+      case GET_BALANCE_DUE:
+        return { ...state, balance_due: payload.balance_due }
       default:
         return state
     }
@@ -69,5 +79,11 @@ export const payment_error = createAction
 
 export const braintree_error = createAction
   (BRAINTREE_ERROR)
+
+export const add_donation = createAction
+  (ADD_DONATION, flip(post)('api/add_donation'))
+
+export const get_balance_due = createAction
+  (GET_BALANCE_DUE, () => get_body('api/get_balance_due'))
 
 export default reducer

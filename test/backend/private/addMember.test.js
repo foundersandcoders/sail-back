@@ -10,8 +10,7 @@ var CookiesAdmin
 test('"Add member" connection: ', function (t) {
   server(function (err, serverStarted) {
     if (err) {
-      throw err
-      t.end()
+      t.end(err)
     } else {
       sails = serverStarted
       t.ok(serverStarted, '..connection ok')
