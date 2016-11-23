@@ -31,7 +31,7 @@ const ChargeForm = (
       }
     </div>
 
-    <div className='charge_form_buttons'>
+    <div className='charge-form-buttons'>
 
       <button
         type='submit'
@@ -41,13 +41,13 @@ const ChargeForm = (
       </button>
 
       <button
-      type='button'
-      onClick={() => switch_charge_type('')}
-      className='flex-button charge-field-button'
+        type='button'
+        onClick={() => switch_charge_type('')}
+        className='flex-button charge-field-button'
       >
       Cancel
       </button>
-      
+
     </div>
   </form>
 

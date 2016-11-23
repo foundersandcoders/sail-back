@@ -31,7 +31,7 @@ var MemberPayments = (
       />
     }
     {!charge_type &&
-      <div className='flex payment-buttons'>
+      <div className='payment-buttons'>
         { map
           (type =>
             <button
@@ -43,9 +43,11 @@ var MemberPayments = (
             , type_order
           )
         }
-        <a href='#/' className='flex-button'>
-          <button className='btn-primary'>Home</button>
-        </a>
+        <div>
+          <a href='#/'>
+            <button className='btn-primary'>Home</button>
+          </a>
+        </div>
       </div>
     }
   </div>

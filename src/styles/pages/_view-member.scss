@@ -1,5 +1,4 @@
 .view-member {
-
   width: 90%;
 
   .table {
@@ -7,49 +6,98 @@
       max-height: 18em;
     }
   }
-  .table.payments-table {
 
-      .date {
-        flex: 2; }
-      .description {
-        flex: 4; }
-      .charges {
-        flex: 1; }
-      .payments {
-        flex: 1; }
-      .balance-due {
-        flex: 1.5; }
-      .reference {
-        flex: 2.5; }
-      .notes {
-        flex: 4; }
-      .delete {
-        flex: 1; } }
+  .table.payments-table {
+    .date {
+      flex: 2;
+    }
+
+    .description {
+      flex: 4;
+    }
+
+    .charges {
+      flex: 1;
+    }
+
+    .payments {
+      flex: 1;
+    }
+
+    .balance-due {
+      flex: 1.5;
+    }
+
+    .reference {
+      flex: 2.5;
+    }
+
+    .notes {
+      flex: 4;
+    }
+
+    .delete {
+      flex: 1;
+      font-size: 12px;
+    }
+  }
 
   .table.events-table {
+    .date {
+      flex: 1;
+    }
 
-      .date {
-        flex: 1;}
-      .reference {
-        flex: 2;}
-      .title {
-        flex: 4;}
-      .time {
-        flex: 1;}
-      .location {
-        flex: 2;}
-      .host {
-        flex: 1;}
-      .price-per-member {
-        flex: 1;}
-      .price-per-guest {
-        flex: 1;}}
+    .reference {
+      flex: 2;
+    }
+
+    .title {
+      flex: 4;
+    }
+
+    .time {
+      flex: 1;
+    }
+
+    .location {
+      flex: 2;
+    }
+
+    .host {
+      flex: 1;
+    }
+
+    .price-per-member {
+      flex: 1;
+    }
+
+    .price-per-guest {
+      flex: 1;
+    }
+  }
 
   .member-info-edit-button {
     width: 4em;
     font-size: 1.2em;
     position: absolute;
   }
+}
 
+.table-body .table-entry.delete {
+  div {
+    margin: 0;
+    padding: 0.3em 0;
+  }
 
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}
+@media (max-width: 1200px) {
+  .table-body .table-entry.delete {
+    button {
+      font-size: 10px;
+    }
+  }
 }
