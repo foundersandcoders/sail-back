@@ -1,6 +1,5 @@
-const { concat, prop, compose, test, converge, merge, defaultTo } =
-    require('ramda')
-const { exists, selected, check_tests, date } = require('app/validate')
+const { concat, prop, compose, test, converge, mergeAll, defaultTo, unapply } = require('ramda')
+const { exists, selected, check_tests, date, amount } = require('app/validate')
 
 const subscription = ['date', 'amount']
 const event = concat(subscription, ['notes'])
@@ -48,9 +47,10 @@ const validate = (values) => {
     }
 
   return converge
-    ( merge
-    , [ check_tests('required', required_tests)
-      , check_tests('invalid date', date)
+    ( unapply(mergeAll)
+    , [ check_tests('Required', required_tests)
+      , check_tests('Invalid amount', {amount})
+      , check_tests('Invalid date', {date})
       ]
     )(values)
 }

@@ -6,20 +6,6 @@ const { reduce, keys, compose } = require('ramda')
 
 import type { Action, Reducer } from 'redux'
 
-type Category = 'payment' | 'subscription' | 'donation' | 'event' | ''
-
-type Type
-  = 'harbour office'
-  | 'standing order'
-  | 'bacs'
-  | 'cash'
-  | 'cheque'
-  | 'caf'
-  | 'refund'
-  | 'paypal'
-  | 'credit card'
-  | ''
-
 export type Payment = typeof initial_state
 
 const initial_state =
