@@ -11,7 +11,7 @@ import ContactDetails from './containers/contact_details.js'
 import Membership from './containers/membership.js'
 import Statements from './containers/statements.js'
 import MakePayment from './containers/make_payment.js'
-import ChangePassword from '../shared/components/change_password.js'
+import ChangePassword from './components/change_password.js'
 
 import { pathDidUpdate } from '../shared/redux/modules/route.js'
 

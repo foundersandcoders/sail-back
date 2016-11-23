@@ -46,7 +46,7 @@ nav {
 }
 
 .payment-amount-container {
-  
+
   @include page-fade;
 
   button {
@@ -241,5 +241,9 @@ nav {
 }
 
 .membership-section {
+  @include page-fade;
+}
+
+.change-password-section {
   @include page-fade;
 }
