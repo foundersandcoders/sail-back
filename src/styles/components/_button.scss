@@ -4,7 +4,6 @@
 	display: inline-block;
 	margin-bottom: 0; // For input.btn
 	text-align: center;
-	// vertical-align: middle;
 	cursor: pointer;
 	background-color: #eee;
 	color: #999;
@@ -13,7 +12,7 @@
 	padding: 11px 12px;
 	height: 60px;
 	border: 0;
-	border-radius: 2px;
+	border-radius: 0.3em;
 	width: 100%;
 	max-width: 350px;
 	box-sizing: border-box;
