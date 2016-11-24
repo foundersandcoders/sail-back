@@ -2,8 +2,9 @@
 import { createAction } from 'redux-actions'
 const { objOf, map } = require('ramda')
 import { compose } from 'sanctuary'
-
 import { get_body } from 'app/http'
+
+import { PATH_UPDATE } from '../../../shared/redux/modules/route.js'
 
 import type { Action, Reducer } from 'redux'
 
@@ -17,6 +18,8 @@ const reducer: Reducer<State, Action>
     switch (type) {
       case NEWSLETTER_LABELS:
         return compose(objOf('addresses'))(map(addresses))(payload.results)
+      case PATH_UPDATE:
+        return initialState
       default:
         return state
     }

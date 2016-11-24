@@ -10,7 +10,7 @@ export default ({members, preview, props: { submit_custom_email, edit_custom, bu
             key={member.first_name + i}
             className='email-recipient'
           >
-            {`${member.first_name || member.title} ${member.last_name}`}
+            {`${member.first_name || member.title || ''} ${member.last_name}`}
           </li>
         )}
       </ul>
@@ -33,7 +33,7 @@ export default ({members, preview, props: { submit_custom_email, edit_custom, bu
       }
       <button
         className={`custom-email-button ${button_disabled ? 'email-button-disabled' : ''}`}
-        onClick={() => {disable_button(); submit_custom_email(members, preview)}}
+        onClick={() => { disable_button(); submit_custom_email(members, preview) }}
       >
         {button_disabled ? 'Sending Emails...' : 'Send Emails'}
       </button>
