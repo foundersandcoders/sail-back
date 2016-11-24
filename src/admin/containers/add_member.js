@@ -10,7 +10,7 @@ const { create_member } = require('../../shared/redux/modules/member.js')
 const { send_welcome } = require('../redux/modules/email/reducer.js')
 
 const buttons = ({ fields: { id, primary_email }, error, email_handler, email_sent, sending_error }) =>
-  <div>
+  <div className='add-member-buttons'>
     { error ? <div className='error'>{error.message}</div> : '' }
     { id.value && !email_sent
       ? <div>
@@ -25,10 +25,16 @@ const buttons = ({ fields: { id, primary_email }, error, email_handler, email_se
 
 const letter_or_email = (email_handler, email, id, sending_error) =>
   email
-  ? (sending_error || <button onClick={() => email_handler({ email, id })} type='button'>Send Welcome Email</button>)
-  : <a href={'#/letter/' + id}>
+  ? (sending_error || <div><button onClick={() => email_handler({ email, id })} type='button'>Send Welcome Email</button></div>)
+  : print_letter_link(id)
+
+const print_letter_link = (id) =>
+  <div>
+    <a href={'#/letter/' + id}>
       Print Welcome Letter
     </a>
+  </div>
+
 
 const AddMember = reduxForm(
   { form: 'member'
@@ -59,12 +65,9 @@ const NewMember = (
         required={new_required}
         mode='edit'
         read_only={read_only}
+        className='add-member-form-container'
+        addMember
       />
-      <div className='add-member-home-button-container'>
-        <a href='#/' className='flex-button'>
-          <button className='button-primary'>Home</button>
-        </a>
-      </div>
     </div>
   </div>
 )
