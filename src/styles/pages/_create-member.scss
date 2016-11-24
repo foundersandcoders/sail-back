@@ -1,49 +1,58 @@
 .new-member-container {
-	border-bottom: 1px solid #dbdbdb;
 	background-color: #fff;
-	width: 70%;
-	margin: auto;
+	width: 85%;
 	text-align: left;
-	padding: 30px;
 	padding-bottom: 50px;
 	overflow: hidden;
-	margin-bottom: 50px;
-	margin-top: 1%;
-	h2 {
-		margin-top: 40px;
-	}
+	margin: auto auto 50px;
+
 	h3 {
 		margin-top: 10px;
 		margin-left: 1px;
 		margin-bottom: -34px;
 	}
-	input, textarea, select {
- 		margin-bottom: 0.4em;
+
+	input,
+	select,
+	textarea {
+		margin-bottom: 10px;
 	}
+
 	button {
 		max-width: 320px;
 		height: 60px;
 	}
+
 	.checkbox {
 		margin-left: 1px;
 		margin-bottom: 20px;
+
 		h3 {
 			margin-top: 10px;
 			margin-left: 1px;
 			margin-bottom: 0;
 		}
 	}
+
 	.sending-error {
 		margin-left: 0.5em;
 		margin-top: -0.2em;
+	}
+
+	.add-member-form-container {
+		display: flex;
+
+		.member-column-firstColumn,
+		.member-column-secondColumn {
+			margin-right: 1em;
+		}
 	}
 }
 
 .member-num {
 	font-size: 1.5em;
-	margin-top: -1.5em;
-	margin-bottom: 0.6em;
-	margin-left: 0.9em;
+	margin-top: -0.4em;
+	margin-bottom: 0.5em;
 }
 
 .topSectionDividor {
