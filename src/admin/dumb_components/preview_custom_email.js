@@ -10,7 +10,7 @@ export default ({members, preview, props: { submit_custom_email, edit_custom, bu
             key={member.first_name + i}
             className='email-recipient'
           >
-            {`${member.first_name || member.title || ''} ${member.last_name}`}
+            {`${member.first_name || member.title || ''} ${member.last_name || member.primary_email}`}
           </li>
         )}
       </ul>
