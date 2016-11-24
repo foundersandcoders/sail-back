@@ -8,6 +8,7 @@ import OnlinePayments from '../components/online_payments.js'
 const CREDIT_CARD_PAYMENT = 'CREDIT_CARD_PAYMENT'
 const BANK_PAYMENT = 'BANK_PAYMENT'
 const HARBOUR_PAYMENT = 'HARBOUR_PAYMENT'
+const CHEQUE_PAYMENT = 'CHEQUE_PAYMENT'
 
 class PaymentForm extends React.Component {
 
@@ -39,6 +40,7 @@ const PaymentAmount = ({ user_payments: { amount_entered, balance_due }, amount_
           <button disabled={amount_entered === '' || amount_entered <= 0} onClick={no_default(payment_type)(CREDIT_CARD_PAYMENT)}>Paypal or Credit Card</button>
           <button onClick={no_default(payment_type)(BANK_PAYMENT)}>Bank Transfer</button>
           <button onClick={no_default(payment_type)(HARBOUR_PAYMENT)}>Annual Harbour Dues</button>
+          <button onClick={no_default(payment_type)(CHEQUE_PAYMENT)}>Cheque</button>
         </div>
       </form>
     </div>
@@ -62,10 +64,17 @@ const Payment = message => () =>
     <h2>{message}</h2>
   </div>
 
+const ChequePayment = () =>
+  <div>
+    <h2 className='cheque-payment-heading'>To pay by cheque please print out the form, fill in your details and send it to us along with you cheque.</h2>
+    <a href='/cheque-payment-form.pdf'><button>Payment Form</button></a>
+  </div>
+
 const component_mapper =
   { [BANK_PAYMENT]: Payment(bank_payment_msg)
   , [CREDIT_CARD_PAYMENT]: OnlinePayments
   , [HARBOUR_PAYMENT]: Payment(harbour_payment_msg)
+  , [CHEQUE_PAYMENT]: ChequePayment
   }
 
 export default connect(pick(['user_payments']),
