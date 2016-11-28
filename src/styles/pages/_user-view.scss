@@ -46,7 +46,6 @@ nav {
 }
 
 .payment-amount-container {
-
   @include page-fade;
 
   button {
@@ -195,7 +194,6 @@ nav {
 }
 
 .donation-section {
-
   @include page-fade;
 
   .form-container {
@@ -226,8 +224,20 @@ nav {
   }
 
   .no-payment-records {
-    text-align: center;
     margin: 2em 0;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    form {
+      width: 100%;
+    }
+    button {
+      max-width: 480px;
+      width: 100%;
+    }
   }
 }
 @media (min-width: 768px) {
