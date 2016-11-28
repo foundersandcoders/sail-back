@@ -3,8 +3,8 @@ import React from 'react'
 export default ({members, preview, props: { submit_custom_email, edit_custom, button_disabled, disable_button }}) =>
   <div className='custom-email-page'>
     <div className='email-recipients'>
-      <h2>Email Recipients</h2>
-      <ul>
+      <h2>Recipients</h2>
+      <ul className='recipient-list'>
         {members.map((member, i) =>
           <li
             key={member.first_name + i}
