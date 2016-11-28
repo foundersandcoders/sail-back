@@ -615,10 +615,19 @@ div.gbp {
 
 .email-recipients {
   flex: 1;
+  margin-right: 1.7em;
+
+  .recipient-list {
+    overflow-y: scroll;
+    height: 65vh;
+    margin-top: 2.2em;
+    border-right: 1px solid #eeeeee;
+    margin-right: 1em;
+  }
 }
 
 .custom-email-preview {
-  flex: 2;
+  flex: 3;
 }
 
 .custom-email-button {
