@@ -2,8 +2,8 @@
 
 var React = require('react')
 
-var SearchBox = require('../components/search_box.js')
-var SearchResults = require('../components/search_results.js')
+var SearchBox = require('../dumb_components/search_box.js')
+var SearchResults = require('../dumb_components/search_results.js')
 var connect = require('react-redux').connect
 
 var AdminHome = React.createClass({

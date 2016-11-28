@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { pick } from 'ramda'
 
-import SearchResults from '../components/search_results.js'
+import SearchResults from '../dumb_components/search_results.js'
 
 import { list_by_deliverer
        , list_by_gift_aid_status
