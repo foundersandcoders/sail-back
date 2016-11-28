@@ -14,7 +14,7 @@ import Letter from './containers/letter.js'
 import Emails from './containers/email.js'
 import Labels from './containers/labels.js'
 import Letters from './containers/letters.js'
-import ChangePassword from '../shared/components/change_password.js'
+import ChangePassword from './dumb_components/change_password.js'
 
 var { pathDidUpdate } = require('../shared/redux/modules/route.js')
 
