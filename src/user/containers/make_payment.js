@@ -37,7 +37,7 @@ const PaymentAmount = ({ user_payments: { amount_entered, balance_due }, amount_
         />
         <h3 className='subtitle'>Choose a payment method</h3>
         <div>
-          <button disabled={amount_entered === '' || amount_entered <= 0} onClick={no_default(payment_type)(CREDIT_CARD_PAYMENT)}>Paypal or Credit Card</button>
+          <button disabled={amount_entered === '' || amount_entered <= 0} onClick={no_default(payment_type)(CREDIT_CARD_PAYMENT)}>Credit Card or Paypal</button>
           <button onClick={no_default(payment_type)(BANK_PAYMENT)}>Bank Transfer</button>
           <button onClick={no_default(payment_type)(HARBOUR_PAYMENT)}>Annual Harbour Dues</button>
           <button onClick={no_default(payment_type)(CHEQUE_PAYMENT)}>Cheque</button>
@@ -66,7 +66,7 @@ const Payment = message => () =>
 
 const ChequePayment = () =>
   <div>
-    <h2 className='cheque-payment-heading'>To pay by cheque please print out the form, fill in your details and send it to us along with you cheque.</h2>
+    <h2 className='cheque-payment-heading'>To pay by cheque please print out the form, fill in your details and send it to us along with your cheque.</h2>
     <a href='/cheque-payment-form.pdf'><button>Payment Form</button></a>
   </div>
 
