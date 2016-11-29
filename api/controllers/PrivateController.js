@@ -28,8 +28,8 @@ module.exports = {
   sendCustomEmail: membersQuery('custom_email'),
   getNewsletterLabels: membersQuery('newsletter_labels'),
   getPostMembers: membersQuery('newsletterQueryTemplate', 'post'),
-  sendSubsReminder: membersQuery('subsQueryTemplate', 'online'),
-  sendSubsReminderPost: membersQuery('subsQueryTemplate', 'post'),
+  subsReminder: membersQuery('subsReminderQuery', 'online'),
+  subsReminderPost: membersQuery('subsReminderQuery', 'post'),
 
   submit_email: function (req, res) {
     mg.submitEmail(req.body, response_callback(res))

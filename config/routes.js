@@ -185,12 +185,12 @@ module.exports.routes = {
 
   'GET /api/reminders': {
     controller: 'Private',
-    action: 'sendSubsReminder'
+    action: 'subsReminder'
   },
 
   'GET /api/post-sub-reminders': {
     controller: 'Private',
-    action: 'sendSubsReminderPost'
+    action: 'subsReminderPost'
   },
 
   'POST /api/submit-email': {
@@ -225,6 +225,11 @@ module.exports.routes = {
   'GET /api/list-by-deliverer/:deliverer': {
     controller: 'Private',
     action: 'list_by_deliverer'
+  },
+
+  'GET /api/list-120-overdue': {
+    controller: 'Private',
+    action: 'list_120_overdue'
   }
 
 // -------------------------------------------------------------------------

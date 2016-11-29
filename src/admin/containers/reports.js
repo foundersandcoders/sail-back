@@ -1,15 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { GiftAidReport, DelivererReport } from './member_analysis.js'
+import { GiftAidReport, DelivererReport, OverdueReport } from './member_analysis.js'
 import { PayingIn, NonCheque } from './payment_reports.js'
 
-import { gift_aid_tab, deliverers_tab } from '../redux/modules/member_analysis.js'
+import { deliverers_tab, list_120_overdue, change_tab } from '../redux/modules/member_analysis.js'
 
 const tab_mapper = { GiftAidReport
                    , DelivererReport
                    , PayingIn
                    , NonCheque
+                   , OverdueReport
                    }
 
 class Reports extends React.Component {
@@ -25,8 +26,9 @@ class Reports extends React.Component {
     return (
       <div className='reports-container'>
         <div className='button-container'>
-          <button className='tabs' onClick={() => { this.props.gift_aid_tab(); this.setState({ active_tab: 'GiftAidReport' }) }}>Members by Gift Aid Status</button>
+          <button className='tabs' onClick={() => { this.props.change_tab(); this.setState({ active_tab: 'GiftAidReport' }) }}>Members by Gift Aid Status</button>
           <button className='tabs' onClick={() => { this.props.deliverers_tab(); this.setState({ active_tab: 'DelivererReport' }) }}>Members by Deliverer</button>
+          <button className='tabs' onClick={() => { this.props.change_tab(); this.props.list_120_overdue(); this.setState({ active_tab: 'OverdueReport' }) }}>Members 120 Days Overdue</button>
           <button className='tabs' onClick={() => this.setState({ active_tab: 'NonCheque' })}>Non Cheque Payments</button>
           <button className='tabs' onClick={() => this.setState({ active_tab: 'PayingIn' })}>Paying In Slips</button>
         </div>
@@ -36,4 +38,4 @@ class Reports extends React.Component {
   }
 }
 
-export default connect(null, { gift_aid_tab, deliverers_tab })(Reports)
+export default connect(null, { deliverers_tab, list_120_overdue, change_tab })(Reports)
