@@ -5,7 +5,7 @@ var set_current = d.set_current(process.env.NODE_ENV)
 const columns = `first_name, last_name, title, address1, address2,
   address3, address4, county, postcode, primary_email, secondary_email`
 
-exports.subsQueryTemplate = news_type => (
+exports.subsReminderQuery = news_type => (
   `select ${columns},
   datediff(${date}, max(payments.date)) as overdue,
   members.standing_order, members.due_date, members.id,
