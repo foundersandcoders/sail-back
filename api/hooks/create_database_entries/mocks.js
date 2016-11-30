@@ -1061,7 +1061,7 @@ exports.payments = function () {
     category: 'payment',
     description: 'Payment of subscription',
     amount: 1000,
-    date: new Date('2016, 1, 1')
+    date: new Date('2016, 11, 1')
   }, {
     member: module.exports.members()[7].id,
     category: 'subscription',
@@ -1074,7 +1074,7 @@ exports.payments = function () {
     category: 'subscription',
     description: 'Subscription charge',
     amount: 5000,
-    date: new Date('2015, 12, 1')
+    date: new Date('2016, 11, 1')
   }, {
     member: module.exports.members()[8].id,
     category: 'payment',
@@ -1092,7 +1092,7 @@ exports.payments = function () {
     category: 'payment',
     description: 'part payment',
     amount: 1000,
-    date: new Date('2016, 1, 1')
+    date: new Date('2016, 11, 1')
   }, {
     member: module.exports.members()[9].id,
     category: 'payment',

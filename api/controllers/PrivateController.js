@@ -154,5 +154,30 @@ module.exports = {
       .exec(function (err, items) {
         return err ? res.json(err) : res.json(items)
       })
+  },
+
+  list_120_overdue: function (req, res) {
+    Members
+      .find()
+      .populate('payments')
+      .exec(function (err, members) {
+        if (Is.ok(err) || !Is.ok(members)) {
+          return res.notFound()
+        } else {
+          // R.filter(R.has(member)) is used here as the members array has a couple of functions in it (these are some methods provided by sails)
+          // we want to get rid of these functions and just deal with data
+
+          var tidied_members = R.map(R.over(R.lensProp('payments'), R.compose(R.filter(R.has('member')))))(members)
+          var get_balance = R.reduce(function (sum, payment) {
+            if (payment.category === 'payment') return sum - payment.amount
+            return sum + payment.amount
+          }, 0)
+          var outstanding_members = R.filter(R.pipe(R.prop('payments'), get_balance, R.lt(0)))(tidied_members)
+          var payments_by_date = R.pipe(R.map(R.over(R.lensProp('date'), Date.parse)), R.sortBy(R.prop('date')))
+          var overdue_members = R.filter(R.pipe(R.prop('payments'), payments_by_date, R.last, R.prop('date'), R.gt(Date.now() - 120 * 24 * 60 * 60 * 1000)))(outstanding_members)
+          var fields = [ 'id', 'first_name', 'payments', 'last_name', 'initials', 'membership_type' ]
+          return res.json(R.map(R.pick(fields), overdue_members))
+        }
+      })
   }
 }

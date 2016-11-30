@@ -50,7 +50,7 @@ const reducer: Reducer<State, Action> =
     case LIST_120_OVERDUE:
       return isEmpty(payload)
         ? compose(update(no_matches)(true), update(members_120_overdue)([]))(state)
-        : compose(update(no_matches)(false), update(members_120_overdue)(payload.results))(state)
+        : compose(update(no_matches)(false), update(members_120_overdue)(payload))(state)
     case PATH_UPDATE:
       return initialState
     default:

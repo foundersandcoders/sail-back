@@ -68,7 +68,7 @@ const Overdue = (props) => {
   const { member_analysis: { members_120_overdue, no_matches } } = props
   return (
     <div>
-      <SearchResults results={members_120_overdue} error={no_matches} />
+      <SearchResults results={members_120_overdue} error={no_matches} homepage />
     </div>
   )
 }

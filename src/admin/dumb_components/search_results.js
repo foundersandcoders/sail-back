@@ -58,7 +58,7 @@ var SearchResults = function (props) {
           <div className='col-3'><p>Title</p></div>
           <div className='col-4'><p>Initials</p></div>
           <div className='col-5'><p>Subscription</p></div>
-          {props.homepage && <div className='col-6'><p>Payment</p></div>}
+          {props.homepage && <div className='col-6'><p>Most Recent Payment</p></div>}
           {props.homepage || <div className='col-6'><p>Postcode</p></div>}
         </div>
         {props.error && <div className='search-error'>No results</div>}
