@@ -64,8 +64,21 @@ const DelivererForm = ({ list_by_deliverer, member_analysis: { deliverers } }) =
     </form>
   </div>
 
+const Overdue = (props) => {
+  const { member_analysis: { members_120_overdue, no_matches } } = props
+  return (
+    <div>
+      <SearchResults results={members_120_overdue} error={no_matches} homepage />
+    </div>
+  )
+}
+
+
 export const GiftAidReport =
   connect(pick([ 'member_analysis' ]), { list_by_gift_aid_status })(GiftAidSection)
 
 export const DelivererReport =
   connect(pick([ 'member_analysis' ]), { list_by_deliverer })(DelivererSection)
+
+export const OverdueReport =
+  connect(pick([ 'member_analysis' ]), null)(Overdue)
