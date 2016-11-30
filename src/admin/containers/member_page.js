@@ -21,10 +21,9 @@ const ViewMember = React.createClass({
     fetch_member(id)
   },
 
-  deactivate_member_click (_) {
+  deactivate_member_click () {
     const { deactivate_member } = this.props
-    const { value: deletion_reason } =
-      (document.querySelector('#deletion_reason'): any).selectedOptions[0]
+    const { value: deletion_reason } = (document.querySelector('#deletion_reason'): any).value
     deactivate_member(deletion_reason)
   },
 
