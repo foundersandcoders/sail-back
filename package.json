@@ -53,6 +53,7 @@
     "dethunking-compose": "^0.1.2",
     "email-validator": "1.0.4",
     "factor-bundle": "2.5.0",
+    "es6-promise": "^4.0.5",
     "joi": "6.4.3",
     "lodash.throttle": "^4.0.1",
     "mailgun-js": "^0.7.11",
