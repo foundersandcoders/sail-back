@@ -11,4 +11,4 @@ export default (email, submit) =>
   </div>
 
 const do_not_reply =
-  'Please do not reply to messenger@friendsch.org which is not a monitored email address. If you have any queries please reply to membership@friendsch.org  .'
+  'Please do not reply to messenger@friendsch.org which is not a monitored email address. If you have any queries please reply to membership@friendsch.org.'

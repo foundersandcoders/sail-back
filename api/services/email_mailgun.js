@@ -27,6 +27,21 @@ module.exports = {
       error => error ? callback(error, null) : callback(null, 'Email sent')
     )
   },
+
+  sendEmail: function (data, callback) {
+    if (process.env.NODE_ENV === 'testing') {
+      return callback(undefined, 'Email sent')
+    }
+
+    mailgun.messages().send(data, function (error) {
+      if (error) {
+        console.error(error)
+        return callback(error, null)
+      }
+      return callback(null, 'Email sent')
+    })
+  },
+
   sendPassword: function (data, callback) {
     if (process.env.NODE_ENV === 'testing') {
       return callback(undefined, 'Email sent')
@@ -38,7 +53,7 @@ module.exports = {
           console.error('MAILGUN ERROR: ', error)
           return callback(error, undefined)
         } else {
-          console.error('EMAIL SENT TO: ', data.email)
+          console.log('EMAIL SENT TO: ', data.email)
           return callback(undefined, 'Email sent')
       }
     })
@@ -63,7 +78,7 @@ module.exports = {
              , 'secretary@friendsch.org'
              , 'treasurer@friendsch.org'
              , 'I hope that we’ll get a chance to meet in person at our AGM or one of '
-             + 'our social events (or maybe on a Work Party if you are feeling energetic?)'
+             + 'our social events (or maybe on a work party if you are feeling energetic?)'
              , 'Oliver Chipperfield'
              , 'Chair'
              , 'Friends of Chichester Harbour'
