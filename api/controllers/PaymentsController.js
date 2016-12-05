@@ -15,6 +15,7 @@
 var braintree = require('braintree')
 var Validation = require('../services/validate.js')
 var queries = require('../queries/payments.js')
+var sendEmail = require('../services/email_mailgun.js').sendEmail
 
 // ATTENTION: sandbox credentials: need real credentials and must be kept PRIVATE
 var gateway = braintree.connect({
@@ -57,7 +58,6 @@ module.exports = {
         },
         descriptor: {
           name: 'fch*friendsch.org',
-          phone: '01243512301',
           url: 'friendsch.org'
         }
       }, function (error, result) {
@@ -89,7 +89,14 @@ module.exports = {
                   var formatted = Object.assign({}, item, {
                     success: true
                   })
-                  return res.send(formatted)
+                  sendEmail({
+                    to: req.session.user.primary_email,
+                    from: 'messenger@friendsch.org',
+                    subject: 'Payment Confirmation',
+                    text: 'Thank you for your Credit Card/PayPal payment.\n\nTreasurer\n\nFriends of Chichester Harbour'
+                  }, function () {
+                    return res.send(formatted)
+                  })
                 }
               })
           })
