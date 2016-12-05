@@ -54,7 +54,11 @@ module.exports.routes = {
   },
   'GET /signout': {
     controller: 'Public',
-    action: 'ServiceSignOut'
+    action: 'adminSignout'
+  },
+  'GET /member-signout': {
+    controller: 'Public',
+    action: 'memberSignout'
   },
   'POST /signin': {
     controller: 'Public',
