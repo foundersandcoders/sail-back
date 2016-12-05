@@ -35,9 +35,15 @@ module.exports = {
     })(req, res)
   },
 
-  ServiceSignOut: function (req, res) {
+  adminSignout: function (req, res) {
     req.session.destroy(function () {
       res.redirect('/')
+    })
+  },
+
+  memberSignout: function (req, res) {
+    req.session.destroy(function () {
+      res.redirect('http://friendsch.org/')
     })
   },
 
