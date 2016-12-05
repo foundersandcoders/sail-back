@@ -31,7 +31,7 @@ const PaymentAmount = ({ user_payments: { amount_entered, balance_due }, amount_
         <h2>Please enter an amount and choose a method of payment</h2>
         <h3>Payment Amount {balance_due > 0 ? `(the outstanding balance on your account is £${balance_due})` : ''}</h3>
         <input
-          placeholder={'£' + balance_due}
+          placeholder={balance_due + '.00'}
           type='number'
           onChange={amount_change}
         />
