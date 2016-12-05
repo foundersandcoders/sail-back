@@ -27,8 +27,8 @@ var gateway = braintree.connect({
 
 module.exports = {
 
-  clientToken: function (req, res) {
-    gateway
+  clientToken: function (req, res) { //eslint-disable-line
+    return gateway
       .clientToken
       .generate({
         merchantAccountId: process.env.BRAINTREE_MERCHANT_ACCOUNT_ID || 'friendsofchichesterharbour'
@@ -36,19 +36,16 @@ module.exports = {
       }, function (err, response) {
         if (err) {
           console.error('Error creating braintree token.')
-          res.badRequest({
+          return res.badRequest({
             error: err
           })
-        } else {
-          res.send({
-            token: response.clientToken
-          })
         }
+        return res.send({token: response.clientToken})
       })
   },
 
   makePayment: function (req, res) {
-    gateway
+    return gateway
       .transaction
       .sale({
         amount: req.body.amount,
@@ -63,13 +60,13 @@ module.exports = {
       }, function (error, result) {
         if (error) {
           console.error('Braintree transaction error')
-          res.send({
+          return res.send({
             braintree_error: error
           })
         } else if (result.success) {
           // if successful payment, update the db
           var formattedPayment = formatPaymentForDB(req, result.transaction, req.body.type)
-          Validation('payment', formattedPayment, function (errorValidation) {
+          return Validation('payment', formattedPayment, function (errorValidation) {
             if (errorValidation) {
               console.error('DB validation error')
               return res.badRequest({
@@ -77,7 +74,7 @@ module.exports = {
               })
             }
 
-            Payments
+            return Payments
               .create(formattedPayment)
               .exec(function (error, item) {
                 if (error) {
@@ -89,7 +86,7 @@ module.exports = {
                   var formatted = Object.assign({}, item, {
                     success: true
                   })
-                  sendEmail({
+                  return sendEmail({
                     to: req.session.user.primary_email,
                     from: 'messenger@friendsch.org',
                     subject: 'Payment Confirmation',
@@ -102,7 +99,7 @@ module.exports = {
           })
         } else {
           console.error('Braintree transaction not successful')
-          res.send(result)
+          return res.send(result)
         }
       })
   },
@@ -110,11 +107,11 @@ module.exports = {
   payingInReport: function (req, res) {
     Payments.query(queries.paying_in, [req.params.ref, req.params.ref], function (err, results) {
       if (err) {
-        res.badRequest({
+        return res.badRequest({
           error: err
         })
       } else {
-        res.send(results)
+        return res.send(results)
       }
     })
   },
@@ -122,17 +119,17 @@ module.exports = {
   nonChequeReport: function (req, res) {
     Payments.query(queries.non_cheque, [req.query.after, req.query.before, req.params.type], function (err, results) {
       if (err) {
-        res.badRequest({
+        return res.badRequest({
           error: err
         })
       } else {
-        res.send(results)
+        return res.send(results)
       }
     })
   },
 
   addDonation: function (req, res) {
-    Payments
+    return Payments
       .create({
         member: req.session.user.id,
         description: 'Donation made on website',
@@ -147,15 +144,16 @@ module.exports = {
   },
 
   getBalanceDue: function (req, res) {
-    Members
+    return Members
       .findOne(req.session.user.id)
       .populate('payments')
-      .exec(function (error, member) {
+      .exec(function (err, member) {
+        if (err) return res.badRequest(err)
         var balance_due = member.payments.reduce(function (sum, payment) {
           if (payment.category === 'payment') return sum - payment.amount
           return sum + payment.amount
         }, 0)
-        res.send({ balance_due: balance_due/100 })
+        return res.send({ balance_due: balance_due/100 })
       })
   }
 }
