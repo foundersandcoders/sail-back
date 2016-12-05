@@ -1,7 +1,3 @@
-/*global
-  sails
-*/
-
 'use strict'
 var R = require('ramda')
 var aSync = require('async')
@@ -13,17 +9,13 @@ var domain = 'friendsch.org'
 var mailgun = require('mailgun-js')({ apiKey, domain })
 
 module.exports = {
-  /**
-   * Creates and email and sends it through Mailgun.
-   * @param  {Object} - data in the form {code: 'String', email: 'String'}
-   * @return {}
-   */
+
   sendSubscribe: function (data, callback) {
     if (process.env.NODE_ENV === 'testing') {
       return callback(undefined, 'Email sent')
     }
 
-    mailgun.messages().send(module.exports._createEmail(data, 'Welcome to Friends of Chichester Harbour', 'subscribe'),
+    return mailgun.messages().send(module.exports._createEmail(data, 'Welcome to Friends of Chichester Harbour', 'subscribe'),
       error => error ? callback(error, null) : callback(null, 'Email sent')
     )
   },
@@ -33,7 +25,7 @@ module.exports = {
       return callback(undefined, 'Email sent')
     }
 
-    mailgun.messages().send(data, function (error) {
+    return mailgun.messages().send(data, function (error) {
       if (error) {
         console.error(error)
         return callback(error, null)
@@ -47,7 +39,7 @@ module.exports = {
       return callback(undefined, 'Email sent')
     }
 
-    mailgun.messages().send(module.exports._createEmail(data, 'Forgot password', 'forgotPass'),
+    return mailgun.messages().send(module.exports._createEmail(data, 'Forgot password', 'forgotPass'),
       (error) => {
         if (error) {
           console.error('MAILGUN ERROR: ', error)
@@ -135,12 +127,12 @@ module.exports = {
       )
     }
 
-    aSync.parallel(emails.map(sendEmail), (error, results) =>
+    return aSync.parallel(emails.map(sendEmail), (error, results) =>
       error ? callback(error, null) : callback(null, results)
     )
   },
   getBounced: function (callback) {
-    mailgun.get(`/${domain}/bounces`, {}, function (error, results) {
+    return mailgun.get(`/${domain}/bounces`, {}, function (error, results) {
       return error ? callback(error, null) : callback(null, results)
     })
   }
