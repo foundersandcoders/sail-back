@@ -11,10 +11,11 @@ from '../redux/modules/member_analysis.js'
 
 const GiftAidSection = (props) => {
   const { member_analysis: { members_by_gift_aid_status, no_matches } } = props
+  const fields = [ 'id', 'name', 'postcode']
   return (
     <div>
       {GiftAidForm(props)}
-      <SearchResults results={members_by_gift_aid_status} error={no_matches}/>
+      <SearchResults fields={fields} results={members_by_gift_aid_status} error={no_matches}/>
     </div>
   )
 }
@@ -38,10 +39,11 @@ const GiftAidForm = ({ list_by_gift_aid_status }) =>
 
 const DelivererSection = (props) => {
   const { member_analysis: { members_by_deliverer, no_matches } } = props
+  const fields = [ 'id', 'name', 'postcode']
   return (
     <div>
       {DelivererForm(props)}
-      <SearchResults results={members_by_deliverer} error={no_matches}/>
+      <SearchResults fields={fields} results={members_by_deliverer} error={no_matches}/>
     </div>
   )
 }
@@ -66,9 +68,10 @@ const DelivererForm = ({ list_by_deliverer, member_analysis: { deliverers } }) =
 
 const Overdue = (props) => {
   const { member_analysis: { members_120_overdue, no_matches } } = props
+  const fields = [ 'id', 'name', 'membership_type', 'due_date', 'last_payment' ]
   return (
     <div>
-      <SearchResults results={members_120_overdue} error={no_matches} homepage />
+      <SearchResults fields={fields} results={members_120_overdue} error={no_matches} />
     </div>
   )
 }

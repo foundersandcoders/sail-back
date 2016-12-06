@@ -1,9 +1,7 @@
-'use strict'
-
 var React = require('react')
 
 var SearchBox = require('../dumb_components/search_box.js')
-var SearchResults = require('../dumb_components/search_results.js')
+var SearchResults = require('../dumb_components/search_results.js').default
 var connect = require('react-redux').connect
 
 var AdminHome = React.createClass({
@@ -26,6 +24,7 @@ var AdminHome = React.createClass({
     this.setState({ none_found: false })
   },
   render: function () {
+    var fields = [ 'id', 'name', 'title', 'initials', 'membership_type', 'last_payment' ]
     return (
       <div>
         <div className='container-large'>
@@ -44,7 +43,7 @@ var AdminHome = React.createClass({
               <SearchResults
                 results={this.state.results}
                 error={this.state.none_found}
-                homepage
+                fields={fields}
               />
             </div>
           </div>
