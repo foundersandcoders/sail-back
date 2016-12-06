@@ -164,19 +164,26 @@ module.exports = {
         if (Is.ok(err) || !Is.ok(members)) {
           return res.notFound()
         } else {
-          // R.filter(R.has(member)) is used here as the members array has a couple of functions in it (these are some methods provided by sails)
-          // we want to get rid of these functions and just deal with data
-
-          var tidied_members = R.map(R.over(R.lensProp('payments'), R.compose(R.filter(R.has('member')))))(members)
           var get_balance = R.reduce(function (sum, payment) {
             if (payment.category === 'payment') return sum - payment.amount
             return sum + payment.amount
           }, 0)
-          var outstanding_members = R.filter(R.pipe(R.prop('payments'), get_balance, R.lt(0)))(tidied_members)
           var payments_by_date = R.pipe(R.map(R.over(R.lensProp('date'), Date.parse)), R.sortBy(R.prop('date')))
-          var overdue_members = R.filter(R.pipe(R.prop('payments'), payments_by_date, R.last, R.prop('date'), R.gt(Date.now() - 120 * 24 * 60 * 60 * 1000)))(outstanding_members)
-          var fields = [ 'id', 'first_name', 'payments', 'last_name', 'initials', 'membership_type' ]
-          return res.json(R.map(R.pick(fields), overdue_members))
+
+          // R.filter(R.has(member)) is used here as the members array has a couple of functions in it (these are some methods provided by sails)
+          // we want to get rid of these functions and just deal with data
+
+          var tidied_members = R.over(R.lensProp('payments'), R.compose(R.filter(R.has('member'))))
+          var outstanding_members = R.pipe(R.prop('payments'), get_balance, R.lt(0))
+          var overdue_members = R.pipe(R.prop('payments'), payments_by_date, R.last, R.prop('date'), R.gt(Date.now() - 120 * 24 * 60 * 60 * 1000))
+
+          // fields are pick here because payments array does not get sent to front-end otherwise (not sure why this happens)
+
+          var fields = [ 'id', 'first_name', 'payments', 'last_name', 'initials', 'membership_type', 'due_date', 'date' ]
+          var pick_fields = R.pick(fields)
+
+          var formatted_overdue_members = R.pipe(R.map(R.pipe(tidied_members, pick_fields)), R.filter(outstanding_members), R.filter(overdue_members))(members)
+          return res.json(formatted_overdue_members)
         }
       })
   }
