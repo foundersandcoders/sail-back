@@ -15,10 +15,12 @@ exports.subsReminderQuery = news_type => (
     end) as amount
     from members right outer join payments
     on members.id = payments.member
-    where members.primary_email is${news_type === 'online' ? ' not' : ''} null
+    where activation_status='activated'
+    and ${news_type === 'online'
+        ? 'primary_email is not null and email_bounced != true'
+        : '(primary_email is null or email_bounced = true)'}
     and members.membership_type in
     ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
-    and activation_status='activated'
     group by members.id
     having sum(case payments.category
       when 'payment' then -payments.amount
@@ -27,10 +29,12 @@ exports.subsReminderQuery = news_type => (
       and datediff(${date}, max(payments.date)) > 30;`
 )
 
-exports.newsletterQueryTemplate = news_type => (
+exports.newsletter_reminder = () => (
   `select ${columns}
   from members
-  where news_type = '${news_type}'
+  where news_type = 'online'
+  and primary_email is not null
+  and email_bounced != true
   and activation_status='activated'
   and membership_type != 'accounts';`
 )
@@ -42,7 +46,9 @@ exports.update_subscription = body =>
   where members.membership_type = membershiptypes.value
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
-  and members.primary_email is${body.news_type === 'online' ? ' not' : ''} null
+  and ${body.news_type === 'online'
+      ? 'primary_email is not null and email_bounced != true'
+      : '(primary_email is null or email_bounced = true)'}
   and
     date_sub(${date}, interval 11 month)
     > (ifnull((select max(date) from payments
@@ -59,7 +65,9 @@ exports.subscription_due_template = body =>
   and (standing_order is null or standing_order=false)
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
-  and members.primary_email is${body.news_type === 'online' ? ' not' : ''} null
+  and ${body.news_type === 'online'
+      ? 'primary_email is not null and email_bounced != true'
+      : '(primary_email is null or email_bounced = true)'}
   and
     date_sub(${date}, interval 11 month)
     > (ifnull((select max(date) from payments
@@ -73,6 +81,7 @@ exports.custom_email = () =>
   `select first_name, last_name, title, primary_email, secondary_email
   from members
   where primary_email is not null
+  and bounced_email != true
   and activation_status='activated'
   and membership_type != 'accounts';`
 

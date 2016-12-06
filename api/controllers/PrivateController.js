@@ -14,7 +14,7 @@ var response_callback = helpers.response_callback
 var change_view = helpers.change_view
 
 var membersQuery = function (query, type) {
-  return function (req, res) {
+  return function (req, res) { //eslint-disable-line
     Members.query(queries[query](type), response_callback(res))
   }
 }
@@ -24,21 +24,20 @@ module.exports = {
   showUserHome: change_view('pages/user'),
   showMemberForm: change_view('pages/new-member'),
   showMaintenance: change_view('pages/maintenance'),
-  sendNewsletterAlert: membersQuery('newsletterQueryTemplate', 'online'),
+  sendNewsletterAlert: membersQuery('newsletter_reminder'),
   sendCustomEmail: membersQuery('custom_email'),
   getNewsletterLabels: membersQuery('newsletter_labels'),
-  getPostMembers: membersQuery('newsletterQueryTemplate', 'post'),
   subsReminder: membersQuery('subsReminderQuery', 'online'),
   subsReminderPost: membersQuery('subsReminderQuery', 'post'),
 
   submit_email: function (req, res) {
     mg.submitEmail(req.body, response_callback(res))
   },
-  get_bounced: function (req, res) {
+  get_bounced: function (req, res) { //eslint-disable-line
     mg.getBounced(response_callback(res))
   },
 
-  reset_subscription_payments: function (req, res) {
+  reset_subscription_payments: function (req, res) { //eslint-disable-line
     Payments.query(queries.reset_subscription_payments, response_callback(res))
   },
 
@@ -121,12 +120,13 @@ module.exports = {
 
     if (req.query.type === 'members') {
       Upload.members(csv, function (err, result) {
+        if (err) console.error(err)
         return res.send(result)
       })
     } else if (req.query.type === 'payments') {
       Upload.payments(csv, function (err, result) {
+        if (err) console.error(err)
         sails.log.info('Payment upload: ', result)
-
         return res.send(result)
       })
     } else {
@@ -156,7 +156,7 @@ module.exports = {
       })
   },
 
-  list_120_overdue: function (req, res) {
+  list_120_overdue: function (req, res) { //eslint-disable-line
     Members
       .find()
       .populate('payments')

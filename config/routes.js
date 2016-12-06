@@ -182,11 +182,6 @@ module.exports.routes = {
     action: 'nonChequeReport'
   },
 
-  'GET /api/post_members': {
-    controller: 'Private',
-    action: 'getPostMembers'
-  },
-
   'GET /api/reminders': {
     controller: 'Private',
     action: 'subsReminder'
