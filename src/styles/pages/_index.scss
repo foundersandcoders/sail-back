@@ -175,8 +175,6 @@ p {
   }
 
   .table-section-individual-rows {
-    // height: 25em;
-    // overflow: scroll;
     .selected {
       background-color: #FFE5E5;
     }
@@ -239,29 +237,31 @@ p {
       display: flex;
       text-align: center;
       margin-bottom: 1.5em;
+      align-items: center;
+      justify-content: space-between;
 
       .col-1 {
-        flex: 1.5;
+        flex: 1 1 0;
       }
 
       .col-2 {
-        flex: 3;
+        flex: 1 1 0;
       }
 
       .col-3 {
-        flex: 1;
+        flex: 1 1 0;
       }
 
       .col-4 {
-        flex: 1;
+        flex: 1 1 0;
       }
 
       .col-5 {
-        flex: 2;
+        flex: 1 1 0;
       }
 
       .col-6 {
-        flex: 2;
+        flex: 1 1 0;
       }
 
       p {
@@ -284,33 +284,34 @@ p {
         line-height: 35px;
         text-align: center;
         align-items: center;
+        justify-content: space-between;
 
         p {
           font-size: 15px;
         }
 
         .col-1 {
-          flex: 1.5;
+          flex: 1 1 0;
         }
 
         .col-2 {
-          flex: 3;
+          flex: 1 1 0;
         }
 
         .col-3 {
-          flex: 1;
+          flex: 1 1 0;
         }
 
         .col-4 {
-          flex: 1;
+          flex: 1 1 0;
         }
 
         .col-5 {
-          flex: 2;
+          flex: 1 1 0;
         }
 
         .col-6 {
-          flex: 2;
+          flex: 1 1 0;
         }
       }
 
