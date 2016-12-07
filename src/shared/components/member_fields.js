@@ -1,5 +1,5 @@
 const React = require('react')
-const Field = require('../../shared/dumb_components/field.js')
+const Field = require('./field.js')
 const { options
       , field_order
       , fieldStructure

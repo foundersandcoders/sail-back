@@ -4,7 +4,7 @@ import { reduxForm } from 'redux-form'
 import { validate, required, read_only_user, user_field_structure }
   from '../../../shared/form_fields/member.js'
 import { Buttons, NoButtons } from '../personal_details/buttons.js'
-import MemberFields from '../../../shared/dumb_components/member_fields.js'
+import MemberFields from '../../../shared/components/member_fields.js'
 
 export default ({ toggle_member_mode, mode, update_member_user, ...props }) =>
   <ViewMember

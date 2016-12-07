@@ -1,5 +1,5 @@
 import React from 'react'
-import Field from '../../../shared/dumb_components/field.js'
+import Field from '../../../shared/components/field.js'
 
 export default ({fields, handleSubmit, reactivate_member, update_member_user, deactivate_member }) => {
   const end_membership_button = () =>

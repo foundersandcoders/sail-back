@@ -1,14 +1,13 @@
 'use strict'
 
 var React = require('react')
-var ReactRouter  = require('react-router')
+var ReactRouter = require('react-router')
 
-var App = require('./components/app.js')
-var Signin = require('./pages/signin.js')
+var App = require('./app.js')
+var Signin = require('./components/signin.js')
 
 var Router = ReactRouter.Router
 var Route = ReactRouter.Route
-var Redirect = ReactRouter.Redirect
 
 module.exports = function (h, onUpdate) {
 
@@ -16,10 +15,10 @@ module.exports = function (h, onUpdate) {
 
   return (
     <Router history={h} onUpdate={onUpdate}>
-    <Route component={App}>
-    <Route path='/' component={Signin} />
-      <Route path='/signin' component={Signin} />
-    </Route>
+      <Route component={App}>
+        <Route path='/' component={Signin} />
+        <Route path='/signin' component={Signin} />
+      </Route>
     </Router>
   )
 }
