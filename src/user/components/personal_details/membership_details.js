@@ -14,7 +14,8 @@ export default (props) =>
   <div>
     <EditDetails {...props} />
     {propOr('online', 'value')(props.personal_details.news_type) === 'post'
-      && <ConfirmDeletion delete={props.switch_to_online_news} buttons={NewsTypeButtons} text='Read Newsletters Online' />
+      && propOr('true', 'value')(props.personal_details.email_bounced) !== 'true'
+       && <ConfirmDeletion delete={props.switch_to_online_news} buttons={NewsTypeButtons} text='Read Newsletters Online' />
     }
     {propOr('false', 'value')(props.personal_details.standing_order) === 'true'
       && <ConfirmDeletion delete={props.cancel_standing_order} buttons={StandingOrderButtons} text='Cancel Standing Order' />
