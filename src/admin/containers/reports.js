@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { GiftAidReport, DelivererReport, OverdueReport } from './member_analysis.js'
+import { GiftAidReport, DelivererReport, OverdueReport, EmailBouncedReport } from './member_analysis.js'
 import { PayingIn, NonCheque } from './payment_reports.js'
 
 import { deliverers_tab, list_120_overdue, change_tab } from '../redux/modules/member_analysis.js'
@@ -11,6 +11,7 @@ const tab_mapper = { GiftAidReport
                    , PayingIn
                    , NonCheque
                    , OverdueReport
+                   , EmailBouncedReport
                    }
 
 class Reports extends React.Component {
@@ -29,6 +30,7 @@ class Reports extends React.Component {
           <button className='tabs' onClick={() => { this.props.change_tab(); this.setState({ active_tab: 'GiftAidReport' }) }}>Members by Gift Aid Status</button>
           <button className='tabs' onClick={() => { this.props.deliverers_tab(); this.setState({ active_tab: 'DelivererReport' }) }}>Members by Deliverer</button>
           <button className='tabs' onClick={() => { this.props.change_tab(); this.props.list_120_overdue(); this.setState({ active_tab: 'OverdueReport' }) }}>Members 120 Days Overdue</button>
+          <button className='tabs' onClick={() => { this.props.change_tab(); this.setState({ active_tab: 'EmailBouncedReport' }) }}>Email Bounced Status</button>
           <button className='tabs' onClick={() => this.setState({ active_tab: 'NonCheque' })}>Non Cheque Payments</button>
           <button className='tabs' onClick={() => this.setState({ active_tab: 'PayingIn' })}>Paying In Slips</button>
         </div>

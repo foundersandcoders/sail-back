@@ -102,7 +102,7 @@ const email_list = ({ toggle_list, list_hidden, emails, toggle_content, submit_e
 
 const BouncedEmails = ({ bounced }) =>
   <div className='bounced-container'>
-    <h3 className='bounced-heading'>Bounced emails may take up to a day to appear on this list.</h3>
+    <h3 className='bounced-heading'>Supressed emails may take up to a day to appear on this list.</h3>
     {bounced.length > 0
       ? <ul>{map(bounced_email, bounced)}</ul>
       : <h3>There are no bounced emails</h3>
@@ -131,7 +131,7 @@ const label_from_id = { 'reminder-email': 'Balance Overdue Email'
                       , 'newsletter-reminder': 'Newsletter Email (2)'
                       , 'subscription-due': 'Subscription Due Email'
                       , 'custom-email': 'Email All Members'
-                      , 'get-bounced': 'List Emails Bounced'
+                      , 'get-bounced': 'Show Supressed Emails'
                       }
 
 const email_ids = ['subscription-due', 'reminder-email', 'newsletter-email', 'newsletter-reminder', 'custom-email', 'get-bounced']

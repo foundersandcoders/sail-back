@@ -15,10 +15,13 @@ const LIST_BY_DELIVERER =
   'LIST_BY_DELIVERER'
 const LIST_120_OVERDUE =
   'LIST_120_OVERDUE'
+const LIST_BY_EMAIL_BOUNCED =
+  'LIST_BY_EMAIL_BOUNCED'
 
 const initialState = { members_by_gift_aid_status: []
                      , members_by_deliverer: []
                      , members_120_overdue: []
+                     , members_by_email_bounced: []
                      , deliverers: []
                      , no_matches: false
                      }
@@ -32,6 +35,7 @@ const reducer: Reducer<State, Action> =
     const members_by_gift_aid_status = lensPath([ 'members_by_gift_aid_status' ])
     const members_by_deliverer = lensPath([ 'members_by_deliverer' ])
     const members_120_overdue = lensPath([ 'members_120_overdue' ])
+    const members_by_email_bounced = lensPath([ 'members_by_email_bounced' ])
     const deliverers = lensPath([ 'deliverers' ])
     const no_matches = lensPath([ 'no_matches' ])
     switch (type) {
@@ -51,6 +55,10 @@ const reducer: Reducer<State, Action> =
       return isEmpty(payload)
         ? compose(update(no_matches)(true), update(members_120_overdue)([]))(state)
         : compose(update(no_matches)(false), update(members_120_overdue)(payload))(state)
+    case LIST_BY_EMAIL_BOUNCED:
+      return isEmpty(payload)
+        ? compose(update(no_matches)(true), update(members_by_email_bounced)([]))(state)
+        : compose(update(no_matches)(false), update(members_by_email_bounced)(payload))(state)
     case PATH_UPDATE:
       return initialState
     default:
@@ -74,5 +82,8 @@ export const list_by_deliverer =
 
 export const list_120_overdue =
   createAction(LIST_120_OVERDUE, () => get_body('/api/list-120-overdue'))
+
+export const list_by_email_bounced =
+  createAction(LIST_BY_EMAIL_BOUNCED, status => get_body(`/api/list-email-bounced/${status}`))
 
 export default reducer

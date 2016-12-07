@@ -145,6 +145,15 @@ module.exports = {
       })
   },
 
+  list_email_bounced: function (req, res) {
+    var status_mapper = { true: true, false: false, null: null }
+    Members
+      .find({ email_bounced: status_mapper[req.param('status')] })
+      .exec(function (err, items) {
+        return err ? res.json(err) : res.json(items)
+      })
+  },
+
   list_deliverers: membersQuery('list_deliverers'),
 
   list_by_deliverer: function (req, res) {
