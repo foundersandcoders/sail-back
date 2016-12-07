@@ -6,6 +6,7 @@ import SearchResults from '../components/search_results.js'
 
 import { list_by_deliverer
        , list_by_gift_aid_status
+       , list_by_email_bounced
        }
 from '../redux/modules/member_analysis.js'
 
@@ -31,6 +32,34 @@ const GiftAidForm = ({ list_by_gift_aid_status }) =>
       <select className='member-analysis-dropdown'>
         <option value='true'>Signed</option>
         <option value='false'>Not Signed</option>
+        <option value='null'>Unknown</option>
+      </select>
+      <button type='submit'>Search</button>
+    </form>
+  </div>
+
+const EmailBouncedSection = (props) => {
+  const { member_analysis: { members_by_email_bounced, no_matches } } = props
+  const fields = [ 'id', 'name', 'primary_email' ]
+  return (
+    <div>
+      {EmailBouncedForm(props)}
+      <SearchResults fields={fields} results={members_by_email_bounced} error={no_matches}/>
+    </div>
+  )
+}
+
+const EmailBouncedForm = ({ list_by_email_bounced }) =>
+  <div className='member-analysis-form-container'>
+    <h2>Select Email Bounced Status</h2>
+    <form className='member-analysis-form' onSubmit={e => {
+      e.preventDefault()
+      list_by_email_bounced(e.target[0].value)
+    }}
+    >
+      <select className='member-analysis-dropdown'>
+        <option value='true'>True</option>
+        <option value='false'>False</option>
         <option value='null'>Unknown</option>
       </select>
       <button type='submit'>Search</button>
@@ -79,6 +108,9 @@ const Overdue = (props) => {
 
 export const GiftAidReport =
   connect(pick([ 'member_analysis' ]), { list_by_gift_aid_status })(GiftAidSection)
+
+export const EmailBouncedReport =
+  connect(pick([ 'member_analysis' ]), { list_by_email_bounced })(EmailBouncedSection)
 
 export const DelivererReport =
   connect(pick([ 'member_analysis' ]), { list_by_deliverer })(DelivererSection)

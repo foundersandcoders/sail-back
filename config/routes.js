@@ -229,6 +229,11 @@ module.exports.routes = {
   'GET /api/list-120-overdue': {
     controller: 'Private',
     action: 'list_120_overdue'
+  },
+
+  'GET /api/list-email-bounced/:status': {
+    controller: 'Private',
+    action: 'list_email_bounced'
   }
 
 // -------------------------------------------------------------------------
