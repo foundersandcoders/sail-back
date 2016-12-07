@@ -10,7 +10,7 @@ const { toggle_member_mode } = require('../../shared/redux/modules/mode.js')
 const { switch_charge_type } = require('../redux/modules/charge_form.js')
 const { add_payment, remove_payment } = require('../../shared/redux/modules/payments.js')
 
-const MemberPage = require('../dumb_components/member_page.js')
+const MemberPage = require('../components/member_page.js')
 
 const ViewMember = React.createClass({
 

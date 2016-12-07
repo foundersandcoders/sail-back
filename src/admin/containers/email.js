@@ -4,8 +4,8 @@ const { connect } = require('react-redux')
 const { pick, toPairs, prop, zip, compose, map, isEmpty, converge, merge } = require('ramda')
 import format_date from 'app/format_date'
 
-import custom_email_section from '../dumb_components/custom_email_section.js'
-import sub_due_section from '../dumb_components/sub_due_section.js'
+import custom_email_section from '../components/custom_email_section.js'
+import sub_due_section from '../components/sub_due_section.js'
 
 import
   { send_sub_reminder

@@ -13,8 +13,8 @@ import { send_sub_reminder_post
 
 import { reset_subscription_payments } from '../redux/modules/reset_payments.js'
 
-import sub_letters_section from '../dumb_components/letters/sub_letters_section.js'
-import sub_due_section from '../dumb_components/sub_due_section.js'
+import sub_letters_section from '../components/letters/sub_letters_section.js'
+import sub_due_section from '../components/sub_due_section.js'
 
 const Letters = ({ send_sub_reminder_post, active_tab, subscription_due_post_tab, ...other }) =>
   <div className='top-letter-container'>
