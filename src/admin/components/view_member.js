@@ -1,7 +1,7 @@
 const React = require('react')
 const { reduxForm } = require('redux-form')
 const { validate, required, read_only } = require('../../shared/form_fields/member.js')
-const MemberFields = require('../../shared/dumb_components/member_fields.js')
+const MemberFields = require('../../shared/components/member_fields.js')
 
 module.exports = (
   props

@@ -3,7 +3,7 @@ const { reduxForm } = require('redux-form')
 const { array_order_keys } = require('app/sort')
 const { map } = require('ramda')
 const { types, options, validate } = require('../form_fields/charge_form.js')
-const Field = require('../../shared/dumb_components/field.js')
+const Field = require('../../shared/components/field.js')
 
 const ChargeForm = (
   { fields
