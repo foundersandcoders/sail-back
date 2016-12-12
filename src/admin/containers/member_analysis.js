@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { pick } from 'ramda'
+import { pick, length } from 'ramda'
 
 import SearchResults from '../components/search_results.js'
 
@@ -42,8 +42,10 @@ const EmailBouncedSection = (props) => {
   const { member_analysis: { members_by_email_bounced, no_matches } } = props
   const fields = [ 'id', 'name', 'primary_email' ]
   return (
-    <div>
+    <div className='email-bounced-section'>
       {EmailBouncedForm(props)}
+      <h2 className='email-bounced-report-header'>Number of members: {length(members_by_email_bounced)}</h2>
+      <h2 className='email-bounced-report-header'>Report produced on {(new Date).toDateString()}</h2>
       <SearchResults fields={fields} results={members_by_email_bounced} error={no_matches}/>
     </div>
   )
