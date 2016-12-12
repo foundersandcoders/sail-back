@@ -322,6 +322,56 @@ p {
   }
 }
 
+.email-bounced-section {
+  .email-bounced-report-header {
+    margin-left: 1em;
+  }
+}
+@media print {
+  .email-bounced-section {
+    margin-top: 10mm;
+    margin-left: 20mm;
+
+    h2 {
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  #search-result {
+    .search-table-section-member {
+      margin-top: -1mm;
+      margin-left: -20mm;
+
+      .search-table-section-member-header {
+        display: none;
+      }
+
+      .search-table-section-member-rows {
+        .row {
+          margin: -8mm auto;
+
+          p {
+            font-size: 12px;
+          }
+        }
+
+        .search-row:nth-child(29n) {
+          page-break-after: always;
+        }
+
+        .search-row:nth-child(29n+30) {
+          padding-top: 15mm;
+        }
+      }
+    }
+  }
+
+  .member-analysis-form-container {
+    display: none;
+  }
+}
+
 .actions-container {
   width: 20%;
   height: 100%;
