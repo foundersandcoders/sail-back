@@ -61,3 +61,8 @@ input::-moz-placeholder {
 .admin-wrapper {
 	margin: 0 0 2em 1em;
 }
+
+.a-tag-disable {
+	pointer-events: none;
+	cursor: default;
+}

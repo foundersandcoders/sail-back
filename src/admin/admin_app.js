@@ -7,7 +7,6 @@ var AdminApp = React.createClass({
   render () {
     return (
       <App
-        user='Admin'
         add_details={this.add_details}
         children={this.props.children}
       />
