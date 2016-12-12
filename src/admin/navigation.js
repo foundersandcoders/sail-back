@@ -1,54 +1,31 @@
 'use strict'
 
 var React = require('react')
+var connect = require('react-redux').connect
+var R = require('ramda')
 
-function NavButton (label) {
-  return (
+var NavButton = disabled => label =>
     <li key={label} id={'nav-' + label.toLowerCase().replace(' ', '-')}>
-      <a href={'#'+label.toLowerCase().replace(' ', '')}>{label}</a>
+      <a href={'#'+label.toLowerCase().replace(' ', '')} className={disabled ? 'a-tag-disable' : ''}>{label}</a>
     </li>
-  )
-}
 
-var UserButtons = function () {
-  return ['Account']
-}
-
-var AdminButtons = function () {
-  return (
-    [ 'Add Member'
-    , 'Reports'
-    , 'Labels'
-    , 'Emails'
-    , 'Letters'
-    , 'Change Password'
-    ]
-  )
-}
-
-var UnregisteredButtons = function () {
-  return (
-    [ 'Signup'
-    , 'Signin'
-    ]
-  )
-}
+var AdminButtons =
+  [ 'Add Member'
+  , 'Reports'
+  , 'Labels'
+  , 'Emails'
+  , 'Letters'
+  , 'Change Password'
+  ]
 
 var Navigation = React.createClass({
   render: function () {
     return (
       <ul className='navigation'>
         <li id='nav-home'>
-          <a href='#/'>Home</a>
+          <a href='#/' className={this.props.mode === 'edit' ? 'a-tag-disable' : ''}>Home</a>
         </li>
-        {
-          (this.props.user === 'Admin'
-            ? AdminButtons()
-            : this.props.user === 'User'
-              ? UserButtons()
-              : UnregisteredButtons()
-          ).map(NavButton)
-        }
+        {AdminButtons.map(NavButton(this.props.mode === 'edit'))}
         <li id='nav-logout'>
           <a href='/signout'>Signout</a>
         </li>
@@ -57,4 +34,4 @@ var Navigation = React.createClass({
   }
 })
 
-module.exports = Navigation
+module.exports = connect(R.pick(['mode']), null)(Navigation)
