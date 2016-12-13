@@ -22,8 +22,6 @@ var membersQuery = function (query, type) {
 module.exports = {
   showAdminHome: change_view('pages/admin'),
   showUserHome: change_view('pages/user'),
-  showMemberForm: change_view('pages/new-member'),
-  showMaintenance: change_view('pages/maintenance'),
   sendNewsletterAlert: membersQuery('newsletter_reminder'),
   sendCustomEmail: membersQuery('custom_email'),
   getNewsletterLabels: membersQuery('newsletter_labels'),
