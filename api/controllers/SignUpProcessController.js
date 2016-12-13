@@ -7,13 +7,6 @@ var Mailgun = require('../services/email_mailgun')
 var Validation = require('../services/validate.js')
 
 module.exports = {
-  showForm: function (req, res) {
-    if (req.session && req.session.member) {
-      res.redirect('/')
-    } else {
-      res.view('pages/signup')
-    }
-  },
   /**
    *	Create member on signup. In order to create a member:
    *
@@ -87,5 +80,4 @@ module.exports = {
         })
     })
   },
-  activate: function (req, res) {}
 }

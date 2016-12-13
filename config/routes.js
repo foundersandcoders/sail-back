@@ -22,10 +22,6 @@ module.exports.routes = {
     controller: 'Events',
     action: 'singleEventInfo'
   },
-  'GET /events/booked': {
-    controller: 'Members',
-    action: 'showMyEvents'
-  },
   'GET /api/my_events': {
     controller: 'Members',
     action: 'getMyEvents'
@@ -48,10 +44,6 @@ module.exports.routes = {
     controller: 'Private',
     action: 'showUserHome'
   },
-  'GET /signin': {
-    controller: 'Public',
-    action: 'showSignIn'
-  },
   'GET /signout': {
     controller: 'Public',
     action: 'adminSignout'
@@ -71,25 +63,13 @@ module.exports.routes = {
   // -------------------------------------------------------------------------
   // SignUp process
   // -------------------------------------------------------------------------
-  'GET /signup': {
-    controller: 'SignUpProcess',
-    action: 'showForm'
-  },
   'POST /signup': {
     controller: 'SignUpProcess',
     action: 'create'
   },
-  'GET /activate': {
-    controller: 'SignUpProcess',
-    action: 'activate'
-  },
   // -------------------------------------------------------------------------
   // User endpoints
   // -------------------------------------------------------------------------
-  'GET /account': {
-    controller: 'Members',
-    action: 'accountPage'
-  },
   'GET /api/account': {
     controller: 'Members',
     action: 'accountInfo'
@@ -127,10 +107,6 @@ module.exports.routes = {
     controller: 'Private',
     action: 'showAdminHome'
   },
-  'GET /addmember': {
-    controller: 'Private',
-    action: 'showMemberForm'
-  },
   'POST /addmember': {
     controller: 'Private',
     action: 'addmember'
@@ -162,10 +138,6 @@ module.exports.routes = {
   'GET /api/newsletter-labels': {
     controller: 'Private',
     action: 'getNewsletterLabels'
-  },
-  'GET /maintenance': {
-    controller: 'Private',
-    action: 'showMaintenance'
   },
   'POST /upload': {
     controller: 'Private',

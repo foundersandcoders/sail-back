@@ -13,14 +13,6 @@ module.exports = {
     res.view('pages/open', {user: req.session.user})
   },
 
-  showSignIn: function (req, res) {
-    if (req.session.user) {
-      res.redirect('/')
-    } else {
-      res.view('pages/signin', {user: req.session.user})
-    }
-  },
-
   ServiceSignIn: function (req, res) {
     passport.authenticate('local', function (err, member) {
       if ((err) || (!member) || member.activation_status === 'deactivated') {
