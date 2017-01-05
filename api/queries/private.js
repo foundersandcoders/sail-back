@@ -81,7 +81,7 @@ exports.custom_email = () =>
   `select first_name, last_name, title, primary_email, secondary_email
   from members
   where primary_email is not null
-  and bounced_email != true
+  and email_bounced != true
   and activation_status='activated'
   and membership_type != 'accounts';`
 
