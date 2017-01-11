@@ -108,6 +108,23 @@ const user_field_structure =
     ]
   }
 
+const sign_up_fields =
+  [ 'title'
+  , 'first_name'
+  , 'last_name'
+  , 'initials'
+  , 'address1'
+  , 'address2'
+  , 'address3'
+  , 'address4'
+  , 'postcode'
+  , 'home_phone'
+  , 'mobile_phone'
+  , 'primary_email'
+  , 'password'
+  , 'membership_type'
+  ]
+
 const field_order =
   [ 'personal'
   , 'address'
@@ -232,4 +249,5 @@ module.exports =
   , new_required
   , addMemberfieldStructure
   , add_member_field_order
+  , sign_up_fields
   }

@@ -5,7 +5,6 @@ import type { Action, Reducer } from 'redux'
 const request = require('xhr')
 
 const SIGN_UP = 'SIGN_UP'
-const UPDATE_FORM = 'UPDATE_FORM'
 
 const initialState = {}
 
@@ -40,6 +39,5 @@ const signup = user => {
 }
 
 export const sign_up = createAction(SIGN_UP, signup)
-export const update_form = createAction(UPDATE_FORM)
 
 export default reducer

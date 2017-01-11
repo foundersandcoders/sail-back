@@ -9,8 +9,19 @@ const { validate, new_required, read_only } = require('../../shared/form_fields/
 
 const { identity } = require('ramda')
 
-const { sign_up, update_form } = require('../redux/modules/signup.js')
-// const { update_form } = require('../redux/modules/page.js')
+const { next_page, previous_page } = require('../redux/modules/page.js')
+const { sign_up } = require('../redux/modules/signup.js')
+// const { next_page } = require('../redux/modules/page.js')
+
+const required =
+  [ 'title'
+  , 'last_name'
+  , 'first_name'
+  , 'address1'
+  , 'postcode'
+  , 'membership_type'
+  , 'news_type'
+  ]
 
 const buttons = () =>
   <button>Click Me</button>
@@ -23,26 +34,25 @@ const AddMember = reduxForm(
 )(MemberFields)
 
 const NewMember = (props) => {
-  console.log('args', props)
+  console.log(props)
   return (
     <div>
-      <div className='new-member-container'>
+      <div>
         <h1>Add New Member</h1>
         <AddMember
           fields={props.page.fields[props.page.page]}
           Buttons={buttons}
           onSubmit={props.sign_up}
-          required={new_required}
+          required={required}
           mode='edit'
-          read_only={read_only}
-          className='add-member-form-container'
-          addMember
+          memberSignup
+          read_only={props.page.page !== 5 ? [] : [ 'title', 'first_name', 'last_name', 'initials', 'address1', 'address2', 'address3', 'address4', 'postcode', 'home_phone', 'mobile_phone', 'primary_email', 'password', 'membership_type' ]}
         />
       </div>
-      <button onClick={() => props.update_form(1)}>Next</button>
-      <button onClick={() => props.update_form(0)}>Back</button>
+      <button onClick={props.next_page}>Next</button>
+      <button onClick={props.previous_page}>Back</button>
     </div>
 )
 }
 
-export default connect(identity, { sign_up, update_form })(NewMember)
+export default connect(identity, { sign_up, next_page, previous_page })(NewMember)
