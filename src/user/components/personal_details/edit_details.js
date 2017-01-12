@@ -27,7 +27,7 @@ export default ({ toggle_member_mode, mode, update_member_user, ...props }) =>
 
 const ViewMember = reduxForm(
   { form: 'member'
-  , validate
+  , validate: validate(required)
   , fields: []
   }
   )(MemberFields)

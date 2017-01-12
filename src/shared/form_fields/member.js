@@ -197,18 +197,14 @@ const read_only_user = read_only.concat('due_date', 'date_gift_aid_signed', 'dat
 
 const new_required = required.concat('date_joined')
 
-const validate = (values) => {
+const validate = required => values => {
 
-  const { id, membership_type } = values
+  const { membership_type } = values
 
   const add_test = (tests, key) =>
     assoc(key, options[key] ? selected : exists, tests)
 
-  const req = id ? required :
-    new_required.concat(
-      membership_type && membership_type.match(/life/) ? ['life_payment_date']: []
-    )
-
+  const req = required.concat( membership_type && membership_type.match(/life/) ? ['life_payment_date']: [] )
   const required_tests = reduce(add_test, {}, req)
   const email_tests =
     { primary_email: valid_email

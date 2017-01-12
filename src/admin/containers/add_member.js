@@ -38,7 +38,7 @@ const print_letter_link = (id) =>
 
 const AddMember = reduxForm(
   { form: 'member'
-  , validate
+  , validate: validate(new_required)
   , fields: []
   }
 )(MemberFields)
