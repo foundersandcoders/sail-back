@@ -27,7 +27,7 @@ test('Sign up and get cookies', function (t) {
     .end(function (err, res) {
 
       Cookies = res.headers['set-cookie'].pop().split(';')[0]
-      t.ok(res.headers.location === '/', 'redirect to home page')
+      t.ok(res.headers.location === '/user', 'redirect to members view')
       t.end()
     })
 })

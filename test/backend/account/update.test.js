@@ -36,8 +36,8 @@ test('Sign up and get cookies', function (t) {
       // console.log('FROM SIGNIN', res)
 
       Cookies = res.headers['set-cookie'].pop().split(';')[0]
-      t.equals(res.statusCode, 302, 'redirected')
-      t.ok(res.text.indexOf('Redirecting to /') > -1, 'redirect to home page')
+      t.equals(res.statusCode, 200, 'signed up')
+      t.ok(res.headers.location === '/user', 'redirect to members view')
       t.end()
     })
 })

@@ -60,7 +60,7 @@ test('api#auth#signin => a deactivated member cannot sign in: ', function (t) {
     method: 'POST',
     body: user
   }).then(function (res) {
-    t.ok(res.statusCode === 302, 'signup succesful')
+    t.ok(res.statusCode === 200, 'signup succesful')
     return requestPromise(
       { simple: false
       , resolveWithFullResponse: true
