@@ -77,7 +77,6 @@ var Signin = React.createClass({
           <div className='inner-section-divider-small'></div>
           <div className='section-label'>
             <h1>Sign in</h1>
-            <a href='#signup'><h1>Sign up</h1></a>
           </div>
           <div className='container-small'>
             <div className='inner-section-divider-medium'></div>
@@ -108,10 +107,11 @@ var Signin = React.createClass({
               <div className='inner-section-divider-small'></div>
 
               <div className='input-label-container'>
-                <a href='#' onClick={this.forgotPass}>
-                  Forgot password?
-                </a>
+                <h4><a href='#' onClick={this.forgotPass}>Forgot password?</a></h4>
                 {this.passwordMessage()}
+                <h4>
+                  If you are new to the Friends, click <a href='#signup'>here</a> to sign up
+                </h4>
               </div>
 
             </form>

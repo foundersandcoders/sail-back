@@ -12,7 +12,7 @@ const { sign_up } = require('../redux/modules/signup.js')
 
 const SignUp = (props) => {
   return (
-    <div>
+    <div className='sign-up-container'>
       <div>
         <h2>{props.page === 5 ? 'If your details are correct click \'Submit\' otherwise go back to change them' : 'Please fill in your details'}</h2>
         <SignUpForm
@@ -38,7 +38,7 @@ const SignUpForm = reduxForm(
 )(MemberFields)
 
 const buttons = (props) =>
-  <div>
+  <div className='sign-up-buttons'>
     {props.page !== 0 && back_button(props.previous_page)}
     <button>{props.page === 5 ? 'Submit' : '>'}</button>
   </div>
