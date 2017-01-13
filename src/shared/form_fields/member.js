@@ -193,9 +193,28 @@ const required =
   , 'news_type'
   ]
 
-const read_only_user = read_only.concat('due_date', 'date_gift_aid_signed', 'date_gift_aid_cancelled', 'membership_type')
+const read_only_user = [ ...read_only, 'due_date', 'date_gift_aid_signed', 'date_gift_aid_cancelled', 'membership_type' ]
 
-const new_required = required.concat('date_joined')
+const read_only_sign_up =
+  [ 'title'
+  , 'first_name'
+  , 'last_name'
+  , 'initials'
+  , 'address1'
+  , 'address2'
+  , 'address3'
+  , 'address4'
+  , 'postcode'
+  , 'home_phone'
+  , 'mobile_phone'
+  , 'primary_email'
+  , 'password'
+  , 'membership_type'
+  ]
+
+const add_member_required = [ ...required, 'date_joined' ]
+
+const sign_up_required = [ ...required, 'first_name', 'password', 'primary_email' ]
 
 const validate = required => values => {
 
@@ -242,8 +261,10 @@ module.exports =
   , required
   , read_only_user
   , user_field_structure
-  , new_required
+  , add_member_required
   , addMemberfieldStructure
   , add_member_field_order
   , sign_up_fields
+  , sign_up_required
+  , read_only_sign_up
   }
