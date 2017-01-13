@@ -165,7 +165,7 @@ module.exports = {
 
   list_120_overdue: function (req, res) { //eslint-disable-line
     Members
-      .find()
+      .find( { activation_status: 'activated' })
       .populate('payments')
       .exec(function (err, members) {
         if (Is.ok(err) || !Is.ok(members)) {
