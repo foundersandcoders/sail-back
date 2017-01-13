@@ -10,25 +10,22 @@ const { validate, sign_up_required, read_only_sign_up } = require('../../shared/
 const { next_page, previous_page } = require('../redux/modules/page.js')
 const { sign_up } = require('../redux/modules/signup.js')
 
-const SignUp = (props) => {
-  return (
-    <div className='sign-up-container'>
-      <div>
-        <h2>{props.page === 5 ? 'If your details are correct click \'Submit\' otherwise go back to change them' : 'Please fill in your details'}</h2>
-        <SignUpForm
-          fields={page_fields[props.page]}
-          Buttons={buttons}
-          button_props={ { previous_page: props.previous_page, page: props.page } }
-          onSubmit={props.page === 5 ? props.sign_up : props.next_page}
-          required={sign_up_required}
-          mode='edit'
-          memberSignup
-          read_only={props.page === 5 ? read_only_sign_up : []}
-        />
-      </div>
+const SignUp = ({ page, previous_page, next_page, sign_up }) =>
+  <div className='sign-up-container'>
+    <div>
+      <h2>{page === 5 ? 'If your details are correct click \'Submit\' otherwise go back to change them' : 'Please fill in your details'}</h2>
+      <SignUpForm
+        fields={page_fields[page]}
+        Buttons={buttons}
+        button_props={ { previous_page: previous_page, page: page } }
+        onSubmit={page === 5 ? sign_up : next_page}
+        required={sign_up_required}
+        mode='edit'
+        memberSignup
+        read_only={page === 5 ? read_only_sign_up : []}
+      />
     </div>
-  )
-}
+  </div>
 
 const SignUpForm = reduxForm(
   { form: 'sign_up'
