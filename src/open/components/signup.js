@@ -30,18 +30,26 @@ const NewMember = (props) => {
       <div>
         <h1>Please fill in your details</h1>
         <AddMember
-          fields={props.page.fields[props.page.page]}
+          fields={page_fields[props.page]}
           Buttons={buttons}
           button_props={ { previous_page: props.previous_page } }
           onSubmit={props.page.page === 5 ? props.sign_up : props.next_page}
           required={sign_up_required}
           mode='edit'
           memberSignup
-          read_only={props.page.page !== 5 ? [] : read_only_sign_up}
+          read_only={props.page === 5 ? read_only_sign_up : []}
         />
       </div>
     </div>
   )
 }
 
+const page_fields = [
+  [ 'title', 'first_name', 'last_name', 'initials' ],
+  [ 'address1', 'address2', 'address3', 'address4', 'postcode' ],
+  [ 'home_phone', 'mobile_phone' ],
+  [ 'primary_email', 'password' ],
+  [ 'membership_type' ],
+  [ 'title', 'first_name', 'last_name', 'initials', 'address1', 'address2', 'address3', 'address4', 'postcode', 'home_phone', 'mobile_phone', 'primary_email', 'membership_type' ]
+]
 export default connect(identity, { sign_up, next_page, previous_page })(NewMember)
