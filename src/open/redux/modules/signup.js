@@ -11,10 +11,9 @@ const initialState = {}
 type State = typeof initialState
 
 const reducer: Reducer<State, Action> =
-  (state = initialState, { type, payload }) => {
+  (state = initialState, { type }) => {
     switch (type) {
       case SIGN_UP:
-        console.log('sign up payload', payload)
         return state
       default:
         return state
