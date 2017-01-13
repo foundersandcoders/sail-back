@@ -121,7 +121,9 @@ const sign_up_fields =
   , 'home_phone'
   , 'mobile_phone'
   , 'primary_email'
+  , 'verify_email'
   , 'password'
+  , 'verify_password'
   , 'membership_type'
   ]
 
@@ -236,11 +238,21 @@ const validate = required => values => {
     , fields
     )
 
+  const verified = field => values =>
+    values[field] === values[field.replace(/verify_/, (match, offset, whole_string) => whole_string.match(/email/) ? 'primary_' : '')] // eslint-disable-line
+
+  const verification_tests = reduce(
+    (tests, key) => assoc(key, verified, tests)
+    , {}
+    , [ 'verify_email', 'verify_password' ]
+  )
+
   return converge
     ( unapply(mergeAll)
     , [ check_tests('required', required_tests)
       , check_tests('invalid email', email_tests)
       , check_tests('invalid date', date_tests)
+      , check_tests('does not match', verification_tests)
       ]
     )(values)
 }

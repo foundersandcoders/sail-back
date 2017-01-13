@@ -6,20 +6,19 @@ import type { Action, Reducer } from 'redux'
 const NEXT_PAGE = 'NEXT_PAGE'
 const PREVIOUS_PAGE = 'PREVIOUS_PAGE'
 
-
 const initialState = 0
 
 type State = typeof initialState
 
 const reducer: Reducer<State, Action> =
-  (state = initialState, { type }) => {
+  (page = initialState, { type }) => {
     switch (type) {
       case NEXT_PAGE:
-        return state + 1
+        return page + 1
       case PREVIOUS_PAGE:
-        return state <= 1 ? state - 1 : state
+        return page === 0 ? page : page - 1
       default:
-        return state
+        return page
     }
   }
 

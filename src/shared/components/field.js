@@ -45,6 +45,7 @@ var make_input = (name, props) =>
     {...props}
     placeholder={make_placeholder(name)}
     className={props.className + (props.error ? ' red' : '')}
+    type={props.id.match('password') ? 'password' : 'text'}
   />
 
 var make_select = (props, options) =>
@@ -68,6 +69,10 @@ var make_placeholder = (name) =>
   name.match(/[dD]ate/) ? name.match(/[dD]ue/) ? 'dd/mm' : 'dd/mm/yyyy' : name
 
 var caser = (name, value) =>
-  name.match('email') ? value : to_title_case(value.replace(/-/g, ' '))
+  name.match('email')
+    ? value
+    : name.match('Password')
+      ? '******'
+      : to_title_case(value.replace(/-/g, ' '))
 
 module.exports = Field
