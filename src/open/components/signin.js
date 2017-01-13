@@ -15,7 +15,7 @@ var Signin = React.createClass({
       username: username,
       password: this.refs.password.value
     }
-    var handle_response = function (err, res, body) { //eslint-disable-line
+    var handle_response = function(err, res, body) { //eslint-disable-line
       if (res && res.statusCode === 200) {
         window.location.pathname = res.headers.location
       } else {
@@ -33,7 +33,7 @@ var Signin = React.createClass({
   forgotPass: function (event) {
     event.preventDefault()
     var email = this.refs.email.value
-    var handle_response = function (err, res, body) { //eslint-disable-line
+    var handle_response = function(err, res, body) { //eslint-disable-line
       if (err) {
         return this.setState({erroredPass: true})
       } else {
@@ -65,8 +65,8 @@ var Signin = React.createClass({
               Your password has been reset. Please check your email.
             </h3>
           : <h4>
-            If you are an existing member who is logging in for the first time please click 'Forgot Password' and we'll email you a temporary one
-          </h4>
+              If you are an existing member who is logging in for the first time please click 'Forgot Password' and we'll email you a temporary one
+            </h4>
   },
 
   render: function () {
@@ -107,10 +107,11 @@ var Signin = React.createClass({
               <div className='inner-section-divider-small'></div>
 
               <div className='input-label-container'>
-                <a href='#' onClick={this.forgotPass}>
-                  Forgot password?
-                </a>
+                <h4><a href='#' onClick={this.forgotPass}>Forgot password?</a></h4>
                 {this.passwordMessage()}
+                <h4>
+                  If you are new to the Friends, click <a href='#signup'>here</a> to sign up
+                </h4>
               </div>
 
             </form>

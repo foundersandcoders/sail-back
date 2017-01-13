@@ -1,3 +1,18 @@
+.sign-up-container {
+	margin-left: 1.6em;
+	margin-top: 2.4em;
+
+	.sign-up-buttons {
+		display: flex;
+		flex-direction: column;
+	}
+
+	button {
+		max-width: 320px;
+		margin-bottom: 0.4em;
+	}
+}
+
 .section-label {
 	margin: auto;
 	text-align: center;

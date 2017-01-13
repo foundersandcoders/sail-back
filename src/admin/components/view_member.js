@@ -9,13 +9,13 @@ module.exports = (
   <ViewMember
     {...props}
     required={required}
-    buttons_first={true}
+    buttons_first
     read_only={read_only}
   />
 
 const ViewMember = reduxForm(
   { form: 'member'
-  , validate
+  , validate: validate(required)
   , fields: []
   }
 )(MemberFields)

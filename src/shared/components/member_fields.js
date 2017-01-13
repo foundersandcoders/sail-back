@@ -6,6 +6,7 @@ const { options
       , user_field_structure
       , add_member_field_order
       , addMemberfieldStructure
+      , sign_up_fields
       } = require('../form_fields/member.js')
 const { array_only_keys } = require('app/sort')
 const { contains, merge, dissoc } = require('ramda')
@@ -25,6 +26,7 @@ const PersonalFields = (
   , memberView
   , member_view_fields
   , addMember
+  , memberSignup
   }
 ) => {
   const fs = ((fields.membership_type && fields.membership_type.value) || '').match('life')
@@ -54,7 +56,7 @@ const PersonalFields = (
             {...fs[field]}
             id={field}
             name={field === 'id' ? 'Membership Number: ' : label_from_id(field)}
-            options={options[field]}
+            options={memberSignup && field === 'membership_type' ? options[field].filter(option => !option.match(/group|corporate|accounts/)) : options[field]}
             mode={contains(field, read_only) ? 'view' : mode}
             key={field}
             className={userViewClass}
@@ -76,7 +78,9 @@ const PersonalFields = (
           ? make_fieldset(user_field_structure)(member_view_fields)
           : addMember
             ? add_member_field_order.map(make_fieldset(addMemberfieldStructure))
-            : field_order.map(make_fieldset(fieldStructure))
+            : memberSignup
+              ? make_fieldset({ sign_up_fields })('sign_up_fields')
+              : field_order.map(make_fieldset(fieldStructure))
         }
       </div>
       { buttons_first ? '' : buttons }
