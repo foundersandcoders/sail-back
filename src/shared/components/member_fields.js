@@ -56,7 +56,7 @@ const PersonalFields = (
             {...fs[field]}
             id={field}
             name={field === 'id' ? 'Membership Number: ' : label_from_id(field)}
-            options={options[field]}
+            options={memberSignup && field === 'membership_type' ? options[field].filter(option => !option.match(/group|corporate|accounts/)) : options[field]}
             mode={contains(field, read_only) ? 'view' : mode}
             key={field}
             className={userViewClass}
