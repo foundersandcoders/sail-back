@@ -33,7 +33,7 @@ test('Signup member: ', function (t) {
     .post('/signup')
     .send(memberMock)
     .end(function (err, res) {
-      t.equals(res.statusCode, 302, 'signup with just an email')
+      t.equals(res.statusCode, 200, 'signup with just an email')
       t.end()
     })
 })
@@ -49,7 +49,7 @@ test('Signup should create a subscription', function (t) {
     .post('/signup')
     .send(memberMock2)
     .end(function (err, res) {
-      t.equals(res.statusCode, 302, 'redirect')
+      t.equals(res.statusCode, 200, 'signed up')
 
       Members
         .findOne({primary_email: memberMock2.primary_email})

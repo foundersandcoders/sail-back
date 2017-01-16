@@ -9,7 +9,7 @@ import { format_due_date } from 'app/format_date.js'
 const SingleResult = (member, fields) => {
   return (
     <a id='member-tag' href={`#/members/${member.id}`}>
-      <div className='row member-row'>
+      <div className='row'>
         {fields.map((field, i) => {
           return <div className={`col-${i + 1}`} key={i}><p>{convert_field[field](member)}</p></div>
         })}
@@ -31,7 +31,7 @@ export default (props) => {
         {props.error && <div className='search-error'>No results</div>}
         <div className='search-table-section-member-rows'>
           {data.map((member, i) =>
-            <div key={i}>
+            <div key={i} className='search-row'>
               {SingleResult(member, props.fields)}
             </div>
           )}

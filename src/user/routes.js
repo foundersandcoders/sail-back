@@ -12,6 +12,7 @@ import Membership from './containers/membership.js'
 import Statements from './containers/statements.js'
 import MakePayment from './containers/make_payment.js'
 import ChangePassword from './components/change_password.js'
+import WelcomeScreen from './containers/welcome_screen.js'
 
 import { pathDidUpdate } from '../shared/redux/modules/route.js'
 
@@ -27,6 +28,7 @@ module.exports = () =>
         <Route path='/statements' component={Statements} />
         <Route path='/make-payment' component={MakePayment} />
         <Route path='/change-password' component={ChangePassword} />
+        <Route path='/welcome-screen' component={WelcomeScreen} />
       </Route>
     </Router>
   </Provider>

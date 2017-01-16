@@ -5,7 +5,7 @@ const { reduxForm } = require('redux-form')
 const { pick } = require('ramda')
 
 const MemberFields = require('../../shared/components/member_fields.js')
-const { fields, validate, new_required, read_only } = require('../../shared/form_fields/member.js')
+const { fields, validate, add_member_required, read_only } = require('../../shared/form_fields/member.js')
 const { create_member } = require('../../shared/redux/modules/member.js')
 const { send_welcome } = require('../redux/modules/email/reducer.js')
 
@@ -38,7 +38,7 @@ const print_letter_link = (id) =>
 
 const AddMember = reduxForm(
   { form: 'member'
-  , validate
+  , validate: validate(add_member_required)
   , fields: []
   }
 )(MemberFields)
@@ -62,7 +62,7 @@ const NewMember = (
           }
         }
         onSubmit={create_member}
-        required={new_required}
+        required={add_member_required}
         mode='edit'
         read_only={read_only}
         className='add-member-form-container'

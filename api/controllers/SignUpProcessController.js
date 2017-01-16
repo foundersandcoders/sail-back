@@ -3,17 +3,10 @@
 */
 
 var is = require('torf')
-var Mailgun = require('../services/email_mailgun')
+// var Mailgun = require('../services/email_mailgun')
 var Validation = require('../services/validate.js')
 
 module.exports = {
-  showForm: function (req, res) {
-    if (req.session && req.session.member) {
-      res.redirect('/')
-    } else {
-      res.view('pages/signup')
-    }
-  },
   /**
    *	Create member on signup. In order to create a member:
    *
@@ -29,15 +22,15 @@ module.exports = {
    *	registered/unregistered
    */
   create: function (req, res) {
-    if (req.session.user) {
-      return res.redirect('/')
-    }
+    // if (req.session.user) {
+    //   return res.redirect('/')
+    // }
 
     var newMember = req.body
     newMember.registered = 'registered'
     newMember.date_joined = new Date()
 
-    Validation('member', newMember, function (error, value) {
+    Validation('member', newMember, function (error, value) { //eslint-disable-line
       if (error) {
         return res.badRequest({error: error})
       }
@@ -71,21 +64,22 @@ module.exports = {
 
           // set up session
           req.session.user = member
+          res.location('/user').end()
 
-          Mailgun.sendSubscribe({email: member['primary_email']}, function (error, result) {
-            if (is.ok(error)) {
-              // handle error
-              res.serverError({error: 'Was not able to send email!'})
-              return
-            } else {
-              res.redirect('/')
-            }
-          })
+          // Mailgun.sendSubscribe({email: member.primary_email}, function (error, result) { // eslint-disable-line
+          //   if (is.ok(error)) {
+          //     // handle error
+          //     res.serverError({error: 'Was not able to send email!'})
+          //     return
+          //   } else {
+          //     res.location('/user').end()
+          //     res.redirect('/user')
+          //   }
+          // })
         })
         .catch(function (error) {
           res.badRequest({error: error.message})
         })
     })
   },
-  activate: function (req, res) {}
 }

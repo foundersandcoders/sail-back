@@ -13,9 +13,6 @@ var R = require('ramda')
 var sendSubscribe = require('../services/email_mailgun.js').sendSubscribe
 
 module.exports = {
-  accountPage: function (req, res) {
-    res.view('pages/account', {user: req.session.user})
-  },
   accountInfo: function (req, res) {
     Members
       .findOne(req.session.user.id)
@@ -47,9 +44,6 @@ module.exports = {
         }
       })
   },
-  showMyEvents: function (req, res) {
-    res.view('pages/myEvents', {user: req.session.user})
-  },
 
   getMyEvents: function (req, res) {
     get_user_events(respond_with_event_data(res), req.session.user.id)
@@ -73,7 +67,8 @@ function get_user_events (cb, id) {
   BookingRecords
     .find({head_member: id})
     .populate('event_id')
-    .exec(cb) }
+    .exec(cb)
+}
 
 var respond_with_event_data = R.curry(function (res, err, data) {
   if (err) res.serverError({error: err})

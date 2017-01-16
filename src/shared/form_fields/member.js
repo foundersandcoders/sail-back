@@ -108,6 +108,25 @@ const user_field_structure =
     ]
   }
 
+const sign_up_fields =
+  [ 'title'
+  , 'first_name'
+  , 'last_name'
+  , 'initials'
+  , 'address1'
+  , 'address2'
+  , 'address3'
+  , 'address4'
+  , 'postcode'
+  , 'home_phone'
+  , 'mobile_phone'
+  , 'primary_email'
+  , 'verify_email'
+  , 'password'
+  , 'verify_password'
+  , 'membership_type'
+  ]
+
 const field_order =
   [ 'personal'
   , 'address'
@@ -176,22 +195,37 @@ const required =
   , 'news_type'
   ]
 
-const read_only_user = read_only.concat('due_date', 'date_gift_aid_signed', 'date_gift_aid_cancelled', 'membership_type')
+const read_only_user = [ ...read_only, 'due_date', 'date_gift_aid_signed', 'date_gift_aid_cancelled', 'membership_type' ]
 
-const new_required = required.concat('date_joined')
+const read_only_sign_up =
+  [ 'title'
+  , 'first_name'
+  , 'last_name'
+  , 'initials'
+  , 'address1'
+  , 'address2'
+  , 'address3'
+  , 'address4'
+  , 'postcode'
+  , 'home_phone'
+  , 'mobile_phone'
+  , 'primary_email'
+  , 'password'
+  , 'membership_type'
+  ]
 
-const validate = (values) => {
+const add_member_required = [ ...required, 'date_joined' ]
 
-  const { id, membership_type } = values
+const sign_up_required = [ ...required, 'first_name', 'password', 'primary_email' ]
+
+const validate = required => values => {
+
+  const { membership_type } = values
 
   const add_test = (tests, key) =>
     assoc(key, options[key] ? selected : exists, tests)
 
-  const req = id ? required :
-    new_required.concat(
-      membership_type && membership_type.match(/life/) ? ['life_payment_date']: []
-    )
-
+  const req = required.concat( membership_type && membership_type.match(/life/) ? ['life_payment_date']: [] )
   const required_tests = reduce(add_test, {}, req)
   const email_tests =
     { primary_email: valid_email
@@ -204,11 +238,21 @@ const validate = (values) => {
     , fields
     )
 
+  const verified = field => values =>
+    values[field] === values[field.replace(/verify_/, (match, offset, whole_string) => whole_string.match(/email/) ? 'primary_' : '')] // eslint-disable-line
+
+  const verification_tests = reduce(
+    (tests, key) => assoc(key, verified, tests)
+    , {}
+    , [ 'verify_email', 'verify_password' ]
+  )
+
   return converge
     ( unapply(mergeAll)
     , [ check_tests('required', required_tests)
       , check_tests('invalid email', email_tests)
       , check_tests('invalid date', date_tests)
+      , check_tests('does not match', verification_tests)
       ]
     )(values)
 }
@@ -229,7 +273,10 @@ module.exports =
   , required
   , read_only_user
   , user_field_structure
-  , new_required
+  , add_member_required
   , addMemberfieldStructure
   , add_member_field_order
+  , sign_up_fields
+  , sign_up_required
+  , read_only_sign_up
   }
