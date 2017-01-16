@@ -27,8 +27,8 @@ const TOGGLE_GIFT_AID =
   'TOGGLE_GIFT_AID'
 const CANCEL_STANDING_ORDER =
   'CANCEL_STANDING_ORDER'
-const SWITCH_TO_ONLINE_NEWS =
-  'SWITCH_TO_ONLINE_NEWS'
+const TOGGLE_DELIVERY_METHOD =
+  'TOGGLE_DELIVERY_METHOD'
 
 const initialState = { activation_status: {} }
 
@@ -75,7 +75,7 @@ const reducer: Reducer<State, Action> =
           { ...member
           , ...prepare_for_form(payload)
           })
-      case SWITCH_TO_ONLINE_NEWS:
+      case TOGGLE_DELIVERY_METHOD:
         return (
           { ...member
           , ...prepare_for_form(payload)
@@ -223,12 +223,12 @@ export const cancel_standing_order = createAction
     )(_)
   )
 
-export const switch_to_online_news = createAction
-  ( SWITCH_TO_ONLINE_NEWS
-  , (_, dispatch) => compose
+export const toggle_delivery_method = createAction
+  ( TOGGLE_DELIVERY_METHOD
+  , (method, dispatch) => compose
     ( map(errors_or_to_member(dispatch))
-    , put({ news_type: 'online' })
+    , put({ news_type: method })
     , fetch_user_url
-    )(_)
+    )()
   )
 export default reducer

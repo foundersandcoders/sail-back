@@ -261,3 +261,16 @@ nav {
 .cheque-payment-heading {
   margin-top: 0.4em;
 }
+
+.welcome-screen-container {
+  max-width: 800px;
+  button {
+    margin-top: 0.5em;
+    margin-right: 0.5em;
+    max-width: 320px;
+  }
+
+  input {
+    margin-top: 0.5em;
+  }
+}

@@ -25,7 +25,7 @@ const signup = user => {
     if (res && res.statusCode === 200) {
       // window.location.pathname = res.headers.location
       // window.location = window.location.origin + '/user#/statements'
-      window.location.replace('/user#/statements')
+      window.location.replace('/user#/welcome-screen')
     }
     return
   }

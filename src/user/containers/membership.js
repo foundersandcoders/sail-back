@@ -9,7 +9,7 @@ import
   , reactivate_member
   , toggle_gift_aid
   , cancel_standing_order
-  , switch_to_online_news
+  , toggle_delivery_method
   } from '../../shared/redux/modules/member.js'
 
 import { toggle_member_mode } from '../../shared/redux/modules/mode.js'
@@ -38,5 +38,5 @@ export default connect(pick(['mode', 'personal_details']),
   , reactivate_member
   , toggle_gift_aid
   , cancel_standing_order
-  , switch_to_online_news
+  , toggle_delivery_method
   })(MyDetails)
