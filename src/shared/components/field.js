@@ -2,7 +2,7 @@
 
 const React = require('react')
 const to_title_case = require('app/to_title_case.js')
-const { assoc } = require('ramda')
+const { assoc, propOr } = require('ramda')
 
 var Field = (props) =>
   props.value && props.mode !== 'edit'
@@ -45,7 +45,7 @@ var make_input = (name, props) =>
     {...props}
     placeholder={make_placeholder(name)}
     className={props.className + (props.error ? ' red' : '')}
-    type={props.id.match('password') ? 'password' : 'text'}
+    type={propOr('', 'id', props).match('password') ? 'password' : 'text'}
   />
 
 var make_select = (props, options) =>
