@@ -719,11 +719,11 @@ div.gbp {
 }
 @media print {
   body {
-    margin-top: 0 !important;
+    margin: 0 !important;
   }
 
   .labels-tables {
-    margin-left: 8mm;
+    margin-left: 0mm;
     max-width: 195mm;
     min-width: 195mm;
     max-height: 280mm;
@@ -731,7 +731,7 @@ div.gbp {
     page-break-after: always;
 
     tr:first-child {
-      margin-top: 14mm;
+      margin-top: 10mm;
     }
   }
 
