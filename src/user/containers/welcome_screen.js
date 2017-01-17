@@ -97,10 +97,10 @@ const DonationForm = (add_donation) => {
         In order to make membership of the Friends available to as many people
         as possible we try to keep our annual subscription rates down.
         If you would like to add a donation please enter the amount in the box
-        and click 'Make Donation'. Otherwise select the 'Make a Payment' tab to make
-        the first payment of your subscription. We’d encourage you to pay by Credit Card
-        or PayPal because it makes life easier both for you and for the volunteers who run
-        the Friends.
+        and click 'Make Donation'. Otherwise you can click on the 'Make a Payment' tab
+        if you wish to pay the initial subscription charge. We’d encourage you to
+        pay by Credit Card or PayPal because it makes life easier both for you and
+        for the volunteers who run the Friends.
       </h4>
       <form onSubmit={(e) => {
           e.preventDefault()
