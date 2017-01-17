@@ -722,8 +722,12 @@ div.gbp {
     margin: 0 !important;
   }
 
+  table:nth-child(2) {
+    margin-top: -4mm;
+  }
+
   .labels-tables {
-    margin-left: 0mm;
+    margin-left: -5mm;
     max-width: 195mm;
     min-width: 195mm;
     max-height: 280mm;
