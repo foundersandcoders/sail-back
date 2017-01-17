@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { pick, length } from 'ramda'
+import { pick, length, identity } from 'ramda'
 
 import SearchResults from '../components/search_results.js'
 
@@ -45,7 +45,7 @@ const EmailBouncedSection = (props) => {
     <div className='email-bounced-section'>
       {EmailBouncedForm(props)}
       <h2 className='email-bounced-report-header'>Number of members: {length(members_by_email_bounced)}</h2>
-      <h2 className='email-bounced-report-header'>Report produced on {(new Date).toDateString()}</h2>
+      <h2 className='email-bounced-report-header'>Report produced on {(new Date()).toDateString()}</h2>
       <SearchResults fields={fields} results={members_by_email_bounced} error={no_matches}/>
     </div>
   )
@@ -107,6 +107,13 @@ const Overdue = (props) => {
   )
 }
 
+const MemberNumbers = (props) => {
+  console.log(props)
+  return (
+    <div>Hey!</div>
+  )
+}
+
 
 export const GiftAidReport =
   connect(pick([ 'member_analysis' ]), { list_by_gift_aid_status })(GiftAidSection)
@@ -119,3 +126,6 @@ export const DelivererReport =
 
 export const OverdueReport =
   connect(pick([ 'member_analysis' ]), null)(Overdue)
+
+export const MemberNumbersReport =
+  connect(identity, null)(MemberNumbers)
