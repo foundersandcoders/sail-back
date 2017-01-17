@@ -206,6 +206,11 @@ module.exports.routes = {
   'GET /api/list-email-bounced/:status': {
     controller: 'Private',
     action: 'list_email_bounced'
+  },
+
+  'GET /api/member-numbers': {
+    controller: 'Private',
+    action: 'member_numbers'
   }
 
 // -------------------------------------------------------------------------
