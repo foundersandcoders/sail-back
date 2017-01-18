@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { pick, length, identity, propOr } from 'ramda'
+import { pick, length, propOr } from 'ramda'
 
 import SearchResults from '../components/search_results.js'
 
@@ -154,4 +154,4 @@ export const OverdueReport =
   connect(pick([ 'member_analysis' ]), null)(Overdue)
 
 export const NumbersReport =
-  connect(identity, null)(MemberNumbers)
+  connect(pick([ 'member_analysis' ]), null)(MemberNumbers)
