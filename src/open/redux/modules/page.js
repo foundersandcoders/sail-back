@@ -4,7 +4,7 @@ import { createAction } from 'redux-actions'
 import type { Action, Reducer } from 'redux'
 
 const NEXT_PAGE = 'NEXT_PAGE'
-const PREVIOUS_PAGE = 'PREVIOUS_PAGE'
+export const PREVIOUS_PAGE = 'PREVIOUS_PAGE'
 
 const initialState = 0
 

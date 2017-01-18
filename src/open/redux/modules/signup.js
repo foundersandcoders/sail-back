@@ -5,8 +5,11 @@ import type { Action, Reducer } from 'redux'
 const request = require('xhr')
 
 const SIGN_UP = 'SIGN_UP'
+const DUPLICATE_EMAIL = 'DUPLICATE_EMAIL'
+import { PREVIOUS_PAGE } from './page.js'
 
-const initialState = {}
+
+const initialState = { duplicate_email: false }
 
 type State = typeof initialState
 
@@ -15,22 +18,25 @@ const reducer: Reducer<State, Action> =
     switch (type) {
       case SIGN_UP:
         return state
+      case DUPLICATE_EMAIL:
+        return { ...state, duplicate_email: true }
+      case PREVIOUS_PAGE:
+        return { ...state, duplicate_email: false }
       default:
         return state
     }
   }
-const signup = user => {
-  var handle_response = (err, res, body) => { //eslint-disable-line
-    console.log('res headers', res.headers)
+const signup = (user, dispatch) => {
+  var handle_response = (err, res, body) => {
     if (res && res.statusCode === 200) {
       // window.location.pathname = res.headers.location
       // window.location = window.location.origin + '/user#/statements'
-      window.location.replace('/user#/welcome-screen')
+      return window.location.replace('/user#/welcome-screen')
     }
-    return
+    return body.error.match(/email/) && dispatch({ type: DUPLICATE_EMAIL })
   }
 
-  request({
+  return request({
     method: 'POST',
     uri: '/signup',
     json: user

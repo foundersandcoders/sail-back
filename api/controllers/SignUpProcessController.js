@@ -41,7 +41,7 @@ module.exports = {
         .findOne({primary_email: newMember.primary_email})
         .then(function (memberFind) {
           if (is.ok(memberFind)) {
-            throw new Error('Email has already an account. Sign in.')
+            throw new Error('The email address provided already has an account.')
           } else {
             return MembershipTypes.findOne(newMember.membership_type)
           }

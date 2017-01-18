@@ -59,13 +59,13 @@ var Signin = React.createClass({
 
   passwordMessage: function () {
     return this.state.needEmail
-      ? <h3 className='red'>Please enter the correct email for your account</h3>
+      ? <h4 className='red'>Please enter the correct email for your account</h4>
       : this.state.erroredPass
-        ? <h3 className='red'>There was an error. Your password was not reset</h3>
+        ? <h4 className='red'>There was an error. Your password was not reset</h4>
         : this.state.passwordReset
-          ? <h3>
+          ? <h4>
               Your password has been reset. Please check your email.
-            </h3>
+            </h4>
           : <h4>
               If you are an existing member who is logging in for the first time please click 'Forgot Password' and we'll email you a temporary one
             </h4>
