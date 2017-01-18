@@ -195,7 +195,7 @@ module.exports = {
       })
   },
 
-  member_numbers: function (req, res) {
+  get_numbers_report: function (req, res) {
     var default_query = (key, value) => `select count(*) from members where ${key}='${value}' and activation_status='activated'`
     var gift_aid_query = () => `select count(*) from members where activation_status='activated' and gift_aid_signed is true`  //eslint-disable-line
     var email_query = () => `select count(*) from members where activation_status='activated' and primary_email is not null` //eslint-disable-line
