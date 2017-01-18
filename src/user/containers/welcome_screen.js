@@ -90,43 +90,7 @@ const DeliveryMethod = ({ toggle_delivery_method, next_page }) => {
   )
 }
 
-const DonationForm = (add_donation) => {
-  return (
-    <div className='form-container'>
-      <h4>
-        In order to make membership of the Friends available to as many people
-        as possible we try to keep our annual subscription rates down.
-        If you would like to add a donation please enter the amount in the box
-        and click 'Make Donation'. Otherwise you can click on the 'Make a Payment' tab
-        if you wish to pay the initial subscription charge. We’d encourage you to
-        pay by Credit Card or PayPal because it makes life easier both for you and
-        for the volunteers who run the Friends.
-      </h4>
-      <form onSubmit={(e) => {
-          e.preventDefault()
-          add_donation({ amount: e.target[0].value })
-      }}
-      >
-        <input type='number'/>
-        <button type='submit'>Make Donation</button>
-      </form>
-    </div>
-  )
-}
-
-const SuccessfulDonation = () => {
-  return (
-    <div className='successful-donation'>
-      <h4>
-        Thanks for your donation. It has been added to your records which you can
-        view by clicking <a href='#statements'>here</a>. To make a payment please
-        click on the 'Make a payment' tab at the top.
-      </h4>
-    </div>
-  )
-}
-
-const SuccessfulSignUp = ({ personal_details, add_donation, user_payments }) => {
+const SuccessfulSignUp = ({ personal_details }) => {
   return (
     <div>
       <h4>
@@ -137,7 +101,6 @@ const SuccessfulSignUp = ({ personal_details, add_donation, user_payments }) => 
           : '.'
         }
       </h4>
-      {user_payments.donation_made ? SuccessfulDonation() : DonationForm(add_donation)}
     </div>
   )
 }
