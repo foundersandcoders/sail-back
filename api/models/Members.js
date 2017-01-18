@@ -301,7 +301,7 @@ module.exports = {
      */
     due_date: {
       type: 'DATE',
-      defaultsTo: new Date('01/01/' + (new Date().getFullYear() + 1))
+      defaultsTo: new Date()
     },
     /**
      *	This differentiate whether a member has
