@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { pick, length, identity } from 'ramda'
+import { pick, length, identity, propOr } from 'ramda'
 
 import SearchResults from '../components/search_results.js'
 
@@ -107,10 +107,36 @@ const Overdue = (props) => {
   )
 }
 
-const MemberNumbers = (props) => {
-  console.log(props)
+const MemberNumbers = ({ member_analysis }) => {
+  const numbers_report = propOr({}, 'numbers_report', member_analysis)
   return (
-    <div>Hey!</div>
+    <div className='numbers-report-section'>
+      <h2>Report produced on {(new Date()).toDateString()}</h2>
+      <br></br>
+      <h3>The total number of active members is <b>{numbers_report.activated}</b></h3>
+      <br></br>
+      <h3>The breakdown is as follows:</h3>
+      <br></br>
+      <h4>Annual Single - {numbers_report['annual-single']} members</h4>
+      <h4>Annual Double - {numbers_report['annual-double']} members</h4>
+      <h4>Annual Family - {numbers_report['annual-family']} members</h4>
+      <h4>Life Single - {numbers_report['life-single']} members</h4>
+      <h4>Life Double - {numbers_report['life-double']} members</h4>
+      <h4>Annual Corporate - {numbers_report['annual-corporate']} members</h4>
+      <h4>Annual Group - {numbers_report['annual-group']} members</h4>
+      <br></br>
+      <h4>Registered - {numbers_report.registered}</h4>
+      <h4>Unregistered - {numbers_report.unregistered}</h4>
+      <br></br>
+      <h4>Gift Aid signed - {numbers_report.gift_aid}</h4>
+      <h4>Gift Aid not signed - {numbers_report.no_gift_aid}</h4>
+      <br></br>
+      <h4>Newsletter delivered by post - {numbers_report.post}</h4>
+      <h4>Newsletter read online - {numbers_report.online}</h4>
+      <br></br>
+      <h4>Members with email address - {numbers_report.email}</h4>
+      <h4>Members without email address - {numbers_report.no_email}</h4>
+    </div>
   )
 }
 
@@ -127,5 +153,5 @@ export const DelivererReport =
 export const OverdueReport =
   connect(pick([ 'member_analysis' ]), null)(Overdue)
 
-export const MemberNumbersReport =
+export const NumbersReport =
   connect(identity, null)(MemberNumbers)

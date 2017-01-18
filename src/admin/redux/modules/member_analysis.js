@@ -17,6 +17,8 @@ const LIST_120_OVERDUE =
   'LIST_120_OVERDUE'
 const LIST_BY_EMAIL_BOUNCED =
   'LIST_BY_EMAIL_BOUNCED'
+const GET_NUMBERS_REPORT =
+  'GET_NUMBERS_REPORT'
 
 const initialState = { members_by_gift_aid_status: []
                      , members_by_deliverer: []
@@ -38,6 +40,7 @@ const reducer: Reducer<State, Action> =
     const members_by_email_bounced = lensPath([ 'members_by_email_bounced' ])
     const deliverers = lensPath([ 'deliverers' ])
     const no_matches = lensPath([ 'no_matches' ])
+    const numbers_report = lensPath([ 'numbers_report' ])
     switch (type) {
     case CHANGE_TAB:
       return active_tab(initialState)
@@ -59,6 +62,8 @@ const reducer: Reducer<State, Action> =
       return isEmpty(payload)
         ? compose(update(no_matches)(true), update(members_by_email_bounced)([]))(state)
         : compose(update(no_matches)(false), update(members_by_email_bounced)(payload))(state)
+    case GET_NUMBERS_REPORT:
+      return update(numbers_report)(payload)(state)
     case PATH_UPDATE:
       return initialState
     default:
@@ -85,5 +90,8 @@ export const list_120_overdue =
 
 export const list_by_email_bounced =
   createAction(LIST_BY_EMAIL_BOUNCED, status => get_body(`/api/list-email-bounced/${status}`))
+
+export const get_numbers_report =
+  createAction(GET_NUMBERS_REPORT, () => get_body('api/get-numbers-report'))
 
 export default reducer

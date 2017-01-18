@@ -372,6 +372,17 @@ p {
   }
 }
 
+.numbers-report-section {
+  margin-left: 1.8em;
+  line-height: 0;
+}
+
+@media print {
+  .numbers-report-section {
+    margin: 2em;
+  }
+}
+
 .actions-container {
   width: 20%;
   height: 100%;
