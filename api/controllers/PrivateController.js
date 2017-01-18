@@ -5,7 +5,7 @@
 var Is = require('torf')
 var Upload = require('../services/Upload.js')()
 var mg = require('../services/email_mailgun.js')
-var aSync = require('async')
+var async = require('async')
 var R = require('ramda')
 
 var queries = require('../queries/private.js')
@@ -14,7 +14,7 @@ var response_callback = helpers.response_callback
 var change_view = helpers.change_view
 
 var membersQuery = function (query, type) {
-  return function (req, res) { //eslint-disable-line
+  return function (req, res) {
     Members.query(queries[query](type), response_callback(res))
   }
 }
@@ -67,7 +67,6 @@ module.exports = {
       })
   },
   showMember: function (req, res) {
-    /* TODO: redo so it uses applicative functor pattern to simultaneously get events */
     Members
       .findOne(req.param('id'))
       .populate('events_booked')
@@ -93,10 +92,11 @@ module.exports = {
       Members.query(queries[queryString](req.body), cb)
     }
 
-    aSync.series(
+    async.series(
       [ dbCall('subscription_due_template')
       , dbCall('update_subscription')
-      ], response_callback
+      ]
+      , response_callback
     )
   },
   Upload: function (req, res) {
@@ -163,7 +163,7 @@ module.exports = {
       })
   },
 
-  list_120_overdue: function (req, res) { //eslint-disable-line
+  list_120_overdue: function (req, res) {
     Members
       .find( { activation_status: 'activated' })
       .populate('payments')
@@ -193,5 +193,39 @@ module.exports = {
           return res.json(formatted_overdue_members)
         }
       })
+  },
+
+  get_numbers_report: function (req, res) {
+    var default_query = (key, value) => `select count(*) from members where ${key}='${value}' and activation_status='activated'`
+    var gift_aid_query = () => `select count(*) from members where activation_status='activated' and gift_aid_signed is true`  //eslint-disable-line
+    var email_query = () => `select count(*) from members where activation_status='activated' and primary_email is not null` //eslint-disable-line
+    var no_email_query = () => `select count(*) from members where activation_status='activated' and primary_email is null and secondary_email is null` //eslint-disable-line
+
+    var member_query = query => (key, value) => cb => Members.query(query(key, value), function (err, results) {
+      if (err) console.error(err)
+      return cb(null, R.prop('count(*)', results[0]))
+    })
+
+    return async.parallel({
+      'annual-single': member_query(default_query)('membership_type', 'annual-single'),
+      'annual-double': member_query(default_query)('membership_type', 'annual-double'),
+      'annual-family': member_query(default_query)('membership_type', 'annual-family'),
+      'life-single': member_query(default_query)('membership_type', 'life-single'),
+      'life-double': member_query(default_query)('membership_type', 'life-double'),
+      'annual-corporate': member_query(default_query)('membership_type', 'annual-corporate'),
+      'annual-group': member_query(default_query)('membership_type', 'annual-group'),
+      'activated': member_query(default_query)('activation_status', 'activated'),
+      'registered': member_query(default_query)('registered', 'registered'),
+      'unregistered': member_query(default_query)('registered', 'unregistered'),
+      'post': member_query(default_query)('news_type', 'post'),
+      'online': member_query(default_query)('news_type', 'online'),
+      'no_gift_aid': member_query(default_query)('gift_aid_signed', 'false'),
+      'gift_aid': member_query(gift_aid_query)(),
+      'email': member_query(email_query)(),
+      'no_email': member_query(no_email_query)()
+    }, function (err, results) {
+      if (err) return res.badRequest(err)
+      return res.json(results)
+    })
   }
 }
