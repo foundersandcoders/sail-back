@@ -10,7 +10,7 @@ const { validate, sign_up_required, read_only_sign_up } = require('../../shared/
 const { next_page, previous_page } = require('../redux/modules/page.js')
 const { sign_up } = require('../redux/modules/signup.js')
 
-const SignUp = ({ page, previous_page, next_page, sign_up }) =>
+const SignUp = ({ page, previous_page, next_page, sign_up, form }) =>
   <div className='sign-up-container'>
     <div>
       <h2>{page === 5 ? 'If your details are correct click \'Submit\' otherwise go back to change them' : 'Please fill in your details'}</h2>
@@ -25,6 +25,7 @@ const SignUp = ({ page, previous_page, next_page, sign_up }) =>
         read_only={page === 5 ? read_only_sign_up : []}
       />
     </div>
+    {form.sign_up.duplicate_email && <h4>The email address provided already has an account. Please go back to the <a href='#'>sign in</a> page if you need to reset your password.</h4>}
   </div>
 
 const SignUpForm = reduxForm(

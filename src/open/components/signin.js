@@ -8,6 +8,7 @@ var Signin = React.createClass({
   getInitialState: function () {
     return {login_failed: false}
   },
+
   signin: function (event) {
     event.preventDefault()
     var username = this.refs.email.value || this.refs.number.value
@@ -30,6 +31,7 @@ var Signin = React.createClass({
     }, handle_response)
 
   },
+
   forgotPass: function (event) {
     event.preventDefault()
     var email = this.refs.email.value
@@ -57,13 +59,13 @@ var Signin = React.createClass({
 
   passwordMessage: function () {
     return this.state.needEmail
-      ? <h3 className='red'>Please enter the correct email for your account</h3>
+      ? <h4 className='red'>Please enter the correct email for your account</h4>
       : this.state.erroredPass
-        ? <h3 className='red'>There was an error. Your password was not reset</h3>
+        ? <h4 className='red'>There was an error. Your password was not reset</h4>
         : this.state.passwordReset
-          ? <h3>
+          ? <h4>
               Your password has been reset. Please check your email.
-            </h3>
+            </h4>
           : <h4>
               If you are an existing member who is logging in for the first time please click 'Forgot Password' and we'll email you a temporary one
             </h4>
@@ -71,7 +73,6 @@ var Signin = React.createClass({
 
   render: function () {
     return (
-
       <div className='signin-component'>
         <div className='main-container'>
           <div className='inner-section-divider-small'></div>
@@ -99,19 +100,15 @@ var Signin = React.createClass({
               <input type='password' ref='password' id='password' placeholder='Password'/>
 
               <div className='inner-section-divider-small'></div>
-              {this.state.login_failed
-                ? <div className='login-error'>Login Failed</div>
-                : ''
-}
+              {this.state.login_failed && <div className='login-error'>Login Failed</div>}
               <button className='btn-primary' type='submit' id='submit-button'>Submit</button>
               <div className='inner-section-divider-small'></div>
 
               <div className='input-label-container'>
-                <h4><a href='#' onClick={this.forgotPass}>Forgot password?</a></h4>
+                <h4><b><a href='#' onClick={this.forgotPass}>Forgot password?</a></b></h4>
                 {this.passwordMessage()}
-                <h4>
-                  If you are new to the Friends, click <a href='#signup'>here</a> to sign up
-                </h4>
+                <h4><b><a href='#signup'>New to the Friends?</a></b></h4>
+                <h4>If you are not yet a member of the Friends please click above to sign up</h4>
               </div>
 
             </form>
@@ -119,7 +116,6 @@ var Signin = React.createClass({
           </div>
         </div>
       </div>
-
     )
   }
 })
