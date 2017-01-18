@@ -93,13 +93,18 @@ const DeliveryMethod = ({ toggle_delivery_method, next_page }) => {
 const SuccessfulSignUp = ({ personal_details }) => {
   return (
     <div>
+      <h4>The sign up process is now complete. Welcome to the Friends!</h4>
       <h4>
-        The sign up process is now complete. Welcome to the Friends. Your membership
-        number is {propOr('', 'value', personal_details.id)}
+        Your membership number is {propOr('', 'value', personal_details.id)}
         {propOr('', 'value', personal_details.membership_type).match(/annual/)
           ? ` and your subscription becomes due on the ${personal_details.due_date.value} of each year.`
           : '.'
         }
+      </h4>
+      <h4>
+        If you wish to pay the initial subscription charge you can click the 'Make a Payment'
+        tab at the top. We’d encourage you to pay by Credit Card or PayPal because it makes
+        life easier both for you and for the volunteers who run the Friends .
       </h4>
     </div>
   )
