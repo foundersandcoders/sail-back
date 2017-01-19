@@ -87,9 +87,8 @@ var handle_membership_change = cb => updated_member =>
           var payments_by_date = R.pipe(R.map(R.over(R.lensProp('date'), Date.parse)), R.sortBy(R.prop('date')))(stored_member.payments)
           var payments_since_last_subscription = R.slice(R.findIndex(R.propEq('category', 'subscription'))(payments_by_date), Infinity)(payments_by_date)
           var subscription_balance = payments_since_last_subscription.reduce(function (sum, payment) {
-            if (payment.category === 'subscription') return sum + payment.amount
             if (payment.category === 'payment') return sum - payment.amount
-            return sum
+            return sum + payment.amount
           }, 0)
 
 

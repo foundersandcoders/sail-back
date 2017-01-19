@@ -143,6 +143,14 @@ module.exports = {
       })
   },
 
+  list_by_membership: function (req, res) {
+    Members
+      .find({ membership_type: req.param('membership') })
+      .exec(function (err, items) {
+        return err ? res.json(err) : res.json(items)
+      })
+  },
+
   list_email_bounced: function (req, res) {
     var status_mapper = { true: true, false: false, null: null }
     Members
