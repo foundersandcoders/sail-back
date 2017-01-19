@@ -214,6 +214,7 @@ module.exports = {
       'life-double': member_query(default_query)('membership_type', 'life-double'),
       'annual-corporate': member_query(default_query)('membership_type', 'annual-corporate'),
       'annual-group': member_query(default_query)('membership_type', 'annual-group'),
+      'accounts': member_query(default_query)('membership_type', 'accounts'),
       'activated': member_query(default_query)('activation_status', 'activated'),
       'registered': member_query(default_query)('registered', 'registered'),
       'unregistered': member_query(default_query)('registered', 'unregistered'),
