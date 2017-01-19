@@ -124,6 +124,7 @@ const MemberNumbers = ({ member_analysis }) => {
       <h4>Life Double - {numbers_report['life-double']} members</h4>
       <h4>Annual Corporate - {numbers_report['annual-corporate']} members</h4>
       <h4>Annual Group - {numbers_report['annual-group']} members</h4>
+      <h4>Accounts - {numbers_report.accounts} members</h4>
       <br></br>
       <h4>Registered - {numbers_report.registered}</h4>
       <h4>Unregistered - {numbers_report.unregistered}</h4>
