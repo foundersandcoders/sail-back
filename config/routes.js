@@ -211,6 +211,11 @@ module.exports.routes = {
   'GET /api/get-numbers-report': {
     controller: 'Private',
     action: 'get_numbers_report'
+  },
+
+  'GET /api/list-by-membership/:membership': {
+    controller: 'Private',
+    action: 'list_by_membership'
   }
 
 // -------------------------------------------------------------------------

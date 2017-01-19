@@ -75,5 +75,6 @@ const convert_field = {
   primary_email: prop('primary_email'),
   membership_type: pipe(prop('membership_type'), format_string),
   last_payment: pipe(prop('payments'), last_subscription),
-  due_date: pipe(prop('due_date'), format_due_date)
+  due_date: pipe(prop('due_date'), format_due_date),
+  date_joined: pipe(prop('date_joined'), format_date)
 }
