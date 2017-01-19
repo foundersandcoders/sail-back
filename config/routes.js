@@ -216,7 +216,7 @@ module.exports.routes = {
   'GET /api/list-by-membership/:membership': {
     controller: 'Private',
     action: 'list_by_membership'
-  },
+  }
 
 // -------------------------------------------------------------------------
 }
