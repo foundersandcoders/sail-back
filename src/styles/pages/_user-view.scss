@@ -64,8 +64,7 @@ nav {
 
 .make-payment {
   max-width: 50.75em;
-  margin: 0 auto;
-  padding: 1.875em;
+  margin-left: 1em;
 
   label:before {
     content: none;
@@ -150,6 +149,12 @@ nav {
   .braintree-hosted-fields-valid {}
 }
 
+@media (max-width: 400px) {
+  .make-payment {
+    margin: 0 auto;
+  }
+}
+
 .paypal {
   .paypal_button {
     background-color: #0070ba;
@@ -228,12 +233,12 @@ nav {
     text-align: center;
   }
 }
-
 @media (max-width: 480px) {
   .form-container {
     form {
       width: 100%;
     }
+
     button {
       max-width: 480px;
       width: 100%;
@@ -264,6 +269,7 @@ nav {
 
 .welcome-screen-container {
   max-width: 800px;
+
   button {
     margin-top: 0.5em;
     margin-right: 0.5em;
