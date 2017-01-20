@@ -1,17 +1,18 @@
 import React from 'react'
-import { pipe, prop, pick, values, join, over, lensProp } from 'ramda'
+import { pipe, prop, pick, values, join, over, lensProp, concat, ifElse, test, toString, replace } from 'ramda'
 
 import format_date from 'app/format_date.js'
 import to_title_case from 'app/to_title_case.js'
 import { formatPounds } from 'app/monies'
 import { format_due_date } from 'app/format_date.js'
+import get_balance from 'app/get_balance'
 
 const SingleResult = (member, fields) => {
   return (
     <a id='member-tag' href={`#/members/${member.id}`}>
       <div className='row'>
         {fields.map((field, i) => {
-          return <div className={`col-${i + 1}`} key={i}><p>{convert_field[field](member)}</p></div>
+          return <div className={'col'} key={i}><p>{convert_field[field](member)}</p></div>
         })}
       </div>
     </a>
@@ -21,11 +22,11 @@ const SingleResult = (member, fields) => {
 export default (props) => {
   const data = typeof props.results === 'string' ? JSON.parse(props.results) : props.results
   return (
-    <div id='search-result'>
+    <div className={`search-result ${props.className}`}>
       <div className='search-table-section-member'>
         <div className='search-table-section-member-header'>
           {props.fields.map((field, i) =>
-            <div key={i} className={`col-${i + 1}`}><p>{format_string(field)}</p></div>
+            <div key={i} className={'col'}><p>{format_string(field)}</p></div>
           )}
         </div>
         {props.error && <div className='search-error'>No results</div>}
@@ -76,5 +77,8 @@ const convert_field = {
   membership_type: pipe(prop('membership_type'), format_string),
   last_payment: pipe(prop('payments'), last_subscription),
   due_date: pipe(prop('due_date'), format_due_date),
-  date_joined: pipe(prop('date_joined'), format_date)
+  date_joined: pipe(prop('date_joined'), format_date),
+  work_phone: prop('work_phone'),
+  address1: prop('address1'),
+  balance_due: pipe(prop('payments'), get_balance, toString, ifElse(test(/-/), replace('-', '-£'), concat('£')))
 }

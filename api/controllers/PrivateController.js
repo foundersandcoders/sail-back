@@ -147,6 +147,7 @@ module.exports = {
   list_by_membership: function (req, res) {
     Members
       .find({ membership_type: req.param('membership') })
+      .populate('payments')
       .exec(function (err, items) {
         return err ? res.json(err) : res.json(items)
       })
