@@ -12,6 +12,21 @@
 		margin-bottom: 0.4em;
 	}
 }
+@media (max-width: 400px) {
+	.sign-up-container {
+		margin: 0 auto;
+		padding: 1em;
+
+		fieldset {
+			padding: 0 0 1em 0;
+		}
+
+		button {
+			max-width: 100%;
+			width: 100%;
+		}
+	}
+}
 
 .section-label {
 	margin: auto;
