@@ -151,7 +151,7 @@ module.exports = {
       .exec(function (err, member) {
         if (err) return res.badRequest(err)
         var balance_due = get_balance(member.payments)
-        return res.send({ balance_due: balance_due/100 })
+        return res.send({ balance_due })
       })
   }
 }
