@@ -16,6 +16,7 @@ var braintree = require('braintree')
 var Validation = require('../services/validate.js')
 var queries = require('../queries/payments.js')
 var sendEmail = require('../services/email_mailgun.js').sendEmail
+var get_balance = require('app/get_balance')
 
 // ATTENTION: sandbox credentials: need real credentials and must be kept PRIVATE
 var gateway = braintree.connect({
@@ -149,11 +150,8 @@ module.exports = {
       .populate('payments')
       .exec(function (err, member) {
         if (err) return res.badRequest(err)
-        var balance_due = member.payments.reduce(function (sum, payment) {
-          if (payment.category === 'payment') return sum - payment.amount
-          return sum + payment.amount
-        }, 0)
-        return res.send({ balance_due: balance_due/100 })
+        var balance_due = get_balance(member.payments)
+        return res.send({ balance_due })
       })
   }
 }

@@ -20,6 +20,8 @@ var R = require('ramda')
 var bcrypt = require('bcryptjs')
 var is = require('torf')
 
+var get_balance = require('app/get_balance')
+
 var hash_password = key => cb => member => {
   if (!is.ok(member[key])) return cb(null, member)
   bcrypt.genSalt(10, (err, salt) => {
@@ -86,10 +88,7 @@ var handle_membership_change = cb => updated_member =>
 
           var payments_by_date = R.pipe(R.map(R.over(R.lensProp('date'), Date.parse)), R.sortBy(R.prop('date')))(stored_member.payments)
           var payments_since_last_subscription = R.slice(R.findIndex(R.propEq('category', 'subscription'))(payments_by_date), Infinity)(payments_by_date)
-          var subscription_balance = payments_since_last_subscription.reduce(function (sum, payment) {
-            if (payment.category === 'payment') return sum - payment.amount
-            return sum + payment.amount
-          }, 0)
+          var subscription_balance = get_balance(payments_since_last_subscription)
 
 
           if ((upgrade_single_double || upgrade_single_family || upgrade_double_family) && subscription_balance > 0) {

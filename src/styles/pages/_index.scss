@@ -223,8 +223,8 @@ p {
   }
 }
 
-#search-result {
-  max-width: 1000px;
+.search-result {
+  max-width: 1200px;
   margin: auto;
 
   .search-table-section-member {
@@ -240,27 +240,7 @@ p {
       align-items: center;
       justify-content: space-between;
 
-      .col-1 {
-        flex: 1 1 0;
-      }
-
-      .col-2 {
-        flex: 1 1 0;
-      }
-
-      .col-3 {
-        flex: 1 1 0;
-      }
-
-      .col-4 {
-        flex: 1 1 0;
-      }
-
-      .col-5 {
-        flex: 1 1 0;
-      }
-
-      .col-6 {
+      .col {
         flex: 1 1 0;
       }
 
@@ -286,37 +266,25 @@ p {
         align-items: center;
         justify-content: space-between;
 
-        p {
-          font-size: 15px;
-        }
-
-        .col-1 {
-          flex: 1 1 0;
-        }
-
-        .col-2 {
-          flex: 1 1 0;
-        }
-
-        .col-3 {
-          flex: 1 1 0;
-        }
-
-        .col-4 {
-          flex: 1 1 0;
-        }
-
-        .col-5 {
-          flex: 1 1 0;
-        }
-
-        .col-6 {
+        .col {
           flex: 1 1 0;
         }
       }
 
       .row:hover {
         background-color: #eee;
+      }
+    }
+  }
+}
+
+.large-results-table {
+  max-width: 1500px;
+
+  .search-table-section-member-rows {
+    .col {
+      p {
+        font-size: 0.9em;
       }
     }
   }
@@ -376,7 +344,6 @@ p {
   margin-left: 1.8em;
   line-height: 0;
 }
-
 @media print {
   .numbers-report-section {
     margin: 2em;

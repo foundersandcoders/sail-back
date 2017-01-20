@@ -12,6 +12,7 @@ var queries = require('../queries/private.js')
 var helpers = require('./helpers.js')
 var response_callback = helpers.response_callback
 var change_view = helpers.change_view
+var get_balance = require('app/get_balance')
 
 var membersQuery = function (query, type) {
   return function (req, res) {
@@ -146,6 +147,7 @@ module.exports = {
   list_by_membership: function (req, res) {
     Members
       .find({ membership_type: req.param('membership') })
+      .populate('payments')
       .exec(function (err, items) {
         return err ? res.json(err) : res.json(items)
       })
@@ -179,10 +181,6 @@ module.exports = {
         if (Is.ok(err) || !Is.ok(members)) {
           return res.notFound()
         } else {
-          var get_balance = R.reduce(function (sum, payment) {
-            if (payment.category === 'payment') return sum - payment.amount
-            return sum + payment.amount
-          }, 0)
           var payments_by_date = R.pipe(R.map(R.over(R.lensProp('date'), Date.parse)), R.sortBy(R.prop('date')))
 
           // R.filter(R.has(member)) is used here as the members array has a couple of functions in it (these are some methods provided by sails)

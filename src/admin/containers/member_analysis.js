@@ -96,11 +96,11 @@ const MemberNumbers = ({ member_analysis }) => {
 
 const MembershipSection = (props) => {
   const { member_analysis: { members_by_membership, no_matches } } = props
-  const fields = [ 'id', 'name', 'primary_email', 'date_joined' ]
+  const fields = [ 'id', 'name', 'primary_email', 'work_phone', 'address1', 'due_date', 'last_payment', 'balance_due' ]
   return (
     <div>
       {MembershipForm(props)}
-      <SearchResults fields={fields} results={members_by_membership} error={no_matches}/>
+      <SearchResults fields={fields} results={members_by_membership} error={no_matches} className='large-results-table'/>
     </div>
   )
 }
