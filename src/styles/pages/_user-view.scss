@@ -41,6 +41,8 @@ nav {
   }
 }
 
+
+
 .form-container {
   margin: 0;
 }
@@ -246,6 +248,15 @@ nav {
   }
 }
 @media (min-width: 768px) {
+  .u_alter-payment {
+    width: 50%;
+    float: left;
+    padding-right: 10%;
+  }
+  .payment-amount-container {
+    width: 50%;
+    float: left;
+  }
   .navbar-toggle.navbar-toggle {
     display: none;
   }
