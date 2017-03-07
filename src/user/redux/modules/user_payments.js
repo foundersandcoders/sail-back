@@ -20,6 +20,8 @@ const ADD_DONATION =
   'ADD_DONATION'
 const GET_BALANCE_DUE =
   'GET_BALANCE_DUE'
+const UPDATED_MEMBER =
+  'UPDATED_MEMBER'
 
 const initialState =
   { payment_sent: false
@@ -28,6 +30,7 @@ const initialState =
   , braintree_error: false
   , donation_made: false
   , balance_due: 0
+  , membership_changed: false
   }
 
 type State = typeof initialState
@@ -60,6 +63,8 @@ const reducer: Reducer<State, Action> =
         return { ...state, donation_made: true }
       case GET_BALANCE_DUE:
         return { ...state, balance_due: payload.balance_due }
+      case UPDATED_MEMBER:
+        return { ...state, membership_changed: true }
       default:
         return state
     }
