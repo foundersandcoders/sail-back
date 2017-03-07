@@ -19,24 +19,23 @@ const HARBOUR_PAYMENT = 'HARBOUR_PAYMENT'
 const CHEQUE_PAYMENT = 'CHEQUE_PAYMENT'
 
 class PaymentForm extends React.Component {
+  constructor (props) {
+    super(props)
+  }
 
   componentDidMount () {
+    this.props.fetch_member_user()
     this.props.get_balance_due()
-    this.props.fetch_member_user()
   }
 
-  shouldComponentUpdate ({ user_payments: { donation_made }, payments, personal_details }) {
+  componentDidUpdate ({ user_payments: { donation_made }, payments, personal_details }) {
     const donation_added = this.props.user_payments.donation_made !== donation_made
-    const payments_updated = length(this.props.payments) !== length(payments)
-    const membership_changed = propOr('annual-single', 'value')(this.props.personal_details.membership_type) !== personal_details.membership_type.value
-
-    membership_changed && this.setState({ membership_changed: true })
-
-    return donation_added || payments_updated || membership_changed
-  }
-
-  componentDidUpdate () {
-    this.props.fetch_member_user()
+    let membership_updated
+    if(personal_details.membership_type){
+      membership_updated = personal_details.membership_type.value
+        !== this.props.personal_details.membership_type.value;
+    }
+    (donation_added || membership_updated) && this.props.get_balance_due()
   }
 
   render () {
@@ -46,7 +45,6 @@ class PaymentForm extends React.Component {
       , update_member_user
       , user_payments: { payment_type, donation_made, membership_changed }
       } = this.props
-    console.log('mt', membership_type);
     return payment_type
       ? component_mapper[payment_type](this.props)
       : (<div>
