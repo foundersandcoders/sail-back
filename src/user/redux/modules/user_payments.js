@@ -10,8 +10,6 @@ const MAKE_PAYMENT =
   'MAKE_PAYMENT'
 const PAYMENT_TYPE =
   'PAYMENT_TYPE'
-const AMOUNT_CHANGE =
-  'AMOUNT_CHANGE'
 const PAYMENT_ERROR =
   'PAYMENT_ERROR'
 const BRAINTREE_ERROR =
@@ -25,7 +23,6 @@ const UPDATED_MEMBER =
 
 const initialState =
   { payment_sent: false
-  , amount_entered: ''
   , payment_type: ''
   , braintree_error: false
   , donation_made: false
@@ -53,8 +50,6 @@ const reducer: Reducer<State, Action> =
         return { ...state, payment_type: payload }
       case PATH_UPDATE:
         return initialState
-      case AMOUNT_CHANGE:
-        return { ...state, amount_entered: payload.target.value }
       case PAYMENT_ERROR:
         return { ...state, payment_error: { message: payload } }
       case BRAINTREE_ERROR:
@@ -75,9 +70,6 @@ export const make_payment = createAction
 
 export const payment_type = createAction
   (PAYMENT_TYPE)
-
-export const amount_change = createAction
-  (AMOUNT_CHANGE)
 
 export const payment_error = createAction
   (PAYMENT_ERROR)

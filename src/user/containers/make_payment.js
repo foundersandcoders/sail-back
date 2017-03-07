@@ -1,18 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { pick, propOr, compose, toUpper, map, pipe, split, adjust, join } from 'ramda'
+import { pick, propOr, compose, toUpper, map, pipe, split, adjust, join, length } from 'ramda'
 
 import
-  { amount_change
-  , make_payment
+  { make_payment
   , payment_type
   , payment_error
   , braintree_error
   , get_balance_due
-  , change_membership
   , add_donation
   } from '../redux/modules/user_payments.js'
-import { update_member_user } from '../../shared/redux/modules/member.js'
+import { fetch_member_user, update_member_user } from '../../shared/redux/modules/member.js'
 import OnlinePayments from '../components/online_payments.js'
 
 const CREDIT_CARD_PAYMENT = 'CREDIT_CARD_PAYMENT'
@@ -24,6 +22,21 @@ class PaymentForm extends React.Component {
 
   componentDidMount () {
     this.props.get_balance_due()
+    this.props.fetch_member_user()
+  }
+
+  shouldComponentUpdate ({ user_payments: { donation_made }, payments, personal_details }) {
+    const donation_added = this.props.user_payments.donation_made !== donation_made
+    const payments_updated = length(this.props.payments) !== length(payments)
+    const membership_changed = propOr('annual-single', 'value')(this.props.personal_details.membership_type) !== personal_details.membership_type.value
+
+    membership_changed && this.setState({ membership_changed: true })
+
+    return donation_added || payments_updated || membership_changed
+  }
+
+  componentDidUpdate () {
+    this.props.fetch_member_user()
   }
 
   render () {
@@ -33,16 +46,17 @@ class PaymentForm extends React.Component {
       , update_member_user
       , user_payments: { payment_type, donation_made, membership_changed }
       } = this.props
-    console.log(this.props);
-
+    console.log('mt', membership_type);
     return payment_type
       ? component_mapper[payment_type](this.props)
       : (<div>
-          { membership_changed
-            ? SuccessfulMembershipChange(propOr('annual-single', 'value')(membership_type))
-            : ChangeMembershipForm (update_member_user, propOr('annual-single', 'value')(membership_type))
-          }
-          {donation_made ? SuccessfulDonation() : DonationForm(add_donation)}
+          <div className='u_alter-payment'>
+            { membership_changed
+              ? SuccessfulMembershipChange(propOr('annual-single', 'value')(membership_type))
+              : ChangeMembershipForm (update_member_user, propOr('annual-single', 'value')(membership_type))
+            }
+            {donation_made ? SuccessfulDonation() : DonationForm(add_donation)}
+          </div>
           <PaymentAmount {...this.props}/>
         </div>)
   }
@@ -51,6 +65,9 @@ class PaymentForm extends React.Component {
 const ChangeMembershipForm = (update_member, membership_type) => {
   return (
     <div className='form-container'>
+      <h1>
+        Change Membership
+      </h1>
       <h4>
         Your membership is currently <b>{prettify_membership(membership_type)}</b>.
         If you would like to change it please select one from the dropdown menu and
@@ -90,6 +107,9 @@ const prettify_membership = compose(join(' '), map(pipe(split(''), adjust(toUppe
 const DonationForm = (add_donation) => {
   return (
     <div className='form-container'>
+      <h1>
+        Make a Donation
+      </h1>
       <h4>
         In order to make membership of the Friends available to as many people
         as possible we try to keep our annual subscription rates down.
@@ -116,20 +136,16 @@ const SuccessfulDonation = () => {
   )
 }
 
-const PaymentAmount = ({ user_payments: { amount_entered, balance_due }, amount_change, payment_type }) => {
+const PaymentAmount = ({ user_payments: { balance_due }, payment_type }) => {
   return (
     <div className='payment-amount-container'>
       <form>
+        <h1>Make a Payment</h1>
         <h2>Please enter an amount and choose a method of payment</h2>
-        <h3>Payment Amount {balance_due > 0 ? `(the outstanding balance on your account is £${balance_due})` : ''}</h3>
-        <input
-          placeholder={balance_due + '.00'}
-          type='number'
-          onChange={amount_change}
-        />
+        <h3>Payment Amount {balance_due > 0 ? `: £${balance_due}` : ': No balance due.'}</h3>
         <h3 className='subtitle'>Choose a payment method</h3>
         <div>
-          <button disabled={amount_entered === '' || amount_entered <= 0} onClick={no_default(payment_type)(CREDIT_CARD_PAYMENT)}>Credit Card or Paypal</button>
+          <button disabled={balance_due <= 0} onClick={no_default(payment_type)(CREDIT_CARD_PAYMENT)}>Credit Card or Paypal</button>
           <button onClick={no_default(payment_type)(BANK_PAYMENT)}>Bank Transfer</button>
           <button onClick={no_default(payment_type)(HARBOUR_PAYMENT)}>Annual Harbour Dues</button>
           <button onClick={no_default(payment_type)(CHEQUE_PAYMENT)}>Cheque</button>
@@ -172,12 +188,11 @@ const component_mapper =
 export default connect(pick(['user_payments', 'personal_details']),
   { make_payment
   , payment_type
-  , amount_change
   , payment_error
   , braintree_error
   , get_balance_due
   , add_donation
-  , change_membership
+  , fetch_member_user
   , update_member_user
   })
   (PaymentForm)

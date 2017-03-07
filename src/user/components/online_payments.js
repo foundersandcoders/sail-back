@@ -26,7 +26,7 @@ const SuccessfulPayment = ({ user_payments }) =>
   <div className='make-payment'>
     <h1 className='title'>Successful Payment</h1>
     <h3 className='subtitle'>
-      Thank you for your payment of £{user_payments.amount_entered}.
+      Thank you for your payment of £{user_payments.balance_due}.
       Your reference for that payment is {user_payments.payment_sent.reference}.
     </h3>
   </div>
