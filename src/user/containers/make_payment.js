@@ -29,6 +29,7 @@ class PaymentForm extends React.Component {
   }
 
   componentDidUpdate ({ user_payments: { donation_made }, payments, personal_details }) {
+    console.log('donation_made: ', donation_made, ' .. membership_type: ', personal_details.membership_type);
     const donation_added = this.props.user_payments.donation_made !== donation_made
     let membership_updated
     if(personal_details.membership_type){
