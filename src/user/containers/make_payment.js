@@ -28,17 +28,6 @@ class PaymentForm extends React.Component {
     this.props.get_balance_due()
   }
 
-  componentDidUpdate ({ user_payments: { donation_made }, payments, personal_details }) {
-    console.log('donation_made: ', donation_made, ' .. membership_type: ', personal_details.membership_type);
-    const donation_added = this.props.user_payments.donation_made !== donation_made
-    let membership_updated
-    if(personal_details.membership_type){
-      membership_updated = personal_details.membership_type.value
-        !== this.props.personal_details.membership_type.value;
-    }
-    (donation_added || membership_updated) && this.props.get_balance_due()
-  }
-
   render () {
     const
       { add_donation
