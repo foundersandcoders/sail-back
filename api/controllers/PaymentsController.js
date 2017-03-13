@@ -17,7 +17,6 @@ var Validation = require('../services/validate.js')
 var queries = require('../queries/payments.js')
 var sendEmail = require('../services/email_mailgun.js').sendEmail
 var get_balance = require('app/get_balance')
-var { get_payments } = require('app/ORM')
 
 // ATTENTION: sandbox credentials: need real credentials and must be kept PRIVATE
 var gateway = braintree.connect({
@@ -142,11 +141,16 @@ module.exports = {
       })
       .exec(function (err, success) {
         if (err) return res.badRequest(err)
-        get_payments(Members, memberId, function (err, member) {
-          if (err) return res.serverError(err)
-          var balance_due = get_balance(member.payments)
-          return res.send(Object.assign({}, { balance_due }, success))
-        })
+        Members
+          .findOne(memberId)
+          .populate('events_booked')
+          .populate('membership_type')
+          .populate('payments')
+          .exec(function (err, member) {
+            if (err) return res.serverError(err)
+            var balance_due = get_balance(member.payments)
+            return res.send(Object.assign({}, { balance_due }, success))
+          })
       })
   },
 
