@@ -145,11 +145,6 @@ nbproject
 .idea
 .node_history
 
-uploadData/
-members.csv
-members.json
-
-
 
 
 ###############################################
@@ -160,5 +155,10 @@ members.json
 
 test/upload/*.csv
 /TAGS
+foch_data/
+uploadData/
+members.csv
+members.json
+
 
 .eslintrc.json
