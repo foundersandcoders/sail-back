@@ -10,7 +10,8 @@ var Mailgun = require('../services/email_mailgun')
 module.exports = {
 
   showHome: function (req, res) {
-    res.view('pages/open', {user: req.session.user})
+    res.view('pages/maintenance', {user: req.session.user})
+    // res.view('pages/open', {user: req.session.user})
   },
 
   ServiceSignIn: function (req, res) {
