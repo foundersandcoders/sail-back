@@ -39,4 +39,4 @@ echo "finished unzipping the dump:"
 echo $(cat /tmp/s3-backups/$BACKUP_FILE_NAME)
 
 # run mysql with the dump file
-mysql -u $DB_USER -p$DB_USER $DB_DATABASE < /tmp/s3-backups/$BACKUP_FILE_NAME
+mysql -u $DB_USER -p$DB_USER -h $DB_HOST $DB_DATABASE < /tmp/s3-backups/$BACKUP_FILE_NAME
