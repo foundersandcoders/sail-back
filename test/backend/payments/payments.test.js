@@ -109,7 +109,7 @@ test('Make a payment', function (t) {
           .findOne({primary_email: 'payment@email.com'})
           .populateAll()
           .exec(function (err, item) {
-            // console.log('User populated: ', item)
+            console.log('User populated: ', item)
 
             var lastPayment = item.payments[item.payments.length - 1]
             st.equal(lastPayment.category, 'payment', 'right category')
