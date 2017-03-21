@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/foundersandcoders/sail-back.svg?branch=reactify)](https://travis-ci.org/foundersandcoders/sail-back)
 
-Membership management system for Friends of Chichester Harbour.
+Membership management system for Friends of Chichester Harbour
 
 <a href="http://friendsch.org/"><img src='http://friendsch.org/foch/wp-content/uploads/2015/11/friends-logo-title3.jpg'></a>
 
