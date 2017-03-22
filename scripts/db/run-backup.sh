@@ -1,5 +1,7 @@
 #!/bin/bash
-if [ ! $NODE_ENV = 'heroku' ] && [ ! $NODE_ENV = 'production' ]; then
+echo "Backup DB run, attempting to backup DB send to S3"
+
+if [  $NODE_ENV = 'testing' ]; then
   echo "NODE_ENV is $NODE_ENV, so ending run backup early"
   exit
 fi
