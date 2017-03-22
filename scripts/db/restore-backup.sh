@@ -1,10 +1,10 @@
-# source ./local.env
++#!/bin/bash
 BACKUP_FILE_NAME=$1
 
 # check with admin that they have typed file in correctly and wish to continue
 echo "Attempting to restore backup file from S3: $BACKUP_FILE_NAME.gz do you want to continue? [y/n]"
 read SHOULD_CONTINUE
-if [ ! $SHOULD_CONTINUE = y ]; then
+if [ ! $SHOULD_CONTINUE = "y" ]; then
   echo "user decided not to continue"
   exit
 fi
@@ -18,6 +18,7 @@ if [ ! -d "/tmp/aws" ]; then
 fi
 
 # create a backup before attempting to overwrite the current DB
+bash /app/scripts/db/run-backup.sh
 
 
 
