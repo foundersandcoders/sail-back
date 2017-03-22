@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ ! $NODE_ENV = 'production' ]; then
+if [ ! $NODE_ENV = 'heroku' ]; then
   echo "NODE_ENV not production so ending run backup early"
   exit
 fi
