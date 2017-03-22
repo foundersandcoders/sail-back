@@ -59,6 +59,7 @@ module.exports = {
           url: 'friendsch.org'
         }
       }, function (error, result) {
+        console.log('err', error, 'result', result)
         if (error) {
           console.error('Braintree transaction error')
           return res.send({
