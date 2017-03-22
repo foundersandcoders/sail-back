@@ -1,6 +1,6 @@
 #!/bin/bash
-if [ ! $NODE_ENV = 'heroku' ]; then
-  echo "NODE_ENV not production so ending run backup early"
+if [ ! $NODE_ENV = 'heroku' ] && [ ! $NODE_ENV = 'production' ]; then
+  echo "NODE_ENV is $NODE_ENV, so ending run backup early"
   exit
 fi
 
