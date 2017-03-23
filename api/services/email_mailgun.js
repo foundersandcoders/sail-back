@@ -4,7 +4,17 @@ var aSync = require('async')
 
 // Set the folowing to randomString so app doesn't crash in environments where
 // mailgun api key is not provided, for example testing and travis.
-var apiKey = process.env.MAILGUN || 'randomString'
+// if the environment is not production, and the developer is not connected to the mock database, we don't want to send emails
+// otherwise we want to send emails if the mailgun key is provided
+var apiKey
+if (process.env.NODE_ENV === 'heroku') {
+  apiKey = process.env.MAILGUN
+} else if (sails.config.connections.localMySql.database !== 'foch_testing') {
+  apiKey = 'randomString'
+} else {
+  apiKey = process.env.MAILGUN || 'randomString'
+}
+
 var domain = 'friendsch.org'
 var mailgun = require('mailgun-js')({ apiKey, domain })
 
