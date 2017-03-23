@@ -1,4 +1,4 @@
-+#!/bin/bash
+#!/bin/bash
 BACKUP_FILE_NAME=$1
 
 # check with admin that they have typed file in correctly and wish to continue
