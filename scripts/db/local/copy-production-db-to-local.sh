@@ -1,17 +1,17 @@
 #!/bin/bash
 
 # This script requires you to copy in the production database credentials
-# CLEARDB_USER_NAME
-# CLEARDB_SERVER_IP
+# CLEARDB_USER
+# CLEARDB_HOST
 # CLEARDB_PASSWORD
 # DATABASE
 
-if [ -z "$CLEARDB_USER_NAME" ]; then
-    echo "Need to set CLEARDB_USER_NAME"
+if [ -z "$CLEARDB_USER" ]; then
+    echo "Need to set CLEARDB_USER"
     exit 1
 fi
-if [ -z "$CLEARDB_SERVER_IP" ]; then
-    echo "Need to set CLEARDB_SERVER_IP"
+if [ -z "$CLEARDB_HOST" ]; then
+    echo "Need to set CLEARDB_HOST"
     exit 1
 fi
 if [ -z "$CLEARDB_PASSWORD" ]; then
@@ -38,7 +38,7 @@ if [ ! -d "./.tmp/db-backups" ]; then
 fi
 
 # dump the current DB into /.tmp/db-backups/<new-file-name>
-mysqldump -u $CLEARDB_USER_NAME -h $CLEARDB_SERVER_IP -p$CLEARDB_PASSWORD --databases $DATABASE > ./.tmp/db-backups/$BACKUP_FILE_NAME
+mysqldump -u $CLEARDB_USER -h $CLEARDB_HOST -p$CLEARDB_PASSWORD --databases $DATABASE > ./.tmp/db-backups/$BACKUP_FILE_NAME
 echo "filename: $BACKUP_FILE_NAME"
 echo "location: ./.tmp/db-backups/$BACKUP_FILE_NAME"
 
