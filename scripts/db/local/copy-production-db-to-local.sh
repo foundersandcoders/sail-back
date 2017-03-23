@@ -1,5 +1,4 @@
 #!/bin/bash
-source ./PRODUCTION.env
 
 if [ -z "$CLEARDB_USER_NAME" ]; then
     echo "Need to set CLEARDB_USER_NAME"
