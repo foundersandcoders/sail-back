@@ -8,3 +8,7 @@ In order to run the script, we need to supply the script with the production dat
 
 These can either be sourced from another file, or run in directly in the command-line:
 `CLEARDB_USER=<user> CLEARDB_HOST=<host> CLEARDB_PASSWORD=<password> DATABASE=<database name> bash ./scripts/db/local/copy-production-db-to-local.sh`
+
+
+### Running the app locally with copied database
+In order to run the app locally, we need to change the database that the app looks at, inside `/config/env/development.js`, we can change the database key to the new database that we have just copied down: `database: <new-database-name>`
