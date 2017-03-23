@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# This script requires you to copy in the production database credentials
+# CLEARDB_USER_NAME
+# CLEARDB_SERVER_IP
+# CLEARDB_PASSWORD
+# DATABASE
+
 if [ -z "$CLEARDB_USER_NAME" ]; then
     echo "Need to set CLEARDB_USER_NAME"
     exit 1
