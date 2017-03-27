@@ -9,7 +9,7 @@ var aSync = require('async')
 var apiKey
 if (process.env.NODE_ENV === 'heroku') {
   apiKey = process.env.MAILGUN
-} else if (sails.config.connections.localMySql.database !== 'foch_testing') {
+} else if (sails.config.connections.localMySql && sails.config.connections.localMySql.database !== 'foch_testing') {
   apiKey = 'randomString'
 } else {
   apiKey = process.env.MAILGUN || 'randomString'
