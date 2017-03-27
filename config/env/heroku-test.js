@@ -1,10 +1,13 @@
-var databaseDetails = require('parse-db-url')(process.env.JAWSDB_URL)
 
 databaseDetails.adapter = 'sails-mysql'
 
 module.exports = {
   connections: {
-    testMySql: databaseDetails,
+    adapter: 'sails-mysql',
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST,
+    database: process.env.DB_DATABASE
   },
   models: {
     connection: 'testMySql',
