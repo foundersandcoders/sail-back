@@ -1,6 +1,3 @@
-
-databaseDetails.adapter = 'sails-mysql'
-
 module.exports = {
   connections: {
     testMySql: {
