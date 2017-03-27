@@ -56,7 +56,7 @@
     "lodash.throttle": "^4.0.1",
     "mailgun-js": "^0.7.11",
     "mysql": "2.7.0",
-    "node-sass": "3.4.2",
+    "node-sass": "^4.5.1",
     "object-assign": "4.0.1",
     "parse-db-url": "0.0.0",
     "passport": "0.2.2",
