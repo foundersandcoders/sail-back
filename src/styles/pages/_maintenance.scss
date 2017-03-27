@@ -4,13 +4,13 @@
     // bottom: 0;
     // right: 0;
     // left: 0;
-    
+
 	// background-color: #F6F6F6;
     .section-title {
         h1 {
-            padding-bottom: 0; 
-            padding-top: 0; 
-        }  
+            padding-bottom: 0;
+            padding-top: 0;
+        }
     }
 }
 
@@ -35,18 +35,18 @@
 }
 
 div.results-container {
-    
+
     margin: auto;
     padding: 2em;
     width: 90%;
     background-color: #fff;
     border-bottom: 1px solid #dbdbdb;
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
- 
+
     .table-title {
         margin: auto;
-        text-align: center; 
-    }  
+        text-align: center;
+    }
 
     .container {
         flex-direction: column;
@@ -58,10 +58,10 @@ div.results-container {
             div {
                 flex: 3;
                 &:nth-child(1) {
-                    flex: 1; 
+                    flex: 1;
                 }
                 &:nth-child(2) {
-                    flex: 2; 
+                    flex: 2;
                 }
                 &:nth-child(5) {
                     flex: 2;
@@ -70,21 +70,21 @@ div.results-container {
                     flex: 1;
                 }
                 &:nth-child(7) {
-                    flex: 2; 
+                    flex: 2;
                 }
-            }    
-        } 
+            }
+        }
     }
-   
+
     .headers {
         flex: 2;
         margin-bottom: 1em;
         p {
-           font-size: 19px;  
+           font-size: 19px;
            font-weight: 200;
         }
     }
-    
+
     .duplicate-content {
         flex: 1;
         max-height: 10em;
@@ -95,7 +95,7 @@ div.results-container {
             }
         }
     }
-    
+
     div.button-container {
         display: flex;
         flex-direction: row;
@@ -109,7 +109,12 @@ div.results-container {
             }
         }
         .confirm {
-            border: 1px solid #ccc; 
+            border: 1px solid #ccc;
         }
-    }    
+    }
+}
+
+.maintenance-page {
+  width: 80%;
+  margin: 4em auto;
 }

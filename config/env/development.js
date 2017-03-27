@@ -7,7 +7,7 @@ module.exports = {
       host: 'localhost',
       user: 'root',
       password: 'correct',
-      database: 'foch_testing'
+      database: process.env.DATABASE || 'foch_testing'
     },
   },
   models: {
