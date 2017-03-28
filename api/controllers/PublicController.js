@@ -8,6 +8,9 @@ var ForgotPass = require('../services/ForgotPass.js')
 var Mailgun = require('../services/email_mailgun')
 
 module.exports = {
+  adminLogin: function (req, res) {
+    res.view('pages/open', {user: req.session.user})
+  },
 
   showHome: function (req, res) {
     process.env.MAINTENANCE
@@ -18,14 +21,15 @@ module.exports = {
   ServiceSignIn: function (req, res) {
     passport.authenticate('local', function (err, member) {
       if ((err) || (!member) || member.activation_status === 'deactivated') {
-        res.status(401).end()
-      } else {
-        req.session.user = member
-        req.session.authenticated = true
-        req.member = member
-        var redirect_to = req.session.user.privileges === 'admin' ? '/admin' : '/user'
-        res.location(redirect_to).end()
+        return res.status(401).end()
+      } else if (process.env.MAINTENANCE && member.privileges !== 'admin') {
+        return res.status(401).end()
       }
+      req.session.user = member
+      req.session.authenticated = true
+      req.member = member
+      var redirect_to = req.session.user.privileges === 'admin' ? '/admin' : '/user'
+      res.location(redirect_to).end()
     })(req, res)
   },
 
