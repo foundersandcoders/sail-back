@@ -21,14 +21,16 @@ module.exports = {
   ServiceSignIn: function (req, res) {
     passport.authenticate('local', function (err, member) {
       if ((err) || (!member) || member.activation_status === 'deactivated') {
-        res.status(401).end()
-      } else {
-        req.session.user = member
-        req.session.authenticated = true
-        req.member = member
-        var redirect_to = req.session.user.privileges === 'admin' ? '/admin' : '/user'
-        res.location(redirect_to).end()
+        return res.status(401).end()
+      } else if (process.env.MAINTENANCE && member.privileges !== 'admin') {
+        console.log('not admin');
+        return res.status(401).end()
       }
+      req.session.user = member
+      req.session.authenticated = true
+      req.member = member
+      var redirect_to = req.session.user.privileges === 'admin' ? '/admin' : '/user'
+      res.location(redirect_to).end()
     })(req, res)
   },
 
