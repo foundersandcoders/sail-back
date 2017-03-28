@@ -23,7 +23,6 @@ module.exports = {
       if ((err) || (!member) || member.activation_status === 'deactivated') {
         return res.status(401).end()
       } else if (process.env.MAINTENANCE && member.privileges !== 'admin') {
-        console.log('not admin');
         return res.status(401).end()
       }
       req.session.user = member
