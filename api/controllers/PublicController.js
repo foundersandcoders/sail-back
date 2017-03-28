@@ -8,6 +8,9 @@ var ForgotPass = require('../services/ForgotPass.js')
 var Mailgun = require('../services/email_mailgun')
 
 module.exports = {
+  adminLogin: function (req, res) {
+    res.view('pages/open', {user: req.session.user})
+  },
 
   showHome: function (req, res) {
     process.env.MAINTENANCE
