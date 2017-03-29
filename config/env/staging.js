@@ -1,39 +1,23 @@
 module.exports = {
   connections: {
-    postgresql: {
-      adapter: 'sails-postgresql',
-      pool: false,
-      ssl: true,
-      url: process.env.PG_URL
-    },
-    mySqlStagingAWS: {
+    testMySql: {
       adapter: 'sails-mysql',
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
-      port: 3306,
-      database: 'users',
-      host: process.env.DB_HOST
-    },
-  // mySqlStagingHeroku: {
-  // 	adapter: 'sails-mysql',
-  // 	pool: false,
-  // 	ssl: false,
-  // }
+      host: process.env.DB_HOST,
+      database: process.env.DB_DATABASE
+    }
   },
   models: {
-    connection: 'mySqlStagingAWS',
-    migrate: 'safe'
+    connection: 'testMySql',
+    migrate: 'drop'
   },
   session: {
     secret: '496a95f915e063812b4c39d698db2462',
     cookie: {
-      maxAge: 14 * 24 * 60 * 60 * 1000,
+      maxAge: 15 * 60 * 1000,
     },
-  // In production, uncomment the following lines to set up a shared redis session store
-  // that can be shared across multiple Sails.js servers
-  // adapter: process.env.NODE_ENV == "testing" ? "memory" : 'redis',
-  // adapter: process.env.NODE_ENV == "development" ? "memory" : 'redis',
-  // adapter: 'redis'
+    rolling: true
   },
-  port: process.env.PORT || 80
+  port: process.env.PORT || 1337
 }

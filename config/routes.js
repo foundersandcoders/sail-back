@@ -36,6 +36,11 @@ module.exports.routes = {
   // -------------------------------------------------------------------------
   // SignIn process
   // -------------------------------------------------------------------------
+
+  'GET /maintenance-admin-login': {
+    controller: 'Public',
+    action: 'adminLogin'
+  },
   'GET /': {
     controller: 'Public',
     action: 'showHome'
