@@ -16,6 +16,10 @@ const BRAINTREE_ERROR =
   'BRAINTREE_ERROR'
 const ADD_DONATION =
   'ADD_DONATION'
+const CONFIRM_ADD_DONATION =
+  'CONFIRM_ADD_DONATION'
+const CANCEL_DONATION =
+  'CANCEL_DONATION'
 const GET_BALANCE_DUE =
   'GET_BALANCE_DUE'
 const UPDATED_MEMBER =
@@ -55,7 +59,11 @@ const reducer: Reducer<State, Action> =
       case BRAINTREE_ERROR:
         return { ...state, braintree_error: true }
       case ADD_DONATION:
+        return { ...state, donation_pending: payload.amount }
+      case CONFIRM_ADD_DONATION:
         return { ...state, balance_due: payload.balance_due, donation_made: true }
+      case CANCEL_DONATION:
+        return { ...state, donation_pending: false }
       case GET_BALANCE_DUE:
         return { ...state, balance_due: payload.balance_due }
       case UPDATED_MEMBER:
@@ -78,7 +86,13 @@ export const braintree_error = createAction
   (BRAINTREE_ERROR)
 
 export const add_donation = createAction
-  (ADD_DONATION, flip(post_body)('api/add_donation'))
+  (ADD_DONATION)
+
+export const confirm_add_donation = createAction
+  (CONFIRM_ADD_DONATION, flip(post_body)('api/add_donation'))
+
+export const cancel_donation = createAction
+  (CANCEL_DONATION)
 
 export const get_balance_due = createAction
   (GET_BALANCE_DUE, () => get_body('api/get_balance_due'))

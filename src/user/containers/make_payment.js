@@ -9,6 +9,8 @@ import
   , braintree_error
   , get_balance_due
   , add_donation
+  , confirm_add_donation
+  , cancel_donation
   } from '../redux/modules/user_payments.js'
 import { fetch_member_user, update_member_user } from '../../shared/redux/modules/member.js'
 import OnlinePayments from '../components/online_payments.js'
@@ -30,10 +32,12 @@ class PaymentForm extends React.Component {
 
   render () {
     const
-      { add_donation
+      { confirm_add_donation
+      , add_donation
+      , cancel_donation
       , personal_details: { membership_type }
       , update_member_user
-      , user_payments: { payment_type, donation_made, membership_changed }
+      , user_payments: { payment_type, donation_pending, donation_made, membership_changed }
       } = this.props
     return payment_type
       ? component_mapper[payment_type](this.props)
@@ -43,7 +47,7 @@ class PaymentForm extends React.Component {
               ? SuccessfulMembershipChange(propOr('annual-single', 'value')(membership_type))
               : ChangeMembershipForm (update_member_user, propOr('annual-single', 'value')(membership_type))
             }
-            {donation_made ? SuccessfulDonation() : DonationForm(add_donation)}
+            {donation_made ? SuccessfulDonation() : DonationForm(add_donation, confirm_add_donation, donation_pending, cancel_donation)}
           </div>
           <PaymentAmount {...this.props}/>
         </div>)
@@ -92,7 +96,7 @@ const SuccessfulMembershipChange = (membership_type) => {
 
 const prettify_membership = compose(join(' '), map(pipe(split(''), adjust(toUpper, 0), join(''))), split('-'))
 
-const DonationForm = (add_donation) => {
+const DonationForm = (add_donation, confirm_add_donation, donation_pending, cancel_donation) => {
   return (
     <div className='form-container'>
       <h1>
@@ -104,14 +108,27 @@ const DonationForm = (add_donation) => {
         If you would like to add a donation please enter the amount in the box
         and click 'Make Donation'. Otherwise select a method of payment.
       </h4>
-      <form onSubmit={(e) => {
+
+      { donation_pending
+
+        ? <form onSubmit={(e) => {
+            e.preventDefault()
+            confirm_add_donation({ amount: donation_pending })
+        }}
+        >
+          <button type='submit' className='positive'>Confirm donation of £{donation_pending}</button>
+          <button type='button' className='negative' onClick={cancel_donation}>Cancel donation</button>
+        </form>
+        : <form onSubmit={(e) => {
           e.preventDefault()
           add_donation({ amount: e.target[0].value })
-      }}
-      >
-        <input type='number'/>
-        <button type='submit'>Make Donation</button>
-      </form>
+        }}
+        >
+          <input type='number'/>
+          <button type='submit'>Make Donation</button>
+        </form>
+
+      }
     </div>
   )
 }
@@ -180,6 +197,8 @@ export default connect(pick(['user_payments', 'personal_details']),
   , braintree_error
   , get_balance_due
   , add_donation
+  , confirm_add_donation
+  , cancel_donation
   , fetch_member_user
   , update_member_user
   })

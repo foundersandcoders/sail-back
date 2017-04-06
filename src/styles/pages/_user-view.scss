@@ -13,6 +13,20 @@ nav {
   }
 }
 
+
+.positive {
+	background-color: rgba(82, 148, 70, 0.76);
+	color: #fff;
+	border: 0px;
+}
+
+.negative {
+	background-color: #eee;
+	color: #000;
+	border: 0px;
+}
+
+
 .user-content {
   width: 90%;
   margin-left: 1em;
