@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { identity, merge, propOr } from 'ramda'
 
 import { toggle_gift_aid, toggle_delivery_method } from '../../shared/redux/modules/member.js'
-import { add_donation } from '../redux/modules/user_payments.js'
 
 class WelcomeScreen extends React.Component {
 
@@ -112,4 +111,4 @@ const SuccessfulSignUp = ({ personal_details }) => {
 
 const components = [ Welcome, GiftAid, DeliveryMethod, SuccessfulSignUp ]
 
-export default connect(identity, { toggle_gift_aid, toggle_delivery_method, add_donation })(WelcomeScreen)
+export default connect(identity, { toggle_gift_aid, toggle_delivery_method })(WelcomeScreen)
