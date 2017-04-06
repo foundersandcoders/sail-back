@@ -102,7 +102,7 @@ const DonationForm = (add_donation) => {
         In order to make membership of the Friends available to as many people
         as possible we try to keep our annual subscription rates down.
         If you would like to add a donation please enter the amount in the box
-        and click 'Make Donation'. Otherwise select the 'Make a Payment' tab above.
+        and click 'Make Donation'. Otherwise choose a payment method.
       </h4>
       <form onSubmit={(e) => {
           e.preventDefault()
@@ -129,7 +129,7 @@ const PaymentAmount = ({ user_payments: { balance_due }, payment_type }) => {
     <div className='payment-amount-container'>
       <form>
         <h1>Make a Payment</h1>
-        <h2>Please enter an amount and choose a method of payment</h2>
+        <h2>Please choose a method of payment</h2>
         <h3>Payment Amount {balance_due > 0 ? `: £${balance_due}` : ': No balance due.'}</h3>
         <h3 className='subtitle'>Choose a payment method</h3>
         <div>
