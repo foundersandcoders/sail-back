@@ -18,7 +18,7 @@
     "build": "browserify src/admin/main.js > .tmp/public/js/admin.min.js & browserify src/user/main.js > .tmp/public/js/user.min.js & browserify src/open/main.js > .tmp/public/js/open.min.js & node-sass src/styles/main.scss .tmp/public/styles/main.css",
     "build:w": "watchify src/admin/main.js -o .tmp/public/js/admin.min.js & watchify src/user/main.js -o .tmp/public/js/user.min.js & watchify src/open/main.js -o .tmp/public/js/open.min.js & node-sass -w src/styles/main.scss .tmp/public/styles/main.css",
     "postinstall": "npm run backup",
-    "backup": "echo \"A\" | bash ./scripts/db/run-backup.sh"
+    "backup": "bash ./scripts/db/run-backup.sh"
   },
   "standard": {
     "ignore": [

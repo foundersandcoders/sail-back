@@ -4,13 +4,15 @@ if [ ! $NODE_ENV = 'heroku' ] && [ ! $NODE_ENV = 'production' ]; then
   exit
 fi
 
-#install aws-cli if it doesn't exist
-if [ ! -d "/tmp/aws" ]; then
-  curl https://s3.amazonaws.com/aws-cli/awscli-bundle.zip -o awscli-bundle.zip
-  unzip awscli-bundle.zip
-  chmod +x ./awscli-bundle/install
-  ./awscli-bundle/install -i /tmp/aws
-fi
+# install leftover and create /tmp/aws_install directory for new installation
+rm -rf /tmp/aws && rm -rf /tmp/aws_install
+mkdir /tmp/aws_install
+
+# download and unzip aws cli tools to /tmp/aws
+curl https://s3.amazonaws.com/aws-cli/awscli-bundle.zip -o /tmp/aws_install/awscli-bundle.zip
+unzip /tmp/aws_install/awscli-bundle.zip -d /tmp/aws_install/
+chmod +x /tmp/aws_install/awscli-bundle/install
+/tmp/aws_install/awscli-bundle/install -i /tmp/aws
 
 # new backup file name
 BACKUP_FILE_NAME="$(date +"%Y-%m-%d-%H-%M")-$APP-$DB_DATABASE.sql"
