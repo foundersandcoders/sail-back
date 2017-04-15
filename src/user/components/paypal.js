@@ -45,7 +45,7 @@ export default class Paypal extends React.Component {
 
 function setUpPaypal (clientInstance, paypalButton, props) {
 
-  var { make_payment, payment_error, braintree_error, user_payments: { amount_entered } } = props
+  var { make_payment, payment_error, braintree_error, user_payments: { balance_due } } = props
 
   braintree.paypal.create({ client: clientInstance }, function (createErr, paypalInstance) {
     if (createErr) {
@@ -62,14 +62,14 @@ function setUpPaypal (clientInstance, paypalButton, props) {
     paypalButton.addEventListener('click', function () {
       paypalInstance.tokenize({
         flow: 'checkout',
-        amount: amount_entered,
+        amount: balance_due,
         currency: 'GBP'
       }, function (tokenizeErr, payload) {
         if (tokenizeErr) {
           // console.error('token err paypal', tokenizeErr)
           return payment_error('Please refresh and try again.')
         }
-        make_payment({amount: amount_entered, nonce: payload.nonce, type: 'paypal' })
+        make_payment({amount: balance_due, nonce: payload.nonce, type: 'paypal' })
       })
     })
   })

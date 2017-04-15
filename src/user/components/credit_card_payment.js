@@ -55,7 +55,7 @@ export default class PaymentForm extends React.Component {
           <input
             type='submit'
             className='button button--small button--green'
-            value={`Confirm £${this.props.user_payments.amount_entered} Payment`}
+            value={`Confirm £${this.props.user_payments.balance_due} Payment`}
             id='submit'
             ref='payment_form_submit'
             disabled
@@ -68,7 +68,7 @@ export default class PaymentForm extends React.Component {
 
 function createHostedFields (clientInstance, form, submit, props) {
 
-  var { make_payment, payment_error, braintree_error, user_payments: { amount_entered } } = props
+  var { make_payment, payment_error, braintree_error, user_payments: { balance_due } } = props
 
   braintree.hostedFields.create({
     client: clientInstance,
@@ -126,7 +126,7 @@ function createHostedFields (clientInstance, form, submit, props) {
               return payment_error('Please refresh and try again.')
           }
         }
-        make_payment({ amount: amount_entered, nonce: payload.nonce, type: 'credit card' })
+        make_payment({ amount: balance_due, nonce: payload.nonce, type: 'credit card' })
       })
     }, false)
   })

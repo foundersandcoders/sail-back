@@ -13,6 +13,20 @@ nav {
   }
 }
 
+
+.positive {
+	background-color: rgba(82, 148, 70, 0.76);
+	color: #fff;
+	border: 0px;
+}
+
+.negative {
+	background-color: #eee;
+	color: #000;
+	border: 0px;
+}
+
+
 .user-content {
   width: 90%;
   margin-left: 1em;
@@ -40,6 +54,8 @@ nav {
     padding-bottom: 1em;
   }
 }
+
+
 
 .form-container {
   margin: 0;
@@ -246,6 +262,15 @@ nav {
   }
 }
 @media (min-width: 768px) {
+  .u_alter-payment {
+    width: 50%;
+    float: left;
+    padding-right: 10%;
+  }
+  .payment-amount-container {
+    width: 50%;
+    float: left;
+  }
   .navbar-toggle.navbar-toggle {
     display: none;
   }

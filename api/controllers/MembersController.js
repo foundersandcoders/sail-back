@@ -11,6 +11,7 @@
 
 var R = require('ramda')
 var sendSubscribe = require('../services/email_mailgun.js').sendSubscribe
+var get_balance = require('app/get_balance')
 
 module.exports = {
   accountInfo: function (req, res) {
@@ -39,9 +40,19 @@ module.exports = {
       .exec(function (error, items) {
         if (error) {
           return res.serverError(error)
-        } else {
-          return res.send(items[0])
         }
+        Members
+          .findOne(member.id)
+          .populate('events_booked')
+          .populate('membership_type')
+          .populate('payments')
+          .exec(function (err, member) {
+            if (err) {
+              return res.serverError(err)
+            }
+            var balance_due = get_balance(member.payments)
+            return res.send(Object.assign({}, items[0], { balance_due }))
+          })
       })
   },
 

@@ -130,9 +130,10 @@ module.exports = {
   },
 
   addDonation: function (req, res) {
+    var memberId = req.session.user.id
     return Payments
       .create({
-        member: req.session.user.id,
+        member: memberId,
         description: 'Donation made on website',
         amount: parseFloat(req.body.amount) * 100,
         date: new Date(),
@@ -140,7 +141,16 @@ module.exports = {
       })
       .exec(function (err, success) {
         if (err) return res.badRequest(err)
-        return res.send(success)
+        Members
+          .findOne(memberId)
+          .populate('events_booked')
+          .populate('membership_type')
+          .populate('payments')
+          .exec(function (err, member) {
+            if (err) return res.serverError(err)
+            var balance_due = get_balance(member.payments)
+            return res.send(Object.assign({}, { balance_due }, success))
+          })
       })
   },
 
