@@ -27,6 +27,7 @@ if [ "$NODE_ENV" = "heroku" ]; then
   echo "This script is designed to be run locally"
   echo "NODE_ENV is set to $NODE_ENV"
   echo "Exiting script early"
+  exit 1
 fi
 
 # new backup file name
