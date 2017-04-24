@@ -42,6 +42,8 @@ npm run dev
   ...
 ```
 
+## Database backup Documentation in /scripts/db/
+
 ## Q & A
 
 ### Where shall I focus my attentions?

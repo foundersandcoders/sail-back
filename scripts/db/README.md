@@ -31,19 +31,15 @@ y
                                  Dload  Upload   Total   Spent    Left  Speed
 100 8423k  100 8423k    0     0  5306k      0  0:00:01  0:00:01 --:--:-- 5308k
 Archive:  awscli-bundle.zip
-replace awscli-bundle/install? [y]es, [n]o, [A]ll, [N]one, [r]ename:
 ```
 
-This line suggests the aws CLI is already installed, so we can type `N`
 
 ```sh
-replace awscli-bundle/install? [y]es, [n]o, [A]ll, [N]one, [r]ename: N
 Running cmd: /usr/bin/python virtualenv.py --python /usr/bin/python /tmp/aws
 Running cmd: /tmp/aws/bin/pip install --no-index --find-links file:///app/awscli-bundle/packages awscli-1.11.63.tar.gz
 You can now run: /tmp/aws/bin/aws --version
 download: s3://our_bucket_name/heroku_xxxxxxxxxxx9/2017-03-21-14-10-foch-heroku_xxxxxxxxxxx9.sql.gz to ../tmp/s3-backups/2017-03-21-14-10-foch-heroku_xxxxxxxxxxx9.sql.gz
-finished downloading the dump:
-...
+finished downloading the dump
 ```
 
 ```sh
