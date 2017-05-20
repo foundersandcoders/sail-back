@@ -22,13 +22,13 @@ const late = n => ({ greeting, amount, id }) => `
 
   Your annual subscription is ${formatPounds(amount)} and payment can be made by one of the following three methods
 
-  Credit Card or PayPal online from your PC, Mac, smartphone or tablet.
+  - Credit Card or PayPal online from your PC, Mac, smartphone or tablet.
   To do so, go to http://friendsch.org and click on Member Sign-In on the Home page. 
 
-  Direct bank transfer to Friends of Chichester Harbour, Account No: 87037440,
+  - Direct bank transfer to Friends of Chichester Harbour, Account No: 87037440,
   Sort Code 52-41-20 quoting your membership number ${id}
 
-  Sending a cheque, quoting your membership number ${id} to Pam Marrs,
+  - Sending a cheque, quoting your membership number ${id} to Pam Marrs,
   Membership Secretary FOCH, 42 Bracklesham Road, Hayling Island PO11 9SJ
 
   If you do not wish to renew your membership or if you have any problems please let me know by emailing me at membership@friendsch.org. 
@@ -67,13 +67,14 @@ I very much hope that you will continue your membership in support of our volunt
 As well as the considerable financial assistance we give, the Friends provide work parties, every week all year round, which take part in essential maintenance and repairs to the footpaths and nature reserves across the harbour.  You can find more details about the work parties we organise through the following link http://friendsch.org/work-parties/
 
 Your annual subscription is ${formatPounds(amount)} and payment can be made by one of the following three methods:
-Credit Card or PayPal online from your PC, Mac, smartphone or tablet.
+
+- Credit Card or PayPal online from your PC, Mac, smartphone or tablet.
 To do so, go to http://friendsch.org and click on Member Sign-In on the Home page. 
 
-Direct bank transfer to Friends of Chichester Harbour, Account No: 87037440,
+- Direct bank transfer to Friends of Chichester Harbour, Account No: 87037440,
 Sort Code 52-41-20 quoting your membership number ${id}
 
-Sending a cheque, quoting your membership number ${id} to Pam Marrs,
+- Sending a cheque, quoting your membership number ${id} to Pam Marrs,
 Membership Secretary FOCH, 42 Bracklesham Road, Hayling Island PO11 9SJ
 
 
