@@ -1,8 +1,8 @@
 #!/bin/bash
-if [ ! $NODE_ENV = 'heroku' ] && [ ! $NODE_ENV = 'production' ]; then
-  echo "NODE_ENV is $NODE_ENV, so ending run backup early"
-  exit
-fi
+# if [ ! $NODE_ENV = 'heroku' ] && [ ! $NODE_ENV = 'production' ]; then
+#   echo "NODE_ENV is $NODE_ENV, so ending run backup early"
+#   exit
+# fi
 
 # install leftover and create /tmp/aws_install directory for new installation
 rm -rf /tmp/aws && rm -rf /tmp/aws_install
