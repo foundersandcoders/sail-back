@@ -33,6 +33,14 @@
   display: inline-block;
 }
 
+.letter-list {
+  padding: 0;
+}
+
+.letter-list li:nth-child(n+2) {
+  display: none;
+}
+
 .letter-recipients {
   margin-top: 40px;
   margin-left: 50px;
@@ -47,10 +55,6 @@
 
 .clickable-letter-recipient {
   cursor: pointer;
-}
-
-.letter-list li:nth-child(n+2) {
-  display: none;
 }
 
 .letter-page {
@@ -162,9 +166,13 @@
   * {
     border: 0.1px solid transparent;
   }
-
+  .admin-wrapper {
+    margin: 0 !important;
+  }
   .top-letter-container {
-    margin: 0;
+    .letter-components {
+      margin-left: 0;
+    }
   }
 
   .letter-list-container {
