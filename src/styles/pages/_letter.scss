@@ -213,6 +213,7 @@
     border: none;
     padding: 0;
     display: inline-block;
+    page-break-before: always;
 
     h1 {
       font-size: 24px;
