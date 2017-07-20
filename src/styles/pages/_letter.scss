@@ -168,6 +168,9 @@
   @page {
     size: auto;
     margin: 25pt;
+  .letter_content {
+    position: relative;
+    page-break-inside: avoid;
   }
   /* this border fixes a blank first page printing bug on chrome */
   * {

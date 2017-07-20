@@ -6,7 +6,7 @@ export default ({ letter }) => {
       {content.split('\n').map((paragraph, i) =>
         i === 0
           ? <div key={i} className='letter-greeting'> <p>{paragraph}</p></div>
-          : <p key={i}>{paragraph}</p>
+          : <p className='letter-content' key={i}>{paragraph}</p>
        )
       }
     </div>
