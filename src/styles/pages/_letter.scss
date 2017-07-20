@@ -45,7 +45,7 @@
   }
 }
 
-.letter-list li:nth-child(n+2) {
+.letter-list > div:not(:first-child) {
   display: none;
 }
 
@@ -194,8 +194,8 @@
     display: none;
   }
 
-  .letter-list li:nth-child(n+2) {
-    display: inline-block;
+  .letter-list > div:not(:first-child) {
+    display: block;
   }
 
   .sub-letters-header {
