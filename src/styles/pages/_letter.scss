@@ -167,7 +167,8 @@
   /* Remove url and date from top and bottom of printed page */
   @page {
     size: auto;
-    margin: 25pt;
+    margin: 20pt 24pt 20pt 24pt;
+  }
   .letter_content {
     position: relative;
     page-break-inside: avoid;
@@ -187,6 +188,7 @@
 
   .letter-list-container {
     display: inline;
+    border: 0;
   }
 
   body {
@@ -210,13 +212,14 @@
   }
 
   .letter-page {
-    line-height: 19px;
+    line-height: 5mm;
     overflow: visible;
-    margin-top: 40px;
     border: none;
     padding: 0;
     display: inline-block;
     page-break-before: always;
+    margin: 0 8mm 0mm;
+    width: 92%;
 
     h1 {
       font-size: 24px;
