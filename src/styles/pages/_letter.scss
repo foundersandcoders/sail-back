@@ -104,7 +104,6 @@
 .letter-page {
   width: 80%;
   max-width: 800px;
-  height: 75em;
   padding: 80px;
   border: solid black 1px;
   margin: 40px 80px 80px;
@@ -168,7 +167,7 @@
   /* Remove url and date from top and bottom of printed page */
   @page {
     size: auto;
-    margin: 0;
+    margin: 25pt;
   }
   /* this border fixes a blank first page printing bug on chrome */
   * {
@@ -209,7 +208,7 @@
 
   .letter-page {
     line-height: 19px;
-    height: 891.5px;
+    overflow: visible;
     margin-top: 40px;
     border: none;
     padding: 0;
