@@ -169,14 +169,7 @@
     size: auto;
     margin: 20pt 24pt 20pt 24pt;
   }
-  .letter_content {
-    position: relative;
-    page-break-inside: avoid;
-  }
-  /* this border fixes a blank first page printing bug on chrome */
-  * {
-    border: 0.1px solid transparent;
-  }
+  
   .admin-wrapper {
     margin: 0 !important;
   }
@@ -227,7 +220,7 @@
 
     h3 {
       font-size: 12px;
-      margin-top: 15px;
+      margin-top: 0;
       margin-bottom: 0;
     }
 
@@ -254,9 +247,16 @@
     }
 
     .letter p {
-      margin-top: 7px;
-      margin-bottom: 7px;
+      margin-top: 2mm;
+      margin-bottom: 0mm;
     }
+
+    .letter-content {
+      position: relative;
+      page-break-inside: avoid;
+      min-height: 1mm;
+    }
+
 
     .letter span {
       margin-top: 3px;
