@@ -31,9 +31,12 @@ const SubLetters = ({ sub_letters, shown_letter_index, ...props }) =>
     <div className='letter-list-container'>
       <ul className='letter-list'>
       {sorter(shown_letter_index, sub_letters).map((letter, i) => (
-        <li key={i}>
-          <StandingOrderLetter letter={letter}/>
-        </li>
+        <div>
+          <li key={i}>
+            <StandingOrderLetter letter={letter}/>
+          </li>
+          <p className='page-break'>...</p>
+        </div>
       ))}
       </ul>
     </div>

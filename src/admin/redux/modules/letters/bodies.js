@@ -6,18 +6,29 @@ const getOverdue = (days) => {
   return days > 60 ? 60 : 30
 }
 
-exports.sub_reminder_SO = (member) => (`
-  Dear ${member.first_name || member.title + ' ' + member.last_name },
+exports.sub_reminder_SO = (member) => (
+  `Dear ${member.first_name || member.title + ' ' + member.last_name },
 
+  
   We notice that your Standing Order which is normally paid on ${formatDate(member.due_date)} each year has not been paid this year and ${formatPounds(member.amount)} has now been unpaid for over ${getOverdue(member.overdue)} days. We assume that this is probably an administrative error and would be very grateful if you could look into it.
+
 
   If, alternatively, your intention is to cancel your membership of the Friends we’d be grateful if you could let the Membership Secretary (Pam Marrs, 42 Bracklesham Road, Hayling Island PO11 9SJ) know that that is your intention.
 
+
   If you have already sorted the problem out, our apologies and please ignore this letter.
+
+
+
+  Sincerely,
+
+  Chris Williams,
+  Treasurer,
+  Friends of Chichester Harbour
 `)
 
-exports.sub_reminder = ({ title, first_name, last_name, overdue, amount, id }) => (`
-  Dear ${first_name || title + ' ' + last_name },
+exports.sub_reminder = ({ title, first_name, last_name, overdue, amount, id }) => (
+  `Dear ${first_name || title + ' ' + last_name },
 
   The renewal of your annual membership for the Friends of Chichester Harbour is now overdue ${getOverdue(overdue)} days.  I very much hope that you will continue your membership in support of our voluntary activities around the harbour.  If you would like more details about the projects we support or the work parties we organise, please visit our website at www.friendsch.org  
 
@@ -37,16 +48,15 @@ exports.sub_reminder = ({ title, first_name, last_name, overdue, amount, id }) =
   If you have already paid, our apologies and please ignore this letter.
 
 
-  Yours sincerely,
 
-  Pam Marrs
+  Yours sincerely,
 
   Pam Marrs
   Membership Secretary
 `)
 
-exports.subscription_due = ({ id, title, first_name, last_name, due_date, amount}) => (`
-  Dear ${first_name || title + ' ' + last_name },
+exports.subscription_due = ({ id, title, first_name, last_name, due_date, amount}) => (
+  `Dear ${first_name || title + ' ' + last_name },
 
   Your annual membership for the Friends of Chichester Harbour is due for renewal on ${formatDate(due_date)}.
 
@@ -67,9 +77,8 @@ exports.subscription_due = ({ id, title, first_name, last_name, due_date, amount
 
   Please let us know if you have any problems by emailing me at membership@friendsch.org, or by writing to me at the above address. 
 
-  Yours sincerely,
 
-  Pam Marrs
+  Yours sincerely,
 
   Pam Marrs
   Membership Secretary

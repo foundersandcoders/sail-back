@@ -10,5 +10,4 @@ export default ({ letter }) =>
     <LetterHeader />
     <LetterAddresses address={letter.address} />
     <LetterBody letter={letter} />
-    <LetterFooter />
   </div>

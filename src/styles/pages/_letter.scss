@@ -33,6 +33,22 @@
   display: inline-block;
 }
 
+.letter-list {
+  padding: 0;
+
+  .page-break {
+    page-break-after: always;
+    color: rgba(0,0,0,0) !important;
+    height: 0;
+    margin: 0;
+    border: 0;
+  }
+}
+
+.letter-list > div:not(:first-child) {
+  display: none;
+}
+
 .letter-recipients {
   margin-top: 40px;
   margin-left: 50px;
@@ -47,10 +63,6 @@
 
 .clickable-letter-recipient {
   cursor: pointer;
-}
-
-.letter-list li:nth-child(n+2) {
-  display: none;
 }
 
 .letter-page {
@@ -92,7 +104,6 @@
 .letter-page {
   width: 80%;
   max-width: 800px;
-  height: 75em;
   padding: 80px;
   border: solid black 1px;
   margin: 40px 80px 80px;
@@ -156,19 +167,21 @@
   /* Remove url and date from top and bottom of printed page */
   @page {
     size: auto;
-    margin: 0;
+    margin: 20pt 24pt 20pt 24pt;
   }
-  /* this border fixes a blank first page printing bug on chrome */
-  * {
-    border: 0.1px solid transparent;
+  
+  .admin-wrapper {
+    margin: 0 !important;
   }
-
   .top-letter-container {
-    margin: 0;
+    .letter-components {
+      margin-left: 0;
+    }
   }
 
   .letter-list-container {
     display: inline;
+    border: 0;
   }
 
   body {
@@ -179,8 +192,8 @@
     display: none;
   }
 
-  .letter-list li:nth-child(n+2) {
-    display: inline-block;
+  .letter-list > div:not(:first-child) {
+    display: block;
   }
 
   .sub-letters-header {
@@ -192,12 +205,14 @@
   }
 
   .letter-page {
-    line-height: 19px;
-    height: 891.5px;
-    margin-top: 40px;
+    line-height: 5mm;
+    overflow: visible;
     border: none;
     padding: 0;
     display: inline-block;
+    page-break-before: always;
+    margin: 0 8mm 0mm;
+    width: 92%;
 
     h1 {
       font-size: 24px;
@@ -205,7 +220,7 @@
 
     h3 {
       font-size: 12px;
-      margin-top: 15px;
+      margin-top: 0;
       margin-bottom: 0;
     }
 
@@ -232,9 +247,16 @@
     }
 
     .letter p {
-      margin-top: 7px;
-      margin-bottom: 7px;
+      margin-top: 2mm;
+      margin-bottom: 0mm;
     }
+
+    .letter-content {
+      position: relative;
+      page-break-inside: avoid;
+      min-height: 1mm;
+    }
+
 
     .letter span {
       margin-top: 3px;
