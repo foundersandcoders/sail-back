@@ -159,6 +159,7 @@ foch_data/
 uploadData/
 members.csv
 members.json
-
+.env
+backup.sql
 
 .eslintrc.json
