@@ -15,7 +15,7 @@
 var braintree = require('braintree')
 var Validation = require('../services/validate.js')
 var queries = require('../queries/payments.js')
-var { sendEmail } = require('../services/email_mailgun.js')
+var sendEmail = require('../services/email_mailgun.js').sendEmail
 var get_balance = require('app/get_balance')
 var end_membership_email_footer = require('app/end_membership_email_footer')
 
