@@ -42,6 +42,9 @@ npm run dev
   ...
 ```
 
+## Flow
+Flow is no longer being utilized in the test script.
+
 ## Database backup Documentation in /scripts/db/
 
 ## Q & A
