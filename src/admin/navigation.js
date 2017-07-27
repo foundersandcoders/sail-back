@@ -16,6 +16,7 @@ var AdminButtons =
   , 'Emails'
   , 'Letters'
   , 'Change Password'
+  , 'Subs Due'
   ]
 
 var Navigation = React.createClass({
