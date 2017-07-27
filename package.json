@@ -6,7 +6,7 @@
   "style": "src/styles/main.scss",
   "keywords": [],
   "scripts": {
-    "test": "SINGLE=true npm run test:laws && flow && npm run test:server",
+    "test": "SINGLE=true npm run test:laws && npm run test:server",
     "start": "npm run build && sails lift --verbose",
     "debug": "node-debug app.js",
     "dev": "npm run server:w & npm run build:w",
@@ -52,6 +52,7 @@
     "data.task": "3.0.0",
     "email-validator": "1.0.4",
     "es6-promise": "^4.0.5",
+    "grunt": "^1.0.1",
     "joi": "6.4.3",
     "lodash.throttle": "^4.0.1",
     "mailgun-js": "^0.7.11",
