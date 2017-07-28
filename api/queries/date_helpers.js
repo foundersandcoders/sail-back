@@ -24,4 +24,5 @@ var current_year = env =>
 
 exports.set_current = B(set_year, current_year)
 
+// turns '2017-01-05' into 0105
 var month_and_day = date_string => date_string.split('-').slice(1).join()
