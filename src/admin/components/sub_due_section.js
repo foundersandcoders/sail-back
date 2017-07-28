@@ -1,38 +1,37 @@
 import React from 'react'
-import { assoc, reduce, unapply, converge, mergeAll, map } from 'ramda'
+import { isEmpty, assoc, reduce, unapply, converge, mergeAll, map } from 'ramda'
 const { check_tests, date_max, exists } = require('app/validate')
 const standardise_date = require('app/standardise_date')
 
+import Table from '../../shared/components/table/index.js'
+
 import SubDueForm from './sub_due_form.js'
 import { fields } from '../form_fields/sub_due_form.js'
-import ConfirmResetPayments from '../../shared/components/confirm_deletion.js'
 
-export default ({ fetch_sub_due, component, checker, reset_payments, reset_subscription_payments, ...props }) => {
+
+// renders table displaying the members that have been updated
+const subs_due_table = (members) => isEmpty(members)
+  ? <h3 className='table-header'>No members where updated</h3>
+  : (<div><h3 className='table-header'>The following members were updated</h3>
+      <Table className='subs-due-table' data={[['id', 'Name'], members]} />
+    </div>)
+
+
+export default ({ update_subs_due, members }) => {
   const send_request = (data) => {
-    fetch_sub_due(map(standardise_date, data))
+    update_subs_due(map(standardise_date, data))
   }
+
   return (
-    <div>
-      {checker
-        ? component(props)
-        : <SubDueForm fields={fields} onSubmit={send_request} validate={validate}/>
-      }
-      {reset_payments
-        ? <h2>Subscription payments have been reset.</h2>
-        : <ConfirmResetPayments delete={reset_subscription_payments} buttons={reset_payment_button} text='Reset'/>
-      }
+    <div className='subs-due'>
+      <h1>Update Subscriptions Due</h1>
+      <SubDueForm fields={fields} onSubmit={send_request} validate={validate} />
+      {members === null || subs_due_table(members)}
     </div>
   )
 }
 
-const reset_payment_button = ({ confirmation, which_text, which_delete, reset }) =>
-  <div className='reset-payments'>
-    <h2>Would you like to reset all subscription payments made within the last 48 hours?</h2>
-    <button onClick={which_delete()} className={confirmation ? 'green' : ''}>
-      {which_text()}
-    </button>
-    {confirmation && <button onClick={reset} className='red'>Cancel</button>}
-  </div>
+
 
 const validate = values => {
   const date_tests = reduce
