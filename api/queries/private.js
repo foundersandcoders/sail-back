@@ -46,9 +46,6 @@ exports.update_subscription = body =>
   where members.membership_type = membershiptypes.value
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
-  and ${body.news_type === 'online'
-      ? 'primary_email is not null and email_bounced != true'
-      : '(primary_email is null or email_bounced = true)'}
   and
     date_sub(${date}, interval 11 month)
     > (ifnull((select max(date) from payments
@@ -65,9 +62,6 @@ exports.subscription_due_template = body =>
   and (standing_order is null or standing_order=false)
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
-  and ${body.news_type === 'online'
-      ? 'primary_email is not null and email_bounced != true'
-      : '(primary_email is null or email_bounced = true)'}
   and
     date_sub(${date}, interval 11 month)
     > (ifnull((select max(date) from payments
