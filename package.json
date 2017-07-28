@@ -6,7 +6,7 @@
   "style": "src/styles/main.scss",
   "keywords": [],
   "scripts": {
-    "test": "SINGLE=true npm run test:laws && npm run test:server",
+    "test": "NODE_ENV=test SINGLE=true npm run test:laws && npm run test:server",
     "start": "npm run build && sails lift --verbose",
     "debug": "node-debug app.js",
     "dev": "npm run server:w & npm run build:w",
