@@ -1,6 +1,7 @@
 'use strict'
 var R = require('ramda')
 var aSync = require('async')
+var end_membership_email_footer = require('app/end_membership_email_footer')
 
 // Set the folowing to randomString so app doesn't crash in environments where
 // mailgun api key is not provided, for example testing and travis.
@@ -17,6 +18,8 @@ if (process.env.NODE_ENV === 'heroku') {
 
 var domain = 'friendsch.org'
 var mailgun = require('mailgun-js')({ apiKey, domain })
+
+
 
 module.exports = {
 
@@ -84,6 +87,7 @@ module.exports = {
              , 'Oliver Chipperfield'
              , 'Chair'
              , 'Friends of Chichester Harbour'
+             , end_membership_email_footer
            ].join('\n\n')
     } else if (type === 'forgotPass') {
       html = [ 'From Friends of Chichester Harbour'
@@ -92,6 +96,7 @@ module.exports = {
              + 'change it to a more memorable one if you wish by clicking Change Password. '
              , 'Please do not reply to messenger@friendsch.org which is an automated address – '
              + 'if you have any query please contact membership@friendsch.org.'
+             , end_membership_email_footer
              ].join('\n\n')
     }
 

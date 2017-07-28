@@ -17,6 +17,7 @@ var Validation = require('../services/validate.js')
 var queries = require('../queries/payments.js')
 var sendEmail = require('../services/email_mailgun.js').sendEmail
 var get_balance = require('app/get_balance')
+var end_membership_email_footer = require('app/end_membership_email_footer')
 
 // ATTENTION: sandbox credentials: need real credentials and must be kept PRIVATE
 var gateway = braintree.connect({
@@ -91,7 +92,7 @@ module.exports = {
                     to: req.session.user.primary_email,
                     from: 'messenger@friendsch.org',
                     subject: 'Payment Confirmation',
-                    text: 'Thank you for your Credit Card/PayPal payment.\n\nTreasurer\n\nFriends of Chichester Harbour'
+                    text: 'Thank you for your Credit Card/PayPal payment.\n\nTreasurer\n\nFriends of Chichester Harbour' + end_membership_email_footer
                   }, function () {
                     return res.send(formatted)
                   })
