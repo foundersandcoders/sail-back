@@ -56,7 +56,7 @@ exports.update_subscription = body =>
   and activation_status='activated';`
 
 exports.subscription_due_template = body =>
-  `select ${columns}, id, due_date, membership_type, amount
+  `select ${columns}, id, due_date, membership_type, amount, news_type
   from members, membershiptypes
   where members.membership_type = membershiptypes.value
   and (standing_order is null or standing_order=false)

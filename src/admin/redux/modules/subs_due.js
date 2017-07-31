@@ -1,8 +1,10 @@
 /* @flow */
 const { createAction } = require('redux-actions')
 const { post_body } = require('app/http')
-
+const { format_due_date } = require('app/format_date')
+const { formatPounds } = require('app/monies')
 const { map } = require('ramda')
+
 
 import { PATH_UPDATE } from '../../../shared/redux/modules/route.js'
 
@@ -29,7 +31,13 @@ export const update_subs_due =
 // from [{id: 1, first_name: 'Wayne', last_name: 'Rooney', ...}, ...]
 // to [[1, 'Wayne Rooney'], ...]
 const shape_members =
-  map(member => [member.id, name_from_member(member)])
+  map(member =>
+    [ member.id
+    , name_from_member(member)
+    , formatPounds(member.amount)
+    , format_due_date(member.due_date)
+    , member.news_type
+  ])
 
 const name_from_member =
   member =>

@@ -6,14 +6,18 @@
   }
 
   .subs-due-table {
-    width: 50rem;
-
-    .table-entry.id {
-      flex: 0.3;
-    }
+    width: 60rem;
 
     .table-body {
       overflow-y: visible;
     }
+
+    .table-entry.member-no {
+      flex: 0.7;
+    }
+    .table-entry.news-type {
+      text-transform: capitalize;
+    }
+
   }
 }

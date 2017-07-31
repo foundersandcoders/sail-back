@@ -13,7 +13,7 @@ import { fields } from '../form_fields/sub_due_form.js'
 const subs_due_table = (members) => isEmpty(members)
   ? <h3 className='table-header'>No members where updated</h3>
   : (<div><h3 className='table-header'>The following members were updated</h3>
-      <Table className='subs-due-table' data={[['id', 'Name'], members]} />
+      <Table className='subs-due-table' data={[['Member No', 'Name', 'Amount', 'Due Date', 'News Type'], members]} />
     </div>)
 
 
