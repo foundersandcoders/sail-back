@@ -83,7 +83,7 @@ module.exports = {
         }
       })
   },
-  sendSubsDue: function (req, res) {
+  subsDue: function (req, res) {
     var response_callback = (err, results) => {
       if (err) return res.badRequest({ error: err })
       return res.json({ results: results[0] })
@@ -100,6 +100,12 @@ module.exports = {
       , response_callback
     )
   },
+
+  subsDueCorrespondence: function (req, res) {
+    console.log(req.body)
+    return membersQuery(queries['update_subscription'])(req.body)
+  },
+
   Upload: function (req, res) {
     /**
      *  The sign '&' (ampersand) splits the

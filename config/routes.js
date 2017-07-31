@@ -125,7 +125,11 @@ module.exports.routes = {
   },
   'POST /api/subscription-due': {
     controller: 'Private',
-    action: 'sendSubsDue'
+    action: 'subsDue'
+  },
+  'GET /api/subscription-due-correspondence': {
+    controller: 'Private',
+    action: 'subsDueCorrespondence'
   },
   'GET /api/newsletter-alert': {
     controller: 'Private',

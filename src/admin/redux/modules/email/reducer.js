@@ -174,7 +174,8 @@ export const send_newsletter_reminder =
   createAction(SEND_NEWSLETTER_REMINDER, () => get_body('api/newsletter-alert'))
 
 export const send_subscription_due_email =
-  createAction(SEND_SUBSCRIPTION_DUE_EMAIL, body => post_body({...body, news_type: 'online'}, 'api/subscription-due'))
+  createAction(SEND_SUBSCRIPTION_DUE_EMAIL, body =>
+    post_body({...body, news_type: 'online'}, 'api/subscription-due-correspondence'))
 
 export const compose_custom =
   createAction(COMPOSE_CUSTOM, () => get_body('api/custom-email'))

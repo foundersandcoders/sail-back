@@ -66,7 +66,7 @@ export const toggle_recipient_list =
   createAction(TOGGLE_RECIPIENT_LIST)
 
 export const send_subscription_due_post =
-  createAction(SEND_SUBSCRIPTION_DUE_POST, body => post_body({...body, news_type: 'post'}, 'api/subscription-due'))
+  createAction(SEND_SUBSCRIPTION_DUE_POST, body => post_body({...body, news_type: 'post'}, 'api/subscription-due-correspondence'))
 
 export const subscription_due_post_tab =
   createAction(SUBSCRIPTION_DUE_POST_TAB)
