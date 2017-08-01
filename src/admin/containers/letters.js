@@ -11,8 +11,6 @@ import { send_sub_reminder_post
        , SUBSCRIPTION_DUE_POST_TAB
        } from '../redux/modules/letters/letters.js'
 
-import { reset_subscription_payments } from '../redux/modules/reset_payments.js'
-
 import sub_letters_section from '../components/letters/sub_letters_section.js'
 import sub_due_section from '../components/sub_due_section.js'
 
@@ -51,18 +49,11 @@ const map_tab =
   , [SUBSCRIPTION_DUE_POST_TAB]: compose(sub_due_section, sub_due)
 }
 
-export default
-  connect(converge(merge, [compose(pick(
-    [ 'sub_letters'
-    , 'post_members'
-    , 'active_tab'
-    , 'shown'
-    , 'shown_letter_index'
-    ]), prop('letters')), pick([ 'reset_payments' ])]),
-    { send_sub_reminder_post
-    , toggle_recipient_list
-    , subscription_due_post_tab
-    , send_subscription_due_post
-    , show_letter
-    , reset_subscription_payments
-  })(Letters)
+export default connect
+    ( prop('letters')
+    , { send_sub_reminder_post
+      , toggle_recipient_list
+      , subscription_due_post_tab
+      , send_subscription_due_post
+      , show_letter
+    })(Letters)

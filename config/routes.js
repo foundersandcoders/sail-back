@@ -178,11 +178,6 @@ module.exports.routes = {
     action: 'get_bounced'
   },
 
-  'DELETE /api/reset-subscription-payments': {
-    controller: 'Private',
-    action: 'reset_subscription_payments'
-  },
-
 // ------------------------------------------------------------------------
 // Analyses
 // ------------------------------------------------------------------------

@@ -36,10 +36,6 @@ module.exports = {
     mg.getBounced(response_callback(res))
   },
 
-  reset_subscription_payments: function (req, res) { //eslint-disable-line
-    Payments.query(queries.reset_subscription_payments, response_callback(res))
-  },
-
   addmember: function (req, res) {
     var member = req.allParams()
 

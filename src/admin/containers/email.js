@@ -30,8 +30,6 @@ import
   , GET_BOUNCED
   } from '../redux/modules/email/reducer.js'
 
-import { reset_subscription_payments } from '../redux/modules/reset_payments.js'
-
 const Email = (
   { send_sub_reminder: sub
   , send_newsletter: news
@@ -164,16 +162,7 @@ const without_default = cb => e => {
 }
 
 export default connect
-  ( converge(merge, [compose(pick(
-    [ 'emails'
-    , 'list_hidden'
-    , 'custom_emails'
-    , 'email_sent'
-    , 'bounced'
-    , 'active_tab'
-    , 'invalid_emails'
-    , 'button_disabled'
-    ]), prop('email')), pick([ 'reset_payments' ])])
+  ( prop('email')
   , { send_sub_reminder
     , send_newsletter
     , send_newsletter_reminder
@@ -187,7 +176,6 @@ export default connect
     , sub_due_tab
     , preview_custom
     , edit_custom
-    , reset_subscription_payments
     , disable_button
     }
   )(Email)

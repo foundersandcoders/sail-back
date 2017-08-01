@@ -96,11 +96,6 @@ exports.newsletter_labels = () =>
   and activation_status='activated'
   and membership_type != 'accounts';`
 
-exports.reset_subscription_payments =
-  `delete from payments
-  where createdAt >= date_sub(curdate(), interval 2 day)
-  and category='subscription';`
-
 exports.list_deliverers = () =>
   `select deliverer from members
     group by deliverer;`
