@@ -127,7 +127,7 @@ module.exports.routes = {
     controller: 'Private',
     action: 'subsDue'
   },
-  'GET /api/subscription-due-correspondence': {
+  'POST /api/subscription-due-correspondence': {
     controller: 'Private',
     action: 'subsDueCorrespondence'
   },

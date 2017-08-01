@@ -99,7 +99,7 @@ module.exports = {
 
   subsDueCorrespondence: function (req, res) {
     console.log(req.body)
-    return membersQuery(queries['update_subscription'])(req.body)
+    Payments.query(queries['subscription_due_template'](req.body), response_callback(res))
   },
 
   Upload: function (req, res) {
