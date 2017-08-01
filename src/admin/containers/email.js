@@ -5,7 +5,7 @@ const { pick, toPairs, prop, zip, compose, map, isEmpty, converge, merge } = req
 import format_date from 'app/format_date'
 
 import custom_email_section from '../components/custom_email_section.js'
-import sub_due_section from '../components/sub_due_section.js'
+import subs_due_correspondence from '../components/subs_due_correspondence.js'
 
 import
   { send_sub_reminder
@@ -119,7 +119,7 @@ const map_tab =
   { [SEND_SUB_REMINDER]: email_list
   , [SEND_NEWSLETTER]: email_list
   , [SEND_NEWSLETTER_REMINDER]: email_list
-  , [SUB_DUE_TAB]: compose(sub_due_section, sub_due)
+  , [SUB_DUE_TAB]: compose(subs_due_correspondence, sub_due)
   , [COMPOSE_CUSTOM]: custom_email_section
   , [GET_BOUNCED]: BouncedEmails
 }
