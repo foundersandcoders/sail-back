@@ -67,7 +67,7 @@ exports.subscription_due_template = body =>
   ${body.news_type
     ? body.news_type === 'online'
       ? 'and primary_email is not null and email_bounced != true '
-      : 'and (primary_email is null or email_bounced = true)} '
+      : 'and (primary_email is null or email_bounced = true) '
     : ' ' // if no news_type given, this query is uesed to retrieve all members who have a subscription due
   }
   and
