@@ -58,7 +58,7 @@ exports.update_subscription = body =>
 
 // if news_type is given, then this is used to send correspondence
 exports.subscription_due_template = body =>
-  `select ${columns}, id, due_date, membership_type, amount, news_type
+  `select ${columns}, id, due_date, membership_type, amount, news_type, email_bounced
   from members, membershiptypes
   where members.membership_type = membershiptypes.value
   and (standing_order is null or standing_order=false)
