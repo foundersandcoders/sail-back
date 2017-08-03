@@ -37,6 +37,7 @@ const shape_members =
     , formatPounds(member.amount)
     , format_due_date(member.due_date)
     , member.news_type
+    , formatPounds(member.balance_due * 100)
   ])
 
 const name_from_member =

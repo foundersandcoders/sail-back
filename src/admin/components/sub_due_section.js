@@ -13,7 +13,9 @@ import { fields } from '../form_fields/sub_due_form.js'
 const subs_due_table = (members) => isEmpty(members)
   ? <h3 className='table-header'>No members where updated</h3>
   : (<div><h3 className='table-header'>The following members were updated</h3>
-      <Table className='subs-due-table' data={[['Member No', 'Name', 'Amount', 'Due Date', 'News Type'], members]} />
+      <Table className='subs-due-table'
+        data={[[ 'Member No', 'Name', 'Amount', 'Due Date', 'Email/Letter', 'Balance Due'], members]}
+      />
     </div>)
 
 
@@ -25,7 +27,7 @@ export default ({ update_subs_due, members }) => {
   return (
     <div className='subs-due'>
       <h1>Update Subscriptions Due</h1>
-      <SubDueForm fields={fields} onSubmit={send_request} validate={validate} />
+      <SubDueForm fields={fields} onSubmit={send_request} validate={validate} button_text="Update Members" />
       {members === null || subs_due_table(members)}
     </div>
   )
