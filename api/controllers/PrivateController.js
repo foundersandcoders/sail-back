@@ -82,16 +82,28 @@ module.exports = {
   subsDue: function (req, res) {
     var response_callback = (err, results) => {
       if (err) return res.badRequest({ error: err })
-      return res.json({ results: results[0] })
+      return res.json({ results })
     }
 
-    var dbCall = queryString => cb => {
-      Members.query(queries[queryString](req.body), cb)
-    }
+    // helper function to get the id's of the affected members
+    var ids = R.map(R.prop('id'))
 
-    async.series(
-      [ dbCall('subscription_due_template')
-      , dbCall('update_subscription')
+    async.waterfall(
+      // first query gets all members who have a subscription due
+      [ (cb) => Members.query(queries['subscription_due_template'](req.body), (err, members) => cb(err, members, ids(members)))
+      // second updates the subscription charge
+      , (members, ids, cb) => Members.query(queries['update_subscription'](req.body), (err, res) => cb(err, members, ids))
+      // third gets all members that have been returned from first query
+      // and works out their balance due and adds 'balance_due' to the object before sending to front end
+      , (members, ids, cb) => Members.find({id: ids}).populate('payments').exec((err, members_with_payments) => {
+          if (err) return res.badRequest({ error: err })
+
+          var members_balances = members_with_payments.map(m => ({ balance_due: get_balance(m.payments) }))
+          var members_with_balance_due = R.zipWith(R.merge)(members, members_balances)
+
+          // results will now be the members with balance_due added
+          cb(err, members_with_balance_due)
+      })
       ]
       , response_callback
     )
