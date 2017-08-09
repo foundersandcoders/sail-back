@@ -10,8 +10,6 @@ export default ({ fetch_sub_due, component, checker, ...props }) => {
   const send_request = (data) => {
     fetch_sub_due(map(standardise_date, data))
   }
-  console.log("in sub due correspondence");
-  console.log(checker);
 
   return (
     <div>
