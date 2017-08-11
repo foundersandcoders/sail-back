@@ -13,7 +13,7 @@ export default ({ letter }) => {
   )
   return (
     <div className='letter'>
-      <h3>Membership Number: {letter.id}</h3>
+      <h3 className='membership-number'>Membership Number: {letter.id}</h3>
         {formatContent(letter.letter_content)}
     </div>
   )

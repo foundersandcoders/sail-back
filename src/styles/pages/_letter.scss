@@ -162,6 +162,10 @@
   .letter-footer {
     margin-top: 50px;
   }
+
+  .membership-number {
+    font-weight: bold;
+  }
 }
 @media print {
   /* Remove url and date from top and bottom of printed page */
@@ -169,7 +173,7 @@
     size: auto;
     margin: 20pt 24pt 20pt 24pt;
   }
-  
+
   .admin-wrapper {
     margin: 0 !important;
   }
