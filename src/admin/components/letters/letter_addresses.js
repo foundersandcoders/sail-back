@@ -17,7 +17,7 @@ export default ({ address }) => {
         42 Bracklesham Road, <br />
         Hayling Island, Hampshire <br />
         PO11 9SJ <br />
-        e-mail: membershipsecretary@friendsch.org
+        e-mail: membership@friendsch.org
       </div>
     </div>
   )
