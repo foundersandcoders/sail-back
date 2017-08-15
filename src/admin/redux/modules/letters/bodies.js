@@ -61,14 +61,13 @@ I very much hope that you will continue your membership in support of our volunt
 If as part of your membership you would like to be more involved please let us know.
 
 Your annual subscription is ${formatPounds(amount)} and payment can be made by one of the following three methods:
-Credit Card or PayPal online from your PC, Mac, smartphone or tablet.
+
+● Credit Card or PayPal online from your PC, Mac, smartphone or tablet.
 To do so, go to http://friendsch.org and click on Member Sign-In on the Home page.
 
-Direct bank transfer to Friends of Chichester Harbour, Account No: 87037440,
-Sort Code 52-41-20 quoting your membership number ${id}
+● Direct bank transfer to Friends of Chichester Harbour, Account No: 87037440, Sort Code 52-41-20 quoting your membership number ${id}
 
-Sending a cheque, quoting your membership number ${id} to Pam Marrs,
-Membership Secretary FOCH, 42 Bracklesham Road, Hayling Island PO11 9SJ
+● Sending a cheque, quoting your membership number ${id} to Pam Marrs, Membership Secretary FOCH, 42 Bracklesham Road, Hayling Island PO11 9SJ
 
 Please let us know if you have any problems by emailing me at membership@friendsch.org,
 or by writing to me at the above address.
