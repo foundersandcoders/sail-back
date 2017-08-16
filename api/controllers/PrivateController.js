@@ -110,7 +110,7 @@ module.exports = {
   },
 
   subsDueCorrespondence: function (req, res) {
-    Payments.query(queries['subscription_due_template'](req.body), response_callback(res))
+    Payments.query(queries['subs_due_correspondence'](req.body), response_callback(res))
   },
 
   Upload: function (req, res) {
