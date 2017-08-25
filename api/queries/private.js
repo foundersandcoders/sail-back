@@ -56,7 +56,7 @@ exports.update_subscription = body =>
   and activation_status='activated';`
 
 
-// if news_type is given, then this is used to send correspondence
+// get all members who have a subscription due in time period
 exports.subscription_due_template = body =>
   `select ${columns}, id, due_date, membership_type, amount, news_type, email_bounced
   from members, membershiptypes
@@ -64,12 +64,6 @@ exports.subscription_due_template = body =>
   and (standing_order is null or standing_order=false)
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
-  ${body.news_type
-    ? body.news_type === 'online'
-      ? 'and primary_email is not null and email_bounced != true '
-      : 'and (primary_email is null or email_bounced = true) '
-    : ' ' // if no news_type given, this query is uesed to retrieve all members who have a subscription due
-  }
   and
     date_sub(${date}, interval 11 month)
     > (ifnull((select max(date) from payments
