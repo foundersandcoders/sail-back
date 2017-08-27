@@ -2,7 +2,7 @@ import React from 'react'
 import { isEmpty } from 'ramda'
 
 import LetterRecipients from './letter_recipients.js'
-import StandingOrderLetter from './standing_order_letter.js'
+import LetterBuilder from './LetterBuilder.js'
 
 export default ({ toggle_recipient_list, shown, ...props }) => {
   return (
@@ -33,7 +33,7 @@ const SubLetters = ({ sub_letters, shown_letter_index, ...props }) =>
       {sorter(shown_letter_index, sub_letters).map((letter, i) => (
         <div>
           <li key={i}>
-            <StandingOrderLetter letter={letter}/>
+            <LetterBuilder letter={letter}/>
           </li>
           <p className='page-break'>...</p>
         </div>

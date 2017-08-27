@@ -6,27 +6,6 @@ const getOverdue = (days) => {
   return days > 60 ? 60 : 30
 }
 
-exports.sub_reminder_SO = (member) => (
-  `Dear ${member.first_name || member.title + ' ' + member.last_name },
-
-
-  We notice that your Standing Order which is normally paid on ${formatDate(member.due_date)} each year has not been paid this year and ${formatPounds(member.amount)} has now been unpaid for over ${getOverdue(member.overdue)} days. We assume that this is probably an administrative error and would be very grateful if you could look into it.
-
-
-  If, alternatively, your intention is to cancel your membership of the Friends we’d be grateful if you could let the Membership Secretary (Pam Marrs, 42 Bracklesham Road, Hayling Island PO11 9SJ) know that that is your intention.
-
-
-  If you have already sorted the problem out, our apologies and please ignore this letter.
-
-
-
-  Sincerely,
-
-  Chris Williams,
-  Treasurer,
-  Friends of Chichester Harbour
-`)
-
 exports.sub_reminder = ({ title, first_name, last_name, overdue, amount, id }) => (
 `Dear ${first_name || title + ' ' + last_name }
 
