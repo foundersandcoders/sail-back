@@ -41,19 +41,6 @@ ${end_membership_email_footer}
 
 exports.lates = [ 30, 60, 90 ].map(late)
 
-const standing = n => ({ greeting, amount, due_date }) =>
-`Friends of Chichester Harbour
-Dear ${greeting},
-We notice that your Standing Order which is normally paid on ${format(due_date)} each year has not been paid this year and ${formatPounds(amount)} has now been unpaid for over ${n} days. We assume that this is probably an administrative error and would be very grateful if you could look into it. If, alternatively, your intention is to cancel your membership of the Friends we’d be grateful if you could email the Membership Secretary on membership@friendsch.org to that effect. If you have already sorted the problem out, our apologies and please ignore this email.
-Please do not reply to the messenger address above. If you wish to reply please use membership@friendsch.org.
-
-Chris Williams, Treasurer FoCH
-${end_membership_email_footer}
-`
-
-exports.standing = [ 30, 60, 90 ].map(standing)
-
-
 exports.subscription_due = ({ greeting, amount, due_date, id}) =>
 `Friends of Chichester Harbour
 Dear ${greeting},
