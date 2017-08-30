@@ -36,6 +36,6 @@ const shape_members =
     , full_name(member)
     , formatPounds(member.amount)
     , format_due_date(member.due_date)
-    , can_email(member) ? 'Email' : 'Letter'
+    , member.standing_order ? 'Standing order' : (can_email(member) ? 'Email' : 'Letter')
     , formatPounds(member.balance_due * 100)
   ])

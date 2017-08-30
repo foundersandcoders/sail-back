@@ -58,8 +58,8 @@ exports.update_subscription = body =>
 
 // get all members who have a subscription due in time period
 exports.subscription_due_template = body =>
-  `select ${columns}, id, due_date, membership_type, amount, news_type, email_bounced
-  from members, membershiptypes
+  `select ${columns}, id, due_date, membership_type, amount, news_type, email_bounced,
+  standing_order from members, membershiptypes
   where members.membership_type = membershiptypes.value
   and (standing_order is null or standing_order=false)
   and members.membership_type in
@@ -86,7 +86,8 @@ sum(case payments.category
 from members right outer join payments
 on members.id = payments.member
 where
-  activation_status='activated'
+  standing_order is not true
+  and activation_status='activated'
   ${body.news_type === 'online'
       ? 'and primary_email is not null and email_bounced != true '
       : 'and (primary_email is null or email_bounced = true) '
