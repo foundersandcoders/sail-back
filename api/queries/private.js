@@ -61,7 +61,6 @@ exports.subscription_due_template = body =>
   `select ${columns}, id, due_date, membership_type, amount, news_type, email_bounced,
   standing_order from members, membershiptypes
   where members.membership_type = membershiptypes.value
-  and (standing_order is null or standing_order=false)
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
   and
