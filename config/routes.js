@@ -125,7 +125,11 @@ module.exports.routes = {
   },
   'POST /api/subscription-due': {
     controller: 'Private',
-    action: 'sendSubsDue'
+    action: 'subsDue'
+  },
+  'POST /api/subscription-due-correspondence': {
+    controller: 'Private',
+    action: 'subsDueCorrespondence'
   },
   'GET /api/newsletter-alert': {
     controller: 'Private',
@@ -172,11 +176,6 @@ module.exports.routes = {
   'GET /api/get-bounced': {
     controller: 'Private',
     action: 'get_bounced'
-  },
-
-  'DELETE /api/reset-subscription-payments': {
-    controller: 'Private',
-    action: 'reset_subscription_payments'
   },
 
 // ------------------------------------------------------------------------

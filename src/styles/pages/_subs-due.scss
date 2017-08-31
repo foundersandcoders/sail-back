@@ -1,0 +1,23 @@
+.subs-due {
+  margin-left: 5rem;
+
+  .table-header {
+    margin-top: 10rem;
+  }
+
+  .subs-due-table {
+    width: 100rem;
+
+    .table-body {
+      overflow-y: visible;
+    }
+
+    .table-entry.member-no {
+      flex: 0.7;
+    }
+    .table-entry.news-type {
+      text-transform: capitalize;
+    }
+
+  }
+}

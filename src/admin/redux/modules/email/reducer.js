@@ -9,7 +9,7 @@ const
   = require('ramda')
 const { pipe, compose } = require('sanctuary')
 
-const { standing, lates, newsletter_alert, newsletter_reminder, subscription_due } =
+const { lates, newsletter_alert, newsletter_reminder, subscription_due } =
   require('./bodies.js')
 
 import { PATH_UPDATE } from '../../../../shared/redux/modules/route.js'
@@ -130,15 +130,7 @@ const time_check = pipe([gte, objOf('overdue'), where])
 const templating =
   compose(cond, zip(map(time_check, [60, 90, Infinity])))
 
-const missing_standing_order = templating(standing)
-
-const late_payment = templating(lates)
-
-const template_subs = ifElse
-  ( propOr(false, 'standing_order')
-  , missing_standing_order
-  , late_payment
-  )
+const template_subs = templating(lates)
 
 const indexByProp = compose(indexBy, propOr(''))
 
@@ -174,7 +166,8 @@ export const send_newsletter_reminder =
   createAction(SEND_NEWSLETTER_REMINDER, () => get_body('api/newsletter-alert'))
 
 export const send_subscription_due_email =
-  createAction(SEND_SUBSCRIPTION_DUE_EMAIL, body => post_body({...body, news_type: 'online'}, 'api/subscription-due'))
+  createAction(SEND_SUBSCRIPTION_DUE_EMAIL, body =>
+    post_body({...body, news_type: 'online'}, 'api/subscription-due-correspondence'))
 
 export const compose_custom =
   createAction(COMPOSE_CUSTOM, () => get_body('api/custom-email'))

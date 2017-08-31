@@ -11,10 +11,8 @@ import { send_sub_reminder_post
        , SUBSCRIPTION_DUE_POST_TAB
        } from '../redux/modules/letters/letters.js'
 
-import { reset_subscription_payments } from '../redux/modules/reset_payments.js'
-
 import sub_letters_section from '../components/letters/sub_letters_section.js'
-import sub_due_section from '../components/sub_due_section.js'
+import subs_due_correspondence from '../components/subs_due_correspondence.js'
 
 const Letters = ({ send_sub_reminder_post, active_tab, subscription_due_post_tab, ...other }) =>
   <div className='top-letter-container'>
@@ -29,8 +27,7 @@ const Letters = ({ send_sub_reminder_post, active_tab, subscription_due_post_tab
     <button
       className={'tabs' + (active_tab === SEND_SUB_REMINDER_POST ? ' tabs-active' : '')}
       onClick={send_sub_reminder_post}
-    >
-      Balance Overdue Letter
+    > Balance Overdue Letter
     </button>
 
     <div className='letter-components'>
@@ -46,23 +43,17 @@ const sub_due = props => (
   }
 )
 
+
 const map_tab =
   { [SEND_SUB_REMINDER_POST]: sub_letters_section
-  , [SUBSCRIPTION_DUE_POST_TAB]: compose(sub_due_section, sub_due)
+  , [SUBSCRIPTION_DUE_POST_TAB]: compose(subs_due_correspondence, sub_due)
 }
 
-export default
-  connect(converge(merge, [compose(pick(
-    [ 'sub_letters'
-    , 'post_members'
-    , 'active_tab'
-    , 'shown'
-    , 'shown_letter_index'
-    ]), prop('letters')), pick([ 'reset_payments' ])]),
-    { send_sub_reminder_post
-    , toggle_recipient_list
-    , subscription_due_post_tab
-    , send_subscription_due_post
-    , show_letter
-    , reset_subscription_payments
-  })(Letters)
+export default connect
+    ( prop('letters')
+    , { send_sub_reminder_post
+      , toggle_recipient_list
+      , subscription_due_post_tab
+      , send_subscription_due_post
+      , show_letter
+    })(Letters)

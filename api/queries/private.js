@@ -46,9 +46,6 @@ exports.update_subscription = body =>
   where members.membership_type = membershiptypes.value
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
-  and ${body.news_type === 'online'
-      ? 'primary_email is not null and email_bounced != true'
-      : '(primary_email is null or email_bounced = true)'}
   and
     date_sub(${date}, interval 11 month)
     > (ifnull((select max(date) from payments
@@ -58,16 +55,14 @@ exports.update_subscription = body =>
   and ${d.due_dates(body.start)(body.end)('members.due_date')}
   and activation_status='activated';`
 
+
+// get all members who have a subscription due in time period
 exports.subscription_due_template = body =>
-  `select ${columns}, id, due_date, membership_type, amount
-  from members, membershiptypes
+  `select ${columns}, id, due_date, membership_type, amount, news_type, email_bounced,
+  standing_order from members, membershiptypes
   where members.membership_type = membershiptypes.value
-  and (standing_order is null or standing_order=false)
   and members.membership_type in
   ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
-  and ${body.news_type === 'online'
-      ? 'primary_email is not null and email_bounced != true'
-      : '(primary_email is null or email_bounced = true)'}
   and
     date_sub(${date}, interval 11 month)
     > (ifnull((select max(date) from payments
@@ -76,6 +71,43 @@ exports.subscription_due_template = body =>
     )
   and ${d.due_dates(body.start)(body.end)('members.due_date')}
   and activation_status='activated';`
+
+exports.subs_due_correspondence = (body) => `
+select first_name, last_name, title, address1, address2,
+address3, address4, county, postcode, primary_email, secondary_email,
+datediff(curdate(), max(payments.date)) as overdue,
+members.standing_order, members.due_date, members.id,
+sum(case payments.category
+    when 'payment' then -payments.amount
+    else                 payments.amount
+    end
+) as amount
+from members right outer join payments
+on members.id = payments.member
+where
+  standing_order is not true
+  and activation_status='activated'
+  ${body.news_type === 'online'
+      ? 'and primary_email is not null and email_bounced != true '
+      : 'and (primary_email is null or email_bounced = true) '
+  }
+  and members.membership_type in
+    ('annual-single', 'annual-double', 'annual-family', 'annual-corporate', 'annual-group')
+  group by members.id
+  # ensure balance due is > 0
+  having
+    sum(case payments.category
+      when 'payment' then -payments.amount
+      else                 payments.amount
+      end) > 0
+  and
+    # ensure the member has a subscription charge made in the dates provided
+    members.id in (
+      select member from payments
+      where category = 'subscription'
+      and date between date_format("${body.start}", "%Y-%m-%d") and date_format("${body.end}", "%Y-%m-%d")
+    );
+`
 
 exports.custom_email = () =>
   `select first_name, last_name, title, primary_email, secondary_email
@@ -93,11 +125,6 @@ exports.newsletter_labels = () =>
   or members.email_bounced = true)
   and activation_status='activated'
   and membership_type != 'accounts';`
-
-exports.reset_subscription_payments =
-  `delete from payments
-  where createdAt >= date_sub(curdate(), interval 2 day)
-  and category='subscription';`
 
 exports.list_deliverers = () =>
   `select deliverer from members

@@ -5,7 +5,7 @@ const { pick, toPairs, prop, zip, compose, map, isEmpty, converge, merge } = req
 import format_date from 'app/format_date'
 
 import custom_email_section from '../components/custom_email_section.js'
-import sub_due_section from '../components/sub_due_section.js'
+import subs_due_correspondence from '../components/subs_due_correspondence.js'
 
 import
   { send_sub_reminder
@@ -29,8 +29,6 @@ import
   , COMPOSE_CUSTOM
   , GET_BOUNCED
   } from '../redux/modules/email/reducer.js'
-
-import { reset_subscription_payments } from '../redux/modules/reset_payments.js'
 
 const Email = (
   { send_sub_reminder: sub
@@ -121,7 +119,7 @@ const map_tab =
   { [SEND_SUB_REMINDER]: email_list
   , [SEND_NEWSLETTER]: email_list
   , [SEND_NEWSLETTER_REMINDER]: email_list
-  , [SUB_DUE_TAB]: compose(sub_due_section, sub_due)
+  , [SUB_DUE_TAB]: compose(subs_due_correspondence, sub_due)
   , [COMPOSE_CUSTOM]: custom_email_section
   , [GET_BOUNCED]: BouncedEmails
 }
@@ -164,16 +162,7 @@ const without_default = cb => e => {
 }
 
 export default connect
-  ( converge(merge, [compose(pick(
-    [ 'emails'
-    , 'list_hidden'
-    , 'custom_emails'
-    , 'email_sent'
-    , 'bounced'
-    , 'active_tab'
-    , 'invalid_emails'
-    , 'button_disabled'
-    ]), prop('email')), pick([ 'reset_payments' ])])
+  ( prop('email')
   , { send_sub_reminder
     , send_newsletter
     , send_newsletter_reminder
@@ -187,7 +176,6 @@ export default connect
     , sub_due_tab
     , preview_custom
     , edit_custom
-    , reset_subscription_payments
     , disable_button
     }
   )(Email)

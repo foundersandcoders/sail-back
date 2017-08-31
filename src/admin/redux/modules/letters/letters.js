@@ -3,7 +3,7 @@ const { get_body, post_body } = require('app/http')
 const { merge, compose, objOf, map, props, pick, reduce, liftN, unapply, ifElse, prop, assoc, concat }
   = require('ramda')
 
-const { sub_reminder, sub_reminder_SO, subscription_due } = require('./bodies.js')
+const { sub_reminder, subscription_due } = require('./bodies.js')
 
 import { PATH_UPDATE } from '../../../../shared/redux/modules/route.js'
 export const SEND_SUB_REMINDER_POST =
@@ -38,7 +38,7 @@ const reducer: Reducer<State, Action>
 
    switch (type) {
    case SEND_SUB_REMINDER_POST:
-     return changeTab({ ...state, sub_letters: shape(subReminderBody)(payload.results) })
+     return changeTab({ ...state, sub_letters: shape(sub_reminder)(payload.results) })
    case SEND_SUBSCRIPTION_DUE_POST:
      return { ...state, sub_letters: shape(subscription_due)(payload.results) }
    case SUBSCRIPTION_DUE_POST_TAB:
@@ -66,7 +66,7 @@ export const toggle_recipient_list =
   createAction(TOGGLE_RECIPIENT_LIST)
 
 export const send_subscription_due_post =
-  createAction(SEND_SUBSCRIPTION_DUE_POST, body => post_body({...body, news_type: 'post'}, 'api/subscription-due'))
+  createAction(SEND_SUBSCRIPTION_DUE_POST, body => post_body({...body, news_type: 'post'}, 'api/subscription-due-correspondence'))
 
 export const subscription_due_post_tab =
   createAction(SUBSCRIPTION_DUE_POST_TAB)
@@ -80,5 +80,3 @@ const build_address = (member) =>
     )
 
 const addresses = compose(objOf('address'), build_address)
-
-const subReminderBody = ifElse(prop('standing_order'), sub_reminder_SO, sub_reminder)
