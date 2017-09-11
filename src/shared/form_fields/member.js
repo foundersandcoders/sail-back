@@ -225,8 +225,11 @@ const validate = required => values => {
   const add_test = (tests, key) =>
     assoc(key, options[key] ? selected : exists, tests)
 
-  const req = required.concat( membership_type && membership_type.match(/life/) ? ['life_payment_date']: [] )
-  const required_tests = reduce(add_test, {}, req)
+  // add dynamic required fields
+  const req_1 = required.concat( membership_type && membership_type.match(/life/) ? ['life_payment_date']: [] )
+  const req_2 = req_1.concat( membership_type && membership_type.match(/annual/) ? ['due_date']: [] )
+
+  const required_tests = reduce(add_test, {}, req_2)
   const email_tests =
     { primary_email: valid_email
     , secondary_email: valid_email

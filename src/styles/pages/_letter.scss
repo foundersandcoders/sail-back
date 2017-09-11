@@ -205,7 +205,13 @@
   }
 
   .letter-recipients {
-    display: none;
+    display: block;
+    page-break-after: always;
+
+    li {
+      font-size: 13px;
+      margin-bottom: 3px;
+    }
   }
 
   .letter-page {
