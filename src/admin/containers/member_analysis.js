@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { pick, length, propOr } from 'ramda'
+import { pick, length, propOr, identity } from 'ramda'
 
 import SearchResults from '../components/search_results.js'
 import GiftAidForm from '../components/gift_aid_form.js'
@@ -12,6 +12,7 @@ import { list_by_deliverer
        , list_by_gift_aid_status
        , list_by_email_bounced
        , list_by_membership
+       , change_filter
        }
 from '../redux/modules/member_analysis.js'
 
@@ -94,12 +95,29 @@ const MemberNumbers = ({ member_analysis }) => {
   )
 }
 
+// allow admin to show only activated or deactivated or all members
+const filtersSection = (change_filter, show_only) => {
+
+  // console.log(change_filter);
+  // console.log(show_only);
+  return (
+    <div>
+      <input type="radio" value="all" checked={show_only === 'all'} onChange={change_filter} /> All
+      <input type="radio" value="active" checked={show_only === 'active'} onChange={change_filter} /> Active
+      <input type="radio" value="deactivated" checked={show_only === 'deactivated'} onChange={change_filter} /> Deactivated
+    </div>
+  )
+}
+
 const MembershipSection = (props) => {
-  const { member_analysis: { members_by_membership, no_matches } } = props
+  console.log('in MembershipSection');
+  console.log(props);
+  const { change_filter, member_analysis: { members_by_membership, no_matches, show_only } } = props
   const fields = [ 'id', 'name', 'primary_email', 'work_phone', 'address1', 'due_date', 'last_payment', 'balance_due' ]
   return (
     <div>
       {MembershipForm(props)}
+      {filtersSection(change_filter, show_only)}
       <SearchResults fields={fields} results={members_by_membership} error={no_matches} className='large-results-table'/>
     </div>
   )
@@ -121,4 +139,4 @@ export const NumbersReport =
   connect(pick([ 'member_analysis' ]), null)(MemberNumbers)
 
 export const MembershipReport =
-  connect(pick(['member_analysis' ]), { list_by_membership })(MembershipSection)
+  connect(pick(['member_analysis' ]), { list_by_membership, change_filter })(MembershipSection)

@@ -21,6 +21,8 @@ const GET_NUMBERS_REPORT =
   'GET_NUMBERS_REPORT'
 const LIST_BY_MEMBERSHIP =
   'LIST_BY_MEMBERSHIP'
+const CHANGE_FILTER =
+  'CHANGE_FILTER'
 
 const initialState = { members_by_gift_aid_status: []
                      , members_by_deliverer: []
@@ -29,6 +31,7 @@ const initialState = { members_by_gift_aid_status: []
                      , members_by_membership: []
                      , deliverers: []
                      , no_matches: false
+                     , show_only: 'all' // ['all', 'active', 'deactivated']
                      }
 
 type State = typeof initialState
@@ -48,6 +51,10 @@ const reducer: Reducer<State, Action> =
     switch (type) {
     case CHANGE_TAB:
       return active_tab(initialState)
+    case CHANGE_FILTER:
+      console.log(payload);
+      console.log('change filter called');
+      return {...state, show_only: payload}
     case DELIVERERS_TAB:
       return active_tab(update(deliverers)(extract_deliverers(payload.results))(initialState))
     case LIST_BY_DELIVERER:
@@ -105,4 +112,6 @@ export const list_by_membership =
 export const get_numbers_report =
   createAction(GET_NUMBERS_REPORT, () => get_body('api/get-numbers-report'))
 
+export const change_filter =
+  createAction(CHANGE_FILTER, (filter) => { console.log('in change filter function'); return filter })
 export default reducer
