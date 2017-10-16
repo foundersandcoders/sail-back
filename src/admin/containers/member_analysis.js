@@ -97,28 +97,23 @@ const MemberNumbers = ({ member_analysis }) => {
 
 // allow admin to show only activated or deactivated or all members
 const filtersSection = (change_filter, show_only) => {
-
-  // console.log(change_filter);
-  // console.log(show_only);
   return (
-    <div>
-      <input type="radio" value="all" checked={show_only === 'all'} onChange={change_filter} /> All
-      <input type="radio" value="active" checked={show_only === 'active'} onChange={change_filter} /> Active
-      <input type="radio" value="deactivated" checked={show_only === 'deactivated'} onChange={change_filter} /> Deactivated
+    <div className='member-analysis-form-container'>
+      <span className='block'><input className='member-analysis-radio' type='radio' value='all' checked={show_only === 'all'} onChange={() => change_filter('all')} /> All</span>
+      <span className='block'><input className='member-analysis-radio' type='radio' value='actived' checked={show_only === 'activated'} onChange={() => change_filter('activated')} /> Active</span>
+      <span className='block'><input className='member-analysis-radio' type='radio' value='deactivated' checked={show_only === 'deactivated'} onChange={() => change_filter('deactivated')} /> Deactivated</span>
     </div>
   )
 }
 
 const MembershipSection = (props) => {
-  console.log('in MembershipSection');
-  console.log(props);
-  const { change_filter, member_analysis: { members_by_membership, no_matches, show_only } } = props
+  const { change_filter, member_analysis: { filtered_members_by_membership, no_matches, show_only } } = props
   const fields = [ 'id', 'name', 'primary_email', 'work_phone', 'address1', 'due_date', 'last_payment', 'balance_due' ]
   return (
     <div>
       {MembershipForm(props)}
-      {filtersSection(change_filter, show_only)}
-      <SearchResults fields={fields} results={members_by_membership} error={no_matches} className='large-results-table'/>
+      {filtered_members_by_membership.length > 0 && filtersSection(change_filter, show_only)}
+      <SearchResults fields={fields} results={filtered_members_by_membership} error={no_matches} className='large-results-table'/>
     </div>
   )
 }
