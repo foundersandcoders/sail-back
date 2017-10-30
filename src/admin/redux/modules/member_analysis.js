@@ -21,14 +21,18 @@ const GET_NUMBERS_REPORT =
   'GET_NUMBERS_REPORT'
 const LIST_BY_MEMBERSHIP =
   'LIST_BY_MEMBERSHIP'
+const CHANGE_FILTER =
+  'CHANGE_FILTER'
 
 const initialState = { members_by_gift_aid_status: []
                      , members_by_deliverer: []
                      , members_120_overdue: []
                      , members_by_email_bounced: []
                      , members_by_membership: []
+                     , filtered_members_by_membership: []
                      , deliverers: []
                      , no_matches: false
+                     , show_only: 'all' // ['all', 'activated', 'deactivated']
                      }
 
 type State = typeof initialState
@@ -42,12 +46,21 @@ const reducer: Reducer<State, Action> =
     const members_120_overdue = lensPath([ 'members_120_overdue' ])
     const members_by_email_bounced = lensPath([ 'members_by_email_bounced' ])
     const members_by_membership = lensPath([ 'members_by_membership' ])
+    const filtered_members_by_membership = lensPath([ 'filtered_members_by_membership' ])
     const deliverers = lensPath([ 'deliverers' ])
     const no_matches = lensPath([ 'no_matches' ])
     const numbers_report = lensPath([ 'numbers_report' ])
     switch (type) {
     case CHANGE_TAB:
       return active_tab(initialState)
+    case CHANGE_FILTER:
+      const filterFunc = member => member.activation_status === payload
+      const filtered_members =
+        payload === 'all'
+          ? state.members_by_membership
+          : state.members_by_membership.filter(filterFunc)
+
+      return {...state, filtered_members_by_membership: filtered_members, show_only: payload}
     case DELIVERERS_TAB:
       return active_tab(update(deliverers)(extract_deliverers(payload.results))(initialState))
     case LIST_BY_DELIVERER:
@@ -61,7 +74,11 @@ const reducer: Reducer<State, Action> =
     case LIST_BY_MEMBERSHIP:
       return isEmpty(payload)
         ? compose(update(no_matches)(true), update(members_by_membership)([]))(state)
-        : compose(update(no_matches)(false), update(members_by_membership)(payload))(state)
+        : compose(
+            update(no_matches)(false),
+            update(members_by_membership)(payload),
+            update(filtered_members_by_membership)(payload)
+          )(state)
     case LIST_120_OVERDUE:
       return isEmpty(payload)
         ? compose(update(no_matches)(true), update(members_120_overdue)([]))(state)
@@ -104,5 +121,8 @@ export const list_by_membership =
 
 export const get_numbers_report =
   createAction(GET_NUMBERS_REPORT, () => get_body('api/get-numbers-report'))
+
+export const change_filter =
+  createAction(CHANGE_FILTER, (filter) => filter)
 
 export default reducer
