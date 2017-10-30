@@ -107,12 +107,12 @@ const filtersSection = (change_filter, show_only) => {
 }
 
 const MembershipSection = (props) => {
-  const { change_filter, member_analysis: { filtered_members_by_membership, no_matches, show_only } } = props
+  const { change_filter, member_analysis: { members_by_membership, filtered_members_by_membership, no_matches, show_only } } = props
   const fields = [ 'id', 'name', 'primary_email', 'work_phone', 'address1', 'due_date', 'last_payment', 'balance_due' ]
   return (
     <div>
       {MembershipForm(props)}
-      {filtered_members_by_membership.length > 0 && filtersSection(change_filter, show_only)}
+      {members_by_membership.length > 0 && filtersSection(change_filter, show_only)}
       <SearchResults fields={fields} results={filtered_members_by_membership} error={no_matches} className='large-results-table'/>
     </div>
   )
